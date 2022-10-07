@@ -1,6 +1,26 @@
-## 4.0.3
+## 4.2.2
 
 * [swift] Fixes void methods generated in Swift.
+
+## 4.2.1
+
+* Adds documentation comment support for Kotlin.
+
+## 4.2.0
+
+* Adds experimental support for Kotlin generation.
+
+## 4.1.1
+
+* [java] Adds missing `@NonNull` annotations to some methods.
+
+## 4.1.0
+
+* Adds documentation comment support for all currently supported languages.
+
+## 4.0.3
+
+* [swift] Makes swift output work on macOS.
 
 ## 4.0.2
 
