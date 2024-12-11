@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.test_plugin_example">
+    package="io.flutter.plugins.shared_preferences_example">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="interactive_media_ads_example"
