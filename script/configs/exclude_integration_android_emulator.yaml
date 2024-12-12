@@ -7,3 +7,5 @@
 # TODO(stuartmorgan): Remove once the flake is fixed.
 - google_maps_flutter
 - google_maps_flutter_android
+# Testing to see if this skips the problems I'm having
+- shared_preferences_android
