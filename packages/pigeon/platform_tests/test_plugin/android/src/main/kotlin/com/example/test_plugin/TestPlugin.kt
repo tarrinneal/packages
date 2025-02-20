@@ -4,10 +4,13 @@
 
 package com.example.test_plugin
 
+import JniMessageApi
+import JniMessageApiRegistrar
 import android.os.Handler
 import android.os.Looper
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
+import kotlinx.coroutines.delay
 
 /** This plugin handles the native side of the integration tests in example/integration_test/. */
 class TestPlugin : FlutterPlugin, HostIntegrationCoreApi {
@@ -15,6 +18,7 @@ class TestPlugin : FlutterPlugin, HostIntegrationCoreApi {
   private var flutterSmallApiOne: FlutterSmallApi? = null
   private var flutterSmallApiTwo: FlutterSmallApi? = null
   private var proxyApiRegistrar: ProxyApiRegistrar? = null
+  private var jniMessageApi: JniMessageApiRegistrar? = null
 
   override fun onAttachedToEngine(binding: FlutterPluginBinding) {
     HostIntegrationCoreApi.setUp(binding.binaryMessenger, this)
@@ -22,6 +26,10 @@ class TestPlugin : FlutterPlugin, HostIntegrationCoreApi {
     testSuffixApiOne.setUp(binding, "suffixOne")
     val testSuffixApiTwo = TestPluginWithSuffix()
     testSuffixApiTwo.setUp(binding, "suffixTwo")
+
+    jniMessageApi = JniMessageApiRegistrar().register(JniMessageApiImpl())
+    jniMessageApi = JniMessageApiRegistrar().register(JniMessageApiImpl2(), "name")
+
     flutterApi = FlutterIntegrationCoreApi(binding.binaryMessenger)
     flutterSmallApiOne = FlutterSmallApi(binding.binaryMessenger, "suffixOne")
     flutterSmallApiTwo = FlutterSmallApi(binding.binaryMessenger, "suffixTwo")
@@ -859,6 +867,28 @@ class TestPlugin : FlutterPlugin, HostIntegrationCoreApi {
 
   fun testUnusedClassesGenerate(): UnusedClass {
     return UnusedClass()
+  }
+}
+
+class JniMessageApiImpl : JniMessageApi() {
+  override fun search(request: String): String {
+    return request
+  }
+
+  override suspend fun thinkBeforeAnswering(): String {
+    delay(1000L)
+    return "42"
+  }
+}
+
+class JniMessageApiImpl2 : JniMessageApi() {
+  override fun search(request: String): String {
+    return request + "1"
+  }
+
+  override suspend fun thinkBeforeAnswering(): String {
+    delay(1000L)
+    return "43"
   }
 }
 

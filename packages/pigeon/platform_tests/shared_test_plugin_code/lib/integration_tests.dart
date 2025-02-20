@@ -12,6 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
 import 'generated.dart';
+import 'src/generated/jni_tests.gen.dart';
 import 'test_types.dart';
 
 /// Possible host languages that test can target.
@@ -44,6 +45,18 @@ const Set<TargetGenerator> proxyApiSupportedLanguages = <TargetGenerator>{
 /// Sets up and runs the integration tests.
 void runPigeonIntegrationTests(TargetGenerator targetGenerator) {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
+  testWidgets('jni', (WidgetTester _) async {
+    final JniMessageApi? jniMessage = JniMessageApi.getInstance();
+    expect(jniMessage, isNotNull);
+    expect(jniMessage!.search('hello'), 'hello');
+    expect(await jniMessage.thinkBeforeAnswering(), '42');
+    final JniMessageApi? jniMessageNamed =
+        JniMessageApi.getInstance(name: 'name');
+    expect(jniMessageNamed, isNotNull);
+    expect(jniMessageNamed!.search('hello'), 'hello1');
+    expect(await jniMessageNamed.thinkBeforeAnswering(), '43');
+  });
 
   group('Host sync API tests', () {
     testWidgets('basic void->void call works', (WidgetTester _) async {

@@ -42,6 +42,13 @@ const Map<String, Set<GeneratorLanguage>> _unsupportedFiles =
     GeneratorLanguage.java,
     GeneratorLanguage.objc,
   },
+  'jni_tests': <GeneratorLanguage>{
+    GeneratorLanguage.cpp,
+    GeneratorLanguage.gobject,
+    GeneratorLanguage.java,
+    GeneratorLanguage.objc,
+    GeneratorLanguage.swift,
+  },
 };
 
 String _snakeToPascalCase(String snake) {
@@ -99,6 +106,7 @@ Future<int> generateTestPigeons(
     'nullable_returns',
     'primitive',
     'proxy_api_tests',
+    'jni_tests'
   };
 
   final String outputBase = p.join(baseDir, 'platform_tests', 'test_plugin');
@@ -141,6 +149,8 @@ Future<int> generateTestPigeons(
       kotlinPackage: 'com.example.test_plugin',
       kotlinErrorClassName: kotlinErrorName,
       kotlinIncludeErrorClass: input != 'core_tests',
+      kotlinUseJni: input == 'jni_tests',
+      kotlinExampleAppDirectory: '$outputBase/example',
       // iOS
       swiftOut: skipLanguages.contains(GeneratorLanguage.swift)
           ? null
@@ -242,7 +252,9 @@ Future<int> runPigeon({
   String? kotlinOut,
   String? kotlinPackage,
   String? kotlinErrorClassName,
+  bool kotlinUseJni = false,
   bool kotlinIncludeErrorClass = true,
+  String kotlinExampleAppDirectory = '',
   bool swiftIncludeErrorClass = true,
   String? swiftOut,
   String? swiftErrorClassName,
@@ -283,7 +295,7 @@ Future<int> runPigeon({
       copyrightHeader: copyrightHeader,
       dartOut: dartOut,
       dartTestOut: dartTestOut,
-      dartOptions: const DartOptions(),
+      dartOptions: DartOptions(useJni: kotlinUseJni),
       cppHeaderOut: cppHeaderOut,
       cppSourceOut: cppSourceOut,
       cppOptions: CppOptions(namespace: cppNamespace),
@@ -297,6 +309,8 @@ Future<int> runPigeon({
         package: kotlinPackage,
         errorClassName: kotlinErrorClassName,
         includeErrorClass: kotlinIncludeErrorClass,
+        useJni: kotlinUseJni,
+        exampleAppDirectory: kotlinExampleAppDirectory,
       ),
       objcHeaderOut: objcHeaderOut,
       objcSourceOut: objcSourceOut,

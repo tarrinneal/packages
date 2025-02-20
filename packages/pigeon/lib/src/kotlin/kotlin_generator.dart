@@ -41,6 +41,8 @@ class KotlinOptions {
   const KotlinOptions({
     this.package,
     this.copyrightHeader,
+    this.useJni = false,
+    this.exampleAppDirectory,
     this.errorClassName,
     this.includeErrorClass = true,
     this.fileSpecificClassNameComponent,
@@ -51,6 +53,12 @@ class KotlinOptions {
 
   /// A copyright header that will get prepended to generated code.
   final Iterable<String>? copyrightHeader;
+
+  /// Whether to use Jni when possible.
+  final bool useJni;
+
+  /// The directory that the example app exists in, this is required for Jni APIs.
+  final String? exampleAppDirectory;
 
   /// The name of the error class used for passing custom error parameters.
   final String? errorClassName;
@@ -69,6 +77,8 @@ class KotlinOptions {
   static KotlinOptions fromMap(Map<String, Object> map) {
     return KotlinOptions(
       package: map['package'] as String?,
+      useJni: map['useJni'] as bool? ?? false,
+      exampleAppDirectory: map['exampleAppDirectory'] as String?,
       copyrightHeader: map['copyrightHeader'] as Iterable<String>?,
       errorClassName: map['errorClassName'] as String?,
       includeErrorClass: map['includeErrorClass'] as bool? ?? true,
@@ -82,6 +92,9 @@ class KotlinOptions {
   Map<String, Object> toMap() {
     final Map<String, Object> result = <String, Object>{
       if (package != null) 'package': package!,
+      if (useJni) 'useJni': useJni,
+      if (exampleAppDirectory != null)
+        'exampleAppDirectory': exampleAppDirectory!,
       if (copyrightHeader != null) 'copyrightHeader': copyrightHeader!,
       if (errorClassName != null) 'errorClassName': errorClassName!,
       'includeErrorClass': includeErrorClass,
@@ -155,11 +168,14 @@ class KotlinGenerator extends StructuredGenerator<KotlinOptions> {
     required String dartPackageName,
   }) {
     indent.newln();
-    if (generatorOptions.package != null) {
+    if (generatorOptions.package != null && !generatorOptions.useJni) {
       indent.writeln('package ${generatorOptions.package}');
     }
     indent.newln();
     indent.writeln('import android.util.Log');
+    if (generatorOptions.useJni) {
+      indent.writeln('import androidx.annotation.Keep');
+    }
     indent.writeln('import io.flutter.plugin.common.BasicMessageChannel');
     indent.writeln('import io.flutter.plugin.common.BinaryMessenger');
     indent.writeln('import io.flutter.plugin.common.EventChannel');
@@ -599,6 +615,69 @@ if (wrapped == null) {
     });
   }
 
+  void _writeJniApi(
+    KotlinOptions generatorOptions,
+    Root root,
+    Indent indent,
+    AstHostApi api, {
+    required String dartPackageName,
+  }) {
+    indent.format('''
+val ${api.name}Instances: MutableMap<String, ${api.name}Registrar> = mutableMapOf()
+
+@Keep
+abstract class ${api.name} {
+
+  abstract fun search(request: String): String
+
+  abstract suspend fun thinkBeforeAnswering(): String
+}
+
+@Keep
+class ${api.name}Registrar : ${api.name}() {
+  var api: ${api.name}? = null
+
+  fun register(
+      api: ${api.name},
+      name: String = "PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u"
+  ): ${api.name}Registrar {
+    this.api = api
+    ${api.name}Instances[name] = this
+    return this
+  }
+
+  @Keep
+  fun getInstance(name: String): ${api.name}Registrar? {
+    return ${api.name}Instances[name]
+  }
+
+  private val apiNotSetError = "${api.name} has not been set"
+
+  override fun search(request: String): String {
+    api?.let {
+      try {
+        return api!!.search(request)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error(apiNotSetError)
+  }
+
+  override suspend fun thinkBeforeAnswering(): String {
+    api?.let {
+      try {
+        return api!!.thinkBeforeAnswering()
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error(apiNotSetError)
+  }
+}
+''');
+  }
+
   /// Write the kotlin code that represents a host [Api], [api].
   /// Example:
   /// interface Foo {
@@ -616,6 +695,11 @@ if (wrapped == null) {
     AstHostApi api, {
     required String dartPackageName,
   }) {
+    if (generatorOptions.useJni) {
+      _writeJniApi(generatorOptions, root, indent, api,
+          dartPackageName: dartPackageName);
+      return;
+    }
     final String apiName = api.name;
 
     const List<String> generatedMessages = <String>[

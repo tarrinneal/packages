@@ -33,6 +33,7 @@ import 'generator_tools.dart';
 import 'generator_tools.dart' as generator_tools;
 import 'gobject/gobject_generator.dart';
 import 'java/java_generator.dart';
+import 'kotlin/jnigen_yaml_generator.dart';
 import 'kotlin/kotlin_generator.dart';
 import 'objc/objc_generator.dart';
 import 'swift/swift_generator.dart';
@@ -544,6 +545,8 @@ DartOptions _dartOptionsWithCopyrightHeader(
   String? dartOutPath,
   String? testOutPath,
   String basePath = '',
+  bool useJni = false,
+  String? dartOut,
 }) {
   dartOptions = dartOptions ?? const DartOptions();
   return dartOptions.merge(DartOptions(
@@ -552,6 +555,8 @@ DartOptions _dartOptionsWithCopyrightHeader(
     copyrightHeader: copyrightHeader != null
         ? _lineReader(path.posix.join(basePath, copyrightHeader))
         : null,
+    useJni: useJni,
+    dartOut: dartOut,
   ));
 }
 
@@ -619,6 +624,8 @@ class DartGeneratorAdapter implements GeneratorAdapter {
       options.copyrightHeader,
       testOutPath: options.dartTestOut,
       basePath: options.basePath ?? '',
+      useJni: options.dartOptions?.useJni ?? false,
+      dartOut: options.dartOut ?? '',
     );
     const DartGenerator generator = DartGenerator();
     generator.generate(
@@ -630,8 +637,12 @@ class DartGeneratorAdapter implements GeneratorAdapter {
   }
 
   @override
-  IOSink? shouldGenerate(PigeonOptions options, FileType _) =>
-      _openSink(options.dartOut, basePath: options.basePath ?? '');
+  IOSink? shouldGenerate(PigeonOptions options, FileType _) {
+    // print('dart shouldgen');
+    // print(options.dartOut);
+    // print(options.basePath);
+    return _openSink(options.dartOut, basePath: options.basePath ?? '');
+  }
 
   @override
   List<Error> validate(PigeonOptions options, Root root) => <Error>[];
@@ -654,6 +665,7 @@ class DartTestGeneratorAdapter implements GeneratorAdapter {
       dartOutPath: options.dartOut,
       testOutPath: options.dartTestOut,
       basePath: options.basePath ?? '',
+      dartOut: options.dartOut,
     );
     const DartGenerator testGenerator = DartGenerator();
     // The test code needs the actual package name of the Dart output, even if
@@ -961,6 +973,7 @@ class KotlinGeneratorAdapter implements GeneratorAdapter {
     KotlinOptions kotlinOptions =
         options.kotlinOptions ?? const KotlinOptions();
     kotlinOptions = kotlinOptions.merge(KotlinOptions(
+      useJni: kotlinOptions.useJni,
       errorClassName: kotlinOptions.errorClassName ?? 'FlutterError',
       includeErrorClass: kotlinOptions.includeErrorClass,
       fileSpecificClassNameComponent:
@@ -983,6 +996,69 @@ class KotlinGeneratorAdapter implements GeneratorAdapter {
   @override
   IOSink? shouldGenerate(PigeonOptions options, FileType _) =>
       _openSink(options.kotlinOut, basePath: options.basePath ?? '');
+
+  @override
+  List<Error> validate(PigeonOptions options, Root root) => <Error>[];
+}
+
+/// A [GeneratorAdapter] that generates JnigenYaml source code.
+class JnigenYamlGeneratorAdapter implements GeneratorAdapter {
+  /// Constructor for [JnigenYamlGeneratorAdapter].
+  JnigenYamlGeneratorAdapter(
+      {this.fileTypeList = const <FileType>[FileType.na]});
+
+  @override
+  List<FileType> fileTypeList;
+
+  @override
+  void generate(
+      StringSink sink, PigeonOptions options, Root root, FileType fileType) {
+    KotlinOptions kotlinOptions =
+        options.kotlinOptions ?? const KotlinOptions();
+    kotlinOptions = kotlinOptions.merge(KotlinOptions(
+      useJni: kotlinOptions.useJni,
+      errorClassName: kotlinOptions.errorClassName ?? 'FlutterError',
+      includeErrorClass: kotlinOptions.includeErrorClass,
+      fileSpecificClassNameComponent:
+          options.kotlinOut?.split('/').lastOrNull?.split('.').firstOrNull ??
+              '',
+      copyrightHeader: options.copyrightHeader != null
+          ? _lineReader(
+              path.posix.join(options.basePath ?? '', options.copyrightHeader))
+          : null,
+    ));
+    final DartOptions dartOptionsWithHeader = _dartOptionsWithCopyrightHeader(
+      options.dartOptions,
+      options.copyrightHeader,
+      testOutPath: options.dartTestOut,
+      basePath: options.basePath ?? '',
+      useJni: options.dartOptions?.useJni ?? false,
+      dartOut: options.dartOut ?? '',
+    );
+
+    final JnigenYamlOptions jnigenYamlOptions = JnigenYamlOptions(
+      dartOptionsWithHeader,
+      kotlinOptions,
+      options.basePath,
+      options.dartOut,
+      kotlinOptions.exampleAppDirectory,
+    );
+    final JnigenYamlGenerator generator = JnigenYamlGenerator();
+
+    generator.generate(
+      jnigenYamlOptions,
+      root,
+      sink,
+      dartPackageName: options.getPackageName(),
+    );
+  }
+
+  @override
+  IOSink? shouldGenerate(PigeonOptions options, FileType _) =>
+      options.kotlinOut != null && (options.kotlinOptions?.useJni ?? false)
+          ? _openSink('jnigen.yaml',
+              basePath: options.kotlinOptions?.exampleAppDirectory ?? '')
+          : null;
 
   @override
   List<Error> validate(PigeonOptions options, Root root) => <Error>[];
@@ -2617,6 +2693,7 @@ ${_argParser.usage}''';
           JavaGeneratorAdapter(),
           SwiftGeneratorAdapter(),
           KotlinGeneratorAdapter(),
+          JnigenYamlGeneratorAdapter(),
           CppGeneratorAdapter(),
           GObjectGeneratorAdapter(),
           DartTestGeneratorAdapter(),
@@ -2717,6 +2794,12 @@ ${_argParser.usage}''';
       for (final FileType fileType in adapter.fileTypeList) {
         final IOSink? sink = adapter.shouldGenerate(options, fileType);
         if (sink != null) {
+          if (adapter is JnigenYamlGeneratorAdapter) {
+            print(sink);
+            print('jni adap not null sink');
+            print(options.dartOut);
+            print(options.input);
+          }
           adapter.generate(sink, options, parseResults.root, fileType);
           await sink.flush();
           await releaseSink(sink);

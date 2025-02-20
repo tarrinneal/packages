@@ -45,6 +45,8 @@ class DartOptions {
     this.copyrightHeader,
     this.sourceOutPath,
     this.testOutPath,
+    this.useJni = false,
+    this.dartOut,
   });
 
   /// A copyright header that will get prepended to generated code.
@@ -56,6 +58,12 @@ class DartOptions {
   /// Path to output generated Test file for tests.
   final String? testOutPath;
 
+  /// Whether to use Jni for generating kotlin interop code.
+  final bool useJni;
+
+  /// Path to output generated Dart file.
+  final String? dartOut;
+
   /// Creates a [DartOptions] from a Map representation where:
   /// `x = DartOptions.fromMap(x.toMap())`.
   static DartOptions fromMap(Map<String, Object> map) {
@@ -65,6 +73,8 @@ class DartOptions {
       copyrightHeader: copyrightHeader?.cast<String>(),
       sourceOutPath: map['sourceOutPath'] as String?,
       testOutPath: map['testOutPath'] as String?,
+      useJni: map['useJni'] as bool? ?? false,
+      dartOut: map['dartOut'] as String?,
     );
   }
 
@@ -75,6 +85,8 @@ class DartOptions {
       if (copyrightHeader != null) 'copyrightHeader': copyrightHeader!,
       if (sourceOutPath != null) 'sourceOutPath': sourceOutPath!,
       if (testOutPath != null) 'testOutPath': testOutPath!,
+      if (useJni) 'useJni': useJni,
+      if (dartOut != null) 'dartOut': dartOut!,
     };
     return result;
   }
@@ -129,6 +141,12 @@ class DartGenerator extends StructuredGenerator<DartOptions> {
       indent.writeln(
         "import 'package:flutter/widgets.dart' show WidgetsFlutterBinding;",
       );
+    }
+    if (generatorOptions.useJni) {
+      indent.writeln("import 'package:jni/jni.dart';");
+      final String jniFileImportName = path.basename(generatorOptions.dartOut!);
+      indent.writeln(
+          "import './${path.withoutExtension(jniFileImportName)}.jni.dart';");
     }
   }
 
@@ -474,6 +492,58 @@ class DartGenerator extends StructuredGenerator<DartOptions> {
     });
   }
 
+  void _writeJniApi(
+    DartOptions generatorOptions,
+    Root root,
+    Indent indent,
+    AstHostApi api, {
+    required String dartPackageName,
+  }) {
+    indent.newln();
+    indent.format('''
+const String defaultInstanceName =
+    'PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u';
+
+class ${api.name} {
+  late ${api.name}Registrar _api;
+
+  static ${api.name}? getInstance({
+    String name = defaultInstanceName,
+  }) {
+    final ${api.name}Registrar? link =
+        ${api.name}Registrar().getInstance(JString.fromString(name));
+    if (link == null) {
+      String nameString = 'named \$name';
+      if (name == defaultInstanceName) {
+        nameString = 'with no name';
+      }
+      final String error = 'No instance \$nameString has been registered.';
+      throw ArgumentError(error);
+    }
+    link.getApi();
+    final ${api.name} res = ${api.name}();
+    res._api = link;
+    return res;
+  }
+
+  String search(String request) {
+    final JString res = _api.search(JString.fromString(request));
+    final String stringRes = res.toString();
+    res.release();
+    return stringRes;
+  }
+
+  Future<String> thinkBeforeAnswering() async {
+    final JString res = await _api.thinkBeforeAnswering();
+    final String stringRes = res.toString();
+    res.release();
+    return stringRes;
+  }
+}
+
+''');
+  }
+
   /// Writes the code for host [Api], [api].
   /// Example:
   /// class FooCodec extends StandardMessageCodec {...}
@@ -499,6 +569,11 @@ class DartGenerator extends StructuredGenerator<DartOptions> {
     AstHostApi api, {
     required String dartPackageName,
   }) {
+    if (generatorOptions.useJni) {
+      _writeJniApi(generatorOptions, root, indent, api,
+          dartPackageName: dartPackageName);
+      return;
+    }
     indent.newln();
     bool first = true;
     addDocumentationComments(
