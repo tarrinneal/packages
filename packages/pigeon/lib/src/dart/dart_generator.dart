@@ -313,6 +313,12 @@ class DartGenerator extends StructuredGenerator<DartOptions> {
     Indent indent, {
     required String dartPackageName,
   }) {
+    if (generatorOptions.useJni &&
+        !root.containsProxyApi &&
+        !root.containsEventChannel &&
+        !root.containsFlutterApi) {
+      return;
+    }
     void writeEncodeLogic(
         EnumeratedType customType, int nonSerializedClassCount) {
       indent.writeScoped('else if (value is ${customType.name}) {', '}', () {
@@ -492,6 +498,17 @@ class DartGenerator extends StructuredGenerator<DartOptions> {
     });
   }
 
+  @override
+  void writeApis(DartOptions generatorOptions, Root root, Indent indent,
+      {required String dartPackageName}) {
+    if (generatorOptions.useJni) {
+      indent.writeln(
+          "const String defaultInstanceName = 'PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u';");
+    }
+    super.writeApis(generatorOptions, root, indent,
+        dartPackageName: dartPackageName);
+  }
+
   void _writeJniApi(
     DartOptions generatorOptions,
     Root root,
@@ -501,30 +518,28 @@ class DartGenerator extends StructuredGenerator<DartOptions> {
   }) {
     indent.newln();
     indent.format('''
-const String defaultInstanceName =
-    'PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u';
-
 class ${api.name} {
-  late ${api.name}Registrar _api;
+  /// Constructor for [${api.name}].
+  ${api.name}._withRegistrar(${api.name}Registrar api) : _api = api;
 
-  static ${api.name}? getInstance({
-    String name = defaultInstanceName,
-  }) {
+  /// Returns instance of ${api.name} with specified [channelName] if one has been registered.
+  static ${api.name}? getInstance({String channelName = defaultInstanceName}) {
     final ${api.name}Registrar? link =
-        ${api.name}Registrar().getInstance(JString.fromString(name));
+        ${api.name}Registrar().getInstance(JString.fromString(channelName));
     if (link == null) {
-      String nameString = 'named \$name';
-      if (name == defaultInstanceName) {
+      String nameString = 'named \$channelName';
+      if (channelName == defaultInstanceName) {
         nameString = 'with no name';
       }
       final String error = 'No instance \$nameString has been registered.';
       throw ArgumentError(error);
     }
-    link.getApi();
-    final ${api.name} res = ${api.name}();
-    res._api = link;
+    final ${api.name} res = ${api.name}._withRegistrar(link);
     return res;
   }
+
+
+  late ${api.name}Registrar _api;
 
   String search(String request) {
     final JString res = _api.search(JString.fromString(request));
@@ -1069,7 +1084,8 @@ final BinaryMessenger? ${varNamePrefix}binaryMessenger;
     Indent indent, {
     required String dartPackageName,
   }) {
-    if (root.containsHostApi || root.containsProxyApi) {
+    if ((root.containsHostApi && !generatorOptions.useJni) ||
+        root.containsProxyApi) {
       _writeCreateConnectionError(indent);
     }
     if (root.containsFlutterApi ||

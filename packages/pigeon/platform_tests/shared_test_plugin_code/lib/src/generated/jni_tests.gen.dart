@@ -14,58 +14,31 @@ import 'package:flutter/services.dart';
 import 'package:jni/jni.dart';
 import './jni_tests.gen.jni.dart';
 
-PlatformException _createConnectionError(String channelName) {
-  return PlatformException(
-    code: 'channel-error',
-    message: 'Unable to establish connection on channel: "$channelName".',
-  );
-}
-
-class _PigeonCodec extends StandardMessageCodec {
-  const _PigeonCodec();
-  @override
-  void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is int) {
-      buffer.putUint8(4);
-      buffer.putInt64(value);
-    } else {
-      super.writeValue(buffer, value);
-    }
-  }
-
-  @override
-  Object? readValueOfType(int type, ReadBuffer buffer) {
-    switch (type) {
-      default:
-        return super.readValueOfType(type, buffer);
-    }
-  }
-}
-
 const String defaultInstanceName =
     'PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u';
 
 class JniMessageApi {
-  late JniMessageApiRegistrar _api;
+  /// Constructor for [JniMessageApi].
+  JniMessageApi._withRegistrar(JniMessageApiRegistrar api) : _api = api;
 
-  static JniMessageApi? getInstance({
-    String name = defaultInstanceName,
-  }) {
+  /// Returns instance of JniMessageApi with specified [channelName] if one has been registered.
+  static JniMessageApi? getInstance(
+      {String channelName = defaultInstanceName}) {
     final JniMessageApiRegistrar? link =
-        JniMessageApiRegistrar().getInstance(JString.fromString(name));
+        JniMessageApiRegistrar().getInstance(JString.fromString(channelName));
     if (link == null) {
-      String nameString = 'named $name';
-      if (name == defaultInstanceName) {
+      String nameString = 'named $channelName';
+      if (channelName == defaultInstanceName) {
         nameString = 'with no name';
       }
       final String error = 'No instance $nameString has been registered.';
       throw ArgumentError(error);
     }
-    link.getApi();
-    final JniMessageApi res = JniMessageApi();
-    res._api = link;
+    final JniMessageApi res = JniMessageApi._withRegistrar(link);
     return res;
   }
+
+  late JniMessageApiRegistrar _api;
 
   String search(String request) {
     final JString res = _api.search(JString.fromString(request));

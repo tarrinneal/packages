@@ -52,7 +52,7 @@ void runPigeonIntegrationTests(TargetGenerator targetGenerator) {
     expect(jniMessage!.search('hello'), 'hello');
     expect(await jniMessage.thinkBeforeAnswering(), '42');
     final JniMessageApi? jniMessageNamed =
-        JniMessageApi.getInstance(name: 'name');
+        JniMessageApi.getInstance(channelName: 'name');
     expect(jniMessageNamed, isNotNull);
     expect(jniMessageNamed!.search('hello'), 'hello1');
     expect(await jniMessageNamed.thinkBeforeAnswering(), '43');

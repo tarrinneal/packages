@@ -622,60 +622,77 @@ if (wrapped == null) {
     AstHostApi api, {
     required String dartPackageName,
   }) {
-    indent.format('''
-val ${api.name}Instances: MutableMap<String, ${api.name}Registrar> = mutableMapOf()
-
-@Keep
-abstract class ${api.name} {
-
-  abstract fun search(request: String): String
-
-  abstract suspend fun thinkBeforeAnswering(): String
-}
-
-@Keep
-class ${api.name}Registrar : ${api.name}() {
-  var api: ${api.name}? = null
-
-  fun register(
-      api: ${api.name},
-      name: String = "PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u"
-  ): ${api.name}Registrar {
-    this.api = api
-    ${api.name}Instances[name] = this
-    return this
-  }
-
-  @Keep
-  fun getInstance(name: String): ${api.name}Registrar? {
-    return ${api.name}Instances[name]
-  }
-
-  private val apiNotSetError = "${api.name} has not been set"
-
-  override fun search(request: String): String {
-    api?.let {
-      try {
-        return api!!.search(request)
-      } catch (e: Exception) {
-        throw e
+    indent.writeln(
+        'val ${api.name}Instances: MutableMap<String, ${api.name}Registrar> = mutableMapOf()');
+    indent.writeln('@Keep');
+    indent.writeScoped('abstract class ${api.name} {', '}', () {
+      for (final Method method in api.methods) {
+        _writeMethodDeclaration(
+          indent,
+          name: method.name,
+          documentationComments: method.documentationComments,
+          returnType: method.returnType,
+          parameters: method.parameters,
+          isAsynchronous: method.isAsynchronous,
+          useJni: true,
+          isAbstract: true,
+        );
       }
-    }
-    error(apiNotSetError)
-  }
+    });
 
-  override suspend fun thinkBeforeAnswering(): String {
-    api?.let {
-      try {
-        return api!!.thinkBeforeAnswering()
-      } catch (e: Exception) {
-        throw e
+    indent.writeln('@Keep');
+    indent.writeScoped('class ${api.name}Registrar : ${api.name}() {', '}', () {
+      indent.writeln('var api: ${api.name}? = null');
+
+      indent.writeScoped('fun register(', '):', () {
+        indent.writeln('api: ${api.name},');
+        indent.writeln(
+            'name: String = "PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u"');
+      }, addTrailingNewline: false);
+      indent.writeScoped(' ${api.name}Registrar {', '}', () {
+        indent.writeln('this.api = api');
+        indent.writeln('${api.name}Instances[name] = this');
+        indent.writeln('return this');
+      });
+
+      indent.writeln('@Keep');
+      indent.writeScoped(
+          'fun getInstance(name: String): ${api.name}Registrar? {', '}', () {
+        indent.writeln('return ${api.name}Instances[name]');
+      });
+
+      for (final Method method in api.methods) {
+        _writeMethodDeclaration(
+          indent,
+          name: method.name,
+          documentationComments: method.documentationComments,
+          returnType: method.returnType,
+          parameters: method.parameters,
+          isAsynchronous: method.isAsynchronous,
+          isOverride: true,
+          useJni: true,
+        );
+        final String argNames =
+            method.parameters.map((Parameter arg) => arg.name).join(', ');
+        indent.addScoped(' {', '}', () {
+          indent.writeScoped('api?.let {', '}', () {
+            indent.writeScoped(
+              'try {',
+              '}',
+              () {
+                indent.writeln('return api!!.${method.name}($argNames)');
+              },
+              addTrailingNewline: false,
+            );
+            indent.addScoped(' catch (e: Exception) {', '}', () {
+              indent.writeln('throw e');
+            });
+          });
+
+          indent.writeln('error("${api.name} has not been set")');
+        });
       }
-    }
-    error(apiNotSetError)
-  }
-}
-''');
+    });
   }
 
   /// Write the kotlin code that represents a host [Api], [api].
@@ -1274,6 +1291,8 @@ class ${api.name}Registrar : ${api.name}() {
     bool isAsynchronous = false,
     bool isOpen = false,
     bool isAbstract = false,
+    bool isOverride = false,
+    bool useJni = false,
     String Function(int index, NamedType type) getArgumentName =
         _getArgumentName,
   }) {
@@ -1306,20 +1325,25 @@ class ${api.name}Registrar : ${api.name}() {
     }
 
     final String openKeyword = isOpen ? 'open ' : '';
-    final String abstractKeyword = isAbstract ? 'abstract ' : '';
+    final String inheritanceKeyword = isAbstract
+        ? 'abstract '
+        : isOverride
+            ? 'override '
+            : '';
+    final String suspendKeyword = isAsynchronous && useJni ? 'suspend ' : '';
 
-    if (isAsynchronous) {
+    if (isAsynchronous && !useJni) {
       argSignature.add('callback: (Result<$resultType>) -> Unit');
       indent.writeln(
-        '$openKeyword${abstractKeyword}fun $name(${argSignature.join(', ')})',
+        '$openKeyword$inheritanceKeyword${suspendKeyword}fun $name(${argSignature.join(', ')})',
       );
     } else if (returnType.isVoid) {
       indent.writeln(
-        '$openKeyword${abstractKeyword}fun $name(${argSignature.join(', ')})',
+        '$openKeyword$inheritanceKeyword${suspendKeyword}fun $name(${argSignature.join(', ')})',
       );
     } else {
       indent.writeln(
-        '$openKeyword${abstractKeyword}fun $name(${argSignature.join(', ')}): $returnTypeString',
+        '$openKeyword$inheritanceKeyword${suspendKeyword}fun $name(${argSignature.join(', ')}): $returnTypeString',
       );
     }
   }

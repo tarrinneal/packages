@@ -876,7 +876,7 @@ class JniMessageApiImpl : JniMessageApi() {
   }
 
   override suspend fun thinkBeforeAnswering(): String {
-    delay(1000L)
+    delay(10L)
     return "42"
   }
 }

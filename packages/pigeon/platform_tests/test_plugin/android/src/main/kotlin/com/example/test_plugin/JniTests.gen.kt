@@ -54,7 +54,6 @@ val JniMessageApiInstances: MutableMap<String, JniMessageApiRegistrar> = mutable
 
 @Keep
 abstract class JniMessageApi {
-
   abstract fun search(request: String): String
 
   abstract suspend fun thinkBeforeAnswering(): String
@@ -78,8 +77,6 @@ class JniMessageApiRegistrar : JniMessageApi() {
     return JniMessageApiInstances[name]
   }
 
-  private val apiNotSetError = "JniMessageApi has not been set"
-
   override fun search(request: String): String {
     api?.let {
       try {
@@ -88,7 +85,7 @@ class JniMessageApiRegistrar : JniMessageApi() {
         throw e
       }
     }
-    error(apiNotSetError)
+    error("JniMessageApi has not been set")
   }
 
   override suspend fun thinkBeforeAnswering(): String {
@@ -99,6 +96,6 @@ class JniMessageApiRegistrar : JniMessageApi() {
         throw e
       }
     }
-    error(apiNotSetError)
+    error("JniMessageApi has not been set")
   }
 }
