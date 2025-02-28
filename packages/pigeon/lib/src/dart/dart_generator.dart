@@ -251,6 +251,7 @@ class DartGenerator extends StructuredGenerator<DartOptions> {
   }) {
     if (generatorOptions.useJni) {
       _writeToJni(indent, classDefinition);
+      indent.newln();
     }
     indent.write('Object encode() ');
     indent.addScoped('{', '}', () {
@@ -290,6 +291,7 @@ class DartGenerator extends StructuredGenerator<DartOptions> {
   }) {
     if (generatorOptions.useJni) {
       _writeFromJni(indent, classDefinition);
+      indent.newln();
     }
     void writeValueDecode(NamedType field, int index) {
       final String resultAt = 'result[$index]';

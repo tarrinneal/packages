@@ -31,6 +31,7 @@ class SomeTypes {
   bool? aBool;
 
   bridge.SomeTypes toJni() {}
+
   Object encode() {
     return <Object?>[
       aString,
@@ -41,6 +42,7 @@ class SomeTypes {
   }
 
   static SomeTypes fromJni(bridge.SomeTypes jniClass) {}
+
   static SomeTypes decode(Object result) {
     result as List<Object?>;
     return SomeTypes(
