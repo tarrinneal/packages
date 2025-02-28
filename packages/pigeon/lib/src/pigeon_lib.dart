@@ -2794,12 +2794,6 @@ ${_argParser.usage}''';
       for (final FileType fileType in adapter.fileTypeList) {
         final IOSink? sink = adapter.shouldGenerate(options, fileType);
         if (sink != null) {
-          if (adapter is JnigenYamlGeneratorAdapter) {
-            print(sink);
-            print('jni adap not null sink');
-            print(options.dartOut);
-            print(options.input);
-          }
           adapter.generate(sink, options, parseResults.root, fileType);
           await sink.flush();
           await releaseSink(sink);

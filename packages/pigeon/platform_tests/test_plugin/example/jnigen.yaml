@@ -18,4 +18,5 @@ log_level: all
 classes:
   - 'JniMessageApi'
   - 'JniMessageApiRegistrar'
+  - 'SomeTypes'
 

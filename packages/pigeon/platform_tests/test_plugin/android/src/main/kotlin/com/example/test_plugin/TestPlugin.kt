@@ -6,6 +6,7 @@ package com.example.test_plugin
 
 import JniMessageApi
 import JniMessageApiRegistrar
+import SomeTypes
 import android.os.Handler
 import android.os.Looper
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -879,6 +880,14 @@ class JniMessageApiImpl : JniMessageApi() {
     delay(10L)
     return "42"
   }
+
+  override fun sendSomeTypes(someTypes: SomeTypes): SomeTypes {
+    return someTypes
+  }
+
+  override suspend fun sendSomeTypesAsync(someTypes: SomeTypes): SomeTypes {
+    return someTypes
+  }
 }
 
 class JniMessageApiImpl2 : JniMessageApi() {
@@ -889,6 +898,14 @@ class JniMessageApiImpl2 : JniMessageApi() {
   override suspend fun thinkBeforeAnswering(): String {
     delay(1000L)
     return "43"
+  }
+
+  override fun sendSomeTypes(someTypes: SomeTypes): SomeTypes {
+    return someTypes
+  }
+
+  override suspend fun sendSomeTypesAsync(someTypes: SomeTypes): SomeTypes {
+    return someTypes
   }
 }
 

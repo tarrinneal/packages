@@ -8,10 +8,19 @@ import 'package:pigeon/pigeon.dart';
   dartOptions: DartOptions(useJni: true),
   kotlinOptions: KotlinOptions(useJni: true),
 ))
-//
+class SomeTypes {
+  String? aString;
+  int? anInt;
+  double? aDouble;
+  bool? aBool;
+}
+
 @HostApi()
 abstract class JniMessageApi {
   String search(String request);
   @async
   String thinkBeforeAnswering();
+  SomeTypes sendSomeTypes(SomeTypes someTypes);
+  @async
+  SomeTypes sendSomeTypesAsync(SomeTypes someTypes);
 }

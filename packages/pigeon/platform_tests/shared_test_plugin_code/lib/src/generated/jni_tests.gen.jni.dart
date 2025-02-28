@@ -118,6 +118,82 @@ class JniMessageApi extends jni$_.JObject {
     $k.release();
     return const jni$_.JStringType().fromReference($o);
   }
+
+  static final _id_sendSomeTypes = _class.instanceMethodId(
+    r'sendSomeTypes',
+    r'(LSomeTypes;)LSomeTypes;',
+  );
+
+  static final _sendSomeTypes = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract SomeTypes sendSomeTypes(SomeTypes someTypes)`
+  /// The returned object must be released after use, by calling the [release] method.
+  SomeTypes sendSomeTypes(
+    SomeTypes someTypes,
+  ) {
+    final _$someTypes = someTypes.reference;
+    return _sendSomeTypes(reference.pointer,
+            _id_sendSomeTypes as jni$_.JMethodIDPtr, _$someTypes.pointer)
+        .object<SomeTypes>(const $SomeTypes$Type());
+  }
+
+  static final _id_sendSomeTypesAsync = _class.instanceMethodId(
+    r'sendSomeTypesAsync',
+    r'(LSomeTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _sendSomeTypesAsync = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract java.lang.Object sendSomeTypesAsync(SomeTypes someTypes, kotlin.coroutines.Continuation continuation)`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<SomeTypes> sendSomeTypesAsync(
+    SomeTypes someTypes,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$someTypes = someTypes.reference;
+    _sendSomeTypesAsync(
+            reference.pointer,
+            _id_sendSomeTypesAsync as jni$_.JMethodIDPtr,
+            _$someTypes.pointer,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.JObjectType())
+        .release();
+    _$continuation.release();
+    final $o =
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
+    final $k = const $SomeTypes$Type().jClass.reference;
+    if (!jni$_.Jni.env.IsInstanceOf($o.pointer, $k.pointer)) {
+      $k.release();
+      throw 'Failed';
+    }
+    $k.release();
+    return const $SomeTypes$Type().fromReference($o);
+  }
 }
 
 final class $JniMessageApi$NullableType extends jni$_.JObjType<JniMessageApi?> {
@@ -414,6 +490,82 @@ class JniMessageApiRegistrar extends JniMessageApi {
     $k.release();
     return const jni$_.JStringType().fromReference($o);
   }
+
+  static final _id_sendSomeTypes = _class.instanceMethodId(
+    r'sendSomeTypes',
+    r'(LSomeTypes;)LSomeTypes;',
+  );
+
+  static final _sendSomeTypes = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public SomeTypes sendSomeTypes(SomeTypes someTypes)`
+  /// The returned object must be released after use, by calling the [release] method.
+  SomeTypes sendSomeTypes(
+    SomeTypes someTypes,
+  ) {
+    final _$someTypes = someTypes.reference;
+    return _sendSomeTypes(reference.pointer,
+            _id_sendSomeTypes as jni$_.JMethodIDPtr, _$someTypes.pointer)
+        .object<SomeTypes>(const $SomeTypes$Type());
+  }
+
+  static final _id_sendSomeTypesAsync = _class.instanceMethodId(
+    r'sendSomeTypesAsync',
+    r'(LSomeTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _sendSomeTypesAsync = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public java.lang.Object sendSomeTypesAsync(SomeTypes someTypes, kotlin.coroutines.Continuation continuation)`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<SomeTypes> sendSomeTypesAsync(
+    SomeTypes someTypes,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$someTypes = someTypes.reference;
+    _sendSomeTypesAsync(
+            reference.pointer,
+            _id_sendSomeTypesAsync as jni$_.JMethodIDPtr,
+            _$someTypes.pointer,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.JObjectType())
+        .release();
+    _$continuation.release();
+    final $o =
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress(await $p.first));
+    final $k = const $SomeTypes$Type().jClass.reference;
+    if (!jni$_.Jni.env.IsInstanceOf($o.pointer, $k.pointer)) {
+      $k.release();
+      throw 'Failed';
+    }
+    $k.release();
+    return const $SomeTypes$Type().fromReference($o);
+  }
 }
 
 final class $JniMessageApiRegistrar$NullableType
@@ -490,5 +642,721 @@ final class $JniMessageApiRegistrar$Type
   bool operator ==(Object other) {
     return other.runtimeType == ($JniMessageApiRegistrar$Type) &&
         other is $JniMessageApiRegistrar$Type;
+  }
+}
+
+/// from: `SomeTypes$Companion`
+class SomeTypes$Companion extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<SomeTypes$Companion> $type;
+
+  @jni$_.internal
+  SomeTypes$Companion.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = jni$_.JClass.forName(r'SomeTypes$Companion');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $SomeTypes$Companion$NullableType();
+  static const type = $SomeTypes$Companion$Type();
+  static final _id_fromList = _class.instanceMethodId(
+    r'fromList',
+    r'(Ljava/util/List;)LSomeTypes;',
+  );
+
+  static final _fromList = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final SomeTypes fromList(java.util.List list)`
+  /// The returned object must be released after use, by calling the [release] method.
+  SomeTypes fromList(
+    jni$_.JList<jni$_.JObject?> list,
+  ) {
+    final _$list = list.reference;
+    return _fromList(reference.pointer, _id_fromList as jni$_.JMethodIDPtr,
+            _$list.pointer)
+        .object<SomeTypes>(const $SomeTypes$Type());
+  }
+
+  static final _id_new$ = _class.constructorId(
+    r'(Lkotlin/jvm/internal/DefaultConstructorMarker;)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `synthetic public void <init>(kotlin.jvm.internal.DefaultConstructorMarker defaultConstructorMarker)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory SomeTypes$Companion(
+    jni$_.JObject? defaultConstructorMarker,
+  ) {
+    final _$defaultConstructorMarker =
+        defaultConstructorMarker?.reference ?? jni$_.jNullReference;
+    return SomeTypes$Companion.fromReference(_new$(_class.reference.pointer,
+            _id_new$ as jni$_.JMethodIDPtr, _$defaultConstructorMarker.pointer)
+        .reference);
+  }
+}
+
+final class $SomeTypes$Companion$NullableType
+    extends jni$_.JObjType<SomeTypes$Companion?> {
+  @jni$_.internal
+  const $SomeTypes$Companion$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'LSomeTypes$Companion;';
+
+  @jni$_.internal
+  @core$_.override
+  SomeTypes$Companion? fromReference(jni$_.JReference reference) =>
+      reference.isNull
+          ? null
+          : SomeTypes$Companion.fromReference(
+              reference,
+            );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<SomeTypes$Companion?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($SomeTypes$Companion$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($SomeTypes$Companion$NullableType) &&
+        other is $SomeTypes$Companion$NullableType;
+  }
+}
+
+final class $SomeTypes$Companion$Type
+    extends jni$_.JObjType<SomeTypes$Companion> {
+  @jni$_.internal
+  const $SomeTypes$Companion$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'LSomeTypes$Companion;';
+
+  @jni$_.internal
+  @core$_.override
+  SomeTypes$Companion fromReference(jni$_.JReference reference) =>
+      SomeTypes$Companion.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<SomeTypes$Companion?> get nullableType =>
+      const $SomeTypes$Companion$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($SomeTypes$Companion$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($SomeTypes$Companion$Type) &&
+        other is $SomeTypes$Companion$Type;
+  }
+}
+
+/// from: `SomeTypes`
+class SomeTypes extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JObjType<SomeTypes> $type;
+
+  @jni$_.internal
+  SomeTypes.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = jni$_.JClass.forName(r'SomeTypes');
+
+  /// The type which includes information such as the signature of this class.
+  static const nullableType = $SomeTypes$NullableType();
+  static const type = $SomeTypes$Type();
+  static final _id_Companion = _class.staticFieldId(
+    r'Companion',
+    r'LSomeTypes$Companion;',
+  );
+
+  /// from: `static public final SomeTypes$Companion Companion`
+  /// The returned object must be released after use, by calling the [release] method.
+  static SomeTypes$Companion get Companion =>
+      _id_Companion.get(_class, const $SomeTypes$Companion$Type());
+
+  static final _id_new$ = _class.constructorId(
+    r'(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Double;Ljava/lang/Boolean;)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(java.lang.String string, java.lang.Long long, java.lang.Double double, java.lang.Boolean boolean)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory SomeTypes(
+    jni$_.JString? string,
+    jni$_.JLong? long,
+    jni$_.JDouble? double,
+    jni$_.JBoolean? boolean,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$long = long?.reference ?? jni$_.jNullReference;
+    final _$double = double?.reference ?? jni$_.jNullReference;
+    final _$boolean = boolean?.reference ?? jni$_.jNullReference;
+    return SomeTypes.fromReference(_new$(
+            _class.reference.pointer,
+            _id_new$ as jni$_.JMethodIDPtr,
+            _$string.pointer,
+            _$long.pointer,
+            _$double.pointer,
+            _$boolean.pointer)
+        .reference);
+  }
+
+  static final _id_new$1 = _class.constructorId(
+    r'(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Double;Ljava/lang/Boolean;ILkotlin/jvm/internal/DefaultConstructorMarker;)V',
+  );
+
+  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              int,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `synthetic public void <init>(java.lang.String string, java.lang.Long long, java.lang.Double double, java.lang.Boolean boolean, int i, kotlin.jvm.internal.DefaultConstructorMarker defaultConstructorMarker)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory SomeTypes.new$1(
+    jni$_.JString? string,
+    jni$_.JLong? long,
+    jni$_.JDouble? double,
+    jni$_.JBoolean? boolean,
+    int i,
+    jni$_.JObject? defaultConstructorMarker,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$long = long?.reference ?? jni$_.jNullReference;
+    final _$double = double?.reference ?? jni$_.jNullReference;
+    final _$boolean = boolean?.reference ?? jni$_.jNullReference;
+    final _$defaultConstructorMarker =
+        defaultConstructorMarker?.reference ?? jni$_.jNullReference;
+    return SomeTypes.fromReference(_new$1(
+            _class.reference.pointer,
+            _id_new$1 as jni$_.JMethodIDPtr,
+            _$string.pointer,
+            _$long.pointer,
+            _$double.pointer,
+            _$boolean.pointer,
+            i,
+            _$defaultConstructorMarker.pointer)
+        .reference);
+  }
+
+  static final _id_getAString = _class.instanceMethodId(
+    r'getAString',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _getAString = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.lang.String getAString()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? getAString() {
+    return _getAString(reference.pointer, _id_getAString as jni$_.JMethodIDPtr)
+        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+  }
+
+  static final _id_getAnInt = _class.instanceMethodId(
+    r'getAnInt',
+    r'()Ljava/lang/Long;',
+  );
+
+  static final _getAnInt = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.lang.Long getAnInt()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JLong? getAnInt() {
+    return _getAnInt(reference.pointer, _id_getAnInt as jni$_.JMethodIDPtr)
+        .object<jni$_.JLong?>(const jni$_.JLongNullableType());
+  }
+
+  static final _id_getADouble = _class.instanceMethodId(
+    r'getADouble',
+    r'()Ljava/lang/Double;',
+  );
+
+  static final _getADouble = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.lang.Double getADouble()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JDouble? getADouble() {
+    return _getADouble(reference.pointer, _id_getADouble as jni$_.JMethodIDPtr)
+        .object<jni$_.JDouble?>(const jni$_.JDoubleNullableType());
+  }
+
+  static final _id_getABool = _class.instanceMethodId(
+    r'getABool',
+    r'()Ljava/lang/Boolean;',
+  );
+
+  static final _getABool = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.lang.Boolean getABool()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JBoolean? getABool() {
+    return _getABool(reference.pointer, _id_getABool as jni$_.JMethodIDPtr)
+        .object<jni$_.JBoolean?>(const jni$_.JBooleanNullableType());
+  }
+
+  static final _id_toList = _class.instanceMethodId(
+    r'toList',
+    r'()Ljava/util/List;',
+  );
+
+  static final _toList = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.util.List toList()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<jni$_.JObject?> toList() {
+    return _toList(reference.pointer, _id_toList as jni$_.JMethodIDPtr)
+        .object<jni$_.JList<jni$_.JObject?>>(
+            const jni$_.JListType<jni$_.JObject?>(jni$_.JObjectNullableType()));
+  }
+
+  static final _id_component1 = _class.instanceMethodId(
+    r'component1',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _component1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.lang.String component1()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? component1() {
+    return _component1(reference.pointer, _id_component1 as jni$_.JMethodIDPtr)
+        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+  }
+
+  static final _id_component2 = _class.instanceMethodId(
+    r'component2',
+    r'()Ljava/lang/Long;',
+  );
+
+  static final _component2 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.lang.Long component2()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JLong? component2() {
+    return _component2(reference.pointer, _id_component2 as jni$_.JMethodIDPtr)
+        .object<jni$_.JLong?>(const jni$_.JLongNullableType());
+  }
+
+  static final _id_component3 = _class.instanceMethodId(
+    r'component3',
+    r'()Ljava/lang/Double;',
+  );
+
+  static final _component3 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.lang.Double component3()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JDouble? component3() {
+    return _component3(reference.pointer, _id_component3 as jni$_.JMethodIDPtr)
+        .object<jni$_.JDouble?>(const jni$_.JDoubleNullableType());
+  }
+
+  static final _id_component4 = _class.instanceMethodId(
+    r'component4',
+    r'()Ljava/lang/Boolean;',
+  );
+
+  static final _component4 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.lang.Boolean component4()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JBoolean? component4() {
+    return _component4(reference.pointer, _id_component4 as jni$_.JMethodIDPtr)
+        .object<jni$_.JBoolean?>(const jni$_.JBooleanNullableType());
+  }
+
+  static final _id_copy = _class.instanceMethodId(
+    r'copy',
+    r'(Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Double;Ljava/lang/Boolean;)LSomeTypes;',
+  );
+
+  static final _copy = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final SomeTypes copy(java.lang.String string, java.lang.Long long, java.lang.Double double, java.lang.Boolean boolean)`
+  /// The returned object must be released after use, by calling the [release] method.
+  SomeTypes copy(
+    jni$_.JString? string,
+    jni$_.JLong? long,
+    jni$_.JDouble? double,
+    jni$_.JBoolean? boolean,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$long = long?.reference ?? jni$_.jNullReference;
+    final _$double = double?.reference ?? jni$_.jNullReference;
+    final _$boolean = boolean?.reference ?? jni$_.jNullReference;
+    return _copy(
+            reference.pointer,
+            _id_copy as jni$_.JMethodIDPtr,
+            _$string.pointer,
+            _$long.pointer,
+            _$double.pointer,
+            _$boolean.pointer)
+        .object<SomeTypes>(const $SomeTypes$Type());
+  }
+
+  static final _id_toString$1 = _class.instanceMethodId(
+    r'toString',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _toString$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String toString()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString toString$1() {
+    return _toString$1(reference.pointer, _id_toString$1 as jni$_.JMethodIDPtr)
+        .object<jni$_.JString>(const jni$_.JStringType());
+  }
+
+  static final _id_hashCode$1 = _class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int hashCode()`
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1 as jni$_.JMethodIDPtr)
+        .integer;
+  }
+
+  static final _id_equals = _class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean equals(java.lang.Object object)`
+  bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _equals(reference.pointer, _id_equals as jni$_.JMethodIDPtr,
+            _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_new$2 = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$2 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory SomeTypes.new$2() {
+    return SomeTypes.fromReference(
+        _new$2(_class.reference.pointer, _id_new$2 as jni$_.JMethodIDPtr)
+            .reference);
+  }
+}
+
+final class $SomeTypes$NullableType extends jni$_.JObjType<SomeTypes?> {
+  @jni$_.internal
+  const $SomeTypes$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'LSomeTypes;';
+
+  @jni$_.internal
+  @core$_.override
+  SomeTypes? fromReference(jni$_.JReference reference) => reference.isNull
+      ? null
+      : SomeTypes.fromReference(
+          reference,
+        );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<SomeTypes?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($SomeTypes$NullableType).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($SomeTypes$NullableType) &&
+        other is $SomeTypes$NullableType;
+  }
+}
+
+final class $SomeTypes$Type extends jni$_.JObjType<SomeTypes> {
+  @jni$_.internal
+  const $SomeTypes$Type();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'LSomeTypes;';
+
+  @jni$_.internal
+  @core$_.override
+  SomeTypes fromReference(jni$_.JReference reference) =>
+      SomeTypes.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType get superType => const jni$_.JObjectType();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JObjType<SomeTypes?> get nullableType =>
+      const $SomeTypes$NullableType();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($SomeTypes$Type).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($SomeTypes$Type) && other is $SomeTypes$Type;
   }
 }

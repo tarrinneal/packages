@@ -69,6 +69,9 @@ class JnigenYamlGenerator extends Generator<JnigenYamlOptions> {
           indent.writeln("- '${api.name}Registrar'");
         }
       }
+      for (final Class dataClass in root.classes) {
+        indent.writeln("- '${dataClass.name}'");
+      }
     });
   }
 }

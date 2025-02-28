@@ -40,13 +40,51 @@ class JniTestsError(
     val details: Any? = null
 ) : Throwable()
 
+/** Generated class from Pigeon that represents data sent in messages. */
+data class SomeTypes(
+    val aString: String? = null,
+    val anInt: Long? = null,
+    val aDouble: Double? = null,
+    val aBool: Boolean? = null
+) {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): SomeTypes {
+      val aString = pigeonVar_list[0] as String?
+      val anInt = pigeonVar_list[1] as Long?
+      val aDouble = pigeonVar_list[2] as Double?
+      val aBool = pigeonVar_list[3] as Boolean?
+      return SomeTypes(aString, anInt, aDouble, aBool)
+    }
+  }
+
+  fun toList(): List<Any?> {
+    return listOf(
+        aString,
+        anInt,
+        aDouble,
+        aBool,
+    )
+  }
+}
+
 private open class JniTestsPigeonCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
-    return super.readValueOfType(type, buffer)
+    return when (type) {
+      129.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let { SomeTypes.fromList(it) }
+      }
+      else -> super.readValueOfType(type, buffer)
+    }
   }
 
   override fun writeValue(stream: ByteArrayOutputStream, value: Any?) {
-    super.writeValue(stream, value)
+    when (value) {
+      is SomeTypes -> {
+        stream.write(129)
+        writeValue(stream, value.toList())
+      }
+      else -> super.writeValue(stream, value)
+    }
   }
 }
 
@@ -57,6 +95,10 @@ abstract class JniMessageApi {
   abstract fun search(request: String): String
 
   abstract suspend fun thinkBeforeAnswering(): String
+
+  abstract fun sendSomeTypes(someTypes: SomeTypes): SomeTypes
+
+  abstract suspend fun sendSomeTypesAsync(someTypes: SomeTypes): SomeTypes
 }
 
 @Keep
@@ -92,6 +134,28 @@ class JniMessageApiRegistrar : JniMessageApi() {
     api?.let {
       try {
         return api!!.thinkBeforeAnswering()
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("JniMessageApi has not been set")
+  }
+
+  override fun sendSomeTypes(someTypes: SomeTypes): SomeTypes {
+    api?.let {
+      try {
+        return api!!.sendSomeTypes(someTypes)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("JniMessageApi has not been set")
+  }
+
+  override suspend fun sendSomeTypesAsync(someTypes: SomeTypes): SomeTypes {
+    api?.let {
+      try {
+        return api!!.sendSomeTypesAsync(someTypes)
       } catch (e: Exception) {
         throw e
       }

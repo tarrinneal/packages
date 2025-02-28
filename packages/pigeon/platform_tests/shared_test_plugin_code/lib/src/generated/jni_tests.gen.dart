@@ -12,20 +12,57 @@ import 'dart:typed_data' show Float64List, Int32List, Int64List, Uint8List;
 import 'package:flutter/foundation.dart' show ReadBuffer, WriteBuffer;
 import 'package:flutter/services.dart';
 import 'package:jni/jni.dart';
-import './jni_tests.gen.jni.dart';
+import './jni_tests.gen.jni.dart' as bridge;
+
+class SomeTypes {
+  SomeTypes({
+    this.aString,
+    this.anInt,
+    this.aDouble,
+    this.aBool,
+  });
+
+  String? aString;
+
+  int? anInt;
+
+  double? aDouble;
+
+  bool? aBool;
+
+  bridge.SomeTypes toJni() {}
+  Object encode() {
+    return <Object?>[
+      aString,
+      anInt,
+      aDouble,
+      aBool,
+    ];
+  }
+
+  static SomeTypes fromJni(bridge.SomeTypes jniClass) {}
+  static SomeTypes decode(Object result) {
+    result as List<Object?>;
+    return SomeTypes(
+      aString: result[0] as String?,
+      anInt: result[1] as int?,
+      aDouble: result[2] as double?,
+      aBool: result[3] as bool?,
+    );
+  }
+}
 
 const String defaultInstanceName =
     'PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u';
 
 class JniMessageApi {
-  /// Constructor for [JniMessageApi].
-  JniMessageApi._withRegistrar(JniMessageApiRegistrar api) : _api = api;
+  JniMessageApi._withRegistrar(bridge.JniMessageApiRegistrar api) : _api = api;
 
   /// Returns instance of JniMessageApi with specified [channelName] if one has been registered.
   static JniMessageApi? getInstance(
       {String channelName = defaultInstanceName}) {
-    final JniMessageApiRegistrar? link =
-        JniMessageApiRegistrar().getInstance(JString.fromString(channelName));
+    final bridge.JniMessageApiRegistrar? link = bridge.JniMessageApiRegistrar()
+        .getInstance(JString.fromString(channelName));
     if (link == null) {
       String nameString = 'named $channelName';
       if (channelName == defaultInstanceName) {
@@ -38,19 +75,34 @@ class JniMessageApi {
     return res;
   }
 
-  late JniMessageApiRegistrar _api;
+  late final bridge.JniMessageApiRegistrar _api;
 
   String search(String request) {
     final JString res = _api.search(JString.fromString(request));
-    final String stringRes = res.toString();
+    final String dartTypeRes = res.toString();
     res.release();
-    return stringRes;
+    return dartTypeRes;
   }
 
   Future<String> thinkBeforeAnswering() async {
     final JString res = await _api.thinkBeforeAnswering();
-    final String stringRes = res.toString();
+    final String dartTypeRes = res.toString();
     res.release();
-    return stringRes;
+    return dartTypeRes;
+  }
+
+  SomeTypes sendSomeTypes(SomeTypes someTypes) {
+    final bridge.SomeTypes res = _api.sendSomeTypes(someTypes.toJni());
+    final SomeTypes dartTypeRes = SomeTypes.fromJni(res);
+    res.release();
+    return dartTypeRes;
+  }
+
+  Future<SomeTypes> sendSomeTypesAsync(SomeTypes someTypes) async {
+    final bridge.SomeTypes res =
+        await _api.sendSomeTypesAsync(someTypes.toJni());
+    final SomeTypes dartTypeRes = SomeTypes.fromJni(res);
+    res.release();
+    return dartTypeRes;
   }
 }
