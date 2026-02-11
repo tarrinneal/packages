@@ -5,12 +5,14 @@ import 'package:swiftgen/src/config.dart';
 import 'package:swiftgen/swiftgen.dart';
 
 Future<void> main() async {
-  final List<String> classes = <String>[
+  final classes = <String>[
     'PigeonInternalNull',
     'PigeonTypedData',
     'NumberWrapper',
     'NIHostIntegrationCoreApi',
     'NIHostIntegrationCoreApiSetup',
+    'NIFlutterIntegrationCoreApiBridge',
+    'NIFlutterIntegrationCoreApiRegistrar',
     'NIUnusedClassBridge',
     'NIAllTypesBridge',
     'NIAllNullableTypesBridge',
@@ -18,7 +20,7 @@ Future<void> main() async {
     'NIAllClassesWrapperBridge',
     'NiTestsError',
   ];
-  final List<String> enums = <String>['NIAnEnum', 'NIAnotherEnum'];
+  final enums = <String>['NIAnEnum', 'NIAnotherEnum'];
   await SwiftGenerator(
     target: Target(
       // triple: 'x86_64-apple-macosx14.0',
@@ -67,6 +69,12 @@ Future<void> main() async {
           include: (fg.Declaration decl) =>
               classes.contains(decl.originalName) ||
               enums.contains(decl.originalName),
+          module: (fg.Declaration decl) {
+            return decl.originalName.startsWith('NS') ? null : 'test_plugin';
+          },
+        ),
+        protocols: fg.Protocols(
+          include: (fg.Declaration decl) => classes.contains(decl.originalName),
           module: (fg.Declaration decl) {
             return decl.originalName.startsWith('NS') ? null : 'test_plugin';
           },

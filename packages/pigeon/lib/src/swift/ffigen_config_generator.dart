@@ -46,7 +46,7 @@ class FfigenConfigGenerator extends Generator<InternalFfigenConfigOptions> {
     StringSink sink, {
     required String dartPackageName,
   }) {
-    final Indent indent = Indent(sink);
+    final indent = Indent(sink);
 
     indent.format('''
 import 'package:ffigen/ffigen.dart' as fg;
@@ -57,15 +57,19 @@ import 'package:swiftgen/swiftgen.dart';
 
   ''');
     indent.writeScoped('Future<void> main() async {', '}', () {
-      indent.writeScoped('final List<String> classes = <String>[', '];', () {
+      indent.writeScoped('final classes = <String>[', '];', () {
         indent.inc();
         indent.writeln("'PigeonInternalNull',");
         indent.writeln("'PigeonTypedData',");
         indent.writeln("'NumberWrapper',");
         for (final Api api in root.apis) {
-          if (api is AstHostApi || api is AstFlutterApi) {
+          if (api is AstHostApi) {
             indent.writeln("'${api.name}',");
             indent.writeln("'${api.name}Setup',");
+          }
+          if (api is AstFlutterApi) {
+            indent.writeln("'${api.name}Bridge',");
+            indent.writeln("'${api.name}Registrar',");
           }
         }
         for (final Class dataClass in root.classes) {
@@ -76,7 +80,7 @@ import 'package:swiftgen/swiftgen.dart';
         );
         indent.dec();
       });
-      indent.writeScoped('final List<String> enums = <String>[', '];', () {
+      indent.writeScoped('final enums = <String>[', '];', () {
         indent.inc();
         for (final Enum enumType in root.enums) {
           indent.writeln("'${enumType.name}',");
@@ -124,6 +128,12 @@ import 'package:swiftgen/swiftgen.dart';
           module: (fg.Declaration decl) {
             return decl.originalName.startsWith('NS') ? null : 'test_plugin';
           }
+        ),
+        protocols: fg.Protocols(
+          include: (fg.Declaration decl) => classes.contains(decl.originalName),
+          module: (fg.Declaration decl) {
+            return decl.originalName.startsWith('NS') ? null : 'test_plugin';
+          },
         ),
       ),
     ),

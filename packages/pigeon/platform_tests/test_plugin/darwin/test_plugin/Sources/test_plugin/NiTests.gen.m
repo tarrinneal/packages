@@ -46,18 +46,68 @@ id objc_retainBlock(id);
     }                                                                                            \
   };
 
-typedef void (^_ListenerTrampoline)(void);
+typedef void (^_ListenerTrampoline)(void *arg0, id arg1);
 __attribute__((visibility("default"))) __attribute__((used)) _ListenerTrampoline
-_umaz4x_wrapListenerBlock_1pl9qdv(_ListenerTrampoline block) NS_RETURNS_RETAINED {
+_umaz4x_wrapListenerBlock_18v1jvf(_ListenerTrampoline block) NS_RETURNS_RETAINED {
+  return ^void(void *arg0, id arg1) {
+    objc_retainBlock(block);
+    block(arg0, (__bridge id)(__bridge_retained void *)(arg1));
+  };
+}
+
+typedef void (^_BlockingTrampoline)(void *waiter, void *arg0, id arg1);
+__attribute__((visibility("default"))) __attribute__((used)) _ListenerTrampoline
+_umaz4x_wrapBlockingBlock_18v1jvf(_BlockingTrampoline block, _BlockingTrampoline listenerBlock,
+                                  DOBJC_Context *ctx) NS_RETURNS_RETAINED {
+  BLOCKING_BLOCK_IMPL(
+      ctx, ^void(void *arg0, id arg1),
+      {
+        objc_retainBlock(block);
+        block(nil, arg0, (__bridge id)(__bridge_retained void *)(arg1));
+      },
+      {
+        objc_retainBlock(listenerBlock);
+        listenerBlock(waiter, arg0, (__bridge id)(__bridge_retained void *)(arg1));
+      });
+}
+
+typedef void (^_ProtocolTrampoline)(void *sel, id arg1);
+__attribute__((visibility("default"))) __attribute__((used)) void
+_umaz4x_protocolTrampoline_18v1jvf(id target, void *sel, id arg1) {
+  return ((_ProtocolTrampoline)((id(*)(id, SEL, SEL))objc_msgSend)(
+      target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
+}
+
+typedef id (^_ProtocolTrampoline_1)(void *sel, id arg1, id arg2);
+__attribute__((visibility("default"))) __attribute__((used)) id
+_umaz4x_protocolTrampoline_zi5eed(id target, void *sel, id arg1, id arg2) {
+  return ((_ProtocolTrampoline_1)((id(*)(id, SEL, SEL))objc_msgSend)(
+      target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2);
+}
+
+typedef id (^_ProtocolTrampoline_2)(void *sel, id arg1, id arg2, id arg3, id arg4);
+__attribute__((visibility("default"))) __attribute__((used)) id
+_umaz4x_protocolTrampoline_qfyidt(id target, void *sel, id arg1, id arg2, id arg3, id arg4) {
+  return ((_ProtocolTrampoline_2)((id(*)(id, SEL, SEL))objc_msgSend)(
+      target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2, arg3, arg4);
+}
+
+Protocol *_umaz4x_NIFlutterIntegrationCoreApiBridge(void) {
+  return @protocol(NIFlutterIntegrationCoreApiBridge);
+}
+
+typedef void (^_ListenerTrampoline_1)(void);
+__attribute__((visibility("default"))) __attribute__((used)) _ListenerTrampoline_1
+_umaz4x_wrapListenerBlock_1pl9qdv(_ListenerTrampoline_1 block) NS_RETURNS_RETAINED {
   return ^void() {
     objc_retainBlock(block);
     block();
   };
 }
 
-typedef void (^_BlockingTrampoline)(void *waiter);
-__attribute__((visibility("default"))) __attribute__((used)) _ListenerTrampoline
-_umaz4x_wrapBlockingBlock_1pl9qdv(_BlockingTrampoline block, _BlockingTrampoline listenerBlock,
+typedef void (^_BlockingTrampoline_1)(void *waiter);
+__attribute__((visibility("default"))) __attribute__((used)) _ListenerTrampoline_1
+_umaz4x_wrapBlockingBlock_1pl9qdv(_BlockingTrampoline_1 block, _BlockingTrampoline_1 listenerBlock,
                                   DOBJC_Context *ctx) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(
       ctx, ^void(),
@@ -71,18 +121,18 @@ _umaz4x_wrapBlockingBlock_1pl9qdv(_BlockingTrampoline block, _BlockingTrampoline
       });
 }
 
-typedef void (^_ListenerTrampoline_1)(id arg0);
-__attribute__((visibility("default"))) __attribute__((used)) _ListenerTrampoline_1
-_umaz4x_wrapListenerBlock_xtuoz7(_ListenerTrampoline_1 block) NS_RETURNS_RETAINED {
+typedef void (^_ListenerTrampoline_2)(id arg0);
+__attribute__((visibility("default"))) __attribute__((used)) _ListenerTrampoline_2
+_umaz4x_wrapListenerBlock_xtuoz7(_ListenerTrampoline_2 block) NS_RETURNS_RETAINED {
   return ^void(id arg0) {
     objc_retainBlock(block);
     block((__bridge id)(__bridge_retained void *)(arg0));
   };
 }
 
-typedef void (^_BlockingTrampoline_1)(void *waiter, id arg0);
-__attribute__((visibility("default"))) __attribute__((used)) _ListenerTrampoline_1
-_umaz4x_wrapBlockingBlock_xtuoz7(_BlockingTrampoline_1 block, _BlockingTrampoline_1 listenerBlock,
+typedef void (^_BlockingTrampoline_2)(void *waiter, id arg0);
+__attribute__((visibility("default"))) __attribute__((used)) _ListenerTrampoline_2
+_umaz4x_wrapBlockingBlock_xtuoz7(_BlockingTrampoline_2 block, _BlockingTrampoline_2 listenerBlock,
                                  DOBJC_Context *ctx) NS_RETURNS_RETAINED {
   BLOCKING_BLOCK_IMPL(
       ctx, ^void(id arg0),

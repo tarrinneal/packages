@@ -14,7 +14,7 @@ import 'package:integration_test/integration_test.dart';
 import 'generated.dart';
 import 'ni_integration_tests.dart'
     as ffi_tests
-    show TargetGenerator, runPigeonIntegrationTests;
+    show TargetGenerator, runPigeonNIIntegrationTests;
 import 'test_types.dart';
 
 /// Possible host languages that test can target.
@@ -50,7 +50,7 @@ void runPigeonIntegrationTests(TargetGenerator targetGenerator) {
 
   if (targetGenerator == TargetGenerator.kotlin ||
       targetGenerator == TargetGenerator.swift) {
-    ffi_tests.runPigeonIntegrationTests(
+    ffi_tests.runPigeonNIIntegrationTests(
       targetGenerator == TargetGenerator.kotlin
           ? ffi_tests.TargetGenerator.kotlin
           : ffi_tests.TargetGenerator.swift,

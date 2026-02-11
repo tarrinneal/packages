@@ -17,6 +17,73 @@ import 'package:ffi/ffi.dart' as pkg_ffi;
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl> _umaz4x_wrapListenerBlock_18v1jvf(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+);
+
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.ObjCBlockImpl>,
+    ffi.Pointer<objc.DOBJC_Context>,
+  )
+>(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl> _umaz4x_wrapBlockingBlock_18v1jvf(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
+  ffi.Pointer<objc.DOBJC_Context> context,
+);
+
+@ffi.Native<
+  ffi.Void Function(
+    ffi.Pointer<objc.ObjCObjectImpl>,
+    ffi.Pointer<ffi.Void>,
+    ffi.Pointer<objc.ObjCObjectImpl>,
+  )
+>()
+external void _umaz4x_protocolTrampoline_18v1jvf(
+  ffi.Pointer<objc.ObjCObjectImpl> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObjectImpl> arg1,
+);
+
+@ffi.Native<
+  ffi.Pointer<objc.ObjCObjectImpl> Function(
+    ffi.Pointer<objc.ObjCObjectImpl>,
+    ffi.Pointer<ffi.Void>,
+    ffi.Pointer<objc.ObjCObjectImpl>,
+    ffi.Pointer<objc.ObjCObjectImpl>,
+  )
+>()
+external ffi.Pointer<objc.ObjCObjectImpl> _umaz4x_protocolTrampoline_zi5eed(
+  ffi.Pointer<objc.ObjCObjectImpl> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ffi.Pointer<objc.ObjCObjectImpl> arg2,
+);
+
+@ffi.Native<
+  ffi.Pointer<objc.ObjCObjectImpl> Function(
+    ffi.Pointer<objc.ObjCObjectImpl>,
+    ffi.Pointer<ffi.Void>,
+    ffi.Pointer<objc.ObjCObjectImpl>,
+    ffi.Pointer<objc.ObjCObjectImpl>,
+    ffi.Pointer<objc.ObjCObjectImpl>,
+    ffi.Pointer<objc.ObjCObjectImpl>,
+  )
+>()
+external ffi.Pointer<objc.ObjCObjectImpl> _umaz4x_protocolTrampoline_qfyidt(
+  ffi.Pointer<objc.ObjCObjectImpl> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ffi.Pointer<objc.ObjCObjectImpl> arg3,
+  ffi.Pointer<objc.ObjCObjectImpl> arg4,
+);
+
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
+>(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl> _umaz4x_wrapListenerBlock_1pl9qdv(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
@@ -4385,27 +4452,25 @@ extension NIAllClassesWrapperBridge$Methods on NIAllClassesWrapperBridge {
   }
 }
 
-late final _class_NIHostIntegrationCoreApiSetup = objc.getClass(
-  "test_plugin.NIHostIntegrationCoreApiSetup",
+late final _protocol_NIFlutterIntegrationCoreApiBridge = objc.getProtocol(
+  "test_plugin.NIFlutterIntegrationCoreApiBridge",
 );
-late final _sel_getInstanceWithName_ = objc.registerName(
-  "getInstanceWithName:",
-);
-final _objc_msgSend_1sotr3r = objc.msgSendPointer
+late final _sel_conformsToProtocol_ = objc.registerName("conformsToProtocol:");
+final _objc_msgSend_e3qsqz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Bool Function(
           ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCProtocolImpl>,
         )
       >
     >()
     .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
+      bool Function(
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCProtocolImpl>,
       )
     >();
 late final _class_NiTestsError = objc.getClass("test_plugin.NiTestsError");
@@ -4573,11 +4638,296 @@ extension NiTestsError$Methods on NiTestsError {
   }
 }
 
-late final _sel_noopWithWrappedError_ = objc.registerName(
-  "noopWithWrappedError:",
-);
-late final _sel_echoAllTypesWithEverything_wrappedError_ = objc.registerName(
-  "echoAllTypesWithEverything:wrappedError:",
+late final _sel_noopWithError_ = objc.registerName("noopWithError:");
+
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NiTestsError)>`.
+abstract final class ObjCBlock_ffiVoid_ffiVoid_NiTestsError {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NiTestsError)>
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NiTestsError)>(
+    pointer,
+    retain: retain,
+    release: release,
+  );
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NiTestsError)>
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+        )
+      >
+    >
+    ptr,
+  ) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NiTestsError)>(
+    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NiTestsError)>
+  fromFunction(
+    void Function(ffi.Pointer<ffi.Void>, NiTestsError) fn, {
+    bool keepIsolateAlive = true,
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NiTestsError)>(
+    objc.newClosureBlock(
+      _closureCallable,
+      (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObjectImpl> arg1) =>
+          fn(arg0, NiTestsError.fromPointer(arg1, retain: true, release: true)),
+      keepIsolateAlive,
+    ),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on FFI's NativeCallable.listener, and has the same
+  /// capabilities and limitations. This block can be invoked from any thread,
+  /// but only supports void functions, and is not run synchronously. See
+  /// NativeCallable.listener for more details.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NiTestsError)>
+  listener(
+    void Function(ffi.Pointer<ffi.Void>, NiTestsError) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(
+      _listenerCallable.nativeFunction.cast(),
+      (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObjectImpl> arg1) => fn(
+        arg0,
+        NiTestsError.fromPointer(arg1, retain: false, release: true),
+      ),
+      keepIsolateAlive,
+    );
+    final wrapper = _umaz4x_wrapListenerBlock_18v1jvf(raw);
+    objc.objectRelease(raw.cast());
+    return objc.ObjCBlock<
+      ffi.Void Function(ffi.Pointer<ffi.Void>, NiTestsError)
+    >(wrapper, retain: false, release: true);
+  }
+
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions are not supported.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
+  /// indefinitely, or have other undefined behavior.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NiTestsError)>
+  blocking(
+    void Function(ffi.Pointer<ffi.Void>, NiTestsError) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(
+      _blockingCallable.nativeFunction.cast(),
+      (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObjectImpl> arg1) => fn(
+        arg0,
+        NiTestsError.fromPointer(arg1, retain: false, release: true),
+      ),
+      keepIsolateAlive,
+    );
+    final rawListener = objc.newClosureBlock(
+      _blockingListenerCallable.nativeFunction.cast(),
+      (ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObjectImpl> arg1) => fn(
+        arg0,
+        NiTestsError.fromPointer(arg1, retain: false, release: true),
+      ),
+      keepIsolateAlive,
+    );
+    final wrapper = _umaz4x_wrapBlockingBlock_18v1jvf(
+      raw,
+      rawListener,
+      objc.objCContext,
+    );
+    objc.objectRelease(raw.cast());
+    objc.objectRelease(rawListener.cast());
+    return objc.ObjCBlock<
+      ffi.Void Function(ffi.Pointer<ffi.Void>, NiTestsError)
+    >(wrapper, retain: false, release: true);
+  }
+
+  static void _listenerTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ) {
+    (objc.getBlockClosure(block)
+        as void Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        ))(arg0, arg1);
+    objc.objectRelease(block.cast());
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _listenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.listener(_listenerTrampoline)
+        ..keepIsolateAlive = false;
+  static void _blockingTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> waiter,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ) {
+    try {
+      (objc.getBlockClosure(block)
+          as void Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1);
+    } catch (e) {
+    } finally {
+      objc.signalWaiter(waiter);
+      objc.objectRelease(block.cast());
+    }
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _blockingCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.isolateLocal(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _blockingListenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.listener(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static void _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          )
+        >
+      >()
+      .asFunction<
+        void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>)
+      >()(arg0, arg1);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static void _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ) =>
+      (objc.getBlockClosure(block)
+          as void Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NiTestsError)>`.
+extension ObjCBlock_ffiVoid_ffiVoid_NiTestsError$CallExtension
+    on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NiTestsError)> {
+  void call(ffi.Pointer<ffi.Void> arg0, NiTestsError arg1) => ref
+      .pointer
+      .ref
+      .invoke
+      .cast<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl> block,
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          )
+        >
+      >()
+      .asFunction<
+        void Function(
+          ffi.Pointer<objc.ObjCBlockImpl>,
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >()(ref.pointer, arg0, arg1.ref.pointer);
+}
+
+late final _sel_echoNIAllTypesWithEverything_error_ = objc.registerName(
+  "echoNIAllTypesWithEverything:error:",
 );
 final _objc_msgSend_15qeuct = objc.msgSendPointer
     .cast<
@@ -4598,6 +4948,5447 @@ final _objc_msgSend_15qeuct = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
+
+/// Construction methods for `objc.ObjCBlock<NIAllTypesBridge? Function(ffi.Pointer<ffi.Void>, NIAllTypesBridge, NiTestsError)>`.
+abstract final class ObjCBlock_NIAllTypesBridge_ffiVoid_NIAllTypesBridge_NiTestsError {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    NIAllTypesBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      NIAllTypesBridge,
+      NiTestsError,
+    )
+  >
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        NIAllTypesBridge? Function(
+          ffi.Pointer<ffi.Void>,
+          NIAllTypesBridge,
+          NiTestsError,
+        )
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    NIAllTypesBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      NIAllTypesBridge,
+      NiTestsError,
+    )
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+        )
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        NIAllTypesBridge? Function(
+          ffi.Pointer<ffi.Void>,
+          NIAllTypesBridge,
+          NiTestsError,
+        )
+      >(
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    NIAllTypesBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      NIAllTypesBridge,
+      NiTestsError,
+    )
+  >
+  fromFunction(
+    NIAllTypesBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      NIAllTypesBridge,
+      NiTestsError,
+    )
+    fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        NIAllTypesBridge? Function(
+          ffi.Pointer<ffi.Void>,
+          NIAllTypesBridge,
+          NiTestsError,
+        )
+      >(
+        objc.newClosureBlock(
+          _closureCallable,
+          (
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          ) =>
+              fn(
+                arg0,
+                NIAllTypesBridge.fromPointer(arg1, retain: true, release: true),
+                NiTestsError.fromPointer(arg2, retain: true, release: true),
+              )?.ref.retainAndAutorelease() ??
+              ffi.nullptr,
+          keepIsolateAlive,
+        ),
+        retain: false,
+        release: true,
+      );
+
+  static ffi.Pointer<objc.ObjCObjectImpl> _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          )
+        >
+      >()
+      .asFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >()(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static ffi.Pointer<objc.ObjCObjectImpl> _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) =>
+      (objc.getBlockClosure(block)
+          as ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<NIAllTypesBridge? Function(ffi.Pointer<ffi.Void>, NIAllTypesBridge, NiTestsError)>`.
+extension ObjCBlock_NIAllTypesBridge_ffiVoid_NIAllTypesBridge_NiTestsError$CallExtension
+    on
+        objc.ObjCBlock<
+          NIAllTypesBridge? Function(
+            ffi.Pointer<ffi.Void>,
+            NIAllTypesBridge,
+            NiTestsError,
+          )
+        > {
+  NIAllTypesBridge? call(
+    ffi.Pointer<ffi.Void> arg0,
+    NIAllTypesBridge arg1,
+    NiTestsError arg2,
+  ) =>
+      ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer)
+              .address ==
+          0
+      ? null
+      : NIAllTypesBridge.fromPointer(
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer),
+          retain: true,
+          release: true,
+        );
+}
+
+late final _sel_echoNIAllNullableTypesWithEverything_error_ = objc.registerName(
+  "echoNIAllNullableTypesWithEverything:error:",
+);
+
+/// Construction methods for `objc.ObjCBlock<NIAllNullableTypesBridge? Function(ffi.Pointer<ffi.Void>, NIAllNullableTypesBridge?, NiTestsError)>`.
+abstract final class ObjCBlock_NIAllNullableTypesBridge_ffiVoid_NIAllNullableTypesBridge_NiTestsError {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    NIAllNullableTypesBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      NIAllNullableTypesBridge?,
+      NiTestsError,
+    )
+  >
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        NIAllNullableTypesBridge? Function(
+          ffi.Pointer<ffi.Void>,
+          NIAllNullableTypesBridge?,
+          NiTestsError,
+        )
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    NIAllNullableTypesBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      NIAllNullableTypesBridge?,
+      NiTestsError,
+    )
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+        )
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        NIAllNullableTypesBridge? Function(
+          ffi.Pointer<ffi.Void>,
+          NIAllNullableTypesBridge?,
+          NiTestsError,
+        )
+      >(
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    NIAllNullableTypesBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      NIAllNullableTypesBridge?,
+      NiTestsError,
+    )
+  >
+  fromFunction(
+    NIAllNullableTypesBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      NIAllNullableTypesBridge?,
+      NiTestsError,
+    )
+    fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        NIAllNullableTypesBridge? Function(
+          ffi.Pointer<ffi.Void>,
+          NIAllNullableTypesBridge?,
+          NiTestsError,
+        )
+      >(
+        objc.newClosureBlock(
+          _closureCallable,
+          (
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          ) =>
+              fn(
+                arg0,
+                arg1.address == 0
+                    ? null
+                    : NIAllNullableTypesBridge.fromPointer(
+                        arg1,
+                        retain: true,
+                        release: true,
+                      ),
+                NiTestsError.fromPointer(arg2, retain: true, release: true),
+              )?.ref.retainAndAutorelease() ??
+              ffi.nullptr,
+          keepIsolateAlive,
+        ),
+        retain: false,
+        release: true,
+      );
+
+  static ffi.Pointer<objc.ObjCObjectImpl> _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          )
+        >
+      >()
+      .asFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >()(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static ffi.Pointer<objc.ObjCObjectImpl> _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) =>
+      (objc.getBlockClosure(block)
+          as ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<NIAllNullableTypesBridge? Function(ffi.Pointer<ffi.Void>, NIAllNullableTypesBridge?, NiTestsError)>`.
+extension ObjCBlock_NIAllNullableTypesBridge_ffiVoid_NIAllNullableTypesBridge_NiTestsError$CallExtension
+    on
+        objc.ObjCBlock<
+          NIAllNullableTypesBridge? Function(
+            ffi.Pointer<ffi.Void>,
+            NIAllNullableTypesBridge?,
+            NiTestsError,
+          )
+        > {
+  NIAllNullableTypesBridge? call(
+    ffi.Pointer<ffi.Void> arg0,
+    NIAllNullableTypesBridge? arg1,
+    NiTestsError arg2,
+  ) =>
+      ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(
+                ref.pointer,
+                arg0,
+                arg1?.ref.pointer ?? ffi.nullptr,
+                arg2.ref.pointer,
+              )
+              .address ==
+          0
+      ? null
+      : NIAllNullableTypesBridge.fromPointer(
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(
+            ref.pointer,
+            arg0,
+            arg1?.ref.pointer ?? ffi.nullptr,
+            arg2.ref.pointer,
+          ),
+          retain: true,
+          release: true,
+        );
+}
+
+late final _sel_sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_ =
+    objc.registerName(
+      "sendMultipleNullableTypesWithANullableBool:aNullableInt:aNullableString:error:",
+    );
+final _objc_msgSend_s92gih = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
+
+/// Construction methods for `objc.ObjCBlock<NIAllNullableTypesBridge? Function(ffi.Pointer<ffi.Void>, objc.NSNumber?, objc.NSNumber?, objc.NSString?, NiTestsError)>`.
+abstract final class ObjCBlock_NIAllNullableTypesBridge_ffiVoid_NSNumber_NSNumber_NSString_NiTestsError {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    NIAllNullableTypesBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+  >
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        NIAllNullableTypesBridge? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSNumber?,
+          objc.NSNumber?,
+          objc.NSString?,
+          NiTestsError,
+        )
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    NIAllNullableTypesBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          ffi.Pointer<objc.ObjCObjectImpl> arg3,
+          ffi.Pointer<objc.ObjCObjectImpl> arg4,
+        )
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        NIAllNullableTypesBridge? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSNumber?,
+          objc.NSNumber?,
+          objc.NSString?,
+          NiTestsError,
+        )
+      >(
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    NIAllNullableTypesBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+  >
+  fromFunction(
+    NIAllNullableTypesBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+    fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        NIAllNullableTypesBridge? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSNumber?,
+          objc.NSNumber?,
+          objc.NSString?,
+          NiTestsError,
+        )
+      >(
+        objc.newClosureBlock(
+          _closureCallable,
+          (
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+            ffi.Pointer<objc.ObjCObjectImpl> arg3,
+            ffi.Pointer<objc.ObjCObjectImpl> arg4,
+          ) =>
+              fn(
+                arg0,
+                arg1.address == 0
+                    ? null
+                    : objc.NSNumber.fromPointer(
+                        arg1,
+                        retain: true,
+                        release: true,
+                      ),
+                arg2.address == 0
+                    ? null
+                    : objc.NSNumber.fromPointer(
+                        arg2,
+                        retain: true,
+                        release: true,
+                      ),
+                arg3.address == 0
+                    ? null
+                    : objc.NSString.fromPointer(
+                        arg3,
+                        retain: true,
+                        release: true,
+                      ),
+                NiTestsError.fromPointer(arg4, retain: true, release: true),
+              )?.ref.retainAndAutorelease() ??
+              ffi.nullptr,
+          keepIsolateAlive,
+        ),
+        retain: false,
+        release: true,
+      );
+
+  static ffi.Pointer<objc.ObjCObjectImpl> _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+    ffi.Pointer<objc.ObjCObjectImpl> arg3,
+    ffi.Pointer<objc.ObjCObjectImpl> arg4,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+            ffi.Pointer<objc.ObjCObjectImpl> arg3,
+            ffi.Pointer<objc.ObjCObjectImpl> arg4,
+          )
+        >
+      >()
+      .asFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >()(arg0, arg1, arg2, arg3, arg4);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static ffi.Pointer<objc.ObjCObjectImpl> _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+    ffi.Pointer<objc.ObjCObjectImpl> arg3,
+    ffi.Pointer<objc.ObjCObjectImpl> arg4,
+  ) =>
+      (objc.getBlockClosure(block)
+          as ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1, arg2, arg3, arg4);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<NIAllNullableTypesBridge? Function(ffi.Pointer<ffi.Void>, objc.NSNumber?, objc.NSNumber?, objc.NSString?, NiTestsError)>`.
+extension ObjCBlock_NIAllNullableTypesBridge_ffiVoid_NSNumber_NSNumber_NSString_NiTestsError$CallExtension
+    on
+        objc.ObjCBlock<
+          NIAllNullableTypesBridge? Function(
+            ffi.Pointer<ffi.Void>,
+            objc.NSNumber?,
+            objc.NSNumber?,
+            objc.NSString?,
+            NiTestsError,
+          )
+        > {
+  NIAllNullableTypesBridge? call(
+    ffi.Pointer<ffi.Void> arg0,
+    objc.NSNumber? arg1,
+    objc.NSNumber? arg2,
+    objc.NSString? arg3,
+    NiTestsError arg4,
+  ) =>
+      ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg3,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg4,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(
+                ref.pointer,
+                arg0,
+                arg1?.ref.pointer ?? ffi.nullptr,
+                arg2?.ref.pointer ?? ffi.nullptr,
+                arg3?.ref.pointer ?? ffi.nullptr,
+                arg4.ref.pointer,
+              )
+              .address ==
+          0
+      ? null
+      : NIAllNullableTypesBridge.fromPointer(
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg3,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg4,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(
+            ref.pointer,
+            arg0,
+            arg1?.ref.pointer ?? ffi.nullptr,
+            arg2?.ref.pointer ?? ffi.nullptr,
+            arg3?.ref.pointer ?? ffi.nullptr,
+            arg4.ref.pointer,
+          ),
+          retain: true,
+          release: true,
+        );
+}
+
+late final _sel_echoNIAllNullableTypesWithoutRecursionWithEverything_error_ =
+    objc.registerName(
+      "echoNIAllNullableTypesWithoutRecursionWithEverything:error:",
+    );
+
+/// Construction methods for `objc.ObjCBlock<NIAllNullableTypesWithoutRecursionBridge? Function(ffi.Pointer<ffi.Void>, NIAllNullableTypesWithoutRecursionBridge?, NiTestsError)>`.
+abstract final class ObjCBlock_NIAllNullableTypesWithoutRecursionBridge_ffiVoid_NIAllNullableTypesWithoutRecursionBridge_NiTestsError {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    NIAllNullableTypesWithoutRecursionBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      NIAllNullableTypesWithoutRecursionBridge?,
+      NiTestsError,
+    )
+  >
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        NIAllNullableTypesWithoutRecursionBridge? Function(
+          ffi.Pointer<ffi.Void>,
+          NIAllNullableTypesWithoutRecursionBridge?,
+          NiTestsError,
+        )
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    NIAllNullableTypesWithoutRecursionBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      NIAllNullableTypesWithoutRecursionBridge?,
+      NiTestsError,
+    )
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+        )
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        NIAllNullableTypesWithoutRecursionBridge? Function(
+          ffi.Pointer<ffi.Void>,
+          NIAllNullableTypesWithoutRecursionBridge?,
+          NiTestsError,
+        )
+      >(
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    NIAllNullableTypesWithoutRecursionBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      NIAllNullableTypesWithoutRecursionBridge?,
+      NiTestsError,
+    )
+  >
+  fromFunction(
+    NIAllNullableTypesWithoutRecursionBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      NIAllNullableTypesWithoutRecursionBridge?,
+      NiTestsError,
+    )
+    fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        NIAllNullableTypesWithoutRecursionBridge? Function(
+          ffi.Pointer<ffi.Void>,
+          NIAllNullableTypesWithoutRecursionBridge?,
+          NiTestsError,
+        )
+      >(
+        objc.newClosureBlock(
+          _closureCallable,
+          (
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          ) =>
+              fn(
+                arg0,
+                arg1.address == 0
+                    ? null
+                    : NIAllNullableTypesWithoutRecursionBridge.fromPointer(
+                        arg1,
+                        retain: true,
+                        release: true,
+                      ),
+                NiTestsError.fromPointer(arg2, retain: true, release: true),
+              )?.ref.retainAndAutorelease() ??
+              ffi.nullptr,
+          keepIsolateAlive,
+        ),
+        retain: false,
+        release: true,
+      );
+
+  static ffi.Pointer<objc.ObjCObjectImpl> _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          )
+        >
+      >()
+      .asFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >()(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static ffi.Pointer<objc.ObjCObjectImpl> _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) =>
+      (objc.getBlockClosure(block)
+          as ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<NIAllNullableTypesWithoutRecursionBridge? Function(ffi.Pointer<ffi.Void>, NIAllNullableTypesWithoutRecursionBridge?, NiTestsError)>`.
+extension ObjCBlock_NIAllNullableTypesWithoutRecursionBridge_ffiVoid_NIAllNullableTypesWithoutRecursionBridge_NiTestsError$CallExtension
+    on
+        objc.ObjCBlock<
+          NIAllNullableTypesWithoutRecursionBridge? Function(
+            ffi.Pointer<ffi.Void>,
+            NIAllNullableTypesWithoutRecursionBridge?,
+            NiTestsError,
+          )
+        > {
+  NIAllNullableTypesWithoutRecursionBridge? call(
+    ffi.Pointer<ffi.Void> arg0,
+    NIAllNullableTypesWithoutRecursionBridge? arg1,
+    NiTestsError arg2,
+  ) =>
+      ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(
+                ref.pointer,
+                arg0,
+                arg1?.ref.pointer ?? ffi.nullptr,
+                arg2.ref.pointer,
+              )
+              .address ==
+          0
+      ? null
+      : NIAllNullableTypesWithoutRecursionBridge.fromPointer(
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(
+            ref.pointer,
+            arg0,
+            arg1?.ref.pointer ?? ffi.nullptr,
+            arg2.ref.pointer,
+          ),
+          retain: true,
+          release: true,
+        );
+}
+
+late final _sel_sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_ =
+    objc.registerName(
+      "sendMultipleNullableTypesWithoutRecursionWithANullableBool:aNullableInt:aNullableString:error:",
+    );
+
+/// Construction methods for `objc.ObjCBlock<NIAllNullableTypesWithoutRecursionBridge? Function(ffi.Pointer<ffi.Void>, objc.NSNumber?, objc.NSNumber?, objc.NSString?, NiTestsError)>`.
+abstract final class ObjCBlock_NIAllNullableTypesWithoutRecursionBridge_ffiVoid_NSNumber_NSNumber_NSString_NiTestsError {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    NIAllNullableTypesWithoutRecursionBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+  >
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        NIAllNullableTypesWithoutRecursionBridge? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSNumber?,
+          objc.NSNumber?,
+          objc.NSString?,
+          NiTestsError,
+        )
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    NIAllNullableTypesWithoutRecursionBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          ffi.Pointer<objc.ObjCObjectImpl> arg3,
+          ffi.Pointer<objc.ObjCObjectImpl> arg4,
+        )
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        NIAllNullableTypesWithoutRecursionBridge? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSNumber?,
+          objc.NSNumber?,
+          objc.NSString?,
+          NiTestsError,
+        )
+      >(
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    NIAllNullableTypesWithoutRecursionBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+  >
+  fromFunction(
+    NIAllNullableTypesWithoutRecursionBridge? Function(
+      ffi.Pointer<ffi.Void>,
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+    fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        NIAllNullableTypesWithoutRecursionBridge? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSNumber?,
+          objc.NSNumber?,
+          objc.NSString?,
+          NiTestsError,
+        )
+      >(
+        objc.newClosureBlock(
+          _closureCallable,
+          (
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+            ffi.Pointer<objc.ObjCObjectImpl> arg3,
+            ffi.Pointer<objc.ObjCObjectImpl> arg4,
+          ) =>
+              fn(
+                arg0,
+                arg1.address == 0
+                    ? null
+                    : objc.NSNumber.fromPointer(
+                        arg1,
+                        retain: true,
+                        release: true,
+                      ),
+                arg2.address == 0
+                    ? null
+                    : objc.NSNumber.fromPointer(
+                        arg2,
+                        retain: true,
+                        release: true,
+                      ),
+                arg3.address == 0
+                    ? null
+                    : objc.NSString.fromPointer(
+                        arg3,
+                        retain: true,
+                        release: true,
+                      ),
+                NiTestsError.fromPointer(arg4, retain: true, release: true),
+              )?.ref.retainAndAutorelease() ??
+              ffi.nullptr,
+          keepIsolateAlive,
+        ),
+        retain: false,
+        release: true,
+      );
+
+  static ffi.Pointer<objc.ObjCObjectImpl> _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+    ffi.Pointer<objc.ObjCObjectImpl> arg3,
+    ffi.Pointer<objc.ObjCObjectImpl> arg4,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+            ffi.Pointer<objc.ObjCObjectImpl> arg3,
+            ffi.Pointer<objc.ObjCObjectImpl> arg4,
+          )
+        >
+      >()
+      .asFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >()(arg0, arg1, arg2, arg3, arg4);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static ffi.Pointer<objc.ObjCObjectImpl> _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+    ffi.Pointer<objc.ObjCObjectImpl> arg3,
+    ffi.Pointer<objc.ObjCObjectImpl> arg4,
+  ) =>
+      (objc.getBlockClosure(block)
+          as ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1, arg2, arg3, arg4);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<NIAllNullableTypesWithoutRecursionBridge? Function(ffi.Pointer<ffi.Void>, objc.NSNumber?, objc.NSNumber?, objc.NSString?, NiTestsError)>`.
+extension ObjCBlock_NIAllNullableTypesWithoutRecursionBridge_ffiVoid_NSNumber_NSNumber_NSString_NiTestsError$CallExtension
+    on
+        objc.ObjCBlock<
+          NIAllNullableTypesWithoutRecursionBridge? Function(
+            ffi.Pointer<ffi.Void>,
+            objc.NSNumber?,
+            objc.NSNumber?,
+            objc.NSString?,
+            NiTestsError,
+          )
+        > {
+  NIAllNullableTypesWithoutRecursionBridge? call(
+    ffi.Pointer<ffi.Void> arg0,
+    objc.NSNumber? arg1,
+    objc.NSNumber? arg2,
+    objc.NSString? arg3,
+    NiTestsError arg4,
+  ) =>
+      ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg3,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg4,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(
+                ref.pointer,
+                arg0,
+                arg1?.ref.pointer ?? ffi.nullptr,
+                arg2?.ref.pointer ?? ffi.nullptr,
+                arg3?.ref.pointer ?? ffi.nullptr,
+                arg4.ref.pointer,
+              )
+              .address ==
+          0
+      ? null
+      : NIAllNullableTypesWithoutRecursionBridge.fromPointer(
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg3,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg4,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(
+            ref.pointer,
+            arg0,
+            arg1?.ref.pointer ?? ffi.nullptr,
+            arg2?.ref.pointer ?? ffi.nullptr,
+            arg3?.ref.pointer ?? ffi.nullptr,
+            arg4.ref.pointer,
+          ),
+          retain: true,
+          release: true,
+        );
+}
+
+late final _sel_echoBoolWithABool_error_ = objc.registerName(
+  "echoBoolWithABool:error:",
+);
+
+/// Construction methods for `objc.ObjCBlock<objc.NSNumber? Function(ffi.Pointer<ffi.Void>, objc.NSNumber, NiTestsError)>`.
+abstract final class ObjCBlock_NSNumber_ffiVoid_NSNumber_NiTestsError {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    objc.NSNumber? Function(ffi.Pointer<ffi.Void>, objc.NSNumber, NiTestsError)
+  >
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        objc.NSNumber? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSNumber,
+          NiTestsError,
+        )
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    objc.NSNumber? Function(ffi.Pointer<ffi.Void>, objc.NSNumber, NiTestsError)
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+        )
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        objc.NSNumber? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSNumber,
+          NiTestsError,
+        )
+      >(
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    objc.NSNumber? Function(ffi.Pointer<ffi.Void>, objc.NSNumber, NiTestsError)
+  >
+  fromFunction(
+    objc.NSNumber? Function(ffi.Pointer<ffi.Void>, objc.NSNumber, NiTestsError)
+    fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        objc.NSNumber? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSNumber,
+          NiTestsError,
+        )
+      >(
+        objc.newClosureBlock(
+          _closureCallable,
+          (
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          ) =>
+              fn(
+                arg0,
+                objc.NSNumber.fromPointer(arg1, retain: true, release: true),
+                NiTestsError.fromPointer(arg2, retain: true, release: true),
+              )?.ref.retainAndAutorelease() ??
+              ffi.nullptr,
+          keepIsolateAlive,
+        ),
+        retain: false,
+        release: true,
+      );
+
+  static ffi.Pointer<objc.ObjCObjectImpl> _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          )
+        >
+      >()
+      .asFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >()(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static ffi.Pointer<objc.ObjCObjectImpl> _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) =>
+      (objc.getBlockClosure(block)
+          as ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<objc.NSNumber? Function(ffi.Pointer<ffi.Void>, objc.NSNumber, NiTestsError)>`.
+extension ObjCBlock_NSNumber_ffiVoid_NSNumber_NiTestsError$CallExtension
+    on
+        objc.ObjCBlock<
+          objc.NSNumber? Function(
+            ffi.Pointer<ffi.Void>,
+            objc.NSNumber,
+            NiTestsError,
+          )
+        > {
+  objc.NSNumber? call(
+    ffi.Pointer<ffi.Void> arg0,
+    objc.NSNumber arg1,
+    NiTestsError arg2,
+  ) =>
+      ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer)
+              .address ==
+          0
+      ? null
+      : objc.NSNumber.fromPointer(
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer),
+          retain: true,
+          release: true,
+        );
+}
+
+late final _sel_echoIntWithAnInt_error_ = objc.registerName(
+  "echoIntWithAnInt:error:",
+);
+late final _sel_echoDoubleWithADouble_error_ = objc.registerName(
+  "echoDoubleWithADouble:error:",
+);
+late final _sel_echoStringWithAString_error_ = objc.registerName(
+  "echoStringWithAString:error:",
+);
+
+/// Construction methods for `objc.ObjCBlock<objc.NSString? Function(ffi.Pointer<ffi.Void>, objc.NSString, NiTestsError)>`.
+abstract final class ObjCBlock_NSString_ffiVoid_NSString_NiTestsError {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    objc.NSString? Function(ffi.Pointer<ffi.Void>, objc.NSString, NiTestsError)
+  >
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        objc.NSString? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSString,
+          NiTestsError,
+        )
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    objc.NSString? Function(ffi.Pointer<ffi.Void>, objc.NSString, NiTestsError)
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+        )
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        objc.NSString? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSString,
+          NiTestsError,
+        )
+      >(
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    objc.NSString? Function(ffi.Pointer<ffi.Void>, objc.NSString, NiTestsError)
+  >
+  fromFunction(
+    objc.NSString? Function(ffi.Pointer<ffi.Void>, objc.NSString, NiTestsError)
+    fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        objc.NSString? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSString,
+          NiTestsError,
+        )
+      >(
+        objc.newClosureBlock(
+          _closureCallable,
+          (
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          ) =>
+              fn(
+                arg0,
+                objc.NSString.fromPointer(arg1, retain: true, release: true),
+                NiTestsError.fromPointer(arg2, retain: true, release: true),
+              )?.ref.retainAndAutorelease() ??
+              ffi.nullptr,
+          keepIsolateAlive,
+        ),
+        retain: false,
+        release: true,
+      );
+
+  static ffi.Pointer<objc.ObjCObjectImpl> _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          )
+        >
+      >()
+      .asFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >()(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static ffi.Pointer<objc.ObjCObjectImpl> _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) =>
+      (objc.getBlockClosure(block)
+          as ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<objc.NSString? Function(ffi.Pointer<ffi.Void>, objc.NSString, NiTestsError)>`.
+extension ObjCBlock_NSString_ffiVoid_NSString_NiTestsError$CallExtension
+    on
+        objc.ObjCBlock<
+          objc.NSString? Function(
+            ffi.Pointer<ffi.Void>,
+            objc.NSString,
+            NiTestsError,
+          )
+        > {
+  objc.NSString? call(
+    ffi.Pointer<ffi.Void> arg0,
+    objc.NSString arg1,
+    NiTestsError arg2,
+  ) =>
+      ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer)
+              .address ==
+          0
+      ? null
+      : objc.NSString.fromPointer(
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer),
+          retain: true,
+          release: true,
+        );
+}
+
+late final _sel_echoUint8ListWithList_error_ = objc.registerName(
+  "echoUint8ListWithList:error:",
+);
+
+/// Construction methods for `objc.ObjCBlock<PigeonTypedData? Function(ffi.Pointer<ffi.Void>, PigeonTypedData, NiTestsError)>`.
+abstract final class ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsError {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    PigeonTypedData? Function(
+      ffi.Pointer<ffi.Void>,
+      PigeonTypedData,
+      NiTestsError,
+    )
+  >
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        PigeonTypedData? Function(
+          ffi.Pointer<ffi.Void>,
+          PigeonTypedData,
+          NiTestsError,
+        )
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    PigeonTypedData? Function(
+      ffi.Pointer<ffi.Void>,
+      PigeonTypedData,
+      NiTestsError,
+    )
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+        )
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        PigeonTypedData? Function(
+          ffi.Pointer<ffi.Void>,
+          PigeonTypedData,
+          NiTestsError,
+        )
+      >(
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    PigeonTypedData? Function(
+      ffi.Pointer<ffi.Void>,
+      PigeonTypedData,
+      NiTestsError,
+    )
+  >
+  fromFunction(
+    PigeonTypedData? Function(
+      ffi.Pointer<ffi.Void>,
+      PigeonTypedData,
+      NiTestsError,
+    )
+    fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        PigeonTypedData? Function(
+          ffi.Pointer<ffi.Void>,
+          PigeonTypedData,
+          NiTestsError,
+        )
+      >(
+        objc.newClosureBlock(
+          _closureCallable,
+          (
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          ) =>
+              fn(
+                arg0,
+                PigeonTypedData.fromPointer(arg1, retain: true, release: true),
+                NiTestsError.fromPointer(arg2, retain: true, release: true),
+              )?.ref.retainAndAutorelease() ??
+              ffi.nullptr,
+          keepIsolateAlive,
+        ),
+        retain: false,
+        release: true,
+      );
+
+  static ffi.Pointer<objc.ObjCObjectImpl> _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          )
+        >
+      >()
+      .asFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >()(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static ffi.Pointer<objc.ObjCObjectImpl> _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) =>
+      (objc.getBlockClosure(block)
+          as ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<PigeonTypedData? Function(ffi.Pointer<ffi.Void>, PigeonTypedData, NiTestsError)>`.
+extension ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsError$CallExtension
+    on
+        objc.ObjCBlock<
+          PigeonTypedData? Function(
+            ffi.Pointer<ffi.Void>,
+            PigeonTypedData,
+            NiTestsError,
+          )
+        > {
+  PigeonTypedData? call(
+    ffi.Pointer<ffi.Void> arg0,
+    PigeonTypedData arg1,
+    NiTestsError arg2,
+  ) =>
+      ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer)
+              .address ==
+          0
+      ? null
+      : PigeonTypedData.fromPointer(
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer),
+          retain: true,
+          release: true,
+        );
+}
+
+late final _sel_echoListWithList_error_ = objc.registerName(
+  "echoListWithList:error:",
+);
+
+/// Construction methods for `objc.ObjCBlock<objc.NSArray? Function(ffi.Pointer<ffi.Void>, objc.NSArray, NiTestsError)>`.
+abstract final class ObjCBlock_NSArray_ffiVoid_NSArray_NiTestsError {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    objc.NSArray? Function(ffi.Pointer<ffi.Void>, objc.NSArray, NiTestsError)
+  >
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        objc.NSArray? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSArray,
+          NiTestsError,
+        )
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    objc.NSArray? Function(ffi.Pointer<ffi.Void>, objc.NSArray, NiTestsError)
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+        )
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        objc.NSArray? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSArray,
+          NiTestsError,
+        )
+      >(
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    objc.NSArray? Function(ffi.Pointer<ffi.Void>, objc.NSArray, NiTestsError)
+  >
+  fromFunction(
+    objc.NSArray? Function(ffi.Pointer<ffi.Void>, objc.NSArray, NiTestsError)
+    fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        objc.NSArray? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSArray,
+          NiTestsError,
+        )
+      >(
+        objc.newClosureBlock(
+          _closureCallable,
+          (
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          ) =>
+              fn(
+                arg0,
+                objc.NSArray.fromPointer(arg1, retain: true, release: true),
+                NiTestsError.fromPointer(arg2, retain: true, release: true),
+              )?.ref.retainAndAutorelease() ??
+              ffi.nullptr,
+          keepIsolateAlive,
+        ),
+        retain: false,
+        release: true,
+      );
+
+  static ffi.Pointer<objc.ObjCObjectImpl> _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          )
+        >
+      >()
+      .asFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >()(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static ffi.Pointer<objc.ObjCObjectImpl> _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) =>
+      (objc.getBlockClosure(block)
+          as ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<objc.NSArray? Function(ffi.Pointer<ffi.Void>, objc.NSArray, NiTestsError)>`.
+extension ObjCBlock_NSArray_ffiVoid_NSArray_NiTestsError$CallExtension
+    on
+        objc.ObjCBlock<
+          objc.NSArray? Function(
+            ffi.Pointer<ffi.Void>,
+            objc.NSArray,
+            NiTestsError,
+          )
+        > {
+  objc.NSArray? call(
+    ffi.Pointer<ffi.Void> arg0,
+    objc.NSArray arg1,
+    NiTestsError arg2,
+  ) =>
+      ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer)
+              .address ==
+          0
+      ? null
+      : objc.NSArray.fromPointer(
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer),
+          retain: true,
+          release: true,
+        );
+}
+
+late final _sel_echoEnumListWithEnumList_error_ = objc.registerName(
+  "echoEnumListWithEnumList:error:",
+);
+late final _sel_echoClassListWithClassList_error_ = objc.registerName(
+  "echoClassListWithClassList:error:",
+);
+late final _sel_echoNonNullEnumListWithEnumList_error_ = objc.registerName(
+  "echoNonNullEnumListWithEnumList:error:",
+);
+late final _sel_echoNonNullClassListWithClassList_error_ = objc.registerName(
+  "echoNonNullClassListWithClassList:error:",
+);
+late final _sel_echoMapWithMap_error_ = objc.registerName(
+  "echoMapWithMap:error:",
+);
+
+/// Construction methods for `objc.ObjCBlock<objc.NSDictionary? Function(ffi.Pointer<ffi.Void>, objc.NSDictionary, NiTestsError)>`.
+abstract final class ObjCBlock_NSDictionary_ffiVoid_NSDictionary_NiTestsError {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    objc.NSDictionary? Function(
+      ffi.Pointer<ffi.Void>,
+      objc.NSDictionary,
+      NiTestsError,
+    )
+  >
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        objc.NSDictionary? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSDictionary,
+          NiTestsError,
+        )
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    objc.NSDictionary? Function(
+      ffi.Pointer<ffi.Void>,
+      objc.NSDictionary,
+      NiTestsError,
+    )
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+        )
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        objc.NSDictionary? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSDictionary,
+          NiTestsError,
+        )
+      >(
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    objc.NSDictionary? Function(
+      ffi.Pointer<ffi.Void>,
+      objc.NSDictionary,
+      NiTestsError,
+    )
+  >
+  fromFunction(
+    objc.NSDictionary? Function(
+      ffi.Pointer<ffi.Void>,
+      objc.NSDictionary,
+      NiTestsError,
+    )
+    fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        objc.NSDictionary? Function(
+          ffi.Pointer<ffi.Void>,
+          objc.NSDictionary,
+          NiTestsError,
+        )
+      >(
+        objc.newClosureBlock(
+          _closureCallable,
+          (
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          ) =>
+              fn(
+                arg0,
+                objc.NSDictionary.fromPointer(
+                  arg1,
+                  retain: true,
+                  release: true,
+                ),
+                NiTestsError.fromPointer(arg2, retain: true, release: true),
+              )?.ref.retainAndAutorelease() ??
+              ffi.nullptr,
+          keepIsolateAlive,
+        ),
+        retain: false,
+        release: true,
+      );
+
+  static ffi.Pointer<objc.ObjCObjectImpl> _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          )
+        >
+      >()
+      .asFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >()(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static ffi.Pointer<objc.ObjCObjectImpl> _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ) =>
+      (objc.getBlockClosure(block)
+          as ffi.Pointer<objc.ObjCObjectImpl> Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObjectImpl> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<objc.NSDictionary? Function(ffi.Pointer<ffi.Void>, objc.NSDictionary, NiTestsError)>`.
+extension ObjCBlock_NSDictionary_ffiVoid_NSDictionary_NiTestsError$CallExtension
+    on
+        objc.ObjCBlock<
+          objc.NSDictionary? Function(
+            ffi.Pointer<ffi.Void>,
+            objc.NSDictionary,
+            NiTestsError,
+          )
+        > {
+  objc.NSDictionary? call(
+    ffi.Pointer<ffi.Void> arg0,
+    objc.NSDictionary arg1,
+    NiTestsError arg2,
+  ) =>
+      ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer)
+              .address ==
+          0
+      ? null
+      : objc.NSDictionary.fromPointer(
+          ref.pointer.ref.invoke
+              .cast<
+                ffi.NativeFunction<
+                  ffi.Pointer<objc.ObjCObjectImpl> Function(
+                    ffi.Pointer<objc.ObjCBlockImpl> block,
+                    ffi.Pointer<ffi.Void> arg0,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+                    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+                  )
+                >
+              >()
+              .asFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCBlockImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer),
+          retain: true,
+          release: true,
+        );
+}
+
+late final _sel_echoStringMapWithStringMap_error_ = objc.registerName(
+  "echoStringMapWithStringMap:error:",
+);
+late final _sel_echoIntMapWithIntMap_error_ = objc.registerName(
+  "echoIntMapWithIntMap:error:",
+);
+late final _sel_echoEnumMapWithEnumMap_error_ = objc.registerName(
+  "echoEnumMapWithEnumMap:error:",
+);
+late final _sel_echoClassMapWithClassMap_error_ = objc.registerName(
+  "echoClassMapWithClassMap:error:",
+);
+late final _sel_echoNonNullStringMapWithStringMap_error_ = objc.registerName(
+  "echoNonNullStringMapWithStringMap:error:",
+);
+late final _sel_echoNonNullIntMapWithIntMap_error_ = objc.registerName(
+  "echoNonNullIntMapWithIntMap:error:",
+);
+late final _sel_echoNonNullEnumMapWithEnumMap_error_ = objc.registerName(
+  "echoNonNullEnumMapWithEnumMap:error:",
+);
+late final _sel_echoNonNullClassMapWithClassMap_error_ = objc.registerName(
+  "echoNonNullClassMapWithClassMap:error:",
+);
+late final _sel_echoEnumWithAnEnum_error_ = objc.registerName(
+  "echoEnumWithAnEnum:error:",
+);
+late final _sel_echoNIAnotherEnumWithAnotherEnum_error_ = objc.registerName(
+  "echoNIAnotherEnumWithAnotherEnum:error:",
+);
+
+/// The core interface that the Dart platform_test code implements for host
+/// integration tests to call into.
+/// Generated protocol from Pigeon that represents Flutter messages that can be called from Swift.
+///
+/// iOS: introduced 13.0.0
+/// macOS: introduced 16.0.0
+extension type NIFlutterIntegrationCoreApiBridge._(objc.ObjCProtocol object$)
+    implements objc.ObjCProtocol {
+  /// Constructs a [NIFlutterIntegrationCoreApiBridge] that points to the same underlying object as [other].
+  NIFlutterIntegrationCoreApiBridge.as(objc.ObjCObject other) : object$ = other;
+
+  /// Constructs a [NIFlutterIntegrationCoreApiBridge] that wraps the given raw object pointer.
+  NIFlutterIntegrationCoreApiBridge.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NIFlutterIntegrationCoreApiBridge].
+  static bool conformsTo(objc.ObjCObject obj) {
+    return _objc_msgSend_e3qsqz(
+      obj.ref.pointer,
+      _sel_conformsToProtocol_,
+      _protocol_NIFlutterIntegrationCoreApiBridge,
+    );
+  }
+}
+
+extension NIFlutterIntegrationCoreApiBridge$Methods
+    on NIFlutterIntegrationCoreApiBridge {
+  /// Returns the passed boolean, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSNumber? echoBoolWithABool(
+    objc.NSNumber aBool, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoBoolWithABool:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoBoolWithABool_error_,
+      aBool.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSNumber.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed list, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSArray? echoClassListWithClassList(
+    objc.NSArray classList, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoClassListWithClassList:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoClassListWithClassList_error_,
+      classList.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSArray.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? echoClassMapWithClassMap(
+    objc.NSDictionary classMap, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoClassMapWithClassMap:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoClassMapWithClassMap_error_,
+      classMap.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed double, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSNumber? echoDoubleWithADouble(
+    objc.NSNumber aDouble, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoDoubleWithADouble:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoDoubleWithADouble_error_,
+      aDouble.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSNumber.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed list, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSArray? echoEnumListWithEnumList(
+    objc.NSArray enumList, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoEnumListWithEnumList:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoEnumListWithEnumList_error_,
+      enumList.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSArray.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? echoEnumMapWithEnumMap(
+    objc.NSDictionary enumMap, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoEnumMapWithEnumMap:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoEnumMapWithEnumMap_error_,
+      enumMap.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed enum to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSNumber? echoEnumWithAnEnum(
+    objc.NSNumber anEnum, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoEnumWithAnEnum:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoEnumWithAnEnum_error_,
+      anEnum.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSNumber.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? echoIntMapWithIntMap(
+    objc.NSDictionary intMap, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoIntMapWithIntMap:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoIntMapWithIntMap_error_,
+      intMap.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed int, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSNumber? echoIntWithAnInt(
+    objc.NSNumber anInt, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoIntWithAnInt:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoIntWithAnInt_error_,
+      anInt.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSNumber.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed list, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSArray? echoListWithList(
+    objc.NSArray list, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoListWithList:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoListWithList_error_,
+      list.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSArray.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? echoMapWithMap(
+    objc.NSDictionary map, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoMapWithMap:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoMapWithMap_error_,
+      map.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed object, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  NIAllNullableTypesBridge? echoNIAllNullableTypesWithEverything(
+    NIAllNullableTypesBridge? everything, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoNIAllNullableTypesWithEverything:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoNIAllNullableTypesWithEverything_error_,
+      everything?.ref.pointer ?? ffi.nullptr,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : NIAllNullableTypesBridge.fromPointer(
+            $ret,
+            retain: true,
+            release: true,
+          );
+  }
+
+  /// Returns the passed object, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  NIAllNullableTypesWithoutRecursionBridge?
+  echoNIAllNullableTypesWithoutRecursionWithEverything(
+    NIAllNullableTypesWithoutRecursionBridge? everything, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoNIAllNullableTypesWithoutRecursionWithEverything:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoNIAllNullableTypesWithoutRecursionWithEverything_error_,
+      everything?.ref.pointer ?? ffi.nullptr,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : NIAllNullableTypesWithoutRecursionBridge.fromPointer(
+            $ret,
+            retain: true,
+            release: true,
+          );
+  }
+
+  /// Returns the passed object, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  NIAllTypesBridge? echoNIAllTypesWithEverything(
+    NIAllTypesBridge everything, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoNIAllTypesWithEverything:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoNIAllTypesWithEverything_error_,
+      everything.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : NIAllTypesBridge.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed enum to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSNumber? echoNIAnotherEnumWithAnotherEnum(
+    objc.NSNumber anotherEnum, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoNIAnotherEnumWithAnotherEnum:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoNIAnotherEnumWithAnotherEnum_error_,
+      anotherEnum.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSNumber.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed list, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSArray? echoNonNullClassListWithClassList(
+    objc.NSArray classList, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoNonNullClassListWithClassList:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoNonNullClassListWithClassList_error_,
+      classList.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSArray.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? echoNonNullClassMapWithClassMap(
+    objc.NSDictionary classMap, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoNonNullClassMapWithClassMap:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoNonNullClassMapWithClassMap_error_,
+      classMap.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed list, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSArray? echoNonNullEnumListWithEnumList(
+    objc.NSArray enumList, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoNonNullEnumListWithEnumList:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoNonNullEnumListWithEnumList_error_,
+      enumList.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSArray.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? echoNonNullEnumMapWithEnumMap(
+    objc.NSDictionary enumMap, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoNonNullEnumMapWithEnumMap:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoNonNullEnumMapWithEnumMap_error_,
+      enumMap.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? echoNonNullIntMapWithIntMap(
+    objc.NSDictionary intMap, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoNonNullIntMapWithIntMap:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoNonNullIntMapWithIntMap_error_,
+      intMap.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? echoNonNullStringMapWithStringMap(
+    objc.NSDictionary stringMap, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoNonNullStringMapWithStringMap:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoNonNullStringMapWithStringMap_error_,
+      stringMap.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? echoStringMapWithStringMap(
+    objc.NSDictionary stringMap, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoStringMapWithStringMap:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoStringMapWithStringMap_error_,
+      stringMap.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed string, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSString? echoStringWithAString(
+    objc.NSString aString, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoStringWithAString:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoStringWithAString_error_,
+      aString.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSString.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed byte list, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  PigeonTypedData? echoUint8ListWithList(
+    PigeonTypedData list, {
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.echoUint8ListWithList:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoUint8ListWithList_error_,
+      list.ref.pointer,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// A no-op function taking no arguments and returning no value, to sanity
+  /// test basic calling.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  void noopWithError(NiTestsError error) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.noopWithError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    _objc_msgSend_xtuoz7(
+      object$.ref.pointer,
+      _sel_noopWithError_,
+      error.ref.pointer,
+    );
+  }
+
+  /// Returns passed in arguments of multiple types.
+  /// Tests multiple-arity FlutterApi handling.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  NIAllNullableTypesBridge? sendMultipleNullableTypesWithANullableBool(
+    objc.NSNumber? aNullableBool, {
+    objc.NSNumber? aNullableInt,
+    objc.NSString? aNullableString,
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.sendMultipleNullableTypesWithANullableBool:aNullableInt:aNullableString:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_s92gih(
+      object$.ref.pointer,
+      _sel_sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_,
+      aNullableBool?.ref.pointer ?? ffi.nullptr,
+      aNullableInt?.ref.pointer ?? ffi.nullptr,
+      aNullableString?.ref.pointer ?? ffi.nullptr,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : NIAllNullableTypesBridge.fromPointer(
+            $ret,
+            retain: true,
+            release: true,
+          );
+  }
+
+  /// Returns passed in arguments of multiple types.
+  /// Tests multiple-arity FlutterApi handling.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  NIAllNullableTypesWithoutRecursionBridge?
+  sendMultipleNullableTypesWithoutRecursionWithANullableBool(
+    objc.NSNumber? aNullableBool, {
+    objc.NSNumber? aNullableInt,
+    objc.NSString? aNullableString,
+    required NiTestsError error,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiBridge.sendMultipleNullableTypesWithoutRecursionWithANullableBool:aNullableInt:aNullableString:error:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_s92gih(
+      object$.ref.pointer,
+      _sel_sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_,
+      aNullableBool?.ref.pointer ?? ffi.nullptr,
+      aNullableInt?.ref.pointer ?? ffi.nullptr,
+      aNullableString?.ref.pointer ?? ffi.nullptr,
+      error.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : NIAllNullableTypesWithoutRecursionBridge.fromPointer(
+            $ret,
+            retain: true,
+            release: true,
+          );
+  }
+}
+
+interface class NIFlutterIntegrationCoreApiBridge$Builder {
+  /// Returns the [objc.Protocol] object for this protocol.
+  static objc.Protocol get $protocol => objc.Protocol.fromPointer(
+    _protocol_NIFlutterIntegrationCoreApiBridge.cast(),
+  );
+
+  /// Builds an object that implements the NIFlutterIntegrationCoreApiBridge protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
+  static NIFlutterIntegrationCoreApiBridge implement({
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoBoolWithABool_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoClassListWithClassList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoClassMapWithClassMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoDoubleWithADouble_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoEnumListWithEnumList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoEnumMapWithEnumMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoEnumWithAnEnum_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoIntMapWithIntMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoIntWithAnInt_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoListWithList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoMapWithMap_error_,
+    required NIAllNullableTypesBridge? Function(
+      NIAllNullableTypesBridge?,
+      NiTestsError,
+    )
+    echoNIAllNullableTypesWithEverything_error_,
+    required NIAllNullableTypesWithoutRecursionBridge? Function(
+      NIAllNullableTypesWithoutRecursionBridge?,
+      NiTestsError,
+    )
+    echoNIAllNullableTypesWithoutRecursionWithEverything_error_,
+    required NIAllTypesBridge? Function(NIAllTypesBridge, NiTestsError)
+    echoNIAllTypesWithEverything_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoNIAnotherEnumWithAnotherEnum_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoNonNullClassListWithClassList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullClassMapWithClassMap_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoNonNullEnumListWithEnumList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullEnumMapWithEnumMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullIntMapWithIntMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullStringMapWithStringMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoStringMapWithStringMap_error_,
+    required objc.NSString? Function(objc.NSString, NiTestsError)
+    echoStringWithAString_error_,
+    required PigeonTypedData? Function(PigeonTypedData, NiTestsError)
+    echoUint8ListWithList_error_,
+    required void Function(NiTestsError) noopWithError_,
+    required NIAllNullableTypesBridge? Function(
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+    sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_,
+    required NIAllNullableTypesWithoutRecursionBridge? Function(
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+    sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_,
+    bool $keepIsolateAlive = true,
+  }) {
+    final builder = objc.ObjCProtocolBuilder(
+      debugName: 'NIFlutterIntegrationCoreApiBridge',
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder.echoBoolWithABool_error_
+        .implement(builder, echoBoolWithABool_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoClassListWithClassList_error_
+        .implement(builder, echoClassListWithClassList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoClassMapWithClassMap_error_
+        .implement(builder, echoClassMapWithClassMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoDoubleWithADouble_error_
+        .implement(builder, echoDoubleWithADouble_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumListWithEnumList_error_
+        .implement(builder, echoEnumListWithEnumList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumMapWithEnumMap_error_
+        .implement(builder, echoEnumMapWithEnumMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumWithAnEnum_error_
+        .implement(builder, echoEnumWithAnEnum_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoIntMapWithIntMap_error_
+        .implement(builder, echoIntMapWithIntMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoIntWithAnInt_error_.implement(
+      builder,
+      echoIntWithAnInt_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder.echoListWithList_error_.implement(
+      builder,
+      echoListWithList_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder.echoMapWithMap_error_.implement(
+      builder,
+      echoMapWithMap_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllNullableTypesWithEverything_error_
+        .implement(builder, echoNIAllNullableTypesWithEverything_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllNullableTypesWithoutRecursionWithEverything_error_
+        .implement(
+          builder,
+          echoNIAllNullableTypesWithoutRecursionWithEverything_error_,
+        );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllTypesWithEverything_error_
+        .implement(builder, echoNIAllTypesWithEverything_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAnotherEnumWithAnotherEnum_error_
+        .implement(builder, echoNIAnotherEnumWithAnotherEnum_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullClassListWithClassList_error_
+        .implement(builder, echoNonNullClassListWithClassList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullClassMapWithClassMap_error_
+        .implement(builder, echoNonNullClassMapWithClassMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullEnumListWithEnumList_error_
+        .implement(builder, echoNonNullEnumListWithEnumList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullEnumMapWithEnumMap_error_
+        .implement(builder, echoNonNullEnumMapWithEnumMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoNonNullIntMapWithIntMap_error_
+        .implement(builder, echoNonNullIntMapWithIntMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullStringMapWithStringMap_error_
+        .implement(builder, echoNonNullStringMapWithStringMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoStringMapWithStringMap_error_
+        .implement(builder, echoStringMapWithStringMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoStringWithAString_error_
+        .implement(builder, echoStringWithAString_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoUint8ListWithList_error_
+        .implement(builder, echoUint8ListWithList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.noopWithError_.implement(
+      builder,
+      noopWithError_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_
+        .implement(
+          builder,
+          sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_,
+        );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_
+        .implement(
+          builder,
+          sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_,
+        );
+    builder.addProtocol($protocol);
+    return NIFlutterIntegrationCoreApiBridge.as(
+      builder.build(keepIsolateAlive: $keepIsolateAlive),
+    );
+  }
+
+  /// Adds the implementation of the NIFlutterIntegrationCoreApiBridge protocol to an existing
+  /// [objc.ObjCProtocolBuilder].
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
+  static void addToBuilder(
+    objc.ObjCProtocolBuilder builder, {
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoBoolWithABool_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoClassListWithClassList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoClassMapWithClassMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoDoubleWithADouble_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoEnumListWithEnumList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoEnumMapWithEnumMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoEnumWithAnEnum_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoIntMapWithIntMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoIntWithAnInt_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoListWithList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoMapWithMap_error_,
+    required NIAllNullableTypesBridge? Function(
+      NIAllNullableTypesBridge?,
+      NiTestsError,
+    )
+    echoNIAllNullableTypesWithEverything_error_,
+    required NIAllNullableTypesWithoutRecursionBridge? Function(
+      NIAllNullableTypesWithoutRecursionBridge?,
+      NiTestsError,
+    )
+    echoNIAllNullableTypesWithoutRecursionWithEverything_error_,
+    required NIAllTypesBridge? Function(NIAllTypesBridge, NiTestsError)
+    echoNIAllTypesWithEverything_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoNIAnotherEnumWithAnotherEnum_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoNonNullClassListWithClassList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullClassMapWithClassMap_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoNonNullEnumListWithEnumList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullEnumMapWithEnumMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullIntMapWithIntMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullStringMapWithStringMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoStringMapWithStringMap_error_,
+    required objc.NSString? Function(objc.NSString, NiTestsError)
+    echoStringWithAString_error_,
+    required PigeonTypedData? Function(PigeonTypedData, NiTestsError)
+    echoUint8ListWithList_error_,
+    required void Function(NiTestsError) noopWithError_,
+    required NIAllNullableTypesBridge? Function(
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+    sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_,
+    required NIAllNullableTypesWithoutRecursionBridge? Function(
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+    sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_,
+    bool $keepIsolateAlive = true,
+  }) {
+    NIFlutterIntegrationCoreApiBridge$Builder.echoBoolWithABool_error_
+        .implement(builder, echoBoolWithABool_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoClassListWithClassList_error_
+        .implement(builder, echoClassListWithClassList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoClassMapWithClassMap_error_
+        .implement(builder, echoClassMapWithClassMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoDoubleWithADouble_error_
+        .implement(builder, echoDoubleWithADouble_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumListWithEnumList_error_
+        .implement(builder, echoEnumListWithEnumList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumMapWithEnumMap_error_
+        .implement(builder, echoEnumMapWithEnumMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumWithAnEnum_error_
+        .implement(builder, echoEnumWithAnEnum_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoIntMapWithIntMap_error_
+        .implement(builder, echoIntMapWithIntMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoIntWithAnInt_error_.implement(
+      builder,
+      echoIntWithAnInt_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder.echoListWithList_error_.implement(
+      builder,
+      echoListWithList_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder.echoMapWithMap_error_.implement(
+      builder,
+      echoMapWithMap_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllNullableTypesWithEverything_error_
+        .implement(builder, echoNIAllNullableTypesWithEverything_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllNullableTypesWithoutRecursionWithEverything_error_
+        .implement(
+          builder,
+          echoNIAllNullableTypesWithoutRecursionWithEverything_error_,
+        );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllTypesWithEverything_error_
+        .implement(builder, echoNIAllTypesWithEverything_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAnotherEnumWithAnotherEnum_error_
+        .implement(builder, echoNIAnotherEnumWithAnotherEnum_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullClassListWithClassList_error_
+        .implement(builder, echoNonNullClassListWithClassList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullClassMapWithClassMap_error_
+        .implement(builder, echoNonNullClassMapWithClassMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullEnumListWithEnumList_error_
+        .implement(builder, echoNonNullEnumListWithEnumList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullEnumMapWithEnumMap_error_
+        .implement(builder, echoNonNullEnumMapWithEnumMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoNonNullIntMapWithIntMap_error_
+        .implement(builder, echoNonNullIntMapWithIntMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullStringMapWithStringMap_error_
+        .implement(builder, echoNonNullStringMapWithStringMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoStringMapWithStringMap_error_
+        .implement(builder, echoStringMapWithStringMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoStringWithAString_error_
+        .implement(builder, echoStringWithAString_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoUint8ListWithList_error_
+        .implement(builder, echoUint8ListWithList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.noopWithError_.implement(
+      builder,
+      noopWithError_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_
+        .implement(
+          builder,
+          sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_,
+        );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_
+        .implement(
+          builder,
+          sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_,
+        );
+    builder.addProtocol($protocol);
+  }
+
+  /// Builds an object that implements the NIFlutterIntegrationCoreApiBridge protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
+  /// methods that can be implemented as listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
+  static NIFlutterIntegrationCoreApiBridge implementAsListener({
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoBoolWithABool_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoClassListWithClassList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoClassMapWithClassMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoDoubleWithADouble_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoEnumListWithEnumList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoEnumMapWithEnumMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoEnumWithAnEnum_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoIntMapWithIntMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoIntWithAnInt_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoListWithList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoMapWithMap_error_,
+    required NIAllNullableTypesBridge? Function(
+      NIAllNullableTypesBridge?,
+      NiTestsError,
+    )
+    echoNIAllNullableTypesWithEverything_error_,
+    required NIAllNullableTypesWithoutRecursionBridge? Function(
+      NIAllNullableTypesWithoutRecursionBridge?,
+      NiTestsError,
+    )
+    echoNIAllNullableTypesWithoutRecursionWithEverything_error_,
+    required NIAllTypesBridge? Function(NIAllTypesBridge, NiTestsError)
+    echoNIAllTypesWithEverything_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoNIAnotherEnumWithAnotherEnum_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoNonNullClassListWithClassList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullClassMapWithClassMap_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoNonNullEnumListWithEnumList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullEnumMapWithEnumMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullIntMapWithIntMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullStringMapWithStringMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoStringMapWithStringMap_error_,
+    required objc.NSString? Function(objc.NSString, NiTestsError)
+    echoStringWithAString_error_,
+    required PigeonTypedData? Function(PigeonTypedData, NiTestsError)
+    echoUint8ListWithList_error_,
+    required void Function(NiTestsError) noopWithError_,
+    required NIAllNullableTypesBridge? Function(
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+    sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_,
+    required NIAllNullableTypesWithoutRecursionBridge? Function(
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+    sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_,
+    bool $keepIsolateAlive = true,
+  }) {
+    final builder = objc.ObjCProtocolBuilder(
+      debugName: 'NIFlutterIntegrationCoreApiBridge',
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder.echoBoolWithABool_error_
+        .implement(builder, echoBoolWithABool_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoClassListWithClassList_error_
+        .implement(builder, echoClassListWithClassList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoClassMapWithClassMap_error_
+        .implement(builder, echoClassMapWithClassMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoDoubleWithADouble_error_
+        .implement(builder, echoDoubleWithADouble_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumListWithEnumList_error_
+        .implement(builder, echoEnumListWithEnumList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumMapWithEnumMap_error_
+        .implement(builder, echoEnumMapWithEnumMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumWithAnEnum_error_
+        .implement(builder, echoEnumWithAnEnum_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoIntMapWithIntMap_error_
+        .implement(builder, echoIntMapWithIntMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoIntWithAnInt_error_.implement(
+      builder,
+      echoIntWithAnInt_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder.echoListWithList_error_.implement(
+      builder,
+      echoListWithList_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder.echoMapWithMap_error_.implement(
+      builder,
+      echoMapWithMap_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllNullableTypesWithEverything_error_
+        .implement(builder, echoNIAllNullableTypesWithEverything_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllNullableTypesWithoutRecursionWithEverything_error_
+        .implement(
+          builder,
+          echoNIAllNullableTypesWithoutRecursionWithEverything_error_,
+        );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllTypesWithEverything_error_
+        .implement(builder, echoNIAllTypesWithEverything_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAnotherEnumWithAnotherEnum_error_
+        .implement(builder, echoNIAnotherEnumWithAnotherEnum_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullClassListWithClassList_error_
+        .implement(builder, echoNonNullClassListWithClassList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullClassMapWithClassMap_error_
+        .implement(builder, echoNonNullClassMapWithClassMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullEnumListWithEnumList_error_
+        .implement(builder, echoNonNullEnumListWithEnumList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullEnumMapWithEnumMap_error_
+        .implement(builder, echoNonNullEnumMapWithEnumMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoNonNullIntMapWithIntMap_error_
+        .implement(builder, echoNonNullIntMapWithIntMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullStringMapWithStringMap_error_
+        .implement(builder, echoNonNullStringMapWithStringMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoStringMapWithStringMap_error_
+        .implement(builder, echoStringMapWithStringMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoStringWithAString_error_
+        .implement(builder, echoStringWithAString_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoUint8ListWithList_error_
+        .implement(builder, echoUint8ListWithList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.noopWithError_
+        .implementAsListener(builder, noopWithError_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_
+        .implement(
+          builder,
+          sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_,
+        );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_
+        .implement(
+          builder,
+          sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_,
+        );
+    builder.addProtocol($protocol);
+    return NIFlutterIntegrationCoreApiBridge.as(
+      builder.build(keepIsolateAlive: $keepIsolateAlive),
+    );
+  }
+
+  /// Adds the implementation of the NIFlutterIntegrationCoreApiBridge protocol to an existing
+  /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as listeners will
+  /// be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
+  static void addToBuilderAsListener(
+    objc.ObjCProtocolBuilder builder, {
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoBoolWithABool_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoClassListWithClassList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoClassMapWithClassMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoDoubleWithADouble_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoEnumListWithEnumList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoEnumMapWithEnumMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoEnumWithAnEnum_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoIntMapWithIntMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoIntWithAnInt_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoListWithList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoMapWithMap_error_,
+    required NIAllNullableTypesBridge? Function(
+      NIAllNullableTypesBridge?,
+      NiTestsError,
+    )
+    echoNIAllNullableTypesWithEverything_error_,
+    required NIAllNullableTypesWithoutRecursionBridge? Function(
+      NIAllNullableTypesWithoutRecursionBridge?,
+      NiTestsError,
+    )
+    echoNIAllNullableTypesWithoutRecursionWithEverything_error_,
+    required NIAllTypesBridge? Function(NIAllTypesBridge, NiTestsError)
+    echoNIAllTypesWithEverything_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoNIAnotherEnumWithAnotherEnum_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoNonNullClassListWithClassList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullClassMapWithClassMap_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoNonNullEnumListWithEnumList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullEnumMapWithEnumMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullIntMapWithIntMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullStringMapWithStringMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoStringMapWithStringMap_error_,
+    required objc.NSString? Function(objc.NSString, NiTestsError)
+    echoStringWithAString_error_,
+    required PigeonTypedData? Function(PigeonTypedData, NiTestsError)
+    echoUint8ListWithList_error_,
+    required void Function(NiTestsError) noopWithError_,
+    required NIAllNullableTypesBridge? Function(
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+    sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_,
+    required NIAllNullableTypesWithoutRecursionBridge? Function(
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+    sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_,
+    bool $keepIsolateAlive = true,
+  }) {
+    NIFlutterIntegrationCoreApiBridge$Builder.echoBoolWithABool_error_
+        .implement(builder, echoBoolWithABool_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoClassListWithClassList_error_
+        .implement(builder, echoClassListWithClassList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoClassMapWithClassMap_error_
+        .implement(builder, echoClassMapWithClassMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoDoubleWithADouble_error_
+        .implement(builder, echoDoubleWithADouble_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumListWithEnumList_error_
+        .implement(builder, echoEnumListWithEnumList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumMapWithEnumMap_error_
+        .implement(builder, echoEnumMapWithEnumMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumWithAnEnum_error_
+        .implement(builder, echoEnumWithAnEnum_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoIntMapWithIntMap_error_
+        .implement(builder, echoIntMapWithIntMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoIntWithAnInt_error_.implement(
+      builder,
+      echoIntWithAnInt_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder.echoListWithList_error_.implement(
+      builder,
+      echoListWithList_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder.echoMapWithMap_error_.implement(
+      builder,
+      echoMapWithMap_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllNullableTypesWithEverything_error_
+        .implement(builder, echoNIAllNullableTypesWithEverything_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllNullableTypesWithoutRecursionWithEverything_error_
+        .implement(
+          builder,
+          echoNIAllNullableTypesWithoutRecursionWithEverything_error_,
+        );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllTypesWithEverything_error_
+        .implement(builder, echoNIAllTypesWithEverything_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAnotherEnumWithAnotherEnum_error_
+        .implement(builder, echoNIAnotherEnumWithAnotherEnum_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullClassListWithClassList_error_
+        .implement(builder, echoNonNullClassListWithClassList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullClassMapWithClassMap_error_
+        .implement(builder, echoNonNullClassMapWithClassMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullEnumListWithEnumList_error_
+        .implement(builder, echoNonNullEnumListWithEnumList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullEnumMapWithEnumMap_error_
+        .implement(builder, echoNonNullEnumMapWithEnumMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoNonNullIntMapWithIntMap_error_
+        .implement(builder, echoNonNullIntMapWithIntMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullStringMapWithStringMap_error_
+        .implement(builder, echoNonNullStringMapWithStringMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoStringMapWithStringMap_error_
+        .implement(builder, echoStringMapWithStringMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoStringWithAString_error_
+        .implement(builder, echoStringWithAString_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoUint8ListWithList_error_
+        .implement(builder, echoUint8ListWithList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.noopWithError_
+        .implementAsListener(builder, noopWithError_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_
+        .implement(
+          builder,
+          sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_,
+        );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_
+        .implement(
+          builder,
+          sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_,
+        );
+    builder.addProtocol($protocol);
+  }
+
+  /// Builds an object that implements the NIFlutterIntegrationCoreApiBridge protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
+  /// methods that can be implemented as blocking listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
+  static NIFlutterIntegrationCoreApiBridge implementAsBlocking({
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoBoolWithABool_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoClassListWithClassList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoClassMapWithClassMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoDoubleWithADouble_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoEnumListWithEnumList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoEnumMapWithEnumMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoEnumWithAnEnum_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoIntMapWithIntMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoIntWithAnInt_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoListWithList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoMapWithMap_error_,
+    required NIAllNullableTypesBridge? Function(
+      NIAllNullableTypesBridge?,
+      NiTestsError,
+    )
+    echoNIAllNullableTypesWithEverything_error_,
+    required NIAllNullableTypesWithoutRecursionBridge? Function(
+      NIAllNullableTypesWithoutRecursionBridge?,
+      NiTestsError,
+    )
+    echoNIAllNullableTypesWithoutRecursionWithEverything_error_,
+    required NIAllTypesBridge? Function(NIAllTypesBridge, NiTestsError)
+    echoNIAllTypesWithEverything_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoNIAnotherEnumWithAnotherEnum_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoNonNullClassListWithClassList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullClassMapWithClassMap_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoNonNullEnumListWithEnumList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullEnumMapWithEnumMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullIntMapWithIntMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullStringMapWithStringMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoStringMapWithStringMap_error_,
+    required objc.NSString? Function(objc.NSString, NiTestsError)
+    echoStringWithAString_error_,
+    required PigeonTypedData? Function(PigeonTypedData, NiTestsError)
+    echoUint8ListWithList_error_,
+    required void Function(NiTestsError) noopWithError_,
+    required NIAllNullableTypesBridge? Function(
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+    sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_,
+    required NIAllNullableTypesWithoutRecursionBridge? Function(
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+    sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_,
+    bool $keepIsolateAlive = true,
+  }) {
+    final builder = objc.ObjCProtocolBuilder(
+      debugName: 'NIFlutterIntegrationCoreApiBridge',
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder.echoBoolWithABool_error_
+        .implement(builder, echoBoolWithABool_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoClassListWithClassList_error_
+        .implement(builder, echoClassListWithClassList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoClassMapWithClassMap_error_
+        .implement(builder, echoClassMapWithClassMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoDoubleWithADouble_error_
+        .implement(builder, echoDoubleWithADouble_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumListWithEnumList_error_
+        .implement(builder, echoEnumListWithEnumList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumMapWithEnumMap_error_
+        .implement(builder, echoEnumMapWithEnumMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumWithAnEnum_error_
+        .implement(builder, echoEnumWithAnEnum_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoIntMapWithIntMap_error_
+        .implement(builder, echoIntMapWithIntMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoIntWithAnInt_error_.implement(
+      builder,
+      echoIntWithAnInt_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder.echoListWithList_error_.implement(
+      builder,
+      echoListWithList_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder.echoMapWithMap_error_.implement(
+      builder,
+      echoMapWithMap_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllNullableTypesWithEverything_error_
+        .implement(builder, echoNIAllNullableTypesWithEverything_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllNullableTypesWithoutRecursionWithEverything_error_
+        .implement(
+          builder,
+          echoNIAllNullableTypesWithoutRecursionWithEverything_error_,
+        );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllTypesWithEverything_error_
+        .implement(builder, echoNIAllTypesWithEverything_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAnotherEnumWithAnotherEnum_error_
+        .implement(builder, echoNIAnotherEnumWithAnotherEnum_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullClassListWithClassList_error_
+        .implement(builder, echoNonNullClassListWithClassList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullClassMapWithClassMap_error_
+        .implement(builder, echoNonNullClassMapWithClassMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullEnumListWithEnumList_error_
+        .implement(builder, echoNonNullEnumListWithEnumList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullEnumMapWithEnumMap_error_
+        .implement(builder, echoNonNullEnumMapWithEnumMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoNonNullIntMapWithIntMap_error_
+        .implement(builder, echoNonNullIntMapWithIntMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullStringMapWithStringMap_error_
+        .implement(builder, echoNonNullStringMapWithStringMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoStringMapWithStringMap_error_
+        .implement(builder, echoStringMapWithStringMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoStringWithAString_error_
+        .implement(builder, echoStringWithAString_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoUint8ListWithList_error_
+        .implement(builder, echoUint8ListWithList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.noopWithError_
+        .implementAsBlocking(builder, noopWithError_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_
+        .implement(
+          builder,
+          sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_,
+        );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_
+        .implement(
+          builder,
+          sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_,
+        );
+    builder.addProtocol($protocol);
+    return NIFlutterIntegrationCoreApiBridge.as(
+      builder.build(keepIsolateAlive: $keepIsolateAlive),
+    );
+  }
+
+  /// Adds the implementation of the NIFlutterIntegrationCoreApiBridge protocol to an existing
+  /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as blocking
+  /// listeners will be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
+  static void addToBuilderAsBlocking(
+    objc.ObjCProtocolBuilder builder, {
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoBoolWithABool_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoClassListWithClassList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoClassMapWithClassMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoDoubleWithADouble_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoEnumListWithEnumList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoEnumMapWithEnumMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoEnumWithAnEnum_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoIntMapWithIntMap_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoIntWithAnInt_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoListWithList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoMapWithMap_error_,
+    required NIAllNullableTypesBridge? Function(
+      NIAllNullableTypesBridge?,
+      NiTestsError,
+    )
+    echoNIAllNullableTypesWithEverything_error_,
+    required NIAllNullableTypesWithoutRecursionBridge? Function(
+      NIAllNullableTypesWithoutRecursionBridge?,
+      NiTestsError,
+    )
+    echoNIAllNullableTypesWithoutRecursionWithEverything_error_,
+    required NIAllTypesBridge? Function(NIAllTypesBridge, NiTestsError)
+    echoNIAllTypesWithEverything_error_,
+    required objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+    echoNIAnotherEnumWithAnotherEnum_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoNonNullClassListWithClassList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullClassMapWithClassMap_error_,
+    required objc.NSArray? Function(objc.NSArray, NiTestsError)
+    echoNonNullEnumListWithEnumList_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullEnumMapWithEnumMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullIntMapWithIntMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoNonNullStringMapWithStringMap_error_,
+    required objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+    echoStringMapWithStringMap_error_,
+    required objc.NSString? Function(objc.NSString, NiTestsError)
+    echoStringWithAString_error_,
+    required PigeonTypedData? Function(PigeonTypedData, NiTestsError)
+    echoUint8ListWithList_error_,
+    required void Function(NiTestsError) noopWithError_,
+    required NIAllNullableTypesBridge? Function(
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+    sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_,
+    required NIAllNullableTypesWithoutRecursionBridge? Function(
+      objc.NSNumber?,
+      objc.NSNumber?,
+      objc.NSString?,
+      NiTestsError,
+    )
+    sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_,
+    bool $keepIsolateAlive = true,
+  }) {
+    NIFlutterIntegrationCoreApiBridge$Builder.echoBoolWithABool_error_
+        .implement(builder, echoBoolWithABool_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoClassListWithClassList_error_
+        .implement(builder, echoClassListWithClassList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoClassMapWithClassMap_error_
+        .implement(builder, echoClassMapWithClassMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoDoubleWithADouble_error_
+        .implement(builder, echoDoubleWithADouble_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumListWithEnumList_error_
+        .implement(builder, echoEnumListWithEnumList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumMapWithEnumMap_error_
+        .implement(builder, echoEnumMapWithEnumMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoEnumWithAnEnum_error_
+        .implement(builder, echoEnumWithAnEnum_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoIntMapWithIntMap_error_
+        .implement(builder, echoIntMapWithIntMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoIntWithAnInt_error_.implement(
+      builder,
+      echoIntWithAnInt_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder.echoListWithList_error_.implement(
+      builder,
+      echoListWithList_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder.echoMapWithMap_error_.implement(
+      builder,
+      echoMapWithMap_error_,
+    );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllNullableTypesWithEverything_error_
+        .implement(builder, echoNIAllNullableTypesWithEverything_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllNullableTypesWithoutRecursionWithEverything_error_
+        .implement(
+          builder,
+          echoNIAllNullableTypesWithoutRecursionWithEverything_error_,
+        );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAllTypesWithEverything_error_
+        .implement(builder, echoNIAllTypesWithEverything_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNIAnotherEnumWithAnotherEnum_error_
+        .implement(builder, echoNIAnotherEnumWithAnotherEnum_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullClassListWithClassList_error_
+        .implement(builder, echoNonNullClassListWithClassList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullClassMapWithClassMap_error_
+        .implement(builder, echoNonNullClassMapWithClassMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullEnumListWithEnumList_error_
+        .implement(builder, echoNonNullEnumListWithEnumList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullEnumMapWithEnumMap_error_
+        .implement(builder, echoNonNullEnumMapWithEnumMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoNonNullIntMapWithIntMap_error_
+        .implement(builder, echoNonNullIntMapWithIntMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .echoNonNullStringMapWithStringMap_error_
+        .implement(builder, echoNonNullStringMapWithStringMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoStringMapWithStringMap_error_
+        .implement(builder, echoStringMapWithStringMap_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoStringWithAString_error_
+        .implement(builder, echoStringWithAString_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.echoUint8ListWithList_error_
+        .implement(builder, echoUint8ListWithList_error_);
+    NIFlutterIntegrationCoreApiBridge$Builder.noopWithError_
+        .implementAsBlocking(builder, noopWithError_);
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_
+        .implement(
+          builder,
+          sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_,
+        );
+    NIFlutterIntegrationCoreApiBridge$Builder
+        .sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_
+        .implement(
+          builder,
+          sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_,
+        );
+    builder.addProtocol($protocol);
+  }
+
+  /// Returns the passed boolean, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoBoolWithABool_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoBoolWithABool_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoBoolWithABool_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSNumber? Function(objc.NSNumber, NiTestsError) func) =>
+            ObjCBlock_NSNumber_ffiVoid_NSNumber_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSNumber arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed list, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoClassListWithClassList_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSArray? Function(objc.NSArray, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoClassListWithClassList_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoClassListWithClassList_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSArray? Function(objc.NSArray, NiTestsError) func) =>
+            ObjCBlock_NSArray_ffiVoid_NSArray_NiTestsError.fromFunction(
+              (ffi.Pointer<ffi.Void> _, objc.NSArray arg1, NiTestsError arg2) =>
+                  func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoClassMapWithClassMap_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoClassMapWithClassMap_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoClassMapWithClassMap_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSDictionary? Function(objc.NSDictionary, NiTestsError) func) =>
+            ObjCBlock_NSDictionary_ffiVoid_NSDictionary_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSDictionary arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed double, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoDoubleWithADouble_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoDoubleWithADouble_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoDoubleWithADouble_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSNumber? Function(objc.NSNumber, NiTestsError) func) =>
+            ObjCBlock_NSNumber_ffiVoid_NSNumber_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSNumber arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed list, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoEnumListWithEnumList_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSArray? Function(objc.NSArray, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoEnumListWithEnumList_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoEnumListWithEnumList_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSArray? Function(objc.NSArray, NiTestsError) func) =>
+            ObjCBlock_NSArray_ffiVoid_NSArray_NiTestsError.fromFunction(
+              (ffi.Pointer<ffi.Void> _, objc.NSArray arg1, NiTestsError arg2) =>
+                  func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoEnumMapWithEnumMap_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoEnumMapWithEnumMap_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoEnumMapWithEnumMap_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSDictionary? Function(objc.NSDictionary, NiTestsError) func) =>
+            ObjCBlock_NSDictionary_ffiVoid_NSDictionary_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSDictionary arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed enum to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoEnumWithAnEnum_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoEnumWithAnEnum_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoEnumWithAnEnum_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSNumber? Function(objc.NSNumber, NiTestsError) func) =>
+            ObjCBlock_NSNumber_ffiVoid_NSNumber_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSNumber arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoIntMapWithIntMap_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoIntMapWithIntMap_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoIntMapWithIntMap_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSDictionary? Function(objc.NSDictionary, NiTestsError) func) =>
+            ObjCBlock_NSDictionary_ffiVoid_NSDictionary_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSDictionary arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed int, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoIntWithAnInt_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoIntWithAnInt_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoIntWithAnInt_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSNumber? Function(objc.NSNumber, NiTestsError) func) =>
+            ObjCBlock_NSNumber_ffiVoid_NSNumber_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSNumber arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed list, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoListWithList_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSArray? Function(objc.NSArray, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoListWithList_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoListWithList_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSArray? Function(objc.NSArray, NiTestsError) func) =>
+            ObjCBlock_NSArray_ffiVoid_NSArray_NiTestsError.fromFunction(
+              (ffi.Pointer<ffi.Void> _, objc.NSArray arg1, NiTestsError arg2) =>
+                  func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoMapWithMap_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoMapWithMap_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoMapWithMap_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSDictionary? Function(objc.NSDictionary, NiTestsError) func) =>
+            ObjCBlock_NSDictionary_ffiVoid_NSDictionary_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSDictionary arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed object, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoNIAllNullableTypesWithEverything_error_ =
+      objc.ObjCProtocolMethod<
+        NIAllNullableTypesBridge? Function(
+          NIAllNullableTypesBridge?,
+          NiTestsError,
+        )
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoNIAllNullableTypesWithEverything_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoNIAllNullableTypesWithEverything_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (
+          NIAllNullableTypesBridge? Function(
+            NIAllNullableTypesBridge?,
+            NiTestsError,
+          )
+          func,
+        ) =>
+            ObjCBlock_NIAllNullableTypesBridge_ffiVoid_NIAllNullableTypesBridge_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                NIAllNullableTypesBridge? arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed object, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoNIAllNullableTypesWithoutRecursionWithEverything_error_ =
+      objc.ObjCProtocolMethod<
+        NIAllNullableTypesWithoutRecursionBridge? Function(
+          NIAllNullableTypesWithoutRecursionBridge?,
+          NiTestsError,
+        )
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoNIAllNullableTypesWithoutRecursionWithEverything_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoNIAllNullableTypesWithoutRecursionWithEverything_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (
+          NIAllNullableTypesWithoutRecursionBridge? Function(
+            NIAllNullableTypesWithoutRecursionBridge?,
+            NiTestsError,
+          )
+          func,
+        ) =>
+            ObjCBlock_NIAllNullableTypesWithoutRecursionBridge_ffiVoid_NIAllNullableTypesWithoutRecursionBridge_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                NIAllNullableTypesWithoutRecursionBridge? arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed object, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoNIAllTypesWithEverything_error_ =
+      objc.ObjCProtocolMethod<
+        NIAllTypesBridge? Function(NIAllTypesBridge, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoNIAllTypesWithEverything_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoNIAllTypesWithEverything_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (NIAllTypesBridge? Function(NIAllTypesBridge, NiTestsError) func) =>
+            ObjCBlock_NIAllTypesBridge_ffiVoid_NIAllTypesBridge_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                NIAllTypesBridge arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed enum to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoNIAnotherEnumWithAnotherEnum_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSNumber? Function(objc.NSNumber, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoNIAnotherEnumWithAnotherEnum_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoNIAnotherEnumWithAnotherEnum_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSNumber? Function(objc.NSNumber, NiTestsError) func) =>
+            ObjCBlock_NSNumber_ffiVoid_NSNumber_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSNumber arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed list, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoNonNullClassListWithClassList_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSArray? Function(objc.NSArray, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoNonNullClassListWithClassList_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoNonNullClassListWithClassList_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSArray? Function(objc.NSArray, NiTestsError) func) =>
+            ObjCBlock_NSArray_ffiVoid_NSArray_NiTestsError.fromFunction(
+              (ffi.Pointer<ffi.Void> _, objc.NSArray arg1, NiTestsError arg2) =>
+                  func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoNonNullClassMapWithClassMap_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoNonNullClassMapWithClassMap_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoNonNullClassMapWithClassMap_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSDictionary? Function(objc.NSDictionary, NiTestsError) func) =>
+            ObjCBlock_NSDictionary_ffiVoid_NSDictionary_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSDictionary arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed list, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoNonNullEnumListWithEnumList_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSArray? Function(objc.NSArray, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoNonNullEnumListWithEnumList_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoNonNullEnumListWithEnumList_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSArray? Function(objc.NSArray, NiTestsError) func) =>
+            ObjCBlock_NSArray_ffiVoid_NSArray_NiTestsError.fromFunction(
+              (ffi.Pointer<ffi.Void> _, objc.NSArray arg1, NiTestsError arg2) =>
+                  func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoNonNullEnumMapWithEnumMap_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoNonNullEnumMapWithEnumMap_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoNonNullEnumMapWithEnumMap_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSDictionary? Function(objc.NSDictionary, NiTestsError) func) =>
+            ObjCBlock_NSDictionary_ffiVoid_NSDictionary_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSDictionary arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoNonNullIntMapWithIntMap_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoNonNullIntMapWithIntMap_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoNonNullIntMapWithIntMap_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSDictionary? Function(objc.NSDictionary, NiTestsError) func) =>
+            ObjCBlock_NSDictionary_ffiVoid_NSDictionary_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSDictionary arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoNonNullStringMapWithStringMap_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoNonNullStringMapWithStringMap_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoNonNullStringMapWithStringMap_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSDictionary? Function(objc.NSDictionary, NiTestsError) func) =>
+            ObjCBlock_NSDictionary_ffiVoid_NSDictionary_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSDictionary arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed map, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoStringMapWithStringMap_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSDictionary? Function(objc.NSDictionary, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoStringMapWithStringMap_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoStringMapWithStringMap_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSDictionary? Function(objc.NSDictionary, NiTestsError) func) =>
+            ObjCBlock_NSDictionary_ffiVoid_NSDictionary_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSDictionary arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed string, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoStringWithAString_error_ =
+      objc.ObjCProtocolMethod<
+        objc.NSString? Function(objc.NSString, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoStringWithAString_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoStringWithAString_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (objc.NSString? Function(objc.NSString, NiTestsError) func) =>
+            ObjCBlock_NSString_ffiVoid_NSString_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSString arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// Returns the passed byte list, to test serialization and deserialization.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final echoUint8ListWithList_error_ =
+      objc.ObjCProtocolMethod<
+        PigeonTypedData? Function(PigeonTypedData, NiTestsError)
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_echoUint8ListWithList_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_zi5eed)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_echoUint8ListWithList_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (PigeonTypedData? Function(PigeonTypedData, NiTestsError) func) =>
+            ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                PigeonTypedData arg1,
+                NiTestsError arg2,
+              ) => func(arg1, arg2),
+            ),
+      );
+
+  /// A no-op function taking no arguments and returning no value, to sanity
+  /// test basic calling.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final noopWithError_ =
+      objc.ObjCProtocolListenableMethod<void Function(NiTestsError)>(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_noopWithError_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Void Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_18v1jvf)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_noopWithError_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (void Function(NiTestsError) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsError.fromFunction(
+              (ffi.Pointer<ffi.Void> _, NiTestsError arg1) => func(arg1),
+            ),
+        (void Function(NiTestsError) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsError.listener(
+              (ffi.Pointer<ffi.Void> _, NiTestsError arg1) => func(arg1),
+            ),
+        (void Function(NiTestsError) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsError.blocking(
+              (ffi.Pointer<ffi.Void> _, NiTestsError arg1) => func(arg1),
+            ),
+      );
+
+  /// Returns passed in arguments of multiple types.
+  /// Tests multiple-arity FlutterApi handling.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_ =
+      objc.ObjCProtocolMethod<
+        NIAllNullableTypesBridge? Function(
+          objc.NSNumber?,
+          objc.NSNumber?,
+          objc.NSString?,
+          NiTestsError,
+        )
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_qfyidt)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (
+          NIAllNullableTypesBridge? Function(
+            objc.NSNumber?,
+            objc.NSNumber?,
+            objc.NSString?,
+            NiTestsError,
+          )
+          func,
+        ) =>
+            ObjCBlock_NIAllNullableTypesBridge_ffiVoid_NSNumber_NSNumber_NSString_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSNumber? arg1,
+                objc.NSNumber? arg2,
+                objc.NSString? arg3,
+                NiTestsError arg4,
+              ) => func(arg1, arg2, arg3, arg4),
+            ),
+      );
+
+  /// Returns passed in arguments of multiple types.
+  /// Tests multiple-arity FlutterApi handling.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static final sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_ =
+      objc.ObjCProtocolMethod<
+        NIAllNullableTypesWithoutRecursionBridge? Function(
+          objc.NSNumber?,
+          objc.NSNumber?,
+          objc.NSString?,
+          NiTestsError,
+        )
+      >(
+        _protocol_NIFlutterIntegrationCoreApiBridge,
+        _sel_sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Pointer<objc.ObjCObjectImpl> Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_umaz4x_protocolTrampoline_qfyidt)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NIFlutterIntegrationCoreApiBridge,
+          _sel_sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_error_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (
+          NIAllNullableTypesWithoutRecursionBridge? Function(
+            objc.NSNumber?,
+            objc.NSNumber?,
+            objc.NSString?,
+            NiTestsError,
+          )
+          func,
+        ) =>
+            ObjCBlock_NIAllNullableTypesWithoutRecursionBridge_ffiVoid_NSNumber_NSNumber_NSString_NiTestsError.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSNumber? arg1,
+                objc.NSNumber? arg2,
+                objc.NSString? arg3,
+                NiTestsError arg4,
+              ) => func(arg1, arg2, arg3, arg4),
+            ),
+      );
+}
+
+late final _class_NIFlutterIntegrationCoreApiRegistrar = objc.getClass(
+  "test_plugin.NIFlutterIntegrationCoreApiRegistrar",
+);
+late final _sel_registerInstanceWithApi_name_ = objc.registerName(
+  "registerInstanceWithApi:name:",
+);
+final _objc_msgSend_pfv6jd = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
+
+/// NIFlutterIntegrationCoreApiRegistrar
+///
+/// iOS: introduced 13.0.0
+/// macOS: introduced 16.0.0
+extension type NIFlutterIntegrationCoreApiRegistrar._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject {
+  /// Constructs a [NIFlutterIntegrationCoreApiRegistrar] that points to the same underlying object as [other].
+  NIFlutterIntegrationCoreApiRegistrar.as(objc.ObjCObject other)
+    : object$ = other {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiRegistrar',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    assert(isA(object$));
+  }
+
+  /// Constructs a [NIFlutterIntegrationCoreApiRegistrar] that wraps the given raw object pointer.
+  NIFlutterIntegrationCoreApiRegistrar.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiRegistrar',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [NIFlutterIntegrationCoreApiRegistrar].
+  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+    obj.ref.pointer,
+    _sel_isKindOfClass_,
+    _class_NIFlutterIntegrationCoreApiRegistrar,
+  );
+
+  /// alloc
+  static NIFlutterIntegrationCoreApiRegistrar alloc() {
+    final $ret = _objc_msgSend_151sglz(
+      _class_NIFlutterIntegrationCoreApiRegistrar,
+      _sel_alloc,
+    );
+    return NIFlutterIntegrationCoreApiRegistrar.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// allocWithZone:
+  static NIFlutterIntegrationCoreApiRegistrar allocWithZone(
+    ffi.Pointer<objc.NSZone> zone,
+  ) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NIFlutterIntegrationCoreApiRegistrar,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NIFlutterIntegrationCoreApiRegistrar.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// new
+  static NIFlutterIntegrationCoreApiRegistrar new$() {
+    final $ret = _objc_msgSend_151sglz(
+      _class_NIFlutterIntegrationCoreApiRegistrar,
+      _sel_new,
+    );
+    return NIFlutterIntegrationCoreApiRegistrar.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// registerInstanceWithApi:name:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  static void registerInstanceWithApi(
+    NIFlutterIntegrationCoreApiBridge api, {
+    required objc.NSString name,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiRegistrar.registerInstanceWithApi:name:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    _objc_msgSend_pfv6jd(
+      _class_NIFlutterIntegrationCoreApiRegistrar,
+      _sel_registerInstanceWithApi_name_,
+      api.ref.pointer,
+      name.ref.pointer,
+    );
+  }
+
+  /// Returns a new instance of NIFlutterIntegrationCoreApiRegistrar constructed with the default `new` method.
+  NIFlutterIntegrationCoreApiRegistrar() : this.as(new$().object$);
+}
+
+extension NIFlutterIntegrationCoreApiRegistrar$Methods
+    on NIFlutterIntegrationCoreApiRegistrar {
+  /// init
+  NIFlutterIntegrationCoreApiRegistrar init() {
+    objc.checkOsVersionInternal(
+      'NIFlutterIntegrationCoreApiRegistrar.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      object$.ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return NIFlutterIntegrationCoreApiRegistrar.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+}
+
+late final _class_NIHostIntegrationCoreApiSetup = objc.getClass(
+  "test_plugin.NIHostIntegrationCoreApiSetup",
+);
+late final _sel_getInstanceWithName_ = objc.registerName(
+  "getInstanceWithName:",
+);
+final _objc_msgSend_1sotr3r = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
+late final _sel_noopWithWrappedError_ = objc.registerName(
+  "noopWithWrappedError:",
+);
+late final _sel_echoAllTypesWithEverything_wrappedError_ = objc.registerName(
+  "echoAllTypesWithEverything:wrappedError:",
+);
 late final _sel_throwErrorWithWrappedError_ = objc.registerName(
   "throwErrorWithWrappedError:",
 );
@@ -4802,29 +10593,6 @@ late final _sel_sendMultipleNullableTypesWithANullableBool_aNullableInt_aNullabl
     objc.registerName(
       "sendMultipleNullableTypesWithANullableBool:aNullableInt:aNullableString:wrappedError:",
     );
-final _objc_msgSend_s92gih = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
 late final _sel_sendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_wrappedError_ =
     objc.registerName(
       "sendMultipleNullableTypesWithoutRecursionWithANullableBool:aNullableInt:aNullableString:wrappedError:",
@@ -7762,6 +13530,78 @@ late final _sel_echoAnotherAsyncNullableEnumWithAnotherEnum_wrappedError_complet
     objc.registerName(
       "echoAnotherAsyncNullableEnumWithAnotherEnum:wrappedError:completionHandler:",
     );
+late final _sel_callFlutterNoopWithWrappedError_ = objc.registerName(
+  "callFlutterNoopWithWrappedError:",
+);
+late final _sel_callFlutterEchoNIAllTypesWithEverything_wrappedError_ = objc
+    .registerName("callFlutterEchoNIAllTypesWithEverything:wrappedError:");
+late final _sel_callFlutterEchoNIAllNullableTypesWithEverything_wrappedError_ =
+    objc.registerName(
+      "callFlutterEchoNIAllNullableTypesWithEverything:wrappedError:",
+    );
+late final _sel_callFlutterSendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_wrappedError_ =
+    objc.registerName(
+      "callFlutterSendMultipleNullableTypesWithANullableBool:aNullableInt:aNullableString:wrappedError:",
+    );
+late final _sel_callFlutterEchoNIAllNullableTypesWithoutRecursionWithEverything_wrappedError_ =
+    objc.registerName(
+      "callFlutterEchoNIAllNullableTypesWithoutRecursionWithEverything:wrappedError:",
+    );
+late final _sel_callFlutterSendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_wrappedError_ =
+    objc.registerName(
+      "callFlutterSendMultipleNullableTypesWithoutRecursionWithANullableBool:aNullableInt:aNullableString:wrappedError:",
+    );
+late final _sel_callFlutterEchoBoolWithABool_wrappedError_ = objc.registerName(
+  "callFlutterEchoBoolWithABool:wrappedError:",
+);
+late final _sel_callFlutterEchoIntWithAnInt_wrappedError_ = objc.registerName(
+  "callFlutterEchoIntWithAnInt:wrappedError:",
+);
+late final _sel_callFlutterEchoDoubleWithADouble_wrappedError_ = objc
+    .registerName("callFlutterEchoDoubleWithADouble:wrappedError:");
+late final _sel_callFlutterEchoStringWithAString_wrappedError_ = objc
+    .registerName("callFlutterEchoStringWithAString:wrappedError:");
+late final _sel_callFlutterEchoUint8ListWithList_wrappedError_ = objc
+    .registerName("callFlutterEchoUint8ListWithList:wrappedError:");
+late final _sel_callFlutterEchoListWithList_wrappedError_ = objc.registerName(
+  "callFlutterEchoListWithList:wrappedError:",
+);
+late final _sel_callFlutterEchoEnumListWithEnumList_wrappedError_ = objc
+    .registerName("callFlutterEchoEnumListWithEnumList:wrappedError:");
+late final _sel_callFlutterEchoClassListWithClassList_wrappedError_ = objc
+    .registerName("callFlutterEchoClassListWithClassList:wrappedError:");
+late final _sel_callFlutterEchoNonNullEnumListWithEnumList_wrappedError_ = objc
+    .registerName("callFlutterEchoNonNullEnumListWithEnumList:wrappedError:");
+late final _sel_callFlutterEchoNonNullClassListWithClassList_wrappedError_ =
+    objc.registerName(
+      "callFlutterEchoNonNullClassListWithClassList:wrappedError:",
+    );
+late final _sel_callFlutterEchoMapWithMap_wrappedError_ = objc.registerName(
+  "callFlutterEchoMapWithMap:wrappedError:",
+);
+late final _sel_callFlutterEchoStringMapWithStringMap_wrappedError_ = objc
+    .registerName("callFlutterEchoStringMapWithStringMap:wrappedError:");
+late final _sel_callFlutterEchoIntMapWithIntMap_wrappedError_ = objc
+    .registerName("callFlutterEchoIntMapWithIntMap:wrappedError:");
+late final _sel_callFlutterEchoEnumMapWithEnumMap_wrappedError_ = objc
+    .registerName("callFlutterEchoEnumMapWithEnumMap:wrappedError:");
+late final _sel_callFlutterEchoClassMapWithClassMap_wrappedError_ = objc
+    .registerName("callFlutterEchoClassMapWithClassMap:wrappedError:");
+late final _sel_callFlutterEchoNonNullStringMapWithStringMap_wrappedError_ =
+    objc.registerName(
+      "callFlutterEchoNonNullStringMapWithStringMap:wrappedError:",
+    );
+late final _sel_callFlutterEchoNonNullIntMapWithIntMap_wrappedError_ = objc
+    .registerName("callFlutterEchoNonNullIntMapWithIntMap:wrappedError:");
+late final _sel_callFlutterEchoNonNullEnumMapWithEnumMap_wrappedError_ = objc
+    .registerName("callFlutterEchoNonNullEnumMapWithEnumMap:wrappedError:");
+late final _sel_callFlutterEchoNonNullClassMapWithClassMap_wrappedError_ = objc
+    .registerName("callFlutterEchoNonNullClassMapWithClassMap:wrappedError:");
+late final _sel_callFlutterEchoEnumWithAnEnum_wrappedError_ = objc.registerName(
+  "callFlutterEchoEnumWithAnEnum:wrappedError:",
+);
+late final _sel_callFlutterEchoNIAnotherEnumWithAnotherEnum_wrappedError_ = objc
+    .registerName("callFlutterEchoNIAnotherEnumWithAnotherEnum:wrappedError:");
 
 /// Generated setup class from Pigeon to register implemented NIHostIntegrationCoreApi classes.
 ///
@@ -7874,6 +13714,674 @@ extension type NIHostIntegrationCoreApiSetup._(objc.ObjCObject object$)
 
 extension NIHostIntegrationCoreApiSetup$Methods
     on NIHostIntegrationCoreApiSetup {
+  /// callFlutterEchoBoolWithABool:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSNumber? callFlutterEchoBoolWithABool(
+    bool aBool, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoBoolWithABool:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_w1rg4f(
+      object$.ref.pointer,
+      _sel_callFlutterEchoBoolWithABool_wrappedError_,
+      aBool,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSNumber.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoClassListWithClassList:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSArray? callFlutterEchoClassListWithClassList(
+    objc.NSArray classList, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoClassListWithClassList:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoClassListWithClassList_wrappedError_,
+      classList.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSArray.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoClassMapWithClassMap:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? callFlutterEchoClassMapWithClassMap(
+    objc.NSDictionary classMap, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoClassMapWithClassMap:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoClassMapWithClassMap_wrappedError_,
+      classMap.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoDoubleWithADouble:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSNumber? callFlutterEchoDoubleWithADouble(
+    double aDouble, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoDoubleWithADouble:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_1ozwf6k(
+      object$.ref.pointer,
+      _sel_callFlutterEchoDoubleWithADouble_wrappedError_,
+      aDouble,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSNumber.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoEnumListWithEnumList:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSArray? callFlutterEchoEnumListWithEnumList(
+    objc.NSArray enumList, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoEnumListWithEnumList:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoEnumListWithEnumList_wrappedError_,
+      enumList.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSArray.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoEnumMapWithEnumMap:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? callFlutterEchoEnumMapWithEnumMap(
+    objc.NSDictionary enumMap, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoEnumMapWithEnumMap:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoEnumMapWithEnumMap_wrappedError_,
+      enumMap.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoEnumWithAnEnum:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSNumber? callFlutterEchoEnumWithAnEnum(
+    NIAnEnum anEnum, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoEnumWithAnEnum:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_1k0qzru(
+      object$.ref.pointer,
+      _sel_callFlutterEchoEnumWithAnEnum_wrappedError_,
+      anEnum.value,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSNumber.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoIntMapWithIntMap:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? callFlutterEchoIntMapWithIntMap(
+    objc.NSDictionary intMap, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoIntMapWithIntMap:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoIntMapWithIntMap_wrappedError_,
+      intMap.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoIntWithAnInt:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSNumber? callFlutterEchoIntWithAnInt(
+    int anInt, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoIntWithAnInt:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_1j962g9(
+      object$.ref.pointer,
+      _sel_callFlutterEchoIntWithAnInt_wrappedError_,
+      anInt,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSNumber.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoListWithList:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSArray? callFlutterEchoListWithList(
+    objc.NSArray list, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoListWithList:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoListWithList_wrappedError_,
+      list.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSArray.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoMapWithMap:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? callFlutterEchoMapWithMap(
+    objc.NSDictionary map, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoMapWithMap:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoMapWithMap_wrappedError_,
+      map.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoNIAllNullableTypesWithEverything:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  NIAllNullableTypesBridge? callFlutterEchoNIAllNullableTypesWithEverything(
+    NIAllNullableTypesBridge? everything, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoNIAllNullableTypesWithEverything:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoNIAllNullableTypesWithEverything_wrappedError_,
+      everything?.ref.pointer ?? ffi.nullptr,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : NIAllNullableTypesBridge.fromPointer(
+            $ret,
+            retain: true,
+            release: true,
+          );
+  }
+
+  /// callFlutterEchoNIAllNullableTypesWithoutRecursionWithEverything:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  NIAllNullableTypesWithoutRecursionBridge?
+  callFlutterEchoNIAllNullableTypesWithoutRecursionWithEverything(
+    NIAllNullableTypesWithoutRecursionBridge? everything, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoNIAllNullableTypesWithoutRecursionWithEverything:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoNIAllNullableTypesWithoutRecursionWithEverything_wrappedError_,
+      everything?.ref.pointer ?? ffi.nullptr,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : NIAllNullableTypesWithoutRecursionBridge.fromPointer(
+            $ret,
+            retain: true,
+            release: true,
+          );
+  }
+
+  /// callFlutterEchoNIAllTypesWithEverything:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  NIAllTypesBridge? callFlutterEchoNIAllTypesWithEverything(
+    NIAllTypesBridge everything, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoNIAllTypesWithEverything:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoNIAllTypesWithEverything_wrappedError_,
+      everything.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : NIAllTypesBridge.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoNIAnotherEnumWithAnotherEnum:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSNumber? callFlutterEchoNIAnotherEnumWithAnotherEnum(
+    NIAnotherEnum anotherEnum, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoNIAnotherEnumWithAnotherEnum:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_ladeuy(
+      object$.ref.pointer,
+      _sel_callFlutterEchoNIAnotherEnumWithAnotherEnum_wrappedError_,
+      anotherEnum.value,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSNumber.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoNonNullClassListWithClassList:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSArray? callFlutterEchoNonNullClassListWithClassList(
+    objc.NSArray classList, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoNonNullClassListWithClassList:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoNonNullClassListWithClassList_wrappedError_,
+      classList.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSArray.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoNonNullClassMapWithClassMap:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? callFlutterEchoNonNullClassMapWithClassMap(
+    objc.NSDictionary classMap, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoNonNullClassMapWithClassMap:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoNonNullClassMapWithClassMap_wrappedError_,
+      classMap.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoNonNullEnumListWithEnumList:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSArray? callFlutterEchoNonNullEnumListWithEnumList(
+    objc.NSArray enumList, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoNonNullEnumListWithEnumList:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoNonNullEnumListWithEnumList_wrappedError_,
+      enumList.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSArray.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoNonNullEnumMapWithEnumMap:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? callFlutterEchoNonNullEnumMapWithEnumMap(
+    objc.NSDictionary enumMap, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoNonNullEnumMapWithEnumMap:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoNonNullEnumMapWithEnumMap_wrappedError_,
+      enumMap.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoNonNullIntMapWithIntMap:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? callFlutterEchoNonNullIntMapWithIntMap(
+    objc.NSDictionary intMap, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoNonNullIntMapWithIntMap:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoNonNullIntMapWithIntMap_wrappedError_,
+      intMap.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoNonNullStringMapWithStringMap:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? callFlutterEchoNonNullStringMapWithStringMap(
+    objc.NSDictionary stringMap, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoNonNullStringMapWithStringMap:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoNonNullStringMapWithStringMap_wrappedError_,
+      stringMap.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoStringMapWithStringMap:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSDictionary? callFlutterEchoStringMapWithStringMap(
+    objc.NSDictionary stringMap, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoStringMapWithStringMap:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoStringMapWithStringMap_wrappedError_,
+      stringMap.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoStringWithAString:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  objc.NSString? callFlutterEchoStringWithAString(
+    objc.NSString aString, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoStringWithAString:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoStringWithAString_wrappedError_,
+      aString.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSString.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterEchoUint8ListWithList:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  PigeonTypedData? callFlutterEchoUint8ListWithList(
+    PigeonTypedData list, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterEchoUint8ListWithList:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_callFlutterEchoUint8ListWithList_wrappedError_,
+      list.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// callFlutterNoopWithWrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  void callFlutterNoopWithWrappedError(NiTestsError wrappedError) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterNoopWithWrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    _objc_msgSend_xtuoz7(
+      object$.ref.pointer,
+      _sel_callFlutterNoopWithWrappedError_,
+      wrappedError.ref.pointer,
+    );
+  }
+
+  /// callFlutterSendMultipleNullableTypesWithANullableBool:aNullableInt:aNullableString:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  NIAllNullableTypesBridge?
+  callFlutterSendMultipleNullableTypesWithANullableBool(
+    objc.NSNumber? aNullableBool, {
+    objc.NSNumber? aNullableInt,
+    objc.NSString? aNullableString,
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterSendMultipleNullableTypesWithANullableBool:aNullableInt:aNullableString:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_s92gih(
+      object$.ref.pointer,
+      _sel_callFlutterSendMultipleNullableTypesWithANullableBool_aNullableInt_aNullableString_wrappedError_,
+      aNullableBool?.ref.pointer ?? ffi.nullptr,
+      aNullableInt?.ref.pointer ?? ffi.nullptr,
+      aNullableString?.ref.pointer ?? ffi.nullptr,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : NIAllNullableTypesBridge.fromPointer(
+            $ret,
+            retain: true,
+            release: true,
+          );
+  }
+
+  /// callFlutterSendMultipleNullableTypesWithoutRecursionWithANullableBool:aNullableInt:aNullableString:wrappedError:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 16.0.0
+  NIAllNullableTypesWithoutRecursionBridge?
+  callFlutterSendMultipleNullableTypesWithoutRecursionWithANullableBool(
+    objc.NSNumber? aNullableBool, {
+    objc.NSNumber? aNullableInt,
+    objc.NSString? aNullableString,
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterSendMultipleNullableTypesWithoutRecursionWithANullableBool:aNullableInt:aNullableString:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (16, 0, 0)),
+    );
+    final $ret = _objc_msgSend_s92gih(
+      object$.ref.pointer,
+      _sel_callFlutterSendMultipleNullableTypesWithoutRecursionWithANullableBool_aNullableInt_aNullableString_wrappedError_,
+      aNullableBool?.ref.pointer ?? ffi.nullptr,
+      aNullableInt?.ref.pointer ?? ffi.nullptr,
+      aNullableString?.ref.pointer ?? ffi.nullptr,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : NIAllNullableTypesWithoutRecursionBridge.fromPointer(
+            $ret,
+            retain: true,
+            release: true,
+          );
+  }
+
   /// Returns the inner <code>aString</code> value from the wrapped object, to test
   /// sending of nested objects.
   ///

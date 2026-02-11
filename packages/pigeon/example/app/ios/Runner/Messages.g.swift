@@ -301,6 +301,7 @@ class ExampleHostApiSetup {
     }
   }
 }
+
 /// Generated protocol from Pigeon that represents Flutter messages that can be called from Swift.
 protocol MessageFlutterApiProtocol {
   func flutterMethod(

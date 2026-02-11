@@ -4244,6 +4244,7 @@ class HostIntegrationCoreApiSetup {
     }
   }
 }
+
 /// The core interface that the Dart platform_test code implements for host
 /// integration tests to call into.
 ///
@@ -5941,6 +5942,7 @@ class HostSmallApiSetup {
     }
   }
 }
+
 /// A simple API called in some unit tests.
 ///
 /// Generated protocol from Pigeon that represents Flutter messages that can be called from Swift.

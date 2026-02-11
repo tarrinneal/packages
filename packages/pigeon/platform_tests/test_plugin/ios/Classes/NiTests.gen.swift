@@ -155,8 +155,8 @@ struct NIAllTypes {
     let anInt = pigeonVar_list[1] as! Int64
     let anInt64 = pigeonVar_list[2] as! Int64
     let aDouble = pigeonVar_list[3] as! Double
-    let anEnum = pigeonVar_list[4] as! NIAnEnum
-    let anotherEnum = pigeonVar_list[5] as! NIAnotherEnum
+    let anEnum = NIAnEnum(rawValue: pigeonVar_list[4] as! Int)!
+    let anotherEnum = NIAnotherEnum(rawValue: pigeonVar_list[5] as! Int)!
     let aString = pigeonVar_list[6] as! String
     let anObject = pigeonVar_list[7]!
     let list = pigeonVar_list[8] as! [Any?]
@@ -327,8 +327,10 @@ struct NIAllNullableTypesWithoutRecursion {
     let aNullableInt: Int64? = nilOrValue(pigeonVar_list[1])
     let aNullableInt64: Int64? = nilOrValue(pigeonVar_list[2])
     let aNullableDouble: Double? = nilOrValue(pigeonVar_list[3])
-    let aNullableEnum: NIAnEnum? = nilOrValue(pigeonVar_list[4])
-    let anotherNullableEnum: NIAnotherEnum? = nilOrValue(pigeonVar_list[5])
+    let aNullableEnum: NIAnEnum? =
+      isNullish(pigeonVar_list[4]) ? nil : NIAnEnum(rawValue: pigeonVar_list[4] as! Int)
+    let anotherNullableEnum: NIAnotherEnum? =
+      isNullish(pigeonVar_list[5]) ? nil : NIAnotherEnum(rawValue: pigeonVar_list[5] as! Int)
     let aNullableString: String? = nilOrValue(pigeonVar_list[6])
     let aNullableObject: Any? = pigeonVar_list[7]
     let list: [Any?]? = nilOrValue(pigeonVar_list[8])

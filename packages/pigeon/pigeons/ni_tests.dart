@@ -949,131 +949,149 @@ abstract class NIHostIntegrationCoreApi {
   // @SwiftFunction('echoAsyncNullable(_:)')
   NIAnotherEnum? echoAnotherAsyncNullableEnum(NIAnotherEnum? anotherEnum);
 
-  // void callFlutterNoop();
+  void callFlutterNoop();
 
   // Object? callFlutterThrowError();
 
   // void callFlutterThrowErrorFromVoid();
 
-  // @ObjCSelector('callFlutterEchoAllTypes:')
+  @ObjCSelector('callFlutterEchoAllTypes:')
   // @SwiftFunction('callFlutterEcho(_:)')
-  // NIAllTypes callFlutterEchoNIAllTypes(NIAllTypes everything);
+  NIAllTypes callFlutterEchoNIAllTypes(NIAllTypes everything);
 
-  // @ObjCSelector('callFlutterEchoAllNullableTypes:')
+  @ObjCSelector('callFlutterEchoAllNullableTypes:')
   // @SwiftFunction('callFlutterEcho(_:)')
-  // NIAllNullableTypes? callFlutterEchoNIAllNullableTypes(
-  //     NIAllNullableTypes? everything);
+  NIAllNullableTypes? callFlutterEchoNIAllNullableTypes(
+    NIAllNullableTypes? everything,
+  );
 
-  // @ObjCSelector('callFlutterSendMultipleNullableTypesABool:anInt:aString:')
+  @ObjCSelector('callFlutterSendMultipleNullableTypesABool:anInt:aString:')
   // @SwiftFunction('callFlutterSendMultipleNullableTypes(aBool:anInt:aString:)')
-  // NIAllNullableTypes callFlutterSendMultipleNullableTypes(
-  //     bool? aNullableBool, int? aNullableInt, String? aNullableString);
+  NIAllNullableTypes callFlutterSendMultipleNullableTypes(
+    bool? aNullableBool,
+    int? aNullableInt,
+    String? aNullableString,
+  );
 
-  // @ObjCSelector('callFlutterEchoNIAllNullableTypesWithoutRecursion:')
+  @ObjCSelector('callFlutterEchoNIAllNullableTypesWithoutRecursion:')
   // @SwiftFunction('callFlutterEcho(_:)')
-  // NIAllNullableTypesWithoutRecursion?
-  //     callFlutterEchoNIAllNullableTypesWithoutRecursion(
-  //         NIAllNullableTypesWithoutRecursion? everything);
+  NIAllNullableTypesWithoutRecursion?
+  callFlutterEchoNIAllNullableTypesWithoutRecursion(
+    NIAllNullableTypesWithoutRecursion? everything,
+  );
 
-  // @ObjCSelector(
-  //     'callFlutterSendMultipleNullableTypesWithoutRecursionABool:anInt:aString:')
+  @ObjCSelector(
+    'callFlutterSendMultipleNullableTypesWithoutRecursionABool:anInt:aString:',
+  )
   // @SwiftFunction(
-  //     'callFlutterSendMultipleNullableTypesWithoutRecursion(aBool:anInt:aString:)')
-  // NIAllNullableTypesWithoutRecursion
-  //     callFlutterSendMultipleNullableTypesWithoutRecursion(
-  //         bool? aNullableBool, int? aNullableInt, String? aNullableString);
+  //   'callFlutterSendMultipleNullableTypesWithoutRecursion(aBool:anInt:aString:)',
+  // )
+  NIAllNullableTypesWithoutRecursion
+  callFlutterSendMultipleNullableTypesWithoutRecursion(
+    bool? aNullableBool,
+    int? aNullableInt,
+    String? aNullableString,
+  );
 
-  // @ObjCSelector('callFlutterEchoBool:')
+  @ObjCSelector('callFlutterEchoBool:')
   // @SwiftFunction('callFlutterEcho(_:)')
-  // bool callFlutterEchoBool(bool aBool);
+  bool callFlutterEchoBool(bool aBool);
 
-  // @ObjCSelector('callFlutterEchoInt:')
+  @ObjCSelector('callFlutterEchoInt:')
   // @SwiftFunction('callFlutterEcho(_:)')
-  // int callFlutterEchoInt(int anInt);
+  int callFlutterEchoInt(int anInt);
 
-  // @ObjCSelector('callFlutterEchoDouble:')
+  @ObjCSelector('callFlutterEchoDouble:')
   // @SwiftFunction('callFlutterEcho(_:)')
-  // double callFlutterEchoDouble(double aDouble);
+  double callFlutterEchoDouble(double aDouble);
 
-  // @ObjCSelector('callFlutterEchoString:')
+  @ObjCSelector('callFlutterEchoString:')
   // @SwiftFunction('callFlutterEcho(_:)')
-  // String callFlutterEchoString(String aString);
+  String callFlutterEchoString(String aString);
 
-  // @ObjCSelector('callFlutterEchoUint8List:')
+  @ObjCSelector('callFlutterEchoUint8List:')
   // @SwiftFunction('callFlutterEcho(_:)')
-  // Uint8List callFlutterEchoUint8List(Uint8List list);
+  Uint8List callFlutterEchoUint8List(Uint8List list);
 
-  // @ObjCSelector('callFlutterEchoList:')
+  @ObjCSelector('callFlutterEchoList:')
   // @SwiftFunction('callFlutterEcho(_:)')
-  // List<Object?> callFlutterEchoList(List<Object?> list);
+  List<Object?> callFlutterEchoList(List<Object?> list);
 
-  // @ObjCSelector('callFlutterEchoEnumList:')
+  @ObjCSelector('callFlutterEchoEnumList:')
   // @SwiftFunction('callFlutterEcho(enumList:)')
-  // List<NIAnEnum?> callFlutterEchoEnumList(List<NIAnEnum?> enumList);
+  List<NIAnEnum?> callFlutterEchoEnumList(List<NIAnEnum?> enumList);
 
-  // @ObjCSelector('callFlutterEchoClassList:')
+  @ObjCSelector('callFlutterEchoClassList:')
   // @SwiftFunction('callFlutterEcho(classList:)')
-  // List<NIAllNullableTypes?> callFlutterEchoClassList(
-  //     List<NIAllNullableTypes?> classList);
+  List<NIAllNullableTypes?> callFlutterEchoClassList(
+    List<NIAllNullableTypes?> classList,
+  );
 
-  // @ObjCSelector('callFlutterEchoNonNullEnumList:')
+  @ObjCSelector('callFlutterEchoNonNullEnumList:')
   // @SwiftFunction('callFlutterEchoNonNull(enumList:)')
-  // List<NIAnEnum> callFlutterEchoNonNullEnumList(List<NIAnEnum> enumList);
+  List<NIAnEnum> callFlutterEchoNonNullEnumList(List<NIAnEnum> enumList);
 
-  // @ObjCSelector('callFlutterEchoNonNullClassList:')
+  @ObjCSelector('callFlutterEchoNonNullClassList:')
   // @SwiftFunction('callFlutterEchoNonNull(classList:)')
-  // List<NIAllNullableTypes> callFlutterEchoNonNullClassList(
-  //     List<NIAllNullableTypes> classList);
+  List<NIAllNullableTypes> callFlutterEchoNonNullClassList(
+    List<NIAllNullableTypes> classList,
+  );
 
-  // @ObjCSelector('callFlutterEchoMap:')
+  @ObjCSelector('callFlutterEchoMap:')
   // @SwiftFunction('callFlutterEcho(_:)')
-  // Map<Object?, Object?> callFlutterEchoMap(Map<Object?, Object?> map);
+  Map<Object?, Object?> callFlutterEchoMap(Map<Object?, Object?> map);
 
-  // @ObjCSelector('callFlutterEchoStringMap:')
+  @ObjCSelector('callFlutterEchoStringMap:')
   // @SwiftFunction('callFlutterEcho(stringMap:)')
-  // Map<String?, String?> callFlutterEchoStringMap(
-  //     Map<String?, String?> stringMap);
+  Map<String?, String?> callFlutterEchoStringMap(
+    Map<String?, String?> stringMap,
+  );
 
-  // @ObjCSelector('callFlutterEchoIntMap:')
+  @ObjCSelector('callFlutterEchoIntMap:')
   // @SwiftFunction('callFlutterEcho(intMap:)')
-  // Map<int?, int?> callFlutterEchoIntMap(Map<int?, int?> intMap);
+  Map<int?, int?> callFlutterEchoIntMap(Map<int?, int?> intMap);
 
-  // @ObjCSelector('callFlutterEchoEnumMap:')
+  @ObjCSelector('callFlutterEchoEnumMap:')
   // @SwiftFunction('callFlutterEcho(enumMap:)')
-  // Map<NIAnEnum?, NIAnEnum?> callFlutterEchoEnumMap(
-  //     Map<NIAnEnum?, NIAnEnum?> enumMap);
+  Map<NIAnEnum?, NIAnEnum?> callFlutterEchoEnumMap(
+    Map<NIAnEnum?, NIAnEnum?> enumMap,
+  );
 
-  // @ObjCSelector('callFlutterEchoClassMap:')
+  @ObjCSelector('callFlutterEchoClassMap:')
   // @SwiftFunction('callFlutterEcho(classMap:)')
-  // Map<int?, NIAllNullableTypes?> callFlutterEchoClassMap(
-  //     Map<int?, NIAllNullableTypes?> classMap);
+  Map<int?, NIAllNullableTypes?> callFlutterEchoClassMap(
+    Map<int?, NIAllNullableTypes?> classMap,
+  );
 
-  // @ObjCSelector('callFlutterEchoNonNullStringMap:')
+  @ObjCSelector('callFlutterEchoNonNullStringMap:')
   // @SwiftFunction('callFlutterEchoNonNull(stringMap:)')
-  // Map<String, String> callFlutterEchoNonNullStringMap(
-  //     Map<String, String> stringMap);
+  Map<String, String> callFlutterEchoNonNullStringMap(
+    Map<String, String> stringMap,
+  );
 
-  // @ObjCSelector('callFlutterEchoNonNullIntMap:')
+  @ObjCSelector('callFlutterEchoNonNullIntMap:')
   // @SwiftFunction('callFlutterEchoNonNull(intMap:)')
-  // Map<int, int> callFlutterEchoNonNullIntMap(Map<int, int> intMap);
+  Map<int, int> callFlutterEchoNonNullIntMap(Map<int, int> intMap);
 
-  // @ObjCSelector('callFlutterEchoNonNullEnumMap:')
+  @ObjCSelector('callFlutterEchoNonNullEnumMap:')
   // @SwiftFunction('callFlutterEchoNonNull(enumMap:)')
-  // Map<NIAnEnum, NIAnEnum> callFlutterEchoNonNullEnumMap(
-  //     Map<NIAnEnum, NIAnEnum> enumMap);
+  Map<NIAnEnum, NIAnEnum> callFlutterEchoNonNullEnumMap(
+    Map<NIAnEnum, NIAnEnum> enumMap,
+  );
 
-  // @ObjCSelector('callFlutterEchoNonNullClassMap:')
+  @ObjCSelector('callFlutterEchoNonNullClassMap:')
   // @SwiftFunction('callFlutterEchoNonNull(classMap:)')
-  // Map<int, NIAllNullableTypes> callFlutterEchoNonNullClassMap(
-  //     Map<int, NIAllNullableTypes> classMap);
+  Map<int, NIAllNullableTypes> callFlutterEchoNonNullClassMap(
+    Map<int, NIAllNullableTypes> classMap,
+  );
 
-  // @ObjCSelector('callFlutterEchoEnum:')
+  @ObjCSelector('callFlutterEchoEnum:')
   // @SwiftFunction('callFlutterEcho(_:)')
-  // NIAnEnum callFlutterEchoEnum(NIAnEnum anEnum);
+  NIAnEnum callFlutterEchoEnum(NIAnEnum anEnum);
 
-  // @ObjCSelector('callFlutterEchoAnotherEnum:')
+  @ObjCSelector('callFlutterEchoAnotherEnum:')
   // @SwiftFunction('callFlutterEcho(_:)')
-  // NIAnotherEnum callFlutterEchoNIAnotherEnum(NIAnotherEnum anotherEnum);
+  NIAnotherEnum callFlutterEchoNIAnotherEnum(NIAnotherEnum anotherEnum);
 
   // @ObjCSelector('callFlutterEchoNullableBool:')
   // @SwiftFunction('callFlutterEchoNullable(_:)')
@@ -1106,17 +1124,20 @@ abstract class NIHostIntegrationCoreApi {
   // @ObjCSelector('callFlutterEchoNullableClassList:')
   // @SwiftFunction('callFlutterEchoNullable(classList:)')
   // List<NIAllNullableTypes?>? callFlutterEchoNullableClassList(
-  //     List<NIAllNullableTypes?>? classList);
+  //   List<NIAllNullableTypes?>? classList,
+  // );
 
   // @ObjCSelector('callFlutterEchoNullableNonNullEnumList:')
   // @SwiftFunction('callFlutterEchoNullableNonNull(enumList:)')
   // List<NIAnEnum>? callFlutterEchoNullableNonNullEnumList(
-  //     List<NIAnEnum>? enumList);
+  //   List<NIAnEnum>? enumList,
+  // );
 
   // @ObjCSelector('callFlutterEchoNullableNonNullClassList:')
   // @SwiftFunction('callFlutterEchoNullableNonNull(classList:)')
   // List<NIAllNullableTypes>? callFlutterEchoNullableNonNullClassList(
-  //     List<NIAllNullableTypes>? classList);
+  //   List<NIAllNullableTypes>? classList,
+  // );
 
   // @ObjCSelector('callFlutterEchoNullableMap:')
   // @SwiftFunction('callFlutterEchoNullable(_:)')
@@ -1125,7 +1146,8 @@ abstract class NIHostIntegrationCoreApi {
   // @ObjCSelector('callFlutterEchoNullableStringMap:')
   // @SwiftFunction('callFlutterEchoNullable(stringMap:)')
   // Map<String?, String?>? callFlutterEchoNullableStringMap(
-  //     Map<String?, String?>? stringMap);
+  //   Map<String?, String?>? stringMap,
+  // );
 
   // @ObjCSelector('callFlutterEchoNullableIntMap:')
   // @SwiftFunction('callFlutterEchoNullable(intMap:)')
@@ -1134,17 +1156,20 @@ abstract class NIHostIntegrationCoreApi {
   // @ObjCSelector('callFlutterEchoNullableEnumMap:')
   // @SwiftFunction('callFlutterEchoNullable(enumMap:)')
   // Map<NIAnEnum?, NIAnEnum?>? callFlutterEchoNullableEnumMap(
-  //     Map<NIAnEnum?, NIAnEnum?>? enumMap);
+  //   Map<NIAnEnum?, NIAnEnum?>? enumMap,
+  // );
 
   // @ObjCSelector('callFlutterEchoNullableClassMap:')
   // @SwiftFunction('callFlutterEchoNullable(classMap:)')
   // Map<int?, NIAllNullableTypes?>? callFlutterEchoNullableClassMap(
-  //     Map<int?, NIAllNullableTypes?>? classMap);
+  //   Map<int?, NIAllNullableTypes?>? classMap,
+  // );
 
   // @ObjCSelector('callFlutterEchoNullableNonNullStringMap:')
   // @SwiftFunction('callFlutterEchoNullableNonNull(stringMap:)')
   // Map<String, String>? callFlutterEchoNullableNonNullStringMap(
-  //     Map<String, String>? stringMap);
+  //   Map<String, String>? stringMap,
+  // );
 
   // @ObjCSelector('callFlutterEchoNullableNonNullIntMap:')
   // @SwiftFunction('callFlutterEchoNullableNonNull(intMap:)')
@@ -1153,12 +1178,14 @@ abstract class NIHostIntegrationCoreApi {
   // @ObjCSelector('callFlutterEchoNullableNonNullEnumMap:')
   // @SwiftFunction('callFlutterEchoNullableNonNull(enumMap:)')
   // Map<NIAnEnum, NIAnEnum>? callFlutterEchoNullableNonNullEnumMap(
-  //     Map<NIAnEnum, NIAnEnum>? enumMap);
+  //   Map<NIAnEnum, NIAnEnum>? enumMap,
+  // );
 
   // @ObjCSelector('callFlutterEchoNullableNonNullClassMap:')
   // @SwiftFunction('callFlutterEchoNullableNonNull(classMap:)')
   // Map<int, NIAllNullableTypes>? callFlutterEchoNullableNonNullClassMap(
-  //     Map<int, NIAllNullableTypes>? classMap);
+  //   Map<int, NIAllNullableTypes>? classMap,
+  // );
 
   // @ObjCSelector('callFlutterEchoNullableEnum:')
   // @SwiftFunction('callFlutterEchoNullable(_:)')
@@ -1203,291 +1230,302 @@ abstract class NIHostIntegrationCoreApi {
 //   void voidVoid();
 // }
 
-// /// The core interface that the Dart platform_test code implements for host
-// /// integration tests to call into.
-// @FlutterApi()
-// abstract class NIFlutterIntegrationCoreApi {
-//   /// A no-op function taking no arguments and returning no value, to sanity
-//   /// test basic calling.
-//   void noop();
+/// The core interface that the Dart platform_test code implements for host
+/// integration tests to call into.
+@FlutterApi()
+abstract class NIFlutterIntegrationCoreApi {
+  /// A no-op function taking no arguments and returning no value, to sanity
+  /// test basic calling.
+  void noop();
 
-//   /// Responds with an error from an async function returning a value.
-//   Object? throwError();
+  //   /// Responds with an error from an async function returning a value.
+  //   Object? throwError();
 
-//   /// Responds with an error from an async void function.
-//   void throwErrorFromVoid();
+  //   /// Responds with an error from an async void function.
+  //   void throwErrorFromVoid();
 
-//   /// Returns the passed object, to test serialization and deserialization.
-//   @ObjCSelector('echoNIAllTypes:')
-//   @SwiftFunction('echo(_:)')
-//   NIAllTypes echoNIAllTypes(NIAllTypes everything);
+  /// Returns the passed object, to test serialization and deserialization.
+  @ObjCSelector('echoNIAllTypes:')
+  // @SwiftFunction('echo(_:)')
+  NIAllTypes echoNIAllTypes(NIAllTypes everything);
 
-//   /// Returns the passed object, to test serialization and deserialization.
-//   @ObjCSelector('echoNIAllNullableTypes:')
-//   @SwiftFunction('echoNullable(_:)')
-//   NIAllNullableTypes? echoNIAllNullableTypes(NIAllNullableTypes? everything);
+  /// Returns the passed object, to test serialization and deserialization.
+  @ObjCSelector('echoNIAllNullableTypes:')
+  @SwiftFunction('echoNullable(_:)')
+  NIAllNullableTypes? echoNIAllNullableTypes(NIAllNullableTypes? everything);
 
-//   /// Returns passed in arguments of multiple types.
-//   ///
-//   /// Tests multiple-arity FlutterApi handling.
-//   @ObjCSelector('sendMultipleNullableTypesABool:anInt:aString:')
-//   @SwiftFunction('sendMultipleNullableTypes(aBool:anInt:aString:)')
-//   NIAllNullableTypes sendMultipleNullableTypes(
-//       bool? aNullableBool, int? aNullableInt, String? aNullableString);
+  /// Returns passed in arguments of multiple types.
+  ///
+  /// Tests multiple-arity FlutterApi handling.
+  @ObjCSelector('sendMultipleNullableTypesABool:anInt:aString:')
+  @SwiftFunction('sendMultipleNullableTypes(aBool:anInt:aString:)')
+  NIAllNullableTypes sendMultipleNullableTypes(
+    bool? aNullableBool,
+    int? aNullableInt,
+    String? aNullableString,
+  );
 
-//   /// Returns the passed object, to test serialization and deserialization.
-//   @ObjCSelector('echoNIAllNullableTypesWithoutRecursion:')
-//   @SwiftFunction('echoNullable(_:)')
-//   NIAllNullableTypesWithoutRecursion? echoNIAllNullableTypesWithoutRecursion(
-//       NIAllNullableTypesWithoutRecursion? everything);
+  /// Returns the passed object, to test serialization and deserialization.
+  @ObjCSelector('echoNIAllNullableTypesWithoutRecursion:')
+  @SwiftFunction('echoNullable(_:)')
+  NIAllNullableTypesWithoutRecursion? echoNIAllNullableTypesWithoutRecursion(
+    NIAllNullableTypesWithoutRecursion? everything,
+  );
 
-//   /// Returns passed in arguments of multiple types.
-//   ///
-//   /// Tests multiple-arity FlutterApi handling.
-//   @ObjCSelector('sendMultipleNullableTypesWithoutRecursionABool:anInt:aString:')
-//   @SwiftFunction(
-//       'sendMultipleNullableTypesWithoutRecursion(aBool:anInt:aString:)')
-//   NIAllNullableTypesWithoutRecursion sendMultipleNullableTypesWithoutRecursion(
-//       bool? aNullableBool, int? aNullableInt, String? aNullableString);
+  /// Returns passed in arguments of multiple types.
+  ///
+  /// Tests multiple-arity FlutterApi handling.
+  @ObjCSelector('sendMultipleNullableTypesWithoutRecursionABool:anInt:aString:')
+  @SwiftFunction(
+    'sendMultipleNullableTypesWithoutRecursion(aBool:anInt:aString:)',
+  )
+  NIAllNullableTypesWithoutRecursion sendMultipleNullableTypesWithoutRecursion(
+    bool? aNullableBool,
+    int? aNullableInt,
+    String? aNullableString,
+  );
 
-//   // ========== Non-nullable argument/return type tests ==========
+  //   // ========== Non-nullable argument/return type tests ==========
 
-//   /// Returns the passed boolean, to test serialization and deserialization.
-//   @ObjCSelector('echoBool:')
-//   @SwiftFunction('echo(_:)')
-//   bool echoBool(bool aBool);
+  /// Returns the passed boolean, to test serialization and deserialization.
+  @ObjCSelector('echoBool:')
+  // @SwiftFunction('echo(_:)')
+  bool echoBool(bool aBool);
 
-//   /// Returns the passed int, to test serialization and deserialization.
-//   @ObjCSelector('echoInt:')
-//   @SwiftFunction('echo(_:)')
-//   int echoInt(int anInt);
+  /// Returns the passed int, to test serialization and deserialization.
+  @ObjCSelector('echoInt:')
+  @SwiftFunction('echo(_:)')
+  int echoInt(int anInt);
 
-//   /// Returns the passed double, to test serialization and deserialization.
-//   @ObjCSelector('echoDouble:')
-//   @SwiftFunction('echo(_:)')
-//   double echoDouble(double aDouble);
+  /// Returns the passed double, to test serialization and deserialization.
+  @ObjCSelector('echoDouble:')
+  @SwiftFunction('echo(_:)')
+  double echoDouble(double aDouble);
 
-//   /// Returns the passed string, to test serialization and deserialization.
-//   @ObjCSelector('echoString:')
-//   @SwiftFunction('echo(_:)')
-//   String echoString(String aString);
+  /// Returns the passed string, to test serialization and deserialization.
+  @ObjCSelector('echoString:')
+  @SwiftFunction('echo(_:)')
+  String echoString(String aString);
 
-//   /// Returns the passed byte list, to test serialization and deserialization.
-//   @ObjCSelector('echoUint8List:')
-//   @SwiftFunction('echo(_:)')
-//   Uint8List echoUint8List(Uint8List list);
+  /// Returns the passed byte list, to test serialization and deserialization.
+  @ObjCSelector('echoUint8List:')
+  @SwiftFunction('echo(_:)')
+  Uint8List echoUint8List(Uint8List list);
 
-//   /// Returns the passed list, to test serialization and deserialization.
-//   @ObjCSelector('echoList:')
-//   @SwiftFunction('echo(_:)')
-//   List<Object?> echoList(List<Object?> list);
+  /// Returns the passed list, to test serialization and deserialization.
+  @ObjCSelector('echoList:')
+  @SwiftFunction('echo(_:)')
+  List<Object?> echoList(List<Object?> list);
 
-//   /// Returns the passed list, to test serialization and deserialization.
-//   @ObjCSelector('echoEnumList:')
-//   @SwiftFunction('echo(enumList:)')
-//   List<NIAnEnum?> echoEnumList(List<NIAnEnum?> enumList);
+  /// Returns the passed list, to test serialization and deserialization.
+  @ObjCSelector('echoEnumList:')
+  @SwiftFunction('echo(enumList:)')
+  List<NIAnEnum?> echoEnumList(List<NIAnEnum?> enumList);
 
-//   /// Returns the passed list, to test serialization and deserialization.
-//   @ObjCSelector('echoClassList:')
-//   @SwiftFunction('echo(classList:)')
-//   List<NIAllNullableTypes?> echoClassList(List<NIAllNullableTypes?> classList);
+  /// Returns the passed list, to test serialization and deserialization.
+  @ObjCSelector('echoClassList:')
+  @SwiftFunction('echo(classList:)')
+  List<NIAllNullableTypes?> echoClassList(List<NIAllNullableTypes?> classList);
 
-//   /// Returns the passed list, to test serialization and deserialization.
-//   @ObjCSelector('echoNonNullEnumList:')
-//   @SwiftFunction('echoNonNull(enumList:)')
-//   List<NIAnEnum> echoNonNullEnumList(List<NIAnEnum> enumList);
+  /// Returns the passed list, to test serialization and deserialization.
+  @ObjCSelector('echoNonNullEnumList:')
+  @SwiftFunction('echoNonNull(enumList:)')
+  List<NIAnEnum> echoNonNullEnumList(List<NIAnEnum> enumList);
 
-//   /// Returns the passed list, to test serialization and deserialization.
-//   @ObjCSelector('echoNonNullClassList:')
-//   @SwiftFunction('echoNonNull(classList:)')
-//   List<NIAllNullableTypes> echoNonNullClassList(
-//       List<NIAllNullableTypes> classList);
+  /// Returns the passed list, to test serialization and deserialization.
+  @ObjCSelector('echoNonNullClassList:')
+  @SwiftFunction('echoNonNull(classList:)')
+  List<NIAllNullableTypes> echoNonNullClassList(
+    List<NIAllNullableTypes> classList,
+  );
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoMap:')
-//   @SwiftFunction('echo(_:)')
-//   Map<Object?, Object?> echoMap(Map<Object?, Object?> map);
+  /// Returns the passed map, to test serialization and deserialization.
+  @ObjCSelector('echoMap:')
+  @SwiftFunction('echo(_:)')
+  Map<Object?, Object?> echoMap(Map<Object?, Object?> map);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoStringMap:')
-//   @SwiftFunction('echo(stringMap:)')
-//   Map<String?, String?> echoStringMap(Map<String?, String?> stringMap);
+  /// Returns the passed map, to test serialization and deserialization.
+  @ObjCSelector('echoStringMap:')
+  @SwiftFunction('echo(stringMap:)')
+  Map<String?, String?> echoStringMap(Map<String?, String?> stringMap);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoIntMap:')
-//   @SwiftFunction('echo(intMap:)')
-//   Map<int?, int?> echoIntMap(Map<int?, int?> intMap);
+  /// Returns the passed map, to test serialization and deserialization.
+  @ObjCSelector('echoIntMap:')
+  @SwiftFunction('echo(intMap:)')
+  Map<int?, int?> echoIntMap(Map<int?, int?> intMap);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoEnumMap:')
-//   @SwiftFunction('echo(enumMap:)')
-//   Map<NIAnEnum?, NIAnEnum?> echoEnumMap(Map<NIAnEnum?, NIAnEnum?> enumMap);
+  /// Returns the passed map, to test serialization and deserialization.
+  @ObjCSelector('echoEnumMap:')
+  @SwiftFunction('echo(enumMap:)')
+  Map<NIAnEnum?, NIAnEnum?> echoEnumMap(Map<NIAnEnum?, NIAnEnum?> enumMap);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoClassMap:')
-//   @SwiftFunction('echo(classMap:)')
-//   Map<int?, NIAllNullableTypes?> echoClassMap(
-//       Map<int?, NIAllNullableTypes?> classMap);
+  /// Returns the passed map, to test serialization and deserialization.
+  @ObjCSelector('echoClassMap:')
+  @SwiftFunction('echo(classMap:)')
+  Map<int?, NIAllNullableTypes?> echoClassMap(
+    Map<int?, NIAllNullableTypes?> classMap,
+  );
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoNonNullStringMap:')
-//   @SwiftFunction('echoNonNull(stringMap:)')
-//   Map<String, String> echoNonNullStringMap(Map<String, String> stringMap);
+  /// Returns the passed map, to test serialization and deserialization.
+  @ObjCSelector('echoNonNullStringMap:')
+  @SwiftFunction('echoNonNull(stringMap:)')
+  Map<String, String> echoNonNullStringMap(Map<String, String> stringMap);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoNonNullIntMap:')
-//   @SwiftFunction('echoNonNull(intMap:)')
-//   Map<int, int> echoNonNullIntMap(Map<int, int> intMap);
+  /// Returns the passed map, to test serialization and deserialization.
+  @ObjCSelector('echoNonNullIntMap:')
+  @SwiftFunction('echoNonNull(intMap:)')
+  Map<int, int> echoNonNullIntMap(Map<int, int> intMap);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoNonNullEnumMap:')
-//   @SwiftFunction('echoNonNull(enumMap:)')
-//   Map<NIAnEnum, NIAnEnum> echoNonNullEnumMap(Map<NIAnEnum, NIAnEnum> enumMap);
+  /// Returns the passed map, to test serialization and deserialization.
+  @ObjCSelector('echoNonNullEnumMap:')
+  @SwiftFunction('echoNonNull(enumMap:)')
+  Map<NIAnEnum, NIAnEnum> echoNonNullEnumMap(Map<NIAnEnum, NIAnEnum> enumMap);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoNonNullClassMap:')
-//   @SwiftFunction('echoNonNull(classMap:)')
-//   Map<int, NIAllNullableTypes> echoNonNullClassMap(
-//       Map<int, NIAllNullableTypes> classMap);
+  /// Returns the passed map, to test serialization and deserialization.
+  @ObjCSelector('echoNonNullClassMap:')
+  @SwiftFunction('echoNonNull(classMap:)')
+  Map<int, NIAllNullableTypes> echoNonNullClassMap(
+    Map<int, NIAllNullableTypes> classMap,
+  );
 
-//   /// Returns the passed enum to test serialization and deserialization.
-//   @ObjCSelector('echoEnum:')
-//   @SwiftFunction('echo(_:)')
-//   NIAnEnum echoEnum(NIAnEnum anEnum);
+  /// Returns the passed enum to test serialization and deserialization.
+  @ObjCSelector('echoEnum:')
+  @SwiftFunction('echo(_:)')
+  NIAnEnum echoEnum(NIAnEnum anEnum);
 
-//   /// Returns the passed enum to test serialization and deserialization.
-//   @ObjCSelector('echoAnotherEnum:')
-//   @SwiftFunction('echo(_:)')
-//   NIAnotherEnum echoNIAnotherEnum(NIAnotherEnum anotherEnum);
+  /// Returns the passed enum to test serialization and deserialization.
+  @ObjCSelector('echoAnotherEnum:')
+  @SwiftFunction('echo(_:)')
+  NIAnotherEnum echoNIAnotherEnum(NIAnotherEnum anotherEnum);
 
-//   // ========== Nullable argument/return type tests ==========
+  //   // ========== Nullable argument/return type tests ==========
 
-//   /// Returns the passed boolean, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableBool:')
-//   @SwiftFunction('echoNullable(_:)')
-//   bool? echoNullableBool(bool? aBool);
+  //   /// Returns the passed boolean, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableBool:')
+  //   @SwiftFunction('echoNullable(_:)')
+  //   bool? echoNullableBool(bool? aBool);
 
-//   /// Returns the passed int, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableInt:')
-//   @SwiftFunction('echoNullable(_:)')
-//   int? echoNullableInt(int? anInt);
+  //   /// Returns the passed int, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableInt:')
+  //   @SwiftFunction('echoNullable(_:)')
+  //   int? echoNullableInt(int? anInt);
 
-//   /// Returns the passed double, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableDouble:')
-//   @SwiftFunction('echoNullable(_:)')
-//   double? echoNullableDouble(double? aDouble);
+  //   /// Returns the passed double, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableDouble:')
+  //   @SwiftFunction('echoNullable(_:)')
+  //   double? echoNullableDouble(double? aDouble);
 
-//   /// Returns the passed string, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableString:')
-//   @SwiftFunction('echoNullable(_:)')
-//   String? echoNullableString(String? aString);
+  //   /// Returns the passed string, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableString:')
+  //   @SwiftFunction('echoNullable(_:)')
+  //   String? echoNullableString(String? aString);
 
-//   /// Returns the passed byte list, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableUint8List:')
-//   @SwiftFunction('echoNullable(_:)')
-//   Uint8List? echoNullableUint8List(Uint8List? list);
+  //   /// Returns the passed byte list, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableUint8List:')
+  //   @SwiftFunction('echoNullable(_:)')
+  //   Uint8List? echoNullableUint8List(Uint8List? list);
 
-//   /// Returns the passed list, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableList:')
-//   @SwiftFunction('echoNullable(_:)')
-//   List<Object?>? echoNullableList(List<Object?>? list);
+  //   /// Returns the passed list, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableList:')
+  //   @SwiftFunction('echoNullable(_:)')
+  //   List<Object?>? echoNullableList(List<Object?>? list);
 
-//   /// Returns the passed list, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableEnumList:')
-//   @SwiftFunction('echoNullable(enumList:)')
-//   List<NIAnEnum?>? echoNullableEnumList(List<NIAnEnum?>? enumList);
+  //   /// Returns the passed list, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableEnumList:')
+  //   @SwiftFunction('echoNullable(enumList:)')
+  //   List<NIAnEnum?>? echoNullableEnumList(List<NIAnEnum?>? enumList);
 
-//   /// Returns the passed list, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableClassList:')
-//   @SwiftFunction('echoNullable(classList:)')
-//   List<NIAllNullableTypes?>? echoNullableClassList(
-//       List<NIAllNullableTypes?>? classList);
+  //   /// Returns the passed list, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableClassList:')
+  //   @SwiftFunction('echoNullable(classList:)')
+  //   List<NIAllNullableTypes?>? echoNullableClassList(
+  //       List<NIAllNullableTypes?>? classList);
 
-//   /// Returns the passed list, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableNonNullEnumList:')
-//   @SwiftFunction('echoNullableNonNull(enumList:)')
-//   List<NIAnEnum>? echoNullableNonNullEnumList(List<NIAnEnum>? enumList);
+  //   /// Returns the passed list, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableNonNullEnumList:')
+  //   @SwiftFunction('echoNullableNonNull(enumList:)')
+  //   List<NIAnEnum>? echoNullableNonNullEnumList(List<NIAnEnum>? enumList);
 
-//   /// Returns the passed list, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableNonNullClassList:')
-//   @SwiftFunction('echoNullableNonNull(classList:)')
-//   List<NIAllNullableTypes>? echoNullableNonNullClassList(
-//       List<NIAllNullableTypes>? classList);
+  //   /// Returns the passed list, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableNonNullClassList:')
+  //   @SwiftFunction('echoNullableNonNull(classList:)')
+  //   List<NIAllNullableTypes>? echoNullableNonNullClassList(
+  //       List<NIAllNullableTypes>? classList);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableMap:')
-//   @SwiftFunction('echoNullable(_:)')
-//   Map<Object?, Object?>? echoNullableMap(Map<Object?, Object?>? map);
+  //   /// Returns the passed map, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableMap:')
+  //   @SwiftFunction('echoNullable(_:)')
+  //   Map<Object?, Object?>? echoNullableMap(Map<Object?, Object?>? map);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableStringMap:')
-//   @SwiftFunction('echoNullable(stringMap:)')
-//   Map<String?, String?>? echoNullableStringMap(
-//       Map<String?, String?>? stringMap);
+  //   /// Returns the passed map, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableStringMap:')
+  //   @SwiftFunction('echoNullable(stringMap:)')
+  //   Map<String?, String?>? echoNullableStringMap(
+  //       Map<String?, String?>? stringMap);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableIntMap:')
-//   @SwiftFunction('echoNullable(intMap:)')
-//   Map<int?, int?>? echoNullableIntMap(Map<int?, int?>? intMap);
+  //   /// Returns the passed map, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableIntMap:')
+  //   @SwiftFunction('echoNullable(intMap:)')
+  //   Map<int?, int?>? echoNullableIntMap(Map<int?, int?>? intMap);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableEnumMap:')
-//   @SwiftFunction('echoNullable(enumMap:)')
-//   Map<NIAnEnum?, NIAnEnum?>? echoNullableEnumMap(
-//       Map<NIAnEnum?, NIAnEnum?>? enumMap);
+  //   /// Returns the passed map, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableEnumMap:')
+  //   @SwiftFunction('echoNullable(enumMap:)')
+  //   Map<NIAnEnum?, NIAnEnum?>? echoNullableEnumMap(
+  //       Map<NIAnEnum?, NIAnEnum?>? enumMap);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableClassMap:')
-//   @SwiftFunction('echoNullable(classMap:)')
-//   Map<int?, NIAllNullableTypes?>? echoNullableClassMap(
-//       Map<int?, NIAllNullableTypes?>? classMap);
+  //   /// Returns the passed map, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableClassMap:')
+  //   @SwiftFunction('echoNullable(classMap:)')
+  //   Map<int?, NIAllNullableTypes?>? echoNullableClassMap(
+  //       Map<int?, NIAllNullableTypes?>? classMap);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableNonNullStringMap:')
-//   @SwiftFunction('echoNullableNonNull(stringMap:)')
-//   Map<String, String>? echoNullableNonNullStringMap(
-//       Map<String, String>? stringMap);
+  //   /// Returns the passed map, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableNonNullStringMap:')
+  //   @SwiftFunction('echoNullableNonNull(stringMap:)')
+  //   Map<String, String>? echoNullableNonNullStringMap(
+  //       Map<String, String>? stringMap);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableNonNullIntMap:')
-//   @SwiftFunction('echoNullableNonNull(intMap:)')
-//   Map<int, int>? echoNullableNonNullIntMap(Map<int, int>? intMap);
+  //   /// Returns the passed map, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableNonNullIntMap:')
+  //   @SwiftFunction('echoNullableNonNull(intMap:)')
+  //   Map<int, int>? echoNullableNonNullIntMap(Map<int, int>? intMap);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableNonNullEnumMap:')
-//   @SwiftFunction('echoNullableNonNull(enumMap:)')
-//   Map<NIAnEnum, NIAnEnum>? echoNullableNonNullEnumMap(
-//       Map<NIAnEnum, NIAnEnum>? enumMap);
+  //   /// Returns the passed map, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableNonNullEnumMap:')
+  //   @SwiftFunction('echoNullableNonNull(enumMap:)')
+  //   Map<NIAnEnum, NIAnEnum>? echoNullableNonNullEnumMap(
+  //       Map<NIAnEnum, NIAnEnum>? enumMap);
 
-//   /// Returns the passed map, to test serialization and deserialization.
-//   @ObjCSelector('echoNullableNonNullClassMap:')
-//   @SwiftFunction('echoNullableNonNull(classMap:)')
-//   Map<int, NIAllNullableTypes>? echoNullableNonNullClassMap(
-//       Map<int, NIAllNullableTypes>? classMap);
+  //   /// Returns the passed map, to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableNonNullClassMap:')
+  //   @SwiftFunction('echoNullableNonNull(classMap:)')
+  //   Map<int, NIAllNullableTypes>? echoNullableNonNullClassMap(
+  //       Map<int, NIAllNullableTypes>? classMap);
 
-//   /// Returns the passed enum to test serialization and deserialization.
-//   @ObjCSelector('echoNullableEnum:')
-//   @SwiftFunction('echoNullable(_:)')
-//   NIAnEnum? echoNullableEnum(NIAnEnum? anEnum);
+  //   /// Returns the passed enum to test serialization and deserialization.
+  //   @ObjCSelector('echoNullableEnum:')
+  //   @SwiftFunction('echoNullable(_:)')
+  //   NIAnEnum? echoNullableEnum(NIAnEnum? anEnum);
 
-//   /// Returns the passed enum to test serialization and deserialization.
-//   @ObjCSelector('echoAnotherNullableEnum:')
-//   @SwiftFunction('echoNullable(_:)')
-//   NIAnotherEnum? echoAnotherNullableEnum(NIAnotherEnum? anotherEnum);
+  //   /// Returns the passed enum to test serialization and deserialization.
+  //   @ObjCSelector('echoAnotherNullableEnum:')
+  //   @SwiftFunction('echoNullable(_:)')
+  //   NIAnotherEnum? echoAnotherNullableEnum(NIAnotherEnum? anotherEnum);
 
-//   // ========== Async tests ==========
-//   // These are minimal since async FlutterApi only changes Dart generation.
-//   // Currently they aren't integration tested, but having them here ensures
-//   // analysis coverage.
+  //   // ========== Async tests ==========
+  //   // These are minimal since async FlutterApi only changes Dart generation.
+  //   // Currently they aren't integration tested, but having them here ensures
+  //   // analysis coverage.
 
-//   /// A no-op function taking no arguments and returning no value, to sanity
-//   /// test basic asynchronous calling.
-//   // @async
-//   // void noopAsync();
+  //   /// A no-op function taking no arguments and returning no value, to sanity
+  //   /// test basic asynchronous calling.
+  //   // @async
+  //   // void noopAsync();
 
-//   // /// Returns the passed in generic Object asynchronously.
-//   // @async
-//   // @ObjCSelector('echoAsyncString:')
-//   // @SwiftFunction('echoAsync(_:)')
-//   // String echoAsyncString(String aString);
-// }
+  //   // /// Returns the passed in generic Object asynchronously.
+  //   // @async
+  //   // @ObjCSelector('echoAsyncString:')
+  //   // @SwiftFunction('echoAsync(_:)')
+  //   // String echoAsyncString(String aString);
+}

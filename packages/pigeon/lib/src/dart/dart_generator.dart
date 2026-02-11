@@ -192,34 +192,12 @@ class _FfiType {
     }
   }
 
-  // String get ffiTypeGetter {
-  //   return type.isNullable ? 'nullableType' : 'type';
-  // }
-
   String get fullFfiName {
     if (type.baseName == 'List' || type.baseName == 'Map') {
       return ffiName;
     }
     return ffiName;
   }
-
-  // String get fullFfiType {
-  //   if (type.baseName == 'List' || type.baseName == 'Map') {
-  //     return '$ffiName.$ffiTypeGetter($getFfiCollectionTypeTypes)';
-  //   }
-  //   return '$ffiName.$ffiTypeGetter';
-  // }
-
-  // String get getFfiCollectionTypeTypes {
-  //   if (type.baseName == 'List') {
-  //     return subTypeOne?.fullFfiType ?? 'NSObject.nullableType';
-  //   }
-  //   if (type.baseName == 'Map') {
-  //     return '${subTypeOne?.fullFfiType ?? 'NSObject.type'}, ${subTypeTwo?.fullFfiType ?? 'NSObject.nullableType'}';
-  //   }
-
-  //   return '$ffiName.$ffiTypeGetter';
-  // }
 
   bool get nonNullableNeedsUnwrapping {
     if (type.isClass ||
@@ -274,8 +252,38 @@ class _FfiType {
     }
     var asType = ' as ${getDartReturnType(forceUnwrap: true)}';
     var castCall = '';
+    String getHint(TypeDeclaration type) {
+      if (type.isEnum ||
+          type.baseName == 'double' ||
+          type.baseName == 'bool' ||
+          type.baseName == 'int') {
+        return type.baseName;
+      }
+      return 'null';
+    }
+
+    final String type1Hint = type.isEnum
+        ? type.baseName
+        : type.typeArguments.isNotEmpty
+        ? getHint(type.typeArguments.first)
+        : 'null';
+    final String type2Hint = type.typeArguments.length > 1
+        ? getHint(type.typeArguments.last)
+        : 'null';
+
+    final String typeArg;
+    if (type.isEnum) {
+      typeArg = ', ${type.baseName}';
+    } else if (type2Hint != 'null') {
+      typeArg = ', $type1Hint, $type2Hint';
+    } else if (type1Hint != 'null') {
+      typeArg = ', $type1Hint';
+    } else {
+      typeArg = '';
+    }
+
     final codecCall =
-        '_PigeonFfiCodec.readValue($varName${type.isEnum ? ', ${type.baseName}' : ''})${_getForceNonNullSymbol(!type.isNullable)}';
+        '_PigeonFfiCodec.readValue($varName$typeArg)${_getForceNonNullSymbol(!type.isNullable)}';
     String primitiveGetter(String converter, bool classField) {
       return classField &&
               !type.isNullable &&
@@ -341,11 +349,6 @@ class _FfiType {
     bool asyncBlockMethod = false,
   }) {
     final prefix = withPrefix ? 'ffi_bridge.' : '';
-    if (type.isEnum) {
-      return forceNullable || asyncBlockMethod
-          ? 'NSNumber?'
-          : '${prefix}NumberWrapper';
-    }
     if (type.baseName == 'List') {
       return forceNonNullable ? 'NSArray' : 'NSArray?';
     }
@@ -355,13 +358,7 @@ class _FfiType {
       }
       return forceNonNullable ? 'ObjCObject' : 'ObjCObject?';
     }
-    // final String name = !(type.isNullable || forceUnwrap || forceNullable) &&
-    //             type.baseName == 'int' ||
-    //         type.baseName == 'double' ||
-    //         type.baseName == 'bool' ||
-    //         type.baseName == 'String'
-    //     ? type.baseName
-    //     : ffiName;
+
     return '${ffiName.replaceAll('ffi_bridge.', prefix)}${_getNullableSymbol((forceNullable || type.isNullable) && !forceNonNullable)}';
   }
 
@@ -682,42 +679,6 @@ class _JniType {
   }
 }
 
-String _jniArgumentsToDartArguments(
-  List<Parameter> parameters, {
-  bool isAsynchronous = false,
-}) {
-  final argumentSignature = <String>[];
-  for (final parameter in parameters) {
-    final _JniType jniType = _JniType.fromTypeDeclaration(parameter.type);
-    argumentSignature.add(
-      jniType.getToDartCall(
-        parameter.type,
-        varName: parameter.name,
-        forceConversion: isAsynchronous,
-      ),
-    );
-  }
-  return argumentSignature.join(', ');
-}
-
-String _ffiArgumentsToDartArguments(
-  List<Parameter> parameters, {
-  bool isAsynchronous = false,
-}) {
-  final argumentSignature = <String>[];
-  for (final parameter in parameters) {
-    final _FfiType ffiType = _FfiType.fromTypeDeclaration(parameter.type);
-    argumentSignature.add(
-      ffiType.getToDartCall(
-        parameter.type,
-        varName: parameter.name,
-        forceConversion: isAsynchronous,
-      ),
-    );
-  }
-  return argumentSignature.join(', ');
-}
-
 String _getNullableSymbol(bool nullable) => nullable ? '?' : '';
 
 String _getForceNonNullSymbol(bool force) => force ? '!' : '';
@@ -900,17 +861,6 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
         indent.writeScoped('${ffiType.ffiName} toFfi() {', '}', () {
           indent.writeln('return _PigeonFfiCodec.writeValue<NSNumber>(index);');
         });
-
-        // indent.newln();
-        // indent.writeScoped(
-        //   'static ${anEnum.name} fromFfi(${ffiType.ffiName} ffiEnum) {',
-        //   '}',
-        //   () {
-        //     indent.writeln(
-        //       'return ${anEnum.name}.values[ffiEnum.index];',
-        //     );
-        //   },
-        // );
 
         indent.newln();
         indent.writeScoped('NSNumber toNSNumber() {', '}', () {
@@ -1369,47 +1319,153 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
     }
   }
 
-  void _writeJniFlutterApi(
+  void _writeNIFlutterApi(
     InternalDartOptions generatorOptions,
     Root root,
     Indent indent,
     AstFlutterApi api, {
     required String dartPackageName,
   }) {
-    indent.writeScoped(
-      'final class ${api.name}Registrar with jni_bridge.\$${api.name} {',
-      '}',
-      () {
-        indent.writeln('${api.name}? dartApi;');
+    final mixin = generatorOptions.useJni
+        ? ' with jni_bridge.\$${api.name}'
+        : '';
+    indent.writeScoped('final class ${api.name}Registrar$mixin {', '}', () {
+      indent.writeln('${api.name}? dartApi;');
+      indent.newln();
+      indent.writeScoped('${api.name} register(', ') ', () {
+        indent.writeScoped('${api.name} api, {', '}', () {
+          indent.writeln('String name = defaultInstanceName,');
+        }, nestCount: 0);
+      }, addTrailingNewline: false);
+      indent.addScoped('{', '}', () {
+        indent.writeln('dartApi = api;');
         indent.newln();
-        indent.writeScoped('${api.name} register(', ') ', () {
-          indent.writeScoped('${api.name} api, {', '}', () {
-            indent.writeln('String name = defaultInstanceName,');
-          }, nestCount: 0);
-        }, addTrailingNewline: false);
-        indent.addScoped('{', '}', () {
-          indent.format('''
-    dartApi = api;
-    final jni_bridge.${api.name} impl =
-        jni_bridge.${api.name}.implement(this);
-    jni_bridge.${api.name}Registrar()
-        .registerInstance(impl, JString.fromString(name));
-    return api;
-  ''');
-        });
+        if (generatorOptions.useJni) {
+          indent.writeScoped('if (Platform.isAndroid) {', '}', () {
+            indent.writeln(
+              'final jni_bridge.${api.name} impl = jni_bridge.${api.name}.implement(this);',
+            );
+            indent.writeln(
+              'jni_bridge.${api.name}Registrar().registerInstance(',
+            );
+            indent.writeln('  impl,');
+            indent.writeln('  JString.fromString(name),');
+            indent.writeln(');');
+          });
+        }
+        if (generatorOptions.useFfi) {
+          indent.writeScoped('if (Platform.isIOS || Platform.isMacOS) {', '}', () {
+            indent.writeScoped(
+              'void reportError(ffi_bridge.${generatorOptions.ffiErrorClassName} errorOut, Object e) {',
+              '}',
+              () {
+                indent.writeScoped('if (e is PlatformException) {', '}', () {
+                  indent.writeln('errorOut.code = NSString(e.code);');
+                  indent.writeln(
+                    "errorOut.message = NSString(e.message ?? '');",
+                  );
+                  indent.writeln(
+                    "errorOut.details = NSString((e.details ?? '').toString());",
+                  );
+                }, addTrailingNewline: false);
+                indent.addScoped(' else {', '}', () {
+                  indent.writeln("errorOut.code = NSString('error');");
+                  indent.writeln('errorOut.message = NSString(e.toString());');
+                  indent.writeln('errorOut.details = null;');
+                });
+              },
+            );
+            indent.newln();
+            indent.writeln('final ffi_bridge.${api.name}Bridge impl =');
+            indent.write('    ffi_bridge.${api.name}Bridge\$Builder.implement');
+            indent.addScoped('(', ');', () {
+              for (final Method method in api.methods) {
+                indent.writeScoped(
+                  '${_getFfiCallbackName(method)}: (${_getFfiCallbackArgSignature(method, generatorOptions)}) {',
+                  '},',
+                  () {
+                    indent.writeScoped('try {', '}', () {
+                      indent.writeScoped('if (dartApi != null) {', '}', () {
+                        final methodCall =
+                            'dartApi!.${method.name}(${method.parameters.map((p) {
+                              final _FfiType ffiType = _FfiType.fromTypeDeclaration(p.type);
+                              return ffiType.getToDartCall(p.type, varName: p.name);
+                            }).join(', ')})';
+                        if (method.returnType.isVoid) {
+                          indent.writeln('$methodCall;');
+                          indent.writeln('return;');
+                        } else {
+                          final _FfiType ffiReturnType =
+                              _FfiType.fromTypeDeclaration(method.returnType);
+                          indent.writeln(
+                            'final ${addGenericTypesNullable(method.returnType)} response = $methodCall;',
+                          );
+                          String toFfiCall;
+                          if (!method.returnType.isNullable &&
+                              (method.returnType.baseName == 'int' ||
+                                  method.returnType.baseName == 'double' ||
+                                  method.returnType.baseName == 'bool' ||
+                                  method.returnType.isEnum)) {
+                            toFfiCall =
+                                '_PigeonFfiCodec.writeValue<${ffiReturnType.ffiName}>(response)';
+                          } else {
+                            toFfiCall = ffiReturnType.getToFfiCall(
+                              method.returnType,
+                              'response',
+                              ffiReturnType,
+                            );
+                          }
+                          indent.writeln('return $toFfiCall;');
+                        }
+                      }, addTrailingNewline: false);
+                      indent.addScoped(' else {', '}', () {
+                        indent.writeln(
+                          "reportError(errorOut, 'ArgumentError: ${api.name} was not registered.');",
+                        );
+                        indent.writeln(
+                          'return${method.returnType.isVoid ? '' : ' null'};',
+                        );
+                      });
+                    }, addTrailingNewline: false);
+                    indent.addScoped(' catch (e) {', '}', () {
+                      indent.writeln('reportError(errorOut, e);');
+                      indent.writeln(
+                        'return${method.returnType.isVoid ? '' : ' null'};',
+                      );
+                    });
+                  },
+                );
+              }
+            });
+            indent.writeln(
+              'ffi_bridge.${api.name}Registrar.registerInstanceWithApi(',
+            );
+            indent.writeln('  impl,');
+            indent.writeln('  name: NSString(name),');
+            indent.writeln(');');
+          });
+        }
+        indent.writeln('return api;');
+      });
 
-        for (final Method method in api.methods) {
+      if (generatorOptions.useJni) {
+        for (final Method method
+            in root.apis
+                .whereType<AstFlutterApi>()
+                .expand((a) => a.methods)
+                .where((m) => api.methods.contains(m))) {
+          indent.newln();
+          indent.writeln('@override');
           final _JniType jniReturnType = _JniType.fromTypeDeclaration(
             method.returnType,
           );
-          indent.newln();
-          indent.writeln('@override');
           final String returnType = method.isAsynchronous
               ? 'JObject'
               : jniReturnType.getJniCallReturnType(false);
           final String params = _getMethodParameterSignature(
             method.parameters,
             useJni: true,
+            isAsynchronous: method.isAsynchronous,
           );
           final asyncContinuation = method.isAsynchronous
               ? '${method.parameters.isNotEmpty ? ', ' : ''}JObject continuation'
@@ -1420,24 +1476,27 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
             () {
               indent.writeScoped('if (dartApi != null) {', '} ', () {
                 final methodCall =
-                    'dartApi!.${method.name}(${_jniArgumentsToDartArguments(method.parameters, isAsynchronous: method.isAsynchronous)})';
-                if (method.returnType.isVoid) {
-                  if (method.isAsynchronous) {
-                    indent.writeln('$methodCall;');
-                    indent.writeln('return continuation;');
-                  } else {
-                    indent.writeln('return $methodCall;');
-                  }
+                    'dartApi!.${method.name}(${method.parameters.map((p) {
+                      final _JniType jniType = _JniType.fromTypeDeclaration(p.type);
+                      return jniType.getToDartCall(p.type, varName: p.name);
+                    }).join(', ')})';
+
+                if (method.isAsynchronous) {
+                  indent.writeln('$methodCall;');
+                  indent.writeln('return continuation;');
+                } else if (method.returnType.isVoid) {
+                  indent.writeln('$methodCall;');
+                  indent.writeln('return;');
                 } else {
-                  final _JniType returnType = _JniType.fromTypeDeclaration(
+                  indent.writeln(
+                    'final ${addGenericTypesNullable(method.returnType)} response = $methodCall;',
+                  );
+                  final String toJniCall = jniReturnType.getToJniCall(
                     method.returnType,
+                    'response',
+                    jniReturnType,
                   );
-                  indent.writeln(
-                    'final ${jniReturnType.type.getFullName()} response = $methodCall;',
-                  );
-                  indent.writeln(
-                    'return ${returnType.getToJniCall(method.returnType, 'response', returnType)};',
-                  );
+                  indent.writeln('return $toJniCall;');
                 }
               });
               indent.writeScoped('else {', '}', () {
@@ -1447,92 +1506,9 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
               });
             },
           );
-          if (method.isAsynchronous && method.returnType.isVoid) {}
         }
-      },
-    );
-  }
-
-  void _writeFfiFlutterApi(
-    InternalDartOptions generatorOptions,
-    Root root,
-    Indent indent,
-    AstFlutterApi api, {
-    required String dartPackageName,
-  }) {
-    indent.writeScoped(
-      'final class ${api.name}Registrar with ffi_bridge.\$${api.name} {',
-      '}',
-      () {
-        indent.writeln('${api.name}? dartApi;');
-        indent.newln();
-        indent.writeScoped('${api.name} register(', ') ', () {
-          indent.writeScoped('${api.name} api, {', '}', () {
-            indent.writeln('String name = defaultInstanceName,');
-          }, nestCount: 0);
-        }, addTrailingNewline: false);
-        indent.addScoped('{', '}', () {
-          indent.format('''
-    dartApi = api;
-    final ffi_bridge.${api.name} impl =
-        ffi_bridge.${api.name}.implement(this);
-    ffi_bridge.${api.name}Registrar()
-        .registerInstance(impl, JString.fromString(name));
-    return api;
-  ''');
-        });
-
-        for (final Method method in api.methods) {
-          final _FfiType ffiReturnType = _FfiType.fromTypeDeclaration(
-            method.returnType,
-          );
-          indent.newln();
-          indent.writeln('@override');
-          String signature = method.isAsynchronous
-              ? 'NSObject'
-              : ffiReturnType.getFfiCallReturnType();
-          signature += ' ${method.name}(';
-          signature += _getMethodParameterSignature(
-            method.parameters,
-            useFfi: true,
-          );
-          signature += method.isAsynchronous
-              ? '${method.parameters.isNotEmpty ? ', ' : ''}JObject continuation'
-              : '';
-          signature += ')';
-          indent.writeScoped('$signature {', '}', () {
-            indent.writeScoped('if (dartApi != null) {', '} ', () {
-              final methodCall =
-                  'dartApi!.${method.name}(${_ffiArgumentsToDartArguments(method.parameters, isAsynchronous: method.isAsynchronous)})';
-              if (method.returnType.isVoid) {
-                if (method.isAsynchronous) {
-                  indent.writeln('$methodCall;');
-                  indent.writeln('return continuation;');
-                } else {
-                  indent.writeln('return $methodCall;');
-                }
-              } else {
-                final _FfiType returnType = _FfiType.fromTypeDeclaration(
-                  method.returnType,
-                );
-                indent.writeln(
-                  'final ${ffiReturnType.type.getFullName()} response = $methodCall;',
-                );
-                indent.writeln(
-                  'return ${returnType.getToFfiCall(method.returnType, 'response', returnType)};',
-                );
-              }
-            });
-            indent.writeScoped('else {', '}', () {
-              indent.writeln(
-                "throw ArgumentError('${api.name} was not registered.');",
-              );
-            });
-          });
-          if (method.isAsynchronous && method.returnType.isVoid) {}
-        }
-      },
-    );
+      }
+    });
   }
 
   /// Writes the code for host [Api], [api].
@@ -1556,17 +1532,8 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
   }) {
     indent.newln();
     addDocumentationComments(indent, api.documentationComments, docCommentSpec);
-    if (generatorOptions.useJni) {
-      _writeJniFlutterApi(
-        generatorOptions,
-        root,
-        indent,
-        api,
-        dartPackageName: dartPackageName,
-      );
-    }
-    if (generatorOptions.useFfi) {
-      _writeFfiFlutterApi(
+    if (generatorOptions.useJni || generatorOptions.useFfi) {
+      _writeNIFlutterApi(
         generatorOptions,
         root,
         indent,
@@ -1621,7 +1588,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
         }
         if (generatorOptions.useFfi) {
           indent.format('''
-            if ((Platform.isIos || Platform.isMacOS) && api != null) {
+            if ((Platform.isIOS || Platform.isMacOS) && api != null) {
               ${api.name}Registrar().register(api, name: messageChannelSuffix.isEmpty
                   ? defaultInstanceName
                   : messageChannelSuffix);
@@ -1820,6 +1787,32 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
         .join(', ');
   }
 
+  String _getFfiCallbackName(Method method) {
+    if (method.parameters.isEmpty) {
+      return '${method.name}WithError_';
+    }
+    var name =
+        '${method.name}With${toUpperCamelCase(method.parameters.first.name)}';
+    for (final Parameter parameter in method.parameters.skip(1)) {
+      name += '_${parameter.name}';
+    }
+    return '${name}_error_';
+  }
+
+  String _getFfiCallbackArgSignature(
+    Method method,
+    InternalDartOptions generatorOptions,
+  ) {
+    final List<String> args = [];
+    for (final Parameter parameter in method.parameters) {
+      final _FfiType ffiType = _FfiType.fromTypeDeclaration(parameter.type);
+      final String type = ffiType.getFfiCallReturnType();
+      args.add('$type ${parameter.name}');
+    }
+    args.add('ffi_bridge.${generatorOptions.ffiErrorClassName} errorOut');
+    return args.join(', ');
+  }
+
   String _getFfiMethodCallArguments(Iterable<Parameter> parameters) {
     var needsName = false;
     return parameters
@@ -1888,7 +1881,7 @@ ${api.name}({
       ${varNamePrefix}messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.\$messageChannelSuffix' : ''${usesNativeInterop(generatorOptions) ? ',\n_nativeInteropApi = nativeInteropApi;\n' : ';'}
 ''');
 
-      if (generatorOptions.useJni) {
+      if (usesNativeInterop(generatorOptions)) {
         indent.format('''
   /// Creates an instance of [${api.name}] that requests an instance of
   /// [${api.name}ForNativeInterop] from the host platform with a matching instance name
@@ -1901,7 +1894,7 @@ ${api.name}({
   }) {
     ${api.name}ForNativeInterop? nativeInteropApi;
     String nativeInteropApiInstanceName = '';
-    if (Platform.isAndroid) {
+    if (Platform.isAndroid || Platform.isIOS || Platform.isMacOS) {
       if (messageChannelSuffix.isEmpty) {
         nativeInteropApi = ${api.name}ForNativeInterop.getInstance();
       } else {
@@ -2494,29 +2487,17 @@ class _PigeonJniCodec {
     } else if (value.isA<JBoolean>(JBoolean.type)) {
       return (value.as(JBoolean.type)).booleanValue();
     } else if (value.isA<JByteArray>(JByteArray.type)) {
-      final Uint8List list = Uint8List(value.as(JByteArray.type).length);
-      for (int i = 0; i < value.as(JByteArray.type).length; i++) {
-        list[i] = value.as(JByteArray.type)[i];
-      }
-      return list;
+      final JByteArray array = value.as(JByteArray.type);
+      return array.getRange(0, array.length).buffer.asUint8List();
     } else if (value.isA<JIntArray>(JIntArray.type)) {
-      final Int32List list = Int32List(value.as(JIntArray.type).length);
-      for (int i = 0; i < value.as(JIntArray.type).length; i++) {
-        list[i] = value.as(JIntArray.type)[i];
-      }
-      return list;
+      final JIntArray array = value.as(JIntArray.type);
+      return array.getRange(0, array.length);
     } else if (value.isA<JLongArray>(JLongArray.type)) {
-      final Int64List list = Int64List(value.as(JLongArray.type).length);
-      for (int i = 0; i < value.as(JLongArray.type).length; i++) {
-        list[i] = value.as(JLongArray.type)[i];
-      }
-      return list;
+      final JLongArray array = value.as(JLongArray.type);
+      return array.getRange(0, array.length);
     } else if (value.isA<JDoubleArray>(JDoubleArray.type)) {
-      final Float64List list = Float64List(value.as(JDoubleArray.type).length);
-      for (int i = 0; i < value.as(JDoubleArray.type).length; i++) {
-        list[i] = value.as(JDoubleArray.type)[i];
-      }
-      return list;
+      final JDoubleArray array = value.as(JDoubleArray.type);
+      return array.getRange(0, array.length);
     } else if (value.isA<JList<JObject>>(JList.type<JObject>(JObject.type))) {
       final JList<JObject?> list = (value.as(JList.type<JObject?>(JObject.nullableType)));
       final res = <Object?>[];
@@ -2569,30 +2550,22 @@ class _PigeonJniCodec {
     } else if (isTypeOrNullableType<JByteArray>(T)) {
       value as List<int>;
       final JByteArray array = JByteArray(value.length);
-      for (int i = 0; i < value.length; i++) {
-        array[i] = value[i];
-      }
+      array.setRange(0, value.length, value);
       return array as T;
     } else if (isTypeOrNullableType<JIntArray>(T)) {
       value as List<int>;
       final JIntArray array = JIntArray(value.length);
-      for (int i = 0; i < value.length; i++) {
-        array[i] = value[i];
-      }
+      array.setRange(0, value.length, value);
       return array as T;
     } else if (isTypeOrNullableType<JLongArray>(T)) {
       value as List<int>;
       final JLongArray array = JLongArray(value.length);
-      for (int i = 0; i < value.length; i++) {
-        array[i] = value[i];
-      }
+      array.setRange(0, value.length, value);
       return array as T;
     } else if (isTypeOrNullableType<JDoubleArray>(T)) {
       value as List<double>;
       final JDoubleArray array = JDoubleArray(value.length);
-      for (int i = 0; i < value.length; i++) {
-        array[i] = value[i];
-      }
+      array.setRange(0, value.length, value);
       return array as T;
     ${root.lists.values.sorted(sortByObjectCount).map((TypeDeclaration list) {
       if (list.typeArguments.isEmpty || list.typeArguments.first.baseName == 'Object') {
@@ -2739,22 +2712,22 @@ class _PigeonJniCodec {
     indent.newln();
     indent.format('''
 class _PigeonFfiCodec {
-  static Object? readValue(ObjCObject? value, [Type? outType]) {
+  static Object? readValue(ObjCObject? value, [Type? type, Type? type2]) {
     if (value == null || ffi_bridge.PigeonInternalNull.isA(value)) {
       return null;
     } else if (NSNumber.isA(value)) {
       final NSNumber numValue = NSNumber.as(value);
-      switch (outType) {
-        case const (double):
-          return numValue.doubleValue;
-        case const (bool):
-          return numValue.boolValue;
-        ${root.enums.map((Enum enumDefinition) => '''
-        case const (${enumDefinition.name}):
-          return ${enumDefinition.name}.fromNSNumber(numValue);''').join('\n')}
-        default:
-          return numValue.longValue;
+      if (type == double) {
+        return numValue.doubleValue;
+      } else if (type == bool) {
+        return numValue.boolValue;
       }
+      ${root.enums.map((Enum enumDefinition) => '''
+      else if (type == ${enumDefinition.name}) {
+        return ${enumDefinition.name}.fromNSNumber(numValue);
+      }''').join('\n')}
+
+      return numValue.longValue;
     } else if (NSString.isA(value)) {
       return (NSString.as(value)).toDartString();
     } else if (ffi_bridge.PigeonTypedData.isA(value)) {
@@ -2763,7 +2736,7 @@ class _PigeonFfiCodec {
       final NSArray array = NSArray.as(value);
       final List<Object?> res = <Object?>[];
       for (int i = 0; i < array.count; i++) {
-        res.add(readValue(array.objectAtIndex(i)));
+        res.add(readValue(array.objectAtIndex(i), type));
       }
       return res;
     } else if (NSDictionary.isA(value)) {
@@ -2771,7 +2744,7 @@ class _PigeonFfiCodec {
       final Map<Object?, Object?> res = <Object?, Object?>{};
       for (final MapEntry<NSCopying?, ObjCObject?> entry
           in dictionary.asDart().entries) {
-        res[readValue(entry.key)] = readValue(entry.value);
+        res[readValue(entry.key, type)] = readValue(entry.value, type2);
       }
       return res;
     } else if (ffi_bridge.NumberWrapper.isA(value)) {
@@ -2803,17 +2776,13 @@ class _PigeonFfiCodec {
       }
       if (value is bool) {
         return NSNumber.alloc().initWithLong(value ? 1 : 0) as T;
-      }
-      if (value is double) {
+      } else if (value is double) {
         return NSNumber.alloc().initWithDouble(value) as T;
-      }
-      if (value is int) {
+      } else if (value is int) {
         return NSNumber.alloc().initWithLong(value) as T;
+      } else {
+        return NSNumber.alloc().initWithLong((value as Enum).index) as T;
       }
-      if (value is Enum) {
-        return NSNumber.alloc().initWithLong(value.index) as T;
-      }
-      return convertToFfiNumberWrapper(value) as T;
     } else if (value is String) {
       return NSString(value) as T;
     } else if (value is TypedData) {

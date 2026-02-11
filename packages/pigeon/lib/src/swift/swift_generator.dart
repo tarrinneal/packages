@@ -295,36 +295,55 @@ class SwiftGenerator extends StructuredGenerator<InternalSwiftOptions> {
 
 @available(iOS 13, macOS 16.0.0, *)
 class _PigeonFfiCodec {
-  static func readValue(value: NSObject?, type: String? = nil) -> Any? {
+  static func readValue(value: NSObject?, type: String? = nil, type2: String? = nil) -> Any? {
     if (isNullish(value)) {
       return nil
     }
+    if let typedData = value as? PigeonTypedData {
+      switch typedData.type {
+      case MyDataType.uint8.rawValue:
+        return typedData.toUint8Array()
+      case MyDataType.int32.rawValue:
+        return typedData.toInt32Array()
+      case MyDataType.int64.rawValue:
+        return typedData.toInt64Array()
+      case MyDataType.float32.rawValue:
+        return typedData.toFloat32Array()
+      case MyDataType.float64.rawValue:
+        return typedData.toFloat64Array()
+      default:
+        return typedData
+      }
+    }
     if value is NSNumber {
+      let number = value as! NSNumber
       if type == "int" || type == "int64" {
-        return (value as! NSNumber).int64Value
+        return number.int64Value
       } else if type == "double" {
-        return (value as! NSNumber).doubleValue
+        return number.doubleValue
       } else if type == "bool" {
-        return (value as! NSNumber).boolValue
+        return number.boolValue
       }
       ${root.enums.map((Enum enumDefinition) {
       return '''
        else if (type == "${enumDefinition.name}") {
-        return ${enumDefinition.name}.init(rawValue: (value as! NSNumber).intValue)
+        return ${enumDefinition.name}.init(rawValue: number.intValue)
       }''';
     }).join()}
+      
+      return number.int64Value
     }
     if (value is NSMutableArray || value is NSArray) {
       var res: Array<Any?> = []
       for item in (value as! NSArray) {
-          res.append(readValue(value: item as? NSObject))
+          res.append(readValue(value: item as? NSObject, type: type))
       }
       return res
     }
     if (value is NSDictionary) {
       var res: Dictionary<AnyHashable?, Any?> = Dictionary()
       for (key, value) in (value as! NSDictionary) {
-          res[readValue(value: key as? NSObject) as? AnyHashable] = readValue(value: value as? NSObject)
+          res[readValue(value: key as? NSObject, type: type) as? AnyHashable] = readValue(value: value as? NSObject, type: type2)
       }
       return res
     } 
@@ -347,6 +366,21 @@ class _PigeonFfiCodec {
     if (isNullish(value)) {
       return PigeonInternalNull()
     }
+    if let uint8Array = value as? [UInt8] {
+      return isObject ? PigeonTypedData(uint8Array) : uint8Array as NSArray
+    }
+    if let int32Array = value as? [Int32] {
+      return isObject ? PigeonTypedData(int32Array) : int32Array as NSArray
+    }
+    if let int64Array = value as? [Int64] {
+      return isObject ? PigeonTypedData(int64Array) : int64Array as NSArray
+    }
+    if let float32Array = value as? [Float32] {
+      return isObject ? PigeonTypedData(float32Array) : float32Array as NSArray
+    }
+    if let float64Array = value as? [Double] {
+      return isObject ? PigeonTypedData(float64Array) : float64Array as NSArray
+    }
     if (value is Bool || value is Double || value is Int || value is Int64${root.enums.map((Enum enumDefinition) {
       return ' || value is ${enumDefinition.name}';
     }).join()}) {
@@ -354,7 +388,7 @@ class _PigeonFfiCodec {
         return wrapNumber(number: value!)
       }
       if (value is Bool) {
-        return (value as! Bool) ? Int(1) : Int(0)
+        return value
       } else if (value is Double) {
         return value
       } else if (value is Int || value is Int64) {
@@ -892,7 +926,7 @@ if (wrapped == nil) {
       case 'Map':
         return '_PigeonFfiCodec.writeValue(value: $varName) as${type.isNullable || forceNullable ? '?' : '!'} ${_swiftTypeForBuiltinDartType(type, useFfi: true)}';
       case 'Object':
-        return '$varName as! NSObject$nullable';
+        return '_PigeonFfiCodec.writeValue(value: $varName, isObject: true) as! NSObject$nullable';
       default:
         if (type.isEnum && type.isNullable || forceNullable) {
           return _numberToObjc(varName, getter: '!.rawValue');
@@ -945,7 +979,19 @@ if (wrapped == nil) {
         return '$varName as String$nullable';
       case 'List':
       case 'Map':
-        return '_PigeonFfiCodec.readValue(value: $varName as NSObject$nullable) as${type.isNullable || forceNullable ? '?' : '!'} ${_swiftTypeForBuiltinDartType(type)}';
+        final typeArg =
+            type.typeArguments.isNotEmpty &&
+                type.typeArguments.first.baseName != 'List' &&
+                type.typeArguments.first.baseName != 'Map'
+            ? ', type: "${type.typeArguments.first.baseName}"'
+            : '';
+        final type2Arg =
+            type.typeArguments.length > 1 &&
+                type.typeArguments.last.baseName != 'List' &&
+                type.typeArguments.last.baseName != 'Map'
+            ? ', type2: "${type.typeArguments.last.baseName}"'
+            : '';
+        return '_PigeonFfiCodec.readValue(value: $varName as NSObject$nullable$typeArg$type2Arg) as${type.isNullable || forceNullable ? '?' : '!'} ${_swiftTypeForBuiltinDartType(type)}';
       default:
         if (type.isEnum) {
           return type.isNullable || forceNullable
@@ -1186,6 +1232,7 @@ if (wrapped == nil) {
     AstFlutterApi api, {
     required String dartPackageName,
   }) {
+    indent.newln();
     const generatedComments = <String>[
       ' Generated protocol from Pigeon that represents Flutter messages that can be called from Swift.',
     ];
@@ -1195,6 +1242,17 @@ if (wrapped == nil) {
       _docCommentSpec,
       generatorComments: generatedComments,
     );
+
+    if (generatorOptions.useFfi) {
+      _writeFfiFlutterApi(
+        generatorOptions,
+        root,
+        indent,
+        api,
+        dartPackageName: dartPackageName,
+      );
+      return;
+    }
 
     indent.addScoped('protocol ${api.name}Protocol {', '}', () {
       for (final Method func in api.methods) {
@@ -1252,6 +1310,142 @@ if (wrapped == nil) {
           returnType: func.returnType,
           swiftFunction: func.swiftFunction,
         );
+      }
+    });
+  }
+
+  void _writeFfiFlutterApi(
+    InternalSwiftOptions generatorOptions,
+    Root root,
+    Indent indent,
+    AstFlutterApi api, {
+    required String dartPackageName,
+  }) {
+    final String errorClassName = _getErrorClassName(generatorOptions);
+    indent.writeln('@available(iOS 13, macOS 16.0.0, *)');
+    indent.write('@objc protocol ${api.name}Bridge ');
+    indent.addScoped('{', '}', () {
+      for (final Method method in api.methods) {
+        addDocumentationComments(
+          indent,
+          method.documentationComments,
+          _docCommentSpec,
+        );
+        final returnType = method.returnType.isVoid
+            ? ''
+            : ' -> ${_ffiTypeForDartType(method.returnType, forceNullable: true)}?';
+        final List<String> parameters = method.parameters.map((
+          NamedType param,
+        ) {
+          return '${param.name}: ${_ffiTypeForDartType(param.type, forceNullable: true)}${param.type.isNullable ? '?' : ''}';
+        }).toList();
+        parameters.add('error: $errorClassName');
+        indent.writeln(
+          '@objc func ${method.name}(${parameters.join(', ')})$returnType',
+        );
+      }
+    });
+
+    indent.newln();
+    indent.writeln('@available(iOS 13, macOS 16.0.0, *)');
+    indent.write('@objc class ${api.name}Registrar: NSObject ');
+    indent.addScoped('{', '}', () {
+      indent.writeln(
+        'static var registered${api.name} = [String: ${api.name}]()',
+      );
+      indent.newln();
+      indent.write(
+        '@objc static func registerInstance(api: ${api.name}Bridge, name: String = defaultInstanceName) ',
+      );
+      indent.addScoped('{', '}', () {
+        indent.writeln(
+          '${api.name}Registrar.registered${api.name}[name] = ${api.name}(api: api)',
+        );
+      });
+      indent.newln();
+      indent.write(
+        'static func getInstance(name: String = defaultInstanceName) -> ${api.name}? ',
+      );
+      indent.addScoped('{', '}', () {
+        indent.writeln(
+          'return ${api.name}Registrar.registered${api.name}[name]',
+        );
+      });
+    });
+
+    indent.newln();
+    indent.writeln('@available(iOS 13, macOS 16.0.0, *)');
+    indent.write('class ${api.name} ');
+    indent.addScoped('{', '}', () {
+      indent.writeln('private let api: ${api.name}Bridge?');
+      indent.newln();
+      indent.write('fileprivate init(api: ${api.name}Bridge) ');
+      indent.addScoped('{', '}', () {
+        indent.writeln('self.api = api');
+      });
+      indent.newln();
+      indent.write(
+        'static func getInstance(name: String = defaultInstanceName) -> ${api.name}? ',
+      );
+      indent.addScoped('{', '}', () {
+        indent.writeln('return ${api.name}Registrar.getInstance(name: name)');
+      });
+
+      for (final Method method in api.methods) {
+        indent.newln();
+        addDocumentationComments(
+          indent,
+          method.documentationComments,
+          _docCommentSpec,
+        );
+        final returnTypeString = method.returnType.isVoid
+            ? ''
+            : ' -> ${_nullSafeSwiftTypeForDartType(method.returnType, ffiTypedData: true)}';
+        final String parameters = method.parameters
+            .map((NamedType param) {
+              return '${param.name}: ${_nullSafeSwiftTypeForDartType(param.type, ffiTypedData: true)}';
+            })
+            .join(', ');
+        indent.write(
+          'func ${method.name}($parameters) throws$returnTypeString ',
+        );
+        indent.addScoped('{', '}', () {
+          indent.writeln('let error = $errorClassName()');
+          final List<String> params = method.parameters.map((NamedType param) {
+            final String ffiType = _ffiTypeForDartType(
+              param.type,
+              forceNullable: true,
+            );
+            final cast = param.type.isNullable
+                ? 'as? $ffiType'
+                : 'as! $ffiType';
+            return '${param.name}: _PigeonFfiCodec.writeValue(value: ${param.name}) $cast';
+          }).toList();
+          params.add('error: error');
+
+          if (method.returnType.isVoid) {
+            indent.writeln('api!.${method.name}(${params.join(', ')})');
+          } else {
+            final String swiftType = _nullSafeSwiftTypeForDartType(
+              method.returnType,
+              ffiTypedData: true,
+            );
+            final valueCast =
+                (method.returnType.baseName == 'List' ||
+                    method.returnType.baseName == 'Map')
+                ? ' as NSObject?'
+                : '';
+            indent.writeln(
+              'let res = _PigeonFfiCodec.readValue(value: (api!.${method.name}(${params.join(', ')})$valueCast), type: "${method.returnType.baseName}") as! $swiftType',
+            );
+          }
+          indent.writeScoped('if (error.code != nil) {', '}', () {
+            indent.writeln('throw error');
+          });
+          if (!method.returnType.isVoid) {
+            indent.writeln('return res');
+          }
+        });
       }
     });
   }

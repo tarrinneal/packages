@@ -638,6 +638,179 @@ typedef SWIFT_ENUM(NSInteger, NIAnotherEnum, closed){
 };
 
 @class NiTestsError;
+/// The core interface that the Dart platform_test code implements for host
+/// integration tests to call into.
+/// Generated protocol from Pigeon that represents Flutter messages that can be
+/// called from Swift.
+SWIFT_PROTOCOL("_TtP11test_plugin33NIFlutterIntegrationCoreApiBridge_")
+SWIFT_AVAILABILITY(macos, introduced = 16.0.0)
+SWIFT_AVAILABILITY(ios, introduced = 13)
+@protocol NIFlutterIntegrationCoreApiBridge
+/// A no-op function taking no arguments and returning no value, to sanity
+/// test basic calling.
+- (void)noopWithError:(NiTestsError* _Nonnull)error;
+/// Returns the passed object, to test serialization and deserialization.
+- (NIAllTypesBridge* _Nullable)
+    echoNIAllTypesWithEverything:(NIAllTypesBridge* _Nonnull)everything
+                           error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed object, to test serialization and deserialization.
+- (NIAllNullableTypesBridge* _Nullable)
+    echoNIAllNullableTypesWithEverything:
+        (NIAllNullableTypesBridge* _Nullable)everything
+                                   error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns passed in arguments of multiple types.
+/// Tests multiple-arity FlutterApi handling.
+- (NIAllNullableTypesBridge* _Nullable)
+    sendMultipleNullableTypesWithANullableBool:
+        (NSNumber* _Nullable)aNullableBool
+                                  aNullableInt:(NSNumber* _Nullable)aNullableInt
+                               aNullableString:
+                                   (NSString* _Nullable)aNullableString
+                                         error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed object, to test serialization and deserialization.
+- (NIAllNullableTypesWithoutRecursionBridge* _Nullable)
+    echoNIAllNullableTypesWithoutRecursionWithEverything:
+        (NIAllNullableTypesWithoutRecursionBridge* _Nullable)everything
+                                                   error:
+                                                       (NiTestsError* _Nonnull)
+                                                           error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns passed in arguments of multiple types.
+/// Tests multiple-arity FlutterApi handling.
+- (NIAllNullableTypesWithoutRecursionBridge* _Nullable)
+    sendMultipleNullableTypesWithoutRecursionWithANullableBool:
+        (NSNumber* _Nullable)aNullableBool
+                                                  aNullableInt:
+                                                      (NSNumber* _Nullable)
+                                                          aNullableInt
+                                               aNullableString:
+                                                   (NSString* _Nullable)
+                                                       aNullableString
+                                                         error:
+                                                             (NiTestsError* _Nonnull)
+                                                                 error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed boolean, to test serialization and deserialization.
+- (NSNumber* _Nullable)echoBoolWithABool:(NSNumber* _Nonnull)aBool
+                                   error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed int, to test serialization and deserialization.
+- (NSNumber* _Nullable)echoIntWithAnInt:(NSNumber* _Nonnull)anInt
+                                  error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed double, to test serialization and deserialization.
+- (NSNumber* _Nullable)echoDoubleWithADouble:(NSNumber* _Nonnull)aDouble
+                                       error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed string, to test serialization and deserialization.
+- (NSString* _Nullable)echoStringWithAString:(NSString* _Nonnull)aString
+                                       error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed byte list, to test serialization and deserialization.
+- (PigeonTypedData* _Nullable)
+    echoUint8ListWithList:(PigeonTypedData* _Nonnull)list
+                    error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed list, to test serialization and deserialization.
+- (NSArray<NSObject*>* _Nullable)echoListWithList:
+                                     (NSArray<NSObject*>* _Nonnull)list
+                                            error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed list, to test serialization and deserialization.
+- (NSArray<NSObject*>* _Nullable)
+    echoEnumListWithEnumList:(NSArray<NSObject*>* _Nonnull)enumList
+                       error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed list, to test serialization and deserialization.
+- (NSArray<NSObject*>* _Nullable)
+    echoClassListWithClassList:(NSArray<NSObject*>* _Nonnull)classList
+                         error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed list, to test serialization and deserialization.
+- (NSArray<NSObject*>* _Nullable)
+    echoNonNullEnumListWithEnumList:(NSArray<NSObject*>* _Nonnull)enumList
+                              error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed list, to test serialization and deserialization.
+- (NSArray<NSObject*>* _Nullable)
+    echoNonNullClassListWithClassList:(NSArray<NSObject*>* _Nonnull)classList
+                                error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoMapWithMap:(NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)map
+             error:(NiTestsError* _Nonnull)error SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoStringMapWithStringMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)stringMap
+                         error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoIntMapWithIntMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)intMap
+                   error:(NiTestsError* _Nonnull)error SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoEnumMapWithEnumMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)enumMap
+                     error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoClassMapWithClassMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)classMap
+                       error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoNonNullStringMapWithStringMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)stringMap
+                                error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoNonNullIntMapWithIntMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)intMap
+                          error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoNonNullEnumMapWithEnumMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)enumMap
+                            error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoNonNullClassMapWithClassMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)classMap
+                              error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed enum to test serialization and deserialization.
+- (NSNumber* _Nullable)echoEnumWithAnEnum:(NSNumber* _Nonnull)anEnum
+                                    error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed enum to test serialization and deserialization.
+- (NSNumber* _Nullable)
+    echoNIAnotherEnumWithAnotherEnum:(NSNumber* _Nonnull)anotherEnum
+                               error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+@end
+
+SWIFT_CLASS("_TtC11test_plugin36NIFlutterIntegrationCoreApiRegistrar")
+SWIFT_AVAILABILITY(macos, introduced = 16.0.0)
+SWIFT_AVAILABILITY(ios, introduced = 13)
+@interface NIFlutterIntegrationCoreApiRegistrar : NSObject
++ (void)registerInstanceWithApi:
+            (id<NIFlutterIntegrationCoreApiBridge> _Nonnull)api
+                           name:(NSString* _Nonnull)name;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 /// Generated setup class from Pigeon to register implemented
 /// NIHostIntegrationCoreApi classes.
 SWIFT_CLASS("_TtC11test_plugin29NIHostIntegrationCoreApiSetup")
@@ -1343,6 +1516,151 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
                                   completionHandler:
                                       (void (^_Nonnull)(NSNumber* _Nullable))
                                           completionHandler;
+- (void)callFlutterNoopWithWrappedError:(NiTestsError* _Nonnull)wrappedError;
+- (NIAllTypesBridge* _Nullable)
+    callFlutterEchoNIAllTypesWithEverything:
+        (NIAllTypesBridge* _Nonnull)everything
+                               wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NIAllNullableTypesBridge* _Nullable)
+    callFlutterEchoNIAllNullableTypesWithEverything:
+        (NIAllNullableTypesBridge* _Nullable)everything
+                                       wrappedError:
+                                           (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NIAllNullableTypesBridge* _Nullable)
+    callFlutterSendMultipleNullableTypesWithANullableBool:
+        (NSNumber* _Nullable)aNullableBool
+                                             aNullableInt:(NSNumber* _Nullable)
+                                                              aNullableInt
+                                          aNullableString:(NSString* _Nullable)
+                                                              aNullableString
+                                             wrappedError:
+                                                 (NiTestsError* _Nonnull)
+                                                     wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NIAllNullableTypesWithoutRecursionBridge* _Nullable)
+    callFlutterEchoNIAllNullableTypesWithoutRecursionWithEverything:
+        (NIAllNullableTypesWithoutRecursionBridge* _Nullable)everything
+                                                       wrappedError:
+                                                           (NiTestsError* _Nonnull)
+                                                               wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NIAllNullableTypesWithoutRecursionBridge* _Nullable)
+    callFlutterSendMultipleNullableTypesWithoutRecursionWithANullableBool:
+        (NSNumber* _Nullable)aNullableBool
+                                                             aNullableInt:
+                                                                 (NSNumber* _Nullable)
+                                                                     aNullableInt
+                                                          aNullableString:
+                                                              (NSString* _Nullable)
+                                                                  aNullableString
+                                                             wrappedError:
+                                                                 (NiTestsError* _Nonnull)
+                                                                     wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSNumber* _Nullable)callFlutterEchoBoolWithABool:(BOOL)aBool
+                                       wrappedError:
+                                           (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSNumber* _Nullable)callFlutterEchoIntWithAnInt:(int64_t)anInt
+                                      wrappedError:
+                                          (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSNumber* _Nullable)callFlutterEchoDoubleWithADouble:(double)aDouble
+                                           wrappedError:(NiTestsError* _Nonnull)
+                                                            wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSString* _Nullable)
+    callFlutterEchoStringWithAString:(NSString* _Nonnull)aString
+                        wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (PigeonTypedData* _Nullable)
+    callFlutterEchoUint8ListWithList:(PigeonTypedData* _Nonnull)list
+                        wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSArray<NSObject*>* _Nullable)
+    callFlutterEchoListWithList:(NSArray<NSObject*>* _Nonnull)list
+                   wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSArray<NSObject*>* _Nullable)
+    callFlutterEchoEnumListWithEnumList:(NSArray<NSObject*>* _Nonnull)enumList
+                           wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSArray<NSObject*>* _Nullable)
+    callFlutterEchoClassListWithClassList:
+        (NSArray<NSObject*>* _Nonnull)classList
+                             wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSArray<NSObject*>* _Nullable)
+    callFlutterEchoNonNullEnumListWithEnumList:
+        (NSArray<NSObject*>* _Nonnull)enumList
+                                  wrappedError:
+                                      (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSArray<NSObject*>* _Nullable)
+    callFlutterEchoNonNullClassListWithClassList:
+        (NSArray<NSObject*>* _Nonnull)classList
+                                    wrappedError:
+                                        (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoMapWithMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)map
+                 wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoStringMapWithStringMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)stringMap
+                             wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoIntMapWithIntMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)intMap
+                       wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoEnumMapWithEnumMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)enumMap
+                         wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoClassMapWithClassMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)classMap
+                           wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoNonNullStringMapWithStringMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)stringMap
+                                    wrappedError:
+                                        (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoNonNullIntMapWithIntMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)intMap
+                              wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoNonNullEnumMapWithEnumMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)enumMap
+                                wrappedError:
+                                    (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoNonNullClassMapWithClassMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nonnull)classMap
+                                  wrappedError:
+                                      (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSNumber* _Nullable)callFlutterEchoEnumWithAnEnum:(enum NIAnEnum)anEnum
+                                        wrappedError:
+                                            (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSNumber* _Nullable)
+    callFlutterEchoNIAnotherEnumWithAnotherEnum:(enum NIAnotherEnum)anotherEnum
+                                   wrappedError:
+                                       (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
 @end
 
 /// Generated bridge class from Pigeon that moves data from Swift to
