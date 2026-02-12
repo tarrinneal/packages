@@ -1051,6 +1051,64 @@ abstract class NIHostIntegrationCoreApi {
   abstract fun callFlutterEchoEnum(anEnum: NIAnEnum): NIAnEnum
 
   abstract fun callFlutterEchoNIAnotherEnum(anotherEnum: NIAnotherEnum): NIAnotherEnum
+
+  abstract fun callFlutterEchoNullableBool(aBool: Boolean?): Boolean?
+
+  abstract fun callFlutterEchoNullableInt(anInt: Long?): Long?
+
+  abstract fun callFlutterEchoNullableDouble(aDouble: Double?): Double?
+
+  abstract fun callFlutterEchoNullableString(aString: String?): String?
+
+  abstract fun callFlutterEchoNullableUint8List(list: ByteArray?): ByteArray?
+
+  abstract fun callFlutterEchoNullableList(list: List<Any?>?): List<Any?>?
+
+  abstract fun callFlutterEchoNullableEnumList(enumList: List<NIAnEnum?>?): List<NIAnEnum?>?
+
+  abstract fun callFlutterEchoNullableClassList(
+      classList: List<NIAllNullableTypes?>?
+  ): List<NIAllNullableTypes?>?
+
+  abstract fun callFlutterEchoNullableNonNullEnumList(enumList: List<NIAnEnum>?): List<NIAnEnum>?
+
+  abstract fun callFlutterEchoNullableNonNullClassList(
+      classList: List<NIAllNullableTypes>?
+  ): List<NIAllNullableTypes>?
+
+  abstract fun callFlutterEchoNullableMap(map: Map<Any?, Any?>?): Map<Any?, Any?>?
+
+  abstract fun callFlutterEchoNullableStringMap(
+      stringMap: Map<String?, String?>?
+  ): Map<String?, String?>?
+
+  abstract fun callFlutterEchoNullableIntMap(intMap: Map<Long?, Long?>?): Map<Long?, Long?>?
+
+  abstract fun callFlutterEchoNullableEnumMap(
+      enumMap: Map<NIAnEnum?, NIAnEnum?>?
+  ): Map<NIAnEnum?, NIAnEnum?>?
+
+  abstract fun callFlutterEchoNullableClassMap(
+      classMap: Map<Long?, NIAllNullableTypes?>?
+  ): Map<Long?, NIAllNullableTypes?>?
+
+  abstract fun callFlutterEchoNullableNonNullStringMap(
+      stringMap: Map<String, String>?
+  ): Map<String, String>?
+
+  abstract fun callFlutterEchoNullableNonNullIntMap(intMap: Map<Long, Long>?): Map<Long, Long>?
+
+  abstract fun callFlutterEchoNullableNonNullEnumMap(
+      enumMap: Map<NIAnEnum, NIAnEnum>?
+  ): Map<NIAnEnum, NIAnEnum>?
+
+  abstract fun callFlutterEchoNullableNonNullClassMap(
+      classMap: Map<Long, NIAllNullableTypes>?
+  ): Map<Long, NIAllNullableTypes>?
+
+  abstract fun callFlutterEchoNullableEnum(anEnum: NIAnEnum?): NIAnEnum?
+
+  abstract fun callFlutterEchoAnotherNullableEnum(anotherEnum: NIAnotherEnum?): NIAnotherEnum?
 }
 
 @Keep
@@ -2668,6 +2726,253 @@ class NIHostIntegrationCoreApiRegistrar : NIHostIntegrationCoreApi() {
     }
     error("NIHostIntegrationCoreApi has not been set")
   }
+
+  override fun callFlutterEchoNullableBool(aBool: Boolean?): Boolean? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableBool(aBool)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableInt(anInt: Long?): Long? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableInt(anInt)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableDouble(aDouble: Double?): Double? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableDouble(aDouble)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableString(aString: String?): String? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableString(aString)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableUint8List(list: ByteArray?): ByteArray? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableUint8List(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableList(list: List<Any?>?): List<Any?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableList(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableEnumList(enumList: List<NIAnEnum?>?): List<NIAnEnum?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableEnumList(enumList)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableClassList(
+      classList: List<NIAllNullableTypes?>?
+  ): List<NIAllNullableTypes?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableClassList(classList)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableNonNullEnumList(enumList: List<NIAnEnum>?): List<NIAnEnum>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableNonNullEnumList(enumList)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableNonNullClassList(
+      classList: List<NIAllNullableTypes>?
+  ): List<NIAllNullableTypes>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableNonNullClassList(classList)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableMap(map: Map<Any?, Any?>?): Map<Any?, Any?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableMap(map)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableStringMap(
+      stringMap: Map<String?, String?>?
+  ): Map<String?, String?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableStringMap(stringMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableIntMap(intMap: Map<Long?, Long?>?): Map<Long?, Long?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableIntMap(intMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableEnumMap(
+      enumMap: Map<NIAnEnum?, NIAnEnum?>?
+  ): Map<NIAnEnum?, NIAnEnum?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableEnumMap(enumMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableClassMap(
+      classMap: Map<Long?, NIAllNullableTypes?>?
+  ): Map<Long?, NIAllNullableTypes?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableClassMap(classMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableNonNullStringMap(
+      stringMap: Map<String, String>?
+  ): Map<String, String>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableNonNullStringMap(stringMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableNonNullIntMap(intMap: Map<Long, Long>?): Map<Long, Long>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableNonNullIntMap(intMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableNonNullEnumMap(
+      enumMap: Map<NIAnEnum, NIAnEnum>?
+  ): Map<NIAnEnum, NIAnEnum>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableNonNullEnumMap(enumMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableNonNullClassMap(
+      classMap: Map<Long, NIAllNullableTypes>?
+  ): Map<Long, NIAllNullableTypes>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableNonNullClassMap(classMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableEnum(anEnum: NIAnEnum?): NIAnEnum? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableEnum(anEnum)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoAnotherNullableEnum(anotherEnum: NIAnotherEnum?): NIAnotherEnum? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAnotherNullableEnum(anotherEnum)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
 }
 /**
  * The core interface that the Dart platform_test code implements for host integration tests to call
@@ -2763,4 +3068,50 @@ interface NIFlutterIntegrationCoreApi {
   fun echoEnum(anEnum: NIAnEnum): NIAnEnum
   /** Returns the passed enum to test serialization and deserialization. */
   fun echoNIAnotherEnum(anotherEnum: NIAnotherEnum): NIAnotherEnum
+  /** Returns the passed boolean, to test serialization and deserialization. */
+  fun echoNullableBool(aBool: Boolean?): Boolean?
+  /** Returns the passed int, to test serialization and deserialization. */
+  fun echoNullableInt(anInt: Long?): Long?
+  /** Returns the passed double, to test serialization and deserialization. */
+  fun echoNullableDouble(aDouble: Double?): Double?
+  /** Returns the passed string, to test serialization and deserialization. */
+  fun echoNullableString(aString: String?): String?
+  /** Returns the passed byte list, to test serialization and deserialization. */
+  fun echoNullableUint8List(list: ByteArray?): ByteArray?
+  /** Returns the passed list, to test serialization and deserialization. */
+  fun echoNullableList(list: List<Any?>?): List<Any?>?
+  /** Returns the passed list, to test serialization and deserialization. */
+  fun echoNullableEnumList(enumList: List<NIAnEnum?>?): List<NIAnEnum?>?
+  /** Returns the passed list, to test serialization and deserialization. */
+  fun echoNullableClassList(classList: List<NIAllNullableTypes?>?): List<NIAllNullableTypes?>?
+  /** Returns the passed list, to test serialization and deserialization. */
+  fun echoNullableNonNullEnumList(enumList: List<NIAnEnum>?): List<NIAnEnum>?
+  /** Returns the passed list, to test serialization and deserialization. */
+  fun echoNullableNonNullClassList(classList: List<NIAllNullableTypes>?): List<NIAllNullableTypes>?
+  /** Returns the passed map, to test serialization and deserialization. */
+  fun echoNullableMap(map: Map<Any?, Any?>?): Map<Any?, Any?>?
+  /** Returns the passed map, to test serialization and deserialization. */
+  fun echoNullableStringMap(stringMap: Map<String?, String?>?): Map<String?, String?>?
+  /** Returns the passed map, to test serialization and deserialization. */
+  fun echoNullableIntMap(intMap: Map<Long?, Long?>?): Map<Long?, Long?>?
+  /** Returns the passed map, to test serialization and deserialization. */
+  fun echoNullableEnumMap(enumMap: Map<NIAnEnum?, NIAnEnum?>?): Map<NIAnEnum?, NIAnEnum?>?
+  /** Returns the passed map, to test serialization and deserialization. */
+  fun echoNullableClassMap(
+      classMap: Map<Long?, NIAllNullableTypes?>?
+  ): Map<Long?, NIAllNullableTypes?>?
+  /** Returns the passed map, to test serialization and deserialization. */
+  fun echoNullableNonNullStringMap(stringMap: Map<String, String>?): Map<String, String>?
+  /** Returns the passed map, to test serialization and deserialization. */
+  fun echoNullableNonNullIntMap(intMap: Map<Long, Long>?): Map<Long, Long>?
+  /** Returns the passed map, to test serialization and deserialization. */
+  fun echoNullableNonNullEnumMap(enumMap: Map<NIAnEnum, NIAnEnum>?): Map<NIAnEnum, NIAnEnum>?
+  /** Returns the passed map, to test serialization and deserialization. */
+  fun echoNullableNonNullClassMap(
+      classMap: Map<Long, NIAllNullableTypes>?
+  ): Map<Long, NIAllNullableTypes>?
+  /** Returns the passed enum to test serialization and deserialization. */
+  fun echoNullableEnum(anEnum: NIAnEnum?): NIAnEnum?
+  /** Returns the passed enum to test serialization and deserialization. */
+  fun echoAnotherNullableEnum(anotherEnum: NIAnotherEnum?): NIAnotherEnum?
 }

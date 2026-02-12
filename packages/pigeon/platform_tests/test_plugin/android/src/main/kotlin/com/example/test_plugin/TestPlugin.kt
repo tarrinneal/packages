@@ -1566,125 +1566,117 @@ class NIIntegrationTests : NIHostIntegrationCoreApi() {
     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNIAnotherEnum(anotherEnum)
   }
 
-  //   override fun callFlutterEchoNullableBool(aBool: Boolean?): Boolean? {
-  //     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableBool(aBool)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableInt(anInt: Long?): Long? {
-  //     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableInt(anInt)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableDouble(aDouble: Double?): Double? {
-  //     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableDouble(aDouble)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableString(aString: String?): String? {
-  //     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableString(aString)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableUint8List(list: ByteArray?): ByteArray? {
-  //     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableUint8List(list)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableList(list: List<Any?>?): List<Any?>? {
-  //     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableList(list)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableEnumList(enumList: List<NIAnEnum?>?): List<NIAnEnum?>? {
-  //     return
-  // NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableEnumList(enumList)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableClassList(
-  //       classList: List<NIAllNullableTypes?>?
-  //   ): List<NIAllNullableTypes?>? {
-  //     return
-  // NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableClassList(classList)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableNonNullEnumList(enumList: List<NIAnEnum>?):
-  // List<NIAnEnum>? {
-  //     return NIFlutterIntegrationCoreApiRegistrar()
-  //         .getInstance()!!
-  //         .echoNullableNonNullEnumList(enumList)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableNonNullClassList(
-  //       classList: List<NIAllNullableTypes>?
-  //   ): List<NIAllNullableTypes>? {
-  //     return NIFlutterIntegrationCoreApiRegistrar()
-  //         .getInstance()!!
-  //         .echoNullableNonNullClassList(classList)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableMap(map: Map<Any?, Any?>?): Map<Any?, Any?>? {
-  //     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableMap(map)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableStringMap(
-  //       stringMap: Map<String?, String?>?
-  //   ): Map<String?, String?>? {
-  //     return
-  // NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableStringMap(stringMap)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableIntMap(intMap: Map<Long?, Long?>?): Map<Long?, Long?>? {
-  //     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableIntMap(intMap)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableEnumMap(
-  //       enumMap: Map<NIAnEnum?, NIAnEnum?>?
-  //   ): Map<NIAnEnum?, NIAnEnum?>? {
-  //     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableEnumMap(enumMap)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableClassMap(
-  //       classMap: Map<Long?, NIAllNullableTypes?>?
-  //   ): Map<Long?, NIAllNullableTypes?>? {
-  //     return
-  // NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableClassMap(classMap)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableNonNullStringMap(
-  //       stringMap: Map<String, String>?
-  //   ): Map<String, String>? {
-  //     return NIFlutterIntegrationCoreApiRegistrar()
-  //         .getInstance()!!
-  //         .echoNullableNonNullStringMap(stringMap)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableNonNullIntMap(intMap: Map<Long, Long>?): Map<Long, Long>?
-  // {
-  //     return
-  // NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableNonNullIntMap(intMap)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableNonNullEnumMap(
-  //       enumMap: Map<NIAnEnum, NIAnEnum>?
-  //   ): Map<NIAnEnum, NIAnEnum>? {
-  //     return NIFlutterIntegrationCoreApiRegistrar()
-  //         .getInstance()!!
-  //         .echoNullableNonNullEnumMap(enumMap)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableNonNullClassMap(
-  //       classMap: Map<Long, NIAllNullableTypes>?
-  //   ): Map<Long, NIAllNullableTypes>? {
-  //     return NIFlutterIntegrationCoreApiRegistrar()
-  //         .getInstance()!!
-  //         .echoNullableNonNullClassMap(classMap)
-  //   }
-  //
-  //   override fun callFlutterEchoNullableEnum(anEnum: NIAnEnum?): NIAnEnum? {
-  //     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableEnum(anEnum)
-  //   }
-  //
-  //   override fun callFlutterEchoAnotherNullableEnum(anotherEnum: NIAnotherEnum?): NIAnotherEnum?
-  // {
-  //     return NIFlutterIntegrationCoreApiRegistrar()
-  //         .getInstance()!!
-  //         .echoAnotherNullableEnum(anotherEnum)
-  //   }
+  override fun callFlutterEchoNullableBool(aBool: Boolean?): Boolean? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableBool(aBool)
+  }
+
+  override fun callFlutterEchoNullableInt(anInt: Long?): Long? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableInt(anInt)
+  }
+
+  override fun callFlutterEchoNullableDouble(aDouble: Double?): Double? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableDouble(aDouble)
+  }
+
+  override fun callFlutterEchoNullableString(aString: String?): String? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableString(aString)
+  }
+
+  override fun callFlutterEchoNullableUint8List(list: ByteArray?): ByteArray? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableUint8List(list)
+  }
+
+  override fun callFlutterEchoNullableList(list: List<Any?>?): List<Any?>? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableList(list)
+  }
+
+  override fun callFlutterEchoNullableEnumList(enumList: List<NIAnEnum?>?): List<NIAnEnum?>? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableEnumList(enumList)
+  }
+
+  override fun callFlutterEchoNullableClassList(
+      classList: List<NIAllNullableTypes?>?
+  ): List<NIAllNullableTypes?>? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableClassList(classList)
+  }
+
+  override fun callFlutterEchoNullableNonNullEnumList(enumList: List<NIAnEnum>?): List<NIAnEnum>? {
+    return NIFlutterIntegrationCoreApiRegistrar()
+        .getInstance()!!
+        .echoNullableNonNullEnumList(enumList)
+  }
+
+  override fun callFlutterEchoNullableNonNullClassList(
+      classList: List<NIAllNullableTypes>?
+  ): List<NIAllNullableTypes>? {
+    return NIFlutterIntegrationCoreApiRegistrar()
+        .getInstance()!!
+        .echoNullableNonNullClassList(classList)
+  }
+
+  override fun callFlutterEchoNullableMap(map: Map<Any?, Any?>?): Map<Any?, Any?>? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableMap(map)
+  }
+
+  override fun callFlutterEchoNullableStringMap(
+      stringMap: Map<String?, String?>?
+  ): Map<String?, String?>? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableStringMap(stringMap)
+  }
+
+  override fun callFlutterEchoNullableIntMap(intMap: Map<Long?, Long?>?): Map<Long?, Long?>? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableIntMap(intMap)
+  }
+
+  override fun callFlutterEchoNullableEnumMap(
+      enumMap: Map<NIAnEnum?, NIAnEnum?>?
+  ): Map<NIAnEnum?, NIAnEnum?>? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableEnumMap(enumMap)
+  }
+
+  override fun callFlutterEchoNullableClassMap(
+      classMap: Map<Long?, NIAllNullableTypes?>?
+  ): Map<Long?, NIAllNullableTypes?>? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableClassMap(classMap)
+  }
+
+  override fun callFlutterEchoNullableNonNullStringMap(
+      stringMap: Map<String, String>?
+  ): Map<String, String>? {
+    return NIFlutterIntegrationCoreApiRegistrar()
+        .getInstance()!!
+        .echoNullableNonNullStringMap(stringMap)
+  }
+
+  override fun callFlutterEchoNullableNonNullIntMap(intMap: Map<Long, Long>?): Map<Long, Long>? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableNonNullIntMap(intMap)
+  }
+
+  override fun callFlutterEchoNullableNonNullEnumMap(
+      enumMap: Map<NIAnEnum, NIAnEnum>?
+  ): Map<NIAnEnum, NIAnEnum>? {
+    return NIFlutterIntegrationCoreApiRegistrar()
+        .getInstance()!!
+        .echoNullableNonNullEnumMap(enumMap)
+  }
+
+  override fun callFlutterEchoNullableNonNullClassMap(
+      classMap: Map<Long, NIAllNullableTypes>?
+  ): Map<Long, NIAllNullableTypes>? {
+    return NIFlutterIntegrationCoreApiRegistrar()
+        .getInstance()!!
+        .echoNullableNonNullClassMap(classMap)
+  }
+
+  override fun callFlutterEchoNullableEnum(anEnum: NIAnEnum?): NIAnEnum? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableEnum(anEnum)
+  }
+
+  override fun callFlutterEchoAnotherNullableEnum(anotherEnum: NIAnotherEnum?): NIAnotherEnum? {
+    return NIFlutterIntegrationCoreApiRegistrar()
+        .getInstance()!!
+        .echoAnotherNullableEnum(anotherEnum)
+  }
 
   //  override suspend fun callFlutterNoopAsync() {
   //    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.noopAsync()

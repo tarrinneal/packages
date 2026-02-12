@@ -6566,6 +6566,820 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
       _$nIAnotherEnum.pointer,
     ).object<NIAnotherEnum>(const $NIAnotherEnum$Type$());
   }
+
+  static final _id_callFlutterEchoNullableBool = _class.instanceMethodId(
+    r'callFlutterEchoNullableBool',
+    r'(Ljava/lang/Boolean;)Ljava/lang/Boolean;',
+  );
+
+  static final _callFlutterEchoNullableBool =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableBool(aBool: kotlin.Boolean?): kotlin.Boolean?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JBoolean? callFlutterEchoNullableBool(jni$_.JBoolean? boolean) {
+    final _$boolean = boolean?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableBool(
+      reference.pointer,
+      _id_callFlutterEchoNullableBool as jni$_.JMethodIDPtr,
+      _$boolean.pointer,
+    ).object<jni$_.JBoolean?>(const jni$_.$JBoolean$NullableType$());
+  }
+
+  static final _id_callFlutterEchoNullableInt = _class.instanceMethodId(
+    r'callFlutterEchoNullableInt',
+    r'(Ljava/lang/Long;)Ljava/lang/Long;',
+  );
+
+  static final _callFlutterEchoNullableInt =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableInt(anInt: kotlin.Long?): kotlin.Long?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JLong? callFlutterEchoNullableInt(jni$_.JLong? long) {
+    final _$long = long?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableInt(
+      reference.pointer,
+      _id_callFlutterEchoNullableInt as jni$_.JMethodIDPtr,
+      _$long.pointer,
+    ).object<jni$_.JLong?>(const jni$_.$JLong$NullableType$());
+  }
+
+  static final _id_callFlutterEchoNullableDouble = _class.instanceMethodId(
+    r'callFlutterEchoNullableDouble',
+    r'(Ljava/lang/Double;)Ljava/lang/Double;',
+  );
+
+  static final _callFlutterEchoNullableDouble =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableDouble(aDouble: kotlin.Double?): kotlin.Double?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JDouble? callFlutterEchoNullableDouble(jni$_.JDouble? double) {
+    final _$double = double?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableDouble(
+      reference.pointer,
+      _id_callFlutterEchoNullableDouble as jni$_.JMethodIDPtr,
+      _$double.pointer,
+    ).object<jni$_.JDouble?>(const jni$_.$JDouble$NullableType$());
+  }
+
+  static final _id_callFlutterEchoNullableString = _class.instanceMethodId(
+    r'callFlutterEchoNullableString',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _callFlutterEchoNullableString =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableString(aString: kotlin.String?): kotlin.String?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? callFlutterEchoNullableString(jni$_.JString? string) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableString(
+      reference.pointer,
+      _id_callFlutterEchoNullableString as jni$_.JMethodIDPtr,
+      _$string.pointer,
+    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+  }
+
+  static final _id_callFlutterEchoNullableUint8List = _class.instanceMethodId(
+    r'callFlutterEchoNullableUint8List',
+    r'([B)[B',
+  );
+
+  static final _callFlutterEchoNullableUint8List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableUint8List(list: kotlin.ByteArray?): kotlin.ByteArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JByteArray? callFlutterEchoNullableUint8List(jni$_.JByteArray? bs) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableUint8List(
+      reference.pointer,
+      _id_callFlutterEchoNullableUint8List as jni$_.JMethodIDPtr,
+      _$bs.pointer,
+    ).object<jni$_.JByteArray?>(const jni$_.$JByteArray$NullableType$());
+  }
+
+  static final _id_callFlutterEchoNullableList = _class.instanceMethodId(
+    r'callFlutterEchoNullableList',
+    r'(Ljava/util/List;)Ljava/util/List;',
+  );
+
+  static final _callFlutterEchoNullableList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableList(list: kotlin.collections.List<kotlin.Any?>?): kotlin.collections.List<kotlin.Any?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<jni$_.JObject?>? callFlutterEchoNullableList(
+    jni$_.JList<jni$_.JObject?>? list,
+  ) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableList(
+      reference.pointer,
+      _id_callFlutterEchoNullableList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+    ).object<jni$_.JList<jni$_.JObject?>?>(
+      const jni$_.$JList$NullableType$<jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableEnumList = _class.instanceMethodId(
+    r'callFlutterEchoNullableEnumList',
+    r'(Ljava/util/List;)Ljava/util/List;',
+  );
+
+  static final _callFlutterEchoNullableEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableEnumList(enumList: kotlin.collections.List<NIAnEnum?>?): kotlin.collections.List<NIAnEnum?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<NIAnEnum?>? callFlutterEchoNullableEnumList(
+    jni$_.JList<NIAnEnum?>? list,
+  ) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableEnumList(
+      reference.pointer,
+      _id_callFlutterEchoNullableEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+    ).object<jni$_.JList<NIAnEnum?>?>(
+      const jni$_.$JList$NullableType$<NIAnEnum?>($NIAnEnum$NullableType$()),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableClassList = _class.instanceMethodId(
+    r'callFlutterEchoNullableClassList',
+    r'(Ljava/util/List;)Ljava/util/List;',
+  );
+
+  static final _callFlutterEchoNullableClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableClassList(classList: kotlin.collections.List<NIAllNullableTypes?>?): kotlin.collections.List<NIAllNullableTypes?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<NIAllNullableTypes?>? callFlutterEchoNullableClassList(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  ) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableClassList(
+      reference.pointer,
+      _id_callFlutterEchoNullableClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+    ).object<jni$_.JList<NIAllNullableTypes?>?>(
+      const jni$_.$JList$NullableType$<NIAllNullableTypes?>(
+        $NIAllNullableTypes$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableNonNullEnumList = _class
+      .instanceMethodId(
+        r'callFlutterEchoNullableNonNullEnumList',
+        r'(Ljava/util/List;)Ljava/util/List;',
+      );
+
+  static final _callFlutterEchoNullableNonNullEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableNonNullEnumList(enumList: kotlin.collections.List<NIAnEnum>?): kotlin.collections.List<NIAnEnum>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<NIAnEnum>? callFlutterEchoNullableNonNullEnumList(
+    jni$_.JList<NIAnEnum>? list,
+  ) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableNonNullEnumList(
+      reference.pointer,
+      _id_callFlutterEchoNullableNonNullEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+    ).object<jni$_.JList<NIAnEnum>?>(
+      const jni$_.$JList$NullableType$<NIAnEnum>($NIAnEnum$Type$()),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableNonNullClassList = _class
+      .instanceMethodId(
+        r'callFlutterEchoNullableNonNullClassList',
+        r'(Ljava/util/List;)Ljava/util/List;',
+      );
+
+  static final _callFlutterEchoNullableNonNullClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableNonNullClassList(classList: kotlin.collections.List<NIAllNullableTypes>?): kotlin.collections.List<NIAllNullableTypes>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<NIAllNullableTypes>? callFlutterEchoNullableNonNullClassList(
+    jni$_.JList<NIAllNullableTypes>? list,
+  ) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableNonNullClassList(
+      reference.pointer,
+      _id_callFlutterEchoNullableNonNullClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+    ).object<jni$_.JList<NIAllNullableTypes>?>(
+      const jni$_.$JList$NullableType$<NIAllNullableTypes>(
+        $NIAllNullableTypes$Type$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableMap = _class.instanceMethodId(
+    r'callFlutterEchoNullableMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _callFlutterEchoNullableMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableMap(map: kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?): kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? callFlutterEchoNullableMap(
+    jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JObject?, jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+        jni$_.$JObject$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableStringMap = _class.instanceMethodId(
+    r'callFlutterEchoNullableStringMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _callFlutterEchoNullableStringMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableStringMap(stringMap: kotlin.collections.Map<kotlin.String?, kotlin.String?>?): kotlin.collections.Map<kotlin.String?, kotlin.String?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JString?, jni$_.JString?>? callFlutterEchoNullableStringMap(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableStringMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableStringMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JString?, jni$_.JString?>(
+        jni$_.$JString$NullableType$(),
+        jni$_.$JString$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableIntMap = _class.instanceMethodId(
+    r'callFlutterEchoNullableIntMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _callFlutterEchoNullableIntMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableIntMap(intMap: kotlin.collections.Map<kotlin.Long?, kotlin.Long?>?): kotlin.collections.Map<kotlin.Long?, kotlin.Long?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? callFlutterEchoNullableIntMap(
+    jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableIntMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableIntMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong?, jni$_.JLong?>(
+        jni$_.$JLong$NullableType$(),
+        jni$_.$JLong$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableEnumMap = _class.instanceMethodId(
+    r'callFlutterEchoNullableEnumMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _callFlutterEchoNullableEnumMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableEnumMap(enumMap: kotlin.collections.Map<NIAnEnum?, NIAnEnum?>?): kotlin.collections.Map<NIAnEnum?, NIAnEnum?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<NIAnEnum?, NIAnEnum?>? callFlutterEchoNullableEnumMap(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableEnumMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableEnumMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>(
+      const jni$_.$JMap$NullableType$<NIAnEnum?, NIAnEnum?>(
+        $NIAnEnum$NullableType$(),
+        $NIAnEnum$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableClassMap = _class.instanceMethodId(
+    r'callFlutterEchoNullableClassMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _callFlutterEchoNullableClassMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableClassMap(classMap: kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>?): kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?
+  callFlutterEchoNullableClassMap(
+    jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableClassMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableClassMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong?, NIAllNullableTypes?>(
+        jni$_.$JLong$NullableType$(),
+        $NIAllNullableTypes$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableNonNullStringMap = _class
+      .instanceMethodId(
+        r'callFlutterEchoNullableNonNullStringMap',
+        r'(Ljava/util/Map;)Ljava/util/Map;',
+      );
+
+  static final _callFlutterEchoNullableNonNullStringMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableNonNullStringMap(stringMap: kotlin.collections.Map<kotlin.String, kotlin.String>?): kotlin.collections.Map<kotlin.String, kotlin.String>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JString, jni$_.JString>?
+  callFlutterEchoNullableNonNullStringMap(
+    jni$_.JMap<jni$_.JString, jni$_.JString>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableNonNullStringMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableNonNullStringMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JString, jni$_.JString>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JString, jni$_.JString>(
+        jni$_.$JString$Type$(),
+        jni$_.$JString$Type$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableNonNullIntMap = _class
+      .instanceMethodId(
+        r'callFlutterEchoNullableNonNullIntMap',
+        r'(Ljava/util/Map;)Ljava/util/Map;',
+      );
+
+  static final _callFlutterEchoNullableNonNullIntMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableNonNullIntMap(intMap: kotlin.collections.Map<kotlin.Long, kotlin.Long>?): kotlin.collections.Map<kotlin.Long, kotlin.Long>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JLong, jni$_.JLong>? callFlutterEchoNullableNonNullIntMap(
+    jni$_.JMap<jni$_.JLong, jni$_.JLong>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableNonNullIntMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableNonNullIntMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JLong, jni$_.JLong>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong, jni$_.JLong>(
+        jni$_.$JLong$Type$(),
+        jni$_.$JLong$Type$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableNonNullEnumMap = _class
+      .instanceMethodId(
+        r'callFlutterEchoNullableNonNullEnumMap',
+        r'(Ljava/util/Map;)Ljava/util/Map;',
+      );
+
+  static final _callFlutterEchoNullableNonNullEnumMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableNonNullEnumMap(enumMap: kotlin.collections.Map<NIAnEnum, NIAnEnum>?): kotlin.collections.Map<NIAnEnum, NIAnEnum>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<NIAnEnum, NIAnEnum>? callFlutterEchoNullableNonNullEnumMap(
+    jni$_.JMap<NIAnEnum, NIAnEnum>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableNonNullEnumMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableNonNullEnumMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<NIAnEnum, NIAnEnum>?>(
+      const jni$_.$JMap$NullableType$<NIAnEnum, NIAnEnum>(
+        $NIAnEnum$Type$(),
+        $NIAnEnum$Type$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableNonNullClassMap = _class
+      .instanceMethodId(
+        r'callFlutterEchoNullableNonNullClassMap',
+        r'(Ljava/util/Map;)Ljava/util/Map;',
+      );
+
+  static final _callFlutterEchoNullableNonNullClassMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableNonNullClassMap(classMap: kotlin.collections.Map<kotlin.Long, NIAllNullableTypes>?): kotlin.collections.Map<kotlin.Long, NIAllNullableTypes>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JLong, NIAllNullableTypes>?
+  callFlutterEchoNullableNonNullClassMap(
+    jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableNonNullClassMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableNonNullClassMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JLong, NIAllNullableTypes>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong, NIAllNullableTypes>(
+        jni$_.$JLong$Type$(),
+        $NIAllNullableTypes$Type$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableEnum = _class.instanceMethodId(
+    r'callFlutterEchoNullableEnum',
+    r'(LNIAnEnum;)LNIAnEnum;',
+  );
+
+  static final _callFlutterEchoNullableEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableEnum(anEnum: NIAnEnum?): NIAnEnum?`
+  /// The returned object must be released after use, by calling the [release] method.
+  NIAnEnum? callFlutterEchoNullableEnum(NIAnEnum? nIAnEnum) {
+    final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableEnum(
+      reference.pointer,
+      _id_callFlutterEchoNullableEnum as jni$_.JMethodIDPtr,
+      _$nIAnEnum.pointer,
+    ).object<NIAnEnum?>(const $NIAnEnum$NullableType$());
+  }
+
+  static final _id_callFlutterEchoAnotherNullableEnum = _class.instanceMethodId(
+    r'callFlutterEchoAnotherNullableEnum',
+    r'(LNIAnotherEnum;)LNIAnotherEnum;',
+  );
+
+  static final _callFlutterEchoAnotherNullableEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoAnotherNullableEnum(anotherEnum: NIAnotherEnum?): NIAnotherEnum?`
+  /// The returned object must be released after use, by calling the [release] method.
+  NIAnotherEnum? callFlutterEchoAnotherNullableEnum(
+    NIAnotherEnum? nIAnotherEnum,
+  ) {
+    final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoAnotherNullableEnum(
+      reference.pointer,
+      _id_callFlutterEchoAnotherNullableEnum as jni$_.JMethodIDPtr,
+      _$nIAnotherEnum.pointer,
+    ).object<NIAnotherEnum?>(const $NIAnotherEnum$NullableType$());
+  }
 }
 
 final class $NIHostIntegrationCoreApi$NullableType$
@@ -13345,6 +14159,820 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
       _$nIAnotherEnum.pointer,
     ).object<NIAnotherEnum>(const $NIAnotherEnum$Type$());
   }
+
+  static final _id_callFlutterEchoNullableBool = _class.instanceMethodId(
+    r'callFlutterEchoNullableBool',
+    r'(Ljava/lang/Boolean;)Ljava/lang/Boolean;',
+  );
+
+  static final _callFlutterEchoNullableBool =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableBool(aBool: kotlin.Boolean?): kotlin.Boolean?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JBoolean? callFlutterEchoNullableBool(jni$_.JBoolean? boolean) {
+    final _$boolean = boolean?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableBool(
+      reference.pointer,
+      _id_callFlutterEchoNullableBool as jni$_.JMethodIDPtr,
+      _$boolean.pointer,
+    ).object<jni$_.JBoolean?>(const jni$_.$JBoolean$NullableType$());
+  }
+
+  static final _id_callFlutterEchoNullableInt = _class.instanceMethodId(
+    r'callFlutterEchoNullableInt',
+    r'(Ljava/lang/Long;)Ljava/lang/Long;',
+  );
+
+  static final _callFlutterEchoNullableInt =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableInt(anInt: kotlin.Long?): kotlin.Long?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JLong? callFlutterEchoNullableInt(jni$_.JLong? long) {
+    final _$long = long?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableInt(
+      reference.pointer,
+      _id_callFlutterEchoNullableInt as jni$_.JMethodIDPtr,
+      _$long.pointer,
+    ).object<jni$_.JLong?>(const jni$_.$JLong$NullableType$());
+  }
+
+  static final _id_callFlutterEchoNullableDouble = _class.instanceMethodId(
+    r'callFlutterEchoNullableDouble',
+    r'(Ljava/lang/Double;)Ljava/lang/Double;',
+  );
+
+  static final _callFlutterEchoNullableDouble =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableDouble(aDouble: kotlin.Double?): kotlin.Double?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JDouble? callFlutterEchoNullableDouble(jni$_.JDouble? double) {
+    final _$double = double?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableDouble(
+      reference.pointer,
+      _id_callFlutterEchoNullableDouble as jni$_.JMethodIDPtr,
+      _$double.pointer,
+    ).object<jni$_.JDouble?>(const jni$_.$JDouble$NullableType$());
+  }
+
+  static final _id_callFlutterEchoNullableString = _class.instanceMethodId(
+    r'callFlutterEchoNullableString',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _callFlutterEchoNullableString =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableString(aString: kotlin.String?): kotlin.String?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? callFlutterEchoNullableString(jni$_.JString? string) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableString(
+      reference.pointer,
+      _id_callFlutterEchoNullableString as jni$_.JMethodIDPtr,
+      _$string.pointer,
+    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+  }
+
+  static final _id_callFlutterEchoNullableUint8List = _class.instanceMethodId(
+    r'callFlutterEchoNullableUint8List',
+    r'([B)[B',
+  );
+
+  static final _callFlutterEchoNullableUint8List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableUint8List(list: kotlin.ByteArray?): kotlin.ByteArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JByteArray? callFlutterEchoNullableUint8List(jni$_.JByteArray? bs) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableUint8List(
+      reference.pointer,
+      _id_callFlutterEchoNullableUint8List as jni$_.JMethodIDPtr,
+      _$bs.pointer,
+    ).object<jni$_.JByteArray?>(const jni$_.$JByteArray$NullableType$());
+  }
+
+  static final _id_callFlutterEchoNullableList = _class.instanceMethodId(
+    r'callFlutterEchoNullableList',
+    r'(Ljava/util/List;)Ljava/util/List;',
+  );
+
+  static final _callFlutterEchoNullableList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableList(list: kotlin.collections.List<kotlin.Any?>?): kotlin.collections.List<kotlin.Any?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<jni$_.JObject?>? callFlutterEchoNullableList(
+    jni$_.JList<jni$_.JObject?>? list,
+  ) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableList(
+      reference.pointer,
+      _id_callFlutterEchoNullableList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+    ).object<jni$_.JList<jni$_.JObject?>?>(
+      const jni$_.$JList$NullableType$<jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableEnumList = _class.instanceMethodId(
+    r'callFlutterEchoNullableEnumList',
+    r'(Ljava/util/List;)Ljava/util/List;',
+  );
+
+  static final _callFlutterEchoNullableEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableEnumList(enumList: kotlin.collections.List<NIAnEnum?>?): kotlin.collections.List<NIAnEnum?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<NIAnEnum?>? callFlutterEchoNullableEnumList(
+    jni$_.JList<NIAnEnum?>? list,
+  ) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableEnumList(
+      reference.pointer,
+      _id_callFlutterEchoNullableEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+    ).object<jni$_.JList<NIAnEnum?>?>(
+      const jni$_.$JList$NullableType$<NIAnEnum?>($NIAnEnum$NullableType$()),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableClassList = _class.instanceMethodId(
+    r'callFlutterEchoNullableClassList',
+    r'(Ljava/util/List;)Ljava/util/List;',
+  );
+
+  static final _callFlutterEchoNullableClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableClassList(classList: kotlin.collections.List<NIAllNullableTypes?>?): kotlin.collections.List<NIAllNullableTypes?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<NIAllNullableTypes?>? callFlutterEchoNullableClassList(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  ) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableClassList(
+      reference.pointer,
+      _id_callFlutterEchoNullableClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+    ).object<jni$_.JList<NIAllNullableTypes?>?>(
+      const jni$_.$JList$NullableType$<NIAllNullableTypes?>(
+        $NIAllNullableTypes$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableNonNullEnumList = _class
+      .instanceMethodId(
+        r'callFlutterEchoNullableNonNullEnumList',
+        r'(Ljava/util/List;)Ljava/util/List;',
+      );
+
+  static final _callFlutterEchoNullableNonNullEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableNonNullEnumList(enumList: kotlin.collections.List<NIAnEnum>?): kotlin.collections.List<NIAnEnum>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<NIAnEnum>? callFlutterEchoNullableNonNullEnumList(
+    jni$_.JList<NIAnEnum>? list,
+  ) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableNonNullEnumList(
+      reference.pointer,
+      _id_callFlutterEchoNullableNonNullEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+    ).object<jni$_.JList<NIAnEnum>?>(
+      const jni$_.$JList$NullableType$<NIAnEnum>($NIAnEnum$Type$()),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableNonNullClassList = _class
+      .instanceMethodId(
+        r'callFlutterEchoNullableNonNullClassList',
+        r'(Ljava/util/List;)Ljava/util/List;',
+      );
+
+  static final _callFlutterEchoNullableNonNullClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableNonNullClassList(classList: kotlin.collections.List<NIAllNullableTypes>?): kotlin.collections.List<NIAllNullableTypes>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<NIAllNullableTypes>? callFlutterEchoNullableNonNullClassList(
+    jni$_.JList<NIAllNullableTypes>? list,
+  ) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableNonNullClassList(
+      reference.pointer,
+      _id_callFlutterEchoNullableNonNullClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+    ).object<jni$_.JList<NIAllNullableTypes>?>(
+      const jni$_.$JList$NullableType$<NIAllNullableTypes>(
+        $NIAllNullableTypes$Type$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableMap = _class.instanceMethodId(
+    r'callFlutterEchoNullableMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _callFlutterEchoNullableMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableMap(map: kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?): kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? callFlutterEchoNullableMap(
+    jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JObject?, jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+        jni$_.$JObject$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableStringMap = _class.instanceMethodId(
+    r'callFlutterEchoNullableStringMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _callFlutterEchoNullableStringMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableStringMap(stringMap: kotlin.collections.Map<kotlin.String?, kotlin.String?>?): kotlin.collections.Map<kotlin.String?, kotlin.String?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JString?, jni$_.JString?>? callFlutterEchoNullableStringMap(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableStringMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableStringMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JString?, jni$_.JString?>(
+        jni$_.$JString$NullableType$(),
+        jni$_.$JString$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableIntMap = _class.instanceMethodId(
+    r'callFlutterEchoNullableIntMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _callFlutterEchoNullableIntMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableIntMap(intMap: kotlin.collections.Map<kotlin.Long?, kotlin.Long?>?): kotlin.collections.Map<kotlin.Long?, kotlin.Long?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? callFlutterEchoNullableIntMap(
+    jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableIntMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableIntMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong?, jni$_.JLong?>(
+        jni$_.$JLong$NullableType$(),
+        jni$_.$JLong$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableEnumMap = _class.instanceMethodId(
+    r'callFlutterEchoNullableEnumMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _callFlutterEchoNullableEnumMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableEnumMap(enumMap: kotlin.collections.Map<NIAnEnum?, NIAnEnum?>?): kotlin.collections.Map<NIAnEnum?, NIAnEnum?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<NIAnEnum?, NIAnEnum?>? callFlutterEchoNullableEnumMap(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableEnumMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableEnumMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>(
+      const jni$_.$JMap$NullableType$<NIAnEnum?, NIAnEnum?>(
+        $NIAnEnum$NullableType$(),
+        $NIAnEnum$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableClassMap = _class.instanceMethodId(
+    r'callFlutterEchoNullableClassMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _callFlutterEchoNullableClassMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableClassMap(classMap: kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>?): kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?
+  callFlutterEchoNullableClassMap(
+    jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableClassMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableClassMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong?, NIAllNullableTypes?>(
+        jni$_.$JLong$NullableType$(),
+        $NIAllNullableTypes$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableNonNullStringMap = _class
+      .instanceMethodId(
+        r'callFlutterEchoNullableNonNullStringMap',
+        r'(Ljava/util/Map;)Ljava/util/Map;',
+      );
+
+  static final _callFlutterEchoNullableNonNullStringMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableNonNullStringMap(stringMap: kotlin.collections.Map<kotlin.String, kotlin.String>?): kotlin.collections.Map<kotlin.String, kotlin.String>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JString, jni$_.JString>?
+  callFlutterEchoNullableNonNullStringMap(
+    jni$_.JMap<jni$_.JString, jni$_.JString>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableNonNullStringMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableNonNullStringMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JString, jni$_.JString>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JString, jni$_.JString>(
+        jni$_.$JString$Type$(),
+        jni$_.$JString$Type$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableNonNullIntMap = _class
+      .instanceMethodId(
+        r'callFlutterEchoNullableNonNullIntMap',
+        r'(Ljava/util/Map;)Ljava/util/Map;',
+      );
+
+  static final _callFlutterEchoNullableNonNullIntMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableNonNullIntMap(intMap: kotlin.collections.Map<kotlin.Long, kotlin.Long>?): kotlin.collections.Map<kotlin.Long, kotlin.Long>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JLong, jni$_.JLong>? callFlutterEchoNullableNonNullIntMap(
+    jni$_.JMap<jni$_.JLong, jni$_.JLong>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableNonNullIntMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableNonNullIntMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JLong, jni$_.JLong>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong, jni$_.JLong>(
+        jni$_.$JLong$Type$(),
+        jni$_.$JLong$Type$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableNonNullEnumMap = _class
+      .instanceMethodId(
+        r'callFlutterEchoNullableNonNullEnumMap',
+        r'(Ljava/util/Map;)Ljava/util/Map;',
+      );
+
+  static final _callFlutterEchoNullableNonNullEnumMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableNonNullEnumMap(enumMap: kotlin.collections.Map<NIAnEnum, NIAnEnum>?): kotlin.collections.Map<NIAnEnum, NIAnEnum>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<NIAnEnum, NIAnEnum>? callFlutterEchoNullableNonNullEnumMap(
+    jni$_.JMap<NIAnEnum, NIAnEnum>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableNonNullEnumMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableNonNullEnumMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<NIAnEnum, NIAnEnum>?>(
+      const jni$_.$JMap$NullableType$<NIAnEnum, NIAnEnum>(
+        $NIAnEnum$Type$(),
+        $NIAnEnum$Type$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableNonNullClassMap = _class
+      .instanceMethodId(
+        r'callFlutterEchoNullableNonNullClassMap',
+        r'(Ljava/util/Map;)Ljava/util/Map;',
+      );
+
+  static final _callFlutterEchoNullableNonNullClassMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableNonNullClassMap(classMap: kotlin.collections.Map<kotlin.Long, NIAllNullableTypes>?): kotlin.collections.Map<kotlin.Long, NIAllNullableTypes>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JLong, NIAllNullableTypes>?
+  callFlutterEchoNullableNonNullClassMap(
+    jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableNonNullClassMap(
+      reference.pointer,
+      _id_callFlutterEchoNullableNonNullClassMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JLong, NIAllNullableTypes>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong, NIAllNullableTypes>(
+        jni$_.$JLong$Type$(),
+        $NIAllNullableTypes$Type$(),
+      ),
+    );
+  }
+
+  static final _id_callFlutterEchoNullableEnum = _class.instanceMethodId(
+    r'callFlutterEchoNullableEnum',
+    r'(LNIAnEnum;)LNIAnEnum;',
+  );
+
+  static final _callFlutterEchoNullableEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableEnum(anEnum: NIAnEnum?): NIAnEnum?`
+  /// The returned object must be released after use, by calling the [release] method.
+  NIAnEnum? callFlutterEchoNullableEnum(NIAnEnum? nIAnEnum) {
+    final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableEnum(
+      reference.pointer,
+      _id_callFlutterEchoNullableEnum as jni$_.JMethodIDPtr,
+      _$nIAnEnum.pointer,
+    ).object<NIAnEnum?>(const $NIAnEnum$NullableType$());
+  }
+
+  static final _id_callFlutterEchoAnotherNullableEnum = _class.instanceMethodId(
+    r'callFlutterEchoAnotherNullableEnum',
+    r'(LNIAnotherEnum;)LNIAnotherEnum;',
+  );
+
+  static final _callFlutterEchoAnotherNullableEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoAnotherNullableEnum(anotherEnum: NIAnotherEnum?): NIAnotherEnum?`
+  /// The returned object must be released after use, by calling the [release] method.
+  NIAnotherEnum? callFlutterEchoAnotherNullableEnum(
+    NIAnotherEnum? nIAnotherEnum,
+  ) {
+    final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoAnotherNullableEnum(
+      reference.pointer,
+      _id_callFlutterEchoAnotherNullableEnum as jni$_.JMethodIDPtr,
+      _$nIAnotherEnum.pointer,
+    ).object<NIAnotherEnum?>(const $NIAnotherEnum$NullableType$());
+  }
 }
 
 final class $NIHostIntegrationCoreApiRegistrar$NullableType$
@@ -14457,6 +16085,807 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
     ).object<NIAnotherEnum>(const $NIAnotherEnum$Type$());
   }
 
+  static final _id_echoNullableBool = _class.instanceMethodId(
+    r'echoNullableBool',
+    r'(Ljava/lang/Boolean;)Ljava/lang/Boolean;',
+  );
+
+  static final _echoNullableBool =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableBool(aBool: kotlin.Boolean?): kotlin.Boolean?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JBoolean? echoNullableBool(jni$_.JBoolean? boolean) {
+    final _$boolean = boolean?.reference ?? jni$_.jNullReference;
+    return _echoNullableBool(
+      reference.pointer,
+      _id_echoNullableBool as jni$_.JMethodIDPtr,
+      _$boolean.pointer,
+    ).object<jni$_.JBoolean?>(const jni$_.$JBoolean$NullableType$());
+  }
+
+  static final _id_echoNullableInt = _class.instanceMethodId(
+    r'echoNullableInt',
+    r'(Ljava/lang/Long;)Ljava/lang/Long;',
+  );
+
+  static final _echoNullableInt =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableInt(anInt: kotlin.Long?): kotlin.Long?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JLong? echoNullableInt(jni$_.JLong? long) {
+    final _$long = long?.reference ?? jni$_.jNullReference;
+    return _echoNullableInt(
+      reference.pointer,
+      _id_echoNullableInt as jni$_.JMethodIDPtr,
+      _$long.pointer,
+    ).object<jni$_.JLong?>(const jni$_.$JLong$NullableType$());
+  }
+
+  static final _id_echoNullableDouble = _class.instanceMethodId(
+    r'echoNullableDouble',
+    r'(Ljava/lang/Double;)Ljava/lang/Double;',
+  );
+
+  static final _echoNullableDouble =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableDouble(aDouble: kotlin.Double?): kotlin.Double?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JDouble? echoNullableDouble(jni$_.JDouble? double) {
+    final _$double = double?.reference ?? jni$_.jNullReference;
+    return _echoNullableDouble(
+      reference.pointer,
+      _id_echoNullableDouble as jni$_.JMethodIDPtr,
+      _$double.pointer,
+    ).object<jni$_.JDouble?>(const jni$_.$JDouble$NullableType$());
+  }
+
+  static final _id_echoNullableString = _class.instanceMethodId(
+    r'echoNullableString',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _echoNullableString =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableString(aString: kotlin.String?): kotlin.String?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? echoNullableString(jni$_.JString? string) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _echoNullableString(
+      reference.pointer,
+      _id_echoNullableString as jni$_.JMethodIDPtr,
+      _$string.pointer,
+    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+  }
+
+  static final _id_echoNullableUint8List = _class.instanceMethodId(
+    r'echoNullableUint8List',
+    r'([B)[B',
+  );
+
+  static final _echoNullableUint8List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableUint8List(list: kotlin.ByteArray?): kotlin.ByteArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JByteArray? echoNullableUint8List(jni$_.JByteArray? bs) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _echoNullableUint8List(
+      reference.pointer,
+      _id_echoNullableUint8List as jni$_.JMethodIDPtr,
+      _$bs.pointer,
+    ).object<jni$_.JByteArray?>(const jni$_.$JByteArray$NullableType$());
+  }
+
+  static final _id_echoNullableList = _class.instanceMethodId(
+    r'echoNullableList',
+    r'(Ljava/util/List;)Ljava/util/List;',
+  );
+
+  static final _echoNullableList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableList(list: kotlin.collections.List<kotlin.Any?>?): kotlin.collections.List<kotlin.Any?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<jni$_.JObject?>? echoNullableList(
+    jni$_.JList<jni$_.JObject?>? list,
+  ) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _echoNullableList(
+      reference.pointer,
+      _id_echoNullableList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+    ).object<jni$_.JList<jni$_.JObject?>?>(
+      const jni$_.$JList$NullableType$<jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_echoNullableEnumList = _class.instanceMethodId(
+    r'echoNullableEnumList',
+    r'(Ljava/util/List;)Ljava/util/List;',
+  );
+
+  static final _echoNullableEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableEnumList(enumList: kotlin.collections.List<NIAnEnum?>?): kotlin.collections.List<NIAnEnum?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<NIAnEnum?>? echoNullableEnumList(jni$_.JList<NIAnEnum?>? list) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _echoNullableEnumList(
+      reference.pointer,
+      _id_echoNullableEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+    ).object<jni$_.JList<NIAnEnum?>?>(
+      const jni$_.$JList$NullableType$<NIAnEnum?>($NIAnEnum$NullableType$()),
+    );
+  }
+
+  static final _id_echoNullableClassList = _class.instanceMethodId(
+    r'echoNullableClassList',
+    r'(Ljava/util/List;)Ljava/util/List;',
+  );
+
+  static final _echoNullableClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableClassList(classList: kotlin.collections.List<NIAllNullableTypes?>?): kotlin.collections.List<NIAllNullableTypes?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<NIAllNullableTypes?>? echoNullableClassList(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  ) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _echoNullableClassList(
+      reference.pointer,
+      _id_echoNullableClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+    ).object<jni$_.JList<NIAllNullableTypes?>?>(
+      const jni$_.$JList$NullableType$<NIAllNullableTypes?>(
+        $NIAllNullableTypes$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_echoNullableNonNullEnumList = _class.instanceMethodId(
+    r'echoNullableNonNullEnumList',
+    r'(Ljava/util/List;)Ljava/util/List;',
+  );
+
+  static final _echoNullableNonNullEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableNonNullEnumList(enumList: kotlin.collections.List<NIAnEnum>?): kotlin.collections.List<NIAnEnum>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<NIAnEnum>? echoNullableNonNullEnumList(
+    jni$_.JList<NIAnEnum>? list,
+  ) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _echoNullableNonNullEnumList(
+      reference.pointer,
+      _id_echoNullableNonNullEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+    ).object<jni$_.JList<NIAnEnum>?>(
+      const jni$_.$JList$NullableType$<NIAnEnum>($NIAnEnum$Type$()),
+    );
+  }
+
+  static final _id_echoNullableNonNullClassList = _class.instanceMethodId(
+    r'echoNullableNonNullClassList',
+    r'(Ljava/util/List;)Ljava/util/List;',
+  );
+
+  static final _echoNullableNonNullClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableNonNullClassList(classList: kotlin.collections.List<NIAllNullableTypes>?): kotlin.collections.List<NIAllNullableTypes>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<NIAllNullableTypes>? echoNullableNonNullClassList(
+    jni$_.JList<NIAllNullableTypes>? list,
+  ) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _echoNullableNonNullClassList(
+      reference.pointer,
+      _id_echoNullableNonNullClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+    ).object<jni$_.JList<NIAllNullableTypes>?>(
+      const jni$_.$JList$NullableType$<NIAllNullableTypes>(
+        $NIAllNullableTypes$Type$(),
+      ),
+    );
+  }
+
+  static final _id_echoNullableMap = _class.instanceMethodId(
+    r'echoNullableMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _echoNullableMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableMap(map: kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?): kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? echoNullableMap(
+    jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _echoNullableMap(
+      reference.pointer,
+      _id_echoNullableMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JObject?, jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+        jni$_.$JObject$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_echoNullableStringMap = _class.instanceMethodId(
+    r'echoNullableStringMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _echoNullableStringMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableStringMap(stringMap: kotlin.collections.Map<kotlin.String?, kotlin.String?>?): kotlin.collections.Map<kotlin.String?, kotlin.String?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JString?, jni$_.JString?>? echoNullableStringMap(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _echoNullableStringMap(
+      reference.pointer,
+      _id_echoNullableStringMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JString?, jni$_.JString?>(
+        jni$_.$JString$NullableType$(),
+        jni$_.$JString$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_echoNullableIntMap = _class.instanceMethodId(
+    r'echoNullableIntMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _echoNullableIntMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableIntMap(intMap: kotlin.collections.Map<kotlin.Long?, kotlin.Long?>?): kotlin.collections.Map<kotlin.Long?, kotlin.Long?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? echoNullableIntMap(
+    jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _echoNullableIntMap(
+      reference.pointer,
+      _id_echoNullableIntMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong?, jni$_.JLong?>(
+        jni$_.$JLong$NullableType$(),
+        jni$_.$JLong$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_echoNullableEnumMap = _class.instanceMethodId(
+    r'echoNullableEnumMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _echoNullableEnumMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableEnumMap(enumMap: kotlin.collections.Map<NIAnEnum?, NIAnEnum?>?): kotlin.collections.Map<NIAnEnum?, NIAnEnum?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<NIAnEnum?, NIAnEnum?>? echoNullableEnumMap(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _echoNullableEnumMap(
+      reference.pointer,
+      _id_echoNullableEnumMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>(
+      const jni$_.$JMap$NullableType$<NIAnEnum?, NIAnEnum?>(
+        $NIAnEnum$NullableType$(),
+        $NIAnEnum$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_echoNullableClassMap = _class.instanceMethodId(
+    r'echoNullableClassMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _echoNullableClassMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableClassMap(classMap: kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>?): kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? echoNullableClassMap(
+    jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _echoNullableClassMap(
+      reference.pointer,
+      _id_echoNullableClassMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong?, NIAllNullableTypes?>(
+        jni$_.$JLong$NullableType$(),
+        $NIAllNullableTypes$NullableType$(),
+      ),
+    );
+  }
+
+  static final _id_echoNullableNonNullStringMap = _class.instanceMethodId(
+    r'echoNullableNonNullStringMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _echoNullableNonNullStringMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableNonNullStringMap(stringMap: kotlin.collections.Map<kotlin.String, kotlin.String>?): kotlin.collections.Map<kotlin.String, kotlin.String>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JString, jni$_.JString>? echoNullableNonNullStringMap(
+    jni$_.JMap<jni$_.JString, jni$_.JString>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _echoNullableNonNullStringMap(
+      reference.pointer,
+      _id_echoNullableNonNullStringMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JString, jni$_.JString>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JString, jni$_.JString>(
+        jni$_.$JString$Type$(),
+        jni$_.$JString$Type$(),
+      ),
+    );
+  }
+
+  static final _id_echoNullableNonNullIntMap = _class.instanceMethodId(
+    r'echoNullableNonNullIntMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _echoNullableNonNullIntMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableNonNullIntMap(intMap: kotlin.collections.Map<kotlin.Long, kotlin.Long>?): kotlin.collections.Map<kotlin.Long, kotlin.Long>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JLong, jni$_.JLong>? echoNullableNonNullIntMap(
+    jni$_.JMap<jni$_.JLong, jni$_.JLong>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _echoNullableNonNullIntMap(
+      reference.pointer,
+      _id_echoNullableNonNullIntMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JLong, jni$_.JLong>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong, jni$_.JLong>(
+        jni$_.$JLong$Type$(),
+        jni$_.$JLong$Type$(),
+      ),
+    );
+  }
+
+  static final _id_echoNullableNonNullEnumMap = _class.instanceMethodId(
+    r'echoNullableNonNullEnumMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _echoNullableNonNullEnumMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableNonNullEnumMap(enumMap: kotlin.collections.Map<NIAnEnum, NIAnEnum>?): kotlin.collections.Map<NIAnEnum, NIAnEnum>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<NIAnEnum, NIAnEnum>? echoNullableNonNullEnumMap(
+    jni$_.JMap<NIAnEnum, NIAnEnum>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _echoNullableNonNullEnumMap(
+      reference.pointer,
+      _id_echoNullableNonNullEnumMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<NIAnEnum, NIAnEnum>?>(
+      const jni$_.$JMap$NullableType$<NIAnEnum, NIAnEnum>(
+        $NIAnEnum$Type$(),
+        $NIAnEnum$Type$(),
+      ),
+    );
+  }
+
+  static final _id_echoNullableNonNullClassMap = _class.instanceMethodId(
+    r'echoNullableNonNullClassMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _echoNullableNonNullClassMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableNonNullClassMap(classMap: kotlin.collections.Map<kotlin.Long, NIAllNullableTypes>?): kotlin.collections.Map<kotlin.Long, NIAllNullableTypes>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? echoNullableNonNullClassMap(
+    jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _echoNullableNonNullClassMap(
+      reference.pointer,
+      _id_echoNullableNonNullClassMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+    ).object<jni$_.JMap<jni$_.JLong, NIAllNullableTypes>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong, NIAllNullableTypes>(
+        jni$_.$JLong$Type$(),
+        $NIAllNullableTypes$Type$(),
+      ),
+    );
+  }
+
+  static final _id_echoNullableEnum = _class.instanceMethodId(
+    r'echoNullableEnum',
+    r'(LNIAnEnum;)LNIAnEnum;',
+  );
+
+  static final _echoNullableEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableEnum(anEnum: NIAnEnum?): NIAnEnum?`
+  /// The returned object must be released after use, by calling the [release] method.
+  NIAnEnum? echoNullableEnum(NIAnEnum? nIAnEnum) {
+    final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
+    return _echoNullableEnum(
+      reference.pointer,
+      _id_echoNullableEnum as jni$_.JMethodIDPtr,
+      _$nIAnEnum.pointer,
+    ).object<NIAnEnum?>(const $NIAnEnum$NullableType$());
+  }
+
+  static final _id_echoAnotherNullableEnum = _class.instanceMethodId(
+    r'echoAnotherNullableEnum',
+    r'(LNIAnotherEnum;)LNIAnotherEnum;',
+  );
+
+  static final _echoAnotherNullableEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoAnotherNullableEnum(anotherEnum: NIAnotherEnum?): NIAnotherEnum?`
+  /// The returned object must be released after use, by calling the [release] method.
+  NIAnotherEnum? echoAnotherNullableEnum(NIAnotherEnum? nIAnotherEnum) {
+    final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
+    return _echoAnotherNullableEnum(
+      reference.pointer,
+      _id_echoAnotherNullableEnum as jni$_.JMethodIDPtr,
+      _$nIAnotherEnum.pointer,
+    ).object<NIAnotherEnum?>(const $NIAnotherEnum$NullableType$());
+  }
+
   /// Maps a specific port to the implemented interface.
   static final core$_.Map<int, $NIFlutterIntegrationCoreApi> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
@@ -14828,6 +17257,295 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
                 .toPointer() ??
             jni$_.nullptr;
       }
+      if ($d == r'echoNullableBool(Ljava/lang/Boolean;)Ljava/lang/Boolean;') {
+        final $r = _$impls[$p]!.echoNullableBool(
+          $a![0]?.as(const jni$_.$JBoolean$Type$(), releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableInt(Ljava/lang/Long;)Ljava/lang/Long;') {
+        final $r = _$impls[$p]!.echoNullableInt(
+          $a![0]?.as(const jni$_.$JLong$Type$(), releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableDouble(Ljava/lang/Double;)Ljava/lang/Double;') {
+        final $r = _$impls[$p]!.echoNullableDouble(
+          $a![0]?.as(const jni$_.$JDouble$Type$(), releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableString(Ljava/lang/String;)Ljava/lang/String;') {
+        final $r = _$impls[$p]!.echoNullableString(
+          $a![0]?.as(const jni$_.$JString$Type$(), releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableUint8List([B)[B') {
+        final $r = _$impls[$p]!.echoNullableUint8List(
+          $a![0]?.as(const jni$_.$JByteArray$Type$(), releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableList(Ljava/util/List;)Ljava/util/List;') {
+        final $r = _$impls[$p]!.echoNullableList(
+          $a![0]?.as(
+            const jni$_.$JList$Type$<jni$_.JObject?>(
+              jni$_.$JObject$NullableType$(),
+            ),
+            releaseOriginal: true,
+          ),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableEnumList(Ljava/util/List;)Ljava/util/List;') {
+        final $r = _$impls[$p]!.echoNullableEnumList(
+          $a![0]?.as(
+            const jni$_.$JList$Type$<NIAnEnum?>($NIAnEnum$NullableType$()),
+            releaseOriginal: true,
+          ),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableClassList(Ljava/util/List;)Ljava/util/List;') {
+        final $r = _$impls[$p]!.echoNullableClassList(
+          $a![0]?.as(
+            const jni$_.$JList$Type$<NIAllNullableTypes?>(
+              $NIAllNullableTypes$NullableType$(),
+            ),
+            releaseOriginal: true,
+          ),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoNullableNonNullEnumList(Ljava/util/List;)Ljava/util/List;') {
+        final $r = _$impls[$p]!.echoNullableNonNullEnumList(
+          $a![0]?.as(
+            const jni$_.$JList$Type$<NIAnEnum>($NIAnEnum$Type$()),
+            releaseOriginal: true,
+          ),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoNullableNonNullClassList(Ljava/util/List;)Ljava/util/List;') {
+        final $r = _$impls[$p]!.echoNullableNonNullClassList(
+          $a![0]?.as(
+            const jni$_.$JList$Type$<NIAllNullableTypes>(
+              $NIAllNullableTypes$Type$(),
+            ),
+            releaseOriginal: true,
+          ),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableMap(Ljava/util/Map;)Ljava/util/Map;') {
+        final $r = _$impls[$p]!.echoNullableMap(
+          $a![0]?.as(
+            const jni$_.$JMap$Type$<jni$_.JObject?, jni$_.JObject?>(
+              jni$_.$JObject$NullableType$(),
+              jni$_.$JObject$NullableType$(),
+            ),
+            releaseOriginal: true,
+          ),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableStringMap(Ljava/util/Map;)Ljava/util/Map;') {
+        final $r = _$impls[$p]!.echoNullableStringMap(
+          $a![0]?.as(
+            const jni$_.$JMap$Type$<jni$_.JString?, jni$_.JString?>(
+              jni$_.$JString$NullableType$(),
+              jni$_.$JString$NullableType$(),
+            ),
+            releaseOriginal: true,
+          ),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableIntMap(Ljava/util/Map;)Ljava/util/Map;') {
+        final $r = _$impls[$p]!.echoNullableIntMap(
+          $a![0]?.as(
+            const jni$_.$JMap$Type$<jni$_.JLong?, jni$_.JLong?>(
+              jni$_.$JLong$NullableType$(),
+              jni$_.$JLong$NullableType$(),
+            ),
+            releaseOriginal: true,
+          ),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableEnumMap(Ljava/util/Map;)Ljava/util/Map;') {
+        final $r = _$impls[$p]!.echoNullableEnumMap(
+          $a![0]?.as(
+            const jni$_.$JMap$Type$<NIAnEnum?, NIAnEnum?>(
+              $NIAnEnum$NullableType$(),
+              $NIAnEnum$NullableType$(),
+            ),
+            releaseOriginal: true,
+          ),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableClassMap(Ljava/util/Map;)Ljava/util/Map;') {
+        final $r = _$impls[$p]!.echoNullableClassMap(
+          $a![0]?.as(
+            const jni$_.$JMap$Type$<jni$_.JLong?, NIAllNullableTypes?>(
+              jni$_.$JLong$NullableType$(),
+              $NIAllNullableTypes$NullableType$(),
+            ),
+            releaseOriginal: true,
+          ),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoNullableNonNullStringMap(Ljava/util/Map;)Ljava/util/Map;') {
+        final $r = _$impls[$p]!.echoNullableNonNullStringMap(
+          $a![0]?.as(
+            const jni$_.$JMap$Type$<jni$_.JString, jni$_.JString>(
+              jni$_.$JString$Type$(),
+              jni$_.$JString$Type$(),
+            ),
+            releaseOriginal: true,
+          ),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableNonNullIntMap(Ljava/util/Map;)Ljava/util/Map;') {
+        final $r = _$impls[$p]!.echoNullableNonNullIntMap(
+          $a![0]?.as(
+            const jni$_.$JMap$Type$<jni$_.JLong, jni$_.JLong>(
+              jni$_.$JLong$Type$(),
+              jni$_.$JLong$Type$(),
+            ),
+            releaseOriginal: true,
+          ),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableNonNullEnumMap(Ljava/util/Map;)Ljava/util/Map;') {
+        final $r = _$impls[$p]!.echoNullableNonNullEnumMap(
+          $a![0]?.as(
+            const jni$_.$JMap$Type$<NIAnEnum, NIAnEnum>(
+              $NIAnEnum$Type$(),
+              $NIAnEnum$Type$(),
+            ),
+            releaseOriginal: true,
+          ),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoNullableNonNullClassMap(Ljava/util/Map;)Ljava/util/Map;') {
+        final $r = _$impls[$p]!.echoNullableNonNullClassMap(
+          $a![0]?.as(
+            const jni$_.$JMap$Type$<jni$_.JLong, NIAllNullableTypes>(
+              jni$_.$JLong$Type$(),
+              $NIAllNullableTypes$Type$(),
+            ),
+            releaseOriginal: true,
+          ),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableEnum(LNIAnEnum;)LNIAnEnum;') {
+        final $r = _$impls[$p]!.echoNullableEnum(
+          $a![0]?.as(const $NIAnEnum$Type$(), releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoAnotherNullableEnum(LNIAnotherEnum;)LNIAnotherEnum;') {
+        final $r = _$impls[$p]!.echoAnotherNullableEnum(
+          $a![0]?.as(const $NIAnotherEnum$Type$(), releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);
     }
@@ -14950,6 +17668,67 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
     required NIAnEnum Function(NIAnEnum nIAnEnum) echoEnum,
     required NIAnotherEnum Function(NIAnotherEnum nIAnotherEnum)
     echoNIAnotherEnum,
+    required jni$_.JBoolean? Function(jni$_.JBoolean? boolean) echoNullableBool,
+    required jni$_.JLong? Function(jni$_.JLong? long) echoNullableInt,
+    required jni$_.JDouble? Function(jni$_.JDouble? double) echoNullableDouble,
+    required jni$_.JString? Function(jni$_.JString? string) echoNullableString,
+    required jni$_.JByteArray? Function(jni$_.JByteArray? bs)
+    echoNullableUint8List,
+    required jni$_.JList<jni$_.JObject?>? Function(
+      jni$_.JList<jni$_.JObject?>? list,
+    )
+    echoNullableList,
+    required jni$_.JList<NIAnEnum?>? Function(jni$_.JList<NIAnEnum?>? list)
+    echoNullableEnumList,
+    required jni$_.JList<NIAllNullableTypes?>? Function(
+      jni$_.JList<NIAllNullableTypes?>? list,
+    )
+    echoNullableClassList,
+    required jni$_.JList<NIAnEnum>? Function(jni$_.JList<NIAnEnum>? list)
+    echoNullableNonNullEnumList,
+    required jni$_.JList<NIAllNullableTypes>? Function(
+      jni$_.JList<NIAllNullableTypes>? list,
+    )
+    echoNullableNonNullClassList,
+    required jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? Function(
+      jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
+    )
+    echoNullableMap,
+    required jni$_.JMap<jni$_.JString?, jni$_.JString?>? Function(
+      jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
+    )
+    echoNullableStringMap,
+    required jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? Function(
+      jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
+    )
+    echoNullableIntMap,
+    required jni$_.JMap<NIAnEnum?, NIAnEnum?>? Function(
+      jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+    )
+    echoNullableEnumMap,
+    required jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? Function(
+      jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
+    )
+    echoNullableClassMap,
+    required jni$_.JMap<jni$_.JString, jni$_.JString>? Function(
+      jni$_.JMap<jni$_.JString, jni$_.JString>? map,
+    )
+    echoNullableNonNullStringMap,
+    required jni$_.JMap<jni$_.JLong, jni$_.JLong>? Function(
+      jni$_.JMap<jni$_.JLong, jni$_.JLong>? map,
+    )
+    echoNullableNonNullIntMap,
+    required jni$_.JMap<NIAnEnum, NIAnEnum>? Function(
+      jni$_.JMap<NIAnEnum, NIAnEnum>? map,
+    )
+    echoNullableNonNullEnumMap,
+    required jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? Function(
+      jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? map,
+    )
+    echoNullableNonNullClassMap,
+    required NIAnEnum? Function(NIAnEnum? nIAnEnum) echoNullableEnum,
+    required NIAnotherEnum? Function(NIAnotherEnum? nIAnotherEnum)
+    echoAnotherNullableEnum,
   }) = _$NIFlutterIntegrationCoreApi;
 
   void noop();
@@ -15014,6 +17793,53 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
   );
   NIAnEnum echoEnum(NIAnEnum nIAnEnum);
   NIAnotherEnum echoNIAnotherEnum(NIAnotherEnum nIAnotherEnum);
+  jni$_.JBoolean? echoNullableBool(jni$_.JBoolean? boolean);
+  jni$_.JLong? echoNullableInt(jni$_.JLong? long);
+  jni$_.JDouble? echoNullableDouble(jni$_.JDouble? double);
+  jni$_.JString? echoNullableString(jni$_.JString? string);
+  jni$_.JByteArray? echoNullableUint8List(jni$_.JByteArray? bs);
+  jni$_.JList<jni$_.JObject?>? echoNullableList(
+    jni$_.JList<jni$_.JObject?>? list,
+  );
+  jni$_.JList<NIAnEnum?>? echoNullableEnumList(jni$_.JList<NIAnEnum?>? list);
+  jni$_.JList<NIAllNullableTypes?>? echoNullableClassList(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  );
+  jni$_.JList<NIAnEnum>? echoNullableNonNullEnumList(
+    jni$_.JList<NIAnEnum>? list,
+  );
+  jni$_.JList<NIAllNullableTypes>? echoNullableNonNullClassList(
+    jni$_.JList<NIAllNullableTypes>? list,
+  );
+  jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? echoNullableMap(
+    jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
+  );
+  jni$_.JMap<jni$_.JString?, jni$_.JString?>? echoNullableStringMap(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
+  );
+  jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? echoNullableIntMap(
+    jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
+  );
+  jni$_.JMap<NIAnEnum?, NIAnEnum?>? echoNullableEnumMap(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+  );
+  jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? echoNullableClassMap(
+    jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
+  );
+  jni$_.JMap<jni$_.JString, jni$_.JString>? echoNullableNonNullStringMap(
+    jni$_.JMap<jni$_.JString, jni$_.JString>? map,
+  );
+  jni$_.JMap<jni$_.JLong, jni$_.JLong>? echoNullableNonNullIntMap(
+    jni$_.JMap<jni$_.JLong, jni$_.JLong>? map,
+  );
+  jni$_.JMap<NIAnEnum, NIAnEnum>? echoNullableNonNullEnumMap(
+    jni$_.JMap<NIAnEnum, NIAnEnum>? map,
+  );
+  jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? echoNullableNonNullClassMap(
+    jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? map,
+  );
+  NIAnEnum? echoNullableEnum(NIAnEnum? nIAnEnum);
+  NIAnotherEnum? echoAnotherNullableEnum(NIAnotherEnum? nIAnotherEnum);
 }
 
 final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
@@ -15101,6 +17927,67 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
     required NIAnEnum Function(NIAnEnum nIAnEnum) echoEnum,
     required NIAnotherEnum Function(NIAnotherEnum nIAnotherEnum)
     echoNIAnotherEnum,
+    required jni$_.JBoolean? Function(jni$_.JBoolean? boolean) echoNullableBool,
+    required jni$_.JLong? Function(jni$_.JLong? long) echoNullableInt,
+    required jni$_.JDouble? Function(jni$_.JDouble? double) echoNullableDouble,
+    required jni$_.JString? Function(jni$_.JString? string) echoNullableString,
+    required jni$_.JByteArray? Function(jni$_.JByteArray? bs)
+    echoNullableUint8List,
+    required jni$_.JList<jni$_.JObject?>? Function(
+      jni$_.JList<jni$_.JObject?>? list,
+    )
+    echoNullableList,
+    required jni$_.JList<NIAnEnum?>? Function(jni$_.JList<NIAnEnum?>? list)
+    echoNullableEnumList,
+    required jni$_.JList<NIAllNullableTypes?>? Function(
+      jni$_.JList<NIAllNullableTypes?>? list,
+    )
+    echoNullableClassList,
+    required jni$_.JList<NIAnEnum>? Function(jni$_.JList<NIAnEnum>? list)
+    echoNullableNonNullEnumList,
+    required jni$_.JList<NIAllNullableTypes>? Function(
+      jni$_.JList<NIAllNullableTypes>? list,
+    )
+    echoNullableNonNullClassList,
+    required jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? Function(
+      jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
+    )
+    echoNullableMap,
+    required jni$_.JMap<jni$_.JString?, jni$_.JString?>? Function(
+      jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
+    )
+    echoNullableStringMap,
+    required jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? Function(
+      jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
+    )
+    echoNullableIntMap,
+    required jni$_.JMap<NIAnEnum?, NIAnEnum?>? Function(
+      jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+    )
+    echoNullableEnumMap,
+    required jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? Function(
+      jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
+    )
+    echoNullableClassMap,
+    required jni$_.JMap<jni$_.JString, jni$_.JString>? Function(
+      jni$_.JMap<jni$_.JString, jni$_.JString>? map,
+    )
+    echoNullableNonNullStringMap,
+    required jni$_.JMap<jni$_.JLong, jni$_.JLong>? Function(
+      jni$_.JMap<jni$_.JLong, jni$_.JLong>? map,
+    )
+    echoNullableNonNullIntMap,
+    required jni$_.JMap<NIAnEnum, NIAnEnum>? Function(
+      jni$_.JMap<NIAnEnum, NIAnEnum>? map,
+    )
+    echoNullableNonNullEnumMap,
+    required jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? Function(
+      jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? map,
+    )
+    echoNullableNonNullClassMap,
+    required NIAnEnum? Function(NIAnEnum? nIAnEnum) echoNullableEnum,
+    required NIAnotherEnum? Function(NIAnotherEnum? nIAnotherEnum)
+    echoAnotherNullableEnum,
   }) : _noop = noop,
        _echoNIAllTypes = echoNIAllTypes,
        _echoNIAllNullableTypes = echoNIAllNullableTypes,
@@ -15129,7 +18016,28 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
        _echoNonNullEnumMap = echoNonNullEnumMap,
        _echoNonNullClassMap = echoNonNullClassMap,
        _echoEnum = echoEnum,
-       _echoNIAnotherEnum = echoNIAnotherEnum;
+       _echoNIAnotherEnum = echoNIAnotherEnum,
+       _echoNullableBool = echoNullableBool,
+       _echoNullableInt = echoNullableInt,
+       _echoNullableDouble = echoNullableDouble,
+       _echoNullableString = echoNullableString,
+       _echoNullableUint8List = echoNullableUint8List,
+       _echoNullableList = echoNullableList,
+       _echoNullableEnumList = echoNullableEnumList,
+       _echoNullableClassList = echoNullableClassList,
+       _echoNullableNonNullEnumList = echoNullableNonNullEnumList,
+       _echoNullableNonNullClassList = echoNullableNonNullClassList,
+       _echoNullableMap = echoNullableMap,
+       _echoNullableStringMap = echoNullableStringMap,
+       _echoNullableIntMap = echoNullableIntMap,
+       _echoNullableEnumMap = echoNullableEnumMap,
+       _echoNullableClassMap = echoNullableClassMap,
+       _echoNullableNonNullStringMap = echoNullableNonNullStringMap,
+       _echoNullableNonNullIntMap = echoNullableNonNullIntMap,
+       _echoNullableNonNullEnumMap = echoNullableNonNullEnumMap,
+       _echoNullableNonNullClassMap = echoNullableNonNullClassMap,
+       _echoNullableEnum = echoNullableEnum,
+       _echoAnotherNullableEnum = echoAnotherNullableEnum;
 
   final void Function() _noop;
   final core$_.bool noop$async;
@@ -15209,6 +18117,64 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
   _echoNonNullClassMap;
   final NIAnEnum Function(NIAnEnum nIAnEnum) _echoEnum;
   final NIAnotherEnum Function(NIAnotherEnum nIAnotherEnum) _echoNIAnotherEnum;
+  final jni$_.JBoolean? Function(jni$_.JBoolean? boolean) _echoNullableBool;
+  final jni$_.JLong? Function(jni$_.JLong? long) _echoNullableInt;
+  final jni$_.JDouble? Function(jni$_.JDouble? double) _echoNullableDouble;
+  final jni$_.JString? Function(jni$_.JString? string) _echoNullableString;
+  final jni$_.JByteArray? Function(jni$_.JByteArray? bs) _echoNullableUint8List;
+  final jni$_.JList<jni$_.JObject?>? Function(jni$_.JList<jni$_.JObject?>? list)
+  _echoNullableList;
+  final jni$_.JList<NIAnEnum?>? Function(jni$_.JList<NIAnEnum?>? list)
+  _echoNullableEnumList;
+  final jni$_.JList<NIAllNullableTypes?>? Function(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  )
+  _echoNullableClassList;
+  final jni$_.JList<NIAnEnum>? Function(jni$_.JList<NIAnEnum>? list)
+  _echoNullableNonNullEnumList;
+  final jni$_.JList<NIAllNullableTypes>? Function(
+    jni$_.JList<NIAllNullableTypes>? list,
+  )
+  _echoNullableNonNullClassList;
+  final jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? Function(
+    jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
+  )
+  _echoNullableMap;
+  final jni$_.JMap<jni$_.JString?, jni$_.JString?>? Function(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
+  )
+  _echoNullableStringMap;
+  final jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? Function(
+    jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
+  )
+  _echoNullableIntMap;
+  final jni$_.JMap<NIAnEnum?, NIAnEnum?>? Function(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+  )
+  _echoNullableEnumMap;
+  final jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? Function(
+    jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
+  )
+  _echoNullableClassMap;
+  final jni$_.JMap<jni$_.JString, jni$_.JString>? Function(
+    jni$_.JMap<jni$_.JString, jni$_.JString>? map,
+  )
+  _echoNullableNonNullStringMap;
+  final jni$_.JMap<jni$_.JLong, jni$_.JLong>? Function(
+    jni$_.JMap<jni$_.JLong, jni$_.JLong>? map,
+  )
+  _echoNullableNonNullIntMap;
+  final jni$_.JMap<NIAnEnum, NIAnEnum>? Function(
+    jni$_.JMap<NIAnEnum, NIAnEnum>? map,
+  )
+  _echoNullableNonNullEnumMap;
+  final jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? Function(
+    jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? map,
+  )
+  _echoNullableNonNullClassMap;
+  final NIAnEnum? Function(NIAnEnum? nIAnEnum) _echoNullableEnum;
+  final NIAnotherEnum? Function(NIAnotherEnum? nIAnotherEnum)
+  _echoAnotherNullableEnum;
 
   void noop() {
     return _noop();
@@ -15352,6 +18318,116 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
 
   NIAnotherEnum echoNIAnotherEnum(NIAnotherEnum nIAnotherEnum) {
     return _echoNIAnotherEnum(nIAnotherEnum);
+  }
+
+  jni$_.JBoolean? echoNullableBool(jni$_.JBoolean? boolean) {
+    return _echoNullableBool(boolean);
+  }
+
+  jni$_.JLong? echoNullableInt(jni$_.JLong? long) {
+    return _echoNullableInt(long);
+  }
+
+  jni$_.JDouble? echoNullableDouble(jni$_.JDouble? double) {
+    return _echoNullableDouble(double);
+  }
+
+  jni$_.JString? echoNullableString(jni$_.JString? string) {
+    return _echoNullableString(string);
+  }
+
+  jni$_.JByteArray? echoNullableUint8List(jni$_.JByteArray? bs) {
+    return _echoNullableUint8List(bs);
+  }
+
+  jni$_.JList<jni$_.JObject?>? echoNullableList(
+    jni$_.JList<jni$_.JObject?>? list,
+  ) {
+    return _echoNullableList(list);
+  }
+
+  jni$_.JList<NIAnEnum?>? echoNullableEnumList(jni$_.JList<NIAnEnum?>? list) {
+    return _echoNullableEnumList(list);
+  }
+
+  jni$_.JList<NIAllNullableTypes?>? echoNullableClassList(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  ) {
+    return _echoNullableClassList(list);
+  }
+
+  jni$_.JList<NIAnEnum>? echoNullableNonNullEnumList(
+    jni$_.JList<NIAnEnum>? list,
+  ) {
+    return _echoNullableNonNullEnumList(list);
+  }
+
+  jni$_.JList<NIAllNullableTypes>? echoNullableNonNullClassList(
+    jni$_.JList<NIAllNullableTypes>? list,
+  ) {
+    return _echoNullableNonNullClassList(list);
+  }
+
+  jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? echoNullableMap(
+    jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
+  ) {
+    return _echoNullableMap(map);
+  }
+
+  jni$_.JMap<jni$_.JString?, jni$_.JString?>? echoNullableStringMap(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
+  ) {
+    return _echoNullableStringMap(map);
+  }
+
+  jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? echoNullableIntMap(
+    jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
+  ) {
+    return _echoNullableIntMap(map);
+  }
+
+  jni$_.JMap<NIAnEnum?, NIAnEnum?>? echoNullableEnumMap(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+  ) {
+    return _echoNullableEnumMap(map);
+  }
+
+  jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? echoNullableClassMap(
+    jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
+  ) {
+    return _echoNullableClassMap(map);
+  }
+
+  jni$_.JMap<jni$_.JString, jni$_.JString>? echoNullableNonNullStringMap(
+    jni$_.JMap<jni$_.JString, jni$_.JString>? map,
+  ) {
+    return _echoNullableNonNullStringMap(map);
+  }
+
+  jni$_.JMap<jni$_.JLong, jni$_.JLong>? echoNullableNonNullIntMap(
+    jni$_.JMap<jni$_.JLong, jni$_.JLong>? map,
+  ) {
+    return _echoNullableNonNullIntMap(map);
+  }
+
+  jni$_.JMap<NIAnEnum, NIAnEnum>? echoNullableNonNullEnumMap(
+    jni$_.JMap<NIAnEnum, NIAnEnum>? map,
+  ) {
+    return _echoNullableNonNullEnumMap(map);
+  }
+
+  jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? echoNullableNonNullClassMap(
+    jni$_.JMap<jni$_.JLong, NIAllNullableTypes>? map,
+  ) {
+    return _echoNullableNonNullClassMap(map);
+  }
+
+  NIAnEnum? echoNullableEnum(NIAnEnum? nIAnEnum) {
+    return _echoNullableEnum(nIAnEnum);
+  }
+
+  NIAnotherEnum? echoAnotherNullableEnum(NIAnotherEnum? nIAnotherEnum) {
+    return _echoAnotherNullableEnum(nIAnotherEnum);
   }
 }
 

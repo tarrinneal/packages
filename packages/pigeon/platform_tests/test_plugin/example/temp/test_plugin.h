@@ -799,6 +799,119 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
     echoNIAnotherEnumWithAnotherEnum:(NSNumber* _Nonnull)anotherEnum
                                error:(NiTestsError* _Nonnull)error
     SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed boolean, to test serialization and deserialization.
+- (NSNumber* _Nullable)echoNullableBoolWithABool:(NSNumber* _Nullable)aBool
+                                           error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed int, to test serialization and deserialization.
+- (NSNumber* _Nullable)echoNullableIntWithAnInt:(NSNumber* _Nullable)anInt
+                                          error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed double, to test serialization and deserialization.
+- (NSNumber* _Nullable)
+    echoNullableDoubleWithADouble:(NSNumber* _Nullable)aDouble
+                            error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed string, to test serialization and deserialization.
+- (NSString* _Nullable)
+    echoNullableStringWithAString:(NSString* _Nullable)aString
+                            error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed byte list, to test serialization and deserialization.
+- (PigeonTypedData* _Nullable)
+    echoNullableUint8ListWithList:(PigeonTypedData* _Nullable)list
+                            error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed list, to test serialization and deserialization.
+- (NSArray<NSObject*>* _Nullable)
+    echoNullableListWithList:(NSArray<NSObject*>* _Nullable)list
+                       error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed list, to test serialization and deserialization.
+- (NSArray<NSObject*>* _Nullable)
+    echoNullableEnumListWithEnumList:(NSArray<NSObject*>* _Nullable)enumList
+                               error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed list, to test serialization and deserialization.
+- (NSArray<NSObject*>* _Nullable)
+    echoNullableClassListWithClassList:(NSArray<NSObject*>* _Nullable)classList
+                                 error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed list, to test serialization and deserialization.
+- (NSArray<NSObject*>* _Nullable)
+    echoNullableNonNullEnumListWithEnumList:
+        (NSArray<NSObject*>* _Nullable)enumList
+                                      error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed list, to test serialization and deserialization.
+- (NSArray<NSObject*>* _Nullable)
+    echoNullableNonNullClassListWithClassList:
+        (NSArray<NSObject*>* _Nullable)classList
+                                        error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoNullableMapWithMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)map
+                     error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoNullableStringMapWithStringMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)stringMap
+                                 error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoNullableIntMapWithIntMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)intMap
+                           error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoNullableEnumMapWithEnumMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)enumMap
+                             error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoNullableClassMapWithClassMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)classMap
+                               error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoNullableNonNullStringMapWithStringMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)stringMap
+                                        error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoNullableNonNullIntMapWithIntMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)intMap
+                                  error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoNullableNonNullEnumMapWithEnumMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)enumMap
+                                    error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed map, to test serialization and deserialization.
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    echoNullableNonNullClassMapWithClassMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)classMap
+                                      error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed enum to test serialization and deserialization.
+- (NSNumber* _Nullable)echoNullableEnumWithAnEnum:(NSNumber* _Nullable)anEnum
+                                            error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed enum to test serialization and deserialization.
+- (NSNumber* _Nullable)
+    echoAnotherNullableEnumWithAnotherEnum:(NSNumber* _Nullable)anotherEnum
+                                     error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
 @end
 
 SWIFT_CLASS("_TtC11test_plugin36NIFlutterIntegrationCoreApiRegistrar")
@@ -1660,6 +1773,121 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
     callFlutterEchoNIAnotherEnumWithAnotherEnum:(enum NIAnotherEnum)anotherEnum
                                    wrappedError:
                                        (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSNumber* _Nullable)
+    callFlutterEchoNullableBoolWithABool:(NSNumber* _Nullable)aBool
+                            wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSNumber* _Nullable)
+    callFlutterEchoNullableIntWithAnInt:(NSNumber* _Nullable)anInt
+                           wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSNumber* _Nullable)
+    callFlutterEchoNullableDoubleWithADouble:(NSNumber* _Nullable)aDouble
+                                wrappedError:
+                                    (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSString* _Nullable)
+    callFlutterEchoNullableStringWithAString:(NSString* _Nullable)aString
+                                wrappedError:
+                                    (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (PigeonTypedData* _Nullable)
+    callFlutterEchoNullableUint8ListWithList:(PigeonTypedData* _Nullable)list
+                                wrappedError:
+                                    (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSArray<NSObject*>* _Nullable)
+    callFlutterEchoNullableListWithList:(NSArray<NSObject*>* _Nullable)list
+                           wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSArray<NSObject*>* _Nullable)
+    callFlutterEchoNullableEnumListWithEnumList:
+        (NSArray<NSObject*>* _Nullable)enumList
+                                   wrappedError:
+                                       (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSArray<NSObject*>* _Nullable)
+    callFlutterEchoNullableClassListWithClassList:
+        (NSArray<NSObject*>* _Nullable)classList
+                                     wrappedError:
+                                         (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSArray<NSObject*>* _Nullable)
+    callFlutterEchoNullableNonNullEnumListWithEnumList:
+        (NSArray<NSObject*>* _Nullable)enumList
+                                          wrappedError:(NiTestsError* _Nonnull)
+                                                           wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSArray<NSObject*>* _Nullable)
+    callFlutterEchoNullableNonNullClassListWithClassList:
+        (NSArray<NSObject*>* _Nullable)classList
+                                            wrappedError:
+                                                (NiTestsError* _Nonnull)
+                                                    wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoNullableMapWithMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)map
+                         wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoNullableStringMapWithStringMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)stringMap
+                                     wrappedError:
+                                         (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoNullableIntMapWithIntMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)intMap
+                               wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoNullableEnumMapWithEnumMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)enumMap
+                                 wrappedError:
+                                     (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoNullableClassMapWithClassMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)classMap
+                                   wrappedError:
+                                       (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoNullableNonNullStringMapWithStringMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)stringMap
+                                            wrappedError:
+                                                (NiTestsError* _Nonnull)
+                                                    wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoNullableNonNullIntMapWithIntMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)intMap
+                                      wrappedError:
+                                          (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoNullableNonNullEnumMapWithEnumMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)enumMap
+                                        wrappedError:
+                                            (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)
+    callFlutterEchoNullableNonNullClassMapWithClassMap:
+        (NSDictionary<id<NSCopying>, NSObject*>* _Nullable)classMap
+                                          wrappedError:(NiTestsError* _Nonnull)
+                                                           wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSNumber* _Nullable)
+    callFlutterEchoNullableEnumWithAnEnum:(NSNumber* _Nullable)anEnum
+                             wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (NSNumber* _Nullable)
+    callFlutterEchoAnotherNullableEnumWithAnotherEnum:
+        (NSNumber* _Nullable)anotherEnum
+                                         wrappedError:(NiTestsError* _Nonnull)
+                                                          wrappedError
     SWIFT_WARN_UNUSED_RESULT;
 @end
 

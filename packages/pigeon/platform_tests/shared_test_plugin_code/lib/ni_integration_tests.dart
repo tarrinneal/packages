@@ -2033,64 +2033,79 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
     //       }, throwsA(isA<PlatformException>()));
     //     });
 
-    //     testWidgets('all datatypes serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final NIAllTypes echoObject =
-    //           api.callFlutterEchoNIAllTypes(genericNIAllTypes);
+    testWidgets('all datatypes serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final NIAllTypes echoObject = api.callFlutterEchoNIAllTypes(
+        genericNIAllTypes,
+      );
 
-    //       expect(echoObject, genericNIAllTypes);
-    //     });
+      expect(echoObject, genericNIAllTypes);
+    });
 
-    //     testWidgets(
-    //         'Arguments of multiple types serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       const String aNullableString = 'this is a String';
-    //       const bool aNullableBool = false;
-    //       const int aNullableInt = regularInt;
+    testWidgets(
+      'Arguments of multiple types serialize and deserialize correctly',
+      (WidgetTester _) async {
+        const String aNullableString = 'this is a String';
+        const bool aNullableBool = false;
+        const int aNullableInt = regularInt;
 
-    //       final NIAllNullableTypes compositeObject =
-    //           api.callFlutterSendMultipleNullableTypes(
-    //               aNullableBool, aNullableInt, aNullableString);
-    //       expect(compositeObject.aNullableInt, aNullableInt);
-    //       expect(compositeObject.aNullableBool, aNullableBool);
-    //       expect(compositeObject.aNullableString, aNullableString);
-    //     });
+        final NIAllNullableTypes compositeObject = api
+            .callFlutterSendMultipleNullableTypes(
+              aNullableBool,
+              aNullableInt,
+              aNullableString,
+            );
+        expect(compositeObject.aNullableInt, aNullableInt);
+        expect(compositeObject.aNullableBool, aNullableBool);
+        expect(compositeObject.aNullableString, aNullableString);
+      },
+    );
 
-    //     testWidgets(
-    //         'Arguments of multiple null types serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final NIAllNullableTypes compositeObject =
-    //           api.callFlutterSendMultipleNullableTypes(null, null, null);
-    //       expect(compositeObject.aNullableInt, null);
-    //       expect(compositeObject.aNullableBool, null);
-    //       expect(compositeObject.aNullableString, null);
-    //     });
+    testWidgets(
+      'Arguments of multiple null types serialize and deserialize correctly',
+      (WidgetTester _) async {
+        final NIAllNullableTypes compositeObject = api
+            .callFlutterSendMultipleNullableTypes(null, null, null);
+        expect(compositeObject.aNullableInt, null);
+        expect(compositeObject.aNullableBool, null);
+        expect(compositeObject.aNullableString, null);
+      },
+    );
 
-    //     testWidgets(
-    //         'Arguments of multiple types serialize and deserialize correctly (WithoutRecursion)',
-    //         (WidgetTester _) async {
-    //       const String aNullableString = 'this is a String';
-    //       const bool aNullableBool = false;
-    //       const int aNullableInt = regularInt;
+    testWidgets(
+      'Arguments of multiple types serialize and deserialize correctly (WithoutRecursion)',
+      (WidgetTester _) async {
+        const String aNullableString = 'this is a String';
+        const bool aNullableBool = false;
+        const int aNullableInt = regularInt;
 
-    //       final NIAllNullableTypesWithoutRecursion compositeObject =
-    //           api.callFlutterSendMultipleNullableTypesWithoutRecursion(
-    //               aNullableBool, aNullableInt, aNullableString);
-    //       expect(compositeObject.aNullableInt, aNullableInt);
-    //       expect(compositeObject.aNullableBool, aNullableBool);
-    //       expect(compositeObject.aNullableString, aNullableString);
-    //     });
+        final NIAllNullableTypesWithoutRecursion compositeObject = api
+            .callFlutterSendMultipleNullableTypesWithoutRecursion(
+              aNullableBool,
+              aNullableInt,
+              aNullableString,
+            );
+        expect(compositeObject.aNullableInt, aNullableInt);
+        expect(compositeObject.aNullableBool, aNullableBool);
+        expect(compositeObject.aNullableString, aNullableString);
+      },
+    );
 
-    //     testWidgets(
-    //         'Arguments of multiple null types serialize and deserialize correctly (WithoutRecursion)',
-    //         (WidgetTester _) async {
-    //       final NIAllNullableTypesWithoutRecursion compositeObject =
-    //           api.callFlutterSendMultipleNullableTypesWithoutRecursion(
-    //               null, null, null);
-    //       expect(compositeObject.aNullableInt, null);
-    //       expect(compositeObject.aNullableBool, null);
-    //       expect(compositeObject.aNullableString, null);
-    //     });
+    testWidgets(
+      'Arguments of multiple null types serialize and deserialize correctly (WithoutRecursion)',
+      (WidgetTester _) async {
+        final NIAllNullableTypesWithoutRecursion compositeObject = api
+            .callFlutterSendMultipleNullableTypesWithoutRecursion(
+              null,
+              null,
+              null,
+            );
+        expect(compositeObject.aNullableInt, null);
+        expect(compositeObject.aNullableBool, null);
+        expect(compositeObject.aNullableString, null);
+      },
+    );
 
     testWidgets('booleans serialize and deserialize correctly', (
       WidgetTester _,
@@ -2102,973 +2117,504 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
       }
     });
 
-  //     testWidgets('ints serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       const int sentObject = regularInt;
-  //       final int echoObject = api.callFlutterEchoInt(sentObject);
-  //       expect(echoObject, sentObject);
-  //     });
-
-  //     testWidgets('doubles serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       const double sentObject = 2.0694;
-  //       final double echoObject = api.callFlutterEchoDouble(sentObject);
-  //       expect(echoObject, sentObject);
-  //     });
-
-  //     testWidgets('strings serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       const String sentObject = 'Hello Dart!';
-  //       final String echoObject = api.callFlutterEchoString(sentObject);
-  //       expect(echoObject, sentObject);
-  //     });
-
-  //     testWidgets('Uint8Lists serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final List<int> data = <int>[
-  //         102,
-  //         111,
-  //         114,
-  //         116,
-  //         121,
-  //         45,
-  //         116,
-  //         119,
-  //         111,
-  //         0
-  //       ];
-  //       final Uint8List sentObject = Uint8List.fromList(data);
-  //       final Uint8List echoObject = api.callFlutterEchoUint8List(sentObject);
-  //       expect(echoObject, sentObject);
-  //     });
-
-  //     testWidgets('lists serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final List<Object?> echoObject = api.callFlutterEchoList(list);
-  //       expect(listEquals(echoObject, list), true);
-  //     });
-
-  //     testWidgets('enum lists serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final List<NIAnEnum?> echoObject = api.callFlutterEchoEnumList(enumList);
-  //       expect(listEquals(echoObject, enumList), true);
-  //     });
-
-  //     testWidgets('class lists serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final List<NIAllNullableTypes?> echoObject =
-  //           api.callFlutterEchoClassList(allNullableTypesList);
-  //       for (final (int index, NIAllNullableTypes? value) in echoObject.indexed) {
-  //         expect(value, allNullableTypesList[index]);
-  //       }
-  //     });
-
-  //     testWidgets('NonNull enum lists serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final List<NIAnEnum> echoObject =
-  //           api.callFlutterEchoNonNullEnumList(nonNullEnumList);
-  //       expect(listEquals(echoObject, nonNullEnumList), true);
-  //     });
-
-  //     testWidgets('NonNull class lists serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final List<NIAllNullableTypes> echoObject =
-  //           api.callFlutterEchoNonNullClassList(nonNullNIAllNullableTypesList);
-  //       for (final (int index, NIAllNullableTypes? value) in echoObject.indexed) {
-  //         expect(value, nonNullNIAllNullableTypesList[index]);
-  //       }
-  //     });
-
-  //     testWidgets('maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<Object?, Object?> echoObject = api.callFlutterEchoMap(map);
-  //       expect(mapEquals(echoObject, map), true);
-  //     });
-
-  //     testWidgets('string maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<String?, String?> echoObject =
-  //           api.callFlutterEchoStringMap(stringMap);
-  //       expect(mapEquals(echoObject, stringMap), true);
-  //     });
-
-  //     testWidgets('int maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<int?, int?> echoObject = api.callFlutterEchoIntMap(intMap);
-  //       expect(mapEquals(echoObject, intMap), true);
-  //     });
-
-  //     testWidgets('enum maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<NIAnEnum?, NIAnEnum?> echoObject =
-  //           api.callFlutterEchoEnumMap(enumMap);
-  //       expect(mapEquals(echoObject, enumMap), true);
-  //     });
-
-  //     testWidgets('class maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<int?, NIAllNullableTypes?> echoObject =
-  //           api.callFlutterEchoClassMap(allNullableTypesMap);
-  //       for (final MapEntry<int?, NIAllNullableTypes?> entry
-  //           in echoObject.entries) {
-  //         expect(entry.value, allNullableTypesMap[entry.key]);
-  //       }
-  //     });
-
-  //     testWidgets('NonNull string maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<String, String> echoObject =
-  //           api.callFlutterEchoNonNullStringMap(nonNullStringMap);
-  //       expect(mapEquals(echoObject, nonNullStringMap), true);
-  //     });
-
-  //     testWidgets('NonNull int maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<int, int> echoObject =
-  //           api.callFlutterEchoNonNullIntMap(nonNullIntMap);
-  //       expect(mapEquals(echoObject, nonNullIntMap), true);
-  //     });
-
-  //     testWidgets('NonNull enum maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<NIAnEnum, NIAnEnum> echoObject =
-  //           api.callFlutterEchoNonNullEnumMap(nonNullEnumMap);
-  //       expect(mapEquals(echoObject, nonNullEnumMap), true);
-  //     });
-
-  //     testWidgets('NonNull class maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<int, NIAllNullableTypes> echoObject =
-  //           api.callFlutterEchoNonNullClassMap(nonNullNIAllNullableTypesMap);
-  //       for (final MapEntry<int, NIAllNullableTypes> entry
-  //           in echoObject.entries) {
-  //         expect(entry.value, nonNullNIAllNullableTypesMap[entry.key]);
-  //       }
-  //     });
-
-  //     testWidgets('enums serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       const NIAnEnum sentEnum = NIAnEnum.three;
-  //       final NIAnEnum echoEnum = api.callFlutterEchoEnum(sentEnum);
-  //       expect(echoEnum, sentEnum);
-  //     });
-
-  //     testWidgets('enums serialize and deserialize correctly (again)',
-  //         (WidgetTester _) async {
-  //       const NIAnotherEnum sentEnum = NIAnotherEnum.justInCase;
-  //       final NIAnotherEnum echoEnum = api.callFlutterEchoNIAnotherEnum(sentEnum);
-  //       expect(echoEnum, sentEnum);
-  //     });
-
-  //     testWidgets('multi word enums serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       const NIAnEnum sentEnum = NIAnEnum.fortyTwo;
-  //       final NIAnEnum echoEnum = api.callFlutterEchoEnum(sentEnum);
-  //       expect(echoEnum, sentEnum);
-  //     });
-
-  //     testWidgets('nullable booleans serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       for (final bool? sentObject in <bool?>[true, false]) {
-  //         final bool? echoObject = api.callFlutterEchoNullableBool(sentObject);
-  //         expect(echoObject, sentObject);
-  //       }
-  //     });
-
-  //     testWidgets('null booleans serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       const bool? sentObject = null;
-  //       final bool? echoObject = api.callFlutterEchoNullableBool(sentObject);
-  //       expect(echoObject, sentObject);
-  //     });
-
-  //     testWidgets('nullable ints serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       const int sentObject = regularInt;
-  //       final int? echoObject = api.callFlutterEchoNullableInt(sentObject);
-  //       expect(echoObject, sentObject);
-  //     });
-
-  //     testWidgets('nullable big ints serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       const int sentObject = biggerThanBigInt;
-  //       final int? echoObject = api.callFlutterEchoNullableInt(sentObject);
-  //       expect(echoObject, sentObject);
-  //     });
-
-  //     testWidgets('null ints serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final int? echoObject = api.callFlutterEchoNullableInt(null);
-  //       expect(echoObject, null);
-  //     });
-
-  //     testWidgets('nullable doubles serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       const double sentObject = 2.0694;
-  //       final double? echoObject = api.callFlutterEchoNullableDouble(sentObject);
-  //       expect(echoObject, sentObject);
-  //     });
-
-  //     testWidgets('null doubles serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final double? echoObject = api.callFlutterEchoNullableDouble(null);
-  //       expect(echoObject, null);
-  //     });
-
-  //     testWidgets('nullable strings serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       const String sentObject = "I'm a computer";
-  //       final String? echoObject = api.callFlutterEchoNullableString(sentObject);
-  //       expect(echoObject, sentObject);
-  //     });
-
-  //     testWidgets('null strings serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final String? echoObject = api.callFlutterEchoNullableString(null);
-  //       expect(echoObject, null);
-  //     });
-
-  //     testWidgets('nullable Uint8Lists serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final List<int> data = <int>[
-  //         102,
-  //         111,
-  //         114,
-  //         116,
-  //         121,
-  //         45,
-  //         116,
-  //         119,
-  //         111,
-  //         0
-  //       ];
-  //       final Uint8List sentObject = Uint8List.fromList(data);
-  //       final Uint8List? echoObject =
-  //           api.callFlutterEchoNullableUint8List(sentObject);
-  //       expect(echoObject, sentObject);
-  //     });
-
-  //     testWidgets('null Uint8Lists serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Uint8List? echoObject = api.callFlutterEchoNullableUint8List(null);
-  //       expect(echoObject, null);
-  //     });
-
-  //     testWidgets('nullable lists serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final List<Object?>? echoObject = api.callFlutterEchoNullableList(list);
-  //       expect(listEquals(echoObject, list), true);
-  //     });
-
-  //     testWidgets('nullable enum lists serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final List<NIAnEnum?>? echoObject =
-  //           api.callFlutterEchoNullableEnumList(enumList);
-  //       expect(listEquals(echoObject, enumList), true);
-  //     });
-
-  //     testWidgets('nullable class lists serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final List<NIAllNullableTypes?>? echoObject =
-  //           api.callFlutterEchoNullableClassList(allNullableTypesList);
-  //       for (final (int index, NIAllNullableTypes? value)
-  //           in echoObject!.indexed) {
-  //         expect(value, allNullableTypesList[index]);
-  //       }
-  //     });
-
-  //     testWidgets(
-  //         'nullable NonNull enum lists serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final List<NIAnEnum?>? echoObject =
-  //           api.callFlutterEchoNullableNonNullEnumList(nonNullEnumList);
-  //       expect(listEquals(echoObject, nonNullEnumList), true);
-  //     });
-
-  //     testWidgets(
-  //         'nullable NonNull class lists serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final List<NIAllNullableTypes?>? echoObject =
-  //           api.callFlutterEchoNullableNonNullClassList(
-  //               nonNullNIAllNullableTypesList);
-  //       for (final (int index, NIAllNullableTypes? value)
-  //           in echoObject!.indexed) {
-  //         expect(value, nonNullNIAllNullableTypesList[index]);
-  //       }
-  //     });
-
-  //     testWidgets('null lists serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final List<Object?>? echoObject = api.callFlutterEchoNullableList(null);
-  //       expect(listEquals(echoObject, null), true);
-  //     });
-
-  //     testWidgets('nullable maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<Object?, Object?>? echoObject =
-  //           api.callFlutterEchoNullableMap(map);
-  //       expect(mapEquals(echoObject, map), true);
-  //     });
-
-  //     testWidgets('null maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<Object?, Object?>? echoObject =
-  //           api.callFlutterEchoNullableMap(null);
-  //       expect(mapEquals(echoObject, null), true);
-  //     });
-
-  //     testWidgets('nullable string maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<String?, String?>? echoObject =
-  //           api.callFlutterEchoNullableStringMap(stringMap);
-  //       expect(mapEquals(echoObject, stringMap), true);
-  //     });
-
-  //     testWidgets('nullable int maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<int?, int?>? echoObject =
-  //           api.callFlutterEchoNullableIntMap(intMap);
-  //       expect(mapEquals(echoObject, intMap), true);
-  //     });
-
-  //     testWidgets('nullable enum maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<NIAnEnum?, NIAnEnum?>? echoObject =
-  //           api.callFlutterEchoNullableEnumMap(enumMap);
-  //       expect(mapEquals(echoObject, enumMap), true);
-  //     });
-
-  //     testWidgets('nullable class maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<int?, NIAllNullableTypes?>? echoObject =
-  //           api.callFlutterEchoNullableClassMap(allNullableTypesMap);
-  //       for (final MapEntry<int?, NIAllNullableTypes?> entry
-  //           in echoObject!.entries) {
-  //         expect(entry.value, allNullableTypesMap[entry.key]);
-  //       }
-  //     });
-
-  //     testWidgets(
-  //         'nullable NonNull string maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<String?, String?>? echoObject =
-  //           api.callFlutterEchoNullableNonNullStringMap(nonNullStringMap);
-  //       expect(mapEquals(echoObject, nonNullStringMap), true);
-  //     });
-
-  //     testWidgets('nullable NonNull int maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<int?, int?>? echoObject =
-  //           api.callFlutterEchoNullableNonNullIntMap(nonNullIntMap);
-  //       expect(mapEquals(echoObject, nonNullIntMap), true);
-  //     });
-
-  //     testWidgets(
-  //         'nullable NonNull enum maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<NIAnEnum?, NIAnEnum?>? echoObject =
-  //           api.callFlutterEchoNullableNonNullEnumMap(nonNullEnumMap);
-  //       expect(mapEquals(echoObject, nonNullEnumMap), true);
-  //     });
-
-  //     testWidgets(
-  //         'nullable NonNull class maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<int?, NIAllNullableTypes?>? echoObject = api
-  //           .callFlutterEchoNullableNonNullClassMap(nonNullNIAllNullableTypesMap);
-  //       for (final MapEntry<int?, NIAllNullableTypes?> entry
-  //           in echoObject!.entries) {
-  //         expect(entry.value, nonNullNIAllNullableTypesMap[entry.key]);
-  //       }
-  //     });
-
-  //     testWidgets('null maps serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       final Map<int?, int?>? echoObject =
-  //           api.callFlutterEchoNullableIntMap(null);
-  //       expect(mapEquals(echoObject, null), true);
-  //     });
-
-  //     testWidgets('nullable enums serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       const NIAnEnum sentEnum = NIAnEnum.three;
-  //       final NIAnEnum? echoEnum = api.callFlutterEchoNullableEnum(sentEnum);
-  //       expect(echoEnum, sentEnum);
-  //     });
-
-  //     testWidgets('nullable enums serialize and deserialize correctly (again)',
-  //         (WidgetTester _) async {
-  //       const NIAnotherEnum sentEnum = NIAnotherEnum.justInCase;
-  //       final NIAnotherEnum? echoEnum =
-  //           api.callFlutterEchoAnotherNullableEnum(sentEnum);
-  //       expect(echoEnum, sentEnum);
-  //     });
-
-  //     testWidgets('multi word nullable enums serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       const NIAnEnum sentEnum = NIAnEnum.fourHundredTwentyTwo;
-  //       final NIAnEnum? echoEnum = api.callFlutterEchoNullableEnum(sentEnum);
-  //       expect(echoEnum, sentEnum);
-  //     });
-
-  //     testWidgets('null enums serialize and deserialize correctly',
-  //         (WidgetTester _) async {
-  //       const NIAnEnum? sentEnum = null;
-  //       final NIAnEnum? echoEnum = api.callFlutterEchoNullableEnum(sentEnum);
-  //       expect(echoEnum, sentEnum);
-  //     });
-
-  //     testWidgets('null enums serialize and deserialize correctly (again)',
-  //         (WidgetTester _) async {
-  //       const NIAnotherEnum? sentEnum = null;
-  //       final NIAnotherEnum? echoEnum =
-  //           api.callFlutterEchoAnotherNullableEnum(sentEnum);
-  //       expect(echoEnum, sentEnum);
-  //     });
-
-  //     // testWidgets('async method works', (WidgetTester _) async {
-  //     //   expect(api.callFlutterNoopAsync(), completes);
-  //     // });
-
-  //     // testWidgets('echo string', (WidgetTester _) async {
-  //     //   const String aString = 'this is a string';
-  //     //   final String echoString = await api.callFlutterEchoAsyncString(aString);
-  //     //   expect(echoString, aString);
-  //     // });
-  });
-
-  group('Flutter Api with legacy Api', () {
-    NIFlutterIntegrationCoreApi.setUp(_NIFlutterIntegrationCoreApiImpl());
-    final api = NIHostIntegrationCoreApi.createWithNativeInteropApi();
-
-    testWidgets('basic void->void call works', (WidgetTester _) async {
-      await api.callFlutterNoop();
-    });
-
-    //     testWidgets('errors are returned from non void methods correctly',
-    //         (WidgetTester _) async {
-    //       expect(() async {
-    //         await api.callFlutterThrowError();
-    //       }, throwsA(isA<PlatformException>()));
-    //     });
-
-    //     testWidgets('errors are returned from void methods correctly',
-    //         (WidgetTester _) async {
-    //       expect(() async {
-    //         await api.callFlutterThrowErrorFromVoid();
-    //       }, throwsA(isA<PlatformException>()));
-    //     });
-
-    //     testWidgets('all datatypes serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final NIAllTypes echoObject =
-    //           await api.callFlutterEchoNIAllTypes(genericNIAllTypes);
-
-    //       expect(echoObject, genericNIAllTypes);
-    //     });
-
-    //     testWidgets(
-    //         'Arguments of multiple types serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       const String aNullableString = 'this is a String';
-    //       const bool aNullableBool = false;
-    //       const int aNullableInt = regularInt;
-
-    //       final NIAllNullableTypes compositeObject =
-    //           await api.callFlutterSendMultipleNullableTypes(
-    //               aNullableBool, aNullableInt, aNullableString);
-    //       expect(compositeObject.aNullableInt, aNullableInt);
-    //       expect(compositeObject.aNullableBool, aNullableBool);
-    //       expect(compositeObject.aNullableString, aNullableString);
-    //     });
-
-    //     testWidgets(
-    //         'Arguments of multiple null types serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final NIAllNullableTypes compositeObject =
-    //           await api.callFlutterSendMultipleNullableTypes(null, null, null);
-    //       expect(compositeObject.aNullableInt, null);
-    //       expect(compositeObject.aNullableBool, null);
-    //       expect(compositeObject.aNullableString, null);
-    //     });
-
-    //     testWidgets(
-    //         'Arguments of multiple types serialize and deserialize correctly (WithoutRecursion)',
-    //         (WidgetTester _) async {
-    //       const String aNullableString = 'this is a String';
-    //       const bool aNullableBool = false;
-    //       const int aNullableInt = regularInt;
-
-    //       final NIAllNullableTypesWithoutRecursion compositeObject =
-    //           await api.callFlutterSendMultipleNullableTypesWithoutRecursion(
-    //               aNullableBool, aNullableInt, aNullableString);
-    //       expect(compositeObject.aNullableInt, aNullableInt);
-    //       expect(compositeObject.aNullableBool, aNullableBool);
-    //       expect(compositeObject.aNullableString, aNullableString);
-    //     });
-
-    //     testWidgets(
-    //         'Arguments of multiple null types serialize and deserialize correctly (WithoutRecursion)',
-    //         (WidgetTester _) async {
-    //       final NIAllNullableTypesWithoutRecursion compositeObject =
-    //           await api.callFlutterSendMultipleNullableTypesWithoutRecursion(
-    //               null, null, null);
-    //       expect(compositeObject.aNullableInt, null);
-    //       expect(compositeObject.aNullableBool, null);
-    //       expect(compositeObject.aNullableString, null);
-    //     });
-
-    testWidgets('booleans serialize and deserialize correctly', (
+    testWidgets('ints serialize and deserialize correctly', (
       WidgetTester _,
     ) async {
-      for (final sentObject in <bool>[true, false]) {
-        final bool echoObject = await api.callFlutterEchoBool(sentObject);
-        expect(echoObject, sentObject);
-      }
+      const int sentObject = regularInt;
+      final int echoObject = api.callFlutterEchoInt(sentObject);
+      expect(echoObject, sentObject);
     });
 
-    //     testWidgets('ints serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       const int sentObject = regularInt;
-    //       final int echoObject = await api.callFlutterEchoInt(sentObject);
-    //       expect(echoObject, sentObject);
-    //     });
-
-    //     testWidgets('doubles serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       const double sentObject = 2.0694;
-    //       final double echoObject = await api.callFlutterEchoDouble(sentObject);
-    //       expect(echoObject, sentObject);
-    //     });
+    testWidgets('doubles serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      const double sentObject = 2.0694;
+      final double echoObject = api.callFlutterEchoDouble(sentObject);
+      expect(echoObject, sentObject);
+    });
 
     testWidgets('strings serialize and deserialize correctly', (
       WidgetTester _,
     ) async {
-      const sentObject = 'Hello Dart!';
-      final String echoObject = await api.callFlutterEchoString(sentObject);
+      const String sentObject = 'Hello Dart!';
+      final String echoObject = api.callFlutterEchoString(sentObject);
       expect(echoObject, sentObject);
     });
 
-    //     testWidgets('Uint8Lists serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final List<int> data = <int>[
-    //         102,
-    //         111,
-    //         114,
-    //         116,
-    //         121,
-    //         45,
-    //         116,
-    //         119,
-    //         111,
-    //         0
-    //       ];
-    //       final Uint8List sentObject = Uint8List.fromList(data);
-    //       final Uint8List echoObject =
-    //           await api.callFlutterEchoUint8List(sentObject);
-    //       expect(echoObject, sentObject);
-    //     });
+    testWidgets('Uint8Lists serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final List<int> data = <int>[
+        102,
+        111,
+        114,
+        116,
+        121,
+        45,
+        116,
+        119,
+        111,
+        0,
+      ];
+      final Uint8List sentObject = Uint8List.fromList(data);
+      final Uint8List echoObject = api.callFlutterEchoUint8List(sentObject);
+      expect(echoObject, sentObject);
+    });
 
-    //     testWidgets('lists serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final List<Object?> echoObject = await api.callFlutterEchoList(list);
-    //       expect(listEquals(echoObject, list), true);
-    //     });
+    testWidgets('lists serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final List<Object?> echoObject = api.callFlutterEchoList(list);
+      expect(listEquals(echoObject, list), true);
+    });
 
-    //     testWidgets('enum lists serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final List<NIAnEnum?> echoObject =
-    //           await api.callFlutterEchoEnumList(enumList);
-    //       expect(listEquals(echoObject, enumList), true);
-    //     });
+    testWidgets('enum lists serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final List<NIAnEnum?> echoObject = api.callFlutterEchoEnumList(enumList);
+      expect(listEquals(echoObject, enumList), true);
+    });
 
-    //     testWidgets('class lists serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final List<NIAllNullableTypes?> echoObject =
-    //           await api.callFlutterEchoClassList(allNullableTypesList);
-    //       for (final (int index, NIAllNullableTypes? value) in echoObject.indexed) {
-    //         expect(value, allNullableTypesList[index]);
-    //       }
-    //     });
+    testWidgets('class lists serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final List<NIAllNullableTypes?> echoObject = api.callFlutterEchoClassList(
+        allNullableTypesList,
+      );
+      for (final (int index, NIAllNullableTypes? value) in echoObject.indexed) {
+        expect(value, allNullableTypesList[index]);
+      }
+    });
 
-    //     testWidgets('NonNull enum lists serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final List<NIAnEnum> echoObject =
-    //           await api.callFlutterEchoNonNullEnumList(nonNullEnumList);
-    //       expect(listEquals(echoObject, nonNullEnumList), true);
-    //     });
+    testWidgets('NonNull enum lists serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final List<NIAnEnum> echoObject = api.callFlutterEchoNonNullEnumList(
+        nonNullEnumList,
+      );
+      expect(listEquals(echoObject, nonNullEnumList), true);
+    });
 
-    //     testWidgets('NonNull class lists serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final List<NIAllNullableTypes> echoObject = await api
-    //           .callFlutterEchoNonNullClassList(nonNullNIAllNullableTypesList);
-    //       for (final (int index, NIAllNullableTypes? value) in echoObject.indexed) {
-    //         expect(value, nonNullNIAllNullableTypesList[index]);
-    //       }
-    //     });
+    testWidgets('NonNull class lists serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final List<NIAllNullableTypes> echoObject = api
+          .callFlutterEchoNonNullClassList(nonNullNIAllNullableTypesList);
+      for (final (int index, NIAllNullableTypes? value) in echoObject.indexed) {
+        expect(value, nonNullNIAllNullableTypesList[index]);
+      }
+    });
 
-    //     testWidgets('maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<Object?, Object?> echoObject =
-    //           await api.callFlutterEchoMap(map);
-    //       expect(mapEquals(echoObject, map), true);
-    //     });
+    testWidgets('maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<Object?, Object?> echoObject = api.callFlutterEchoMap(map);
+      expect(mapEquals(echoObject, map), true);
+    });
 
-    //     testWidgets('string maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<String?, String?> echoObject =
-    //           await api.callFlutterEchoStringMap(stringMap);
-    //       expect(mapEquals(echoObject, stringMap), true);
-    //     });
+    testWidgets('string maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<String?, String?> echoObject = api.callFlutterEchoStringMap(
+        stringMap,
+      );
+      expect(mapEquals(echoObject, stringMap), true);
+    });
 
-    //     testWidgets('int maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<int?, int?> echoObject =
-    //           await api.callFlutterEchoIntMap(intMap);
-    //       expect(mapEquals(echoObject, intMap), true);
-    //     });
+    testWidgets('int maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<int?, int?> echoObject = api.callFlutterEchoIntMap(intMap);
+      expect(mapEquals(echoObject, intMap), true);
+    });
 
-    //     testWidgets('enum maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<NIAnEnum?, NIAnEnum?> echoObject =
-    //           await api.callFlutterEchoEnumMap(enumMap);
-    //       expect(mapEquals(echoObject, enumMap), true);
-    //     });
+    testWidgets('enum maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<NIAnEnum?, NIAnEnum?> echoObject = api.callFlutterEchoEnumMap(
+        enumMap,
+      );
+      expect(mapEquals(echoObject, enumMap), true);
+    });
 
-    //     testWidgets('class maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<int?, NIAllNullableTypes?> echoObject =
-    //           await api.callFlutterEchoClassMap(allNullableTypesMap);
-    //       for (final MapEntry<int?, NIAllNullableTypes?> entry
-    //           in echoObject.entries) {
-    //         expect(entry.value, allNullableTypesMap[entry.key]);
-    //       }
-    //     });
+    testWidgets('class maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<int?, NIAllNullableTypes?> echoObject = api
+          .callFlutterEchoClassMap(allNullableTypesMap);
+      for (final MapEntry<int?, NIAllNullableTypes?> entry
+          in echoObject.entries) {
+        expect(entry.value, allNullableTypesMap[entry.key]);
+      }
+    });
 
-    //     testWidgets('NonNull string maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<String, String> echoObject =
-    //           await api.callFlutterEchoNonNullStringMap(nonNullStringMap);
-    //       expect(mapEquals(echoObject, nonNullStringMap), true);
-    //     });
+    testWidgets('NonNull string maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<String, String> echoObject = api
+          .callFlutterEchoNonNullStringMap(nonNullStringMap);
+      expect(mapEquals(echoObject, nonNullStringMap), true);
+    });
 
-    //     testWidgets('NonNull int maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<int, int> echoObject =
-    //           await api.callFlutterEchoNonNullIntMap(nonNullIntMap);
-    //       expect(mapEquals(echoObject, nonNullIntMap), true);
-    //     });
+    testWidgets('NonNull int maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<int, int> echoObject = api.callFlutterEchoNonNullIntMap(
+        nonNullIntMap,
+      );
+      expect(mapEquals(echoObject, nonNullIntMap), true);
+    });
 
-    //     testWidgets('NonNull enum maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<NIAnEnum, NIAnEnum> echoObject =
-    //           await api.callFlutterEchoNonNullEnumMap(nonNullEnumMap);
-    //       expect(mapEquals(echoObject, nonNullEnumMap), true);
-    //     });
+    testWidgets('NonNull enum maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<NIAnEnum, NIAnEnum> echoObject = api
+          .callFlutterEchoNonNullEnumMap(nonNullEnumMap);
+      expect(mapEquals(echoObject, nonNullEnumMap), true);
+    });
 
-    //     testWidgets('NonNull class maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<int, NIAllNullableTypes> echoObject = await api
-    //           .callFlutterEchoNonNullClassMap(nonNullNIAllNullableTypesMap);
-    //       for (final MapEntry<int, NIAllNullableTypes> entry
-    //           in echoObject.entries) {
-    //         expect(entry.value, nonNullNIAllNullableTypesMap[entry.key]);
-    //       }
-    //     });
+    testWidgets('NonNull class maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<int, NIAllNullableTypes> echoObject = api
+          .callFlutterEchoNonNullClassMap(nonNullNIAllNullableTypesMap);
+      for (final MapEntry<int, NIAllNullableTypes> entry
+          in echoObject.entries) {
+        expect(entry.value, nonNullNIAllNullableTypesMap[entry.key]);
+      }
+    });
 
-    //     testWidgets('enums serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       const NIAnEnum sentEnum = NIAnEnum.three;
-    //       final NIAnEnum echoEnum = await api.callFlutterEchoEnum(sentEnum);
-    //       expect(echoEnum, sentEnum);
-    //     });
+    testWidgets('enums serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      const NIAnEnum sentEnum = NIAnEnum.three;
+      final NIAnEnum echoEnum = api.callFlutterEchoEnum(sentEnum);
+      expect(echoEnum, sentEnum);
+    });
 
-    //     testWidgets('enums serialize and deserialize correctly (again)',
-    //         (WidgetTester _) async {
-    //       const NIAnotherEnum sentEnum = NIAnotherEnum.justInCase;
-    //       final NIAnotherEnum echoEnum =
-    //           await api.callFlutterEchoNIAnotherEnum(sentEnum);
-    //       expect(echoEnum, sentEnum);
-    //     });
+    testWidgets('enums serialize and deserialize correctly (again)', (
+      WidgetTester _,
+    ) async {
+      const NIAnotherEnum sentEnum = NIAnotherEnum.justInCase;
+      final NIAnotherEnum echoEnum = api.callFlutterEchoNIAnotherEnum(sentEnum);
+      expect(echoEnum, sentEnum);
+    });
 
-    //     testWidgets('multi word enums serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       const NIAnEnum sentEnum = NIAnEnum.fortyTwo;
-    //       final NIAnEnum echoEnum = await api.callFlutterEchoEnum(sentEnum);
-    //       expect(echoEnum, sentEnum);
-    //     });
+    testWidgets('multi word enums serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      const NIAnEnum sentEnum = NIAnEnum.fortyTwo;
+      final NIAnEnum echoEnum = api.callFlutterEchoEnum(sentEnum);
+      expect(echoEnum, sentEnum);
+    });
 
-    //     testWidgets('nullable booleans serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       for (final bool? sentObject in <bool?>[true, false]) {
-    //         final bool? echoObject =
-    //             await api.callFlutterEchoNullableBool(sentObject);
-    //         expect(echoObject, sentObject);
-    //       }
-    //     });
+    testWidgets('nullable booleans serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      for (final bool? sentObject in <bool?>[true, false]) {
+        final bool? echoObject = api.callFlutterEchoNullableBool(sentObject);
+        expect(echoObject, sentObject);
+      }
+    });
 
-    //     testWidgets('null booleans serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       const bool? sentObject = null;
-    //       final bool? echoObject =
-    //           await api.callFlutterEchoNullableBool(sentObject);
-    //       expect(echoObject, sentObject);
-    //     });
+    testWidgets('null booleans serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      const bool? sentObject = null;
+      final bool? echoObject = api.callFlutterEchoNullableBool(sentObject);
+      expect(echoObject, sentObject);
+    });
 
-    //     testWidgets('nullable ints serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       const int sentObject = regularInt;
-    //       final int? echoObject = await api.callFlutterEchoNullableInt(sentObject);
-    //       expect(echoObject, sentObject);
-    //     });
+    testWidgets('nullable ints serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      const int sentObject = regularInt;
+      final int? echoObject = api.callFlutterEchoNullableInt(sentObject);
+      expect(echoObject, sentObject);
+    });
 
-    //     testWidgets('nullable big ints serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       const int sentObject = biggerThanBigInt;
-    //       final int? echoObject = await api.callFlutterEchoNullableInt(sentObject);
-    //       expect(echoObject, sentObject);
-    //     });
+    testWidgets('nullable big ints serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      const int sentObject = biggerThanBigInt;
+      final int? echoObject = api.callFlutterEchoNullableInt(sentObject);
+      expect(echoObject, sentObject);
+    });
 
-    //     testWidgets('null ints serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final int? echoObject = await api.callFlutterEchoNullableInt(null);
-    //       expect(echoObject, null);
-    //     });
+    testWidgets('null ints serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final int? echoObject = api.callFlutterEchoNullableInt(null);
+      expect(echoObject, null);
+    });
 
-    //     testWidgets('nullable doubles serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       const double sentObject = 2.0694;
-    //       final double? echoObject =
-    //           await api.callFlutterEchoNullableDouble(sentObject);
-    //       expect(echoObject, sentObject);
-    //     });
+    testWidgets('nullable doubles serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      const double sentObject = 2.0694;
+      final double? echoObject = api.callFlutterEchoNullableDouble(sentObject);
+      expect(echoObject, sentObject);
+    });
 
-    //     testWidgets('null doubles serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final double? echoObject = await api.callFlutterEchoNullableDouble(null);
-    //       expect(echoObject, null);
-    //     });
+    testWidgets('null doubles serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final double? echoObject = api.callFlutterEchoNullableDouble(null);
+      expect(echoObject, null);
+    });
 
-    //     testWidgets('nullable strings serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       const String sentObject = "I'm a computer";
-    //       final String? echoObject =
-    //           await api.callFlutterEchoNullableString(sentObject);
-    //       expect(echoObject, sentObject);
-    //     });
+    testWidgets('nullable strings serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      const String sentObject = "I'm a computer";
+      final String? echoObject = api.callFlutterEchoNullableString(sentObject);
+      expect(echoObject, sentObject);
+    });
 
-    //     testWidgets('null strings serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final String? echoObject = await api.callFlutterEchoNullableString(null);
-    //       expect(echoObject, null);
-    //     });
+    testWidgets('null strings serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final String? echoObject = api.callFlutterEchoNullableString(null);
+      expect(echoObject, null);
+    });
 
-    //     testWidgets('nullable Uint8Lists serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final List<int> data = <int>[
-    //         102,
-    //         111,
-    //         114,
-    //         116,
-    //         121,
-    //         45,
-    //         116,
-    //         119,
-    //         111,
-    //         0
-    //       ];
-    //       final Uint8List sentObject = Uint8List.fromList(data);
-    //       final Uint8List? echoObject =
-    //           await api.callFlutterEchoNullableUint8List(sentObject);
-    //       expect(echoObject, sentObject);
-    //     });
+    testWidgets('nullable Uint8Lists serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final List<int> data = <int>[
+        102,
+        111,
+        114,
+        116,
+        121,
+        45,
+        116,
+        119,
+        111,
+        0,
+      ];
+      final Uint8List sentObject = Uint8List.fromList(data);
+      final Uint8List? echoObject = api.callFlutterEchoNullableUint8List(
+        sentObject,
+      );
+      expect(echoObject, sentObject);
+    });
 
-    //     testWidgets('null Uint8Lists serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Uint8List? echoObject =
-    //           await api.callFlutterEchoNullableUint8List(null);
-    //       expect(echoObject, null);
-    //     });
+    testWidgets('null Uint8Lists serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Uint8List? echoObject = api.callFlutterEchoNullableUint8List(null);
+      expect(echoObject, null);
+    });
 
-    //     testWidgets('nullable lists serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final List<Object?>? echoObject =
-    //           await api.callFlutterEchoNullableList(list);
-    //       expect(listEquals(echoObject, list), true);
-    //     });
+    testWidgets('nullable lists serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final List<Object?>? echoObject = api.callFlutterEchoNullableList(list);
+      expect(listEquals(echoObject, list), true);
+    });
 
-    //     testWidgets('nullable enum lists serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final List<NIAnEnum?>? echoObject =
-    //           await api.callFlutterEchoNullableEnumList(enumList);
-    //       expect(listEquals(echoObject, enumList), true);
-    //     });
+    testWidgets('nullable enum lists serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final List<NIAnEnum?>? echoObject = api.callFlutterEchoNullableEnumList(
+        enumList,
+      );
+      expect(listEquals(echoObject, enumList), true);
+    });
 
-    //     testWidgets('nullable class lists serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final List<NIAllNullableTypes?>? echoObject =
-    //           await api.callFlutterEchoNullableClassList(allNullableTypesList);
-    //       for (final (int index, NIAllNullableTypes? value)
-    //           in echoObject!.indexed) {
-    //         expect(value, allNullableTypesList[index]);
-    //       }
-    //     });
+    testWidgets('nullable class lists serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final List<NIAllNullableTypes?>? echoObject = api
+          .callFlutterEchoNullableClassList(allNullableTypesList);
+      for (final (int index, NIAllNullableTypes? value)
+          in echoObject!.indexed) {
+        expect(value, allNullableTypesList[index]);
+      }
+    });
 
-    //     testWidgets(
-    //         'nullable NonNull enum lists serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final List<NIAnEnum?>? echoObject =
-    //           await api.callFlutterEchoNullableNonNullEnumList(nonNullEnumList);
-    //       expect(listEquals(echoObject, nonNullEnumList), true);
-    //     });
+    testWidgets(
+      'nullable NonNull enum lists serialize and deserialize correctly',
+      (WidgetTester _) async {
+        final List<NIAnEnum?>? echoObject = api
+            .callFlutterEchoNullableNonNullEnumList(nonNullEnumList);
+        expect(listEquals(echoObject, nonNullEnumList), true);
+      },
+    );
 
-    //     testWidgets(
-    //         'nullable NonNull class lists serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final List<NIAllNullableTypes?>? echoObject =
-    //           await api.callFlutterEchoNullableNonNullClassList(
-    //               nonNullNIAllNullableTypesList);
-    //       for (final (int index, NIAllNullableTypes? value)
-    //           in echoObject!.indexed) {
-    //         expect(value, nonNullNIAllNullableTypesList[index]);
-    //       }
-    //     });
+    testWidgets(
+      'nullable NonNull class lists serialize and deserialize correctly',
+      (WidgetTester _) async {
+        final List<NIAllNullableTypes?>? echoObject = api
+            .callFlutterEchoNullableNonNullClassList(
+              nonNullNIAllNullableTypesList,
+            );
+        for (final (int index, NIAllNullableTypes? value)
+            in echoObject!.indexed) {
+          expect(value, nonNullNIAllNullableTypesList[index]);
+        }
+      },
+    );
 
-    //     testWidgets('null lists serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final List<Object?>? echoObject =
-    //           await api.callFlutterEchoNullableList(null);
-    //       expect(listEquals(echoObject, null), true);
-    //     });
+    testWidgets('null lists serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final List<Object?>? echoObject = api.callFlutterEchoNullableList(null);
+      expect(listEquals(echoObject, null), true);
+    });
 
-    //     testWidgets('nullable maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<Object?, Object?>? echoObject =
-    //           await api.callFlutterEchoNullableMap(map);
-    //       expect(mapEquals(echoObject, map), true);
-    //     });
+    testWidgets('nullable maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<Object?, Object?>? echoObject = api.callFlutterEchoNullableMap(
+        map,
+      );
+      expect(mapEquals(echoObject, map), true);
+    });
 
-    //     testWidgets('null maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<Object?, Object?>? echoObject =
-    //           await api.callFlutterEchoNullableMap(null);
-    //       expect(mapEquals(echoObject, null), true);
-    //     });
+    testWidgets('null maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<Object?, Object?>? echoObject = api.callFlutterEchoNullableMap(
+        null,
+      );
+      expect(mapEquals(echoObject, null), true);
+    });
 
-    //     testWidgets('nullable string maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<String?, String?>? echoObject =
-    //           await api.callFlutterEchoNullableStringMap(stringMap);
-    //       expect(mapEquals(echoObject, stringMap), true);
-    //     });
+    testWidgets('nullable string maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<String?, String?>? echoObject = api
+          .callFlutterEchoNullableStringMap(stringMap);
+      expect(mapEquals(echoObject, stringMap), true);
+    });
 
-    //     testWidgets('nullable int maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<int?, int?>? echoObject =
-    //           await api.callFlutterEchoNullableIntMap(intMap);
-    //       expect(mapEquals(echoObject, intMap), true);
-    //     });
+    testWidgets('nullable int maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<int?, int?>? echoObject = api.callFlutterEchoNullableIntMap(
+        intMap,
+      );
+      expect(mapEquals(echoObject, intMap), true);
+    });
 
-    //     testWidgets('nullable enum maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<NIAnEnum?, NIAnEnum?>? echoObject =
-    //           await api.callFlutterEchoNullableEnumMap(enumMap);
-    //       expect(mapEquals(echoObject, enumMap), true);
-    //     });
+    testWidgets('nullable enum maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<NIAnEnum?, NIAnEnum?>? echoObject = api
+          .callFlutterEchoNullableEnumMap(enumMap);
+      expect(mapEquals(echoObject, enumMap), true);
+    });
 
-    //     testWidgets('nullable class maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<int?, NIAllNullableTypes?>? echoObject =
-    //           await api.callFlutterEchoNullableClassMap(allNullableTypesMap);
-    //       for (final MapEntry<int?, NIAllNullableTypes?> entry
-    //           in echoObject!.entries) {
-    //         expect(entry.value, allNullableTypesMap[entry.key]);
-    //       }
-    //     });
+    testWidgets('nullable class maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<int?, NIAllNullableTypes?>? echoObject = api
+          .callFlutterEchoNullableClassMap(allNullableTypesMap);
+      for (final MapEntry<int?, NIAllNullableTypes?> entry
+          in echoObject!.entries) {
+        expect(entry.value, allNullableTypesMap[entry.key]);
+      }
+    });
 
-    //     testWidgets(
-    //         'nullable NonNull string maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<String?, String?>? echoObject =
-    //           await api.callFlutterEchoNullableNonNullStringMap(nonNullStringMap);
-    //       expect(mapEquals(echoObject, nonNullStringMap), true);
-    //     });
+    testWidgets(
+      'nullable NonNull string maps serialize and deserialize correctly',
+      (WidgetTester _) async {
+        final Map<String?, String?>? echoObject = api
+            .callFlutterEchoNullableNonNullStringMap(nonNullStringMap);
+        expect(mapEquals(echoObject, nonNullStringMap), true);
+      },
+    );
 
-    //     testWidgets('nullable NonNull int maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<int?, int?>? echoObject =
-    //           await api.callFlutterEchoNullableNonNullIntMap(nonNullIntMap);
-    //       expect(mapEquals(echoObject, nonNullIntMap), true);
-    //     });
+    testWidgets(
+      'nullable NonNull int maps serialize and deserialize correctly',
+      (WidgetTester _) async {
+        final Map<int?, int?>? echoObject = api
+            .callFlutterEchoNullableNonNullIntMap(nonNullIntMap);
+        expect(mapEquals(echoObject, nonNullIntMap), true);
+      },
+    );
 
-    //     testWidgets(
-    //         'nullable NonNull enum maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<NIAnEnum?, NIAnEnum?>? echoObject =
-    //           await api.callFlutterEchoNullableNonNullEnumMap(nonNullEnumMap);
-    //       expect(mapEquals(echoObject, nonNullEnumMap), true);
-    //     });
+    testWidgets(
+      'nullable NonNull enum maps serialize and deserialize correctly',
+      (WidgetTester _) async {
+        final Map<NIAnEnum?, NIAnEnum?>? echoObject = api
+            .callFlutterEchoNullableNonNullEnumMap(nonNullEnumMap);
+        expect(mapEquals(echoObject, nonNullEnumMap), true);
+      },
+    );
 
-    //     testWidgets(
-    //         'nullable NonNull class maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<int?, NIAllNullableTypes?>? echoObject = await api
-    //           .callFlutterEchoNullableNonNullClassMap(nonNullNIAllNullableTypesMap);
-    //       for (final MapEntry<int?, NIAllNullableTypes?> entry
-    //           in echoObject!.entries) {
-    //         expect(entry.value, nonNullNIAllNullableTypesMap[entry.key]);
-    //       }
-    //     });
+    testWidgets(
+      'nullable NonNull class maps serialize and deserialize correctly',
+      (WidgetTester _) async {
+        final Map<int?, NIAllNullableTypes?>? echoObject = api
+            .callFlutterEchoNullableNonNullClassMap(
+              nonNullNIAllNullableTypesMap,
+            );
+        for (final MapEntry<int?, NIAllNullableTypes?> entry
+            in echoObject!.entries) {
+          expect(entry.value, nonNullNIAllNullableTypesMap[entry.key]);
+        }
+      },
+    );
 
-    //     testWidgets('null maps serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       final Map<int?, int?>? echoObject =
-    //           await api.callFlutterEchoNullableIntMap(null);
-    //       expect(mapEquals(echoObject, null), true);
-    //     });
+    testWidgets('null maps serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Map<int?, int?>? echoObject = api.callFlutterEchoNullableIntMap(
+        null,
+      );
+      expect(mapEquals(echoObject, null), true);
+    });
 
-    //     testWidgets('nullable enums serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       const NIAnEnum sentEnum = NIAnEnum.three;
-    //       final NIAnEnum? echoEnum =
-    //           await api.callFlutterEchoNullableEnum(sentEnum);
-    //       expect(echoEnum, sentEnum);
-    //     });
+    testWidgets('nullable enums serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      const NIAnEnum sentEnum = NIAnEnum.three;
+      final NIAnEnum? echoEnum = api.callFlutterEchoNullableEnum(sentEnum);
+      expect(echoEnum, sentEnum);
+    });
 
-    //     testWidgets('nullable enums serialize and deserialize correctly (again)',
-    //         (WidgetTester _) async {
-    //       const NIAnotherEnum sentEnum = NIAnotherEnum.justInCase;
-    //       final NIAnotherEnum? echoEnum =
-    //           await api.callFlutterEchoAnotherNullableEnum(sentEnum);
-    //       expect(echoEnum, sentEnum);
-    //     });
+    testWidgets('nullable enums serialize and deserialize correctly (again)', (
+      WidgetTester _,
+    ) async {
+      const NIAnotherEnum sentEnum = NIAnotherEnum.justInCase;
+      final NIAnotherEnum? echoEnum = api.callFlutterEchoAnotherNullableEnum(
+        sentEnum,
+      );
+      expect(echoEnum, sentEnum);
+    });
 
-    //     testWidgets('multi word nullable enums serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       const NIAnEnum sentEnum = NIAnEnum.fourHundredTwentyTwo;
-    //       final NIAnEnum? echoEnum =
-    //           await api.callFlutterEchoNullableEnum(sentEnum);
-    //       expect(echoEnum, sentEnum);
-    //     });
+    testWidgets(
+      'multi word nullable enums serialize and deserialize correctly',
+      (WidgetTester _) async {
+        const NIAnEnum sentEnum = NIAnEnum.fourHundredTwentyTwo;
+        final NIAnEnum? echoEnum = api.callFlutterEchoNullableEnum(sentEnum);
+        expect(echoEnum, sentEnum);
+      },
+    );
 
-    //     testWidgets('null enums serialize and deserialize correctly',
-    //         (WidgetTester _) async {
-    //       const NIAnEnum? sentEnum = null;
-    //       final NIAnEnum? echoEnum =
-    //           await api.callFlutterEchoNullableEnum(sentEnum);
-    //       expect(echoEnum, sentEnum);
-    //     });
+    testWidgets('null enums serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      const NIAnEnum? sentEnum = null;
+      final NIAnEnum? echoEnum = api.callFlutterEchoNullableEnum(sentEnum);
+      expect(echoEnum, sentEnum);
+    });
 
-    //     testWidgets('null enums serialize and deserialize correctly (again)',
-    //         (WidgetTester _) async {
-    //       const NIAnotherEnum? sentEnum = null;
-    //       final NIAnotherEnum? echoEnum =
-    //           await api.callFlutterEchoAnotherNullableEnum(sentEnum);
-    //       expect(echoEnum, sentEnum);
-    //     });
+    testWidgets('null enums serialize and deserialize correctly (again)', (
+      WidgetTester _,
+    ) async {
+      const NIAnotherEnum? sentEnum = null;
+      final NIAnotherEnum? echoEnum = api.callFlutterEchoAnotherNullableEnum(
+        sentEnum,
+      );
+      expect(echoEnum, sentEnum);
+    });
 
     //     // testWidgets('async method works', (WidgetTester _) async {
-    //     //   expect(await api.callFlutterNoopAsync(), completes);
+    //     //   expect(api.callFlutterNoopAsync(), completes);
     //     // });
 
     //     // testWidgets('echo string', (WidgetTester _) async {
@@ -3100,10 +2646,10 @@ class _NIFlutterIntegrationCoreApiImpl extends NIFlutterIntegrationCoreApi {
     return aBool;
   }
 
-  // @override
-  // NIAnotherEnum? echoAnotherNullableEnum(NIAnotherEnum? anotherEnum) {
-  //   return anotherEnum;
-  // }
+  @override
+  NIAnotherEnum? echoAnotherNullableEnum(NIAnotherEnum? anotherEnum) {
+    return anotherEnum;
+  }
 
   // @override
   // Future<String> echoAsyncString(String aString) async {
@@ -3213,113 +2759,121 @@ class _NIFlutterIntegrationCoreApiImpl extends NIFlutterIntegrationCoreApi {
     return stringMap;
   }
 
-  //   @override
-  //   bool? echoNullableBool(bool? aBool) {
-  //     return aBool;
-  //   }
+  @override
+  bool? echoNullableBool(bool? aBool) {
+    return aBool;
+  }
 
-  //   @override
-  //   List<NIAllNullableTypes?>? echoNullableClassList(
-  //       List<NIAllNullableTypes?>? classList) {
-  //     return classList;
-  //   }
+  @override
+  List<NIAllNullableTypes?>? echoNullableClassList(
+    List<NIAllNullableTypes?>? classList,
+  ) {
+    return classList;
+  }
 
-  //   @override
-  //   Map<int?, NIAllNullableTypes?>? echoNullableClassMap(
-  //       Map<int?, NIAllNullableTypes?>? classMap) {
-  //     return classMap;
-  //   }
+  @override
+  Map<int?, NIAllNullableTypes?>? echoNullableClassMap(
+    Map<int?, NIAllNullableTypes?>? classMap,
+  ) {
+    return classMap;
+  }
 
-  //   @override
-  //   double? echoNullableDouble(double? aDouble) {
-  //     return aDouble;
-  //   }
+  @override
+  double? echoNullableDouble(double? aDouble) {
+    return aDouble;
+  }
 
-  //   @override
-  //   NIAnEnum? echoNullableEnum(NIAnEnum? anEnum) {
-  //     return anEnum;
-  //   }
+  @override
+  NIAnEnum? echoNullableEnum(NIAnEnum? anEnum) {
+    return anEnum;
+  }
 
-  //   @override
-  //   List<NIAnEnum?>? echoNullableEnumList(List<NIAnEnum?>? enumList) {
-  //     return enumList;
-  //   }
+  @override
+  List<NIAnEnum?>? echoNullableEnumList(List<NIAnEnum?>? enumList) {
+    return enumList;
+  }
 
-  //   @override
-  //   Map<NIAnEnum?, NIAnEnum?>? echoNullableEnumMap(
-  //       Map<NIAnEnum?, NIAnEnum?>? enumMap) {
-  //     return enumMap;
-  //   }
+  @override
+  Map<NIAnEnum?, NIAnEnum?>? echoNullableEnumMap(
+    Map<NIAnEnum?, NIAnEnum?>? enumMap,
+  ) {
+    return enumMap;
+  }
 
-  //   @override
-  //   int? echoNullableInt(int? anInt) {
-  //     return anInt;
-  //   }
+  @override
+  int? echoNullableInt(int? anInt) {
+    return anInt;
+  }
 
-  //   @override
-  //   Map<int?, int?>? echoNullableIntMap(Map<int?, int?>? intMap) {
-  //     return intMap;
-  //   }
+  @override
+  Map<int?, int?>? echoNullableIntMap(Map<int?, int?>? intMap) {
+    return intMap;
+  }
 
-  //   @override
-  //   List<Object?>? echoNullableList(List<Object?>? list) {
-  //     return list;
-  //   }
+  @override
+  List<Object?>? echoNullableList(List<Object?>? list) {
+    return list;
+  }
 
-  //   @override
-  //   Map<Object?, Object?>? echoNullableMap(Map<Object?, Object?>? map) {
-  //     return map;
-  //   }
+  @override
+  Map<Object?, Object?>? echoNullableMap(Map<Object?, Object?>? map) {
+    return map;
+  }
 
-  //   @override
-  //   List<NIAllNullableTypes>? echoNullableNonNullClassList(
-  //       List<NIAllNullableTypes>? classList) {
-  //     return classList;
-  //   }
+  @override
+  List<NIAllNullableTypes>? echoNullableNonNullClassList(
+    List<NIAllNullableTypes>? classList,
+  ) {
+    return classList;
+  }
 
-  //   @override
-  //   Map<int, NIAllNullableTypes>? echoNullableNonNullClassMap(
-  //       Map<int, NIAllNullableTypes>? classMap) {
-  //     return classMap;
-  //   }
+  @override
+  Map<int, NIAllNullableTypes>? echoNullableNonNullClassMap(
+    Map<int, NIAllNullableTypes>? classMap,
+  ) {
+    return classMap;
+  }
 
-  //   @override
-  //   List<NIAnEnum>? echoNullableNonNullEnumList(List<NIAnEnum>? enumList) {
-  //     return enumList;
-  //   }
+  @override
+  List<NIAnEnum>? echoNullableNonNullEnumList(List<NIAnEnum>? enumList) {
+    return enumList;
+  }
 
-  //   @override
-  //   Map<NIAnEnum, NIAnEnum>? echoNullableNonNullEnumMap(
-  //       Map<NIAnEnum, NIAnEnum>? enumMap) {
-  //     return enumMap;
-  //   }
+  @override
+  Map<NIAnEnum, NIAnEnum>? echoNullableNonNullEnumMap(
+    Map<NIAnEnum, NIAnEnum>? enumMap,
+  ) {
+    return enumMap;
+  }
 
-  //   @override
-  //   Map<int, int>? echoNullableNonNullIntMap(Map<int, int>? intMap) {
-  //     return intMap;
-  //   }
+  @override
+  Map<int, int>? echoNullableNonNullIntMap(Map<int, int>? intMap) {
+    return intMap;
+  }
 
-  //   @override
-  //   Map<String, String>? echoNullableNonNullStringMap(
-  //       Map<String, String>? stringMap) {
-  //     return stringMap;
-  //   }
+  @override
+  Map<String, String>? echoNullableNonNullStringMap(
+    Map<String, String>? stringMap,
+  ) {
+    return stringMap;
+  }
 
-  //   @override
-  //   String? echoNullableString(String? aString) {
-  //     return aString;
-  //   }
+  @override
+  String? echoNullableString(String? aString) {
+    return aString;
+  }
 
-  //   @override
-  //   Map<String?, String?>? echoNullableStringMap(
-  //       Map<String?, String?>? stringMap) {
-  //     return stringMap;
-  //   }
+  @override
+  Map<String?, String?>? echoNullableStringMap(
+    Map<String?, String?>? stringMap,
+  ) {
+    return stringMap;
+  }
 
-  //   @override
-  //   Uint8List? echoNullableUint8List(Uint8List? list) {
-  //     return list;
-  //   }
+  @override
+  Uint8List? echoNullableUint8List(Uint8List? list) {
+    return list;
+  }
 
   @override
   Map<String?, String?> echoStringMap(Map<String?, String?> stringMap) {
