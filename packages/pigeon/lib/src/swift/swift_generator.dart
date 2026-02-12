@@ -902,12 +902,17 @@ if (wrapped == nil) {
     bool forceNullable = false,
   }) {
     final nullable = type.isNullable || forceNullable ? '?' : '';
+    final getter = type.isNullable ? '!' : '';
     switch (type.baseName) {
       case 'int':
       case 'double':
       case 'bool':
         return type.isNullable || forceNullable
-            ? _numberToObjc(varName, getter: '!')
+            ? _numberToObjc(
+                varName,
+                getter: getter,
+                isNullable: type.isNullable,
+              )
             : varName;
       case 'Uint8List':
       case 'Int32List':
@@ -915,7 +920,7 @@ if (wrapped == nil) {
       case 'Float32List':
       case 'Float64List':
         return wrapConditionally(
-          'PigeonTypedData($varName${type.isNullable || forceNullable ? '!' : ''})',
+          'PigeonTypedData($varName${type.isNullable ? '!' : ''})',
           'isNullish($varName) ? nil : ',
           '',
           type.isNullable || forceNullable,
@@ -928,18 +933,27 @@ if (wrapped == nil) {
       case 'Object':
         return '_PigeonFfiCodec.writeValue(value: $varName, isObject: true) as! NSObject$nullable';
       default:
-        if (type.isEnum && type.isNullable || forceNullable) {
-          return _numberToObjc(varName, getter: '!.rawValue');
+        if (type.isEnum && (type.isNullable || forceNullable)) {
+          return _numberToObjc(
+            varName,
+            getter: getter.isEmpty ? '.rawValue' : '!.rawValue',
+            isNullable: type.isNullable,
+          );
         }
         if (type.isClass) {
-          return '${type.baseName}Bridge.fromSwift($varName)${type.isNullable || forceNullable ? '' : '!'}';
+          return '${type.baseName}Bridge.fromSwift($varName)${type.isNullable ? '' : '!'}';
         }
         return varName;
     }
   }
 
-  String _numberToObjc(String varName, {String getter = ''}) =>
-      'isNullish($varName) ? nil : NSNumber(value: $varName$getter)';
+  String _numberToObjc(
+    String varName, {
+    String getter = '',
+    bool isNullable = true,
+  }) => isNullable
+      ? 'isNullish($varName) ? nil : NSNumber(value: $varName$getter)'
+      : 'NSNumber(value: $varName$getter)';
 
   String _varToSwift(
     String varName,
@@ -1005,24 +1019,29 @@ if (wrapped == nil) {
     }
   }
 
-  String _swiftToFfiConversion(TypeDeclaration type, String toConvert) {
+  String _swiftToFfiConversion(
+    TypeDeclaration type,
+    String toConvert, {
+    bool forceNullable = false,
+  }) {
     if (type.isVoid) {
       return toConvert;
     }
+    final nullable = type.isNullable || forceNullable ? '?' : '';
     if (type.isEnum) {
-      return 'NSNumber(value: $toConvert.rawValue)';
+      return _varToObjc(toConvert, type, forceNullable: true);
     }
     if (type.baseName == 'Object') {
-      return '_PigeonFfiCodec.writeValue(value: $toConvert, isObject: true) as? NSObject';
+      return '_PigeonFfiCodec.writeValue(value: $toConvert, isObject: true) as$nullable NSObject';
     }
-    final nullable = type.isNullable ? '?' : '';
     if (_conversionToObjcRequired(type)) {
       if (type.isClass) {
-        return '${type.baseName}Bridge.fromSwift($toConvert)';
+        return '${type.baseName}Bridge.fromSwift($toConvert)${type.isNullable || forceNullable ? '' : '!'}';
       }
-      return '$toConvert as$nullable ${_ffiTypeForBuiltinDartType(type, forceNullable: true)}';
+      final cast = type.isNullable ? 'as?' : 'as';
+      return '$toConvert $cast ${_ffiTypeForBuiltinDartType(type, forceNullable: true)}';
     }
-    return _varToObjc(toConvert, type, forceNullable: true);
+    return _varToObjc(toConvert, type, forceNullable: forceNullable);
   }
   //////////
 
@@ -1412,14 +1431,7 @@ if (wrapped == nil) {
         indent.addScoped('{', '}', () {
           indent.writeln('let error = $errorClassName()');
           final List<String> params = method.parameters.map((NamedType param) {
-            final String ffiType = _ffiTypeForDartType(
-              param.type,
-              forceNullable: true,
-            );
-            final cast = param.type.isNullable
-                ? 'as? $ffiType'
-                : 'as! $ffiType';
-            return '${param.name}: _PigeonFfiCodec.writeValue(value: ${param.name}) $cast';
+            return '${param.name}: ${_swiftToFfiConversion(param.type, param.name)}';
           }).toList();
           params.add('error: error');
 
@@ -1524,7 +1536,7 @@ if (wrapped == nil) {
               indent.writeln(
                 'return try ${method.isAsynchronous ? 'await ' : ''}${_swiftToFfiConversion(method.returnType, 'api!.${method.name}(${method.parameters.map((NamedType param) {
                   return '${param.name}: ${_varToSwift(param.name, param.type)}';
-                }).join(', ')})')}',
+                }).join(', ')})', forceNullable: true)}',
               );
             }
           }, addTrailingNewline: false);

@@ -4703,8 +4703,8 @@ class NIFlutterIntegrationCoreApi {
     let res =
       _PigeonFfiCodec.readValue(
         value: (api!.echoNIAllTypes(
-          everything: _PigeonFfiCodec.writeValue(value: everything) as! NIAllTypesBridge,
-          error: error)), type: "NIAllTypes") as! NIAllTypes
+          everything: NIAllTypesBridge.fromSwift(everything)!, error: error)), type: "NIAllTypes")
+      as! NIAllTypes
     if error.code != nil {
       throw error
     }
@@ -4717,8 +4717,8 @@ class NIFlutterIntegrationCoreApi {
     let res =
       _PigeonFfiCodec.readValue(
         value: (api!.echoNIAllNullableTypes(
-          everything: _PigeonFfiCodec.writeValue(value: everything) as? NIAllNullableTypesBridge,
-          error: error)), type: "NIAllNullableTypes") as! NIAllNullableTypes?
+          everything: NIAllNullableTypesBridge.fromSwift(everything), error: error)),
+        type: "NIAllNullableTypes") as! NIAllNullableTypes?
     if error.code != nil {
       throw error
     }
@@ -4735,10 +4735,9 @@ class NIFlutterIntegrationCoreApi {
     let res =
       _PigeonFfiCodec.readValue(
         value: (api!.sendMultipleNullableTypes(
-          aNullableBool: _PigeonFfiCodec.writeValue(value: aNullableBool) as? NSNumber,
-          aNullableInt: _PigeonFfiCodec.writeValue(value: aNullableInt) as? NSNumber,
-          aNullableString: _PigeonFfiCodec.writeValue(value: aNullableString) as? NSString,
-          error: error)), type: "NIAllNullableTypes") as! NIAllNullableTypes
+          aNullableBool: aNullableBool as? NSNumber, aNullableInt: aNullableInt as? NSNumber,
+          aNullableString: aNullableString as NSString?, error: error)), type: "NIAllNullableTypes")
+      as! NIAllNullableTypes
     if error.code != nil {
       throw error
     }
@@ -4753,8 +4752,7 @@ class NIFlutterIntegrationCoreApi {
     let res =
       _PigeonFfiCodec.readValue(
         value: (api!.echoNIAllNullableTypesWithoutRecursion(
-          everything: _PigeonFfiCodec.writeValue(value: everything)
-            as? NIAllNullableTypesWithoutRecursionBridge, error: error)),
+          everything: NIAllNullableTypesWithoutRecursionBridge.fromSwift(everything), error: error)),
         type: "NIAllNullableTypesWithoutRecursion") as! NIAllNullableTypesWithoutRecursion?
     if error.code != nil {
       throw error
@@ -4772,11 +4770,9 @@ class NIFlutterIntegrationCoreApi {
     let res =
       _PigeonFfiCodec.readValue(
         value: (api!.sendMultipleNullableTypesWithoutRecursion(
-          aNullableBool: _PigeonFfiCodec.writeValue(value: aNullableBool) as? NSNumber,
-          aNullableInt: _PigeonFfiCodec.writeValue(value: aNullableInt) as? NSNumber,
-          aNullableString: _PigeonFfiCodec.writeValue(value: aNullableString) as? NSString,
-          error: error)), type: "NIAllNullableTypesWithoutRecursion")
-      as! NIAllNullableTypesWithoutRecursion
+          aNullableBool: aNullableBool as? NSNumber, aNullableInt: aNullableInt as? NSNumber,
+          aNullableString: aNullableString as NSString?, error: error)),
+        type: "NIAllNullableTypesWithoutRecursion") as! NIAllNullableTypesWithoutRecursion
     if error.code != nil {
       throw error
     }
@@ -4788,9 +4784,7 @@ class NIFlutterIntegrationCoreApi {
     let error = NiTestsError()
     let res =
       _PigeonFfiCodec.readValue(
-        value: (api!.echoBool(
-          aBool: _PigeonFfiCodec.writeValue(value: aBool) as! NSNumber, error: error)), type: "bool"
-      ) as! Bool
+        value: (api!.echoBool(aBool: aBool as NSNumber, error: error)), type: "bool") as! Bool
     if error.code != nil {
       throw error
     }
@@ -4802,9 +4796,7 @@ class NIFlutterIntegrationCoreApi {
     let error = NiTestsError()
     let res =
       _PigeonFfiCodec.readValue(
-        value: (api!.echoInt(
-          anInt: _PigeonFfiCodec.writeValue(value: anInt) as! NSNumber, error: error)), type: "int")
-      as! Int64
+        value: (api!.echoInt(anInt: anInt as NSNumber, error: error)), type: "int") as! Int64
     if error.code != nil {
       throw error
     }
@@ -4816,9 +4808,8 @@ class NIFlutterIntegrationCoreApi {
     let error = NiTestsError()
     let res =
       _PigeonFfiCodec.readValue(
-        value: (api!.echoDouble(
-          aDouble: _PigeonFfiCodec.writeValue(value: aDouble) as! NSNumber, error: error)),
-        type: "double") as! Double
+        value: (api!.echoDouble(aDouble: aDouble as NSNumber, error: error)), type: "double")
+      as! Double
     if error.code != nil {
       throw error
     }
@@ -4830,9 +4821,8 @@ class NIFlutterIntegrationCoreApi {
     let error = NiTestsError()
     let res =
       _PigeonFfiCodec.readValue(
-        value: (api!.echoString(
-          aString: _PigeonFfiCodec.writeValue(value: aString) as! NSString, error: error)),
-        type: "String") as! String
+        value: (api!.echoString(aString: aString as NSString, error: error)), type: "String")
+      as! String
     if error.code != nil {
       throw error
     }
@@ -4844,9 +4834,8 @@ class NIFlutterIntegrationCoreApi {
     let error = NiTestsError()
     let res =
       _PigeonFfiCodec.readValue(
-        value: (api!.echoUint8List(
-          list: _PigeonFfiCodec.writeValue(value: list) as! PigeonTypedData, error: error)),
-        type: "Uint8List") as! [UInt8]
+        value: (api!.echoUint8List(list: PigeonTypedData(list), error: error)), type: "Uint8List")
+      as! [UInt8]
     if error.code != nil {
       throw error
     }
@@ -5057,8 +5046,7 @@ class NIFlutterIntegrationCoreApi {
     let error = NiTestsError()
     let res =
       _PigeonFfiCodec.readValue(
-        value: (api!.echoEnum(
-          anEnum: _PigeonFfiCodec.writeValue(value: anEnum) as! NSNumber, error: error)),
+        value: (api!.echoEnum(anEnum: NSNumber(value: anEnum.rawValue), error: error)),
         type: "NIAnEnum") as! NIAnEnum
     if error.code != nil {
       throw error
@@ -5072,8 +5060,8 @@ class NIFlutterIntegrationCoreApi {
     let res =
       _PigeonFfiCodec.readValue(
         value: (api!.echoNIAnotherEnum(
-          anotherEnum: _PigeonFfiCodec.writeValue(value: anotherEnum) as! NSNumber, error: error)),
-        type: "NIAnotherEnum") as! NIAnotherEnum
+          anotherEnum: NSNumber(value: anotherEnum.rawValue), error: error)), type: "NIAnotherEnum")
+      as! NIAnotherEnum
     if error.code != nil {
       throw error
     }
