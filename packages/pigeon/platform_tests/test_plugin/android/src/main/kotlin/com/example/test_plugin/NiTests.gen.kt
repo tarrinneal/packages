@@ -1010,6 +1010,10 @@ abstract class NIHostIntegrationCoreApi {
 
   abstract fun callFlutterEchoUint8List(list: ByteArray): ByteArray
 
+  abstract fun callFlutterEchoInt32List(list: IntArray): IntArray
+
+  abstract fun callFlutterEchoInt64List(list: LongArray): LongArray
+
   abstract fun callFlutterEchoList(list: List<Any?>): List<Any?>
 
   abstract fun callFlutterEchoEnumList(enumList: List<NIAnEnum?>): List<NIAnEnum?>
@@ -1062,6 +1066,10 @@ abstract class NIHostIntegrationCoreApi {
 
   abstract fun callFlutterEchoNullableUint8List(list: ByteArray?): ByteArray?
 
+  abstract fun callFlutterEchoNullableInt32List(list: IntArray?): IntArray?
+
+  abstract fun callFlutterEchoNullableInt64List(list: LongArray?): LongArray?
+
   abstract fun callFlutterEchoNullableList(list: List<Any?>?): List<Any?>?
 
   abstract fun callFlutterEchoNullableEnumList(enumList: List<NIAnEnum?>?): List<NIAnEnum?>?
@@ -1109,6 +1117,126 @@ abstract class NIHostIntegrationCoreApi {
   abstract fun callFlutterEchoNullableEnum(anEnum: NIAnEnum?): NIAnEnum?
 
   abstract fun callFlutterEchoAnotherNullableEnum(anotherEnum: NIAnotherEnum?): NIAnotherEnum?
+
+  abstract suspend fun callFlutterNoopAsync()
+
+  abstract suspend fun callFlutterEchoAsyncNIAllTypes(everything: NIAllTypes): NIAllTypes
+
+  abstract suspend fun callFlutterEchoAsyncNullableNIAllNullableTypes(
+      everything: NIAllNullableTypes?
+  ): NIAllNullableTypes?
+
+  abstract suspend fun callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion(
+      everything: NIAllNullableTypesWithoutRecursion?
+  ): NIAllNullableTypesWithoutRecursion?
+
+  abstract suspend fun callFlutterEchoAsyncBool(aBool: Boolean): Boolean
+
+  abstract suspend fun callFlutterEchoAsyncInt(anInt: Long): Long
+
+  abstract suspend fun callFlutterEchoAsyncDouble(aDouble: Double): Double
+
+  abstract suspend fun callFlutterEchoAsyncString(aString: String): String
+
+  abstract suspend fun callFlutterEchoAsyncUint8List(list: ByteArray): ByteArray
+
+  abstract suspend fun callFlutterEchoAsyncInt32List(list: IntArray): IntArray
+
+  abstract suspend fun callFlutterEchoAsyncInt64List(list: LongArray): LongArray
+
+  abstract suspend fun callFlutterEchoAsyncObject(anObject: Any): Any
+
+  abstract suspend fun callFlutterEchoAsyncList(list: List<Any?>): List<Any?>
+
+  abstract suspend fun callFlutterEchoAsyncEnumList(enumList: List<NIAnEnum?>): List<NIAnEnum?>
+
+  abstract suspend fun callFlutterEchoAsyncClassList(
+      classList: List<NIAllNullableTypes?>
+  ): List<NIAllNullableTypes?>
+
+  abstract suspend fun callFlutterEchoAsyncNonNullEnumList(enumList: List<NIAnEnum>): List<NIAnEnum>
+
+  abstract suspend fun callFlutterEchoAsyncNonNullClassList(
+      classList: List<NIAllNullableTypes>
+  ): List<NIAllNullableTypes>
+
+  abstract suspend fun callFlutterEchoAsyncMap(map: Map<Any?, Any?>): Map<Any?, Any?>
+
+  abstract suspend fun callFlutterEchoAsyncStringMap(
+      stringMap: Map<String?, String?>
+  ): Map<String?, String?>
+
+  abstract suspend fun callFlutterEchoAsyncIntMap(intMap: Map<Long?, Long?>): Map<Long?, Long?>
+
+  abstract suspend fun callFlutterEchoAsyncEnumMap(
+      enumMap: Map<NIAnEnum?, NIAnEnum?>
+  ): Map<NIAnEnum?, NIAnEnum?>
+
+  abstract suspend fun callFlutterEchoAsyncClassMap(
+      classMap: Map<Long?, NIAllNullableTypes?>
+  ): Map<Long?, NIAllNullableTypes?>
+
+  abstract suspend fun callFlutterEchoAsyncEnum(anEnum: NIAnEnum): NIAnEnum
+
+  abstract suspend fun callFlutterEchoAnotherAsyncEnum(anotherEnum: NIAnotherEnum): NIAnotherEnum
+
+  abstract suspend fun callFlutterEchoAsyncNullableBool(aBool: Boolean?): Boolean?
+
+  abstract suspend fun callFlutterEchoAsyncNullableInt(anInt: Long?): Long?
+
+  abstract suspend fun callFlutterEchoAsyncNullableDouble(aDouble: Double?): Double?
+
+  abstract suspend fun callFlutterEchoAsyncNullableString(aString: String?): String?
+
+  abstract suspend fun callFlutterEchoAsyncNullableUint8List(list: ByteArray?): ByteArray?
+
+  abstract suspend fun callFlutterEchoAsyncNullableInt32List(list: IntArray?): IntArray?
+
+  abstract suspend fun callFlutterEchoAsyncNullableInt64List(list: LongArray?): LongArray?
+
+  abstract suspend fun callFlutterEchoAsyncNullableObject(anObject: Any?): Any?
+
+  abstract suspend fun callFlutterEchoAsyncNullableList(list: List<Any?>?): List<Any?>?
+
+  abstract suspend fun callFlutterEchoAsyncNullableEnumList(
+      enumList: List<NIAnEnum?>?
+  ): List<NIAnEnum?>?
+
+  abstract suspend fun callFlutterEchoAsyncNullableClassList(
+      classList: List<NIAllNullableTypes?>?
+  ): List<NIAllNullableTypes?>?
+
+  abstract suspend fun callFlutterEchoAsyncNullableNonNullEnumList(
+      enumList: List<NIAnEnum>?
+  ): List<NIAnEnum>?
+
+  abstract suspend fun callFlutterEchoAsyncNullableNonNullClassList(
+      classList: List<NIAllNullableTypes>?
+  ): List<NIAllNullableTypes>?
+
+  abstract suspend fun callFlutterEchoAsyncNullableMap(map: Map<Any?, Any?>?): Map<Any?, Any?>?
+
+  abstract suspend fun callFlutterEchoAsyncNullableStringMap(
+      stringMap: Map<String?, String?>?
+  ): Map<String?, String?>?
+
+  abstract suspend fun callFlutterEchoAsyncNullableIntMap(
+      intMap: Map<Long?, Long?>?
+  ): Map<Long?, Long?>?
+
+  abstract suspend fun callFlutterEchoAsyncNullableEnumMap(
+      enumMap: Map<NIAnEnum?, NIAnEnum?>?
+  ): Map<NIAnEnum?, NIAnEnum?>?
+
+  abstract suspend fun callFlutterEchoAsyncNullableClassMap(
+      classMap: Map<Long?, NIAllNullableTypes?>?
+  ): Map<Long?, NIAllNullableTypes?>?
+
+  abstract suspend fun callFlutterEchoAsyncNullableEnum(anEnum: NIAnEnum?): NIAnEnum?
+
+  abstract suspend fun callFlutterEchoAnotherAsyncNullableEnum(
+      anotherEnum: NIAnotherEnum?
+  ): NIAnotherEnum?
 }
 
 @Keep
@@ -2537,6 +2665,28 @@ class NIHostIntegrationCoreApiRegistrar : NIHostIntegrationCoreApi() {
     error("NIHostIntegrationCoreApi has not been set")
   }
 
+  override fun callFlutterEchoInt32List(list: IntArray): IntArray {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoInt32List(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoInt64List(list: LongArray): LongArray {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoInt64List(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
   override fun callFlutterEchoList(list: List<Any?>): List<Any?> {
     api?.let {
       try {
@@ -2782,6 +2932,28 @@ class NIHostIntegrationCoreApiRegistrar : NIHostIntegrationCoreApi() {
     error("NIHostIntegrationCoreApi has not been set")
   }
 
+  override fun callFlutterEchoNullableInt32List(list: IntArray?): IntArray? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableInt32List(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableInt64List(list: LongArray?): LongArray? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableInt64List(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
   override fun callFlutterEchoNullableList(list: List<Any?>?): List<Any?>? {
     api?.let {
       try {
@@ -2973,6 +3145,524 @@ class NIHostIntegrationCoreApiRegistrar : NIHostIntegrationCoreApi() {
     }
     error("NIHostIntegrationCoreApi has not been set")
   }
+
+  override suspend fun callFlutterNoopAsync() {
+    api?.let {
+      try {
+        return api!!.callFlutterNoopAsync()
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNIAllTypes(everything: NIAllTypes): NIAllTypes {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNIAllTypes(everything)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableNIAllNullableTypes(
+      everything: NIAllNullableTypes?
+  ): NIAllNullableTypes? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableNIAllNullableTypes(everything)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion(
+      everything: NIAllNullableTypesWithoutRecursion?
+  ): NIAllNullableTypesWithoutRecursion? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion(everything)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncBool(aBool: Boolean): Boolean {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncBool(aBool)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncInt(anInt: Long): Long {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncInt(anInt)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncDouble(aDouble: Double): Double {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncDouble(aDouble)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncString(aString: String): String {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncString(aString)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncUint8List(list: ByteArray): ByteArray {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncUint8List(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncInt32List(list: IntArray): IntArray {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncInt32List(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncInt64List(list: LongArray): LongArray {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncInt64List(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncObject(anObject: Any): Any {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncObject(anObject)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncList(list: List<Any?>): List<Any?> {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncList(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncEnumList(enumList: List<NIAnEnum?>): List<NIAnEnum?> {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncEnumList(enumList)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncClassList(
+      classList: List<NIAllNullableTypes?>
+  ): List<NIAllNullableTypes?> {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncClassList(classList)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNonNullEnumList(
+      enumList: List<NIAnEnum>
+  ): List<NIAnEnum> {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNonNullEnumList(enumList)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNonNullClassList(
+      classList: List<NIAllNullableTypes>
+  ): List<NIAllNullableTypes> {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNonNullClassList(classList)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncMap(map: Map<Any?, Any?>): Map<Any?, Any?> {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncMap(map)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncStringMap(
+      stringMap: Map<String?, String?>
+  ): Map<String?, String?> {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncStringMap(stringMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncIntMap(intMap: Map<Long?, Long?>): Map<Long?, Long?> {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncIntMap(intMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncEnumMap(
+      enumMap: Map<NIAnEnum?, NIAnEnum?>
+  ): Map<NIAnEnum?, NIAnEnum?> {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncEnumMap(enumMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncClassMap(
+      classMap: Map<Long?, NIAllNullableTypes?>
+  ): Map<Long?, NIAllNullableTypes?> {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncClassMap(classMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncEnum(anEnum: NIAnEnum): NIAnEnum {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncEnum(anEnum)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAnotherAsyncEnum(anotherEnum: NIAnotherEnum): NIAnotherEnum {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAnotherAsyncEnum(anotherEnum)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableBool(aBool: Boolean?): Boolean? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableBool(aBool)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableInt(anInt: Long?): Long? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableInt(anInt)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableDouble(aDouble: Double?): Double? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableDouble(aDouble)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableString(aString: String?): String? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableString(aString)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableUint8List(list: ByteArray?): ByteArray? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableUint8List(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableInt32List(list: IntArray?): IntArray? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableInt32List(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableInt64List(list: LongArray?): LongArray? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableInt64List(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableObject(anObject: Any?): Any? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableObject(anObject)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableList(list: List<Any?>?): List<Any?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableList(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableEnumList(
+      enumList: List<NIAnEnum?>?
+  ): List<NIAnEnum?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableEnumList(enumList)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableClassList(
+      classList: List<NIAllNullableTypes?>?
+  ): List<NIAllNullableTypes?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableClassList(classList)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableNonNullEnumList(
+      enumList: List<NIAnEnum>?
+  ): List<NIAnEnum>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableNonNullEnumList(enumList)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableNonNullClassList(
+      classList: List<NIAllNullableTypes>?
+  ): List<NIAllNullableTypes>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableNonNullClassList(classList)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableMap(map: Map<Any?, Any?>?): Map<Any?, Any?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableMap(map)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableStringMap(
+      stringMap: Map<String?, String?>?
+  ): Map<String?, String?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableStringMap(stringMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableIntMap(
+      intMap: Map<Long?, Long?>?
+  ): Map<Long?, Long?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableIntMap(intMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableEnumMap(
+      enumMap: Map<NIAnEnum?, NIAnEnum?>?
+  ): Map<NIAnEnum?, NIAnEnum?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableEnumMap(enumMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableClassMap(
+      classMap: Map<Long?, NIAllNullableTypes?>?
+  ): Map<Long?, NIAllNullableTypes?>? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableClassMap(classMap)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableEnum(anEnum: NIAnEnum?): NIAnEnum? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableEnum(anEnum)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterEchoAnotherAsyncNullableEnum(
+      anotherEnum: NIAnotherEnum?
+  ): NIAnotherEnum? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAnotherAsyncNullableEnum(anotherEnum)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
 }
 /**
  * The core interface that the Dart platform_test code implements for host integration tests to call
@@ -3036,6 +3726,10 @@ interface NIFlutterIntegrationCoreApi {
   fun echoString(aString: String): String
   /** Returns the passed byte list, to test serialization and deserialization. */
   fun echoUint8List(list: ByteArray): ByteArray
+  /** Returns the passed int32 list, to test serialization and deserialization. */
+  fun echoInt32List(list: IntArray): IntArray
+  /** Returns the passed int64 list, to test serialization and deserialization. */
+  fun echoInt64List(list: LongArray): LongArray
   /** Returns the passed list, to test serialization and deserialization. */
   fun echoList(list: List<Any?>): List<Any?>
   /** Returns the passed list, to test serialization and deserialization. */
@@ -3078,6 +3772,10 @@ interface NIFlutterIntegrationCoreApi {
   fun echoNullableString(aString: String?): String?
   /** Returns the passed byte list, to test serialization and deserialization. */
   fun echoNullableUint8List(list: ByteArray?): ByteArray?
+  /** Returns the passed int32 list, to test serialization and deserialization. */
+  fun echoNullableInt32List(list: IntArray?): IntArray?
+  /** Returns the passed int64 list, to test serialization and deserialization. */
+  fun echoNullableInt64List(list: LongArray?): LongArray?
   /** Returns the passed list, to test serialization and deserialization. */
   fun echoNullableList(list: List<Any?>?): List<Any?>?
   /** Returns the passed list, to test serialization and deserialization. */
@@ -3114,4 +3812,111 @@ interface NIFlutterIntegrationCoreApi {
   fun echoNullableEnum(anEnum: NIAnEnum?): NIAnEnum?
   /** Returns the passed enum to test serialization and deserialization. */
   fun echoAnotherNullableEnum(anotherEnum: NIAnotherEnum?): NIAnotherEnum?
+  /**
+   * A no-op function taking no arguments and returning no value, to sanity test basic asynchronous
+   * calling.
+   */
+  suspend fun noopAsync()
+
+  suspend fun echoAsyncNIAllTypes(everything: NIAllTypes): NIAllTypes
+
+  suspend fun echoAsyncNullableNIAllNullableTypes(
+      everything: NIAllNullableTypes?
+  ): NIAllNullableTypes?
+
+  suspend fun echoAsyncNullableNIAllNullableTypesWithoutRecursion(
+      everything: NIAllNullableTypesWithoutRecursion?
+  ): NIAllNullableTypesWithoutRecursion?
+
+  suspend fun echoAsyncBool(aBool: Boolean): Boolean
+
+  suspend fun echoAsyncInt(anInt: Long): Long
+
+  suspend fun echoAsyncDouble(aDouble: Double): Double
+
+  suspend fun echoAsyncString(aString: String): String
+
+  suspend fun echoAsyncUint8List(list: ByteArray): ByteArray
+
+  suspend fun echoAsyncInt32List(list: IntArray): IntArray
+
+  suspend fun echoAsyncInt64List(list: LongArray): LongArray
+
+  suspend fun echoAsyncObject(anObject: Any): Any
+
+  suspend fun echoAsyncList(list: List<Any?>): List<Any?>
+
+  suspend fun echoAsyncEnumList(enumList: List<NIAnEnum?>): List<NIAnEnum?>
+
+  suspend fun echoAsyncClassList(classList: List<NIAllNullableTypes?>): List<NIAllNullableTypes?>
+
+  suspend fun echoAsyncNonNullEnumList(enumList: List<NIAnEnum>): List<NIAnEnum>
+
+  suspend fun echoAsyncNonNullClassList(
+      classList: List<NIAllNullableTypes>
+  ): List<NIAllNullableTypes>
+
+  suspend fun echoAsyncMap(map: Map<Any?, Any?>): Map<Any?, Any?>
+
+  suspend fun echoAsyncStringMap(stringMap: Map<String?, String?>): Map<String?, String?>
+
+  suspend fun echoAsyncIntMap(intMap: Map<Long?, Long?>): Map<Long?, Long?>
+
+  suspend fun echoAsyncEnumMap(enumMap: Map<NIAnEnum?, NIAnEnum?>): Map<NIAnEnum?, NIAnEnum?>
+
+  suspend fun echoAsyncClassMap(
+      classMap: Map<Long?, NIAllNullableTypes?>
+  ): Map<Long?, NIAllNullableTypes?>
+
+  suspend fun echoAsyncEnum(anEnum: NIAnEnum): NIAnEnum
+
+  suspend fun echoAnotherAsyncEnum(anotherEnum: NIAnotherEnum): NIAnotherEnum
+
+  suspend fun echoAsyncNullableBool(aBool: Boolean?): Boolean?
+
+  suspend fun echoAsyncNullableInt(anInt: Long?): Long?
+
+  suspend fun echoAsyncNullableDouble(aDouble: Double?): Double?
+
+  suspend fun echoAsyncNullableString(aString: String?): String?
+
+  suspend fun echoAsyncNullableUint8List(list: ByteArray?): ByteArray?
+
+  suspend fun echoAsyncNullableInt32List(list: IntArray?): IntArray?
+
+  suspend fun echoAsyncNullableInt64List(list: LongArray?): LongArray?
+
+  suspend fun echoAsyncNullableObject(anObject: Any?): Any?
+
+  suspend fun echoAsyncNullableList(list: List<Any?>?): List<Any?>?
+
+  suspend fun echoAsyncNullableEnumList(enumList: List<NIAnEnum?>?): List<NIAnEnum?>?
+
+  suspend fun echoAsyncNullableClassList(
+      classList: List<NIAllNullableTypes?>?
+  ): List<NIAllNullableTypes?>?
+
+  suspend fun echoAsyncNullableNonNullEnumList(enumList: List<NIAnEnum>?): List<NIAnEnum>?
+
+  suspend fun echoAsyncNullableNonNullClassList(
+      classList: List<NIAllNullableTypes>?
+  ): List<NIAllNullableTypes>?
+
+  suspend fun echoAsyncNullableMap(map: Map<Any?, Any?>?): Map<Any?, Any?>?
+
+  suspend fun echoAsyncNullableStringMap(stringMap: Map<String?, String?>?): Map<String?, String?>?
+
+  suspend fun echoAsyncNullableIntMap(intMap: Map<Long?, Long?>?): Map<Long?, Long?>?
+
+  suspend fun echoAsyncNullableEnumMap(
+      enumMap: Map<NIAnEnum?, NIAnEnum?>?
+  ): Map<NIAnEnum?, NIAnEnum?>?
+
+  suspend fun echoAsyncNullableClassMap(
+      classMap: Map<Long?, NIAllNullableTypes?>?
+  ): Map<Long?, NIAllNullableTypes?>?
+
+  suspend fun echoAsyncNullableEnum(anEnum: NIAnEnum?): NIAnEnum?
+
+  suspend fun echoAnotherAsyncNullableEnum(anotherEnum: NIAnotherEnum?): NIAnotherEnum?
 }

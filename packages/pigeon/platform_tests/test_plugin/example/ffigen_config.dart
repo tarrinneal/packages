@@ -9,6 +9,7 @@ Future<void> main() async {
     'PigeonInternalNull',
     'PigeonTypedData',
     'NumberWrapper',
+    'NSURLCredential',
     'NIHostIntegrationCoreApi',
     'NIHostIntegrationCoreApiSetup',
     'NIFlutterIntegrationCoreApiBridge',
@@ -20,7 +21,11 @@ Future<void> main() async {
     'NIAllClassesWrapperBridge',
     'NiTestsError',
   ];
-  final enums = <String>['NIAnEnum', 'NIAnotherEnum'];
+  final enums = <String>[
+    'NIAnEnum',
+    'NIAnotherEnum',
+    'NSURLSessionAuthChallengeDisposition',
+  ];
   await SwiftGenerator(
     target: Target(
       // triple: 'x86_64-apple-macosx14.0',
@@ -70,12 +75,22 @@ Future<void> main() async {
               classes.contains(decl.originalName) ||
               enums.contains(decl.originalName),
           module: (fg.Declaration decl) {
+            if (decl.originalName == 'NSURLCredential' ||
+                decl.originalName == 'NSURLSessionAuthChallengeDisposition') {
+              return 'test_plugin';
+            }
+
             return decl.originalName.startsWith('NS') ? null : 'test_plugin';
           },
         ),
         protocols: fg.Protocols(
           include: (fg.Declaration decl) => classes.contains(decl.originalName),
           module: (fg.Declaration decl) {
+            if (decl.originalName == 'NSURLCredential' ||
+                decl.originalName == 'NSURLSessionAuthChallengeDisposition') {
+              return 'test_plugin';
+            }
+
             return decl.originalName.startsWith('NS') ? null : 'test_plugin';
           },
         ),

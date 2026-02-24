@@ -2509,7 +2509,7 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
 
   /// from: `public suspend fun noopAsync(): kotlin.Unit`
   /// The returned object must be released after use, by calling the [release] method.
-  core$_.Future<jni$_.JObject> noopAsync() async {
+  core$_.Future<void> noopAsync() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
@@ -2539,10 +2539,7 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
     } else {
       $o = $r;
     }
-    return $o.as<jni$_.JObject>(
-      const jni$_.$JObject$Type$(),
-      releaseOriginal: true,
-    );
+    return;
   }
 
   static final _id_echoAsyncInt = _class.instanceMethodId(
@@ -3899,7 +3896,7 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
 
   /// from: `public suspend fun throwAsyncErrorFromVoid(): kotlin.Unit`
   /// The returned object must be released after use, by calling the [release] method.
-  core$_.Future<jni$_.JObject> throwAsyncErrorFromVoid() async {
+  core$_.Future<void> throwAsyncErrorFromVoid() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
@@ -3929,10 +3926,7 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
     } else {
       $o = $r;
     }
-    return $o.as<jni$_.JObject>(
-      const jni$_.$JObject$Type$(),
-      releaseOriginal: true,
-    );
+    return;
   }
 
   static final _id_throwAsyncFlutterError = _class.instanceMethodId(
@@ -5940,6 +5934,74 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
     ).object<jni$_.JByteArray>(const jni$_.$JByteArray$Type$());
   }
 
+  static final _id_callFlutterEchoInt32List = _class.instanceMethodId(
+    r'callFlutterEchoInt32List',
+    r'([I)[I',
+  );
+
+  static final _callFlutterEchoInt32List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoInt32List(list: kotlin.IntArray): kotlin.IntArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JIntArray callFlutterEchoInt32List(jni$_.JIntArray is$) {
+    final _$is$ = is$.reference;
+    return _callFlutterEchoInt32List(
+      reference.pointer,
+      _id_callFlutterEchoInt32List as jni$_.JMethodIDPtr,
+      _$is$.pointer,
+    ).object<jni$_.JIntArray>(const jni$_.$JIntArray$Type$());
+  }
+
+  static final _id_callFlutterEchoInt64List = _class.instanceMethodId(
+    r'callFlutterEchoInt64List',
+    r'([J)[J',
+  );
+
+  static final _callFlutterEchoInt64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoInt64List(list: kotlin.LongArray): kotlin.LongArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JLongArray callFlutterEchoInt64List(jni$_.JLongArray js) {
+    final _$js = js.reference;
+    return _callFlutterEchoInt64List(
+      reference.pointer,
+      _id_callFlutterEchoInt64List as jni$_.JMethodIDPtr,
+      _$js.pointer,
+    ).object<jni$_.JLongArray>(const jni$_.$JLongArray$Type$());
+  }
+
   static final _id_callFlutterEchoList = _class.instanceMethodId(
     r'callFlutterEchoList',
     r'(Ljava/util/List;)Ljava/util/List;',
@@ -6737,6 +6799,74 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
     ).object<jni$_.JByteArray?>(const jni$_.$JByteArray$NullableType$());
   }
 
+  static final _id_callFlutterEchoNullableInt32List = _class.instanceMethodId(
+    r'callFlutterEchoNullableInt32List',
+    r'([I)[I',
+  );
+
+  static final _callFlutterEchoNullableInt32List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableInt32List(list: kotlin.IntArray?): kotlin.IntArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JIntArray? callFlutterEchoNullableInt32List(jni$_.JIntArray? is$) {
+    final _$is$ = is$?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableInt32List(
+      reference.pointer,
+      _id_callFlutterEchoNullableInt32List as jni$_.JMethodIDPtr,
+      _$is$.pointer,
+    ).object<jni$_.JIntArray?>(const jni$_.$JIntArray$NullableType$());
+  }
+
+  static final _id_callFlutterEchoNullableInt64List = _class.instanceMethodId(
+    r'callFlutterEchoNullableInt64List',
+    r'([J)[J',
+  );
+
+  static final _callFlutterEchoNullableInt64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableInt64List(list: kotlin.LongArray?): kotlin.LongArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JLongArray? callFlutterEchoNullableInt64List(jni$_.JLongArray? js) {
+    final _$js = js?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableInt64List(
+      reference.pointer,
+      _id_callFlutterEchoNullableInt64List as jni$_.JMethodIDPtr,
+      _$js.pointer,
+    ).object<jni$_.JLongArray?>(const jni$_.$JLongArray$NullableType$());
+  }
+
   static final _id_callFlutterEchoNullableList = _class.instanceMethodId(
     r'callFlutterEchoNullableList',
     r'(Ljava/util/List;)Ljava/util/List;',
@@ -7379,6 +7509,3038 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
       _id_callFlutterEchoAnotherNullableEnum as jni$_.JMethodIDPtr,
       _$nIAnotherEnum.pointer,
     ).object<NIAnotherEnum?>(const $NIAnotherEnum$NullableType$());
+  }
+
+  static final _id_callFlutterNoopAsync = _class.instanceMethodId(
+    r'callFlutterNoopAsync',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterNoopAsync =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterNoopAsync(): kotlin.Unit`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<void> callFlutterNoopAsync() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _callFlutterNoopAsync(
+      reference.pointer,
+      _id_callFlutterNoopAsync as jni$_.JMethodIDPtr,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return;
+  }
+
+  static final _id_callFlutterEchoAsyncNIAllTypes = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNIAllTypes',
+    r'(LNIAllTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNIAllTypes =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNIAllTypes(everything: NIAllTypes): NIAllTypes`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAllTypes> callFlutterEchoAsyncNIAllTypes(
+    NIAllTypes nIAllTypes,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAllTypes = nIAllTypes.reference;
+    final $r = _callFlutterEchoAsyncNIAllTypes(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNIAllTypes as jni$_.JMethodIDPtr,
+      _$nIAllTypes.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<NIAllTypes>(const $NIAllTypes$Type$(), releaseOriginal: true);
+  }
+
+  static final _id_callFlutterEchoAsyncNullableNIAllNullableTypes = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableNIAllNullableTypes',
+        r'(LNIAllNullableTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableNIAllNullableTypes =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableNIAllNullableTypes(everything: NIAllNullableTypes?): NIAllNullableTypes?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAllNullableTypes?>
+  callFlutterEchoAsyncNullableNIAllNullableTypes(
+    NIAllNullableTypes? nIAllNullableTypes,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAllNullableTypes =
+        nIAllNullableTypes?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableNIAllNullableTypes(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableNIAllNullableTypes as jni$_.JMethodIDPtr,
+      _$nIAllNullableTypes.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<NIAllNullableTypes?>(
+      const $NIAllNullableTypes$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion =
+      _class.instanceMethodId(
+        r'callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion',
+        r'(LNIAllNullableTypesWithoutRecursion;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion(everything: NIAllNullableTypesWithoutRecursion?): NIAllNullableTypesWithoutRecursion?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAllNullableTypesWithoutRecursion?>
+  callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion(
+    NIAllNullableTypesWithoutRecursion? nIAllNullableTypesWithoutRecursion,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAllNullableTypesWithoutRecursion =
+        nIAllNullableTypesWithoutRecursion?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion
+          as jni$_.JMethodIDPtr,
+      _$nIAllNullableTypesWithoutRecursion.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<NIAllNullableTypesWithoutRecursion?>(
+      const $NIAllNullableTypesWithoutRecursion$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncBool = _class.instanceMethodId(
+    r'callFlutterEchoAsyncBool',
+    r'(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncBool =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncBool(aBool: kotlin.Boolean): kotlin.Boolean`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JBoolean> callFlutterEchoAsyncBool(core$_.bool z) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _callFlutterEchoAsyncBool(
+      reference.pointer,
+      _id_callFlutterEchoAsyncBool as jni$_.JMethodIDPtr,
+      z ? 1 : 0,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JBoolean>(
+      const jni$_.$JBoolean$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncInt = _class.instanceMethodId(
+    r'callFlutterEchoAsyncInt',
+    r'(JLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncInt =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int64, jni$_.Pointer<jni$_.Void>)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncInt(anInt: kotlin.Long): kotlin.Long`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JLong> callFlutterEchoAsyncInt(int j) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _callFlutterEchoAsyncInt(
+      reference.pointer,
+      _id_callFlutterEchoAsyncInt as jni$_.JMethodIDPtr,
+      j,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JLong>(
+      const jni$_.$JLong$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncDouble = _class.instanceMethodId(
+    r'callFlutterEchoAsyncDouble',
+    r'(DLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncDouble =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Double, jni$_.Pointer<jni$_.Void>)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              double,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncDouble(aDouble: kotlin.Double): kotlin.Double`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JDouble> callFlutterEchoAsyncDouble(double d) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _callFlutterEchoAsyncDouble(
+      reference.pointer,
+      _id_callFlutterEchoAsyncDouble as jni$_.JMethodIDPtr,
+      d,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JDouble>(
+      const jni$_.$JDouble$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncString = _class.instanceMethodId(
+    r'callFlutterEchoAsyncString',
+    r'(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncString =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncString(aString: kotlin.String): kotlin.String`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString> callFlutterEchoAsyncString(
+    jni$_.JString string,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$string = string.reference;
+    final $r = _callFlutterEchoAsyncString(
+      reference.pointer,
+      _id_callFlutterEchoAsyncString as jni$_.JMethodIDPtr,
+      _$string.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JString>(
+      const jni$_.$JString$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncUint8List = _class.instanceMethodId(
+    r'callFlutterEchoAsyncUint8List',
+    r'([BLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncUint8List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncUint8List(list: kotlin.ByteArray): kotlin.ByteArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JByteArray> callFlutterEchoAsyncUint8List(
+    jni$_.JByteArray bs,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$bs = bs.reference;
+    final $r = _callFlutterEchoAsyncUint8List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncUint8List as jni$_.JMethodIDPtr,
+      _$bs.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JByteArray>(
+      const jni$_.$JByteArray$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncInt32List = _class.instanceMethodId(
+    r'callFlutterEchoAsyncInt32List',
+    r'([ILkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncInt32List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncInt32List(list: kotlin.IntArray): kotlin.IntArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JIntArray> callFlutterEchoAsyncInt32List(
+    jni$_.JIntArray is$,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$is$ = is$.reference;
+    final $r = _callFlutterEchoAsyncInt32List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncInt32List as jni$_.JMethodIDPtr,
+      _$is$.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JIntArray>(
+      const jni$_.$JIntArray$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncInt64List = _class.instanceMethodId(
+    r'callFlutterEchoAsyncInt64List',
+    r'([JLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncInt64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncInt64List(list: kotlin.LongArray): kotlin.LongArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JLongArray> callFlutterEchoAsyncInt64List(
+    jni$_.JLongArray js,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$js = js.reference;
+    final $r = _callFlutterEchoAsyncInt64List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncInt64List as jni$_.JMethodIDPtr,
+      _$js.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JLongArray>(
+      const jni$_.$JLongArray$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncObject = _class.instanceMethodId(
+    r'callFlutterEchoAsyncObject',
+    r'(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncObject =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncObject(anObject: kotlin.Any): kotlin.Any`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JObject> callFlutterEchoAsyncObject(
+    jni$_.JObject object,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$object = object.reference;
+    final $r = _callFlutterEchoAsyncObject(
+      reference.pointer,
+      _id_callFlutterEchoAsyncObject as jni$_.JMethodIDPtr,
+      _$object.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JObject>(
+      const jni$_.$JObject$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncList = _class.instanceMethodId(
+    r'callFlutterEchoAsyncList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncList(list: kotlin.collections.List<kotlin.Any?>): kotlin.collections.List<kotlin.Any?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<jni$_.JObject?>> callFlutterEchoAsyncList(
+    jni$_.JList<jni$_.JObject?> list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list.reference;
+    final $r = _callFlutterEchoAsyncList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JList<jni$_.JObject?>>(
+      const jni$_.$JList$Type$<jni$_.JObject?>(jni$_.$JObject$NullableType$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncEnumList = _class.instanceMethodId(
+    r'callFlutterEchoAsyncEnumList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncEnumList(enumList: kotlin.collections.List<NIAnEnum?>): kotlin.collections.List<NIAnEnum?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAnEnum?>> callFlutterEchoAsyncEnumList(
+    jni$_.JList<NIAnEnum?> list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list.reference;
+    final $r = _callFlutterEchoAsyncEnumList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JList<NIAnEnum?>>(
+      const jni$_.$JList$Type$<NIAnEnum?>($NIAnEnum$NullableType$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncClassList = _class.instanceMethodId(
+    r'callFlutterEchoAsyncClassList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncClassList(classList: kotlin.collections.List<NIAllNullableTypes?>): kotlin.collections.List<NIAllNullableTypes?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAllNullableTypes?>> callFlutterEchoAsyncClassList(
+    jni$_.JList<NIAllNullableTypes?> list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list.reference;
+    final $r = _callFlutterEchoAsyncClassList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JList<NIAllNullableTypes?>>(
+      const jni$_.$JList$Type$<NIAllNullableTypes?>(
+        $NIAllNullableTypes$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNonNullEnumList = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNonNullEnumList',
+        r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNonNullEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNonNullEnumList(enumList: kotlin.collections.List<NIAnEnum>): kotlin.collections.List<NIAnEnum>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAnEnum>> callFlutterEchoAsyncNonNullEnumList(
+    jni$_.JList<NIAnEnum?> list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list.reference;
+    final $r = _callFlutterEchoAsyncNonNullEnumList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNonNullEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JList<NIAnEnum>>(
+      const jni$_.$JList$Type$<NIAnEnum>($NIAnEnum$Type$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNonNullClassList = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNonNullClassList',
+        r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNonNullClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNonNullClassList(classList: kotlin.collections.List<NIAllNullableTypes>): kotlin.collections.List<NIAllNullableTypes>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAllNullableTypes>>
+  callFlutterEchoAsyncNonNullClassList(
+    jni$_.JList<NIAllNullableTypes?> list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list.reference;
+    final $r = _callFlutterEchoAsyncNonNullClassList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNonNullClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JList<NIAllNullableTypes>>(
+      const jni$_.$JList$Type$<NIAllNullableTypes>($NIAllNullableTypes$Type$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncMap = _class.instanceMethodId(
+    r'callFlutterEchoAsyncMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncMap(map: kotlin.collections.Map<kotlin.Any?, kotlin.Any?>): kotlin.collections.Map<kotlin.Any?, kotlin.Any?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>
+  callFlutterEchoAsyncMap(
+    jni$_.JMap<jni$_.JObject?, jni$_.JObject?> map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map.reference;
+    final $r = _callFlutterEchoAsyncMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>(
+      const jni$_.$JMap$Type$<jni$_.JObject?, jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+        jni$_.$JObject$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncStringMap = _class.instanceMethodId(
+    r'callFlutterEchoAsyncStringMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncStringMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncStringMap(stringMap: kotlin.collections.Map<kotlin.String?, kotlin.String?>): kotlin.collections.Map<kotlin.String?, kotlin.String?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>>
+  callFlutterEchoAsyncStringMap(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?> map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map.reference;
+    final $r = _callFlutterEchoAsyncStringMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncStringMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JMap<jni$_.JString?, jni$_.JString?>>(
+      const jni$_.$JMap$Type$<jni$_.JString?, jni$_.JString?>(
+        jni$_.$JString$NullableType$(),
+        jni$_.$JString$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncIntMap = _class.instanceMethodId(
+    r'callFlutterEchoAsyncIntMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncIntMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncIntMap(intMap: kotlin.collections.Map<kotlin.Long?, kotlin.Long?>): kotlin.collections.Map<kotlin.Long?, kotlin.Long?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>>
+  callFlutterEchoAsyncIntMap(jni$_.JMap<jni$_.JLong?, jni$_.JLong?> map) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map.reference;
+    final $r = _callFlutterEchoAsyncIntMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncIntMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>>(
+      const jni$_.$JMap$Type$<jni$_.JLong?, jni$_.JLong?>(
+        jni$_.$JLong$NullableType$(),
+        jni$_.$JLong$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncEnumMap = _class.instanceMethodId(
+    r'callFlutterEchoAsyncEnumMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncEnumMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncEnumMap(enumMap: kotlin.collections.Map<NIAnEnum?, NIAnEnum?>): kotlin.collections.Map<NIAnEnum?, NIAnEnum?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>> callFlutterEchoAsyncEnumMap(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?> map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map.reference;
+    final $r = _callFlutterEchoAsyncEnumMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncEnumMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JMap<NIAnEnum?, NIAnEnum?>>(
+      const jni$_.$JMap$Type$<NIAnEnum?, NIAnEnum?>(
+        $NIAnEnum$NullableType$(),
+        $NIAnEnum$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncClassMap = _class.instanceMethodId(
+    r'callFlutterEchoAsyncClassMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncClassMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncClassMap(classMap: kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>): kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>>
+  callFlutterEchoAsyncClassMap(
+    jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map.reference;
+    final $r = _callFlutterEchoAsyncClassMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncClassMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>>(
+      const jni$_.$JMap$Type$<jni$_.JLong?, NIAllNullableTypes?>(
+        jni$_.$JLong$NullableType$(),
+        $NIAllNullableTypes$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncEnum = _class.instanceMethodId(
+    r'callFlutterEchoAsyncEnum',
+    r'(LNIAnEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncEnum(anEnum: NIAnEnum): NIAnEnum`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAnEnum> callFlutterEchoAsyncEnum(NIAnEnum nIAnEnum) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAnEnum = nIAnEnum.reference;
+    final $r = _callFlutterEchoAsyncEnum(
+      reference.pointer,
+      _id_callFlutterEchoAsyncEnum as jni$_.JMethodIDPtr,
+      _$nIAnEnum.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<NIAnEnum>(const $NIAnEnum$Type$(), releaseOriginal: true);
+  }
+
+  static final _id_callFlutterEchoAnotherAsyncEnum = _class.instanceMethodId(
+    r'callFlutterEchoAnotherAsyncEnum',
+    r'(LNIAnotherEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAnotherAsyncEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAnotherAsyncEnum(anotherEnum: NIAnotherEnum): NIAnotherEnum`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAnotherEnum> callFlutterEchoAnotherAsyncEnum(
+    NIAnotherEnum nIAnotherEnum,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAnotherEnum = nIAnotherEnum.reference;
+    final $r = _callFlutterEchoAnotherAsyncEnum(
+      reference.pointer,
+      _id_callFlutterEchoAnotherAsyncEnum as jni$_.JMethodIDPtr,
+      _$nIAnotherEnum.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<NIAnotherEnum>(
+      const $NIAnotherEnum$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableBool = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableBool',
+    r'(Ljava/lang/Boolean;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableBool =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableBool(aBool: kotlin.Boolean?): kotlin.Boolean?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JBoolean?> callFlutterEchoAsyncNullableBool(
+    jni$_.JBoolean? boolean,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$boolean = boolean?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableBool(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableBool as jni$_.JMethodIDPtr,
+      _$boolean.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JBoolean?>(
+      const jni$_.$JBoolean$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableInt = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableInt',
+    r'(Ljava/lang/Long;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableInt =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableInt(anInt: kotlin.Long?): kotlin.Long?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JLong?> callFlutterEchoAsyncNullableInt(
+    jni$_.JLong? long,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$long = long?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableInt(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableInt as jni$_.JMethodIDPtr,
+      _$long.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JLong?>(
+      const jni$_.$JLong$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableDouble = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableDouble',
+    r'(Ljava/lang/Double;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableDouble =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableDouble(aDouble: kotlin.Double?): kotlin.Double?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JDouble?> callFlutterEchoAsyncNullableDouble(
+    jni$_.JDouble? double,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$double = double?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableDouble(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableDouble as jni$_.JMethodIDPtr,
+      _$double.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JDouble?>(
+      const jni$_.$JDouble$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableString = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableString',
+    r'(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableString =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableString(aString: kotlin.String?): kotlin.String?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString?> callFlutterEchoAsyncNullableString(
+    jni$_.JString? string,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableString(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableString as jni$_.JMethodIDPtr,
+      _$string.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JString?>(
+      const jni$_.$JString$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableUint8List = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableUint8List',
+        r'([BLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableUint8List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableUint8List(list: kotlin.ByteArray?): kotlin.ByteArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JByteArray?> callFlutterEchoAsyncNullableUint8List(
+    jni$_.JByteArray? bs,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableUint8List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableUint8List as jni$_.JMethodIDPtr,
+      _$bs.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JByteArray?>(
+      const jni$_.$JByteArray$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableInt32List = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableInt32List',
+        r'([ILkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableInt32List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableInt32List(list: kotlin.IntArray?): kotlin.IntArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JIntArray?> callFlutterEchoAsyncNullableInt32List(
+    jni$_.JIntArray? is$,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$is$ = is$?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableInt32List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableInt32List as jni$_.JMethodIDPtr,
+      _$is$.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JIntArray?>(
+      const jni$_.$JIntArray$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableInt64List = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableInt64List',
+        r'([JLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableInt64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableInt64List(list: kotlin.LongArray?): kotlin.LongArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JLongArray?> callFlutterEchoAsyncNullableInt64List(
+    jni$_.JLongArray? js,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$js = js?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableInt64List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableInt64List as jni$_.JMethodIDPtr,
+      _$js.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JLongArray?>(
+      const jni$_.$JLongArray$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableObject = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableObject',
+    r'(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableObject =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableObject(anObject: kotlin.Any?): kotlin.Any?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JObject?> callFlutterEchoAsyncNullableObject(
+    jni$_.JObject? object,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableObject(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableObject as jni$_.JMethodIDPtr,
+      _$object.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JObject?>(
+      const jni$_.$JObject$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableList = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableList(list: kotlin.collections.List<kotlin.Any?>?): kotlin.collections.List<kotlin.Any?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<jni$_.JObject?>?> callFlutterEchoAsyncNullableList(
+    jni$_.JList<jni$_.JObject?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList<jni$_.JObject?>?>(
+      const jni$_.$JList$NullableType$<jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableEnumList = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableEnumList',
+        r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableEnumList(enumList: kotlin.collections.List<NIAnEnum?>?): kotlin.collections.List<NIAnEnum?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAnEnum?>?> callFlutterEchoAsyncNullableEnumList(
+    jni$_.JList<NIAnEnum?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableEnumList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList<NIAnEnum?>?>(
+      const jni$_.$JList$NullableType$<NIAnEnum?>($NIAnEnum$NullableType$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableClassList = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableClassList',
+        r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableClassList(classList: kotlin.collections.List<NIAllNullableTypes?>?): kotlin.collections.List<NIAllNullableTypes?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAllNullableTypes?>?>
+  callFlutterEchoAsyncNullableClassList(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableClassList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList<NIAllNullableTypes?>?>(
+      const jni$_.$JList$NullableType$<NIAllNullableTypes?>(
+        $NIAllNullableTypes$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableNonNullEnumList = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableNonNullEnumList',
+        r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableNonNullEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableNonNullEnumList(enumList: kotlin.collections.List<NIAnEnum>?): kotlin.collections.List<NIAnEnum>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAnEnum>?>
+  callFlutterEchoAsyncNullableNonNullEnumList(
+    jni$_.JList<NIAnEnum?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableNonNullEnumList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableNonNullEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList<NIAnEnum>?>(
+      const jni$_.$JList$NullableType$<NIAnEnum>($NIAnEnum$Type$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableNonNullClassList = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableNonNullClassList',
+        r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableNonNullClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableNonNullClassList(classList: kotlin.collections.List<NIAllNullableTypes>?): kotlin.collections.List<NIAllNullableTypes>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAllNullableTypes>?>
+  callFlutterEchoAsyncNullableNonNullClassList(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableNonNullClassList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableNonNullClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList<NIAllNullableTypes>?>(
+      const jni$_.$JList$NullableType$<NIAllNullableTypes>(
+        $NIAllNullableTypes$Type$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableMap = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableMap(map: kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?): kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>
+  callFlutterEchoAsyncNullableMap(
+    jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JObject?, jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+        jni$_.$JObject$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableStringMap = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableStringMap',
+        r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableStringMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableStringMap(stringMap: kotlin.collections.Map<kotlin.String?, kotlin.String?>?): kotlin.collections.Map<kotlin.String?, kotlin.String?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>
+  callFlutterEchoAsyncNullableStringMap(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableStringMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableStringMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JString?, jni$_.JString?>(
+        jni$_.$JString$NullableType$(),
+        jni$_.$JString$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableIntMap = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableIntMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableIntMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableIntMap(intMap: kotlin.collections.Map<kotlin.Long?, kotlin.Long?>?): kotlin.collections.Map<kotlin.Long?, kotlin.Long?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>
+  callFlutterEchoAsyncNullableIntMap(
+    jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableIntMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableIntMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong?, jni$_.JLong?>(
+        jni$_.$JLong$NullableType$(),
+        jni$_.$JLong$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableEnumMap = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableEnumMap',
+        r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableEnumMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableEnumMap(enumMap: kotlin.collections.Map<NIAnEnum?, NIAnEnum?>?): kotlin.collections.Map<NIAnEnum?, NIAnEnum?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>
+  callFlutterEchoAsyncNullableEnumMap(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableEnumMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableEnumMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>(
+      const jni$_.$JMap$NullableType$<NIAnEnum?, NIAnEnum?>(
+        $NIAnEnum$NullableType$(),
+        $NIAnEnum$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableClassMap = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableClassMap',
+        r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableClassMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableClassMap(classMap: kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>?): kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>
+  callFlutterEchoAsyncNullableClassMap(
+    jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableClassMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableClassMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong?, NIAllNullableTypes?>(
+        jni$_.$JLong$NullableType$(),
+        $NIAllNullableTypes$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableEnum = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableEnum',
+    r'(LNIAnEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableEnum(anEnum: NIAnEnum?): NIAnEnum?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAnEnum?> callFlutterEchoAsyncNullableEnum(
+    NIAnEnum? nIAnEnum,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableEnum(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableEnum as jni$_.JMethodIDPtr,
+      _$nIAnEnum.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<NIAnEnum?>(
+      const $NIAnEnum$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAnotherAsyncNullableEnum = _class
+      .instanceMethodId(
+        r'callFlutterEchoAnotherAsyncNullableEnum',
+        r'(LNIAnotherEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAnotherAsyncNullableEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAnotherAsyncNullableEnum(anotherEnum: NIAnotherEnum?): NIAnotherEnum?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAnotherEnum?> callFlutterEchoAnotherAsyncNullableEnum(
+    NIAnotherEnum? nIAnotherEnum,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAnotherAsyncNullableEnum(
+      reference.pointer,
+      _id_callFlutterEchoAnotherAsyncNullableEnum as jni$_.JMethodIDPtr,
+      _$nIAnotherEnum.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<NIAnotherEnum?>(
+      const $NIAnotherEnum$NullableType$(),
+      releaseOriginal: true,
+    );
   }
 }
 
@@ -10102,7 +13264,7 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
 
   /// from: `public suspend fun noopAsync(): kotlin.Unit`
   /// The returned object must be released after use, by calling the [release] method.
-  core$_.Future<jni$_.JObject> noopAsync() async {
+  core$_.Future<void> noopAsync() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
@@ -10132,10 +13294,7 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
     } else {
       $o = $r;
     }
-    return $o.as<jni$_.JObject>(
-      const jni$_.$JObject$Type$(),
-      releaseOriginal: true,
-    );
+    return;
   }
 
   static final _id_echoAsyncInt = _class.instanceMethodId(
@@ -11492,7 +14651,7 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
 
   /// from: `public suspend fun throwAsyncErrorFromVoid(): kotlin.Unit`
   /// The returned object must be released after use, by calling the [release] method.
-  core$_.Future<jni$_.JObject> throwAsyncErrorFromVoid() async {
+  core$_.Future<void> throwAsyncErrorFromVoid() async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
@@ -11522,10 +14681,7 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
     } else {
       $o = $r;
     }
-    return $o.as<jni$_.JObject>(
-      const jni$_.$JObject$Type$(),
-      releaseOriginal: true,
-    );
+    return;
   }
 
   static final _id_throwAsyncFlutterError = _class.instanceMethodId(
@@ -13533,6 +16689,74 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
     ).object<jni$_.JByteArray>(const jni$_.$JByteArray$Type$());
   }
 
+  static final _id_callFlutterEchoInt32List = _class.instanceMethodId(
+    r'callFlutterEchoInt32List',
+    r'([I)[I',
+  );
+
+  static final _callFlutterEchoInt32List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoInt32List(list: kotlin.IntArray): kotlin.IntArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JIntArray callFlutterEchoInt32List(jni$_.JIntArray is$) {
+    final _$is$ = is$.reference;
+    return _callFlutterEchoInt32List(
+      reference.pointer,
+      _id_callFlutterEchoInt32List as jni$_.JMethodIDPtr,
+      _$is$.pointer,
+    ).object<jni$_.JIntArray>(const jni$_.$JIntArray$Type$());
+  }
+
+  static final _id_callFlutterEchoInt64List = _class.instanceMethodId(
+    r'callFlutterEchoInt64List',
+    r'([J)[J',
+  );
+
+  static final _callFlutterEchoInt64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoInt64List(list: kotlin.LongArray): kotlin.LongArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JLongArray callFlutterEchoInt64List(jni$_.JLongArray js) {
+    final _$js = js.reference;
+    return _callFlutterEchoInt64List(
+      reference.pointer,
+      _id_callFlutterEchoInt64List as jni$_.JMethodIDPtr,
+      _$js.pointer,
+    ).object<jni$_.JLongArray>(const jni$_.$JLongArray$Type$());
+  }
+
   static final _id_callFlutterEchoList = _class.instanceMethodId(
     r'callFlutterEchoList',
     r'(Ljava/util/List;)Ljava/util/List;',
@@ -14330,6 +17554,74 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
     ).object<jni$_.JByteArray?>(const jni$_.$JByteArray$NullableType$());
   }
 
+  static final _id_callFlutterEchoNullableInt32List = _class.instanceMethodId(
+    r'callFlutterEchoNullableInt32List',
+    r'([I)[I',
+  );
+
+  static final _callFlutterEchoNullableInt32List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableInt32List(list: kotlin.IntArray?): kotlin.IntArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JIntArray? callFlutterEchoNullableInt32List(jni$_.JIntArray? is$) {
+    final _$is$ = is$?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableInt32List(
+      reference.pointer,
+      _id_callFlutterEchoNullableInt32List as jni$_.JMethodIDPtr,
+      _$is$.pointer,
+    ).object<jni$_.JIntArray?>(const jni$_.$JIntArray$NullableType$());
+  }
+
+  static final _id_callFlutterEchoNullableInt64List = _class.instanceMethodId(
+    r'callFlutterEchoNullableInt64List',
+    r'([J)[J',
+  );
+
+  static final _callFlutterEchoNullableInt64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableInt64List(list: kotlin.LongArray?): kotlin.LongArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JLongArray? callFlutterEchoNullableInt64List(jni$_.JLongArray? js) {
+    final _$js = js?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableInt64List(
+      reference.pointer,
+      _id_callFlutterEchoNullableInt64List as jni$_.JMethodIDPtr,
+      _$js.pointer,
+    ).object<jni$_.JLongArray?>(const jni$_.$JLongArray$NullableType$());
+  }
+
   static final _id_callFlutterEchoNullableList = _class.instanceMethodId(
     r'callFlutterEchoNullableList',
     r'(Ljava/util/List;)Ljava/util/List;',
@@ -14973,6 +18265,3038 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
       _$nIAnotherEnum.pointer,
     ).object<NIAnotherEnum?>(const $NIAnotherEnum$NullableType$());
   }
+
+  static final _id_callFlutterNoopAsync = _class.instanceMethodId(
+    r'callFlutterNoopAsync',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterNoopAsync =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterNoopAsync(): kotlin.Unit`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<void> callFlutterNoopAsync() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _callFlutterNoopAsync(
+      reference.pointer,
+      _id_callFlutterNoopAsync as jni$_.JMethodIDPtr,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return;
+  }
+
+  static final _id_callFlutterEchoAsyncNIAllTypes = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNIAllTypes',
+    r'(LNIAllTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNIAllTypes =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNIAllTypes(everything: NIAllTypes): NIAllTypes`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAllTypes> callFlutterEchoAsyncNIAllTypes(
+    NIAllTypes nIAllTypes,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAllTypes = nIAllTypes.reference;
+    final $r = _callFlutterEchoAsyncNIAllTypes(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNIAllTypes as jni$_.JMethodIDPtr,
+      _$nIAllTypes.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<NIAllTypes>(const $NIAllTypes$Type$(), releaseOriginal: true);
+  }
+
+  static final _id_callFlutterEchoAsyncNullableNIAllNullableTypes = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableNIAllNullableTypes',
+        r'(LNIAllNullableTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableNIAllNullableTypes =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableNIAllNullableTypes(everything: NIAllNullableTypes?): NIAllNullableTypes?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAllNullableTypes?>
+  callFlutterEchoAsyncNullableNIAllNullableTypes(
+    NIAllNullableTypes? nIAllNullableTypes,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAllNullableTypes =
+        nIAllNullableTypes?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableNIAllNullableTypes(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableNIAllNullableTypes as jni$_.JMethodIDPtr,
+      _$nIAllNullableTypes.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<NIAllNullableTypes?>(
+      const $NIAllNullableTypes$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion =
+      _class.instanceMethodId(
+        r'callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion',
+        r'(LNIAllNullableTypesWithoutRecursion;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion(everything: NIAllNullableTypesWithoutRecursion?): NIAllNullableTypesWithoutRecursion?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAllNullableTypesWithoutRecursion?>
+  callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion(
+    NIAllNullableTypesWithoutRecursion? nIAllNullableTypesWithoutRecursion,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAllNullableTypesWithoutRecursion =
+        nIAllNullableTypesWithoutRecursion?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion
+          as jni$_.JMethodIDPtr,
+      _$nIAllNullableTypesWithoutRecursion.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<NIAllNullableTypesWithoutRecursion?>(
+      const $NIAllNullableTypesWithoutRecursion$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncBool = _class.instanceMethodId(
+    r'callFlutterEchoAsyncBool',
+    r'(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncBool =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncBool(aBool: kotlin.Boolean): kotlin.Boolean`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JBoolean> callFlutterEchoAsyncBool(core$_.bool z) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _callFlutterEchoAsyncBool(
+      reference.pointer,
+      _id_callFlutterEchoAsyncBool as jni$_.JMethodIDPtr,
+      z ? 1 : 0,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JBoolean>(
+      const jni$_.$JBoolean$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncInt = _class.instanceMethodId(
+    r'callFlutterEchoAsyncInt',
+    r'(JLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncInt =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int64, jni$_.Pointer<jni$_.Void>)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncInt(anInt: kotlin.Long): kotlin.Long`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JLong> callFlutterEchoAsyncInt(int j) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _callFlutterEchoAsyncInt(
+      reference.pointer,
+      _id_callFlutterEchoAsyncInt as jni$_.JMethodIDPtr,
+      j,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JLong>(
+      const jni$_.$JLong$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncDouble = _class.instanceMethodId(
+    r'callFlutterEchoAsyncDouble',
+    r'(DLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncDouble =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Double, jni$_.Pointer<jni$_.Void>)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              double,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncDouble(aDouble: kotlin.Double): kotlin.Double`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JDouble> callFlutterEchoAsyncDouble(double d) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _callFlutterEchoAsyncDouble(
+      reference.pointer,
+      _id_callFlutterEchoAsyncDouble as jni$_.JMethodIDPtr,
+      d,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JDouble>(
+      const jni$_.$JDouble$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncString = _class.instanceMethodId(
+    r'callFlutterEchoAsyncString',
+    r'(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncString =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncString(aString: kotlin.String): kotlin.String`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString> callFlutterEchoAsyncString(
+    jni$_.JString string,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$string = string.reference;
+    final $r = _callFlutterEchoAsyncString(
+      reference.pointer,
+      _id_callFlutterEchoAsyncString as jni$_.JMethodIDPtr,
+      _$string.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JString>(
+      const jni$_.$JString$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncUint8List = _class.instanceMethodId(
+    r'callFlutterEchoAsyncUint8List',
+    r'([BLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncUint8List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncUint8List(list: kotlin.ByteArray): kotlin.ByteArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JByteArray> callFlutterEchoAsyncUint8List(
+    jni$_.JByteArray bs,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$bs = bs.reference;
+    final $r = _callFlutterEchoAsyncUint8List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncUint8List as jni$_.JMethodIDPtr,
+      _$bs.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JByteArray>(
+      const jni$_.$JByteArray$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncInt32List = _class.instanceMethodId(
+    r'callFlutterEchoAsyncInt32List',
+    r'([ILkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncInt32List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncInt32List(list: kotlin.IntArray): kotlin.IntArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JIntArray> callFlutterEchoAsyncInt32List(
+    jni$_.JIntArray is$,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$is$ = is$.reference;
+    final $r = _callFlutterEchoAsyncInt32List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncInt32List as jni$_.JMethodIDPtr,
+      _$is$.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JIntArray>(
+      const jni$_.$JIntArray$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncInt64List = _class.instanceMethodId(
+    r'callFlutterEchoAsyncInt64List',
+    r'([JLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncInt64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncInt64List(list: kotlin.LongArray): kotlin.LongArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JLongArray> callFlutterEchoAsyncInt64List(
+    jni$_.JLongArray js,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$js = js.reference;
+    final $r = _callFlutterEchoAsyncInt64List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncInt64List as jni$_.JMethodIDPtr,
+      _$js.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JLongArray>(
+      const jni$_.$JLongArray$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncObject = _class.instanceMethodId(
+    r'callFlutterEchoAsyncObject',
+    r'(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncObject =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncObject(anObject: kotlin.Any): kotlin.Any`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JObject> callFlutterEchoAsyncObject(
+    jni$_.JObject object,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$object = object.reference;
+    final $r = _callFlutterEchoAsyncObject(
+      reference.pointer,
+      _id_callFlutterEchoAsyncObject as jni$_.JMethodIDPtr,
+      _$object.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JObject>(
+      const jni$_.$JObject$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncList = _class.instanceMethodId(
+    r'callFlutterEchoAsyncList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncList(list: kotlin.collections.List<kotlin.Any?>): kotlin.collections.List<kotlin.Any?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<jni$_.JObject?>> callFlutterEchoAsyncList(
+    jni$_.JList<jni$_.JObject?> list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list.reference;
+    final $r = _callFlutterEchoAsyncList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JList<jni$_.JObject?>>(
+      const jni$_.$JList$Type$<jni$_.JObject?>(jni$_.$JObject$NullableType$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncEnumList = _class.instanceMethodId(
+    r'callFlutterEchoAsyncEnumList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncEnumList(enumList: kotlin.collections.List<NIAnEnum?>): kotlin.collections.List<NIAnEnum?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAnEnum?>> callFlutterEchoAsyncEnumList(
+    jni$_.JList<NIAnEnum?> list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list.reference;
+    final $r = _callFlutterEchoAsyncEnumList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JList<NIAnEnum?>>(
+      const jni$_.$JList$Type$<NIAnEnum?>($NIAnEnum$NullableType$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncClassList = _class.instanceMethodId(
+    r'callFlutterEchoAsyncClassList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncClassList(classList: kotlin.collections.List<NIAllNullableTypes?>): kotlin.collections.List<NIAllNullableTypes?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAllNullableTypes?>> callFlutterEchoAsyncClassList(
+    jni$_.JList<NIAllNullableTypes?> list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list.reference;
+    final $r = _callFlutterEchoAsyncClassList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JList<NIAllNullableTypes?>>(
+      const jni$_.$JList$Type$<NIAllNullableTypes?>(
+        $NIAllNullableTypes$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNonNullEnumList = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNonNullEnumList',
+        r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNonNullEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNonNullEnumList(enumList: kotlin.collections.List<NIAnEnum>): kotlin.collections.List<NIAnEnum>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAnEnum>> callFlutterEchoAsyncNonNullEnumList(
+    jni$_.JList<NIAnEnum?> list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list.reference;
+    final $r = _callFlutterEchoAsyncNonNullEnumList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNonNullEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JList<NIAnEnum>>(
+      const jni$_.$JList$Type$<NIAnEnum>($NIAnEnum$Type$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNonNullClassList = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNonNullClassList',
+        r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNonNullClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNonNullClassList(classList: kotlin.collections.List<NIAllNullableTypes>): kotlin.collections.List<NIAllNullableTypes>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAllNullableTypes>>
+  callFlutterEchoAsyncNonNullClassList(
+    jni$_.JList<NIAllNullableTypes?> list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list.reference;
+    final $r = _callFlutterEchoAsyncNonNullClassList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNonNullClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JList<NIAllNullableTypes>>(
+      const jni$_.$JList$Type$<NIAllNullableTypes>($NIAllNullableTypes$Type$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncMap = _class.instanceMethodId(
+    r'callFlutterEchoAsyncMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncMap(map: kotlin.collections.Map<kotlin.Any?, kotlin.Any?>): kotlin.collections.Map<kotlin.Any?, kotlin.Any?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>
+  callFlutterEchoAsyncMap(
+    jni$_.JMap<jni$_.JObject?, jni$_.JObject?> map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map.reference;
+    final $r = _callFlutterEchoAsyncMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>(
+      const jni$_.$JMap$Type$<jni$_.JObject?, jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+        jni$_.$JObject$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncStringMap = _class.instanceMethodId(
+    r'callFlutterEchoAsyncStringMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncStringMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncStringMap(stringMap: kotlin.collections.Map<kotlin.String?, kotlin.String?>): kotlin.collections.Map<kotlin.String?, kotlin.String?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>>
+  callFlutterEchoAsyncStringMap(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?> map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map.reference;
+    final $r = _callFlutterEchoAsyncStringMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncStringMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JMap<jni$_.JString?, jni$_.JString?>>(
+      const jni$_.$JMap$Type$<jni$_.JString?, jni$_.JString?>(
+        jni$_.$JString$NullableType$(),
+        jni$_.$JString$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncIntMap = _class.instanceMethodId(
+    r'callFlutterEchoAsyncIntMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncIntMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncIntMap(intMap: kotlin.collections.Map<kotlin.Long?, kotlin.Long?>): kotlin.collections.Map<kotlin.Long?, kotlin.Long?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>>
+  callFlutterEchoAsyncIntMap(jni$_.JMap<jni$_.JLong?, jni$_.JLong?> map) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map.reference;
+    final $r = _callFlutterEchoAsyncIntMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncIntMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>>(
+      const jni$_.$JMap$Type$<jni$_.JLong?, jni$_.JLong?>(
+        jni$_.$JLong$NullableType$(),
+        jni$_.$JLong$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncEnumMap = _class.instanceMethodId(
+    r'callFlutterEchoAsyncEnumMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncEnumMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncEnumMap(enumMap: kotlin.collections.Map<NIAnEnum?, NIAnEnum?>): kotlin.collections.Map<NIAnEnum?, NIAnEnum?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>> callFlutterEchoAsyncEnumMap(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?> map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map.reference;
+    final $r = _callFlutterEchoAsyncEnumMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncEnumMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JMap<NIAnEnum?, NIAnEnum?>>(
+      const jni$_.$JMap$Type$<NIAnEnum?, NIAnEnum?>(
+        $NIAnEnum$NullableType$(),
+        $NIAnEnum$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncClassMap = _class.instanceMethodId(
+    r'callFlutterEchoAsyncClassMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncClassMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncClassMap(classMap: kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>): kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>>
+  callFlutterEchoAsyncClassMap(
+    jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map.reference;
+    final $r = _callFlutterEchoAsyncClassMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncClassMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>>(
+      const jni$_.$JMap$Type$<jni$_.JLong?, NIAllNullableTypes?>(
+        jni$_.$JLong$NullableType$(),
+        $NIAllNullableTypes$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncEnum = _class.instanceMethodId(
+    r'callFlutterEchoAsyncEnum',
+    r'(LNIAnEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncEnum(anEnum: NIAnEnum): NIAnEnum`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAnEnum> callFlutterEchoAsyncEnum(NIAnEnum nIAnEnum) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAnEnum = nIAnEnum.reference;
+    final $r = _callFlutterEchoAsyncEnum(
+      reference.pointer,
+      _id_callFlutterEchoAsyncEnum as jni$_.JMethodIDPtr,
+      _$nIAnEnum.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<NIAnEnum>(const $NIAnEnum$Type$(), releaseOriginal: true);
+  }
+
+  static final _id_callFlutterEchoAnotherAsyncEnum = _class.instanceMethodId(
+    r'callFlutterEchoAnotherAsyncEnum',
+    r'(LNIAnotherEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAnotherAsyncEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAnotherAsyncEnum(anotherEnum: NIAnotherEnum): NIAnotherEnum`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAnotherEnum> callFlutterEchoAnotherAsyncEnum(
+    NIAnotherEnum nIAnotherEnum,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAnotherEnum = nIAnotherEnum.reference;
+    final $r = _callFlutterEchoAnotherAsyncEnum(
+      reference.pointer,
+      _id_callFlutterEchoAnotherAsyncEnum as jni$_.JMethodIDPtr,
+      _$nIAnotherEnum.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<NIAnotherEnum>(
+      const $NIAnotherEnum$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableBool = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableBool',
+    r'(Ljava/lang/Boolean;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableBool =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableBool(aBool: kotlin.Boolean?): kotlin.Boolean?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JBoolean?> callFlutterEchoAsyncNullableBool(
+    jni$_.JBoolean? boolean,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$boolean = boolean?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableBool(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableBool as jni$_.JMethodIDPtr,
+      _$boolean.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JBoolean?>(
+      const jni$_.$JBoolean$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableInt = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableInt',
+    r'(Ljava/lang/Long;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableInt =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableInt(anInt: kotlin.Long?): kotlin.Long?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JLong?> callFlutterEchoAsyncNullableInt(
+    jni$_.JLong? long,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$long = long?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableInt(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableInt as jni$_.JMethodIDPtr,
+      _$long.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JLong?>(
+      const jni$_.$JLong$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableDouble = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableDouble',
+    r'(Ljava/lang/Double;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableDouble =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableDouble(aDouble: kotlin.Double?): kotlin.Double?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JDouble?> callFlutterEchoAsyncNullableDouble(
+    jni$_.JDouble? double,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$double = double?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableDouble(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableDouble as jni$_.JMethodIDPtr,
+      _$double.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JDouble?>(
+      const jni$_.$JDouble$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableString = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableString',
+    r'(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableString =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableString(aString: kotlin.String?): kotlin.String?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString?> callFlutterEchoAsyncNullableString(
+    jni$_.JString? string,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableString(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableString as jni$_.JMethodIDPtr,
+      _$string.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JString?>(
+      const jni$_.$JString$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableUint8List = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableUint8List',
+        r'([BLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableUint8List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableUint8List(list: kotlin.ByteArray?): kotlin.ByteArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JByteArray?> callFlutterEchoAsyncNullableUint8List(
+    jni$_.JByteArray? bs,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableUint8List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableUint8List as jni$_.JMethodIDPtr,
+      _$bs.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JByteArray?>(
+      const jni$_.$JByteArray$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableInt32List = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableInt32List',
+        r'([ILkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableInt32List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableInt32List(list: kotlin.IntArray?): kotlin.IntArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JIntArray?> callFlutterEchoAsyncNullableInt32List(
+    jni$_.JIntArray? is$,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$is$ = is$?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableInt32List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableInt32List as jni$_.JMethodIDPtr,
+      _$is$.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JIntArray?>(
+      const jni$_.$JIntArray$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableInt64List = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableInt64List',
+        r'([JLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableInt64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableInt64List(list: kotlin.LongArray?): kotlin.LongArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JLongArray?> callFlutterEchoAsyncNullableInt64List(
+    jni$_.JLongArray? js,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$js = js?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableInt64List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableInt64List as jni$_.JMethodIDPtr,
+      _$js.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JLongArray?>(
+      const jni$_.$JLongArray$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableObject = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableObject',
+    r'(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableObject =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableObject(anObject: kotlin.Any?): kotlin.Any?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JObject?> callFlutterEchoAsyncNullableObject(
+    jni$_.JObject? object,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableObject(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableObject as jni$_.JMethodIDPtr,
+      _$object.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JObject?>(
+      const jni$_.$JObject$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableList = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableList(list: kotlin.collections.List<kotlin.Any?>?): kotlin.collections.List<kotlin.Any?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<jni$_.JObject?>?> callFlutterEchoAsyncNullableList(
+    jni$_.JList<jni$_.JObject?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList<jni$_.JObject?>?>(
+      const jni$_.$JList$NullableType$<jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableEnumList = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableEnumList',
+        r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableEnumList(enumList: kotlin.collections.List<NIAnEnum?>?): kotlin.collections.List<NIAnEnum?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAnEnum?>?> callFlutterEchoAsyncNullableEnumList(
+    jni$_.JList<NIAnEnum?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableEnumList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList<NIAnEnum?>?>(
+      const jni$_.$JList$NullableType$<NIAnEnum?>($NIAnEnum$NullableType$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableClassList = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableClassList',
+        r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableClassList(classList: kotlin.collections.List<NIAllNullableTypes?>?): kotlin.collections.List<NIAllNullableTypes?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAllNullableTypes?>?>
+  callFlutterEchoAsyncNullableClassList(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableClassList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList<NIAllNullableTypes?>?>(
+      const jni$_.$JList$NullableType$<NIAllNullableTypes?>(
+        $NIAllNullableTypes$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableNonNullEnumList = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableNonNullEnumList',
+        r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableNonNullEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableNonNullEnumList(enumList: kotlin.collections.List<NIAnEnum>?): kotlin.collections.List<NIAnEnum>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAnEnum>?>
+  callFlutterEchoAsyncNullableNonNullEnumList(
+    jni$_.JList<NIAnEnum?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableNonNullEnumList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableNonNullEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList<NIAnEnum>?>(
+      const jni$_.$JList$NullableType$<NIAnEnum>($NIAnEnum$Type$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableNonNullClassList = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableNonNullClassList',
+        r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableNonNullClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableNonNullClassList(classList: kotlin.collections.List<NIAllNullableTypes>?): kotlin.collections.List<NIAllNullableTypes>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAllNullableTypes>?>
+  callFlutterEchoAsyncNullableNonNullClassList(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableNonNullClassList(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableNonNullClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList<NIAllNullableTypes>?>(
+      const jni$_.$JList$NullableType$<NIAllNullableTypes>(
+        $NIAllNullableTypes$Type$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableMap = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableMap(map: kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?): kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>
+  callFlutterEchoAsyncNullableMap(
+    jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JObject?, jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+        jni$_.$JObject$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableStringMap = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableStringMap',
+        r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableStringMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableStringMap(stringMap: kotlin.collections.Map<kotlin.String?, kotlin.String?>?): kotlin.collections.Map<kotlin.String?, kotlin.String?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>
+  callFlutterEchoAsyncNullableStringMap(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableStringMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableStringMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JString?, jni$_.JString?>(
+        jni$_.$JString$NullableType$(),
+        jni$_.$JString$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableIntMap = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableIntMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableIntMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableIntMap(intMap: kotlin.collections.Map<kotlin.Long?, kotlin.Long?>?): kotlin.collections.Map<kotlin.Long?, kotlin.Long?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>
+  callFlutterEchoAsyncNullableIntMap(
+    jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableIntMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableIntMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong?, jni$_.JLong?>(
+        jni$_.$JLong$NullableType$(),
+        jni$_.$JLong$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableEnumMap = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableEnumMap',
+        r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableEnumMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableEnumMap(enumMap: kotlin.collections.Map<NIAnEnum?, NIAnEnum?>?): kotlin.collections.Map<NIAnEnum?, NIAnEnum?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>
+  callFlutterEchoAsyncNullableEnumMap(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableEnumMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableEnumMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>(
+      const jni$_.$JMap$NullableType$<NIAnEnum?, NIAnEnum?>(
+        $NIAnEnum$NullableType$(),
+        $NIAnEnum$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableClassMap = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableClassMap',
+        r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableClassMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableClassMap(classMap: kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>?): kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>
+  callFlutterEchoAsyncNullableClassMap(
+    jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableClassMap(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableClassMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong?, NIAllNullableTypes?>(
+        jni$_.$JLong$NullableType$(),
+        $NIAllNullableTypes$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableEnum = _class.instanceMethodId(
+    r'callFlutterEchoAsyncNullableEnum',
+    r'(LNIAnEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncNullableEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableEnum(anEnum: NIAnEnum?): NIAnEnum?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAnEnum?> callFlutterEchoAsyncNullableEnum(
+    NIAnEnum? nIAnEnum,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableEnum(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableEnum as jni$_.JMethodIDPtr,
+      _$nIAnEnum.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<NIAnEnum?>(
+      const $NIAnEnum$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAnotherAsyncNullableEnum = _class
+      .instanceMethodId(
+        r'callFlutterEchoAnotherAsyncNullableEnum',
+        r'(LNIAnotherEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAnotherAsyncNullableEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAnotherAsyncNullableEnum(anotherEnum: NIAnotherEnum?): NIAnotherEnum?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAnotherEnum?> callFlutterEchoAnotherAsyncNullableEnum(
+    NIAnotherEnum? nIAnotherEnum,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAnotherAsyncNullableEnum(
+      reference.pointer,
+      _id_callFlutterEchoAnotherAsyncNullableEnum as jni$_.JMethodIDPtr,
+      _$nIAnotherEnum.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<NIAnotherEnum?>(
+      const $NIAnotherEnum$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
 }
 
 final class $NIHostIntegrationCoreApiRegistrar$NullableType$
@@ -15460,6 +21784,74 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
       _id_echoUint8List as jni$_.JMethodIDPtr,
       _$bs.pointer,
     ).object<jni$_.JByteArray>(const jni$_.$JByteArray$Type$());
+  }
+
+  static final _id_echoInt32List = _class.instanceMethodId(
+    r'echoInt32List',
+    r'([I)[I',
+  );
+
+  static final _echoInt32List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoInt32List(list: kotlin.IntArray): kotlin.IntArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JIntArray echoInt32List(jni$_.JIntArray is$) {
+    final _$is$ = is$.reference;
+    return _echoInt32List(
+      reference.pointer,
+      _id_echoInt32List as jni$_.JMethodIDPtr,
+      _$is$.pointer,
+    ).object<jni$_.JIntArray>(const jni$_.$JIntArray$Type$());
+  }
+
+  static final _id_echoInt64List = _class.instanceMethodId(
+    r'echoInt64List',
+    r'([J)[J',
+  );
+
+  static final _echoInt64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoInt64List(list: kotlin.LongArray): kotlin.LongArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JLongArray echoInt64List(jni$_.JLongArray js) {
+    final _$js = js.reference;
+    return _echoInt64List(
+      reference.pointer,
+      _id_echoInt64List as jni$_.JMethodIDPtr,
+      _$js.pointer,
+    ).object<jni$_.JLongArray>(const jni$_.$JLongArray$Type$());
   }
 
   static final _id_echoList = _class.instanceMethodId(
@@ -16255,6 +22647,74 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
     ).object<jni$_.JByteArray?>(const jni$_.$JByteArray$NullableType$());
   }
 
+  static final _id_echoNullableInt32List = _class.instanceMethodId(
+    r'echoNullableInt32List',
+    r'([I)[I',
+  );
+
+  static final _echoNullableInt32List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableInt32List(list: kotlin.IntArray?): kotlin.IntArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JIntArray? echoNullableInt32List(jni$_.JIntArray? is$) {
+    final _$is$ = is$?.reference ?? jni$_.jNullReference;
+    return _echoNullableInt32List(
+      reference.pointer,
+      _id_echoNullableInt32List as jni$_.JMethodIDPtr,
+      _$is$.pointer,
+    ).object<jni$_.JIntArray?>(const jni$_.$JIntArray$NullableType$());
+  }
+
+  static final _id_echoNullableInt64List = _class.instanceMethodId(
+    r'echoNullableInt64List',
+    r'([J)[J',
+  );
+
+  static final _echoNullableInt64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableInt64List(list: kotlin.LongArray?): kotlin.LongArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JLongArray? echoNullableInt64List(jni$_.JLongArray? js) {
+    final _$js = js?.reference ?? jni$_.jNullReference;
+    return _echoNullableInt64List(
+      reference.pointer,
+      _id_echoNullableInt64List as jni$_.JMethodIDPtr,
+      _$js.pointer,
+    ).object<jni$_.JLongArray?>(const jni$_.$JLongArray$NullableType$());
+  }
+
   static final _id_echoNullableList = _class.instanceMethodId(
     r'echoNullableList',
     r'(Ljava/util/List;)Ljava/util/List;',
@@ -16886,6 +23346,3000 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
     ).object<NIAnotherEnum?>(const $NIAnotherEnum$NullableType$());
   }
 
+  static final _id_noopAsync = _class.instanceMethodId(
+    r'noopAsync',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _noopAsync =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun noopAsync(): kotlin.Unit`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<void> noopAsync() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _noopAsync(
+      reference.pointer,
+      _id_noopAsync as jni$_.JMethodIDPtr,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return;
+  }
+
+  static final _id_echoAsyncNIAllTypes = _class.instanceMethodId(
+    r'echoAsyncNIAllTypes',
+    r'(LNIAllTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNIAllTypes =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNIAllTypes(everything: NIAllTypes): NIAllTypes`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAllTypes> echoAsyncNIAllTypes(NIAllTypes nIAllTypes) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAllTypes = nIAllTypes.reference;
+    final $r = _echoAsyncNIAllTypes(
+      reference.pointer,
+      _id_echoAsyncNIAllTypes as jni$_.JMethodIDPtr,
+      _$nIAllTypes.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<NIAllTypes>(const $NIAllTypes$Type$(), releaseOriginal: true);
+  }
+
+  static final _id_echoAsyncNullableNIAllNullableTypes = _class.instanceMethodId(
+    r'echoAsyncNullableNIAllNullableTypes',
+    r'(LNIAllNullableTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableNIAllNullableTypes =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableNIAllNullableTypes(everything: NIAllNullableTypes?): NIAllNullableTypes?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAllNullableTypes?> echoAsyncNullableNIAllNullableTypes(
+    NIAllNullableTypes? nIAllNullableTypes,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAllNullableTypes =
+        nIAllNullableTypes?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableNIAllNullableTypes(
+      reference.pointer,
+      _id_echoAsyncNullableNIAllNullableTypes as jni$_.JMethodIDPtr,
+      _$nIAllNullableTypes.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<NIAllNullableTypes?>(
+      const $NIAllNullableTypes$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableNIAllNullableTypesWithoutRecursion = _class
+      .instanceMethodId(
+        r'echoAsyncNullableNIAllNullableTypesWithoutRecursion',
+        r'(LNIAllNullableTypesWithoutRecursion;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _echoAsyncNullableNIAllNullableTypesWithoutRecursion =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableNIAllNullableTypesWithoutRecursion(everything: NIAllNullableTypesWithoutRecursion?): NIAllNullableTypesWithoutRecursion?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAllNullableTypesWithoutRecursion?>
+  echoAsyncNullableNIAllNullableTypesWithoutRecursion(
+    NIAllNullableTypesWithoutRecursion? nIAllNullableTypesWithoutRecursion,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAllNullableTypesWithoutRecursion =
+        nIAllNullableTypesWithoutRecursion?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableNIAllNullableTypesWithoutRecursion(
+      reference.pointer,
+      _id_echoAsyncNullableNIAllNullableTypesWithoutRecursion
+          as jni$_.JMethodIDPtr,
+      _$nIAllNullableTypesWithoutRecursion.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<NIAllNullableTypesWithoutRecursion?>(
+      const $NIAllNullableTypesWithoutRecursion$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncBool = _class.instanceMethodId(
+    r'echoAsyncBool',
+    r'(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncBool =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncBool(aBool: kotlin.Boolean): kotlin.Boolean`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JBoolean> echoAsyncBool(core$_.bool z) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _echoAsyncBool(
+      reference.pointer,
+      _id_echoAsyncBool as jni$_.JMethodIDPtr,
+      z ? 1 : 0,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JBoolean>(
+      const jni$_.$JBoolean$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncInt = _class.instanceMethodId(
+    r'echoAsyncInt',
+    r'(JLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncInt =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int64, jni$_.Pointer<jni$_.Void>)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncInt(anInt: kotlin.Long): kotlin.Long`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JLong> echoAsyncInt(int j) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _echoAsyncInt(
+      reference.pointer,
+      _id_echoAsyncInt as jni$_.JMethodIDPtr,
+      j,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JLong>(
+      const jni$_.$JLong$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncDouble = _class.instanceMethodId(
+    r'echoAsyncDouble',
+    r'(DLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncDouble =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Double, jni$_.Pointer<jni$_.Void>)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              double,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncDouble(aDouble: kotlin.Double): kotlin.Double`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JDouble> echoAsyncDouble(double d) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _echoAsyncDouble(
+      reference.pointer,
+      _id_echoAsyncDouble as jni$_.JMethodIDPtr,
+      d,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JDouble>(
+      const jni$_.$JDouble$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncString = _class.instanceMethodId(
+    r'echoAsyncString',
+    r'(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncString =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncString(aString: kotlin.String): kotlin.String`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString> echoAsyncString(jni$_.JString string) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$string = string.reference;
+    final $r = _echoAsyncString(
+      reference.pointer,
+      _id_echoAsyncString as jni$_.JMethodIDPtr,
+      _$string.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JString>(
+      const jni$_.$JString$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncUint8List = _class.instanceMethodId(
+    r'echoAsyncUint8List',
+    r'([BLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncUint8List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncUint8List(list: kotlin.ByteArray): kotlin.ByteArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JByteArray> echoAsyncUint8List(
+    jni$_.JByteArray bs,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$bs = bs.reference;
+    final $r = _echoAsyncUint8List(
+      reference.pointer,
+      _id_echoAsyncUint8List as jni$_.JMethodIDPtr,
+      _$bs.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JByteArray>(
+      const jni$_.$JByteArray$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncInt32List = _class.instanceMethodId(
+    r'echoAsyncInt32List',
+    r'([ILkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncInt32List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncInt32List(list: kotlin.IntArray): kotlin.IntArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JIntArray> echoAsyncInt32List(jni$_.JIntArray is$) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$is$ = is$.reference;
+    final $r = _echoAsyncInt32List(
+      reference.pointer,
+      _id_echoAsyncInt32List as jni$_.JMethodIDPtr,
+      _$is$.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JIntArray>(
+      const jni$_.$JIntArray$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncInt64List = _class.instanceMethodId(
+    r'echoAsyncInt64List',
+    r'([JLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncInt64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncInt64List(list: kotlin.LongArray): kotlin.LongArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JLongArray> echoAsyncInt64List(
+    jni$_.JLongArray js,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$js = js.reference;
+    final $r = _echoAsyncInt64List(
+      reference.pointer,
+      _id_echoAsyncInt64List as jni$_.JMethodIDPtr,
+      _$js.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JLongArray>(
+      const jni$_.$JLongArray$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncObject = _class.instanceMethodId(
+    r'echoAsyncObject',
+    r'(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncObject =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncObject(anObject: kotlin.Any): kotlin.Any`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JObject> echoAsyncObject(jni$_.JObject object) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$object = object.reference;
+    final $r = _echoAsyncObject(
+      reference.pointer,
+      _id_echoAsyncObject as jni$_.JMethodIDPtr,
+      _$object.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JObject>(
+      const jni$_.$JObject$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncList = _class.instanceMethodId(
+    r'echoAsyncList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncList(list: kotlin.collections.List<kotlin.Any?>): kotlin.collections.List<kotlin.Any?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<jni$_.JObject?>> echoAsyncList(
+    jni$_.JList<jni$_.JObject?> list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list.reference;
+    final $r = _echoAsyncList(
+      reference.pointer,
+      _id_echoAsyncList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JList<jni$_.JObject?>>(
+      const jni$_.$JList$Type$<jni$_.JObject?>(jni$_.$JObject$NullableType$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncEnumList = _class.instanceMethodId(
+    r'echoAsyncEnumList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncEnumList(enumList: kotlin.collections.List<NIAnEnum?>): kotlin.collections.List<NIAnEnum?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAnEnum?>> echoAsyncEnumList(
+    jni$_.JList<NIAnEnum?> list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list.reference;
+    final $r = _echoAsyncEnumList(
+      reference.pointer,
+      _id_echoAsyncEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JList<NIAnEnum?>>(
+      const jni$_.$JList$Type$<NIAnEnum?>($NIAnEnum$NullableType$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncClassList = _class.instanceMethodId(
+    r'echoAsyncClassList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncClassList(classList: kotlin.collections.List<NIAllNullableTypes?>): kotlin.collections.List<NIAllNullableTypes?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAllNullableTypes?>> echoAsyncClassList(
+    jni$_.JList<NIAllNullableTypes?> list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list.reference;
+    final $r = _echoAsyncClassList(
+      reference.pointer,
+      _id_echoAsyncClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JList<NIAllNullableTypes?>>(
+      const jni$_.$JList$Type$<NIAllNullableTypes?>(
+        $NIAllNullableTypes$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNonNullEnumList = _class.instanceMethodId(
+    r'echoAsyncNonNullEnumList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNonNullEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNonNullEnumList(enumList: kotlin.collections.List<NIAnEnum>): kotlin.collections.List<NIAnEnum>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAnEnum>> echoAsyncNonNullEnumList(
+    jni$_.JList<NIAnEnum?> list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list.reference;
+    final $r = _echoAsyncNonNullEnumList(
+      reference.pointer,
+      _id_echoAsyncNonNullEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JList<NIAnEnum>>(
+      const jni$_.$JList$Type$<NIAnEnum>($NIAnEnum$Type$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNonNullClassList = _class.instanceMethodId(
+    r'echoAsyncNonNullClassList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNonNullClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNonNullClassList(classList: kotlin.collections.List<NIAllNullableTypes>): kotlin.collections.List<NIAllNullableTypes>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAllNullableTypes>> echoAsyncNonNullClassList(
+    jni$_.JList<NIAllNullableTypes?> list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list.reference;
+    final $r = _echoAsyncNonNullClassList(
+      reference.pointer,
+      _id_echoAsyncNonNullClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JList<NIAllNullableTypes>>(
+      const jni$_.$JList$Type$<NIAllNullableTypes>($NIAllNullableTypes$Type$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncMap = _class.instanceMethodId(
+    r'echoAsyncMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncMap(map: kotlin.collections.Map<kotlin.Any?, kotlin.Any?>): kotlin.collections.Map<kotlin.Any?, kotlin.Any?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>> echoAsyncMap(
+    jni$_.JMap<jni$_.JObject?, jni$_.JObject?> map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map.reference;
+    final $r = _echoAsyncMap(
+      reference.pointer,
+      _id_echoAsyncMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>>(
+      const jni$_.$JMap$Type$<jni$_.JObject?, jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+        jni$_.$JObject$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncStringMap = _class.instanceMethodId(
+    r'echoAsyncStringMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncStringMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncStringMap(stringMap: kotlin.collections.Map<kotlin.String?, kotlin.String?>): kotlin.collections.Map<kotlin.String?, kotlin.String?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>> echoAsyncStringMap(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?> map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map.reference;
+    final $r = _echoAsyncStringMap(
+      reference.pointer,
+      _id_echoAsyncStringMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JMap<jni$_.JString?, jni$_.JString?>>(
+      const jni$_.$JMap$Type$<jni$_.JString?, jni$_.JString?>(
+        jni$_.$JString$NullableType$(),
+        jni$_.$JString$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncIntMap = _class.instanceMethodId(
+    r'echoAsyncIntMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncIntMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncIntMap(intMap: kotlin.collections.Map<kotlin.Long?, kotlin.Long?>): kotlin.collections.Map<kotlin.Long?, kotlin.Long?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>> echoAsyncIntMap(
+    jni$_.JMap<jni$_.JLong?, jni$_.JLong?> map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map.reference;
+    final $r = _echoAsyncIntMap(
+      reference.pointer,
+      _id_echoAsyncIntMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>>(
+      const jni$_.$JMap$Type$<jni$_.JLong?, jni$_.JLong?>(
+        jni$_.$JLong$NullableType$(),
+        jni$_.$JLong$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncEnumMap = _class.instanceMethodId(
+    r'echoAsyncEnumMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncEnumMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncEnumMap(enumMap: kotlin.collections.Map<NIAnEnum?, NIAnEnum?>): kotlin.collections.Map<NIAnEnum?, NIAnEnum?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>> echoAsyncEnumMap(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?> map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map.reference;
+    final $r = _echoAsyncEnumMap(
+      reference.pointer,
+      _id_echoAsyncEnumMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JMap<NIAnEnum?, NIAnEnum?>>(
+      const jni$_.$JMap$Type$<NIAnEnum?, NIAnEnum?>(
+        $NIAnEnum$NullableType$(),
+        $NIAnEnum$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncClassMap = _class.instanceMethodId(
+    r'echoAsyncClassMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncClassMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncClassMap(classMap: kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>): kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>>
+  echoAsyncClassMap(jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> map) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map.reference;
+    final $r = _echoAsyncClassMap(
+      reference.pointer,
+      _id_echoAsyncClassMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>>(
+      const jni$_.$JMap$Type$<jni$_.JLong?, NIAllNullableTypes?>(
+        jni$_.$JLong$NullableType$(),
+        $NIAllNullableTypes$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncEnum = _class.instanceMethodId(
+    r'echoAsyncEnum',
+    r'(LNIAnEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncEnum(anEnum: NIAnEnum): NIAnEnum`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAnEnum> echoAsyncEnum(NIAnEnum nIAnEnum) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAnEnum = nIAnEnum.reference;
+    final $r = _echoAsyncEnum(
+      reference.pointer,
+      _id_echoAsyncEnum as jni$_.JMethodIDPtr,
+      _$nIAnEnum.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<NIAnEnum>(const $NIAnEnum$Type$(), releaseOriginal: true);
+  }
+
+  static final _id_echoAnotherAsyncEnum = _class.instanceMethodId(
+    r'echoAnotherAsyncEnum',
+    r'(LNIAnotherEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAnotherAsyncEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAnotherAsyncEnum(anotherEnum: NIAnotherEnum): NIAnotherEnum`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAnotherEnum> echoAnotherAsyncEnum(
+    NIAnotherEnum nIAnotherEnum,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAnotherEnum = nIAnotherEnum.reference;
+    final $r = _echoAnotherAsyncEnum(
+      reference.pointer,
+      _id_echoAnotherAsyncEnum as jni$_.JMethodIDPtr,
+      _$nIAnotherEnum.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<NIAnotherEnum>(
+      const $NIAnotherEnum$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableBool = _class.instanceMethodId(
+    r'echoAsyncNullableBool',
+    r'(Ljava/lang/Boolean;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableBool =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableBool(aBool: kotlin.Boolean?): kotlin.Boolean?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JBoolean?> echoAsyncNullableBool(
+    jni$_.JBoolean? boolean,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$boolean = boolean?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableBool(
+      reference.pointer,
+      _id_echoAsyncNullableBool as jni$_.JMethodIDPtr,
+      _$boolean.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JBoolean?>(
+      const jni$_.$JBoolean$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableInt = _class.instanceMethodId(
+    r'echoAsyncNullableInt',
+    r'(Ljava/lang/Long;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableInt =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableInt(anInt: kotlin.Long?): kotlin.Long?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JLong?> echoAsyncNullableInt(jni$_.JLong? long) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$long = long?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableInt(
+      reference.pointer,
+      _id_echoAsyncNullableInt as jni$_.JMethodIDPtr,
+      _$long.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JLong?>(
+      const jni$_.$JLong$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableDouble = _class.instanceMethodId(
+    r'echoAsyncNullableDouble',
+    r'(Ljava/lang/Double;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableDouble =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableDouble(aDouble: kotlin.Double?): kotlin.Double?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JDouble?> echoAsyncNullableDouble(
+    jni$_.JDouble? double,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$double = double?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableDouble(
+      reference.pointer,
+      _id_echoAsyncNullableDouble as jni$_.JMethodIDPtr,
+      _$double.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JDouble?>(
+      const jni$_.$JDouble$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableString = _class.instanceMethodId(
+    r'echoAsyncNullableString',
+    r'(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableString =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableString(aString: kotlin.String?): kotlin.String?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString?> echoAsyncNullableString(
+    jni$_.JString? string,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableString(
+      reference.pointer,
+      _id_echoAsyncNullableString as jni$_.JMethodIDPtr,
+      _$string.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JString?>(
+      const jni$_.$JString$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableUint8List = _class.instanceMethodId(
+    r'echoAsyncNullableUint8List',
+    r'([BLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableUint8List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableUint8List(list: kotlin.ByteArray?): kotlin.ByteArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JByteArray?> echoAsyncNullableUint8List(
+    jni$_.JByteArray? bs,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableUint8List(
+      reference.pointer,
+      _id_echoAsyncNullableUint8List as jni$_.JMethodIDPtr,
+      _$bs.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JByteArray?>(
+      const jni$_.$JByteArray$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableInt32List = _class.instanceMethodId(
+    r'echoAsyncNullableInt32List',
+    r'([ILkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableInt32List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableInt32List(list: kotlin.IntArray?): kotlin.IntArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JIntArray?> echoAsyncNullableInt32List(
+    jni$_.JIntArray? is$,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$is$ = is$?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableInt32List(
+      reference.pointer,
+      _id_echoAsyncNullableInt32List as jni$_.JMethodIDPtr,
+      _$is$.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JIntArray?>(
+      const jni$_.$JIntArray$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableInt64List = _class.instanceMethodId(
+    r'echoAsyncNullableInt64List',
+    r'([JLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableInt64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableInt64List(list: kotlin.LongArray?): kotlin.LongArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JLongArray?> echoAsyncNullableInt64List(
+    jni$_.JLongArray? js,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$js = js?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableInt64List(
+      reference.pointer,
+      _id_echoAsyncNullableInt64List as jni$_.JMethodIDPtr,
+      _$js.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JLongArray?>(
+      const jni$_.$JLongArray$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableObject = _class.instanceMethodId(
+    r'echoAsyncNullableObject',
+    r'(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableObject =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableObject(anObject: kotlin.Any?): kotlin.Any?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JObject?> echoAsyncNullableObject(
+    jni$_.JObject? object,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableObject(
+      reference.pointer,
+      _id_echoAsyncNullableObject as jni$_.JMethodIDPtr,
+      _$object.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JObject?>(
+      const jni$_.$JObject$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableList = _class.instanceMethodId(
+    r'echoAsyncNullableList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableList(list: kotlin.collections.List<kotlin.Any?>?): kotlin.collections.List<kotlin.Any?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<jni$_.JObject?>?> echoAsyncNullableList(
+    jni$_.JList<jni$_.JObject?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableList(
+      reference.pointer,
+      _id_echoAsyncNullableList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList<jni$_.JObject?>?>(
+      const jni$_.$JList$NullableType$<jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableEnumList = _class.instanceMethodId(
+    r'echoAsyncNullableEnumList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableEnumList(enumList: kotlin.collections.List<NIAnEnum?>?): kotlin.collections.List<NIAnEnum?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAnEnum?>?> echoAsyncNullableEnumList(
+    jni$_.JList<NIAnEnum?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableEnumList(
+      reference.pointer,
+      _id_echoAsyncNullableEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList<NIAnEnum?>?>(
+      const jni$_.$JList$NullableType$<NIAnEnum?>($NIAnEnum$NullableType$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableClassList = _class.instanceMethodId(
+    r'echoAsyncNullableClassList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableClassList(classList: kotlin.collections.List<NIAllNullableTypes?>?): kotlin.collections.List<NIAllNullableTypes?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAllNullableTypes?>?> echoAsyncNullableClassList(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableClassList(
+      reference.pointer,
+      _id_echoAsyncNullableClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList<NIAllNullableTypes?>?>(
+      const jni$_.$JList$NullableType$<NIAllNullableTypes?>(
+        $NIAllNullableTypes$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableNonNullEnumList = _class.instanceMethodId(
+    r'echoAsyncNullableNonNullEnumList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableNonNullEnumList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableNonNullEnumList(enumList: kotlin.collections.List<NIAnEnum>?): kotlin.collections.List<NIAnEnum>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAnEnum>?> echoAsyncNullableNonNullEnumList(
+    jni$_.JList<NIAnEnum?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableNonNullEnumList(
+      reference.pointer,
+      _id_echoAsyncNullableNonNullEnumList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList<NIAnEnum>?>(
+      const jni$_.$JList$NullableType$<NIAnEnum>($NIAnEnum$Type$()),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableNonNullClassList = _class.instanceMethodId(
+    r'echoAsyncNullableNonNullClassList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableNonNullClassList =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableNonNullClassList(classList: kotlin.collections.List<NIAllNullableTypes>?): kotlin.collections.List<NIAllNullableTypes>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<NIAllNullableTypes>?>
+  echoAsyncNullableNonNullClassList(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableNonNullClassList(
+      reference.pointer,
+      _id_echoAsyncNullableNonNullClassList as jni$_.JMethodIDPtr,
+      _$list.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList<NIAllNullableTypes>?>(
+      const jni$_.$JList$NullableType$<NIAllNullableTypes>(
+        $NIAllNullableTypes$Type$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableMap = _class.instanceMethodId(
+    r'echoAsyncNullableMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableMap(map: kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?): kotlin.collections.Map<kotlin.Any?, kotlin.Any?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>
+  echoAsyncNullableMap(jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableMap(
+      reference.pointer,
+      _id_echoAsyncNullableMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JObject?, jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+        jni$_.$JObject$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableStringMap = _class.instanceMethodId(
+    r'echoAsyncNullableStringMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableStringMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableStringMap(stringMap: kotlin.collections.Map<kotlin.String?, kotlin.String?>?): kotlin.collections.Map<kotlin.String?, kotlin.String?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>
+  echoAsyncNullableStringMap(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableStringMap(
+      reference.pointer,
+      _id_echoAsyncNullableStringMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JString?, jni$_.JString?>(
+        jni$_.$JString$NullableType$(),
+        jni$_.$JString$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableIntMap = _class.instanceMethodId(
+    r'echoAsyncNullableIntMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableIntMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableIntMap(intMap: kotlin.collections.Map<kotlin.Long?, kotlin.Long?>?): kotlin.collections.Map<kotlin.Long?, kotlin.Long?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>
+  echoAsyncNullableIntMap(jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableIntMap(
+      reference.pointer,
+      _id_echoAsyncNullableIntMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong?, jni$_.JLong?>(
+        jni$_.$JLong$NullableType$(),
+        jni$_.$JLong$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableEnumMap = _class.instanceMethodId(
+    r'echoAsyncNullableEnumMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableEnumMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableEnumMap(enumMap: kotlin.collections.Map<NIAnEnum?, NIAnEnum?>?): kotlin.collections.Map<NIAnEnum?, NIAnEnum?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>?> echoAsyncNullableEnumMap(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableEnumMap(
+      reference.pointer,
+      _id_echoAsyncNullableEnumMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JMap<NIAnEnum?, NIAnEnum?>?>(
+      const jni$_.$JMap$NullableType$<NIAnEnum?, NIAnEnum?>(
+        $NIAnEnum$NullableType$(),
+        $NIAnEnum$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableClassMap = _class.instanceMethodId(
+    r'echoAsyncNullableClassMap',
+    r'(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableClassMap =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableClassMap(classMap: kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>?): kotlin.collections.Map<kotlin.Long?, NIAllNullableTypes?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>
+  echoAsyncNullableClassMap(
+    jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableClassMap(
+      reference.pointer,
+      _id_echoAsyncNullableClassMap as jni$_.JMethodIDPtr,
+      _$map.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>(
+      const jni$_.$JMap$NullableType$<jni$_.JLong?, NIAllNullableTypes?>(
+        jni$_.$JLong$NullableType$(),
+        $NIAllNullableTypes$NullableType$(),
+      ),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncNullableEnum = _class.instanceMethodId(
+    r'echoAsyncNullableEnum',
+    r'(LNIAnEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableEnum(anEnum: NIAnEnum?): NIAnEnum?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAnEnum?> echoAsyncNullableEnum(NIAnEnum? nIAnEnum) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAnEnum = nIAnEnum?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableEnum(
+      reference.pointer,
+      _id_echoAsyncNullableEnum as jni$_.JMethodIDPtr,
+      _$nIAnEnum.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<NIAnEnum?>(
+      const $NIAnEnum$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAnotherAsyncNullableEnum = _class.instanceMethodId(
+    r'echoAnotherAsyncNullableEnum',
+    r'(LNIAnotherEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAnotherAsyncNullableEnum =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAnotherAsyncNullableEnum(anotherEnum: NIAnotherEnum?): NIAnotherEnum?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<NIAnotherEnum?> echoAnotherAsyncNullableEnum(
+    NIAnotherEnum? nIAnotherEnum,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$nIAnotherEnum = nIAnotherEnum?.reference ?? jni$_.jNullReference;
+    final $r = _echoAnotherAsyncNullableEnum(
+      reference.pointer,
+      _id_echoAnotherAsyncNullableEnum as jni$_.JMethodIDPtr,
+      _$nIAnotherEnum.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<NIAnotherEnum?>(
+      const $NIAnotherEnum$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
   /// Maps a specific port to the implemented interface.
   static final core$_.Map<int, $NIFlutterIntegrationCoreApi> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
@@ -17015,6 +26469,26 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
       if ($d == r'echoUint8List([B)[B') {
         final $r = _$impls[$p]!.echoUint8List(
           $a![0]!.as(const jni$_.$JByteArray$Type$(), releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoInt32List([I)[I') {
+        final $r = _$impls[$p]!.echoInt32List(
+          $a![0]!.as(const jni$_.$JIntArray$Type$(), releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoInt64List([J)[J') {
+        final $r = _$impls[$p]!.echoInt64List(
+          $a![0]!.as(const jni$_.$JLongArray$Type$(), releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -17307,6 +26781,26 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
                 .toPointer() ??
             jni$_.nullptr;
       }
+      if ($d == r'echoNullableInt32List([I)[I') {
+        final $r = _$impls[$p]!.echoNullableInt32List(
+          $a![0]?.as(const jni$_.$JIntArray$Type$(), releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoNullableInt64List([J)[J') {
+        final $r = _$impls[$p]!.echoNullableInt64List(
+          $a![0]?.as(const jni$_.$JLongArray$Type$(), releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
       if ($d == r'echoNullableList(Ljava/util/List;)Ljava/util/List;') {
         final $r = _$impls[$p]!.echoNullableList(
           $a![0]?.as(
@@ -17546,6 +27040,936 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
                 .toPointer() ??
             jni$_.nullptr;
       }
+      if ($d ==
+          r'noopAsync(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r = jni$_.KotlinContinuation.fromReference(
+          $a![0]!
+              .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+              .reference,
+        ).resumeWithVoidFuture(_$impls[$p]!.noopAsync());
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNIAllTypes(LNIAllTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNIAllTypes(
+                $a![0]!.as(const $NIAllTypes$Type$(), releaseOriginal: true),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableNIAllNullableTypes(LNIAllNullableTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableNIAllNullableTypes(
+                $a![0]?.as(
+                  const $NIAllNullableTypes$Type$(),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableNIAllNullableTypesWithoutRecursion(LNIAllNullableTypesWithoutRecursion;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableNIAllNullableTypesWithoutRecursion(
+                $a![0]?.as(
+                  const $NIAllNullableTypesWithoutRecursion$Type$(),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncBool(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncBool(
+                $a![0]!
+                    .as(const jni$_.$JBoolean$Type$(), releaseOriginal: true)
+                    .booleanValue(releaseOriginal: true),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncInt(JLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncInt(
+                $a![0]!
+                    .as(const jni$_.$JLong$Type$(), releaseOriginal: true)
+                    .longValue(releaseOriginal: true),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncDouble(DLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncDouble(
+                $a![0]!
+                    .as(const jni$_.$JDouble$Type$(), releaseOriginal: true)
+                    .doubleValue(releaseOriginal: true),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncString(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncString(
+                $a![0]!.as(const jni$_.$JString$Type$(), releaseOriginal: true),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncUint8List([BLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncUint8List(
+                $a![0]!.as(
+                  const jni$_.$JByteArray$Type$(),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncInt32List([ILkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncInt32List(
+                $a![0]!.as(
+                  const jni$_.$JIntArray$Type$(),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncInt64List([JLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncInt64List(
+                $a![0]!.as(
+                  const jni$_.$JLongArray$Type$(),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncObject(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncObject(
+                $a![0]!.as(const jni$_.$JObject$Type$(), releaseOriginal: true),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncList(
+                $a![0]!.as(
+                  const jni$_.$JList$Type$<jni$_.JObject?>(
+                    jni$_.$JObject$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncEnumList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncEnumList(
+                $a![0]!.as(
+                  const jni$_.$JList$Type$<NIAnEnum?>(
+                    $NIAnEnum$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncClassList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncClassList(
+                $a![0]!.as(
+                  const jni$_.$JList$Type$<NIAllNullableTypes?>(
+                    $NIAllNullableTypes$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNonNullEnumList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNonNullEnumList(
+                $a![0]!.as(
+                  const jni$_.$JList$Type$<NIAnEnum?>(
+                    $NIAnEnum$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNonNullClassList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNonNullClassList(
+                $a![0]!.as(
+                  const jni$_.$JList$Type$<NIAllNullableTypes?>(
+                    $NIAllNullableTypes$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncMap(
+                $a![0]!.as(
+                  const jni$_.$JMap$Type$<jni$_.JObject?, jni$_.JObject?>(
+                    jni$_.$JObject$NullableType$(),
+                    jni$_.$JObject$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncStringMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncStringMap(
+                $a![0]!.as(
+                  const jni$_.$JMap$Type$<jni$_.JString?, jni$_.JString?>(
+                    jni$_.$JString$NullableType$(),
+                    jni$_.$JString$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncIntMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncIntMap(
+                $a![0]!.as(
+                  const jni$_.$JMap$Type$<jni$_.JLong?, jni$_.JLong?>(
+                    jni$_.$JLong$NullableType$(),
+                    jni$_.$JLong$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncEnumMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncEnumMap(
+                $a![0]!.as(
+                  const jni$_.$JMap$Type$<NIAnEnum?, NIAnEnum?>(
+                    $NIAnEnum$NullableType$(),
+                    $NIAnEnum$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncClassMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncClassMap(
+                $a![0]!.as(
+                  const jni$_.$JMap$Type$<jni$_.JLong?, NIAllNullableTypes?>(
+                    jni$_.$JLong$NullableType$(),
+                    $NIAllNullableTypes$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncEnum(LNIAnEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncEnum(
+                $a![0]!.as(const $NIAnEnum$Type$(), releaseOriginal: true),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAnotherAsyncEnum(LNIAnotherEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAnotherAsyncEnum(
+                $a![0]!.as(const $NIAnotherEnum$Type$(), releaseOriginal: true),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableBool(Ljava/lang/Boolean;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableBool(
+                $a![0]?.as(
+                  const jni$_.$JBoolean$Type$(),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableInt(Ljava/lang/Long;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableInt(
+                $a![0]?.as(const jni$_.$JLong$Type$(), releaseOriginal: true),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableDouble(Ljava/lang/Double;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableDouble(
+                $a![0]?.as(const jni$_.$JDouble$Type$(), releaseOriginal: true),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableString(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableString(
+                $a![0]?.as(const jni$_.$JString$Type$(), releaseOriginal: true),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableUint8List([BLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableUint8List(
+                $a![0]?.as(
+                  const jni$_.$JByteArray$Type$(),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableInt32List([ILkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableInt32List(
+                $a![0]?.as(
+                  const jni$_.$JIntArray$Type$(),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableInt64List([JLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableInt64List(
+                $a![0]?.as(
+                  const jni$_.$JLongArray$Type$(),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableObject(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableObject(
+                $a![0]?.as(const jni$_.$JObject$Type$(), releaseOriginal: true),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableList(
+                $a![0]?.as(
+                  const jni$_.$JList$Type$<jni$_.JObject?>(
+                    jni$_.$JObject$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableEnumList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableEnumList(
+                $a![0]?.as(
+                  const jni$_.$JList$Type$<NIAnEnum?>(
+                    $NIAnEnum$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableClassList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableClassList(
+                $a![0]?.as(
+                  const jni$_.$JList$Type$<NIAllNullableTypes?>(
+                    $NIAllNullableTypes$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableNonNullEnumList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableNonNullEnumList(
+                $a![0]?.as(
+                  const jni$_.$JList$Type$<NIAnEnum?>(
+                    $NIAnEnum$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableNonNullClassList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableNonNullClassList(
+                $a![0]?.as(
+                  const jni$_.$JList$Type$<NIAllNullableTypes?>(
+                    $NIAllNullableTypes$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableMap(
+                $a![0]?.as(
+                  const jni$_.$JMap$Type$<jni$_.JObject?, jni$_.JObject?>(
+                    jni$_.$JObject$NullableType$(),
+                    jni$_.$JObject$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableStringMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableStringMap(
+                $a![0]?.as(
+                  const jni$_.$JMap$Type$<jni$_.JString?, jni$_.JString?>(
+                    jni$_.$JString$NullableType$(),
+                    jni$_.$JString$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableIntMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableIntMap(
+                $a![0]?.as(
+                  const jni$_.$JMap$Type$<jni$_.JLong?, jni$_.JLong?>(
+                    jni$_.$JLong$NullableType$(),
+                    jni$_.$JLong$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableEnumMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableEnumMap(
+                $a![0]?.as(
+                  const jni$_.$JMap$Type$<NIAnEnum?, NIAnEnum?>(
+                    $NIAnEnum$NullableType$(),
+                    $NIAnEnum$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableClassMap(Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableClassMap(
+                $a![0]?.as(
+                  const jni$_.$JMap$Type$<jni$_.JLong?, NIAllNullableTypes?>(
+                    jni$_.$JLong$NullableType$(),
+                    $NIAllNullableTypes$NullableType$(),
+                  ),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncNullableEnum(LNIAnEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableEnum(
+                $a![0]?.as(const $NIAnEnum$Type$(), releaseOriginal: true),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAnotherAsyncNullableEnum(LNIAnotherEnum;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAnotherAsyncNullableEnum(
+                $a![0]?.as(const $NIAnotherEnum$Type$(), releaseOriginal: true),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);
     }
@@ -17613,6 +28037,8 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
     required double Function(double d) echoDouble,
     required jni$_.JString Function(jni$_.JString string) echoString,
     required jni$_.JByteArray Function(jni$_.JByteArray bs) echoUint8List,
+    required jni$_.JIntArray Function(jni$_.JIntArray is$) echoInt32List,
+    required jni$_.JLongArray Function(jni$_.JLongArray js) echoInt64List,
     required jni$_.JList<jni$_.JObject?> Function(
       jni$_.JList<jni$_.JObject?> list,
     )
@@ -17674,6 +28100,10 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
     required jni$_.JString? Function(jni$_.JString? string) echoNullableString,
     required jni$_.JByteArray? Function(jni$_.JByteArray? bs)
     echoNullableUint8List,
+    required jni$_.JIntArray? Function(jni$_.JIntArray? is$)
+    echoNullableInt32List,
+    required jni$_.JLongArray? Function(jni$_.JLongArray? js)
+    echoNullableInt64List,
     required jni$_.JList<jni$_.JObject?>? Function(
       jni$_.JList<jni$_.JObject?>? list,
     )
@@ -17729,6 +28159,132 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
     required NIAnEnum? Function(NIAnEnum? nIAnEnum) echoNullableEnum,
     required NIAnotherEnum? Function(NIAnotherEnum? nIAnotherEnum)
     echoAnotherNullableEnum,
+    required core$_.Future<void> Function() noopAsync,
+    required core$_.Future<NIAllTypes> Function(NIAllTypes nIAllTypes)
+    echoAsyncNIAllTypes,
+    required core$_.Future<NIAllNullableTypes?> Function(
+      NIAllNullableTypes? nIAllNullableTypes,
+    )
+    echoAsyncNullableNIAllNullableTypes,
+    required core$_.Future<NIAllNullableTypesWithoutRecursion?> Function(
+      NIAllNullableTypesWithoutRecursion? nIAllNullableTypesWithoutRecursion,
+    )
+    echoAsyncNullableNIAllNullableTypesWithoutRecursion,
+    required core$_.Future<jni$_.JBoolean> Function(core$_.bool z)
+    echoAsyncBool,
+    required core$_.Future<jni$_.JLong> Function(int j) echoAsyncInt,
+    required core$_.Future<jni$_.JDouble> Function(double d) echoAsyncDouble,
+    required core$_.Future<jni$_.JString> Function(jni$_.JString string)
+    echoAsyncString,
+    required core$_.Future<jni$_.JByteArray> Function(jni$_.JByteArray bs)
+    echoAsyncUint8List,
+    required core$_.Future<jni$_.JIntArray> Function(jni$_.JIntArray is$)
+    echoAsyncInt32List,
+    required core$_.Future<jni$_.JLongArray> Function(jni$_.JLongArray js)
+    echoAsyncInt64List,
+    required core$_.Future<jni$_.JObject> Function(jni$_.JObject object)
+    echoAsyncObject,
+    required core$_.Future<jni$_.JList<jni$_.JObject?>> Function(
+      jni$_.JList<jni$_.JObject?> list,
+    )
+    echoAsyncList,
+    required core$_.Future<jni$_.JList<NIAnEnum?>> Function(
+      jni$_.JList<NIAnEnum?> list,
+    )
+    echoAsyncEnumList,
+    required core$_.Future<jni$_.JList<NIAllNullableTypes?>> Function(
+      jni$_.JList<NIAllNullableTypes?> list,
+    )
+    echoAsyncClassList,
+    required core$_.Future<jni$_.JList<NIAnEnum>> Function(
+      jni$_.JList<NIAnEnum?> list,
+    )
+    echoAsyncNonNullEnumList,
+    required core$_.Future<jni$_.JList<NIAllNullableTypes>> Function(
+      jni$_.JList<NIAllNullableTypes?> list,
+    )
+    echoAsyncNonNullClassList,
+    required core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>> Function(
+      jni$_.JMap<jni$_.JObject?, jni$_.JObject?> map,
+    )
+    echoAsyncMap,
+    required core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>> Function(
+      jni$_.JMap<jni$_.JString?, jni$_.JString?> map,
+    )
+    echoAsyncStringMap,
+    required core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>> Function(
+      jni$_.JMap<jni$_.JLong?, jni$_.JLong?> map,
+    )
+    echoAsyncIntMap,
+    required core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>> Function(
+      jni$_.JMap<NIAnEnum?, NIAnEnum?> map,
+    )
+    echoAsyncEnumMap,
+    required core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>>
+    Function(jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> map)
+    echoAsyncClassMap,
+    required core$_.Future<NIAnEnum> Function(NIAnEnum nIAnEnum) echoAsyncEnum,
+    required core$_.Future<NIAnotherEnum> Function(NIAnotherEnum nIAnotherEnum)
+    echoAnotherAsyncEnum,
+    required core$_.Future<jni$_.JBoolean?> Function(jni$_.JBoolean? boolean)
+    echoAsyncNullableBool,
+    required core$_.Future<jni$_.JLong?> Function(jni$_.JLong? long)
+    echoAsyncNullableInt,
+    required core$_.Future<jni$_.JDouble?> Function(jni$_.JDouble? double)
+    echoAsyncNullableDouble,
+    required core$_.Future<jni$_.JString?> Function(jni$_.JString? string)
+    echoAsyncNullableString,
+    required core$_.Future<jni$_.JByteArray?> Function(jni$_.JByteArray? bs)
+    echoAsyncNullableUint8List,
+    required core$_.Future<jni$_.JIntArray?> Function(jni$_.JIntArray? is$)
+    echoAsyncNullableInt32List,
+    required core$_.Future<jni$_.JLongArray?> Function(jni$_.JLongArray? js)
+    echoAsyncNullableInt64List,
+    required core$_.Future<jni$_.JObject?> Function(jni$_.JObject? object)
+    echoAsyncNullableObject,
+    required core$_.Future<jni$_.JList<jni$_.JObject?>?> Function(
+      jni$_.JList<jni$_.JObject?>? list,
+    )
+    echoAsyncNullableList,
+    required core$_.Future<jni$_.JList<NIAnEnum?>?> Function(
+      jni$_.JList<NIAnEnum?>? list,
+    )
+    echoAsyncNullableEnumList,
+    required core$_.Future<jni$_.JList<NIAllNullableTypes?>?> Function(
+      jni$_.JList<NIAllNullableTypes?>? list,
+    )
+    echoAsyncNullableClassList,
+    required core$_.Future<jni$_.JList<NIAnEnum>?> Function(
+      jni$_.JList<NIAnEnum?>? list,
+    )
+    echoAsyncNullableNonNullEnumList,
+    required core$_.Future<jni$_.JList<NIAllNullableTypes>?> Function(
+      jni$_.JList<NIAllNullableTypes?>? list,
+    )
+    echoAsyncNullableNonNullClassList,
+    required core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>
+    Function(jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map)
+    echoAsyncNullableMap,
+    required core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>
+    Function(jni$_.JMap<jni$_.JString?, jni$_.JString?>? map)
+    echoAsyncNullableStringMap,
+    required core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?> Function(
+      jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
+    )
+    echoAsyncNullableIntMap,
+    required core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>?> Function(
+      jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+    )
+    echoAsyncNullableEnumMap,
+    required core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>
+    Function(jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map)
+    echoAsyncNullableClassMap,
+    required core$_.Future<NIAnEnum?> Function(NIAnEnum? nIAnEnum)
+    echoAsyncNullableEnum,
+    required core$_.Future<NIAnotherEnum?> Function(
+      NIAnotherEnum? nIAnotherEnum,
+    )
+    echoAnotherAsyncNullableEnum,
   }) = _$NIFlutterIntegrationCoreApi;
 
   void noop();
@@ -17755,6 +28311,8 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
   double echoDouble(double d);
   jni$_.JString echoString(jni$_.JString string);
   jni$_.JByteArray echoUint8List(jni$_.JByteArray bs);
+  jni$_.JIntArray echoInt32List(jni$_.JIntArray is$);
+  jni$_.JLongArray echoInt64List(jni$_.JLongArray js);
   jni$_.JList<jni$_.JObject?> echoList(jni$_.JList<jni$_.JObject?> list);
   jni$_.JList<NIAnEnum?> echoEnumList(jni$_.JList<NIAnEnum?> list);
   jni$_.JList<NIAllNullableTypes?> echoClassList(
@@ -17798,6 +28356,8 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
   jni$_.JDouble? echoNullableDouble(jni$_.JDouble? double);
   jni$_.JString? echoNullableString(jni$_.JString? string);
   jni$_.JByteArray? echoNullableUint8List(jni$_.JByteArray? bs);
+  jni$_.JIntArray? echoNullableInt32List(jni$_.JIntArray? is$);
+  jni$_.JLongArray? echoNullableInt64List(jni$_.JLongArray? js);
   jni$_.JList<jni$_.JObject?>? echoNullableList(
     jni$_.JList<jni$_.JObject?>? list,
   );
@@ -17840,6 +28400,99 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
   );
   NIAnEnum? echoNullableEnum(NIAnEnum? nIAnEnum);
   NIAnotherEnum? echoAnotherNullableEnum(NIAnotherEnum? nIAnotherEnum);
+  core$_.Future<void> noopAsync();
+  core$_.Future<NIAllTypes> echoAsyncNIAllTypes(NIAllTypes nIAllTypes);
+  core$_.Future<NIAllNullableTypes?> echoAsyncNullableNIAllNullableTypes(
+    NIAllNullableTypes? nIAllNullableTypes,
+  );
+  core$_.Future<NIAllNullableTypesWithoutRecursion?>
+  echoAsyncNullableNIAllNullableTypesWithoutRecursion(
+    NIAllNullableTypesWithoutRecursion? nIAllNullableTypesWithoutRecursion,
+  );
+  core$_.Future<jni$_.JBoolean> echoAsyncBool(core$_.bool z);
+  core$_.Future<jni$_.JLong> echoAsyncInt(int j);
+  core$_.Future<jni$_.JDouble> echoAsyncDouble(double d);
+  core$_.Future<jni$_.JString> echoAsyncString(jni$_.JString string);
+  core$_.Future<jni$_.JByteArray> echoAsyncUint8List(jni$_.JByteArray bs);
+  core$_.Future<jni$_.JIntArray> echoAsyncInt32List(jni$_.JIntArray is$);
+  core$_.Future<jni$_.JLongArray> echoAsyncInt64List(jni$_.JLongArray js);
+  core$_.Future<jni$_.JObject> echoAsyncObject(jni$_.JObject object);
+  core$_.Future<jni$_.JList<jni$_.JObject?>> echoAsyncList(
+    jni$_.JList<jni$_.JObject?> list,
+  );
+  core$_.Future<jni$_.JList<NIAnEnum?>> echoAsyncEnumList(
+    jni$_.JList<NIAnEnum?> list,
+  );
+  core$_.Future<jni$_.JList<NIAllNullableTypes?>> echoAsyncClassList(
+    jni$_.JList<NIAllNullableTypes?> list,
+  );
+  core$_.Future<jni$_.JList<NIAnEnum>> echoAsyncNonNullEnumList(
+    jni$_.JList<NIAnEnum?> list,
+  );
+  core$_.Future<jni$_.JList<NIAllNullableTypes>> echoAsyncNonNullClassList(
+    jni$_.JList<NIAllNullableTypes?> list,
+  );
+  core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>> echoAsyncMap(
+    jni$_.JMap<jni$_.JObject?, jni$_.JObject?> map,
+  );
+  core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>> echoAsyncStringMap(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?> map,
+  );
+  core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>> echoAsyncIntMap(
+    jni$_.JMap<jni$_.JLong?, jni$_.JLong?> map,
+  );
+  core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>> echoAsyncEnumMap(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?> map,
+  );
+  core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>>
+  echoAsyncClassMap(jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> map);
+  core$_.Future<NIAnEnum> echoAsyncEnum(NIAnEnum nIAnEnum);
+  core$_.Future<NIAnotherEnum> echoAnotherAsyncEnum(
+    NIAnotherEnum nIAnotherEnum,
+  );
+  core$_.Future<jni$_.JBoolean?> echoAsyncNullableBool(jni$_.JBoolean? boolean);
+  core$_.Future<jni$_.JLong?> echoAsyncNullableInt(jni$_.JLong? long);
+  core$_.Future<jni$_.JDouble?> echoAsyncNullableDouble(jni$_.JDouble? double);
+  core$_.Future<jni$_.JString?> echoAsyncNullableString(jni$_.JString? string);
+  core$_.Future<jni$_.JByteArray?> echoAsyncNullableUint8List(
+    jni$_.JByteArray? bs,
+  );
+  core$_.Future<jni$_.JIntArray?> echoAsyncNullableInt32List(
+    jni$_.JIntArray? is$,
+  );
+  core$_.Future<jni$_.JLongArray?> echoAsyncNullableInt64List(
+    jni$_.JLongArray? js,
+  );
+  core$_.Future<jni$_.JObject?> echoAsyncNullableObject(jni$_.JObject? object);
+  core$_.Future<jni$_.JList<jni$_.JObject?>?> echoAsyncNullableList(
+    jni$_.JList<jni$_.JObject?>? list,
+  );
+  core$_.Future<jni$_.JList<NIAnEnum?>?> echoAsyncNullableEnumList(
+    jni$_.JList<NIAnEnum?>? list,
+  );
+  core$_.Future<jni$_.JList<NIAllNullableTypes?>?> echoAsyncNullableClassList(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  );
+  core$_.Future<jni$_.JList<NIAnEnum>?> echoAsyncNullableNonNullEnumList(
+    jni$_.JList<NIAnEnum?>? list,
+  );
+  core$_.Future<jni$_.JList<NIAllNullableTypes>?>
+  echoAsyncNullableNonNullClassList(jni$_.JList<NIAllNullableTypes?>? list);
+  core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>
+  echoAsyncNullableMap(jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map);
+  core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>
+  echoAsyncNullableStringMap(jni$_.JMap<jni$_.JString?, jni$_.JString?>? map);
+  core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>
+  echoAsyncNullableIntMap(jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map);
+  core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>?> echoAsyncNullableEnumMap(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+  );
+  core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>
+  echoAsyncNullableClassMap(jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map);
+  core$_.Future<NIAnEnum?> echoAsyncNullableEnum(NIAnEnum? nIAnEnum);
+  core$_.Future<NIAnotherEnum?> echoAnotherAsyncNullableEnum(
+    NIAnotherEnum? nIAnotherEnum,
+  );
 }
 
 final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
@@ -17872,6 +28525,8 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
     required double Function(double d) echoDouble,
     required jni$_.JString Function(jni$_.JString string) echoString,
     required jni$_.JByteArray Function(jni$_.JByteArray bs) echoUint8List,
+    required jni$_.JIntArray Function(jni$_.JIntArray is$) echoInt32List,
+    required jni$_.JLongArray Function(jni$_.JLongArray js) echoInt64List,
     required jni$_.JList<jni$_.JObject?> Function(
       jni$_.JList<jni$_.JObject?> list,
     )
@@ -17933,6 +28588,10 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
     required jni$_.JString? Function(jni$_.JString? string) echoNullableString,
     required jni$_.JByteArray? Function(jni$_.JByteArray? bs)
     echoNullableUint8List,
+    required jni$_.JIntArray? Function(jni$_.JIntArray? is$)
+    echoNullableInt32List,
+    required jni$_.JLongArray? Function(jni$_.JLongArray? js)
+    echoNullableInt64List,
     required jni$_.JList<jni$_.JObject?>? Function(
       jni$_.JList<jni$_.JObject?>? list,
     )
@@ -17988,6 +28647,132 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
     required NIAnEnum? Function(NIAnEnum? nIAnEnum) echoNullableEnum,
     required NIAnotherEnum? Function(NIAnotherEnum? nIAnotherEnum)
     echoAnotherNullableEnum,
+    required core$_.Future<void> Function() noopAsync,
+    required core$_.Future<NIAllTypes> Function(NIAllTypes nIAllTypes)
+    echoAsyncNIAllTypes,
+    required core$_.Future<NIAllNullableTypes?> Function(
+      NIAllNullableTypes? nIAllNullableTypes,
+    )
+    echoAsyncNullableNIAllNullableTypes,
+    required core$_.Future<NIAllNullableTypesWithoutRecursion?> Function(
+      NIAllNullableTypesWithoutRecursion? nIAllNullableTypesWithoutRecursion,
+    )
+    echoAsyncNullableNIAllNullableTypesWithoutRecursion,
+    required core$_.Future<jni$_.JBoolean> Function(core$_.bool z)
+    echoAsyncBool,
+    required core$_.Future<jni$_.JLong> Function(int j) echoAsyncInt,
+    required core$_.Future<jni$_.JDouble> Function(double d) echoAsyncDouble,
+    required core$_.Future<jni$_.JString> Function(jni$_.JString string)
+    echoAsyncString,
+    required core$_.Future<jni$_.JByteArray> Function(jni$_.JByteArray bs)
+    echoAsyncUint8List,
+    required core$_.Future<jni$_.JIntArray> Function(jni$_.JIntArray is$)
+    echoAsyncInt32List,
+    required core$_.Future<jni$_.JLongArray> Function(jni$_.JLongArray js)
+    echoAsyncInt64List,
+    required core$_.Future<jni$_.JObject> Function(jni$_.JObject object)
+    echoAsyncObject,
+    required core$_.Future<jni$_.JList<jni$_.JObject?>> Function(
+      jni$_.JList<jni$_.JObject?> list,
+    )
+    echoAsyncList,
+    required core$_.Future<jni$_.JList<NIAnEnum?>> Function(
+      jni$_.JList<NIAnEnum?> list,
+    )
+    echoAsyncEnumList,
+    required core$_.Future<jni$_.JList<NIAllNullableTypes?>> Function(
+      jni$_.JList<NIAllNullableTypes?> list,
+    )
+    echoAsyncClassList,
+    required core$_.Future<jni$_.JList<NIAnEnum>> Function(
+      jni$_.JList<NIAnEnum?> list,
+    )
+    echoAsyncNonNullEnumList,
+    required core$_.Future<jni$_.JList<NIAllNullableTypes>> Function(
+      jni$_.JList<NIAllNullableTypes?> list,
+    )
+    echoAsyncNonNullClassList,
+    required core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>> Function(
+      jni$_.JMap<jni$_.JObject?, jni$_.JObject?> map,
+    )
+    echoAsyncMap,
+    required core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>> Function(
+      jni$_.JMap<jni$_.JString?, jni$_.JString?> map,
+    )
+    echoAsyncStringMap,
+    required core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>> Function(
+      jni$_.JMap<jni$_.JLong?, jni$_.JLong?> map,
+    )
+    echoAsyncIntMap,
+    required core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>> Function(
+      jni$_.JMap<NIAnEnum?, NIAnEnum?> map,
+    )
+    echoAsyncEnumMap,
+    required core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>>
+    Function(jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> map)
+    echoAsyncClassMap,
+    required core$_.Future<NIAnEnum> Function(NIAnEnum nIAnEnum) echoAsyncEnum,
+    required core$_.Future<NIAnotherEnum> Function(NIAnotherEnum nIAnotherEnum)
+    echoAnotherAsyncEnum,
+    required core$_.Future<jni$_.JBoolean?> Function(jni$_.JBoolean? boolean)
+    echoAsyncNullableBool,
+    required core$_.Future<jni$_.JLong?> Function(jni$_.JLong? long)
+    echoAsyncNullableInt,
+    required core$_.Future<jni$_.JDouble?> Function(jni$_.JDouble? double)
+    echoAsyncNullableDouble,
+    required core$_.Future<jni$_.JString?> Function(jni$_.JString? string)
+    echoAsyncNullableString,
+    required core$_.Future<jni$_.JByteArray?> Function(jni$_.JByteArray? bs)
+    echoAsyncNullableUint8List,
+    required core$_.Future<jni$_.JIntArray?> Function(jni$_.JIntArray? is$)
+    echoAsyncNullableInt32List,
+    required core$_.Future<jni$_.JLongArray?> Function(jni$_.JLongArray? js)
+    echoAsyncNullableInt64List,
+    required core$_.Future<jni$_.JObject?> Function(jni$_.JObject? object)
+    echoAsyncNullableObject,
+    required core$_.Future<jni$_.JList<jni$_.JObject?>?> Function(
+      jni$_.JList<jni$_.JObject?>? list,
+    )
+    echoAsyncNullableList,
+    required core$_.Future<jni$_.JList<NIAnEnum?>?> Function(
+      jni$_.JList<NIAnEnum?>? list,
+    )
+    echoAsyncNullableEnumList,
+    required core$_.Future<jni$_.JList<NIAllNullableTypes?>?> Function(
+      jni$_.JList<NIAllNullableTypes?>? list,
+    )
+    echoAsyncNullableClassList,
+    required core$_.Future<jni$_.JList<NIAnEnum>?> Function(
+      jni$_.JList<NIAnEnum?>? list,
+    )
+    echoAsyncNullableNonNullEnumList,
+    required core$_.Future<jni$_.JList<NIAllNullableTypes>?> Function(
+      jni$_.JList<NIAllNullableTypes?>? list,
+    )
+    echoAsyncNullableNonNullClassList,
+    required core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>
+    Function(jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map)
+    echoAsyncNullableMap,
+    required core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>
+    Function(jni$_.JMap<jni$_.JString?, jni$_.JString?>? map)
+    echoAsyncNullableStringMap,
+    required core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?> Function(
+      jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
+    )
+    echoAsyncNullableIntMap,
+    required core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>?> Function(
+      jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+    )
+    echoAsyncNullableEnumMap,
+    required core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>
+    Function(jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map)
+    echoAsyncNullableClassMap,
+    required core$_.Future<NIAnEnum?> Function(NIAnEnum? nIAnEnum)
+    echoAsyncNullableEnum,
+    required core$_.Future<NIAnotherEnum?> Function(
+      NIAnotherEnum? nIAnotherEnum,
+    )
+    echoAnotherAsyncNullableEnum,
   }) : _noop = noop,
        _echoNIAllTypes = echoNIAllTypes,
        _echoNIAllNullableTypes = echoNIAllNullableTypes,
@@ -18001,6 +28786,8 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
        _echoDouble = echoDouble,
        _echoString = echoString,
        _echoUint8List = echoUint8List,
+       _echoInt32List = echoInt32List,
+       _echoInt64List = echoInt64List,
        _echoList = echoList,
        _echoEnumList = echoEnumList,
        _echoClassList = echoClassList,
@@ -18022,6 +28809,8 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
        _echoNullableDouble = echoNullableDouble,
        _echoNullableString = echoNullableString,
        _echoNullableUint8List = echoNullableUint8List,
+       _echoNullableInt32List = echoNullableInt32List,
+       _echoNullableInt64List = echoNullableInt64List,
        _echoNullableList = echoNullableList,
        _echoNullableEnumList = echoNullableEnumList,
        _echoNullableClassList = echoNullableClassList,
@@ -18037,7 +28826,53 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
        _echoNullableNonNullEnumMap = echoNullableNonNullEnumMap,
        _echoNullableNonNullClassMap = echoNullableNonNullClassMap,
        _echoNullableEnum = echoNullableEnum,
-       _echoAnotherNullableEnum = echoAnotherNullableEnum;
+       _echoAnotherNullableEnum = echoAnotherNullableEnum,
+       _noopAsync = noopAsync,
+       _echoAsyncNIAllTypes = echoAsyncNIAllTypes,
+       _echoAsyncNullableNIAllNullableTypes =
+           echoAsyncNullableNIAllNullableTypes,
+       _echoAsyncNullableNIAllNullableTypesWithoutRecursion =
+           echoAsyncNullableNIAllNullableTypesWithoutRecursion,
+       _echoAsyncBool = echoAsyncBool,
+       _echoAsyncInt = echoAsyncInt,
+       _echoAsyncDouble = echoAsyncDouble,
+       _echoAsyncString = echoAsyncString,
+       _echoAsyncUint8List = echoAsyncUint8List,
+       _echoAsyncInt32List = echoAsyncInt32List,
+       _echoAsyncInt64List = echoAsyncInt64List,
+       _echoAsyncObject = echoAsyncObject,
+       _echoAsyncList = echoAsyncList,
+       _echoAsyncEnumList = echoAsyncEnumList,
+       _echoAsyncClassList = echoAsyncClassList,
+       _echoAsyncNonNullEnumList = echoAsyncNonNullEnumList,
+       _echoAsyncNonNullClassList = echoAsyncNonNullClassList,
+       _echoAsyncMap = echoAsyncMap,
+       _echoAsyncStringMap = echoAsyncStringMap,
+       _echoAsyncIntMap = echoAsyncIntMap,
+       _echoAsyncEnumMap = echoAsyncEnumMap,
+       _echoAsyncClassMap = echoAsyncClassMap,
+       _echoAsyncEnum = echoAsyncEnum,
+       _echoAnotherAsyncEnum = echoAnotherAsyncEnum,
+       _echoAsyncNullableBool = echoAsyncNullableBool,
+       _echoAsyncNullableInt = echoAsyncNullableInt,
+       _echoAsyncNullableDouble = echoAsyncNullableDouble,
+       _echoAsyncNullableString = echoAsyncNullableString,
+       _echoAsyncNullableUint8List = echoAsyncNullableUint8List,
+       _echoAsyncNullableInt32List = echoAsyncNullableInt32List,
+       _echoAsyncNullableInt64List = echoAsyncNullableInt64List,
+       _echoAsyncNullableObject = echoAsyncNullableObject,
+       _echoAsyncNullableList = echoAsyncNullableList,
+       _echoAsyncNullableEnumList = echoAsyncNullableEnumList,
+       _echoAsyncNullableClassList = echoAsyncNullableClassList,
+       _echoAsyncNullableNonNullEnumList = echoAsyncNullableNonNullEnumList,
+       _echoAsyncNullableNonNullClassList = echoAsyncNullableNonNullClassList,
+       _echoAsyncNullableMap = echoAsyncNullableMap,
+       _echoAsyncNullableStringMap = echoAsyncNullableStringMap,
+       _echoAsyncNullableIntMap = echoAsyncNullableIntMap,
+       _echoAsyncNullableEnumMap = echoAsyncNullableEnumMap,
+       _echoAsyncNullableClassMap = echoAsyncNullableClassMap,
+       _echoAsyncNullableEnum = echoAsyncNullableEnum,
+       _echoAnotherAsyncNullableEnum = echoAnotherAsyncNullableEnum;
 
   final void Function() _noop;
   final core$_.bool noop$async;
@@ -18065,6 +28900,8 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
   final double Function(double d) _echoDouble;
   final jni$_.JString Function(jni$_.JString string) _echoString;
   final jni$_.JByteArray Function(jni$_.JByteArray bs) _echoUint8List;
+  final jni$_.JIntArray Function(jni$_.JIntArray is$) _echoInt32List;
+  final jni$_.JLongArray Function(jni$_.JLongArray js) _echoInt64List;
   final jni$_.JList<jni$_.JObject?> Function(jni$_.JList<jni$_.JObject?> list)
   _echoList;
   final jni$_.JList<NIAnEnum?> Function(jni$_.JList<NIAnEnum?> list)
@@ -18122,6 +28959,8 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
   final jni$_.JDouble? Function(jni$_.JDouble? double) _echoNullableDouble;
   final jni$_.JString? Function(jni$_.JString? string) _echoNullableString;
   final jni$_.JByteArray? Function(jni$_.JByteArray? bs) _echoNullableUint8List;
+  final jni$_.JIntArray? Function(jni$_.JIntArray? is$) _echoNullableInt32List;
+  final jni$_.JLongArray? Function(jni$_.JLongArray? js) _echoNullableInt64List;
   final jni$_.JList<jni$_.JObject?>? Function(jni$_.JList<jni$_.JObject?>? list)
   _echoNullableList;
   final jni$_.JList<NIAnEnum?>? Function(jni$_.JList<NIAnEnum?>? list)
@@ -18175,6 +29014,133 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
   final NIAnEnum? Function(NIAnEnum? nIAnEnum) _echoNullableEnum;
   final NIAnotherEnum? Function(NIAnotherEnum? nIAnotherEnum)
   _echoAnotherNullableEnum;
+  final core$_.Future<void> Function() _noopAsync;
+  final core$_.Future<NIAllTypes> Function(NIAllTypes nIAllTypes)
+  _echoAsyncNIAllTypes;
+  final core$_.Future<NIAllNullableTypes?> Function(
+    NIAllNullableTypes? nIAllNullableTypes,
+  )
+  _echoAsyncNullableNIAllNullableTypes;
+  final core$_.Future<NIAllNullableTypesWithoutRecursion?> Function(
+    NIAllNullableTypesWithoutRecursion? nIAllNullableTypesWithoutRecursion,
+  )
+  _echoAsyncNullableNIAllNullableTypesWithoutRecursion;
+  final core$_.Future<jni$_.JBoolean> Function(core$_.bool z) _echoAsyncBool;
+  final core$_.Future<jni$_.JLong> Function(int j) _echoAsyncInt;
+  final core$_.Future<jni$_.JDouble> Function(double d) _echoAsyncDouble;
+  final core$_.Future<jni$_.JString> Function(jni$_.JString string)
+  _echoAsyncString;
+  final core$_.Future<jni$_.JByteArray> Function(jni$_.JByteArray bs)
+  _echoAsyncUint8List;
+  final core$_.Future<jni$_.JIntArray> Function(jni$_.JIntArray is$)
+  _echoAsyncInt32List;
+  final core$_.Future<jni$_.JLongArray> Function(jni$_.JLongArray js)
+  _echoAsyncInt64List;
+  final core$_.Future<jni$_.JObject> Function(jni$_.JObject object)
+  _echoAsyncObject;
+  final core$_.Future<jni$_.JList<jni$_.JObject?>> Function(
+    jni$_.JList<jni$_.JObject?> list,
+  )
+  _echoAsyncList;
+  final core$_.Future<jni$_.JList<NIAnEnum?>> Function(
+    jni$_.JList<NIAnEnum?> list,
+  )
+  _echoAsyncEnumList;
+  final core$_.Future<jni$_.JList<NIAllNullableTypes?>> Function(
+    jni$_.JList<NIAllNullableTypes?> list,
+  )
+  _echoAsyncClassList;
+  final core$_.Future<jni$_.JList<NIAnEnum>> Function(
+    jni$_.JList<NIAnEnum?> list,
+  )
+  _echoAsyncNonNullEnumList;
+  final core$_.Future<jni$_.JList<NIAllNullableTypes>> Function(
+    jni$_.JList<NIAllNullableTypes?> list,
+  )
+  _echoAsyncNonNullClassList;
+  final core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>> Function(
+    jni$_.JMap<jni$_.JObject?, jni$_.JObject?> map,
+  )
+  _echoAsyncMap;
+  final core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>> Function(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?> map,
+  )
+  _echoAsyncStringMap;
+  final core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>> Function(
+    jni$_.JMap<jni$_.JLong?, jni$_.JLong?> map,
+  )
+  _echoAsyncIntMap;
+  final core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>> Function(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?> map,
+  )
+  _echoAsyncEnumMap;
+  final core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>> Function(
+    jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> map,
+  )
+  _echoAsyncClassMap;
+  final core$_.Future<NIAnEnum> Function(NIAnEnum nIAnEnum) _echoAsyncEnum;
+  final core$_.Future<NIAnotherEnum> Function(NIAnotherEnum nIAnotherEnum)
+  _echoAnotherAsyncEnum;
+  final core$_.Future<jni$_.JBoolean?> Function(jni$_.JBoolean? boolean)
+  _echoAsyncNullableBool;
+  final core$_.Future<jni$_.JLong?> Function(jni$_.JLong? long)
+  _echoAsyncNullableInt;
+  final core$_.Future<jni$_.JDouble?> Function(jni$_.JDouble? double)
+  _echoAsyncNullableDouble;
+  final core$_.Future<jni$_.JString?> Function(jni$_.JString? string)
+  _echoAsyncNullableString;
+  final core$_.Future<jni$_.JByteArray?> Function(jni$_.JByteArray? bs)
+  _echoAsyncNullableUint8List;
+  final core$_.Future<jni$_.JIntArray?> Function(jni$_.JIntArray? is$)
+  _echoAsyncNullableInt32List;
+  final core$_.Future<jni$_.JLongArray?> Function(jni$_.JLongArray? js)
+  _echoAsyncNullableInt64List;
+  final core$_.Future<jni$_.JObject?> Function(jni$_.JObject? object)
+  _echoAsyncNullableObject;
+  final core$_.Future<jni$_.JList<jni$_.JObject?>?> Function(
+    jni$_.JList<jni$_.JObject?>? list,
+  )
+  _echoAsyncNullableList;
+  final core$_.Future<jni$_.JList<NIAnEnum?>?> Function(
+    jni$_.JList<NIAnEnum?>? list,
+  )
+  _echoAsyncNullableEnumList;
+  final core$_.Future<jni$_.JList<NIAllNullableTypes?>?> Function(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  )
+  _echoAsyncNullableClassList;
+  final core$_.Future<jni$_.JList<NIAnEnum>?> Function(
+    jni$_.JList<NIAnEnum?>? list,
+  )
+  _echoAsyncNullableNonNullEnumList;
+  final core$_.Future<jni$_.JList<NIAllNullableTypes>?> Function(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  )
+  _echoAsyncNullableNonNullClassList;
+  final core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?> Function(
+    jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map,
+  )
+  _echoAsyncNullableMap;
+  final core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>?> Function(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?>? map,
+  )
+  _echoAsyncNullableStringMap;
+  final core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?> Function(
+    jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map,
+  )
+  _echoAsyncNullableIntMap;
+  final core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>?> Function(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+  )
+  _echoAsyncNullableEnumMap;
+  final core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?> Function(
+    jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
+  )
+  _echoAsyncNullableClassMap;
+  final core$_.Future<NIAnEnum?> Function(NIAnEnum? nIAnEnum)
+  _echoAsyncNullableEnum;
+  final core$_.Future<NIAnotherEnum?> Function(NIAnotherEnum? nIAnotherEnum)
+  _echoAnotherAsyncNullableEnum;
 
   void noop() {
     return _noop();
@@ -18232,6 +29198,14 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
 
   jni$_.JByteArray echoUint8List(jni$_.JByteArray bs) {
     return _echoUint8List(bs);
+  }
+
+  jni$_.JIntArray echoInt32List(jni$_.JIntArray is$) {
+    return _echoInt32List(is$);
+  }
+
+  jni$_.JLongArray echoInt64List(jni$_.JLongArray js) {
+    return _echoInt64List(js);
   }
 
   jni$_.JList<jni$_.JObject?> echoList(jni$_.JList<jni$_.JObject?> list) {
@@ -18340,6 +29314,14 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
     return _echoNullableUint8List(bs);
   }
 
+  jni$_.JIntArray? echoNullableInt32List(jni$_.JIntArray? is$) {
+    return _echoNullableInt32List(is$);
+  }
+
+  jni$_.JLongArray? echoNullableInt64List(jni$_.JLongArray? js) {
+    return _echoNullableInt64List(js);
+  }
+
   jni$_.JList<jni$_.JObject?>? echoNullableList(
     jni$_.JList<jni$_.JObject?>? list,
   ) {
@@ -18428,6 +29410,237 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
 
   NIAnotherEnum? echoAnotherNullableEnum(NIAnotherEnum? nIAnotherEnum) {
     return _echoAnotherNullableEnum(nIAnotherEnum);
+  }
+
+  core$_.Future<void> noopAsync() {
+    return _noopAsync();
+  }
+
+  core$_.Future<NIAllTypes> echoAsyncNIAllTypes(NIAllTypes nIAllTypes) {
+    return _echoAsyncNIAllTypes(nIAllTypes);
+  }
+
+  core$_.Future<NIAllNullableTypes?> echoAsyncNullableNIAllNullableTypes(
+    NIAllNullableTypes? nIAllNullableTypes,
+  ) {
+    return _echoAsyncNullableNIAllNullableTypes(nIAllNullableTypes);
+  }
+
+  core$_.Future<NIAllNullableTypesWithoutRecursion?>
+  echoAsyncNullableNIAllNullableTypesWithoutRecursion(
+    NIAllNullableTypesWithoutRecursion? nIAllNullableTypesWithoutRecursion,
+  ) {
+    return _echoAsyncNullableNIAllNullableTypesWithoutRecursion(
+      nIAllNullableTypesWithoutRecursion,
+    );
+  }
+
+  core$_.Future<jni$_.JBoolean> echoAsyncBool(core$_.bool z) {
+    return _echoAsyncBool(z);
+  }
+
+  core$_.Future<jni$_.JLong> echoAsyncInt(int j) {
+    return _echoAsyncInt(j);
+  }
+
+  core$_.Future<jni$_.JDouble> echoAsyncDouble(double d) {
+    return _echoAsyncDouble(d);
+  }
+
+  core$_.Future<jni$_.JString> echoAsyncString(jni$_.JString string) {
+    return _echoAsyncString(string);
+  }
+
+  core$_.Future<jni$_.JByteArray> echoAsyncUint8List(jni$_.JByteArray bs) {
+    return _echoAsyncUint8List(bs);
+  }
+
+  core$_.Future<jni$_.JIntArray> echoAsyncInt32List(jni$_.JIntArray is$) {
+    return _echoAsyncInt32List(is$);
+  }
+
+  core$_.Future<jni$_.JLongArray> echoAsyncInt64List(jni$_.JLongArray js) {
+    return _echoAsyncInt64List(js);
+  }
+
+  core$_.Future<jni$_.JObject> echoAsyncObject(jni$_.JObject object) {
+    return _echoAsyncObject(object);
+  }
+
+  core$_.Future<jni$_.JList<jni$_.JObject?>> echoAsyncList(
+    jni$_.JList<jni$_.JObject?> list,
+  ) {
+    return _echoAsyncList(list);
+  }
+
+  core$_.Future<jni$_.JList<NIAnEnum?>> echoAsyncEnumList(
+    jni$_.JList<NIAnEnum?> list,
+  ) {
+    return _echoAsyncEnumList(list);
+  }
+
+  core$_.Future<jni$_.JList<NIAllNullableTypes?>> echoAsyncClassList(
+    jni$_.JList<NIAllNullableTypes?> list,
+  ) {
+    return _echoAsyncClassList(list);
+  }
+
+  core$_.Future<jni$_.JList<NIAnEnum>> echoAsyncNonNullEnumList(
+    jni$_.JList<NIAnEnum?> list,
+  ) {
+    return _echoAsyncNonNullEnumList(list);
+  }
+
+  core$_.Future<jni$_.JList<NIAllNullableTypes>> echoAsyncNonNullClassList(
+    jni$_.JList<NIAllNullableTypes?> list,
+  ) {
+    return _echoAsyncNonNullClassList(list);
+  }
+
+  core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>> echoAsyncMap(
+    jni$_.JMap<jni$_.JObject?, jni$_.JObject?> map,
+  ) {
+    return _echoAsyncMap(map);
+  }
+
+  core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>> echoAsyncStringMap(
+    jni$_.JMap<jni$_.JString?, jni$_.JString?> map,
+  ) {
+    return _echoAsyncStringMap(map);
+  }
+
+  core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>> echoAsyncIntMap(
+    jni$_.JMap<jni$_.JLong?, jni$_.JLong?> map,
+  ) {
+    return _echoAsyncIntMap(map);
+  }
+
+  core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>> echoAsyncEnumMap(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?> map,
+  ) {
+    return _echoAsyncEnumMap(map);
+  }
+
+  core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>>
+  echoAsyncClassMap(jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?> map) {
+    return _echoAsyncClassMap(map);
+  }
+
+  core$_.Future<NIAnEnum> echoAsyncEnum(NIAnEnum nIAnEnum) {
+    return _echoAsyncEnum(nIAnEnum);
+  }
+
+  core$_.Future<NIAnotherEnum> echoAnotherAsyncEnum(
+    NIAnotherEnum nIAnotherEnum,
+  ) {
+    return _echoAnotherAsyncEnum(nIAnotherEnum);
+  }
+
+  core$_.Future<jni$_.JBoolean?> echoAsyncNullableBool(
+    jni$_.JBoolean? boolean,
+  ) {
+    return _echoAsyncNullableBool(boolean);
+  }
+
+  core$_.Future<jni$_.JLong?> echoAsyncNullableInt(jni$_.JLong? long) {
+    return _echoAsyncNullableInt(long);
+  }
+
+  core$_.Future<jni$_.JDouble?> echoAsyncNullableDouble(jni$_.JDouble? double) {
+    return _echoAsyncNullableDouble(double);
+  }
+
+  core$_.Future<jni$_.JString?> echoAsyncNullableString(jni$_.JString? string) {
+    return _echoAsyncNullableString(string);
+  }
+
+  core$_.Future<jni$_.JByteArray?> echoAsyncNullableUint8List(
+    jni$_.JByteArray? bs,
+  ) {
+    return _echoAsyncNullableUint8List(bs);
+  }
+
+  core$_.Future<jni$_.JIntArray?> echoAsyncNullableInt32List(
+    jni$_.JIntArray? is$,
+  ) {
+    return _echoAsyncNullableInt32List(is$);
+  }
+
+  core$_.Future<jni$_.JLongArray?> echoAsyncNullableInt64List(
+    jni$_.JLongArray? js,
+  ) {
+    return _echoAsyncNullableInt64List(js);
+  }
+
+  core$_.Future<jni$_.JObject?> echoAsyncNullableObject(jni$_.JObject? object) {
+    return _echoAsyncNullableObject(object);
+  }
+
+  core$_.Future<jni$_.JList<jni$_.JObject?>?> echoAsyncNullableList(
+    jni$_.JList<jni$_.JObject?>? list,
+  ) {
+    return _echoAsyncNullableList(list);
+  }
+
+  core$_.Future<jni$_.JList<NIAnEnum?>?> echoAsyncNullableEnumList(
+    jni$_.JList<NIAnEnum?>? list,
+  ) {
+    return _echoAsyncNullableEnumList(list);
+  }
+
+  core$_.Future<jni$_.JList<NIAllNullableTypes?>?> echoAsyncNullableClassList(
+    jni$_.JList<NIAllNullableTypes?>? list,
+  ) {
+    return _echoAsyncNullableClassList(list);
+  }
+
+  core$_.Future<jni$_.JList<NIAnEnum>?> echoAsyncNullableNonNullEnumList(
+    jni$_.JList<NIAnEnum?>? list,
+  ) {
+    return _echoAsyncNullableNonNullEnumList(list);
+  }
+
+  core$_.Future<jni$_.JList<NIAllNullableTypes>?>
+  echoAsyncNullableNonNullClassList(jni$_.JList<NIAllNullableTypes?>? list) {
+    return _echoAsyncNullableNonNullClassList(list);
+  }
+
+  core$_.Future<jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?>
+  echoAsyncNullableMap(jni$_.JMap<jni$_.JObject?, jni$_.JObject?>? map) {
+    return _echoAsyncNullableMap(map);
+  }
+
+  core$_.Future<jni$_.JMap<jni$_.JString?, jni$_.JString?>?>
+  echoAsyncNullableStringMap(jni$_.JMap<jni$_.JString?, jni$_.JString?>? map) {
+    return _echoAsyncNullableStringMap(map);
+  }
+
+  core$_.Future<jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?>
+  echoAsyncNullableIntMap(jni$_.JMap<jni$_.JLong?, jni$_.JLong?>? map) {
+    return _echoAsyncNullableIntMap(map);
+  }
+
+  core$_.Future<jni$_.JMap<NIAnEnum?, NIAnEnum?>?> echoAsyncNullableEnumMap(
+    jni$_.JMap<NIAnEnum?, NIAnEnum?>? map,
+  ) {
+    return _echoAsyncNullableEnumMap(map);
+  }
+
+  core$_.Future<jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?>
+  echoAsyncNullableClassMap(
+    jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>? map,
+  ) {
+    return _echoAsyncNullableClassMap(map);
+  }
+
+  core$_.Future<NIAnEnum?> echoAsyncNullableEnum(NIAnEnum? nIAnEnum) {
+    return _echoAsyncNullableEnum(nIAnEnum);
+  }
+
+  core$_.Future<NIAnotherEnum?> echoAnotherAsyncNullableEnum(
+    NIAnotherEnum? nIAnotherEnum,
+  ) {
+    return _echoAnotherAsyncNullableEnum(nIAnotherEnum);
   }
 }
 

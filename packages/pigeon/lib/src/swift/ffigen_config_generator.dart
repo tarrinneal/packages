@@ -56,12 +56,20 @@ import 'package:swiftgen/src/config.dart';
 import 'package:swiftgen/swiftgen.dart';
 
   ''');
+    final bool hasAsyncFlutterApi = root.apis.whereType<AstFlutterApi>().any(
+      (AstFlutterApi api) =>
+          api.methods.any((Method method) => method.isAsynchronous),
+    );
+
     indent.writeScoped('Future<void> main() async {', '}', () {
       indent.writeScoped('final classes = <String>[', '];', () {
         indent.inc();
         indent.writeln("'PigeonInternalNull',");
         indent.writeln("'PigeonTypedData',");
         indent.writeln("'NumberWrapper',");
+        if (hasAsyncFlutterApi) {
+          indent.writeln("'NSURLCredential',");
+        }
         for (final Api api in root.apis) {
           if (api is AstHostApi) {
             indent.writeln("'${api.name}',");
@@ -84,6 +92,9 @@ import 'package:swiftgen/swiftgen.dart';
         indent.inc();
         for (final Enum enumType in root.enums) {
           indent.writeln("'${enumType.name}',");
+        }
+        if (hasAsyncFlutterApi) {
+          indent.writeln("'NSURLSessionAuthChallengeDisposition',");
         }
         indent.dec();
       });
@@ -126,13 +137,25 @@ import 'package:swiftgen/swiftgen.dart';
               classes.contains(decl.originalName) ||
               enums.contains(decl.originalName),
           module: (fg.Declaration decl) {
-            return decl.originalName.startsWith('NS') ? null : 'test_plugin';
+${hasAsyncFlutterApi ? '''
+            if (decl.originalName == 'NSURLCredential' ||
+                decl.originalName == 'NSURLSessionAuthChallengeDisposition') {
+              return '${generatorOptions.swiftOptions.ffiModuleName ?? ''}';
+            }
+''' : ''}
+            return decl.originalName.startsWith('NS') ? null : '${generatorOptions.swiftOptions.ffiModuleName ?? ''}';
           }
         ),
         protocols: fg.Protocols(
           include: (fg.Declaration decl) => classes.contains(decl.originalName),
           module: (fg.Declaration decl) {
-            return decl.originalName.startsWith('NS') ? null : 'test_plugin';
+${hasAsyncFlutterApi ? '''
+            if (decl.originalName == 'NSURLCredential' ||
+                decl.originalName == 'NSURLSessionAuthChallengeDisposition') {
+              return '${generatorOptions.swiftOptions.ffiModuleName ?? ''}';
+            }
+''' : ''}
+            return decl.originalName.startsWith('NS') ? null : '${generatorOptions.swiftOptions.ffiModuleName ?? ''}';
           },
         ),
       ),

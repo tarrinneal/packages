@@ -293,7 +293,7 @@ class SwiftGenerator extends StructuredGenerator<InternalSwiftOptions> {
     indent.format('''
 @objc class PigeonInternalNull: NSObject {}
 
-@available(iOS 13, macOS 16.0.0, *)
+@available(iOS 13, macOS 10.15, *)
 class _PigeonFfiCodec {
   static func readValue(value: NSObject?, type: String? = nil, type2: String? = nil) -> Any? {
     if (isNullish(value)) {
@@ -846,7 +846,7 @@ if (wrapped == nil) {
       _docCommentSpec,
       generatorComments: generatedComments,
     );
-    indent.writeln('@available(iOS 13, macOS 16.0.0, *)');
+    indent.writeln('@available(iOS 13, macOS 10.15, *)');
     _writeDataClassSignature(
       indent,
       classDefinition,
@@ -931,7 +931,7 @@ if (wrapped == nil) {
       case 'Map':
         return '_PigeonFfiCodec.writeValue(value: $varName) as${type.isNullable || forceNullable ? '?' : '!'} ${_swiftTypeForBuiltinDartType(type, useFfi: true)}';
       case 'Object':
-        return '_PigeonFfiCodec.writeValue(value: $varName, isObject: true) as! NSObject$nullable';
+        return '_PigeonFfiCodec.writeValue(value: $varName, isObject: true) as${type.isNullable || forceNullable ? '?' : '!'} NSObject';
       default:
         if (type.isEnum && (type.isNullable || forceNullable)) {
           return _numberToObjc(
@@ -1341,7 +1341,7 @@ if (wrapped == nil) {
     required String dartPackageName,
   }) {
     final String errorClassName = _getErrorClassName(generatorOptions);
-    indent.writeln('@available(iOS 13, macOS 16.0.0, *)');
+    indent.writeln('@available(iOS 13, macOS 10.15, *)');
     indent.write('@objc protocol ${api.name}Bridge ');
     indent.addScoped('{', '}', () {
       for (final Method method in api.methods) {
@@ -1350,23 +1350,33 @@ if (wrapped == nil) {
           method.documentationComments,
           _docCommentSpec,
         );
-        final returnType = method.returnType.isVoid
-            ? ''
-            : ' -> ${_ffiTypeForDartType(method.returnType, forceNullable: true)}?';
         final List<String> parameters = method.parameters.map((
           NamedType param,
         ) {
-          return '${param.name}: ${_ffiTypeForDartType(param.type, forceNullable: true)}${param.type.isNullable ? '?' : ''}';
+          return '${param.name}: ${_nullSafeFfiTypeForDartType(param.type, forceNullable: true)}';
         }).toList();
         parameters.add('error: $errorClassName');
-        indent.writeln(
-          '@objc func ${method.name}(${parameters.join(', ')})$returnType',
-        );
+
+        if (method.isAsynchronous) {
+          final returnType = method.returnType.isVoid
+              ? ''
+              : ' -> ${_nullSafeFfiTypeForDartType(method.returnType, forceNullable: true)}';
+          indent.writeln(
+            '@objc func ${method.name}(${parameters.join(', ')}) async$returnType',
+          );
+        } else {
+          final returnType = method.returnType.isVoid
+              ? ''
+              : ' -> ${_nullSafeFfiTypeForDartType(method.returnType, forceNullable: true)}';
+          indent.writeln(
+            '@objc func ${method.name}(${parameters.join(', ')})$returnType',
+          );
+        }
       }
     });
 
     indent.newln();
-    indent.writeln('@available(iOS 13, macOS 16.0.0, *)');
+    indent.writeln('@available(iOS 13, macOS 10.15, *)');
     indent.write('@objc class ${api.name}Registrar: NSObject ');
     indent.addScoped('{', '}', () {
       indent.writeln(
@@ -1393,7 +1403,7 @@ if (wrapped == nil) {
     });
 
     indent.newln();
-    indent.writeln('@available(iOS 13, macOS 16.0.0, *)');
+    indent.writeln('@available(iOS 13, macOS 10.15, *)');
     indent.write('class ${api.name} ');
     indent.addScoped('{', '}', () {
       indent.writeln('private let api: ${api.name}Bridge?');
@@ -1425,19 +1435,38 @@ if (wrapped == nil) {
               return '${param.name}: ${_nullSafeSwiftTypeForDartType(param.type, ffiTypedData: true)}';
             })
             .join(', ');
+        final asyncString = method.isAsynchronous ? ' async' : '';
         indent.write(
-          'func ${method.name}($parameters) throws$returnTypeString ',
+          'func ${method.name}($parameters)$asyncString throws$returnTypeString ',
         );
         indent.addScoped('{', '}', () {
           indent.writeln('let error = $errorClassName()');
           final List<String> params = method.parameters.map((NamedType param) {
-            return '${param.name}: ${_swiftToFfiConversion(param.type, param.name)}';
+            return '${param.name}: ${_swiftToFfiConversion(param.type, param.name, forceNullable: true)}';
           }).toList();
           params.add('error: error');
 
-          if (method.returnType.isVoid) {
-            indent.writeln('api!.${method.name}(${params.join(', ')})');
+          if (method.isAsynchronous) {
+            if (method.returnType.isVoid) {
+              indent.writeln('await api!.${method.name}(${params.join(', ')})');
+            } else {
+              indent.writeln(
+                'let res = await api!.${method.name}(${params.join(', ')})',
+              );
+            }
           } else {
+            if (method.returnType.isVoid) {
+              indent.writeln('api!.${method.name}(${params.join(', ')})');
+            } else {
+              indent.writeln(
+                'let res = api!.${method.name}(${params.join(', ')})',
+              );
+            }
+          }
+          indent.writeScoped('if (error.code != nil) {', '}', () {
+            indent.writeln('throw error');
+          });
+          if (!method.returnType.isVoid) {
             final String swiftType = _nullSafeSwiftTypeForDartType(
               method.returnType,
               ffiTypedData: true,
@@ -1447,15 +1476,17 @@ if (wrapped == nil) {
                     method.returnType.baseName == 'Map')
                 ? ' as NSObject?'
                 : '';
+            final String cast;
+            if (swiftType == 'Any') {
+              cast = '!';
+            } else if (swiftType == 'Any?') {
+              cast = '';
+            } else {
+              cast = ' as! $swiftType';
+            }
             indent.writeln(
-              'let res = _PigeonFfiCodec.readValue(value: (api!.${method.name}(${params.join(', ')})$valueCast), type: "${method.returnType.baseName}") as! $swiftType',
+              'return _PigeonFfiCodec.readValue(value: (res$valueCast), type: "${method.returnType.baseName}")$cast',
             );
-          }
-          indent.writeScoped('if (error.code != nil) {', '}', () {
-            indent.writeln('throw error');
-          });
-          if (!method.returnType.isVoid) {
-            indent.writeln('return res');
           }
         });
       }
@@ -1473,7 +1504,7 @@ if (wrapped == nil) {
     indent.writeln(
       '$_docCommentPrefix Generated setup class from Pigeon to register implemented ${api.name} classes.',
     );
-    indent.writeln('@available(iOS 13, macOS 16.0.0, *)');
+    indent.writeln('@available(iOS 13, macOS 10.15, *)');
     indent.writeScoped('@objc class ${api.name}Setup: NSObject {', '}', () {
       if (generatorOptions.useFfi) {
         indent.writeln('private var api: ${api.name}?');
@@ -1579,7 +1610,7 @@ if (wrapped == nil) {
     final String apiName = api.name;
     if (generatorOptions.useFfi) {
       indent.format('''
-        @available(iOS 13, macOS 16.0.0, *)
+        @available(iOS 13, macOS 10.15, *)
         class ${apiName}InstanceTracker {
           static var instancesOf$apiName = [String: ${apiName}Setup?]()
         }
@@ -1596,7 +1627,7 @@ if (wrapped == nil) {
       generatorComments: generatedComments,
     );
 
-    indent.writeln('@available(iOS 13, macOS 16.0.0, *)');
+    indent.writeln('@available(iOS 13, macOS 10.15, *)');
     indent.write('protocol $apiName ');
     indent.addScoped('{', '}', () {
       for (final Method method in api.methods) {
@@ -2447,7 +2478,7 @@ enum MyDataType: Int {
   case float64 = 4
 }
 
-@available(iOS 13, macOS 16.0.0, *)
+@available(iOS 13, macOS 10.15, *)
 @objc public class PigeonTypedData: NSObject {
   @objc public let data: NSData
   @objc public let type: Int

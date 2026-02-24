@@ -1839,7 +1839,7 @@ void runPigeonIntegrationTests(TargetGenerator targetGenerator) {
   // return value in the "Host async API tests" group.
   group('Flutter API tests', () {
     setUp(() {
-      FlutterIntegrationCoreApi.setUp(_FlutterApiTestImplementation());
+      FlutterIntegrationCoreApi.setUp(FlutterApiTestImplementation());
     });
 
     testWidgets('basic void->void call works', (WidgetTester _) async {
@@ -3341,7 +3341,8 @@ void runPigeonIntegrationTests(TargetGenerator targetGenerator) {
   );
 }
 
-class _FlutterApiTestImplementation implements FlutterIntegrationCoreApi {
+/// Implementation of FlutterIntegrationCoreApi for integration tests.
+class FlutterApiTestImplementation implements FlutterIntegrationCoreApi {
   @override
   AllTypes echoAllTypes(AllTypes everything) {
     return everything;

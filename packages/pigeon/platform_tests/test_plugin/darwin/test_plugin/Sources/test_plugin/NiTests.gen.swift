@@ -130,7 +130,7 @@ enum MyDataType: Int {
   case float64 = 4
 }
 
-@available(iOS 13, macOS 16.0.0, *)
+@available(iOS 13, macOS 10.15, *)
 @objc public class PigeonTypedData: NSObject {
   @objc public let data: NSData
   @objc public let type: Int
@@ -359,7 +359,7 @@ struct NIUnusedClass: Hashable {
 }
 
 /// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
-@available(iOS 13, macOS 16.0.0, *)
+@available(iOS 13, macOS 10.15, *)
 @objc class NIUnusedClassBridge: NSObject {
   @objc init(
     aField: NSObject? = nil
@@ -374,7 +374,7 @@ struct NIUnusedClass: Hashable {
     }
     return NIUnusedClassBridge(
       aField: _PigeonFfiCodec.writeValue(value: pigeonVar_Class!.aField, isObject: true)
-        as! NSObject?,
+        as? NSObject,
     )
   }
   func toSwift() -> NIUnusedClass {
@@ -521,7 +521,7 @@ struct NIAllTypes: Hashable {
 /// A class containing all supported types.
 ///
 /// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
-@available(iOS 13, macOS 16.0.0, *)
+@available(iOS 13, macOS 10.15, *)
 @objc class NIAllTypesBridge: NSObject {
   @objc init(
     aBool: Bool,
@@ -910,7 +910,7 @@ class NIAllNullableTypes: Hashable {
 /// A class containing all supported nullable types.
 ///
 /// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
-@available(iOS 13, macOS 16.0.0, *)
+@available(iOS 13, macOS 10.15, *)
 @objc class NIAllNullableTypesBridge: NSObject {
   @objc init(
     aNullableBool: NSNumber? = nil,
@@ -1036,7 +1036,7 @@ class NIAllNullableTypes: Hashable {
         ? nil : NSNumber(value: pigeonVar_Class!.anotherNullableEnum!.rawValue),
       aNullableString: pigeonVar_Class!.aNullableString as NSString?,
       aNullableObject: _PigeonFfiCodec.writeValue(
-        value: pigeonVar_Class!.aNullableObject, isObject: true) as! NSObject?,
+        value: pigeonVar_Class!.aNullableObject, isObject: true) as? NSObject,
       allNullableTypes: NIAllNullableTypesBridge.fromSwift(pigeonVar_Class!.allNullableTypes),
       list: _PigeonFfiCodec.writeValue(value: pigeonVar_Class!.list) as? [NSObject],
       stringList: _PigeonFfiCodec.writeValue(value: pigeonVar_Class!.stringList) as? [NSObject],
@@ -1262,7 +1262,7 @@ struct NIAllNullableTypesWithoutRecursion: Hashable {
 /// test Swift classes.
 ///
 /// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
-@available(iOS 13, macOS 16.0.0, *)
+@available(iOS 13, macOS 10.15, *)
 @objc class NIAllNullableTypesWithoutRecursionBridge: NSObject {
   @objc init(
     aNullableBool: NSNumber? = nil,
@@ -1381,7 +1381,7 @@ struct NIAllNullableTypesWithoutRecursion: Hashable {
         ? nil : NSNumber(value: pigeonVar_Class!.anotherNullableEnum!.rawValue),
       aNullableString: pigeonVar_Class!.aNullableString as NSString?,
       aNullableObject: _PigeonFfiCodec.writeValue(
-        value: pigeonVar_Class!.aNullableObject, isObject: true) as! NSObject?,
+        value: pigeonVar_Class!.aNullableObject, isObject: true) as? NSObject,
       list: _PigeonFfiCodec.writeValue(value: pigeonVar_Class!.list) as? [NSObject],
       stringList: _PigeonFfiCodec.writeValue(value: pigeonVar_Class!.stringList) as? [NSObject],
       intList: _PigeonFfiCodec.writeValue(value: pigeonVar_Class!.intList) as? [NSObject],
@@ -1515,7 +1515,7 @@ struct NIAllClassesWrapper: Hashable {
 /// than `NIAllTypes` when testing doesn't require both (ie. testing null classes).
 ///
 /// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
-@available(iOS 13, macOS 16.0.0, *)
+@available(iOS 13, macOS 10.15, *)
 @objc class NIAllClassesWrapperBridge: NSObject {
   @objc init(
     allNullableTypes: NIAllNullableTypesBridge,
@@ -1583,7 +1583,7 @@ struct NIAllClassesWrapper: Hashable {
 
 @objc class PigeonInternalNull: NSObject {}
 
-@available(iOS 13, macOS 16.0.0, *)
+@available(iOS 13, macOS 10.15, *)
 class _PigeonFfiCodec {
   static func readValue(value: NSObject?, type: String? = nil, type2: String? = nil) -> Any? {
     if isNullish(value) {
@@ -1732,7 +1732,7 @@ class _PigeonFfiCodec {
 }
 
 let defaultInstanceName = "PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u"
-@available(iOS 13, macOS 16.0.0, *)
+@available(iOS 13, macOS 10.15, *)
 class NIHostIntegrationCoreApiInstanceTracker {
   static var instancesOfNIHostIntegrationCoreApi = [String: NIHostIntegrationCoreApiSetup?]()
 }
@@ -1741,7 +1741,7 @@ class NIHostIntegrationCoreApiInstanceTracker {
 /// platform_test integration tests.
 ///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
-@available(iOS 13, macOS 16.0.0, *)
+@available(iOS 13, macOS 10.15, *)
 protocol NIHostIntegrationCoreApi {
   /// A no-op function taking no arguments and returning no value, to sanity
   /// test basic calling.
@@ -2000,6 +2000,8 @@ protocol NIHostIntegrationCoreApi {
   func callFlutterEchoDouble(aDouble: Double) throws -> Double
   func callFlutterEchoString(aString: String) throws -> String
   func callFlutterEchoUint8List(list: [UInt8]) throws -> [UInt8]
+  func callFlutterEchoInt32List(list: [Int32]) throws -> [Int32]
+  func callFlutterEchoInt64List(list: [Int64]) throws -> [Int64]
   func callFlutterEchoList(list: [Any?]) throws -> [Any?]
   func callFlutterEchoEnumList(enumList: [NIAnEnum?]) throws -> [NIAnEnum?]
   func callFlutterEchoClassList(classList: [NIAllNullableTypes?]) throws -> [NIAllNullableTypes?]
@@ -2024,6 +2026,8 @@ protocol NIHostIntegrationCoreApi {
   func callFlutterEchoNullableDouble(aDouble: Double?) throws -> Double?
   func callFlutterEchoNullableString(aString: String?) throws -> String?
   func callFlutterEchoNullableUint8List(list: [UInt8]?) throws -> [UInt8]?
+  func callFlutterEchoNullableInt32List(list: [Int32]?) throws -> [Int32]?
+  func callFlutterEchoNullableInt64List(list: [Int64]?) throws -> [Int64]?
   func callFlutterEchoNullableList(list: [Any?]?) throws -> [Any?]?
   func callFlutterEchoNullableEnumList(enumList: [NIAnEnum?]?) throws -> [NIAnEnum?]?
   func callFlutterEchoNullableClassList(classList: [NIAllNullableTypes?]?) throws
@@ -2048,10 +2052,71 @@ protocol NIHostIntegrationCoreApi {
     -> [Int64: NIAllNullableTypes]?
   func callFlutterEchoNullableEnum(anEnum: NIAnEnum?) throws -> NIAnEnum?
   func callFlutterEchoAnotherNullableEnum(anotherEnum: NIAnotherEnum?) throws -> NIAnotherEnum?
+  func callFlutterNoopAsync() async throws
+  func callFlutterEchoAsyncNIAllTypes(everything: NIAllTypes) async throws -> NIAllTypes
+  func callFlutterEchoAsyncNullableNIAllNullableTypes(everything: NIAllNullableTypes?) async throws
+    -> NIAllNullableTypes?
+  func callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion(
+    everything: NIAllNullableTypesWithoutRecursion?
+  ) async throws -> NIAllNullableTypesWithoutRecursion?
+  func callFlutterEchoAsyncBool(aBool: Bool) async throws -> Bool
+  func callFlutterEchoAsyncInt(anInt: Int64) async throws -> Int64
+  func callFlutterEchoAsyncDouble(aDouble: Double) async throws -> Double
+  func callFlutterEchoAsyncString(aString: String) async throws -> String
+  func callFlutterEchoAsyncUint8List(list: [UInt8]) async throws -> [UInt8]
+  func callFlutterEchoAsyncInt32List(list: [Int32]) async throws -> [Int32]
+  func callFlutterEchoAsyncInt64List(list: [Int64]) async throws -> [Int64]
+  func callFlutterEchoAsyncObject(anObject: Any) async throws -> Any
+  func callFlutterEchoAsyncList(list: [Any?]) async throws -> [Any?]
+  func callFlutterEchoAsyncEnumList(enumList: [NIAnEnum?]) async throws -> [NIAnEnum?]
+  func callFlutterEchoAsyncClassList(classList: [NIAllNullableTypes?]) async throws
+    -> [NIAllNullableTypes?]
+  func callFlutterEchoAsyncNonNullEnumList(enumList: [NIAnEnum]) async throws -> [NIAnEnum]
+  func callFlutterEchoAsyncNonNullClassList(classList: [NIAllNullableTypes]) async throws
+    -> [NIAllNullableTypes]
+  func callFlutterEchoAsyncMap(map: [AnyHashable?: Any?]) async throws -> [AnyHashable?: Any?]
+  func callFlutterEchoAsyncStringMap(stringMap: [String?: String?]) async throws -> [String?:
+    String?]
+  func callFlutterEchoAsyncIntMap(intMap: [Int64?: Int64?]) async throws -> [Int64?: Int64?]
+  func callFlutterEchoAsyncEnumMap(enumMap: [NIAnEnum?: NIAnEnum?]) async throws -> [NIAnEnum?:
+    NIAnEnum?]
+  func callFlutterEchoAsyncClassMap(classMap: [Int64?: NIAllNullableTypes?]) async throws
+    -> [Int64?: NIAllNullableTypes?]
+  func callFlutterEchoAsyncEnum(anEnum: NIAnEnum) async throws -> NIAnEnum
+  func callFlutterEchoAnotherAsyncEnum(anotherEnum: NIAnotherEnum) async throws -> NIAnotherEnum
+  func callFlutterEchoAsyncNullableBool(aBool: Bool?) async throws -> Bool?
+  func callFlutterEchoAsyncNullableInt(anInt: Int64?) async throws -> Int64?
+  func callFlutterEchoAsyncNullableDouble(aDouble: Double?) async throws -> Double?
+  func callFlutterEchoAsyncNullableString(aString: String?) async throws -> String?
+  func callFlutterEchoAsyncNullableUint8List(list: [UInt8]?) async throws -> [UInt8]?
+  func callFlutterEchoAsyncNullableInt32List(list: [Int32]?) async throws -> [Int32]?
+  func callFlutterEchoAsyncNullableInt64List(list: [Int64]?) async throws -> [Int64]?
+  func callFlutterEchoAsyncNullableObject(anObject: Any?) async throws -> Any?
+  func callFlutterEchoAsyncNullableList(list: [Any?]?) async throws -> [Any?]?
+  func callFlutterEchoAsyncNullableEnumList(enumList: [NIAnEnum?]?) async throws -> [NIAnEnum?]?
+  func callFlutterEchoAsyncNullableClassList(classList: [NIAllNullableTypes?]?) async throws
+    -> [NIAllNullableTypes?]?
+  func callFlutterEchoAsyncNullableNonNullEnumList(enumList: [NIAnEnum]?) async throws
+    -> [NIAnEnum]?
+  func callFlutterEchoAsyncNullableNonNullClassList(classList: [NIAllNullableTypes]?) async throws
+    -> [NIAllNullableTypes]?
+  func callFlutterEchoAsyncNullableMap(map: [AnyHashable?: Any?]?) async throws -> [AnyHashable?:
+    Any?]?
+  func callFlutterEchoAsyncNullableStringMap(stringMap: [String?: String?]?) async throws
+    -> [String?: String?]?
+  func callFlutterEchoAsyncNullableIntMap(intMap: [Int64?: Int64?]?) async throws -> [Int64?:
+    Int64?]?
+  func callFlutterEchoAsyncNullableEnumMap(enumMap: [NIAnEnum?: NIAnEnum?]?) async throws
+    -> [NIAnEnum?: NIAnEnum?]?
+  func callFlutterEchoAsyncNullableClassMap(classMap: [Int64?: NIAllNullableTypes?]?) async throws
+    -> [Int64?: NIAllNullableTypes?]?
+  func callFlutterEchoAsyncNullableEnum(anEnum: NIAnEnum?) async throws -> NIAnEnum?
+  func callFlutterEchoAnotherAsyncNullableEnum(anotherEnum: NIAnotherEnum?) async throws
+    -> NIAnotherEnum?
 }
 
 /// Generated setup class from Pigeon to register implemented NIHostIntegrationCoreApi classes.
-@available(iOS 13, macOS 16.0.0, *)
+@available(iOS 13, macOS 10.15, *)
 @objc class NIHostIntegrationCoreApiSetup: NSObject {
   private var api: NIHostIntegrationCoreApi?
   override init() {}
@@ -4300,6 +4365,40 @@ protocol NIHostIntegrationCoreApi {
     }
     return nil
   }
+  @objc func callFlutterEchoInt32List(list: PigeonTypedData, wrappedError: NiTestsError)
+    -> PigeonTypedData?
+  {
+    do {
+      let res = try api!.callFlutterEchoInt32List(list: list.toInt32Array()!)
+      return isNullish(res) ? nil : PigeonTypedData(res)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoInt64List(list: PigeonTypedData, wrappedError: NiTestsError)
+    -> PigeonTypedData?
+  {
+    do {
+      let res = try api!.callFlutterEchoInt64List(list: list.toInt64Array()!)
+      return isNullish(res) ? nil : PigeonTypedData(res)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
   @objc func callFlutterEchoList(list: [NSObject], wrappedError: NiTestsError) -> [NSObject]? {
     do {
       return try _PigeonFfiCodec.writeValue(
@@ -4685,6 +4784,42 @@ protocol NIHostIntegrationCoreApi {
     }
     return nil
   }
+  @objc func callFlutterEchoNullableInt32List(list: PigeonTypedData?, wrappedError: NiTestsError)
+    -> PigeonTypedData?
+  {
+    do {
+      let res = try api!.callFlutterEchoNullableInt32List(
+        list: isNullish(list) ? nil : list!.toInt32Array())
+      return isNullish(res) ? nil : PigeonTypedData(res!)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoNullableInt64List(list: PigeonTypedData?, wrappedError: NiTestsError)
+    -> PigeonTypedData?
+  {
+    do {
+      let res = try api!.callFlutterEchoNullableInt64List(
+        list: isNullish(list) ? nil : list!.toInt64Array())
+      return isNullish(res) ? nil : PigeonTypedData(res!)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
   @objc func callFlutterEchoNullableList(list: [NSObject]?, wrappedError: NiTestsError)
     -> [NSObject]?
   {
@@ -4995,19 +5130,815 @@ protocol NIHostIntegrationCoreApi {
     }
     return nil
   }
+  @objc func callFlutterNoopAsync(wrappedError: NiTestsError) async {
+    do {
+      return try await api!.callFlutterNoopAsync()
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return
+  }
+  @objc func callFlutterEchoAsyncNIAllTypes(
+    everything: NIAllTypesBridge, wrappedError: NiTestsError
+  ) async -> NIAllTypesBridge? {
+    do {
+      return try await NIAllTypesBridge.fromSwift(
+        api!.callFlutterEchoAsyncNIAllTypes(everything: everything.toSwift()))
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableNIAllNullableTypes(
+    everything: NIAllNullableTypesBridge?, wrappedError: NiTestsError
+  ) async -> NIAllNullableTypesBridge? {
+    do {
+      return try await NIAllNullableTypesBridge.fromSwift(
+        api!.callFlutterEchoAsyncNullableNIAllNullableTypes(
+          everything: isNullish(everything) ? nil : everything!.toSwift()))
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion(
+    everything: NIAllNullableTypesWithoutRecursionBridge?, wrappedError: NiTestsError
+  ) async -> NIAllNullableTypesWithoutRecursionBridge? {
+    do {
+      return try await NIAllNullableTypesWithoutRecursionBridge.fromSwift(
+        api!.callFlutterEchoAsyncNullableNIAllNullableTypesWithoutRecursion(
+          everything: isNullish(everything) ? nil : everything!.toSwift()))
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncBool(aBool: Bool, wrappedError: NiTestsError) async -> NSNumber? {
+    do {
+      return try await api!.callFlutterEchoAsyncBool(aBool: aBool) as NSNumber
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncInt(anInt: Int64, wrappedError: NiTestsError) async -> NSNumber? {
+    do {
+      return try await api!.callFlutterEchoAsyncInt(anInt: anInt) as NSNumber
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncDouble(aDouble: Double, wrappedError: NiTestsError) async
+    -> NSNumber?
+  {
+    do {
+      return try await api!.callFlutterEchoAsyncDouble(aDouble: aDouble) as NSNumber
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncString(aString: NSString, wrappedError: NiTestsError) async
+    -> NSString?
+  {
+    do {
+      return try await api!.callFlutterEchoAsyncString(aString: aString as String) as NSString?
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncUint8List(list: PigeonTypedData, wrappedError: NiTestsError) async
+    -> PigeonTypedData?
+  {
+    do {
+      let res = try await api!.callFlutterEchoAsyncUint8List(list: list.toUint8Array()!)
+      return isNullish(res) ? nil : PigeonTypedData(res)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncInt32List(list: PigeonTypedData, wrappedError: NiTestsError) async
+    -> PigeonTypedData?
+  {
+    do {
+      let res = try await api!.callFlutterEchoAsyncInt32List(list: list.toInt32Array()!)
+      return isNullish(res) ? nil : PigeonTypedData(res)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncInt64List(list: PigeonTypedData, wrappedError: NiTestsError) async
+    -> PigeonTypedData?
+  {
+    do {
+      let res = try await api!.callFlutterEchoAsyncInt64List(list: list.toInt64Array()!)
+      return isNullish(res) ? nil : PigeonTypedData(res)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncObject(anObject: NSObject, wrappedError: NiTestsError) async
+    -> NSObject?
+  {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncObject(
+          anObject: _PigeonFfiCodec.readValue(value: anObject)!), isObject: true) as? NSObject
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncList(list: [NSObject], wrappedError: NiTestsError) async
+    -> [NSObject]?
+  {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncList(
+          list: _PigeonFfiCodec.readValue(value: list as NSObject, type: "Object") as! [Any?]))
+        as? [NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncEnumList(enumList: [NSObject], wrappedError: NiTestsError) async
+    -> [NSObject]?
+  {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncEnumList(
+          enumList: _PigeonFfiCodec.readValue(value: enumList as NSObject, type: "NIAnEnum")
+            as! [NIAnEnum?])) as? [NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncClassList(classList: [NSObject], wrappedError: NiTestsError) async
+    -> [NSObject]?
+  {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncClassList(
+          classList: _PigeonFfiCodec.readValue(
+            value: classList as NSObject, type: "NIAllNullableTypes") as! [NIAllNullableTypes?]))
+        as? [NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNonNullEnumList(enumList: [NSObject], wrappedError: NiTestsError)
+    async -> [NSObject]?
+  {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncNonNullEnumList(
+          enumList: _PigeonFfiCodec.readValue(value: enumList as NSObject, type: "NIAnEnum")
+            as! [NIAnEnum])) as? [NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNonNullClassList(classList: [NSObject], wrappedError: NiTestsError)
+    async -> [NSObject]?
+  {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncNonNullClassList(
+          classList: _PigeonFfiCodec.readValue(
+            value: classList as NSObject, type: "NIAllNullableTypes") as! [NIAllNullableTypes]))
+        as? [NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncMap(map: [NSObject: NSObject], wrappedError: NiTestsError) async
+    -> [NSObject: NSObject]?
+  {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncMap(
+          map: _PigeonFfiCodec.readValue(value: map as NSObject, type: "Object", type2: "Object")
+            as! [AnyHashable?: Any?])) as? [NSObject: NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncStringMap(
+    stringMap: [NSObject: NSObject], wrappedError: NiTestsError
+  ) async -> [NSObject: NSObject]? {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncStringMap(
+          stringMap: _PigeonFfiCodec.readValue(
+            value: stringMap as NSObject, type: "String", type2: "String") as! [String?: String?]))
+        as? [NSObject: NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncIntMap(intMap: [NSObject: NSObject], wrappedError: NiTestsError)
+    async -> [NSObject: NSObject]?
+  {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncIntMap(
+          intMap: _PigeonFfiCodec.readValue(value: intMap as NSObject, type: "int", type2: "int")
+            as! [Int64?: Int64?])) as? [NSObject: NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncEnumMap(enumMap: [NSObject: NSObject], wrappedError: NiTestsError)
+    async -> [NSObject: NSObject]?
+  {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncEnumMap(
+          enumMap: _PigeonFfiCodec.readValue(
+            value: enumMap as NSObject, type: "NIAnEnum", type2: "NIAnEnum")
+            as! [NIAnEnum?: NIAnEnum?])) as? [NSObject: NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncClassMap(
+    classMap: [NSObject: NSObject], wrappedError: NiTestsError
+  ) async -> [NSObject: NSObject]? {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncClassMap(
+          classMap: _PigeonFfiCodec.readValue(
+            value: classMap as NSObject, type: "int", type2: "NIAllNullableTypes")
+            as! [Int64?: NIAllNullableTypes?])) as? [NSObject: NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncEnum(anEnum: NIAnEnum, wrappedError: NiTestsError) async
+    -> NSNumber?
+  {
+    do {
+      return try await NSNumber(value: api!.callFlutterEchoAsyncEnum(anEnum: anEnum).rawValue)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAnotherAsyncEnum(anotherEnum: NIAnotherEnum, wrappedError: NiTestsError)
+    async -> NSNumber?
+  {
+    do {
+      return try await NSNumber(
+        value: api!.callFlutterEchoAnotherAsyncEnum(anotherEnum: anotherEnum).rawValue)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableBool(aBool: NSNumber?, wrappedError: NiTestsError) async
+    -> NSNumber?
+  {
+    do {
+      return try await api!.callFlutterEchoAsyncNullableBool(
+        aBool: isNullish(aBool) ? nil : aBool!.boolValue) as? NSNumber
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableInt(anInt: NSNumber?, wrappedError: NiTestsError) async
+    -> NSNumber?
+  {
+    do {
+      return try await api!.callFlutterEchoAsyncNullableInt(
+        anInt: isNullish(anInt) ? nil : anInt!.int64Value) as? NSNumber
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableDouble(aDouble: NSNumber?, wrappedError: NiTestsError)
+    async -> NSNumber?
+  {
+    do {
+      return try await api!.callFlutterEchoAsyncNullableDouble(
+        aDouble: isNullish(aDouble) ? nil : aDouble!.doubleValue) as? NSNumber
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableString(aString: NSString?, wrappedError: NiTestsError)
+    async -> NSString?
+  {
+    do {
+      return try await api!.callFlutterEchoAsyncNullableString(aString: aString as String?)
+        as NSString?
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableUint8List(
+    list: PigeonTypedData?, wrappedError: NiTestsError
+  ) async -> PigeonTypedData? {
+    do {
+      let res = try await api!.callFlutterEchoAsyncNullableUint8List(
+        list: isNullish(list) ? nil : list!.toUint8Array())
+      return isNullish(res) ? nil : PigeonTypedData(res!)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableInt32List(
+    list: PigeonTypedData?, wrappedError: NiTestsError
+  ) async -> PigeonTypedData? {
+    do {
+      let res = try await api!.callFlutterEchoAsyncNullableInt32List(
+        list: isNullish(list) ? nil : list!.toInt32Array())
+      return isNullish(res) ? nil : PigeonTypedData(res!)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableInt64List(
+    list: PigeonTypedData?, wrappedError: NiTestsError
+  ) async -> PigeonTypedData? {
+    do {
+      let res = try await api!.callFlutterEchoAsyncNullableInt64List(
+        list: isNullish(list) ? nil : list!.toInt64Array())
+      return isNullish(res) ? nil : PigeonTypedData(res!)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableObject(anObject: NSObject, wrappedError: NiTestsError)
+    async -> NSObject?
+  {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncNullableObject(
+          anObject: _PigeonFfiCodec.readValue(value: anObject)), isObject: true) as? NSObject
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableList(list: [NSObject]?, wrappedError: NiTestsError) async
+    -> [NSObject]?
+  {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncNullableList(
+          list: _PigeonFfiCodec.readValue(value: list as NSObject?, type: "Object") as? [Any?]))
+        as? [NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableEnumList(enumList: [NSObject]?, wrappedError: NiTestsError)
+    async -> [NSObject]?
+  {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncNullableEnumList(
+          enumList: _PigeonFfiCodec.readValue(value: enumList as NSObject?, type: "NIAnEnum")
+            as? [NIAnEnum?])) as? [NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableClassList(
+    classList: [NSObject]?, wrappedError: NiTestsError
+  ) async -> [NSObject]? {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncNullableClassList(
+          classList: _PigeonFfiCodec.readValue(
+            value: classList as NSObject?, type: "NIAllNullableTypes") as? [NIAllNullableTypes?]))
+        as? [NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableNonNullEnumList(
+    enumList: [NSObject]?, wrappedError: NiTestsError
+  ) async -> [NSObject]? {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncNullableNonNullEnumList(
+          enumList: _PigeonFfiCodec.readValue(value: enumList as NSObject?, type: "NIAnEnum")
+            as? [NIAnEnum])) as? [NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableNonNullClassList(
+    classList: [NSObject]?, wrappedError: NiTestsError
+  ) async -> [NSObject]? {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncNullableNonNullClassList(
+          classList: _PigeonFfiCodec.readValue(
+            value: classList as NSObject?, type: "NIAllNullableTypes") as? [NIAllNullableTypes]))
+        as? [NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableMap(map: [NSObject: NSObject]?, wrappedError: NiTestsError)
+    async -> [NSObject: NSObject]?
+  {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncNullableMap(
+          map: _PigeonFfiCodec.readValue(value: map as NSObject?, type: "Object", type2: "Object")
+            as? [AnyHashable?: Any?])) as? [NSObject: NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableStringMap(
+    stringMap: [NSObject: NSObject]?, wrappedError: NiTestsError
+  ) async -> [NSObject: NSObject]? {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncNullableStringMap(
+          stringMap: _PigeonFfiCodec.readValue(
+            value: stringMap as NSObject?, type: "String", type2: "String") as? [String?: String?]))
+        as? [NSObject: NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableIntMap(
+    intMap: [NSObject: NSObject]?, wrappedError: NiTestsError
+  ) async -> [NSObject: NSObject]? {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncNullableIntMap(
+          intMap: _PigeonFfiCodec.readValue(value: intMap as NSObject?, type: "int", type2: "int")
+            as? [Int64?: Int64?])) as? [NSObject: NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableEnumMap(
+    enumMap: [NSObject: NSObject]?, wrappedError: NiTestsError
+  ) async -> [NSObject: NSObject]? {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncNullableEnumMap(
+          enumMap: _PigeonFfiCodec.readValue(
+            value: enumMap as NSObject?, type: "NIAnEnum", type2: "NIAnEnum")
+            as? [NIAnEnum?: NIAnEnum?])) as? [NSObject: NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableClassMap(
+    classMap: [NSObject: NSObject]?, wrappedError: NiTestsError
+  ) async -> [NSObject: NSObject]? {
+    do {
+      return try await _PigeonFfiCodec.writeValue(
+        value: api!.callFlutterEchoAsyncNullableClassMap(
+          classMap: _PigeonFfiCodec.readValue(
+            value: classMap as NSObject?, type: "int", type2: "NIAllNullableTypes")
+            as? [Int64?: NIAllNullableTypes?])) as? [NSObject: NSObject]
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAsyncNullableEnum(anEnum: NSNumber?, wrappedError: NiTestsError) async
+    -> NSNumber?
+  {
+    do {
+      let res = try await api!.callFlutterEchoAsyncNullableEnum(
+        anEnum: isNullish(anEnum) ? nil : NIAnEnum.init(rawValue: anEnum!.intValue))?.rawValue
+      return isNullish(res) ? nil : NSNumber(value: res!)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  @objc func callFlutterEchoAnotherAsyncNullableEnum(
+    anotherEnum: NSNumber?, wrappedError: NiTestsError
+  ) async -> NSNumber? {
+    do {
+      let res = try await api!.callFlutterEchoAnotherAsyncNullableEnum(
+        anotherEnum: isNullish(anotherEnum)
+          ? nil : NIAnotherEnum.init(rawValue: anotherEnum!.intValue))?.rawValue
+      return isNullish(res) ? nil : NSNumber(value: res!)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
 }
 
 /// The core interface that the Dart platform_test code implements for host
 /// integration tests to call into.
 ///
 /// Generated protocol from Pigeon that represents Flutter messages that can be called from Swift.
-@available(iOS 13, macOS 16.0.0, *)
+@available(iOS 13, macOS 10.15, *)
 @objc protocol NIFlutterIntegrationCoreApiBridge {
   /// A no-op function taking no arguments and returning no value, to sanity
   /// test basic calling.
   @objc func noop(error: NiTestsError)
   /// Returns the passed object, to test serialization and deserialization.
-  @objc func echoNIAllTypes(everything: NIAllTypesBridge, error: NiTestsError) -> NIAllTypesBridge?
+  @objc func echoNIAllTypes(everything: NIAllTypesBridge?, error: NiTestsError) -> NIAllTypesBridge?
   /// Returns the passed object, to test serialization and deserialization.
   @objc func echoNIAllNullableTypes(everything: NIAllNullableTypesBridge?, error: NiTestsError)
     -> NIAllNullableTypesBridge?
@@ -5030,54 +5961,58 @@ protocol NIHostIntegrationCoreApi {
     error: NiTestsError
   ) -> NIAllNullableTypesWithoutRecursionBridge?
   /// Returns the passed boolean, to test serialization and deserialization.
-  @objc func echoBool(aBool: NSNumber, error: NiTestsError) -> NSNumber?
+  @objc func echoBool(aBool: NSNumber?, error: NiTestsError) -> NSNumber?
   /// Returns the passed int, to test serialization and deserialization.
-  @objc func echoInt(anInt: NSNumber, error: NiTestsError) -> NSNumber?
+  @objc func echoInt(anInt: NSNumber?, error: NiTestsError) -> NSNumber?
   /// Returns the passed double, to test serialization and deserialization.
-  @objc func echoDouble(aDouble: NSNumber, error: NiTestsError) -> NSNumber?
+  @objc func echoDouble(aDouble: NSNumber?, error: NiTestsError) -> NSNumber?
   /// Returns the passed string, to test serialization and deserialization.
-  @objc func echoString(aString: NSString, error: NiTestsError) -> NSString?
+  @objc func echoString(aString: NSString?, error: NiTestsError) -> NSString?
   /// Returns the passed byte list, to test serialization and deserialization.
-  @objc func echoUint8List(list: PigeonTypedData, error: NiTestsError) -> PigeonTypedData?
+  @objc func echoUint8List(list: PigeonTypedData?, error: NiTestsError) -> PigeonTypedData?
+  /// Returns the passed int32 list, to test serialization and deserialization.
+  @objc func echoInt32List(list: PigeonTypedData?, error: NiTestsError) -> PigeonTypedData?
+  /// Returns the passed int64 list, to test serialization and deserialization.
+  @objc func echoInt64List(list: PigeonTypedData?, error: NiTestsError) -> PigeonTypedData?
   /// Returns the passed list, to test serialization and deserialization.
-  @objc func echoList(list: [NSObject], error: NiTestsError) -> [NSObject]?
+  @objc func echoList(list: [NSObject]?, error: NiTestsError) -> [NSObject]?
   /// Returns the passed list, to test serialization and deserialization.
-  @objc func echoEnumList(enumList: [NSObject], error: NiTestsError) -> [NSObject]?
+  @objc func echoEnumList(enumList: [NSObject]?, error: NiTestsError) -> [NSObject]?
   /// Returns the passed list, to test serialization and deserialization.
-  @objc func echoClassList(classList: [NSObject], error: NiTestsError) -> [NSObject]?
+  @objc func echoClassList(classList: [NSObject]?, error: NiTestsError) -> [NSObject]?
   /// Returns the passed list, to test serialization and deserialization.
-  @objc func echoNonNullEnumList(enumList: [NSObject], error: NiTestsError) -> [NSObject]?
+  @objc func echoNonNullEnumList(enumList: [NSObject]?, error: NiTestsError) -> [NSObject]?
   /// Returns the passed list, to test serialization and deserialization.
-  @objc func echoNonNullClassList(classList: [NSObject], error: NiTestsError) -> [NSObject]?
+  @objc func echoNonNullClassList(classList: [NSObject]?, error: NiTestsError) -> [NSObject]?
   /// Returns the passed map, to test serialization and deserialization.
-  @objc func echoMap(map: [NSObject: NSObject], error: NiTestsError) -> [NSObject: NSObject]?
+  @objc func echoMap(map: [NSObject: NSObject]?, error: NiTestsError) -> [NSObject: NSObject]?
   /// Returns the passed map, to test serialization and deserialization.
-  @objc func echoStringMap(stringMap: [NSObject: NSObject], error: NiTestsError) -> [NSObject:
+  @objc func echoStringMap(stringMap: [NSObject: NSObject]?, error: NiTestsError) -> [NSObject:
     NSObject]?
   /// Returns the passed map, to test serialization and deserialization.
-  @objc func echoIntMap(intMap: [NSObject: NSObject], error: NiTestsError) -> [NSObject: NSObject]?
+  @objc func echoIntMap(intMap: [NSObject: NSObject]?, error: NiTestsError) -> [NSObject: NSObject]?
   /// Returns the passed map, to test serialization and deserialization.
-  @objc func echoEnumMap(enumMap: [NSObject: NSObject], error: NiTestsError) -> [NSObject:
+  @objc func echoEnumMap(enumMap: [NSObject: NSObject]?, error: NiTestsError) -> [NSObject:
     NSObject]?
   /// Returns the passed map, to test serialization and deserialization.
-  @objc func echoClassMap(classMap: [NSObject: NSObject], error: NiTestsError) -> [NSObject:
+  @objc func echoClassMap(classMap: [NSObject: NSObject]?, error: NiTestsError) -> [NSObject:
     NSObject]?
   /// Returns the passed map, to test serialization and deserialization.
-  @objc func echoNonNullStringMap(stringMap: [NSObject: NSObject], error: NiTestsError)
+  @objc func echoNonNullStringMap(stringMap: [NSObject: NSObject]?, error: NiTestsError)
     -> [NSObject: NSObject]?
   /// Returns the passed map, to test serialization and deserialization.
-  @objc func echoNonNullIntMap(intMap: [NSObject: NSObject], error: NiTestsError) -> [NSObject:
+  @objc func echoNonNullIntMap(intMap: [NSObject: NSObject]?, error: NiTestsError) -> [NSObject:
     NSObject]?
   /// Returns the passed map, to test serialization and deserialization.
-  @objc func echoNonNullEnumMap(enumMap: [NSObject: NSObject], error: NiTestsError) -> [NSObject:
+  @objc func echoNonNullEnumMap(enumMap: [NSObject: NSObject]?, error: NiTestsError) -> [NSObject:
     NSObject]?
   /// Returns the passed map, to test serialization and deserialization.
-  @objc func echoNonNullClassMap(classMap: [NSObject: NSObject], error: NiTestsError) -> [NSObject:
+  @objc func echoNonNullClassMap(classMap: [NSObject: NSObject]?, error: NiTestsError) -> [NSObject:
     NSObject]?
   /// Returns the passed enum to test serialization and deserialization.
-  @objc func echoEnum(anEnum: NSNumber, error: NiTestsError) -> NSNumber?
+  @objc func echoEnum(anEnum: NSNumber?, error: NiTestsError) -> NSNumber?
   /// Returns the passed enum to test serialization and deserialization.
-  @objc func echoNIAnotherEnum(anotherEnum: NSNumber, error: NiTestsError) -> NSNumber?
+  @objc func echoNIAnotherEnum(anotherEnum: NSNumber?, error: NiTestsError) -> NSNumber?
   /// Returns the passed boolean, to test serialization and deserialization.
   @objc func echoNullableBool(aBool: NSNumber?, error: NiTestsError) -> NSNumber?
   /// Returns the passed int, to test serialization and deserialization.
@@ -5088,6 +6023,10 @@ protocol NIHostIntegrationCoreApi {
   @objc func echoNullableString(aString: NSString?, error: NiTestsError) -> NSString?
   /// Returns the passed byte list, to test serialization and deserialization.
   @objc func echoNullableUint8List(list: PigeonTypedData?, error: NiTestsError) -> PigeonTypedData?
+  /// Returns the passed int32 list, to test serialization and deserialization.
+  @objc func echoNullableInt32List(list: PigeonTypedData?, error: NiTestsError) -> PigeonTypedData?
+  /// Returns the passed int64 list, to test serialization and deserialization.
+  @objc func echoNullableInt64List(list: PigeonTypedData?, error: NiTestsError) -> PigeonTypedData?
   /// Returns the passed list, to test serialization and deserialization.
   @objc func echoNullableList(list: [NSObject]?, error: NiTestsError) -> [NSObject]?
   /// Returns the passed list, to test serialization and deserialization.
@@ -5130,9 +6069,83 @@ protocol NIHostIntegrationCoreApi {
   @objc func echoNullableEnum(anEnum: NSNumber?, error: NiTestsError) -> NSNumber?
   /// Returns the passed enum to test serialization and deserialization.
   @objc func echoAnotherNullableEnum(anotherEnum: NSNumber?, error: NiTestsError) -> NSNumber?
+  /// A no-op function taking no arguments and returning no value, to sanity
+  /// test basic asynchronous calling.
+  @objc func noopAsync(error: NiTestsError) async
+  @objc func echoAsyncNIAllTypes(everything: NIAllTypesBridge?, error: NiTestsError) async
+    -> NIAllTypesBridge?
+  @objc func echoAsyncNullableNIAllNullableTypes(
+    everything: NIAllNullableTypesBridge?, error: NiTestsError
+  ) async -> NIAllNullableTypesBridge?
+  @objc func echoAsyncNullableNIAllNullableTypesWithoutRecursion(
+    everything: NIAllNullableTypesWithoutRecursionBridge?, error: NiTestsError
+  ) async -> NIAllNullableTypesWithoutRecursionBridge?
+  @objc func echoAsyncBool(aBool: NSNumber?, error: NiTestsError) async -> NSNumber?
+  @objc func echoAsyncInt(anInt: NSNumber?, error: NiTestsError) async -> NSNumber?
+  @objc func echoAsyncDouble(aDouble: NSNumber?, error: NiTestsError) async -> NSNumber?
+  @objc func echoAsyncString(aString: NSString?, error: NiTestsError) async -> NSString?
+  @objc func echoAsyncUint8List(list: PigeonTypedData?, error: NiTestsError) async
+    -> PigeonTypedData?
+  @objc func echoAsyncInt32List(list: PigeonTypedData?, error: NiTestsError) async
+    -> PigeonTypedData?
+  @objc func echoAsyncInt64List(list: PigeonTypedData?, error: NiTestsError) async
+    -> PigeonTypedData?
+  @objc func echoAsyncObject(anObject: NSObject?, error: NiTestsError) async -> NSObject?
+  @objc func echoAsyncList(list: [NSObject]?, error: NiTestsError) async -> [NSObject]?
+  @objc func echoAsyncEnumList(enumList: [NSObject]?, error: NiTestsError) async -> [NSObject]?
+  @objc func echoAsyncClassList(classList: [NSObject]?, error: NiTestsError) async -> [NSObject]?
+  @objc func echoAsyncNonNullEnumList(enumList: [NSObject]?, error: NiTestsError) async
+    -> [NSObject]?
+  @objc func echoAsyncNonNullClassList(classList: [NSObject]?, error: NiTestsError) async
+    -> [NSObject]?
+  @objc func echoAsyncMap(map: [NSObject: NSObject]?, error: NiTestsError) async -> [NSObject:
+    NSObject]?
+  @objc func echoAsyncStringMap(stringMap: [NSObject: NSObject]?, error: NiTestsError) async
+    -> [NSObject: NSObject]?
+  @objc func echoAsyncIntMap(intMap: [NSObject: NSObject]?, error: NiTestsError) async -> [NSObject:
+    NSObject]?
+  @objc func echoAsyncEnumMap(enumMap: [NSObject: NSObject]?, error: NiTestsError) async
+    -> [NSObject: NSObject]?
+  @objc func echoAsyncClassMap(classMap: [NSObject: NSObject]?, error: NiTestsError) async
+    -> [NSObject: NSObject]?
+  @objc func echoAsyncEnum(anEnum: NSNumber?, error: NiTestsError) async -> NSNumber?
+  @objc func echoAnotherAsyncEnum(anotherEnum: NSNumber?, error: NiTestsError) async -> NSNumber?
+  @objc func echoAsyncNullableBool(aBool: NSNumber?, error: NiTestsError) async -> NSNumber?
+  @objc func echoAsyncNullableInt(anInt: NSNumber?, error: NiTestsError) async -> NSNumber?
+  @objc func echoAsyncNullableDouble(aDouble: NSNumber?, error: NiTestsError) async -> NSNumber?
+  @objc func echoAsyncNullableString(aString: NSString?, error: NiTestsError) async -> NSString?
+  @objc func echoAsyncNullableUint8List(list: PigeonTypedData?, error: NiTestsError) async
+    -> PigeonTypedData?
+  @objc func echoAsyncNullableInt32List(list: PigeonTypedData?, error: NiTestsError) async
+    -> PigeonTypedData?
+  @objc func echoAsyncNullableInt64List(list: PigeonTypedData?, error: NiTestsError) async
+    -> PigeonTypedData?
+  @objc func echoAsyncNullableObject(anObject: NSObject?, error: NiTestsError) async -> NSObject?
+  @objc func echoAsyncNullableList(list: [NSObject]?, error: NiTestsError) async -> [NSObject]?
+  @objc func echoAsyncNullableEnumList(enumList: [NSObject]?, error: NiTestsError) async
+    -> [NSObject]?
+  @objc func echoAsyncNullableClassList(classList: [NSObject]?, error: NiTestsError) async
+    -> [NSObject]?
+  @objc func echoAsyncNullableNonNullEnumList(enumList: [NSObject]?, error: NiTestsError) async
+    -> [NSObject]?
+  @objc func echoAsyncNullableNonNullClassList(classList: [NSObject]?, error: NiTestsError) async
+    -> [NSObject]?
+  @objc func echoAsyncNullableMap(map: [NSObject: NSObject]?, error: NiTestsError) async
+    -> [NSObject: NSObject]?
+  @objc func echoAsyncNullableStringMap(stringMap: [NSObject: NSObject]?, error: NiTestsError) async
+    -> [NSObject: NSObject]?
+  @objc func echoAsyncNullableIntMap(intMap: [NSObject: NSObject]?, error: NiTestsError) async
+    -> [NSObject: NSObject]?
+  @objc func echoAsyncNullableEnumMap(enumMap: [NSObject: NSObject]?, error: NiTestsError) async
+    -> [NSObject: NSObject]?
+  @objc func echoAsyncNullableClassMap(classMap: [NSObject: NSObject]?, error: NiTestsError) async
+    -> [NSObject: NSObject]?
+  @objc func echoAsyncNullableEnum(anEnum: NSNumber?, error: NiTestsError) async -> NSNumber?
+  @objc func echoAnotherAsyncNullableEnum(anotherEnum: NSNumber?, error: NiTestsError) async
+    -> NSNumber?
 }
 
-@available(iOS 13, macOS 16.0.0, *)
+@available(iOS 13, macOS 10.15, *)
 @objc class NIFlutterIntegrationCoreApiRegistrar: NSObject {
   static var registeredNIFlutterIntegrationCoreApi = [String: NIFlutterIntegrationCoreApi]()
 
@@ -5148,7 +6161,7 @@ protocol NIHostIntegrationCoreApi {
   }
 }
 
-@available(iOS 13, macOS 16.0.0, *)
+@available(iOS 13, macOS 10.15, *)
 class NIFlutterIntegrationCoreApi {
   private let api: NIFlutterIntegrationCoreApiBridge?
 
@@ -5173,29 +6186,23 @@ class NIFlutterIntegrationCoreApi {
   /// Returns the passed object, to test serialization and deserialization.
   func echoNIAllTypes(everything: NIAllTypes) throws -> NIAllTypes {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNIAllTypes(
-          everything: NIAllTypesBridge.fromSwift(everything)!, error: error)), type: "NIAllTypes")
-      as! NIAllTypes
+    let res = api!.echoNIAllTypes(everything: NIAllTypesBridge.fromSwift(everything), error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAllTypes") as! NIAllTypes
   }
 
   /// Returns the passed object, to test serialization and deserialization.
   func echoNIAllNullableTypes(everything: NIAllNullableTypes?) throws -> NIAllNullableTypes? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNIAllNullableTypes(
-          everything: NIAllNullableTypesBridge.fromSwift(everything), error: error)),
-        type: "NIAllNullableTypes") as! NIAllNullableTypes?
+    let res = api!.echoNIAllNullableTypes(
+      everything: NIAllNullableTypesBridge.fromSwift(everything), error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAllNullableTypes")
+      as! NIAllNullableTypes?
   }
 
   /// Returns passed in arguments of multiple types.
@@ -5205,16 +6212,14 @@ class NIFlutterIntegrationCoreApi {
     aNullableBool: Bool?, aNullableInt: Int64?, aNullableString: String?
   ) throws -> NIAllNullableTypes {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.sendMultipleNullableTypes(
-          aNullableBool: aNullableBool as? NSNumber, aNullableInt: aNullableInt as? NSNumber,
-          aNullableString: aNullableString as NSString?, error: error)), type: "NIAllNullableTypes")
-      as! NIAllNullableTypes
+    let res = api!.sendMultipleNullableTypes(
+      aNullableBool: aNullableBool as? NSNumber, aNullableInt: aNullableInt as? NSNumber,
+      aNullableString: aNullableString as NSString?, error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAllNullableTypes")
+      as! NIAllNullableTypes
   }
 
   /// Returns the passed object, to test serialization and deserialization.
@@ -5222,15 +6227,13 @@ class NIFlutterIntegrationCoreApi {
     throws -> NIAllNullableTypesWithoutRecursion?
   {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNIAllNullableTypesWithoutRecursion(
-          everything: NIAllNullableTypesWithoutRecursionBridge.fromSwift(everything), error: error)),
-        type: "NIAllNullableTypesWithoutRecursion") as! NIAllNullableTypesWithoutRecursion?
+    let res = api!.echoNIAllNullableTypesWithoutRecursion(
+      everything: NIAllNullableTypesWithoutRecursionBridge.fromSwift(everything), error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAllNullableTypesWithoutRecursion")
+      as! NIAllNullableTypesWithoutRecursion?
   }
 
   /// Returns passed in arguments of multiple types.
@@ -5240,262 +6243,236 @@ class NIFlutterIntegrationCoreApi {
     aNullableBool: Bool?, aNullableInt: Int64?, aNullableString: String?
   ) throws -> NIAllNullableTypesWithoutRecursion {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.sendMultipleNullableTypesWithoutRecursion(
-          aNullableBool: aNullableBool as? NSNumber, aNullableInt: aNullableInt as? NSNumber,
-          aNullableString: aNullableString as NSString?, error: error)),
-        type: "NIAllNullableTypesWithoutRecursion") as! NIAllNullableTypesWithoutRecursion
+    let res = api!.sendMultipleNullableTypesWithoutRecursion(
+      aNullableBool: aNullableBool as? NSNumber, aNullableInt: aNullableInt as? NSNumber,
+      aNullableString: aNullableString as NSString?, error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAllNullableTypesWithoutRecursion")
+      as! NIAllNullableTypesWithoutRecursion
   }
 
   /// Returns the passed boolean, to test serialization and deserialization.
   func echoBool(aBool: Bool) throws -> Bool {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoBool(aBool: aBool as NSNumber, error: error)), type: "bool") as! Bool
+    let res = api!.echoBool(aBool: aBool as NSNumber, error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "bool") as! Bool
   }
 
   /// Returns the passed int, to test serialization and deserialization.
   func echoInt(anInt: Int64) throws -> Int64 {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoInt(anInt: anInt as NSNumber, error: error)), type: "int") as! Int64
+    let res = api!.echoInt(anInt: anInt as NSNumber, error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "int") as! Int64
   }
 
   /// Returns the passed double, to test serialization and deserialization.
   func echoDouble(aDouble: Double) throws -> Double {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoDouble(aDouble: aDouble as NSNumber, error: error)), type: "double")
-      as! Double
+    let res = api!.echoDouble(aDouble: aDouble as NSNumber, error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "double") as! Double
   }
 
   /// Returns the passed string, to test serialization and deserialization.
   func echoString(aString: String) throws -> String {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoString(aString: aString as NSString, error: error)), type: "String")
-      as! String
+    let res = api!.echoString(aString: aString as NSString?, error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "String") as! String
   }
 
   /// Returns the passed byte list, to test serialization and deserialization.
   func echoUint8List(list: [UInt8]) throws -> [UInt8] {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoUint8List(list: PigeonTypedData(list), error: error)), type: "Uint8List")
-      as! [UInt8]
+    let res = api!.echoUint8List(list: isNullish(list) ? nil : PigeonTypedData(list), error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "Uint8List") as! [UInt8]
+  }
+
+  /// Returns the passed int32 list, to test serialization and deserialization.
+  func echoInt32List(list: [Int32]) throws -> [Int32] {
+    let error = NiTestsError()
+    let res = api!.echoInt32List(list: isNullish(list) ? nil : PigeonTypedData(list), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "Int32List") as! [Int32]
+  }
+
+  /// Returns the passed int64 list, to test serialization and deserialization.
+  func echoInt64List(list: [Int64]) throws -> [Int64] {
+    let error = NiTestsError()
+    let res = api!.echoInt64List(list: isNullish(list) ? nil : PigeonTypedData(list), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "Int64List") as! [Int64]
   }
 
   /// Returns the passed list, to test serialization and deserialization.
   func echoList(list: [Any?]) throws -> [Any?] {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoList(
-          list: _PigeonFfiCodec.writeValue(value: list) as! [NSObject], error: error) as NSObject?),
-        type: "List") as! [Any?]
+    let res = api!.echoList(
+      list: _PigeonFfiCodec.writeValue(value: list) as? [NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List") as! [Any?]
   }
 
   /// Returns the passed list, to test serialization and deserialization.
   func echoEnumList(enumList: [NIAnEnum?]) throws -> [NIAnEnum?] {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoEnumList(
-          enumList: _PigeonFfiCodec.writeValue(value: enumList) as! [NSObject], error: error)
-          as NSObject?), type: "List") as! [NIAnEnum?]
+    let res = api!.echoEnumList(
+      enumList: _PigeonFfiCodec.writeValue(value: enumList) as? [NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List") as! [NIAnEnum?]
   }
 
   /// Returns the passed list, to test serialization and deserialization.
   func echoClassList(classList: [NIAllNullableTypes?]) throws -> [NIAllNullableTypes?] {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoClassList(
-          classList: _PigeonFfiCodec.writeValue(value: classList) as! [NSObject], error: error)
-          as NSObject?), type: "List") as! [NIAllNullableTypes?]
+    let res = api!.echoClassList(
+      classList: _PigeonFfiCodec.writeValue(value: classList) as? [NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List")
+      as! [NIAllNullableTypes?]
   }
 
   /// Returns the passed list, to test serialization and deserialization.
   func echoNonNullEnumList(enumList: [NIAnEnum]) throws -> [NIAnEnum] {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNonNullEnumList(
-          enumList: _PigeonFfiCodec.writeValue(value: enumList) as! [NSObject], error: error)
-          as NSObject?), type: "List") as! [NIAnEnum]
+    let res = api!.echoNonNullEnumList(
+      enumList: _PigeonFfiCodec.writeValue(value: enumList) as? [NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List") as! [NIAnEnum]
   }
 
   /// Returns the passed list, to test serialization and deserialization.
   func echoNonNullClassList(classList: [NIAllNullableTypes]) throws -> [NIAllNullableTypes] {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNonNullClassList(
-          classList: _PigeonFfiCodec.writeValue(value: classList) as! [NSObject], error: error)
-          as NSObject?), type: "List") as! [NIAllNullableTypes]
+    let res = api!.echoNonNullClassList(
+      classList: _PigeonFfiCodec.writeValue(value: classList) as? [NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List")
+      as! [NIAllNullableTypes]
   }
 
   /// Returns the passed map, to test serialization and deserialization.
   func echoMap(map: [AnyHashable?: Any?]) throws -> [AnyHashable?: Any?] {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoMap(
-          map: _PigeonFfiCodec.writeValue(value: map) as! [NSObject: NSObject], error: error)
-          as NSObject?), type: "Map") as! [AnyHashable?: Any?]
+    let res = api!.echoMap(
+      map: _PigeonFfiCodec.writeValue(value: map) as? [NSObject: NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [AnyHashable?: Any?]
   }
 
   /// Returns the passed map, to test serialization and deserialization.
   func echoStringMap(stringMap: [String?: String?]) throws -> [String?: String?] {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoStringMap(
-          stringMap: _PigeonFfiCodec.writeValue(value: stringMap) as! [NSObject: NSObject],
-          error: error) as NSObject?), type: "Map") as! [String?: String?]
+    let res = api!.echoStringMap(
+      stringMap: _PigeonFfiCodec.writeValue(value: stringMap) as? [NSObject: NSObject], error: error
+    )
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map") as! [String?: String?]
   }
 
   /// Returns the passed map, to test serialization and deserialization.
   func echoIntMap(intMap: [Int64?: Int64?]) throws -> [Int64?: Int64?] {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoIntMap(
-          intMap: _PigeonFfiCodec.writeValue(value: intMap) as! [NSObject: NSObject], error: error)
-          as NSObject?), type: "Map") as! [Int64?: Int64?]
+    let res = api!.echoIntMap(
+      intMap: _PigeonFfiCodec.writeValue(value: intMap) as? [NSObject: NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map") as! [Int64?: Int64?]
   }
 
   /// Returns the passed map, to test serialization and deserialization.
   func echoEnumMap(enumMap: [NIAnEnum?: NIAnEnum?]) throws -> [NIAnEnum?: NIAnEnum?] {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoEnumMap(
-          enumMap: _PigeonFfiCodec.writeValue(value: enumMap) as! [NSObject: NSObject], error: error
-        ) as NSObject?), type: "Map") as! [NIAnEnum?: NIAnEnum?]
+    let res = api!.echoEnumMap(
+      enumMap: _PigeonFfiCodec.writeValue(value: enumMap) as? [NSObject: NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [NIAnEnum?: NIAnEnum?]
   }
 
   /// Returns the passed map, to test serialization and deserialization.
   func echoClassMap(classMap: [Int64?: NIAllNullableTypes?]) throws -> [Int64?: NIAllNullableTypes?]
   {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoClassMap(
-          classMap: _PigeonFfiCodec.writeValue(value: classMap) as! [NSObject: NSObject],
-          error: error) as NSObject?), type: "Map") as! [Int64?: NIAllNullableTypes?]
+    let res = api!.echoClassMap(
+      classMap: _PigeonFfiCodec.writeValue(value: classMap) as? [NSObject: NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [Int64?: NIAllNullableTypes?]
   }
 
   /// Returns the passed map, to test serialization and deserialization.
   func echoNonNullStringMap(stringMap: [String: String]) throws -> [String: String] {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNonNullStringMap(
-          stringMap: _PigeonFfiCodec.writeValue(value: stringMap) as! [NSObject: NSObject],
-          error: error) as NSObject?), type: "Map") as! [String: String]
+    let res = api!.echoNonNullStringMap(
+      stringMap: _PigeonFfiCodec.writeValue(value: stringMap) as? [NSObject: NSObject], error: error
+    )
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map") as! [String: String]
   }
 
   /// Returns the passed map, to test serialization and deserialization.
   func echoNonNullIntMap(intMap: [Int64: Int64]) throws -> [Int64: Int64] {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNonNullIntMap(
-          intMap: _PigeonFfiCodec.writeValue(value: intMap) as! [NSObject: NSObject], error: error)
-          as NSObject?), type: "Map") as! [Int64: Int64]
+    let res = api!.echoNonNullIntMap(
+      intMap: _PigeonFfiCodec.writeValue(value: intMap) as? [NSObject: NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map") as! [Int64: Int64]
   }
 
   /// Returns the passed map, to test serialization and deserialization.
   func echoNonNullEnumMap(enumMap: [NIAnEnum: NIAnEnum]) throws -> [NIAnEnum: NIAnEnum] {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNonNullEnumMap(
-          enumMap: _PigeonFfiCodec.writeValue(value: enumMap) as! [NSObject: NSObject], error: error
-        ) as NSObject?), type: "Map") as! [NIAnEnum: NIAnEnum]
+    let res = api!.echoNonNullEnumMap(
+      enumMap: _PigeonFfiCodec.writeValue(value: enumMap) as? [NSObject: NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [NIAnEnum: NIAnEnum]
   }
 
   /// Returns the passed map, to test serialization and deserialization.
@@ -5503,164 +6480,152 @@ class NIFlutterIntegrationCoreApi {
     NIAllNullableTypes]
   {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNonNullClassMap(
-          classMap: _PigeonFfiCodec.writeValue(value: classMap) as! [NSObject: NSObject],
-          error: error) as NSObject?), type: "Map") as! [Int64: NIAllNullableTypes]
+    let res = api!.echoNonNullClassMap(
+      classMap: _PigeonFfiCodec.writeValue(value: classMap) as? [NSObject: NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [Int64: NIAllNullableTypes]
   }
 
   /// Returns the passed enum to test serialization and deserialization.
   func echoEnum(anEnum: NIAnEnum) throws -> NIAnEnum {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoEnum(anEnum: NSNumber(value: anEnum.rawValue), error: error)),
-        type: "NIAnEnum") as! NIAnEnum
+    let res = api!.echoEnum(anEnum: NSNumber(value: anEnum.rawValue), error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAnEnum") as! NIAnEnum
   }
 
   /// Returns the passed enum to test serialization and deserialization.
   func echoNIAnotherEnum(anotherEnum: NIAnotherEnum) throws -> NIAnotherEnum {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNIAnotherEnum(
-          anotherEnum: NSNumber(value: anotherEnum.rawValue), error: error)), type: "NIAnotherEnum")
-      as! NIAnotherEnum
+    let res = api!.echoNIAnotherEnum(
+      anotherEnum: NSNumber(value: anotherEnum.rawValue), error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAnotherEnum") as! NIAnotherEnum
   }
 
   /// Returns the passed boolean, to test serialization and deserialization.
   func echoNullableBool(aBool: Bool?) throws -> Bool? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableBool(aBool: aBool as? NSNumber, error: error)), type: "bool")
-      as! Bool?
+    let res = api!.echoNullableBool(aBool: aBool as? NSNumber, error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "bool") as! Bool?
   }
 
   /// Returns the passed int, to test serialization and deserialization.
   func echoNullableInt(anInt: Int64?) throws -> Int64? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableInt(anInt: anInt as? NSNumber, error: error)), type: "int")
-      as! Int64?
+    let res = api!.echoNullableInt(anInt: anInt as? NSNumber, error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "int") as! Int64?
   }
 
   /// Returns the passed double, to test serialization and deserialization.
   func echoNullableDouble(aDouble: Double?) throws -> Double? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableDouble(aDouble: aDouble as? NSNumber, error: error)),
-        type: "double") as! Double?
+    let res = api!.echoNullableDouble(aDouble: aDouble as? NSNumber, error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "double") as! Double?
   }
 
   /// Returns the passed string, to test serialization and deserialization.
   func echoNullableString(aString: String?) throws -> String? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableString(aString: aString as NSString?, error: error)),
-        type: "String") as! String?
+    let res = api!.echoNullableString(aString: aString as NSString?, error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "String") as! String?
   }
 
   /// Returns the passed byte list, to test serialization and deserialization.
   func echoNullableUint8List(list: [UInt8]?) throws -> [UInt8]? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableUint8List(
-          list: isNullish(list) ? nil : PigeonTypedData(list!), error: error)), type: "Uint8List")
-      as! [UInt8]?
+    let res = api!.echoNullableUint8List(
+      list: isNullish(list) ? nil : PigeonTypedData(list!), error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "Uint8List") as! [UInt8]?
+  }
+
+  /// Returns the passed int32 list, to test serialization and deserialization.
+  func echoNullableInt32List(list: [Int32]?) throws -> [Int32]? {
+    let error = NiTestsError()
+    let res = api!.echoNullableInt32List(
+      list: isNullish(list) ? nil : PigeonTypedData(list!), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "Int32List") as! [Int32]?
+  }
+
+  /// Returns the passed int64 list, to test serialization and deserialization.
+  func echoNullableInt64List(list: [Int64]?) throws -> [Int64]? {
+    let error = NiTestsError()
+    let res = api!.echoNullableInt64List(
+      list: isNullish(list) ? nil : PigeonTypedData(list!), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "Int64List") as! [Int64]?
   }
 
   /// Returns the passed list, to test serialization and deserialization.
   func echoNullableList(list: [Any?]?) throws -> [Any?]? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableList(
-          list: _PigeonFfiCodec.writeValue(value: list) as? [NSObject], error: error) as NSObject?),
-        type: "List") as! [Any?]?
+    let res = api!.echoNullableList(
+      list: _PigeonFfiCodec.writeValue(value: list) as? [NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List") as! [Any?]?
   }
 
   /// Returns the passed list, to test serialization and deserialization.
   func echoNullableEnumList(enumList: [NIAnEnum?]?) throws -> [NIAnEnum?]? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableEnumList(
-          enumList: _PigeonFfiCodec.writeValue(value: enumList) as? [NSObject], error: error)
-          as NSObject?), type: "List") as! [NIAnEnum?]?
+    let res = api!.echoNullableEnumList(
+      enumList: _PigeonFfiCodec.writeValue(value: enumList) as? [NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List") as! [NIAnEnum?]?
   }
 
   /// Returns the passed list, to test serialization and deserialization.
   func echoNullableClassList(classList: [NIAllNullableTypes?]?) throws -> [NIAllNullableTypes?]? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableClassList(
-          classList: _PigeonFfiCodec.writeValue(value: classList) as? [NSObject], error: error)
-          as NSObject?), type: "List") as! [NIAllNullableTypes?]?
+    let res = api!.echoNullableClassList(
+      classList: _PigeonFfiCodec.writeValue(value: classList) as? [NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List")
+      as! [NIAllNullableTypes?]?
   }
 
   /// Returns the passed list, to test serialization and deserialization.
   func echoNullableNonNullEnumList(enumList: [NIAnEnum]?) throws -> [NIAnEnum]? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableNonNullEnumList(
-          enumList: _PigeonFfiCodec.writeValue(value: enumList) as? [NSObject], error: error)
-          as NSObject?), type: "List") as! [NIAnEnum]?
+    let res = api!.echoNullableNonNullEnumList(
+      enumList: _PigeonFfiCodec.writeValue(value: enumList) as? [NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List") as! [NIAnEnum]?
   }
 
   /// Returns the passed list, to test serialization and deserialization.
@@ -5668,71 +6633,60 @@ class NIFlutterIntegrationCoreApi {
     -> [NIAllNullableTypes]?
   {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableNonNullClassList(
-          classList: _PigeonFfiCodec.writeValue(value: classList) as? [NSObject], error: error)
-          as NSObject?), type: "List") as! [NIAllNullableTypes]?
+    let res = api!.echoNullableNonNullClassList(
+      classList: _PigeonFfiCodec.writeValue(value: classList) as? [NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List")
+      as! [NIAllNullableTypes]?
   }
 
   /// Returns the passed map, to test serialization and deserialization.
   func echoNullableMap(map: [AnyHashable?: Any?]?) throws -> [AnyHashable?: Any?]? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableMap(
-          map: _PigeonFfiCodec.writeValue(value: map) as? [NSObject: NSObject], error: error)
-          as NSObject?), type: "Map") as! [AnyHashable?: Any?]?
+    let res = api!.echoNullableMap(
+      map: _PigeonFfiCodec.writeValue(value: map) as? [NSObject: NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [AnyHashable?: Any?]?
   }
 
   /// Returns the passed map, to test serialization and deserialization.
   func echoNullableStringMap(stringMap: [String?: String?]?) throws -> [String?: String?]? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableStringMap(
-          stringMap: _PigeonFfiCodec.writeValue(value: stringMap) as? [NSObject: NSObject],
-          error: error) as NSObject?), type: "Map") as! [String?: String?]?
+    let res = api!.echoNullableStringMap(
+      stringMap: _PigeonFfiCodec.writeValue(value: stringMap) as? [NSObject: NSObject], error: error
+    )
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map") as! [String?: String?]?
   }
 
   /// Returns the passed map, to test serialization and deserialization.
   func echoNullableIntMap(intMap: [Int64?: Int64?]?) throws -> [Int64?: Int64?]? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableIntMap(
-          intMap: _PigeonFfiCodec.writeValue(value: intMap) as? [NSObject: NSObject], error: error)
-          as NSObject?), type: "Map") as! [Int64?: Int64?]?
+    let res = api!.echoNullableIntMap(
+      intMap: _PigeonFfiCodec.writeValue(value: intMap) as? [NSObject: NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map") as! [Int64?: Int64?]?
   }
 
   /// Returns the passed map, to test serialization and deserialization.
   func echoNullableEnumMap(enumMap: [NIAnEnum?: NIAnEnum?]?) throws -> [NIAnEnum?: NIAnEnum?]? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableEnumMap(
-          enumMap: _PigeonFfiCodec.writeValue(value: enumMap) as? [NSObject: NSObject], error: error
-        ) as NSObject?), type: "Map") as! [NIAnEnum?: NIAnEnum?]?
+    let res = api!.echoNullableEnumMap(
+      enumMap: _PigeonFfiCodec.writeValue(value: enumMap) as? [NSObject: NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [NIAnEnum?: NIAnEnum?]?
   }
 
   /// Returns the passed map, to test serialization and deserialization.
@@ -5740,57 +6694,48 @@ class NIFlutterIntegrationCoreApi {
     NIAllNullableTypes?]?
   {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableClassMap(
-          classMap: _PigeonFfiCodec.writeValue(value: classMap) as? [NSObject: NSObject],
-          error: error) as NSObject?), type: "Map") as! [Int64?: NIAllNullableTypes?]?
+    let res = api!.echoNullableClassMap(
+      classMap: _PigeonFfiCodec.writeValue(value: classMap) as? [NSObject: NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [Int64?: NIAllNullableTypes?]?
   }
 
   /// Returns the passed map, to test serialization and deserialization.
   func echoNullableNonNullStringMap(stringMap: [String: String]?) throws -> [String: String]? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableNonNullStringMap(
-          stringMap: _PigeonFfiCodec.writeValue(value: stringMap) as? [NSObject: NSObject],
-          error: error) as NSObject?), type: "Map") as! [String: String]?
+    let res = api!.echoNullableNonNullStringMap(
+      stringMap: _PigeonFfiCodec.writeValue(value: stringMap) as? [NSObject: NSObject], error: error
+    )
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map") as! [String: String]?
   }
 
   /// Returns the passed map, to test serialization and deserialization.
   func echoNullableNonNullIntMap(intMap: [Int64: Int64]?) throws -> [Int64: Int64]? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableNonNullIntMap(
-          intMap: _PigeonFfiCodec.writeValue(value: intMap) as? [NSObject: NSObject], error: error)
-          as NSObject?), type: "Map") as! [Int64: Int64]?
+    let res = api!.echoNullableNonNullIntMap(
+      intMap: _PigeonFfiCodec.writeValue(value: intMap) as? [NSObject: NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map") as! [Int64: Int64]?
   }
 
   /// Returns the passed map, to test serialization and deserialization.
   func echoNullableNonNullEnumMap(enumMap: [NIAnEnum: NIAnEnum]?) throws -> [NIAnEnum: NIAnEnum]? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableNonNullEnumMap(
-          enumMap: _PigeonFfiCodec.writeValue(value: enumMap) as? [NSObject: NSObject], error: error
-        ) as NSObject?), type: "Map") as! [NIAnEnum: NIAnEnum]?
+    let res = api!.echoNullableNonNullEnumMap(
+      enumMap: _PigeonFfiCodec.writeValue(value: enumMap) as? [NSObject: NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [NIAnEnum: NIAnEnum]?
   }
 
   /// Returns the passed map, to test serialization and deserialization.
@@ -5798,42 +6743,501 @@ class NIFlutterIntegrationCoreApi {
     NIAllNullableTypes]?
   {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableNonNullClassMap(
-          classMap: _PigeonFfiCodec.writeValue(value: classMap) as? [NSObject: NSObject],
-          error: error) as NSObject?), type: "Map") as! [Int64: NIAllNullableTypes]?
+    let res = api!.echoNullableNonNullClassMap(
+      classMap: _PigeonFfiCodec.writeValue(value: classMap) as? [NSObject: NSObject], error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [Int64: NIAllNullableTypes]?
   }
 
   /// Returns the passed enum to test serialization and deserialization.
   func echoNullableEnum(anEnum: NIAnEnum?) throws -> NIAnEnum? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoNullableEnum(
-          anEnum: isNullish(anEnum) ? nil : NSNumber(value: anEnum!.rawValue), error: error)),
-        type: "NIAnEnum") as! NIAnEnum?
+    let res = api!.echoNullableEnum(
+      anEnum: isNullish(anEnum) ? nil : NSNumber(value: anEnum!.rawValue), error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAnEnum") as! NIAnEnum?
   }
 
   /// Returns the passed enum to test serialization and deserialization.
   func echoAnotherNullableEnum(anotherEnum: NIAnotherEnum?) throws -> NIAnotherEnum? {
     let error = NiTestsError()
-    let res =
-      _PigeonFfiCodec.readValue(
-        value: (api!.echoAnotherNullableEnum(
-          anotherEnum: isNullish(anotherEnum) ? nil : NSNumber(value: anotherEnum!.rawValue),
-          error: error)), type: "NIAnotherEnum") as! NIAnotherEnum?
+    let res = api!.echoAnotherNullableEnum(
+      anotherEnum: isNullish(anotherEnum) ? nil : NSNumber(value: anotherEnum!.rawValue),
+      error: error)
     if error.code != nil {
       throw error
     }
-    return res
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAnotherEnum") as! NIAnotherEnum?
+  }
+
+  /// A no-op function taking no arguments and returning no value, to sanity
+  /// test basic asynchronous calling.
+  func noopAsync() async throws {
+    let error = NiTestsError()
+    await api!.noopAsync(error: error)
+    if error.code != nil {
+      throw error
+    }
+  }
+
+  func echoAsyncNIAllTypes(everything: NIAllTypes) async throws -> NIAllTypes {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNIAllTypes(
+      everything: NIAllTypesBridge.fromSwift(everything), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAllTypes") as! NIAllTypes
+  }
+
+  func echoAsyncNullableNIAllNullableTypes(everything: NIAllNullableTypes?) async throws
+    -> NIAllNullableTypes?
+  {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableNIAllNullableTypes(
+      everything: NIAllNullableTypesBridge.fromSwift(everything), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAllNullableTypes")
+      as! NIAllNullableTypes?
+  }
+
+  func echoAsyncNullableNIAllNullableTypesWithoutRecursion(
+    everything: NIAllNullableTypesWithoutRecursion?
+  ) async throws -> NIAllNullableTypesWithoutRecursion? {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableNIAllNullableTypesWithoutRecursion(
+      everything: NIAllNullableTypesWithoutRecursionBridge.fromSwift(everything), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAllNullableTypesWithoutRecursion")
+      as! NIAllNullableTypesWithoutRecursion?
+  }
+
+  func echoAsyncBool(aBool: Bool) async throws -> Bool {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncBool(aBool: aBool as NSNumber, error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "bool") as! Bool
+  }
+
+  func echoAsyncInt(anInt: Int64) async throws -> Int64 {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncInt(anInt: anInt as NSNumber, error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "int") as! Int64
+  }
+
+  func echoAsyncDouble(aDouble: Double) async throws -> Double {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncDouble(aDouble: aDouble as NSNumber, error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "double") as! Double
+  }
+
+  func echoAsyncString(aString: String) async throws -> String {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncString(aString: aString as NSString?, error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "String") as! String
+  }
+
+  func echoAsyncUint8List(list: [UInt8]) async throws -> [UInt8] {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncUint8List(
+      list: isNullish(list) ? nil : PigeonTypedData(list), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "Uint8List") as! [UInt8]
+  }
+
+  func echoAsyncInt32List(list: [Int32]) async throws -> [Int32] {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncInt32List(
+      list: isNullish(list) ? nil : PigeonTypedData(list), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "Int32List") as! [Int32]
+  }
+
+  func echoAsyncInt64List(list: [Int64]) async throws -> [Int64] {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncInt64List(
+      list: isNullish(list) ? nil : PigeonTypedData(list), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "Int64List") as! [Int64]
+  }
+
+  func echoAsyncObject(anObject: Any) async throws -> Any {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncObject(
+      anObject: _PigeonFfiCodec.writeValue(value: anObject, isObject: true) as? NSObject,
+      error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "Object")!
+  }
+
+  func echoAsyncList(list: [Any?]) async throws -> [Any?] {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncList(
+      list: _PigeonFfiCodec.writeValue(value: list) as? [NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List") as! [Any?]
+  }
+
+  func echoAsyncEnumList(enumList: [NIAnEnum?]) async throws -> [NIAnEnum?] {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncEnumList(
+      enumList: _PigeonFfiCodec.writeValue(value: enumList) as? [NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List") as! [NIAnEnum?]
+  }
+
+  func echoAsyncClassList(classList: [NIAllNullableTypes?]) async throws -> [NIAllNullableTypes?] {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncClassList(
+      classList: _PigeonFfiCodec.writeValue(value: classList) as? [NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List")
+      as! [NIAllNullableTypes?]
+  }
+
+  func echoAsyncNonNullEnumList(enumList: [NIAnEnum]) async throws -> [NIAnEnum] {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNonNullEnumList(
+      enumList: _PigeonFfiCodec.writeValue(value: enumList) as? [NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List") as! [NIAnEnum]
+  }
+
+  func echoAsyncNonNullClassList(classList: [NIAllNullableTypes]) async throws
+    -> [NIAllNullableTypes]
+  {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNonNullClassList(
+      classList: _PigeonFfiCodec.writeValue(value: classList) as? [NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List")
+      as! [NIAllNullableTypes]
+  }
+
+  func echoAsyncMap(map: [AnyHashable?: Any?]) async throws -> [AnyHashable?: Any?] {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncMap(
+      map: _PigeonFfiCodec.writeValue(value: map) as? [NSObject: NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [AnyHashable?: Any?]
+  }
+
+  func echoAsyncStringMap(stringMap: [String?: String?]) async throws -> [String?: String?] {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncStringMap(
+      stringMap: _PigeonFfiCodec.writeValue(value: stringMap) as? [NSObject: NSObject], error: error
+    )
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map") as! [String?: String?]
+  }
+
+  func echoAsyncIntMap(intMap: [Int64?: Int64?]) async throws -> [Int64?: Int64?] {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncIntMap(
+      intMap: _PigeonFfiCodec.writeValue(value: intMap) as? [NSObject: NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map") as! [Int64?: Int64?]
+  }
+
+  func echoAsyncEnumMap(enumMap: [NIAnEnum?: NIAnEnum?]) async throws -> [NIAnEnum?: NIAnEnum?] {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncEnumMap(
+      enumMap: _PigeonFfiCodec.writeValue(value: enumMap) as? [NSObject: NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [NIAnEnum?: NIAnEnum?]
+  }
+
+  func echoAsyncClassMap(classMap: [Int64?: NIAllNullableTypes?]) async throws -> [Int64?:
+    NIAllNullableTypes?]
+  {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncClassMap(
+      classMap: _PigeonFfiCodec.writeValue(value: classMap) as? [NSObject: NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [Int64?: NIAllNullableTypes?]
+  }
+
+  func echoAsyncEnum(anEnum: NIAnEnum) async throws -> NIAnEnum {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncEnum(anEnum: NSNumber(value: anEnum.rawValue), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAnEnum") as! NIAnEnum
+  }
+
+  func echoAnotherAsyncEnum(anotherEnum: NIAnotherEnum) async throws -> NIAnotherEnum {
+    let error = NiTestsError()
+    let res = await api!.echoAnotherAsyncEnum(
+      anotherEnum: NSNumber(value: anotherEnum.rawValue), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAnotherEnum") as! NIAnotherEnum
+  }
+
+  func echoAsyncNullableBool(aBool: Bool?) async throws -> Bool? {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableBool(aBool: aBool as? NSNumber, error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "bool") as! Bool?
+  }
+
+  func echoAsyncNullableInt(anInt: Int64?) async throws -> Int64? {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableInt(anInt: anInt as? NSNumber, error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "int") as! Int64?
+  }
+
+  func echoAsyncNullableDouble(aDouble: Double?) async throws -> Double? {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableDouble(aDouble: aDouble as? NSNumber, error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "double") as! Double?
+  }
+
+  func echoAsyncNullableString(aString: String?) async throws -> String? {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableString(aString: aString as NSString?, error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "String") as! String?
+  }
+
+  func echoAsyncNullableUint8List(list: [UInt8]?) async throws -> [UInt8]? {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableUint8List(
+      list: isNullish(list) ? nil : PigeonTypedData(list!), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "Uint8List") as! [UInt8]?
+  }
+
+  func echoAsyncNullableInt32List(list: [Int32]?) async throws -> [Int32]? {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableInt32List(
+      list: isNullish(list) ? nil : PigeonTypedData(list!), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "Int32List") as! [Int32]?
+  }
+
+  func echoAsyncNullableInt64List(list: [Int64]?) async throws -> [Int64]? {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableInt64List(
+      list: isNullish(list) ? nil : PigeonTypedData(list!), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "Int64List") as! [Int64]?
+  }
+
+  func echoAsyncNullableObject(anObject: Any?) async throws -> Any? {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableObject(
+      anObject: _PigeonFfiCodec.writeValue(value: anObject, isObject: true) as? NSObject,
+      error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "Object")
+  }
+
+  func echoAsyncNullableList(list: [Any?]?) async throws -> [Any?]? {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableList(
+      list: _PigeonFfiCodec.writeValue(value: list) as? [NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List") as! [Any?]?
+  }
+
+  func echoAsyncNullableEnumList(enumList: [NIAnEnum?]?) async throws -> [NIAnEnum?]? {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableEnumList(
+      enumList: _PigeonFfiCodec.writeValue(value: enumList) as? [NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List") as! [NIAnEnum?]?
+  }
+
+  func echoAsyncNullableClassList(classList: [NIAllNullableTypes?]?) async throws
+    -> [NIAllNullableTypes?]?
+  {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableClassList(
+      classList: _PigeonFfiCodec.writeValue(value: classList) as? [NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List")
+      as! [NIAllNullableTypes?]?
+  }
+
+  func echoAsyncNullableNonNullEnumList(enumList: [NIAnEnum]?) async throws -> [NIAnEnum]? {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableNonNullEnumList(
+      enumList: _PigeonFfiCodec.writeValue(value: enumList) as? [NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List") as! [NIAnEnum]?
+  }
+
+  func echoAsyncNullableNonNullClassList(classList: [NIAllNullableTypes]?) async throws
+    -> [NIAllNullableTypes]?
+  {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableNonNullClassList(
+      classList: _PigeonFfiCodec.writeValue(value: classList) as? [NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "List")
+      as! [NIAllNullableTypes]?
+  }
+
+  func echoAsyncNullableMap(map: [AnyHashable?: Any?]?) async throws -> [AnyHashable?: Any?]? {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableMap(
+      map: _PigeonFfiCodec.writeValue(value: map) as? [NSObject: NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [AnyHashable?: Any?]?
+  }
+
+  func echoAsyncNullableStringMap(stringMap: [String?: String?]?) async throws -> [String?:
+    String?]?
+  {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableStringMap(
+      stringMap: _PigeonFfiCodec.writeValue(value: stringMap) as? [NSObject: NSObject], error: error
+    )
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map") as! [String?: String?]?
+  }
+
+  func echoAsyncNullableIntMap(intMap: [Int64?: Int64?]?) async throws -> [Int64?: Int64?]? {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableIntMap(
+      intMap: _PigeonFfiCodec.writeValue(value: intMap) as? [NSObject: NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map") as! [Int64?: Int64?]?
+  }
+
+  func echoAsyncNullableEnumMap(enumMap: [NIAnEnum?: NIAnEnum?]?) async throws -> [NIAnEnum?:
+    NIAnEnum?]?
+  {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableEnumMap(
+      enumMap: _PigeonFfiCodec.writeValue(value: enumMap) as? [NSObject: NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [NIAnEnum?: NIAnEnum?]?
+  }
+
+  func echoAsyncNullableClassMap(classMap: [Int64?: NIAllNullableTypes?]?) async throws -> [Int64?:
+    NIAllNullableTypes?]?
+  {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableClassMap(
+      classMap: _PigeonFfiCodec.writeValue(value: classMap) as? [NSObject: NSObject], error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res as NSObject?), type: "Map")
+      as! [Int64?: NIAllNullableTypes?]?
+  }
+
+  func echoAsyncNullableEnum(anEnum: NIAnEnum?) async throws -> NIAnEnum? {
+    let error = NiTestsError()
+    let res = await api!.echoAsyncNullableEnum(
+      anEnum: isNullish(anEnum) ? nil : NSNumber(value: anEnum!.rawValue), error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAnEnum") as! NIAnEnum?
+  }
+
+  func echoAnotherAsyncNullableEnum(anotherEnum: NIAnotherEnum?) async throws -> NIAnotherEnum? {
+    let error = NiTestsError()
+    let res = await api!.echoAnotherAsyncNullableEnum(
+      anotherEnum: isNullish(anotherEnum) ? nil : NSNumber(value: anotherEnum!.rawValue),
+      error: error)
+    if error.code != nil {
+      throw error
+    }
+    return _PigeonFfiCodec.readValue(value: (res), type: "NIAnotherEnum") as! NIAnotherEnum?
   }
 }
