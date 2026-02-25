@@ -10871,6 +10871,96 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
       releaseOriginal: true,
     );
   }
+
+  static final _id_defaultIsMainThread = _class.instanceMethodId(
+    r'defaultIsMainThread',
+    r'()Z',
+  );
+
+  static final _defaultIsMainThread =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_CallBooleanMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
+
+  /// from: `public fun defaultIsMainThread(): kotlin.Boolean`
+  core$_.bool defaultIsMainThread() {
+    return _defaultIsMainThread(
+      reference.pointer,
+      _id_defaultIsMainThread as jni$_.JMethodIDPtr,
+    ).boolean;
+  }
+
+  static final _id_callFlutterNoopOnBackgroundThread = _class.instanceMethodId(
+    r'callFlutterNoopOnBackgroundThread',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterNoopOnBackgroundThread =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterNoopOnBackgroundThread(): kotlin.Boolean`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JBoolean> callFlutterNoopOnBackgroundThread() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _callFlutterNoopOnBackgroundThread(
+      reference.pointer,
+      _id_callFlutterNoopOnBackgroundThread as jni$_.JMethodIDPtr,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JBoolean>(
+      const jni$_.$JBoolean$Type$(),
+      releaseOriginal: true,
+    );
+  }
 }
 
 final class $NIHostIntegrationCoreApi$NullableType$
@@ -21952,6 +22042,96 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
     }
     return $o?.as<NIAnotherEnum?>(
       const $NIAnotherEnum$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_defaultIsMainThread = _class.instanceMethodId(
+    r'defaultIsMainThread',
+    r'()Z',
+  );
+
+  static final _defaultIsMainThread =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_CallBooleanMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
+
+  /// from: `public fun defaultIsMainThread(): kotlin.Boolean`
+  core$_.bool defaultIsMainThread() {
+    return _defaultIsMainThread(
+      reference.pointer,
+      _id_defaultIsMainThread as jni$_.JMethodIDPtr,
+    ).boolean;
+  }
+
+  static final _id_callFlutterNoopOnBackgroundThread = _class.instanceMethodId(
+    r'callFlutterNoopOnBackgroundThread',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterNoopOnBackgroundThread =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterNoopOnBackgroundThread(): kotlin.Boolean`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JBoolean> callFlutterNoopOnBackgroundThread() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _callFlutterNoopOnBackgroundThread(
+      reference.pointer,
+      _id_callFlutterNoopOnBackgroundThread as jni$_.JMethodIDPtr,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JBoolean>(
+      const jni$_.$JBoolean$Type$(),
       releaseOriginal: true,
     );
   }

@@ -17,6 +17,8 @@ import android.os.Handler
 import android.os.Looper
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /** This plugin handles the native side of the integration tests in example/integration_test/. */
 class TestPlugin : FlutterPlugin, HostIntegrationCoreApi {
@@ -1942,6 +1944,21 @@ class NIIntegrationTests : NIHostIntegrationCoreApi() {
     return NIFlutterIntegrationCoreApiRegistrar()
         .getInstance()!!
         .echoAnotherAsyncNullableEnum(anotherEnum)
+  }
+
+  override fun defaultIsMainThread(): Boolean {
+    return Thread.currentThread() == Looper.getMainLooper().thread
+  }
+
+  override suspend fun callFlutterNoopOnBackgroundThread(): Boolean {
+    return withContext(Dispatchers.Default) {
+      try {
+        NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.noopAsync()
+        true
+      } catch (e: Exception) {
+        false
+      }
+    }
   }
 }
 

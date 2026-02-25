@@ -1392,6 +1392,17 @@ abstract class NIHostIntegrationCoreApi {
   NIAnotherEnum? callFlutterEchoAnotherAsyncNullableEnum(
     NIAnotherEnum? anotherEnum,
   );
+
+  // ========== Threading tests ==========
+
+  /// Returns true if the handler is run on a main thread.
+  bool defaultIsMainThread();
+
+  /// Spawns a background thread and calls `noop` on the [NIFlutterIntegrationCoreApi].
+  ///
+  /// Returns the result of whether the flutter call was successful.
+  @async
+  bool callFlutterNoopOnBackgroundThread();
 }
 
 // /// An API that can be implemented for minimal, compile-only tests.

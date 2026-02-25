@@ -19851,6 +19851,29 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
   }
 
+  /// Spawns a background thread and calls <code>noop</code> on the [NIFlutterIntegrationCoreApi].
+  /// Returns the result of whether the flutter call was successful.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
+  void callFlutterNoopOnBackgroundThreadWithWrappedError(
+    NiTestsError wrappedError, {
+    required objc.ObjCBlock<ffi.Void Function(objc.NSNumber?)>
+    completionHandler,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.callFlutterNoopOnBackgroundThreadWithWrappedError:completionHandler:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (10, 15, 0)),
+    );
+    _objc_msgSend_o762yo(
+      object$.ref.pointer,
+      _sel_callFlutterNoopOnBackgroundThreadWithWrappedError_completionHandler_,
+      wrappedError.ref.pointer,
+      completionHandler.ref.pointer,
+    );
+  }
+
   /// callFlutterNoopWithWrappedError:
   ///
   /// iOS: introduced 13.0.0
@@ -20024,6 +20047,28 @@ extension NIHostIntegrationCoreApiSetup$Methods
             retain: true,
             release: true,
           );
+  }
+
+  /// Returns true if the handler is run on a main thread.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
+  objc.NSNumber? defaultIsMainThreadWithWrappedError(
+    NiTestsError wrappedError,
+  ) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.defaultIsMainThreadWithWrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (10, 15, 0)),
+    );
+    final $ret = _objc_msgSend_1sotr3r(
+      object$.ref.pointer,
+      _sel_defaultIsMainThreadWithWrappedError_,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSNumber.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed object, to test serialization and deserialization.
@@ -35839,6 +35884,10 @@ late final _sel_callFlutterEchoUint8ListWithList_wrappedError_ = objc
     .registerName("callFlutterEchoUint8ListWithList:wrappedError:");
 late final _sel_callFlutterNoopAsyncWithWrappedError_completionHandler_ = objc
     .registerName("callFlutterNoopAsyncWithWrappedError:completionHandler:");
+late final _sel_callFlutterNoopOnBackgroundThreadWithWrappedError_completionHandler_ =
+    objc.registerName(
+      "callFlutterNoopOnBackgroundThreadWithWrappedError:completionHandler:",
+    );
 late final _sel_callFlutterNoopWithWrappedError_ = objc.registerName(
   "callFlutterNoopWithWrappedError:",
 );
@@ -35876,6 +35925,9 @@ late final _sel_credentialWithUser_password_persistence_ = objc.registerName(
   "credentialWithUser:password:persistence:",
 );
 late final _sel_data = objc.registerName("data");
+late final _sel_defaultIsMainThreadWithWrappedError_ = objc.registerName(
+  "defaultIsMainThreadWithWrappedError:",
+);
 late final _sel_details = objc.registerName("details");
 late final _sel_doubleList = objc.registerName("doubleList");
 late final _sel_echoAllNullableTypesWithEverything_wrappedError_ = objc

@@ -2619,6 +2619,28 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try await flutterApi.echoAsyncNullableIntMap(intMap: intMap)
   }
 
+  func defaultIsMainThread() throws -> Bool {
+    return Thread.isMainThread
+  }
+
+  func callFlutterNoopOnBackgroundThread() async throws -> Bool {
+    return await withCheckedContinuation { continuation in
+      DispatchQueue.global(qos: .background).async {
+        Task {
+          do {
+            guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
+              continuation.resume(returning: false)
+              return
+            }
+            try await flutterApi.noopAsync()
+            continuation.resume(returning: true)
+          } catch {
+            continuation.resume(returning: false)
+          }
+        }
+      }
+    }
+  }
 }
 
 public class TestPluginWithSuffix: HostSmallApi {

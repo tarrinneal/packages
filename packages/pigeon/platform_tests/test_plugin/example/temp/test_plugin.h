@@ -2587,6 +2587,18 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
                                                  (void (^_Nonnull)(
                                                      NSNumber* _Nullable))
                                                      completionHandler;
+/// Returns true if the handler is run on a main thread.
+- (NSNumber* _Nullable)defaultIsMainThreadWithWrappedError:
+    (NiTestsError* _Nonnull)wrappedError SWIFT_WARN_UNUSED_RESULT;
+/// Spawns a background thread and calls <code>noop</code> on the
+/// [NIFlutterIntegrationCoreApi]. Returns the result of whether the flutter
+/// call was successful.
+- (void)
+    callFlutterNoopOnBackgroundThreadWithWrappedError:
+        (NiTestsError* _Nonnull)wrappedError
+                                    completionHandler:
+                                        (void (^_Nonnull)(NSNumber* _Nullable))
+                                            completionHandler;
 @end
 
 /// Generated bridge class from Pigeon that moves data from Swift to

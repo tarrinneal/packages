@@ -10083,6 +10083,56 @@ class NIHostIntegrationCoreApiForNativeInterop {
       throw _wrapJniException(e);
     }
   }
+
+  bool defaultIsMainThread() {
+    try {
+      if (_jniApi != null) {
+        return _jniApi.defaultIsMainThread();
+      } else if (_ffiApi != null) {
+        final error = ffi_bridge.NiTestsError();
+        final NSNumber? res = _ffiApi.defaultIsMainThreadWithWrappedError(
+          error,
+        );
+        _throwIfFfiError(error);
+        final bool dartTypeRes = res!.boolValue;
+        return dartTypeRes;
+      } else {
+        throw Exception('No JNI or FFI api available');
+      }
+    } on JniException catch (e) {
+      throw _wrapJniException(e);
+    }
+  }
+
+  Future<bool> callFlutterNoopOnBackgroundThread() async {
+    try {
+      if (_jniApi != null) {
+        final JBoolean res = await _jniApi.callFlutterNoopOnBackgroundThread();
+        final bool dartTypeRes = res.booleanValue(releaseOriginal: true);
+        return dartTypeRes;
+      } else if (_ffiApi != null) {
+        final error = ffi_bridge.NiTestsError();
+        final Completer<bool> completer = Completer<bool>();
+        _ffiApi.callFlutterNoopOnBackgroundThreadWithWrappedError(
+          error,
+          completionHandler: ffi_bridge.ObjCBlock_ffiVoid_NSNumber.listener((
+            NSNumber? res,
+          ) {
+            if (error.code != null) {
+              completer.completeError(_wrapFfiError(error));
+            } else {
+              completer.complete(res!.boolValue);
+            }
+          }),
+        );
+        return await completer.future;
+      } else {
+        throw Exception('No JNI or FFI api available');
+      }
+    } on JniException catch (e) {
+      throw _wrapJniException(e);
+    }
+  }
 }
 
 /// The core interface that each host language plugin must implement in
@@ -17280,6 +17330,74 @@ class NIHostIntegrationCoreApi {
       );
     } else {
       return (pigeonVar_replyList[0] as NIAnotherEnum?);
+    }
+  }
+
+  /// Returns true if the handler is run on a main thread.
+  Future<bool> defaultIsMainThread() async {
+    if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
+        _nativeInteropApi != null) {
+      return _nativeInteropApi.defaultIsMainThread();
+    }
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.pigeon_integration_tests.NIHostIntegrationCoreApi.defaultIsMainThread$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else if (pigeonVar_replyList[0] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (pigeonVar_replyList[0] as bool?)!;
+    }
+  }
+
+  /// Spawns a background thread and calls `noop` on the [NIFlutterIntegrationCoreApi].
+  ///
+  /// Returns the result of whether the flutter call was successful.
+  Future<bool> callFlutterNoopOnBackgroundThread() async {
+    if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
+        _nativeInteropApi != null) {
+      return _nativeInteropApi.callFlutterNoopOnBackgroundThread();
+    }
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.pigeon_integration_tests.NIHostIntegrationCoreApi.callFlutterNoopOnBackgroundThread$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else if (pigeonVar_replyList[0] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (pigeonVar_replyList[0] as bool?)!;
     }
   }
 }

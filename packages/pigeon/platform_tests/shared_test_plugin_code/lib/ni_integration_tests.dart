@@ -3414,6 +3414,24 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
       },
     );
   });
+  group('Threading tests', () {
+    testWidgets('default calls land on main thread', (WidgetTester _) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      final bool isMainThread = api!.defaultIsMainThread();
+      expect(isMainThread, true);
+    });
+
+    testWidgets('calls back to flutter can be made on background thread', (
+      WidgetTester _,
+    ) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      final bool success = await api!.callFlutterNoopOnBackgroundThread();
+      expect(success, true);
+    });
+  });
+
   runComparisonBenchmarks();
 }
 

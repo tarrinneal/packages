@@ -1251,6 +1251,14 @@ abstract class NIHostIntegrationCoreApi {
   abstract suspend fun callFlutterEchoAnotherAsyncNullableEnum(
       anotherEnum: NIAnotherEnum?
   ): NIAnotherEnum?
+  /** Returns true if the handler is run on a main thread. */
+  abstract fun defaultIsMainThread(): Boolean
+  /**
+   * Spawns a background thread and calls `noop` on the [NIFlutterIntegrationCoreApi].
+   *
+   * Returns the result of whether the flutter call was successful.
+   */
+  abstract suspend fun callFlutterNoopOnBackgroundThread(): Boolean
 }
 
 @Keep
@@ -3748,6 +3756,32 @@ class NIHostIntegrationCoreApiRegistrar : NIHostIntegrationCoreApi() {
     api?.let {
       try {
         return api!!.callFlutterEchoAnotherAsyncNullableEnum(anotherEnum)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+  /** Returns true if the handler is run on a main thread. */
+  override fun defaultIsMainThread(): Boolean {
+    api?.let {
+      try {
+        return api!!.defaultIsMainThread()
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+  /**
+   * Spawns a background thread and calls `noop` on the [NIFlutterIntegrationCoreApi].
+   *
+   * Returns the result of whether the flutter call was successful.
+   */
+  override suspend fun callFlutterNoopOnBackgroundThread(): Boolean {
+    api?.let {
+      try {
+        return api!!.callFlutterNoopOnBackgroundThread()
       } catch (e: Exception) {
         throw e
       }

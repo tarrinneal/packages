@@ -2120,6 +2120,12 @@ protocol NIHostIntegrationCoreApi {
   func callFlutterEchoAsyncNullableEnum(anEnum: NIAnEnum?) async throws -> NIAnEnum?
   func callFlutterEchoAnotherAsyncNullableEnum(anotherEnum: NIAnotherEnum?) async throws
     -> NIAnotherEnum?
+  /// Returns true if the handler is run on a main thread.
+  func defaultIsMainThread() throws -> Bool
+  /// Spawns a background thread and calls `noop` on the [NIFlutterIntegrationCoreApi].
+  ///
+  /// Returns the result of whether the flutter call was successful.
+  func callFlutterNoopOnBackgroundThread() async throws -> Bool
 }
 
 /// Generated setup class from Pigeon to register implemented NIHostIntegrationCoreApi classes.
@@ -6036,6 +6042,38 @@ protocol NIHostIntegrationCoreApi {
         anotherEnum: isNullish(anotherEnum)
           ? nil : NIAnotherEnum.init(rawValue: anotherEnum!.intValue))?.rawValue
       return isNullish(res) ? nil : NSNumber(value: res!)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  /// Returns true if the handler is run on a main thread.
+  @objc func defaultIsMainThread(wrappedError: NiTestsError) -> NSNumber? {
+    do {
+      return try api!.defaultIsMainThread() as NSNumber
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  /// Spawns a background thread and calls `noop` on the [NIFlutterIntegrationCoreApi].
+  ///
+  /// Returns the result of whether the flutter call was successful.
+  @objc func callFlutterNoopOnBackgroundThread(wrappedError: NiTestsError) async -> NSNumber? {
+    do {
+      return try await api!.callFlutterNoopOnBackgroundThread() as NSNumber
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
