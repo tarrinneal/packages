@@ -413,6 +413,38 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
       expect(receivedUint8List, sentUint8List);
     });
 
+    testWidgets('Int32List serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      final sentInt32List = Int32List.fromList(<int>[1, 2, 3]);
+      final Int32List receivedInt32List = api!.echoInt32List(sentInt32List);
+      expect(receivedInt32List, sentInt32List);
+    });
+
+    testWidgets('Int64List serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      final sentInt64List = Int64List.fromList(<int>[1, 2, 3]);
+      final Int64List receivedInt64List = api!.echoInt64List(sentInt64List);
+      expect(receivedInt64List, sentInt64List);
+    });
+
+    testWidgets('Float64List serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      final sentFloat64List = Float64List.fromList(<double>[1.1, 2.2, 3.3]);
+      final Float64List receivedFloat64List = api!.echoFloat64List(
+        sentFloat64List,
+      );
+      expect(receivedFloat64List, sentFloat64List);
+    });
+
     testWidgets(
       'strings as generic Objects serialize and deserialize correctly',
       (WidgetTester _) async {
@@ -1232,6 +1264,35 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
       expect(echoObject, isNull);
     });
 
+    testWidgets('null Int32List serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      final Int32List? receivedInt32List = api!.echoNullableInt32List(null);
+      expect(receivedInt32List, isNull);
+    });
+
+    testWidgets('null Int64List serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      final Int64List? receivedInt64List = api!.echoNullableInt64List(null);
+      expect(receivedInt64List, isNull);
+    });
+
+    testWidgets('null Float64List serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      final Float64List? receivedFloat64List = api!.echoNullableFloat64List(
+        null,
+      );
+      expect(receivedFloat64List, isNull);
+    });
+
     //     testWidgets('optional nullable parameter', (WidgetTester _) async {
     //       final NIHostIntegrationCoreApiForNativeInterop? api =
     //           NIHostIntegrationCoreApiForNativeInterop.getInstance();
@@ -1469,6 +1530,42 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
         sentUint8List,
       );
       expect(receivedUint8List, sentUint8List);
+    });
+
+    testWidgets('Int32List async serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      final sentInt32List = Int32List.fromList(<int>[1, 2, 3]);
+      final Int32List receivedInt32List = await api!.echoAsyncInt32List(
+        sentInt32List,
+      );
+      expect(receivedInt32List, sentInt32List);
+    });
+
+    testWidgets('Int64List async serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      final sentInt64List = Int64List.fromList(<int>[1, 2, 3]);
+      final Int64List receivedInt64List = await api!.echoAsyncInt64List(
+        sentInt64List,
+      );
+      expect(receivedInt64List, sentInt64List);
+    });
+
+    testWidgets('Float64List async serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      final sentFloat64List = Float64List.fromList(<double>[1.1, 2.2, 3.3]);
+      final Float64List receivedFloat64List = await api!.echoAsyncFloat64List(
+        sentFloat64List,
+      );
+      expect(receivedFloat64List, sentFloat64List);
     });
 
     testWidgets('generic Objects async serialize and deserialize correctly', (
@@ -1950,6 +2047,36 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
       );
       expect(echoEnum, sentEnum);
     });
+
+    testWidgets('null Int32List async serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      final Int32List? receivedInt32List = await api!
+          .echoAsyncNullableInt32List(null);
+      expect(receivedInt32List, isNull);
+    });
+
+    testWidgets('null Int64List async serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      final Int64List? receivedInt64List = await api!
+          .echoAsyncNullableInt64List(null);
+      expect(receivedInt64List, isNull);
+    });
+
+    testWidgets('null Float64List async serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      final Float64List? receivedFloat64List = await api!
+          .echoAsyncNullableFloat64List(null);
+      expect(receivedFloat64List, isNull);
+    });
   });
 
   //   group('Host API with suffix', () {
@@ -2004,19 +2131,33 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
       api.callFlutterNoop();
     });
 
-    //     testWidgets('errors are returned from non void methods correctly',
-    //         (WidgetTester _) async {
-    //       expect(() async {
-    //         api.callFlutterThrowError();
-    //       }, throwsA(isA<PlatformException>()));
-    //     });
+    testWidgets('flutter errors are returned correctly', (
+      WidgetTester _,
+    ) async {
+      expect(
+        () async => api.callFlutterThrowFlutterErrorAsync(),
+        throwsA(
+          (dynamic e) =>
+              e is PlatformException, // jni doesn't support custom errors yet
+        ),
+      );
+    });
 
-    //     testWidgets('errors are returned from void methods correctly',
-    //         (WidgetTester _) async {
-    //       expect(() async {
-    //         api.callFlutterThrowErrorFromVoid();
-    //       }, throwsA(isA<PlatformException>()));
-    //     });
+    testWidgets('errors are returned from non void methods correctly', (
+      WidgetTester _,
+    ) async {
+      expect(() async {
+        api.callFlutterThrowError();
+      }, throwsA(isA<PlatformException>()));
+    });
+
+    testWidgets('errors are returned from void methods correctly', (
+      WidgetTester _,
+    ) async {
+      expect(() async {
+        api.callFlutterThrowErrorFromVoid();
+      }, throwsA(isA<PlatformException>()));
+    });
 
     testWidgets('all datatypes serialize and deserialize correctly', (
       WidgetTester _,
@@ -2027,6 +2168,27 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
 
       expect(echoObject, genericNIAllTypes);
     });
+
+    testWidgets('all nullable datatypes serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final NIAllNullableTypes? echoObject = api
+          .callFlutterEchoNIAllNullableTypes(recursiveNIAllNullableTypes);
+
+      expect(echoObject, recursiveNIAllNullableTypes);
+    });
+
+    testWidgets(
+      'all nullable datatypes without recursion serialize and deserialize correctly',
+      (WidgetTester _) async {
+        final NIAllNullableTypesWithoutRecursion? echoObject = api
+            .callFlutterEchoNIAllNullableTypesWithoutRecursion(
+              genericNIAllNullableTypesWithoutRecursion,
+            );
+
+        expect(echoObject, genericNIAllNullableTypesWithoutRecursion);
+      },
+    );
 
     testWidgets(
       'Arguments of multiple types serialize and deserialize correctly',
@@ -2147,6 +2309,14 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
     ) async {
       final sentObject = Int64List.fromList(<int>[1, 2, 3]);
       final Int64List echoObject = api.callFlutterEchoInt64List(sentObject);
+      expect(echoObject, sentObject);
+    });
+
+    testWidgets('Float64Lists serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final sentObject = Float64List.fromList(<double>[1.1, 2.2, 3.3]);
+      final Float64List echoObject = api.callFlutterEchoFloat64List(sentObject);
       expect(echoObject, sentObject);
     });
 
@@ -2416,6 +2586,25 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
       WidgetTester _,
     ) async {
       final Int64List? echoObject = api.callFlutterEchoNullableInt64List(null);
+      expect(echoObject, null);
+    });
+
+    testWidgets('nullable Float64Lists serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final sentObject = Float64List.fromList(<double>[1.1, 2.2, 3.3]);
+      final Float64List? echoObject = api.callFlutterEchoNullableFloat64List(
+        sentObject,
+      );
+      expect(echoObject, sentObject);
+    });
+
+    testWidgets('null Float64Lists serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Float64List? echoObject = api.callFlutterEchoNullableFloat64List(
+        null,
+      );
       expect(echoObject, null);
     });
 
@@ -2710,6 +2899,33 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
         sentObject,
       );
       expect(receivedObject, sentObject);
+    });
+
+    testWidgets('Float64List async serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final sentObject = Float64List.fromList(<double>[1.1, 2.2, 3.3]);
+      final Float64List receivedObject = await api
+          .callFlutterEchoAsyncFloat64List(sentObject);
+      expect(receivedObject, sentObject);
+    });
+
+    testWidgets(
+      'Float64List async nullable serialize and deserialize correctly',
+      (WidgetTester _) async {
+        final sentObject = Float64List.fromList(<double>[1.1, 2.2, 3.3]);
+        final Float64List? receivedObject = await api
+            .callFlutterEchoAsyncNullableFloat64List(sentObject);
+        expect(receivedObject, sentObject);
+      },
+    );
+
+    testWidgets('Float64List async null serialize and deserialize correctly', (
+      WidgetTester _,
+    ) async {
+      final Float64List? receivedObject = await api
+          .callFlutterEchoAsyncNullableFloat64List(null);
+      expect(receivedObject, null);
     });
 
     testWidgets('generic Objects async serialize and deserialize correctly', (
@@ -3214,6 +3430,15 @@ class NIFlutterIntegrationCoreApiImpl extends NIFlutterIntegrationCoreApi {
   }
 
   @override
+  Object? throwFlutterError() {
+    throw PlatformException(
+      code: 'code',
+      message: 'message',
+      details: 'details',
+    );
+  }
+
+  @override
   int echoInt(int anInt) {
     return anInt;
   }
@@ -3230,6 +3455,11 @@ class NIFlutterIntegrationCoreApiImpl extends NIFlutterIntegrationCoreApi {
 
   @override
   Int64List echoInt64List(Int64List list) {
+    return list;
+  }
+
+  @override
+  Float64List echoFloat64List(Float64List list) {
     return list;
   }
 
@@ -3290,6 +3520,11 @@ class NIFlutterIntegrationCoreApiImpl extends NIFlutterIntegrationCoreApi {
 
   @override
   Future<Int64List> echoAsyncInt64List(Int64List list) async {
+    return list;
+  }
+
+  @override
+  Future<Float64List> echoAsyncFloat64List(Float64List list) async {
     return list;
   }
 
@@ -3402,6 +3637,11 @@ class NIFlutterIntegrationCoreApiImpl extends NIFlutterIntegrationCoreApi {
 
   @override
   Future<Int64List?> echoAsyncNullableInt64List(Int64List? list) async {
+    return list;
+  }
+
+  @override
+  Future<Float64List?> echoAsyncNullableFloat64List(Float64List? list) async {
     return list;
   }
 
@@ -3679,6 +3919,11 @@ class NIFlutterIntegrationCoreApiImpl extends NIFlutterIntegrationCoreApi {
   }
 
   @override
+  Float64List? echoNullableFloat64List(Float64List? list) {
+    return list;
+  }
+
+  @override
   List<NIAnEnum>? echoNullableNonNullEnumList(List<NIAnEnum>? enumList) {
     return enumList;
   }
@@ -3757,6 +4002,33 @@ class NIFlutterIntegrationCoreApiImpl extends NIFlutterIntegrationCoreApi {
       aNullableBool: aNullableBool,
       aNullableInt: aNullableInt,
       aNullableString: aNullableString,
+    );
+  }
+
+  @override
+  Object? throwError() {
+    throw PlatformException(
+      code: 'code',
+      message: 'message',
+      details: 'details',
+    );
+  }
+
+  @override
+  Future<Object?> throwFlutterErrorAsync() {
+    throw PlatformException(
+      code: 'code',
+      message: 'message',
+      details: 'details',
+    );
+  }
+
+  @override
+  void throwErrorFromVoid() {
+    throw PlatformException(
+      code: 'code',
+      message: 'message',
+      details: 'details',
     );
   }
 

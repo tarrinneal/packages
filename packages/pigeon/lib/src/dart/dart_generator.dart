@@ -1505,6 +1505,11 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
                       indent.writeln(
                         "reportError(errorOut, 'ArgumentError: ${api.name} was not registered.');",
                       );
+                      if (method.isAsynchronous) {
+                        indent.writeln(
+                          'ffi_bridge.${_getFfiBlockCallExtensionName(method.returnType)}(completionHandler).call(${method.returnType.isVoid ? '' : 'null'});',
+                        );
+                      }
                       indent.writeln(
                         'return${(method.isAsynchronous || method.returnType.isVoid) ? '' : ' null'};',
                       );
@@ -1512,6 +1517,11 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
                   }, addTrailingNewline: false);
                   indent.addScoped(' catch (e) {', '}', () {
                     indent.writeln('reportError(errorOut, e);');
+                    if (method.isAsynchronous) {
+                      indent.writeln(
+                        'ffi_bridge.${_getFfiBlockCallExtensionName(method.returnType)}(completionHandler).call(${method.returnType.isVoid ? '' : 'null'});',
+                      );
+                    }
                     indent.writeln(
                       'return${(method.isAsynchronous || method.returnType.isVoid) ? '' : ' null'};',
                     );

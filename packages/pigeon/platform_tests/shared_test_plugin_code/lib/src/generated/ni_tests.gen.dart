@@ -6644,6 +6644,45 @@ class NIHostIntegrationCoreApiForNativeInterop {
     }
   }
 
+  Object? callFlutterThrowError() {
+    try {
+      if (_jniApi != null) {
+        final JObject? res = _jniApi.callFlutterThrowError();
+        final Object? dartTypeRes = _PigeonJniCodec.readValue(res);
+        return dartTypeRes;
+      } else if (_ffiApi != null) {
+        final error = ffi_bridge.NiTestsError();
+        final NSObject? res = _ffiApi.callFlutterThrowErrorWithWrappedError(
+          error,
+        );
+        _throwIfFfiError(error);
+        final Object? dartTypeRes = _PigeonFfiCodec.readValue(res);
+        return dartTypeRes;
+      } else {
+        throw Exception('No JNI or FFI api available');
+      }
+    } on JniException catch (e) {
+      throw _wrapJniException(e);
+    }
+  }
+
+  void callFlutterThrowErrorFromVoid() {
+    try {
+      if (_jniApi != null) {
+        return _jniApi.callFlutterThrowErrorFromVoid();
+      } else if (_ffiApi != null) {
+        final error = ffi_bridge.NiTestsError();
+        _ffiApi.callFlutterThrowErrorFromVoidWithWrappedError(error);
+        _throwIfFfiError(error);
+        return;
+      } else {
+        throw Exception('No JNI or FFI api available');
+      }
+    } on JniException catch (e) {
+      throw _wrapJniException(e);
+    }
+  }
+
   NIAllTypes callFlutterEchoNIAllTypes(NIAllTypes everything) {
     try {
       if (_jniApi != null) {
@@ -6971,6 +7010,34 @@ class NIHostIntegrationCoreApiForNativeInterop {
         _throwIfFfiError(error);
         final Int64List dartTypeRes =
             (_PigeonFfiCodec.readValue(res)! as Int64List);
+        return dartTypeRes;
+      } else {
+        throw Exception('No JNI or FFI api available');
+      }
+    } on JniException catch (e) {
+      throw _wrapJniException(e);
+    }
+  }
+
+  Float64List callFlutterEchoFloat64List(Float64List list) {
+    try {
+      if (_jniApi != null) {
+        final JDoubleArray res = _jniApi.callFlutterEchoFloat64List(
+          _PigeonJniCodec.writeValue<JDoubleArray>(list),
+        );
+        final Float64List dartTypeRes =
+            (_PigeonJniCodec.readValue(res)! as Float64List);
+        return dartTypeRes;
+      } else if (_ffiApi != null) {
+        final error = ffi_bridge.NiTestsError();
+        final ffi_bridge.PigeonTypedData? res = _ffiApi
+            .callFlutterEchoFloat64ListWithList(
+              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(list),
+              wrappedError: error,
+            );
+        _throwIfFfiError(error);
+        final Float64List dartTypeRes =
+            (_PigeonFfiCodec.readValue(res)! as Float64List);
         return dartTypeRes;
       } else {
         throw Exception('No JNI or FFI api available');
@@ -7653,6 +7720,34 @@ class NIHostIntegrationCoreApiForNativeInterop {
         _throwIfFfiError(error);
         final Int64List? dartTypeRes =
             (_PigeonFfiCodec.readValue(res) as Int64List?);
+        return dartTypeRes;
+      } else {
+        throw Exception('No JNI or FFI api available');
+      }
+    } on JniException catch (e) {
+      throw _wrapJniException(e);
+    }
+  }
+
+  Float64List? callFlutterEchoNullableFloat64List(Float64List? list) {
+    try {
+      if (_jniApi != null) {
+        final JDoubleArray? res = _jniApi.callFlutterEchoNullableFloat64List(
+          _PigeonJniCodec.writeValue<JDoubleArray?>(list),
+        );
+        final Float64List? dartTypeRes =
+            (_PigeonJniCodec.readValue(res) as Float64List?);
+        return dartTypeRes;
+      } else if (_ffiApi != null) {
+        final error = ffi_bridge.NiTestsError();
+        final ffi_bridge.PigeonTypedData? res = _ffiApi
+            .callFlutterEchoNullableFloat64ListWithList(
+              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(list),
+              wrappedError: error,
+            );
+        _throwIfFfiError(error);
+        final Float64List? dartTypeRes =
+            (_PigeonFfiCodec.readValue(res) as Float64List?);
         return dartTypeRes;
       } else {
         throw Exception('No JNI or FFI api available');
@@ -8561,6 +8656,43 @@ class NIHostIntegrationCoreApiForNativeInterop {
     }
   }
 
+  Future<Float64List> callFlutterEchoAsyncFloat64List(Float64List list) async {
+    try {
+      if (_jniApi != null) {
+        final JDoubleArray res = await _jniApi.callFlutterEchoAsyncFloat64List(
+          _PigeonJniCodec.writeValue<JDoubleArray>(list),
+        );
+        final Float64List dartTypeRes =
+            (_PigeonJniCodec.readValue(res)! as Float64List);
+        return dartTypeRes;
+      } else if (_ffiApi != null) {
+        final error = ffi_bridge.NiTestsError();
+        final Completer<Float64List> completer = Completer<Float64List>();
+        _ffiApi.callFlutterEchoAsyncFloat64ListWithList(
+          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(list),
+          wrappedError: error,
+          completionHandler:
+              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
+                ffi_bridge.PigeonTypedData? res,
+              ) {
+                if (error.code != null) {
+                  completer.completeError(_wrapFfiError(error));
+                } else {
+                  completer.complete(
+                    (_PigeonFfiCodec.readValue(res)! as Float64List),
+                  );
+                }
+              }),
+        );
+        return await completer.future;
+      } else {
+        throw Exception('No JNI or FFI api available');
+      }
+    } on JniException catch (e) {
+      throw _wrapJniException(e);
+    }
+  }
+
   Future<Object> callFlutterEchoAsyncObject(Object anObject) async {
     try {
       if (_jniApi != null) {
@@ -9332,6 +9464,76 @@ class NIHostIntegrationCoreApiForNativeInterop {
                   );
                 }
               }),
+        );
+        return await completer.future;
+      } else {
+        throw Exception('No JNI or FFI api available');
+      }
+    } on JniException catch (e) {
+      throw _wrapJniException(e);
+    }
+  }
+
+  Future<Float64List?> callFlutterEchoAsyncNullableFloat64List(
+    Float64List? list,
+  ) async {
+    try {
+      if (_jniApi != null) {
+        final JDoubleArray? res = await _jniApi
+            .callFlutterEchoAsyncNullableFloat64List(
+              _PigeonJniCodec.writeValue<JDoubleArray?>(list),
+            );
+        final Float64List? dartTypeRes =
+            (_PigeonJniCodec.readValue(res) as Float64List?);
+        return dartTypeRes;
+      } else if (_ffiApi != null) {
+        final error = ffi_bridge.NiTestsError();
+        final Completer<Float64List?> completer = Completer<Float64List?>();
+        _ffiApi.callFlutterEchoAsyncNullableFloat64ListWithList(
+          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(list),
+          wrappedError: error,
+          completionHandler:
+              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
+                ffi_bridge.PigeonTypedData? res,
+              ) {
+                if (error.code != null) {
+                  completer.completeError(_wrapFfiError(error));
+                } else {
+                  completer.complete(
+                    (_PigeonFfiCodec.readValue(res) as Float64List?),
+                  );
+                }
+              }),
+        );
+        return await completer.future;
+      } else {
+        throw Exception('No JNI or FFI api available');
+      }
+    } on JniException catch (e) {
+      throw _wrapJniException(e);
+    }
+  }
+
+  Future<Object?> callFlutterThrowFlutterErrorAsync() async {
+    try {
+      if (_jniApi != null) {
+        final JObject? res = await _jniApi.callFlutterThrowFlutterErrorAsync();
+        final Object? dartTypeRes = _PigeonJniCodec.readValue(res);
+        return dartTypeRes;
+      } else if (_ffiApi != null) {
+        final error = ffi_bridge.NiTestsError();
+        final Completer<Object?> completer = Completer<Object?>();
+        _ffiApi.callFlutterThrowFlutterErrorAsyncWithWrappedError(
+          error,
+          completionHandler: ffi_bridge.ObjCBlock_ffiVoid_NSObject.listener((
+            NSObject? res,
+          ) {
+            if (error.code != null) {
+              completer.completeError(_wrapFfiError(error));
+            } else {
+              completer.complete(_PigeonFfiCodec.readValue(res));
+            }
+          }),
         );
         return await completer.future;
       } else {
@@ -13695,6 +13897,60 @@ class NIHostIntegrationCoreApi {
     }
   }
 
+  Future<Object?> callFlutterThrowError() async {
+    if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
+        _nativeInteropApi != null) {
+      return _nativeInteropApi.callFlutterThrowError();
+    }
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.pigeon_integration_tests.NIHostIntegrationCoreApi.callFlutterThrowError$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else {
+      return pigeonVar_replyList[0];
+    }
+  }
+
+  Future<void> callFlutterThrowErrorFromVoid() async {
+    if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
+        _nativeInteropApi != null) {
+      return _nativeInteropApi.callFlutterThrowErrorFromVoid();
+    }
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.pigeon_integration_tests.NIHostIntegrationCoreApi.callFlutterThrowErrorFromVoid$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
   Future<NIAllTypes> callFlutterEchoNIAllTypes(NIAllTypes everything) async {
     if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
         _nativeInteropApi != null) {
@@ -14114,6 +14370,40 @@ class NIHostIntegrationCoreApi {
       );
     } else {
       return (pigeonVar_replyList[0] as Int64List?)!;
+    }
+  }
+
+  Future<Float64List> callFlutterEchoFloat64List(Float64List list) async {
+    if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
+        _nativeInteropApi != null) {
+      return _nativeInteropApi.callFlutterEchoFloat64List(list);
+    }
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.pigeon_integration_tests.NIHostIntegrationCoreApi.callFlutterEchoFloat64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[list],
+    );
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else if (pigeonVar_replyList[0] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (pigeonVar_replyList[0] as Float64List?)!;
     }
   }
 
@@ -14898,6 +15188,37 @@ class NIHostIntegrationCoreApi {
       );
     } else {
       return (pigeonVar_replyList[0] as Int64List?);
+    }
+  }
+
+  Future<Float64List?> callFlutterEchoNullableFloat64List(
+    Float64List? list,
+  ) async {
+    if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
+        _nativeInteropApi != null) {
+      return _nativeInteropApi.callFlutterEchoNullableFloat64List(list);
+    }
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.pigeon_integration_tests.NIHostIntegrationCoreApi.callFlutterEchoNullableFloat64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[list],
+    );
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else {
+      return (pigeonVar_replyList[0] as Float64List?);
     }
   }
 
@@ -15779,6 +16100,40 @@ class NIHostIntegrationCoreApi {
     }
   }
 
+  Future<Float64List> callFlutterEchoAsyncFloat64List(Float64List list) async {
+    if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
+        _nativeInteropApi != null) {
+      return _nativeInteropApi.callFlutterEchoAsyncFloat64List(list);
+    }
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.pigeon_integration_tests.NIHostIntegrationCoreApi.callFlutterEchoAsyncFloat64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[list],
+    );
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else if (pigeonVar_replyList[0] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (pigeonVar_replyList[0] as Float64List?)!;
+    }
+  }
+
   Future<Object> callFlutterEchoAsyncObject(Object anObject) async {
     if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
         _nativeInteropApi != null) {
@@ -16457,6 +16812,64 @@ class NIHostIntegrationCoreApi {
     }
   }
 
+  Future<Float64List?> callFlutterEchoAsyncNullableFloat64List(
+    Float64List? list,
+  ) async {
+    if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
+        _nativeInteropApi != null) {
+      return _nativeInteropApi.callFlutterEchoAsyncNullableFloat64List(list);
+    }
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.pigeon_integration_tests.NIHostIntegrationCoreApi.callFlutterEchoAsyncNullableFloat64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[list],
+    );
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else {
+      return (pigeonVar_replyList[0] as Float64List?);
+    }
+  }
+
+  Future<Object?> callFlutterThrowFlutterErrorAsync() async {
+    if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
+        _nativeInteropApi != null) {
+      return _nativeInteropApi.callFlutterThrowFlutterErrorAsync();
+    }
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.pigeon_integration_tests.NIHostIntegrationCoreApi.callFlutterThrowFlutterErrorAsync$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else {
+      return pigeonVar_replyList[0];
+    }
+  }
+
   Future<Object?> callFlutterEchoAsyncNullableObject(Object? anObject) async {
     if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
         _nativeInteropApi != null) {
@@ -16927,6 +17340,70 @@ final class NIFlutterIntegrationCoreApiRegistrar
           });
       ffi_bridge
           .NIFlutterIntegrationCoreApiBridge$Builder
+          .throwFlutterErrorWithError_
+          .implement(builder, (ffi_bridge.NiTestsError errorOut) {
+            try {
+              if (dartApi != null) {
+                final Object? response = dartApi!.throwFlutterError();
+                return _PigeonFfiCodec.writeValue<NSObject>(
+                  response,
+                  generic: true,
+                );
+              } else {
+                reportError(
+                  errorOut,
+                  'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
+                );
+                return null;
+              }
+            } catch (e) {
+              reportError(errorOut, e);
+              return null;
+            }
+          });
+      ffi_bridge.NIFlutterIntegrationCoreApiBridge$Builder.throwErrorWithError_
+          .implement(builder, (ffi_bridge.NiTestsError errorOut) {
+            try {
+              if (dartApi != null) {
+                final Object? response = dartApi!.throwError();
+                return _PigeonFfiCodec.writeValue<NSObject>(
+                  response,
+                  generic: true,
+                );
+              } else {
+                reportError(
+                  errorOut,
+                  'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
+                );
+                return null;
+              }
+            } catch (e) {
+              reportError(errorOut, e);
+              return null;
+            }
+          });
+      ffi_bridge
+          .NIFlutterIntegrationCoreApiBridge$Builder
+          .throwErrorFromVoidWithError_
+          .implement(builder, (ffi_bridge.NiTestsError errorOut) {
+            try {
+              if (dartApi != null) {
+                dartApi!.throwErrorFromVoid();
+                return;
+              } else {
+                reportError(
+                  errorOut,
+                  'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
+                );
+                return;
+              }
+            } catch (e) {
+              reportError(errorOut, e);
+              return;
+            }
+          });
+      ffi_bridge
+          .NIFlutterIntegrationCoreApiBridge$Builder
           .echoNIAllTypesWithEverything_error_
           .implement(builder, (
             ffi_bridge.NIAllTypesBridge? everything,
@@ -17223,6 +17700,33 @@ final class NIFlutterIntegrationCoreApiRegistrar
               if (dartApi != null) {
                 final Int64List response = dartApi!.echoInt64List(
                   (_PigeonFfiCodec.readValue(list)! as Int64List),
+                );
+                return _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(
+                  response,
+                );
+              } else {
+                reportError(
+                  errorOut,
+                  'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
+                );
+                return null;
+              }
+            } catch (e) {
+              reportError(errorOut, e);
+              return null;
+            }
+          });
+      ffi_bridge
+          .NIFlutterIntegrationCoreApiBridge$Builder
+          .echoFloat64ListWithList_error_
+          .implement(builder, (
+            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsError errorOut,
+          ) {
+            try {
+              if (dartApi != null) {
+                final Float64List response = dartApi!.echoFloat64List(
+                  (_PigeonFfiCodec.readValue(list)! as Float64List),
                 );
                 return _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(
                   response,
@@ -17851,6 +18355,33 @@ final class NIFlutterIntegrationCoreApiRegistrar
           });
       ffi_bridge
           .NIFlutterIntegrationCoreApiBridge$Builder
+          .echoNullableFloat64ListWithList_error_
+          .implement(builder, (
+            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsError errorOut,
+          ) {
+            try {
+              if (dartApi != null) {
+                final Float64List? response = dartApi!.echoNullableFloat64List(
+                  (_PigeonFfiCodec.readValue(list) as Float64List?),
+                );
+                return _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
+                  response,
+                );
+              } else {
+                reportError(
+                  errorOut,
+                  'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
+                );
+                return null;
+              }
+            } catch (e) {
+              reportError(errorOut, e);
+              return null;
+            }
+          });
+      ffi_bridge
+          .NIFlutterIntegrationCoreApiBridge$Builder
           .echoNullableListWithList_error_
           .implement(builder, (
             NSArray? list,
@@ -18314,10 +18845,62 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid$CallExtension(
+                  completionHandler,
+                ).call();
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid$CallExtension(
+                completionHandler,
+              ).call();
+              return;
+            }
+          });
+      ffi_bridge
+          .NIFlutterIntegrationCoreApiBridge$Builder
+          .throwFlutterErrorAsyncWithError_completionHandler_
+          .implementAsListener(builder, (
+            ffi_bridge.NiTestsError errorOut,
+            ObjCBlock<Void Function(NSObject?)> completionHandler,
+          ) {
+            try {
+              if (dartApi != null) {
+                dartApi!.throwFlutterErrorAsync().then(
+                  (response) {
+                    ffi_bridge.ObjCBlock_ffiVoid_NSObject$CallExtension(
+                      completionHandler,
+                    ).call(
+                      _PigeonFfiCodec.writeValue<NSObject>(
+                        response,
+                        generic: true,
+                      ),
+                    );
+                  },
+                  onError: (Object e) {
+                    reportError(errorOut, e);
+                    ffi_bridge.ObjCBlock_ffiVoid_NSObject$CallExtension(
+                      completionHandler,
+                    ).call(null);
+                  },
+                );
+                return;
+              } else {
+                reportError(
+                  errorOut,
+                  'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
+                );
+                ffi_bridge.ObjCBlock_ffiVoid_NSObject$CallExtension(
+                  completionHandler,
+                ).call(null);
+                return;
+              }
+            } catch (e) {
+              reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSObject$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18353,10 +18936,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NIAllTypesBridge$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NIAllTypesBridge$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18394,10 +18983,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NIAllNullableTypesBridge$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NIAllNullableTypesBridge$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18439,10 +19034,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NIAllNullableTypesWithoutRecursionBridge$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NIAllNullableTypesWithoutRecursionBridge$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18477,10 +19078,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18515,10 +19122,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18553,10 +19166,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18591,10 +19210,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSString$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSString$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18636,10 +19261,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18681,10 +19312,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18726,10 +19363,67 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                completionHandler,
+              ).call(null);
+              return;
+            }
+          });
+      ffi_bridge
+          .NIFlutterIntegrationCoreApiBridge$Builder
+          .echoAsyncFloat64ListWithList_error_completionHandler_
+          .implementAsListener(builder, (
+            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsError errorOut,
+            ObjCBlock<Void Function(ffi_bridge.PigeonTypedData?)>
+            completionHandler,
+          ) {
+            try {
+              if (dartApi != null) {
+                dartApi!
+                    .echoAsyncFloat64List(
+                      (_PigeonFfiCodec.readValue(list)! as Float64List),
+                    )
+                    .then(
+                      (response) {
+                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                          completionHandler,
+                        ).call(
+                          _PigeonFfiCodec.writeValue<
+                            ffi_bridge.PigeonTypedData
+                          >(response),
+                        );
+                      },
+                      onError: (Object e) {
+                        reportError(errorOut, e);
+                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                          completionHandler,
+                        ).call(null);
+                      },
+                    );
+                return;
+              } else {
+                reportError(
+                  errorOut,
+                  'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
+                );
+                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                  completionHandler,
+                ).call(null);
+                return;
+              }
+            } catch (e) {
+              reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18769,10 +19463,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSObject$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSObject$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18812,10 +19512,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18856,10 +19562,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18899,10 +19611,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18943,10 +19661,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -18986,10 +19710,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19029,10 +19759,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19073,10 +19809,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19117,10 +19859,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19161,10 +19909,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19205,10 +19959,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19246,10 +20006,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19287,10 +20053,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19325,10 +20097,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19363,10 +20141,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19401,10 +20185,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19439,10 +20229,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSString$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSString$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19484,10 +20280,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19529,10 +20331,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19574,10 +20382,67 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                completionHandler,
+              ).call(null);
+              return;
+            }
+          });
+      ffi_bridge
+          .NIFlutterIntegrationCoreApiBridge$Builder
+          .echoAsyncNullableFloat64ListWithList_error_completionHandler_
+          .implementAsListener(builder, (
+            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsError errorOut,
+            ObjCBlock<Void Function(ffi_bridge.PigeonTypedData?)>
+            completionHandler,
+          ) {
+            try {
+              if (dartApi != null) {
+                dartApi!
+                    .echoAsyncNullableFloat64List(
+                      (_PigeonFfiCodec.readValue(list) as Float64List?),
+                    )
+                    .then(
+                      (response) {
+                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                          completionHandler,
+                        ).call(
+                          _PigeonFfiCodec.writeValue<
+                            ffi_bridge.PigeonTypedData?
+                          >(response),
+                        );
+                      },
+                      onError: (Object e) {
+                        reportError(errorOut, e);
+                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                          completionHandler,
+                        ).call(null);
+                      },
+                    );
+                return;
+              } else {
+                reportError(
+                  errorOut,
+                  'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
+                );
+                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                  completionHandler,
+                ).call(null);
+                return;
+              }
+            } catch (e) {
+              reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19619,10 +20484,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSObject$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSObject$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19662,10 +20533,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19706,10 +20583,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19749,10 +20632,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19793,10 +20682,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19836,10 +20731,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19879,10 +20780,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19923,10 +20830,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -19967,10 +20880,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -20011,10 +20930,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -20055,10 +20980,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -20096,10 +21027,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -20137,10 +21074,16 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
+                ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                  completionHandler,
+                ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
+              ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
+                completionHandler,
+              ).call(null);
               return;
             }
           });
@@ -20161,6 +21104,36 @@ final class NIFlutterIntegrationCoreApiRegistrar
   void noop() {
     if (dartApi != null) {
       dartApi!.noop();
+      return;
+    } else {
+      throw ArgumentError('NIFlutterIntegrationCoreApi was not registered.');
+    }
+  }
+
+  @override
+  JObject? throwFlutterError() {
+    if (dartApi != null) {
+      final Object? response = dartApi!.throwFlutterError();
+      return _PigeonJniCodec.writeValue<JObject?>(response);
+    } else {
+      throw ArgumentError('NIFlutterIntegrationCoreApi was not registered.');
+    }
+  }
+
+  @override
+  JObject? throwError() {
+    if (dartApi != null) {
+      final Object? response = dartApi!.throwError();
+      return _PigeonJniCodec.writeValue<JObject?>(response);
+    } else {
+      throw ArgumentError('NIFlutterIntegrationCoreApi was not registered.');
+    }
+  }
+
+  @override
+  void throwErrorFromVoid() {
+    if (dartApi != null) {
+      dartApi!.throwErrorFromVoid();
       return;
     } else {
       throw ArgumentError('NIFlutterIntegrationCoreApi was not registered.');
@@ -20320,6 +21293,18 @@ final class NIFlutterIntegrationCoreApiRegistrar
         (_PigeonJniCodec.readValue(list)! as Int64List),
       );
       return _PigeonJniCodec.writeValue<JLongArray>(response);
+    } else {
+      throw ArgumentError('NIFlutterIntegrationCoreApi was not registered.');
+    }
+  }
+
+  @override
+  JDoubleArray echoFloat64List(JDoubleArray list) {
+    if (dartApi != null) {
+      final Float64List response = dartApi!.echoFloat64List(
+        (_PigeonJniCodec.readValue(list)! as Float64List),
+      );
+      return _PigeonJniCodec.writeValue<JDoubleArray>(response);
     } else {
       throw ArgumentError('NIFlutterIntegrationCoreApi was not registered.');
     }
@@ -20646,6 +21631,18 @@ final class NIFlutterIntegrationCoreApiRegistrar
   }
 
   @override
+  JDoubleArray? echoNullableFloat64List(JDoubleArray? list) {
+    if (dartApi != null) {
+      final Float64List? response = dartApi!.echoNullableFloat64List(
+        (_PigeonJniCodec.readValue(list) as Float64List?),
+      );
+      return _PigeonJniCodec.writeValue<JDoubleArray?>(response);
+    } else {
+      throw ArgumentError('NIFlutterIntegrationCoreApi was not registered.');
+    }
+  }
+
+  @override
   JList<JObject?>? echoNullableList(JList<JObject?>? list) {
     if (dartApi != null) {
       final List<Object?>? response = dartApi!.echoNullableList(
@@ -20902,6 +21899,17 @@ final class NIFlutterIntegrationCoreApiRegistrar
   }
 
   @override
+  Future<JObject?> throwFlutterErrorAsync() {
+    if (dartApi != null) {
+      return dartApi!.throwFlutterErrorAsync().then((response) {
+        return _PigeonJniCodec.writeValue<JObject?>(response);
+      });
+    } else {
+      throw ArgumentError('NIFlutterIntegrationCoreApi was not registered.');
+    }
+  }
+
+  @override
   Future<jni_bridge.NIAllTypes> echoAsyncNIAllTypes(
     jni_bridge.NIAllTypes everything,
   ) {
@@ -21030,6 +22038,21 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .echoAsyncInt64List((_PigeonJniCodec.readValue(list)! as Int64List))
           .then((response) {
             return _PigeonJniCodec.writeValue<JLongArray>(response);
+          });
+    } else {
+      throw ArgumentError('NIFlutterIntegrationCoreApi was not registered.');
+    }
+  }
+
+  @override
+  Future<JDoubleArray> echoAsyncFloat64List(JDoubleArray list) {
+    if (dartApi != null) {
+      return dartApi!
+          .echoAsyncFloat64List(
+            (_PigeonJniCodec.readValue(list)! as Float64List),
+          )
+          .then((response) {
+            return _PigeonJniCodec.writeValue<JDoubleArray>(response);
           });
     } else {
       throw ArgumentError('NIFlutterIntegrationCoreApi was not registered.');
@@ -21362,6 +22385,21 @@ final class NIFlutterIntegrationCoreApiRegistrar
   }
 
   @override
+  Future<JDoubleArray?> echoAsyncNullableFloat64List(JDoubleArray? list) {
+    if (dartApi != null) {
+      return dartApi!
+          .echoAsyncNullableFloat64List(
+            (_PigeonJniCodec.readValue(list) as Float64List?),
+          )
+          .then((response) {
+            return _PigeonJniCodec.writeValue<JDoubleArray?>(response);
+          });
+    } else {
+      throw ArgumentError('NIFlutterIntegrationCoreApi was not registered.');
+    }
+  }
+
+  @override
   Future<JObject?> echoAsyncNullableObject(JObject? anObject) {
     if (dartApi != null) {
       return dartApi!
@@ -21609,6 +22647,15 @@ abstract class NIFlutterIntegrationCoreApi {
   /// test basic calling.
   void noop();
 
+  /// Returns a Flutter error, to test error handling.
+  Object? throwFlutterError();
+
+  /// Responds with an error from an async function returning a value.
+  Object? throwError();
+
+  /// Responds with an error from an async void function.
+  void throwErrorFromVoid();
+
   /// Returns the passed object, to test serialization and deserialization.
   NIAllTypes echoNIAllTypes(NIAllTypes everything);
 
@@ -21658,6 +22705,9 @@ abstract class NIFlutterIntegrationCoreApi {
 
   /// Returns the passed int64 list, to test serialization and deserialization.
   Int64List echoInt64List(Int64List list);
+
+  /// Returns the passed float64 list, to test serialization and deserialization.
+  Float64List echoFloat64List(Float64List list);
 
   /// Returns the passed list, to test serialization and deserialization.
   List<Object?> echoList(List<Object?> list);
@@ -21734,6 +22784,9 @@ abstract class NIFlutterIntegrationCoreApi {
   /// Returns the passed int64 list, to test serialization and deserialization.
   Int64List? echoNullableInt64List(Int64List? list);
 
+  /// Returns the passed float64 list, to test serialization and deserialization.
+  Float64List? echoNullableFloat64List(Float64List? list);
+
   /// Returns the passed list, to test serialization and deserialization.
   List<Object?>? echoNullableList(List<Object?>? list);
 
@@ -21802,6 +22855,8 @@ abstract class NIFlutterIntegrationCoreApi {
   /// test basic asynchronous calling.
   Future<void> noopAsync();
 
+  Future<Object?> throwFlutterErrorAsync();
+
   Future<NIAllTypes> echoAsyncNIAllTypes(NIAllTypes everything);
 
   Future<NIAllNullableTypes?> echoAsyncNullableNIAllNullableTypes(
@@ -21826,6 +22881,8 @@ abstract class NIFlutterIntegrationCoreApi {
   Future<Int32List> echoAsyncInt32List(Int32List list);
 
   Future<Int64List> echoAsyncInt64List(Int64List list);
+
+  Future<Float64List> echoAsyncFloat64List(Float64List list);
 
   Future<Object> echoAsyncObject(Object anObject);
 
@@ -21876,6 +22933,8 @@ abstract class NIFlutterIntegrationCoreApi {
   Future<Int32List?> echoAsyncNullableInt32List(Int32List? list);
 
   Future<Int64List?> echoAsyncNullableInt64List(Int64List? list);
+
+  Future<Float64List?> echoAsyncNullableFloat64List(Float64List? list);
 
   Future<Object?> echoAsyncNullableObject(Object? anObject);
 
@@ -21957,6 +23016,75 @@ abstract class NIFlutterIntegrationCoreApi {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           try {
             api.noop();
+            return wrapResponse(empty: true);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
+          }
+        });
+      }
+    }
+    {
+      final pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.throwFlutterError$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          try {
+            final Object? output = api.throwFlutterError();
+            return wrapResponse(result: output);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
+          }
+        });
+      }
+    }
+    {
+      final pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.throwError$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          try {
+            final Object? output = api.throwError();
+            return wrapResponse(result: output);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
+          }
+        });
+      }
+    }
+    {
+      final pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.throwErrorFromVoid$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          try {
+            api.throwErrorFromVoid();
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
@@ -22355,6 +23483,39 @@ abstract class NIFlutterIntegrationCoreApi {
           );
           try {
             final Int64List output = api.echoInt64List(arg_list!);
+            return wrapResponse(result: output);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
+          }
+        });
+      }
+    }
+    {
+      final pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.echoFloat64List$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.echoFloat64List was null.',
+          );
+          final List<Object?> args = (message as List<Object?>?)!;
+          final Float64List? arg_list = (args[0] as Float64List?);
+          assert(
+            arg_list != null,
+            'Argument for dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.echoFloat64List was null, expected non-null Float64List.',
+          );
+          try {
+            final Float64List output = api.echoFloat64List(arg_list!);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
@@ -23135,6 +24296,35 @@ abstract class NIFlutterIntegrationCoreApi {
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.echoNullableFloat64List$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.echoNullableFloat64List was null.',
+          );
+          final List<Object?> args = (message as List<Object?>?)!;
+          final Float64List? arg_list = (args[0] as Float64List?);
+          try {
+            final Float64List? output = api.echoNullableFloat64List(arg_list);
+            return wrapResponse(result: output);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
+          }
+        });
+      }
+    }
+    {
+      final pigeonVar_channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.echoNullableList$messageChannelSuffix',
         pigeonChannelCodec,
         binaryMessenger: binaryMessenger,
@@ -23657,6 +24847,29 @@ abstract class NIFlutterIntegrationCoreApi {
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.throwFlutterErrorAsync$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          try {
+            final Object? output = await api.throwFlutterErrorAsync();
+            return wrapResponse(result: output);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
+          }
+        });
+      }
+    }
+    {
+      final pigeonVar_channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.echoAsyncNIAllTypes$messageChannelSuffix',
         pigeonChannelCodec,
         binaryMessenger: binaryMessenger,
@@ -23974,6 +25187,41 @@ abstract class NIFlutterIntegrationCoreApi {
           );
           try {
             final Int64List output = await api.echoAsyncInt64List(arg_list!);
+            return wrapResponse(result: output);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
+          }
+        });
+      }
+    }
+    {
+      final pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.echoAsyncFloat64List$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.echoAsyncFloat64List was null.',
+          );
+          final List<Object?> args = (message as List<Object?>?)!;
+          final Float64List? arg_list = (args[0] as Float64List?);
+          assert(
+            arg_list != null,
+            'Argument for dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.echoAsyncFloat64List was null, expected non-null Float64List.',
+          );
+          try {
+            final Float64List output = await api.echoAsyncFloat64List(
+              arg_list!,
+            );
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
@@ -24642,6 +25890,37 @@ abstract class NIFlutterIntegrationCoreApi {
           final Int64List? arg_list = (args[0] as Int64List?);
           try {
             final Int64List? output = await api.echoAsyncNullableInt64List(
+              arg_list,
+            );
+            return wrapResponse(result: output);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          } catch (e) {
+            return wrapResponse(
+              error: PlatformException(code: 'error', message: e.toString()),
+            );
+          }
+        });
+      }
+    }
+    {
+      final pigeonVar_channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.echoAsyncNullableFloat64List$messageChannelSuffix',
+        pigeonChannelCodec,
+        binaryMessenger: binaryMessenger,
+      );
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          assert(
+            message != null,
+            'Argument for dev.flutter.pigeon.pigeon_integration_tests.NIFlutterIntegrationCoreApi.echoAsyncNullableFloat64List was null.',
+          );
+          final List<Object?> args = (message as List<Object?>?)!;
+          final Float64List? arg_list = (args[0] as Float64List?);
+          try {
+            final Float64List? output = await api.echoAsyncNullableFloat64List(
               arg_list,
             );
             return wrapResponse(result: output);

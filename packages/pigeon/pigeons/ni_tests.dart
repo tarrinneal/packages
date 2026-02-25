@@ -951,9 +951,9 @@ abstract class NIHostIntegrationCoreApi {
 
   void callFlutterNoop();
 
-  // Object? callFlutterThrowError();
+  Object? callFlutterThrowError();
 
-  // void callFlutterThrowErrorFromVoid();
+  void callFlutterThrowErrorFromVoid();
 
   @ObjCSelector('callFlutterEchoAllTypes:')
   // @SwiftFunction('callFlutterEcho(_:)')
@@ -1020,6 +1020,10 @@ abstract class NIHostIntegrationCoreApi {
   @ObjCSelector('callFlutterEchoInt64List:')
   // @SwiftFunction('callFlutterEcho(_:)')
   Int64List callFlutterEchoInt64List(Int64List list);
+
+  @ObjCSelector('callFlutterEchoFloat64List:')
+  // @SwiftFunction('callFlutterEcho(_:)')
+  Float64List callFlutterEchoFloat64List(Float64List list);
 
   @ObjCSelector('callFlutterEchoList:')
   // @SwiftFunction('callFlutterEcho(_:)')
@@ -1128,6 +1132,10 @@ abstract class NIHostIntegrationCoreApi {
   @ObjCSelector('callFlutterEchoNullableInt64List:')
   // @SwiftFunction('callFlutterEchoNullable(_:)')
   Int64List? callFlutterEchoNullableInt64List(Int64List? list);
+
+  @ObjCSelector('callFlutterEchoNullableFloat64List:')
+  // @SwiftFunction('callFlutterEchoNullable(_:)')
+  Float64List? callFlutterEchoNullableFloat64List(Float64List? list);
 
   @ObjCSelector('callFlutterEchoNullableList:')
   // @SwiftFunction('callFlutterEchoNullable(_:)')
@@ -1250,6 +1258,9 @@ abstract class NIHostIntegrationCoreApi {
   Int64List callFlutterEchoAsyncInt64List(Int64List list);
 
   @async
+  Float64List callFlutterEchoAsyncFloat64List(Float64List list);
+
+  @async
   Object callFlutterEchoAsyncObject(Object anObject);
 
   @async
@@ -1318,6 +1329,12 @@ abstract class NIHostIntegrationCoreApi {
 
   @async
   Int64List? callFlutterEchoAsyncNullableInt64List(Int64List? list);
+
+  @async
+  Float64List? callFlutterEchoAsyncNullableFloat64List(Float64List? list);
+
+  @async
+  Object? callFlutterThrowFlutterErrorAsync();
 
   @async
   Object? callFlutterEchoAsyncNullableObject(Object? anObject);
@@ -1411,11 +1428,14 @@ abstract class NIFlutterIntegrationCoreApi {
   /// test basic calling.
   void noop();
 
-  //   /// Responds with an error from an async function returning a value.
-  //   Object? throwError();
+  /// Returns a Flutter error, to test error handling.
+  Object? throwFlutterError();
 
-  //   /// Responds with an error from an async void function.
-  //   void throwErrorFromVoid();
+  /// Responds with an error from an async function returning a value.
+  Object? throwError();
+
+  /// Responds with an error from an async void function.
+  void throwErrorFromVoid();
 
   /// Returns the passed object, to test serialization and deserialization.
   @ObjCSelector('echoNIAllTypes:')
@@ -1494,6 +1514,11 @@ abstract class NIFlutterIntegrationCoreApi {
   @ObjCSelector('echoInt64List:')
   // @SwiftFunction('echo(_:)')
   Int64List echoInt64List(Int64List list);
+
+  /// Returns the passed float64 list, to test serialization and deserialization.
+  @ObjCSelector('echoFloat64List:')
+  // @SwiftFunction('echo(_:)')
+  Float64List echoFloat64List(Float64List list);
 
   /// Returns the passed list, to test serialization and deserialization.
   @ObjCSelector('echoList:')
@@ -1618,6 +1643,11 @@ abstract class NIFlutterIntegrationCoreApi {
   // @SwiftFunction('echoNullable(_:)')
   Int64List? echoNullableInt64List(Int64List? list);
 
+  /// Returns the passed float64 list, to test serialization and deserialization.
+  @ObjCSelector('echoNullableFloat64List:')
+  // @SwiftFunction('echoNullable(_:)')
+  Float64List? echoNullableFloat64List(Float64List? list);
+
   /// Returns the passed list, to test serialization and deserialization.
   @ObjCSelector('echoNullableList:')
   // @SwiftFunction('echoNullable(_:)')
@@ -1722,6 +1752,9 @@ abstract class NIFlutterIntegrationCoreApi {
   void noopAsync();
 
   @async
+  Object? throwFlutterErrorAsync();
+
+  @async
   NIAllTypes echoAsyncNIAllTypes(NIAllTypes everything);
 
   @async
@@ -1755,6 +1788,9 @@ abstract class NIFlutterIntegrationCoreApi {
 
   @async
   Int64List echoAsyncInt64List(Int64List list);
+
+  @async
+  Float64List echoAsyncFloat64List(Float64List list);
 
   @async
   Object echoAsyncObject(Object anObject);
@@ -1821,6 +1857,9 @@ abstract class NIFlutterIntegrationCoreApi {
 
   @async
   Int64List? echoAsyncNullableInt64List(Int64List? list);
+
+  @async
+  Float64List? echoAsyncNullableFloat64List(Float64List? list);
 
   @async
   Object? echoAsyncNullableObject(Object? anObject);

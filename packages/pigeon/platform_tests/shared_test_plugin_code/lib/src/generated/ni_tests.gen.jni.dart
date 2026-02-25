@@ -5552,6 +5552,65 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
     ).check();
   }
 
+  static final _id_callFlutterThrowError = _class.instanceMethodId(
+    r'callFlutterThrowError',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _callFlutterThrowError =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
+
+  /// from: `public fun callFlutterThrowError(): kotlin.Any?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? callFlutterThrowError() {
+    return _callFlutterThrowError(
+      reference.pointer,
+      _id_callFlutterThrowError as jni$_.JMethodIDPtr,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+  }
+
+  static final _id_callFlutterThrowErrorFromVoid = _class.instanceMethodId(
+    r'callFlutterThrowErrorFromVoid',
+    r'()V',
+  );
+
+  static final _callFlutterThrowErrorFromVoid =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
+
+  /// from: `public fun callFlutterThrowErrorFromVoid(): kotlin.Unit`
+  void callFlutterThrowErrorFromVoid() {
+    _callFlutterThrowErrorFromVoid(
+      reference.pointer,
+      _id_callFlutterThrowErrorFromVoid as jni$_.JMethodIDPtr,
+    ).check();
+  }
+
   static final _id_callFlutterEchoNIAllTypes = _class.instanceMethodId(
     r'callFlutterEchoNIAllTypes',
     r'(LNIAllTypes;)LNIAllTypes;',
@@ -6000,6 +6059,40 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
       _id_callFlutterEchoInt64List as jni$_.JMethodIDPtr,
       _$js.pointer,
     ).object<jni$_.JLongArray>(const jni$_.$JLongArray$Type$());
+  }
+
+  static final _id_callFlutterEchoFloat64List = _class.instanceMethodId(
+    r'callFlutterEchoFloat64List',
+    r'([D)[D',
+  );
+
+  static final _callFlutterEchoFloat64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoFloat64List(list: kotlin.DoubleArray): kotlin.DoubleArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JDoubleArray callFlutterEchoFloat64List(jni$_.JDoubleArray ds) {
+    final _$ds = ds.reference;
+    return _callFlutterEchoFloat64List(
+      reference.pointer,
+      _id_callFlutterEchoFloat64List as jni$_.JMethodIDPtr,
+      _$ds.pointer,
+    ).object<jni$_.JDoubleArray>(const jni$_.$JDoubleArray$Type$());
   }
 
   static final _id_callFlutterEchoList = _class.instanceMethodId(
@@ -6865,6 +6958,42 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
       _id_callFlutterEchoNullableInt64List as jni$_.JMethodIDPtr,
       _$js.pointer,
     ).object<jni$_.JLongArray?>(const jni$_.$JLongArray$NullableType$());
+  }
+
+  static final _id_callFlutterEchoNullableFloat64List = _class.instanceMethodId(
+    r'callFlutterEchoNullableFloat64List',
+    r'([D)[D',
+  );
+
+  static final _callFlutterEchoNullableFloat64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableFloat64List(list: kotlin.DoubleArray?): kotlin.DoubleArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JDoubleArray? callFlutterEchoNullableFloat64List(
+    jni$_.JDoubleArray? ds,
+  ) {
+    final _$ds = ds?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableFloat64List(
+      reference.pointer,
+      _id_callFlutterEchoNullableFloat64List as jni$_.JMethodIDPtr,
+      _$ds.pointer,
+    ).object<jni$_.JDoubleArray?>(const jni$_.$JDoubleArray$NullableType$());
   }
 
   static final _id_callFlutterEchoNullableList = _class.instanceMethodId(
@@ -8231,6 +8360,73 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
     }
     return $o.as<jni$_.JLongArray>(
       const jni$_.$JLongArray$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncFloat64List = _class.instanceMethodId(
+    r'callFlutterEchoAsyncFloat64List',
+    r'([DLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncFloat64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncFloat64List(list: kotlin.DoubleArray): kotlin.DoubleArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JDoubleArray> callFlutterEchoAsyncFloat64List(
+    jni$_.JDoubleArray ds,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$ds = ds.reference;
+    final $r = _callFlutterEchoAsyncFloat64List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncFloat64List as jni$_.JMethodIDPtr,
+      _$ds.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JDoubleArray>(
+      const jni$_.$JDoubleArray$Type$(),
       releaseOriginal: true,
     );
   }
@@ -9605,6 +9801,139 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
     }
     return $o?.as<jni$_.JLongArray?>(
       const jni$_.$JLongArray$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncNullableFloat64List = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableFloat64List',
+        r'([DLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableFloat64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableFloat64List(list: kotlin.DoubleArray?): kotlin.DoubleArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JDoubleArray?> callFlutterEchoAsyncNullableFloat64List(
+    jni$_.JDoubleArray? ds,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$ds = ds?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableFloat64List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableFloat64List as jni$_.JMethodIDPtr,
+      _$ds.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JDoubleArray?>(
+      const jni$_.$JDoubleArray$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterThrowFlutterErrorAsync = _class.instanceMethodId(
+    r'callFlutterThrowFlutterErrorAsync',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterThrowFlutterErrorAsync =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterThrowFlutterErrorAsync(): kotlin.Any?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JObject?> callFlutterThrowFlutterErrorAsync() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _callFlutterThrowFlutterErrorAsync(
+      reference.pointer,
+      _id_callFlutterThrowFlutterErrorAsync as jni$_.JMethodIDPtr,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JObject?>(
+      const jni$_.$JObject$NullableType$(),
       releaseOriginal: true,
     );
   }
@@ -16307,6 +16636,65 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
     ).check();
   }
 
+  static final _id_callFlutterThrowError = _class.instanceMethodId(
+    r'callFlutterThrowError',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _callFlutterThrowError =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
+
+  /// from: `public fun callFlutterThrowError(): kotlin.Any?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? callFlutterThrowError() {
+    return _callFlutterThrowError(
+      reference.pointer,
+      _id_callFlutterThrowError as jni$_.JMethodIDPtr,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+  }
+
+  static final _id_callFlutterThrowErrorFromVoid = _class.instanceMethodId(
+    r'callFlutterThrowErrorFromVoid',
+    r'()V',
+  );
+
+  static final _callFlutterThrowErrorFromVoid =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
+
+  /// from: `public fun callFlutterThrowErrorFromVoid(): kotlin.Unit`
+  void callFlutterThrowErrorFromVoid() {
+    _callFlutterThrowErrorFromVoid(
+      reference.pointer,
+      _id_callFlutterThrowErrorFromVoid as jni$_.JMethodIDPtr,
+    ).check();
+  }
+
   static final _id_callFlutterEchoNIAllTypes = _class.instanceMethodId(
     r'callFlutterEchoNIAllTypes',
     r'(LNIAllTypes;)LNIAllTypes;',
@@ -16755,6 +17143,40 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
       _id_callFlutterEchoInt64List as jni$_.JMethodIDPtr,
       _$js.pointer,
     ).object<jni$_.JLongArray>(const jni$_.$JLongArray$Type$());
+  }
+
+  static final _id_callFlutterEchoFloat64List = _class.instanceMethodId(
+    r'callFlutterEchoFloat64List',
+    r'([D)[D',
+  );
+
+  static final _callFlutterEchoFloat64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoFloat64List(list: kotlin.DoubleArray): kotlin.DoubleArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JDoubleArray callFlutterEchoFloat64List(jni$_.JDoubleArray ds) {
+    final _$ds = ds.reference;
+    return _callFlutterEchoFloat64List(
+      reference.pointer,
+      _id_callFlutterEchoFloat64List as jni$_.JMethodIDPtr,
+      _$ds.pointer,
+    ).object<jni$_.JDoubleArray>(const jni$_.$JDoubleArray$Type$());
   }
 
   static final _id_callFlutterEchoList = _class.instanceMethodId(
@@ -17620,6 +18042,42 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
       _id_callFlutterEchoNullableInt64List as jni$_.JMethodIDPtr,
       _$js.pointer,
     ).object<jni$_.JLongArray?>(const jni$_.$JLongArray$NullableType$());
+  }
+
+  static final _id_callFlutterEchoNullableFloat64List = _class.instanceMethodId(
+    r'callFlutterEchoNullableFloat64List',
+    r'([D)[D',
+  );
+
+  static final _callFlutterEchoNullableFloat64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun callFlutterEchoNullableFloat64List(list: kotlin.DoubleArray?): kotlin.DoubleArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JDoubleArray? callFlutterEchoNullableFloat64List(
+    jni$_.JDoubleArray? ds,
+  ) {
+    final _$ds = ds?.reference ?? jni$_.jNullReference;
+    return _callFlutterEchoNullableFloat64List(
+      reference.pointer,
+      _id_callFlutterEchoNullableFloat64List as jni$_.JMethodIDPtr,
+      _$ds.pointer,
+    ).object<jni$_.JDoubleArray?>(const jni$_.$JDoubleArray$NullableType$());
   }
 
   static final _id_callFlutterEchoNullableList = _class.instanceMethodId(
@@ -18986,6 +19444,73 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
     }
     return $o.as<jni$_.JLongArray>(
       const jni$_.$JLongArray$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterEchoAsyncFloat64List = _class.instanceMethodId(
+    r'callFlutterEchoAsyncFloat64List',
+    r'([DLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterEchoAsyncFloat64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncFloat64List(list: kotlin.DoubleArray): kotlin.DoubleArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JDoubleArray> callFlutterEchoAsyncFloat64List(
+    jni$_.JDoubleArray ds,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$ds = ds.reference;
+    final $r = _callFlutterEchoAsyncFloat64List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncFloat64List as jni$_.JMethodIDPtr,
+      _$ds.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JDoubleArray>(
+      const jni$_.$JDoubleArray$Type$(),
       releaseOriginal: true,
     );
   }
@@ -20364,6 +20889,139 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
     );
   }
 
+  static final _id_callFlutterEchoAsyncNullableFloat64List = _class
+      .instanceMethodId(
+        r'callFlutterEchoAsyncNullableFloat64List',
+        r'([DLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+      );
+
+  static final _callFlutterEchoAsyncNullableFloat64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterEchoAsyncNullableFloat64List(list: kotlin.DoubleArray?): kotlin.DoubleArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JDoubleArray?> callFlutterEchoAsyncNullableFloat64List(
+    jni$_.JDoubleArray? ds,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$ds = ds?.reference ?? jni$_.jNullReference;
+    final $r = _callFlutterEchoAsyncNullableFloat64List(
+      reference.pointer,
+      _id_callFlutterEchoAsyncNullableFloat64List as jni$_.JMethodIDPtr,
+      _$ds.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JDoubleArray?>(
+      const jni$_.$JDoubleArray$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_callFlutterThrowFlutterErrorAsync = _class.instanceMethodId(
+    r'callFlutterThrowFlutterErrorAsync',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _callFlutterThrowFlutterErrorAsync =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun callFlutterThrowFlutterErrorAsync(): kotlin.Any?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JObject?> callFlutterThrowFlutterErrorAsync() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _callFlutterThrowFlutterErrorAsync(
+      reference.pointer,
+      _id_callFlutterThrowFlutterErrorAsync as jni$_.JMethodIDPtr,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JObject?>(
+      const jni$_.$JObject$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
   static final _id_callFlutterEchoAsyncNullableObject = _class.instanceMethodId(
     r'callFlutterEchoAsyncNullableObject',
     r'(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
@@ -21418,6 +22076,95 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
     _noop(reference.pointer, _id_noop as jni$_.JMethodIDPtr).check();
   }
 
+  static final _id_throwFlutterError = _class.instanceMethodId(
+    r'throwFlutterError',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _throwFlutterError =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
+
+  /// from: `public fun throwFlutterError(): kotlin.Any?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? throwFlutterError() {
+    return _throwFlutterError(
+      reference.pointer,
+      _id_throwFlutterError as jni$_.JMethodIDPtr,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+  }
+
+  static final _id_throwError = _class.instanceMethodId(
+    r'throwError',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _throwError =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
+
+  /// from: `public fun throwError(): kotlin.Any?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? throwError() {
+    return _throwError(
+      reference.pointer,
+      _id_throwError as jni$_.JMethodIDPtr,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+  }
+
+  static final _id_throwErrorFromVoid = _class.instanceMethodId(
+    r'throwErrorFromVoid',
+    r'()V',
+  );
+
+  static final _throwErrorFromVoid =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
+
+  /// from: `public fun throwErrorFromVoid(): kotlin.Unit`
+  void throwErrorFromVoid() {
+    _throwErrorFromVoid(
+      reference.pointer,
+      _id_throwErrorFromVoid as jni$_.JMethodIDPtr,
+    ).check();
+  }
+
   static final _id_echoNIAllTypes = _class.instanceMethodId(
     r'echoNIAllTypes',
     r'(LNIAllTypes;)LNIAllTypes;',
@@ -21852,6 +22599,40 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
       _id_echoInt64List as jni$_.JMethodIDPtr,
       _$js.pointer,
     ).object<jni$_.JLongArray>(const jni$_.$JLongArray$Type$());
+  }
+
+  static final _id_echoFloat64List = _class.instanceMethodId(
+    r'echoFloat64List',
+    r'([D)[D',
+  );
+
+  static final _echoFloat64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoFloat64List(list: kotlin.DoubleArray): kotlin.DoubleArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JDoubleArray echoFloat64List(jni$_.JDoubleArray ds) {
+    final _$ds = ds.reference;
+    return _echoFloat64List(
+      reference.pointer,
+      _id_echoFloat64List as jni$_.JMethodIDPtr,
+      _$ds.pointer,
+    ).object<jni$_.JDoubleArray>(const jni$_.$JDoubleArray$Type$());
   }
 
   static final _id_echoList = _class.instanceMethodId(
@@ -22715,6 +23496,40 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
     ).object<jni$_.JLongArray?>(const jni$_.$JLongArray$NullableType$());
   }
 
+  static final _id_echoNullableFloat64List = _class.instanceMethodId(
+    r'echoNullableFloat64List',
+    r'([D)[D',
+  );
+
+  static final _echoNullableFloat64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNullableFloat64List(list: kotlin.DoubleArray?): kotlin.DoubleArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JDoubleArray? echoNullableFloat64List(jni$_.JDoubleArray? ds) {
+    final _$ds = ds?.reference ?? jni$_.jNullReference;
+    return _echoNullableFloat64List(
+      reference.pointer,
+      _id_echoNullableFloat64List as jni$_.JMethodIDPtr,
+      _$ds.pointer,
+    ).object<jni$_.JDoubleArray?>(const jni$_.$JDoubleArray$NullableType$());
+  }
+
   static final _id_echoNullableList = _class.instanceMethodId(
     r'echoNullableList',
     r'(Ljava/util/List;)Ljava/util/List;',
@@ -23404,6 +24219,69 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
     return;
   }
 
+  static final _id_throwFlutterErrorAsync = _class.instanceMethodId(
+    r'throwFlutterErrorAsync',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _throwFlutterErrorAsync =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun throwFlutterErrorAsync(): kotlin.Any?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JObject?> throwFlutterErrorAsync() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _throwFlutterErrorAsync(
+      reference.pointer,
+      _id_throwFlutterErrorAsync as jni$_.JMethodIDPtr,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JObject?>(
+      const jni$_.$JObject$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
   static final _id_echoAsyncNIAllTypes = _class.instanceMethodId(
     r'echoAsyncNIAllTypes',
     r'(LNIAllTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
@@ -24058,6 +24936,73 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
     }
     return $o.as<jni$_.JLongArray>(
       const jni$_.$JLongArray$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_echoAsyncFloat64List = _class.instanceMethodId(
+    r'echoAsyncFloat64List',
+    r'([DLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncFloat64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncFloat64List(list: kotlin.DoubleArray): kotlin.DoubleArray`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JDoubleArray> echoAsyncFloat64List(
+    jni$_.JDoubleArray ds,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$ds = ds.reference;
+    final $r = _echoAsyncFloat64List(
+      reference.pointer,
+      _id_echoAsyncFloat64List as jni$_.JMethodIDPtr,
+      _$ds.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JDoubleArray>(
+      const jni$_.$JDoubleArray$Type$(),
       releaseOriginal: true,
     );
   }
@@ -25423,6 +26368,75 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
     );
   }
 
+  static final _id_echoAsyncNullableFloat64List = _class.instanceMethodId(
+    r'echoAsyncNullableFloat64List',
+    r'([DLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _echoAsyncNullableFloat64List =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public suspend fun echoAsyncNullableFloat64List(list: kotlin.DoubleArray?): kotlin.DoubleArray?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JDoubleArray?> echoAsyncNullableFloat64List(
+    jni$_.JDoubleArray? ds,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$ds = ds?.reference ?? jni$_.jNullReference;
+    final $r = _echoAsyncNullableFloat64List(
+      reference.pointer,
+      _id_echoAsyncNullableFloat64List as jni$_.JMethodIDPtr,
+      _$ds.pointer,
+      _$continuation.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+            );
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JDoubleArray?>(
+      const jni$_.$JDoubleArray$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
   static final _id_echoAsyncNullableObject = _class.instanceMethodId(
     r'echoAsyncNullableObject',
     r'(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
@@ -26371,6 +27385,26 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
         _$impls[$p]!.noop();
         return jni$_.nullptr;
       }
+      if ($d == r'throwFlutterError()Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.throwFlutterError();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'throwError()Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.throwError();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'throwErrorFromVoid()V') {
+        _$impls[$p]!.throwErrorFromVoid();
+        return jni$_.nullptr;
+      }
       if ($d == r'echoNIAllTypes(LNIAllTypes;)LNIAllTypes;') {
         final $r = _$impls[$p]!.echoNIAllTypes(
           $a![0]!.as(const $NIAllTypes$Type$(), releaseOriginal: true),
@@ -26489,6 +27523,16 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
       if ($d == r'echoInt64List([J)[J') {
         final $r = _$impls[$p]!.echoInt64List(
           $a![0]!.as(const jni$_.$JLongArray$Type$(), releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoFloat64List([D)[D') {
+        final $r = _$impls[$p]!.echoFloat64List(
+          $a![0]!.as(const jni$_.$JDoubleArray$Type$(), releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -26801,6 +27845,16 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
                 .toPointer() ??
             jni$_.nullptr;
       }
+      if ($d == r'echoNullableFloat64List([D)[D') {
+        final $r = _$impls[$p]!.echoNullableFloat64List(
+          $a![0]?.as(const jni$_.$JDoubleArray$Type$(), releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
       if ($d == r'echoNullableList(Ljava/util/List;)Ljava/util/List;') {
         final $r = _$impls[$p]!.echoNullableList(
           $a![0]?.as(
@@ -27054,6 +28108,19 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
             jni$_.nullptr;
       }
       if ($d ==
+          r'throwFlutterErrorAsync(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r = jni$_.KotlinContinuation.fromReference(
+          $a![0]!
+              .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+              .reference,
+        ).resumeWithFuture(_$impls[$p]!.throwFlutterErrorAsync());
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
           r'echoAsyncNIAllTypes(LNIAllTypes;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
         final $r =
             jni$_.KotlinContinuation.fromReference(
@@ -27244,6 +28311,27 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
               _$impls[$p]!.echoAsyncInt64List(
                 $a![0]!.as(
                   const jni$_.$JLongArray$Type$(),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'echoAsyncFloat64List([DLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncFloat64List(
+                $a![0]!.as(
+                  const jni$_.$JDoubleArray$Type$(),
                   releaseOriginal: true,
                 ),
               ),
@@ -27682,6 +28770,27 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
             jni$_.nullptr;
       }
       if ($d ==
+          r'echoAsyncNullableFloat64List([DLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r =
+            jni$_.KotlinContinuation.fromReference(
+              $a![1]!
+                  .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                  .reference,
+            ).resumeWithFuture(
+              _$impls[$p]!.echoAsyncNullableFloat64List(
+                $a![0]?.as(
+                  const jni$_.$JDoubleArray$Type$(),
+                  releaseOriginal: true,
+                ),
+              ),
+            );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
           r'echoAsyncNullableObject(Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
         final $r =
             jni$_.KotlinContinuation.fromReference(
@@ -27993,6 +29102,7 @@ class NIFlutterIntegrationCoreApi extends jni$_.JObject {
     });
     implementer.add(r'NIFlutterIntegrationCoreApi', $p, _$invokePointer, [
       if ($impl.noop$async) r'noop()V',
+      if ($impl.throwErrorFromVoid$async) r'throwErrorFromVoid()V',
     ]);
     final $a = $p.sendPort.nativePort;
     _$impls[$a] = $impl;
@@ -28011,6 +29121,10 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
   factory $NIFlutterIntegrationCoreApi({
     required void Function() noop,
     core$_.bool noop$async,
+    required jni$_.JObject? Function() throwFlutterError,
+    required jni$_.JObject? Function() throwError,
+    required void Function() throwErrorFromVoid,
+    core$_.bool throwErrorFromVoid$async,
     required NIAllTypes Function(NIAllTypes nIAllTypes) echoNIAllTypes,
     required NIAllNullableTypes? Function(
       NIAllNullableTypes? nIAllNullableTypes,
@@ -28039,6 +29153,7 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
     required jni$_.JByteArray Function(jni$_.JByteArray bs) echoUint8List,
     required jni$_.JIntArray Function(jni$_.JIntArray is$) echoInt32List,
     required jni$_.JLongArray Function(jni$_.JLongArray js) echoInt64List,
+    required jni$_.JDoubleArray Function(jni$_.JDoubleArray ds) echoFloat64List,
     required jni$_.JList<jni$_.JObject?> Function(
       jni$_.JList<jni$_.JObject?> list,
     )
@@ -28104,6 +29219,8 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
     echoNullableInt32List,
     required jni$_.JLongArray? Function(jni$_.JLongArray? js)
     echoNullableInt64List,
+    required jni$_.JDoubleArray? Function(jni$_.JDoubleArray? ds)
+    echoNullableFloat64List,
     required jni$_.JList<jni$_.JObject?>? Function(
       jni$_.JList<jni$_.JObject?>? list,
     )
@@ -28160,6 +29277,7 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
     required NIAnotherEnum? Function(NIAnotherEnum? nIAnotherEnum)
     echoAnotherNullableEnum,
     required core$_.Future<void> Function() noopAsync,
+    required core$_.Future<jni$_.JObject?> Function() throwFlutterErrorAsync,
     required core$_.Future<NIAllTypes> Function(NIAllTypes nIAllTypes)
     echoAsyncNIAllTypes,
     required core$_.Future<NIAllNullableTypes?> Function(
@@ -28182,6 +29300,8 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
     echoAsyncInt32List,
     required core$_.Future<jni$_.JLongArray> Function(jni$_.JLongArray js)
     echoAsyncInt64List,
+    required core$_.Future<jni$_.JDoubleArray> Function(jni$_.JDoubleArray ds)
+    echoAsyncFloat64List,
     required core$_.Future<jni$_.JObject> Function(jni$_.JObject object)
     echoAsyncObject,
     required core$_.Future<jni$_.JList<jni$_.JObject?>> Function(
@@ -28240,6 +29360,8 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
     echoAsyncNullableInt32List,
     required core$_.Future<jni$_.JLongArray?> Function(jni$_.JLongArray? js)
     echoAsyncNullableInt64List,
+    required core$_.Future<jni$_.JDoubleArray?> Function(jni$_.JDoubleArray? ds)
+    echoAsyncNullableFloat64List,
     required core$_.Future<jni$_.JObject?> Function(jni$_.JObject? object)
     echoAsyncNullableObject,
     required core$_.Future<jni$_.JList<jni$_.JObject?>?> Function(
@@ -28289,6 +29411,10 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
 
   void noop();
   core$_.bool get noop$async => false;
+  jni$_.JObject? throwFlutterError();
+  jni$_.JObject? throwError();
+  void throwErrorFromVoid();
+  core$_.bool get throwErrorFromVoid$async => false;
   NIAllTypes echoNIAllTypes(NIAllTypes nIAllTypes);
   NIAllNullableTypes? echoNIAllNullableTypes(
     NIAllNullableTypes? nIAllNullableTypes,
@@ -28313,6 +29439,7 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
   jni$_.JByteArray echoUint8List(jni$_.JByteArray bs);
   jni$_.JIntArray echoInt32List(jni$_.JIntArray is$);
   jni$_.JLongArray echoInt64List(jni$_.JLongArray js);
+  jni$_.JDoubleArray echoFloat64List(jni$_.JDoubleArray ds);
   jni$_.JList<jni$_.JObject?> echoList(jni$_.JList<jni$_.JObject?> list);
   jni$_.JList<NIAnEnum?> echoEnumList(jni$_.JList<NIAnEnum?> list);
   jni$_.JList<NIAllNullableTypes?> echoClassList(
@@ -28358,6 +29485,7 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
   jni$_.JByteArray? echoNullableUint8List(jni$_.JByteArray? bs);
   jni$_.JIntArray? echoNullableInt32List(jni$_.JIntArray? is$);
   jni$_.JLongArray? echoNullableInt64List(jni$_.JLongArray? js);
+  jni$_.JDoubleArray? echoNullableFloat64List(jni$_.JDoubleArray? ds);
   jni$_.JList<jni$_.JObject?>? echoNullableList(
     jni$_.JList<jni$_.JObject?>? list,
   );
@@ -28401,6 +29529,7 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
   NIAnEnum? echoNullableEnum(NIAnEnum? nIAnEnum);
   NIAnotherEnum? echoAnotherNullableEnum(NIAnotherEnum? nIAnotherEnum);
   core$_.Future<void> noopAsync();
+  core$_.Future<jni$_.JObject?> throwFlutterErrorAsync();
   core$_.Future<NIAllTypes> echoAsyncNIAllTypes(NIAllTypes nIAllTypes);
   core$_.Future<NIAllNullableTypes?> echoAsyncNullableNIAllNullableTypes(
     NIAllNullableTypes? nIAllNullableTypes,
@@ -28416,6 +29545,7 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
   core$_.Future<jni$_.JByteArray> echoAsyncUint8List(jni$_.JByteArray bs);
   core$_.Future<jni$_.JIntArray> echoAsyncInt32List(jni$_.JIntArray is$);
   core$_.Future<jni$_.JLongArray> echoAsyncInt64List(jni$_.JLongArray js);
+  core$_.Future<jni$_.JDoubleArray> echoAsyncFloat64List(jni$_.JDoubleArray ds);
   core$_.Future<jni$_.JObject> echoAsyncObject(jni$_.JObject object);
   core$_.Future<jni$_.JList<jni$_.JObject?>> echoAsyncList(
     jni$_.JList<jni$_.JObject?> list,
@@ -28463,6 +29593,9 @@ abstract base mixin class $NIFlutterIntegrationCoreApi {
   core$_.Future<jni$_.JLongArray?> echoAsyncNullableInt64List(
     jni$_.JLongArray? js,
   );
+  core$_.Future<jni$_.JDoubleArray?> echoAsyncNullableFloat64List(
+    jni$_.JDoubleArray? ds,
+  );
   core$_.Future<jni$_.JObject?> echoAsyncNullableObject(jni$_.JObject? object);
   core$_.Future<jni$_.JList<jni$_.JObject?>?> echoAsyncNullableList(
     jni$_.JList<jni$_.JObject?>? list,
@@ -28499,6 +29632,10 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
   _$NIFlutterIntegrationCoreApi({
     required void Function() noop,
     this.noop$async = false,
+    required jni$_.JObject? Function() throwFlutterError,
+    required jni$_.JObject? Function() throwError,
+    required void Function() throwErrorFromVoid,
+    this.throwErrorFromVoid$async = false,
     required NIAllTypes Function(NIAllTypes nIAllTypes) echoNIAllTypes,
     required NIAllNullableTypes? Function(
       NIAllNullableTypes? nIAllNullableTypes,
@@ -28527,6 +29664,7 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
     required jni$_.JByteArray Function(jni$_.JByteArray bs) echoUint8List,
     required jni$_.JIntArray Function(jni$_.JIntArray is$) echoInt32List,
     required jni$_.JLongArray Function(jni$_.JLongArray js) echoInt64List,
+    required jni$_.JDoubleArray Function(jni$_.JDoubleArray ds) echoFloat64List,
     required jni$_.JList<jni$_.JObject?> Function(
       jni$_.JList<jni$_.JObject?> list,
     )
@@ -28592,6 +29730,8 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
     echoNullableInt32List,
     required jni$_.JLongArray? Function(jni$_.JLongArray? js)
     echoNullableInt64List,
+    required jni$_.JDoubleArray? Function(jni$_.JDoubleArray? ds)
+    echoNullableFloat64List,
     required jni$_.JList<jni$_.JObject?>? Function(
       jni$_.JList<jni$_.JObject?>? list,
     )
@@ -28648,6 +29788,7 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
     required NIAnotherEnum? Function(NIAnotherEnum? nIAnotherEnum)
     echoAnotherNullableEnum,
     required core$_.Future<void> Function() noopAsync,
+    required core$_.Future<jni$_.JObject?> Function() throwFlutterErrorAsync,
     required core$_.Future<NIAllTypes> Function(NIAllTypes nIAllTypes)
     echoAsyncNIAllTypes,
     required core$_.Future<NIAllNullableTypes?> Function(
@@ -28670,6 +29811,8 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
     echoAsyncInt32List,
     required core$_.Future<jni$_.JLongArray> Function(jni$_.JLongArray js)
     echoAsyncInt64List,
+    required core$_.Future<jni$_.JDoubleArray> Function(jni$_.JDoubleArray ds)
+    echoAsyncFloat64List,
     required core$_.Future<jni$_.JObject> Function(jni$_.JObject object)
     echoAsyncObject,
     required core$_.Future<jni$_.JList<jni$_.JObject?>> Function(
@@ -28728,6 +29871,8 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
     echoAsyncNullableInt32List,
     required core$_.Future<jni$_.JLongArray?> Function(jni$_.JLongArray? js)
     echoAsyncNullableInt64List,
+    required core$_.Future<jni$_.JDoubleArray?> Function(jni$_.JDoubleArray? ds)
+    echoAsyncNullableFloat64List,
     required core$_.Future<jni$_.JObject?> Function(jni$_.JObject? object)
     echoAsyncNullableObject,
     required core$_.Future<jni$_.JList<jni$_.JObject?>?> Function(
@@ -28774,6 +29919,9 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
     )
     echoAnotherAsyncNullableEnum,
   }) : _noop = noop,
+       _throwFlutterError = throwFlutterError,
+       _throwError = throwError,
+       _throwErrorFromVoid = throwErrorFromVoid,
        _echoNIAllTypes = echoNIAllTypes,
        _echoNIAllNullableTypes = echoNIAllNullableTypes,
        _sendMultipleNullableTypes = sendMultipleNullableTypes,
@@ -28788,6 +29936,7 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
        _echoUint8List = echoUint8List,
        _echoInt32List = echoInt32List,
        _echoInt64List = echoInt64List,
+       _echoFloat64List = echoFloat64List,
        _echoList = echoList,
        _echoEnumList = echoEnumList,
        _echoClassList = echoClassList,
@@ -28811,6 +29960,7 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
        _echoNullableUint8List = echoNullableUint8List,
        _echoNullableInt32List = echoNullableInt32List,
        _echoNullableInt64List = echoNullableInt64List,
+       _echoNullableFloat64List = echoNullableFloat64List,
        _echoNullableList = echoNullableList,
        _echoNullableEnumList = echoNullableEnumList,
        _echoNullableClassList = echoNullableClassList,
@@ -28828,6 +29978,7 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
        _echoNullableEnum = echoNullableEnum,
        _echoAnotherNullableEnum = echoAnotherNullableEnum,
        _noopAsync = noopAsync,
+       _throwFlutterErrorAsync = throwFlutterErrorAsync,
        _echoAsyncNIAllTypes = echoAsyncNIAllTypes,
        _echoAsyncNullableNIAllNullableTypes =
            echoAsyncNullableNIAllNullableTypes,
@@ -28840,6 +29991,7 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
        _echoAsyncUint8List = echoAsyncUint8List,
        _echoAsyncInt32List = echoAsyncInt32List,
        _echoAsyncInt64List = echoAsyncInt64List,
+       _echoAsyncFloat64List = echoAsyncFloat64List,
        _echoAsyncObject = echoAsyncObject,
        _echoAsyncList = echoAsyncList,
        _echoAsyncEnumList = echoAsyncEnumList,
@@ -28860,6 +30012,7 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
        _echoAsyncNullableUint8List = echoAsyncNullableUint8List,
        _echoAsyncNullableInt32List = echoAsyncNullableInt32List,
        _echoAsyncNullableInt64List = echoAsyncNullableInt64List,
+       _echoAsyncNullableFloat64List = echoAsyncNullableFloat64List,
        _echoAsyncNullableObject = echoAsyncNullableObject,
        _echoAsyncNullableList = echoAsyncNullableList,
        _echoAsyncNullableEnumList = echoAsyncNullableEnumList,
@@ -28876,6 +30029,10 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
 
   final void Function() _noop;
   final core$_.bool noop$async;
+  final jni$_.JObject? Function() _throwFlutterError;
+  final jni$_.JObject? Function() _throwError;
+  final void Function() _throwErrorFromVoid;
+  final core$_.bool throwErrorFromVoid$async;
   final NIAllTypes Function(NIAllTypes nIAllTypes) _echoNIAllTypes;
   final NIAllNullableTypes? Function(NIAllNullableTypes? nIAllNullableTypes)
   _echoNIAllNullableTypes;
@@ -28902,6 +30059,7 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
   final jni$_.JByteArray Function(jni$_.JByteArray bs) _echoUint8List;
   final jni$_.JIntArray Function(jni$_.JIntArray is$) _echoInt32List;
   final jni$_.JLongArray Function(jni$_.JLongArray js) _echoInt64List;
+  final jni$_.JDoubleArray Function(jni$_.JDoubleArray ds) _echoFloat64List;
   final jni$_.JList<jni$_.JObject?> Function(jni$_.JList<jni$_.JObject?> list)
   _echoList;
   final jni$_.JList<NIAnEnum?> Function(jni$_.JList<NIAnEnum?> list)
@@ -28961,6 +30119,8 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
   final jni$_.JByteArray? Function(jni$_.JByteArray? bs) _echoNullableUint8List;
   final jni$_.JIntArray? Function(jni$_.JIntArray? is$) _echoNullableInt32List;
   final jni$_.JLongArray? Function(jni$_.JLongArray? js) _echoNullableInt64List;
+  final jni$_.JDoubleArray? Function(jni$_.JDoubleArray? ds)
+  _echoNullableFloat64List;
   final jni$_.JList<jni$_.JObject?>? Function(jni$_.JList<jni$_.JObject?>? list)
   _echoNullableList;
   final jni$_.JList<NIAnEnum?>? Function(jni$_.JList<NIAnEnum?>? list)
@@ -29015,6 +30175,7 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
   final NIAnotherEnum? Function(NIAnotherEnum? nIAnotherEnum)
   _echoAnotherNullableEnum;
   final core$_.Future<void> Function() _noopAsync;
+  final core$_.Future<jni$_.JObject?> Function() _throwFlutterErrorAsync;
   final core$_.Future<NIAllTypes> Function(NIAllTypes nIAllTypes)
   _echoAsyncNIAllTypes;
   final core$_.Future<NIAllNullableTypes?> Function(
@@ -29036,6 +30197,8 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
   _echoAsyncInt32List;
   final core$_.Future<jni$_.JLongArray> Function(jni$_.JLongArray js)
   _echoAsyncInt64List;
+  final core$_.Future<jni$_.JDoubleArray> Function(jni$_.JDoubleArray ds)
+  _echoAsyncFloat64List;
   final core$_.Future<jni$_.JObject> Function(jni$_.JObject object)
   _echoAsyncObject;
   final core$_.Future<jni$_.JList<jni$_.JObject?>> Function(
@@ -29095,6 +30258,8 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
   _echoAsyncNullableInt32List;
   final core$_.Future<jni$_.JLongArray?> Function(jni$_.JLongArray? js)
   _echoAsyncNullableInt64List;
+  final core$_.Future<jni$_.JDoubleArray?> Function(jni$_.JDoubleArray? ds)
+  _echoAsyncNullableFloat64List;
   final core$_.Future<jni$_.JObject?> Function(jni$_.JObject? object)
   _echoAsyncNullableObject;
   final core$_.Future<jni$_.JList<jni$_.JObject?>?> Function(
@@ -29144,6 +30309,18 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
 
   void noop() {
     return _noop();
+  }
+
+  jni$_.JObject? throwFlutterError() {
+    return _throwFlutterError();
+  }
+
+  jni$_.JObject? throwError() {
+    return _throwError();
+  }
+
+  void throwErrorFromVoid() {
+    return _throwErrorFromVoid();
   }
 
   NIAllTypes echoNIAllTypes(NIAllTypes nIAllTypes) {
@@ -29206,6 +30383,10 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
 
   jni$_.JLongArray echoInt64List(jni$_.JLongArray js) {
     return _echoInt64List(js);
+  }
+
+  jni$_.JDoubleArray echoFloat64List(jni$_.JDoubleArray ds) {
+    return _echoFloat64List(ds);
   }
 
   jni$_.JList<jni$_.JObject?> echoList(jni$_.JList<jni$_.JObject?> list) {
@@ -29322,6 +30503,10 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
     return _echoNullableInt64List(js);
   }
 
+  jni$_.JDoubleArray? echoNullableFloat64List(jni$_.JDoubleArray? ds) {
+    return _echoNullableFloat64List(ds);
+  }
+
   jni$_.JList<jni$_.JObject?>? echoNullableList(
     jni$_.JList<jni$_.JObject?>? list,
   ) {
@@ -29416,6 +30601,10 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
     return _noopAsync();
   }
 
+  core$_.Future<jni$_.JObject?> throwFlutterErrorAsync() {
+    return _throwFlutterErrorAsync();
+  }
+
   core$_.Future<NIAllTypes> echoAsyncNIAllTypes(NIAllTypes nIAllTypes) {
     return _echoAsyncNIAllTypes(nIAllTypes);
   }
@@ -29461,6 +30650,12 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
 
   core$_.Future<jni$_.JLongArray> echoAsyncInt64List(jni$_.JLongArray js) {
     return _echoAsyncInt64List(js);
+  }
+
+  core$_.Future<jni$_.JDoubleArray> echoAsyncFloat64List(
+    jni$_.JDoubleArray ds,
+  ) {
+    return _echoAsyncFloat64List(ds);
   }
 
   core$_.Future<jni$_.JObject> echoAsyncObject(jni$_.JObject object) {
@@ -29570,6 +30765,12 @@ final class _$NIFlutterIntegrationCoreApi with $NIFlutterIntegrationCoreApi {
     jni$_.JLongArray? js,
   ) {
     return _echoAsyncNullableInt64List(js);
+  }
+
+  core$_.Future<jni$_.JDoubleArray?> echoAsyncNullableFloat64List(
+    jni$_.JDoubleArray? ds,
+  ) {
+    return _echoAsyncNullableFloat64List(ds);
   }
 
   core$_.Future<jni$_.JObject?> echoAsyncNullableObject(jni$_.JObject? object) {

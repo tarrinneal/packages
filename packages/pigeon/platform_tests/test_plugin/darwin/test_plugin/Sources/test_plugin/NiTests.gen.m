@@ -64,6 +64,13 @@ _umaz4x_protocolTrampoline_qfyidt(id target, void *sel, id arg1, id arg2, id arg
       target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2, arg3, arg4);
 }
 
+typedef id (^_ProtocolTrampoline_2)(void *sel, id arg1);
+__attribute__((visibility("default"))) __attribute__((used)) id
+_umaz4x_protocolTrampoline_xr62hr(id target, void *sel, id arg1) {
+  return ((_ProtocolTrampoline_2)((id(*)(id, SEL, SEL))objc_msgSend)(
+      target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
+}
+
 typedef void (^_ListenerTrampoline)(void);
 __attribute__((visibility("default"))) __attribute__((used)) _ListenerTrampoline
 _umaz4x_wrapListenerBlock_1pl9qdv(_ListenerTrampoline block) NS_RETURNS_RETAINED {
@@ -142,10 +149,10 @@ _umaz4x_wrapBlockingBlock_bklti2(_BlockingTrampoline_2 block, _BlockingTrampolin
       });
 }
 
-typedef void (^_ProtocolTrampoline_2)(void *sel, id arg1, id arg2, id arg3);
+typedef void (^_ProtocolTrampoline_3)(void *sel, id arg1, id arg2, id arg3);
 __attribute__((visibility("default"))) __attribute__((used)) void _umaz4x_protocolTrampoline_bklti2(
     id target, void *sel, id arg1, id arg2, id arg3) {
-  return ((_ProtocolTrampoline_2)((id(*)(id, SEL, SEL))objc_msgSend)(
+  return ((_ProtocolTrampoline_3)((id(*)(id, SEL, SEL))objc_msgSend)(
       target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2, arg3);
 }
 
@@ -174,10 +181,10 @@ _umaz4x_wrapBlockingBlock_18v1jvf(_BlockingTrampoline_3 block, _BlockingTrampoli
       });
 }
 
-typedef void (^_ProtocolTrampoline_3)(void *sel, id arg1);
+typedef void (^_ProtocolTrampoline_4)(void *sel, id arg1);
 __attribute__((visibility("default"))) __attribute__((used)) void
 _umaz4x_protocolTrampoline_18v1jvf(id target, void *sel, id arg1) {
-  return ((_ProtocolTrampoline_3)((id(*)(id, SEL, SEL))objc_msgSend)(
+  return ((_ProtocolTrampoline_4)((id(*)(id, SEL, SEL))objc_msgSend)(
       target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
 }
 
@@ -207,10 +214,10 @@ _umaz4x_wrapBlockingBlock_jk1ljc(_BlockingTrampoline_4 block, _BlockingTrampolin
       });
 }
 
-typedef void (^_ProtocolTrampoline_4)(void *sel, id arg1, id arg2);
+typedef void (^_ProtocolTrampoline_5)(void *sel, id arg1, id arg2);
 __attribute__((visibility("default"))) __attribute__((used)) void _umaz4x_protocolTrampoline_jk1ljc(
     id target, void *sel, id arg1, id arg2) {
-  return ((_ProtocolTrampoline_4)((id(*)(id, SEL, SEL))objc_msgSend)(
+  return ((_ProtocolTrampoline_5)((id(*)(id, SEL, SEL))objc_msgSend)(
       target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1, arg2);
 }
 #undef BLOCKING_BLOCK_IMPL

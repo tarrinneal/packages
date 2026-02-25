@@ -978,6 +978,10 @@ abstract class NIHostIntegrationCoreApi {
 
   abstract fun callFlutterNoop()
 
+  abstract fun callFlutterThrowError(): Any?
+
+  abstract fun callFlutterThrowErrorFromVoid()
+
   abstract fun callFlutterEchoNIAllTypes(everything: NIAllTypes): NIAllTypes
 
   abstract fun callFlutterEchoNIAllNullableTypes(
@@ -1013,6 +1017,8 @@ abstract class NIHostIntegrationCoreApi {
   abstract fun callFlutterEchoInt32List(list: IntArray): IntArray
 
   abstract fun callFlutterEchoInt64List(list: LongArray): LongArray
+
+  abstract fun callFlutterEchoFloat64List(list: DoubleArray): DoubleArray
 
   abstract fun callFlutterEchoList(list: List<Any?>): List<Any?>
 
@@ -1069,6 +1075,8 @@ abstract class NIHostIntegrationCoreApi {
   abstract fun callFlutterEchoNullableInt32List(list: IntArray?): IntArray?
 
   abstract fun callFlutterEchoNullableInt64List(list: LongArray?): LongArray?
+
+  abstract fun callFlutterEchoNullableFloat64List(list: DoubleArray?): DoubleArray?
 
   abstract fun callFlutterEchoNullableList(list: List<Any?>?): List<Any?>?
 
@@ -1144,6 +1152,8 @@ abstract class NIHostIntegrationCoreApi {
 
   abstract suspend fun callFlutterEchoAsyncInt64List(list: LongArray): LongArray
 
+  abstract suspend fun callFlutterEchoAsyncFloat64List(list: DoubleArray): DoubleArray
+
   abstract suspend fun callFlutterEchoAsyncObject(anObject: Any): Any
 
   abstract suspend fun callFlutterEchoAsyncList(list: List<Any?>): List<Any?>
@@ -1193,6 +1203,10 @@ abstract class NIHostIntegrationCoreApi {
   abstract suspend fun callFlutterEchoAsyncNullableInt32List(list: IntArray?): IntArray?
 
   abstract suspend fun callFlutterEchoAsyncNullableInt64List(list: LongArray?): LongArray?
+
+  abstract suspend fun callFlutterEchoAsyncNullableFloat64List(list: DoubleArray?): DoubleArray?
+
+  abstract suspend fun callFlutterThrowFlutterErrorAsync(): Any?
 
   abstract suspend fun callFlutterEchoAsyncNullableObject(anObject: Any?): Any?
 
@@ -2541,6 +2555,28 @@ class NIHostIntegrationCoreApiRegistrar : NIHostIntegrationCoreApi() {
     error("NIHostIntegrationCoreApi has not been set")
   }
 
+  override fun callFlutterThrowError(): Any? {
+    api?.let {
+      try {
+        return api!!.callFlutterThrowError()
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterThrowErrorFromVoid() {
+    api?.let {
+      try {
+        return api!!.callFlutterThrowErrorFromVoid()
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
   override fun callFlutterEchoNIAllTypes(everything: NIAllTypes): NIAllTypes {
     api?.let {
       try {
@@ -2680,6 +2716,17 @@ class NIHostIntegrationCoreApiRegistrar : NIHostIntegrationCoreApi() {
     api?.let {
       try {
         return api!!.callFlutterEchoInt64List(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoFloat64List(list: DoubleArray): DoubleArray {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoFloat64List(list)
       } catch (e: Exception) {
         throw e
       }
@@ -2947,6 +2994,17 @@ class NIHostIntegrationCoreApiRegistrar : NIHostIntegrationCoreApi() {
     api?.let {
       try {
         return api!!.callFlutterEchoNullableInt64List(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override fun callFlutterEchoNullableFloat64List(list: DoubleArray?): DoubleArray? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoNullableFloat64List(list)
       } catch (e: Exception) {
         throw e
       }
@@ -3271,6 +3329,17 @@ class NIHostIntegrationCoreApiRegistrar : NIHostIntegrationCoreApi() {
     error("NIHostIntegrationCoreApi has not been set")
   }
 
+  override suspend fun callFlutterEchoAsyncFloat64List(list: DoubleArray): DoubleArray {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncFloat64List(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
   override suspend fun callFlutterEchoAsyncObject(anObject: Any): Any {
     api?.let {
       try {
@@ -3503,6 +3572,28 @@ class NIHostIntegrationCoreApiRegistrar : NIHostIntegrationCoreApi() {
     error("NIHostIntegrationCoreApi has not been set")
   }
 
+  override suspend fun callFlutterEchoAsyncNullableFloat64List(list: DoubleArray?): DoubleArray? {
+    api?.let {
+      try {
+        return api!!.callFlutterEchoAsyncNullableFloat64List(list)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
+  override suspend fun callFlutterThrowFlutterErrorAsync(): Any? {
+    api?.let {
+      try {
+        return api!!.callFlutterThrowFlutterErrorAsync()
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+
   override suspend fun callFlutterEchoAsyncNullableObject(anObject: Any?): Any? {
     api?.let {
       try {
@@ -3688,6 +3779,12 @@ class NIFlutterIntegrationCoreApiRegistrar() {
 interface NIFlutterIntegrationCoreApi {
   /** A no-op function taking no arguments and returning no value, to sanity test basic calling. */
   fun noop()
+  /** Returns a Flutter error, to test error handling. */
+  fun throwFlutterError(): Any?
+  /** Responds with an error from an async function returning a value. */
+  fun throwError(): Any?
+  /** Responds with an error from an async void function. */
+  fun throwErrorFromVoid()
   /** Returns the passed object, to test serialization and deserialization. */
   fun echoNIAllTypes(everything: NIAllTypes): NIAllTypes
   /** Returns the passed object, to test serialization and deserialization. */
@@ -3730,6 +3827,8 @@ interface NIFlutterIntegrationCoreApi {
   fun echoInt32List(list: IntArray): IntArray
   /** Returns the passed int64 list, to test serialization and deserialization. */
   fun echoInt64List(list: LongArray): LongArray
+  /** Returns the passed float64 list, to test serialization and deserialization. */
+  fun echoFloat64List(list: DoubleArray): DoubleArray
   /** Returns the passed list, to test serialization and deserialization. */
   fun echoList(list: List<Any?>): List<Any?>
   /** Returns the passed list, to test serialization and deserialization. */
@@ -3776,6 +3875,8 @@ interface NIFlutterIntegrationCoreApi {
   fun echoNullableInt32List(list: IntArray?): IntArray?
   /** Returns the passed int64 list, to test serialization and deserialization. */
   fun echoNullableInt64List(list: LongArray?): LongArray?
+  /** Returns the passed float64 list, to test serialization and deserialization. */
+  fun echoNullableFloat64List(list: DoubleArray?): DoubleArray?
   /** Returns the passed list, to test serialization and deserialization. */
   fun echoNullableList(list: List<Any?>?): List<Any?>?
   /** Returns the passed list, to test serialization and deserialization. */
@@ -3818,6 +3919,8 @@ interface NIFlutterIntegrationCoreApi {
    */
   suspend fun noopAsync()
 
+  suspend fun throwFlutterErrorAsync(): Any?
+
   suspend fun echoAsyncNIAllTypes(everything: NIAllTypes): NIAllTypes
 
   suspend fun echoAsyncNullableNIAllNullableTypes(
@@ -3841,6 +3944,8 @@ interface NIFlutterIntegrationCoreApi {
   suspend fun echoAsyncInt32List(list: IntArray): IntArray
 
   suspend fun echoAsyncInt64List(list: LongArray): LongArray
+
+  suspend fun echoAsyncFloat64List(list: DoubleArray): DoubleArray
 
   suspend fun echoAsyncObject(anObject: Any): Any
 
@@ -3885,6 +3990,8 @@ interface NIFlutterIntegrationCoreApi {
   suspend fun echoAsyncNullableInt32List(list: IntArray?): IntArray?
 
   suspend fun echoAsyncNullableInt64List(list: LongArray?): LongArray?
+
+  suspend fun echoAsyncNullableFloat64List(list: DoubleArray?): DoubleArray?
 
   suspend fun echoAsyncNullableObject(anObject: Any?): Any?
 

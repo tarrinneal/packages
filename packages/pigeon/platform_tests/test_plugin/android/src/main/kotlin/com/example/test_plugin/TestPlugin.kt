@@ -1421,15 +1421,15 @@ class NIIntegrationTests : NIHostIntegrationCoreApi() {
   override fun callFlutterNoop() {
     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.noop()
   }
-  //
-  //   override fun callFlutterThrowError(): Any? {
-  //     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.throwError()
-  //   }
-  //
-  //   override fun callFlutterThrowErrorFromVoid() {
-  //     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.throwErrorFromVoid()
-  //   }
-  //
+
+  override fun callFlutterThrowError(): Any? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.throwError()
+  }
+
+  override fun callFlutterThrowErrorFromVoid() {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.throwErrorFromVoid()
+  }
+
   override fun callFlutterEchoNIAllTypes(everything: NIAllTypes): NIAllTypes {
     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNIAllTypes(everything)
   }
@@ -1494,6 +1494,10 @@ class NIIntegrationTests : NIHostIntegrationCoreApi() {
 
   override fun callFlutterEchoInt64List(list: LongArray): LongArray {
     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoInt64List(list)
+  }
+
+  override fun callFlutterEchoFloat64List(list: DoubleArray): DoubleArray {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoFloat64List(list)
   }
 
   override fun callFlutterEchoList(list: List<Any?>): List<Any?> {
@@ -1600,6 +1604,10 @@ class NIIntegrationTests : NIHostIntegrationCoreApi() {
 
   override fun callFlutterEchoNullableInt64List(list: LongArray?): LongArray? {
     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableInt64List(list)
+  }
+
+  override fun callFlutterEchoNullableFloat64List(list: DoubleArray?): DoubleArray? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoNullableFloat64List(list)
   }
 
   override fun callFlutterEchoNullableList(list: List<Any?>?): List<Any?>? {
@@ -1746,6 +1754,10 @@ class NIIntegrationTests : NIHostIntegrationCoreApi() {
     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoAsyncInt64List(list)
   }
 
+  override suspend fun callFlutterEchoAsyncFloat64List(list: DoubleArray): DoubleArray {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoAsyncFloat64List(list)
+  }
+
   override suspend fun callFlutterEchoAsyncObject(anObject: Any): Any {
     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoAsyncObject(anObject)
   }
@@ -1838,6 +1850,14 @@ class NIIntegrationTests : NIHostIntegrationCoreApi() {
 
   override suspend fun callFlutterEchoAsyncNullableInt64List(list: LongArray?): LongArray? {
     return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoAsyncNullableInt64List(list)
+  }
+
+  override suspend fun callFlutterEchoAsyncNullableFloat64List(list: DoubleArray?): DoubleArray? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.echoAsyncNullableFloat64List(list)
+  }
+
+  override suspend fun callFlutterThrowFlutterErrorAsync(): Any? {
+    return NIFlutterIntegrationCoreApiRegistrar().getInstance()!!.throwFlutterErrorAsync()
   }
 
   override suspend fun callFlutterEchoAsyncNullableObject(anObject: Any?): Any? {

@@ -340,8 +340,8 @@ typedef unsigned int swift_uint4 __attribute__((__ext_vector_type__(4)));
 /// data from Swift to Objective-C.
 SWIFT_CLASS("_TtC11test_plugin25NIAllClassesWrapperBridge")
 SWIFT_AVAILABILITY(macos, introduced = 10.15)
-    SWIFT_AVAILABILITY(ios, introduced = 13)
-        @interface NIAllClassesWrapperBridge : NSObject
+SWIFT_AVAILABILITY(ios, introduced = 13)
+@interface NIAllClassesWrapperBridge : NSObject
 - (nonnull instancetype)
             initWithAllNullableTypes:
                 (NIAllNullableTypesBridge* _Nonnull)allNullableTypes
@@ -380,8 +380,8 @@ SWIFT_AVAILABILITY(macos, introduced = 10.15)
 /// Objective-C.
 SWIFT_CLASS("_TtC11test_plugin24NIAllNullableTypesBridge")
 SWIFT_AVAILABILITY(macos, introduced = 10.15)
-    SWIFT_AVAILABILITY(ios, introduced = 13) @interface NIAllNullableTypesBridge
-    : NSObject
+SWIFT_AVAILABILITY(ios, introduced = 13)
+@interface NIAllNullableTypesBridge : NSObject
 - (nonnull instancetype)
     initWithANullableBool:(NSNumber* _Nullable)aNullableBool
              aNullableInt:(NSNumber* _Nullable)aNullableInt
@@ -472,8 +472,8 @@ SWIFT_AVAILABILITY(macos, introduced = 10.15)
 /// from Swift to Objective-C.
 SWIFT_CLASS("_TtC11test_plugin40NIAllNullableTypesWithoutRecursionBridge")
 SWIFT_AVAILABILITY(macos, introduced = 10.15)
-    SWIFT_AVAILABILITY(ios, introduced = 13)
-        @interface NIAllNullableTypesWithoutRecursionBridge : NSObject
+SWIFT_AVAILABILITY(ios, introduced = 13)
+@interface NIAllNullableTypesWithoutRecursionBridge : NSObject
 - (nonnull instancetype)
     initWithANullableBool:(NSNumber* _Nullable)aNullableBool
              aNullableInt:(NSNumber* _Nullable)aNullableInt
@@ -556,8 +556,7 @@ enum NIAnotherEnum : NSInteger;
 /// Objective-C.
 SWIFT_CLASS("_TtC11test_plugin16NIAllTypesBridge")
 SWIFT_AVAILABILITY(macos, introduced = 10.15)
-    SWIFT_AVAILABILITY(ios, introduced = 13) @interface NIAllTypesBridge
-    : NSObject
+SWIFT_AVAILABILITY(ios, introduced = 13) @interface NIAllTypesBridge : NSObject
 - (nonnull instancetype)
     initWithABool:(BOOL)aBool
             anInt:(int64_t)anInt
@@ -645,11 +644,19 @@ typedef SWIFT_ENUM(NSInteger, NIAnotherEnum, closed){
 /// called from Swift.
 SWIFT_PROTOCOL("_TtP11test_plugin33NIFlutterIntegrationCoreApiBridge_")
 SWIFT_AVAILABILITY(macos, introduced = 10.15)
-    SWIFT_AVAILABILITY(ios, introduced = 13)
-        @protocol NIFlutterIntegrationCoreApiBridge
+SWIFT_AVAILABILITY(ios, introduced = 13)
+@protocol NIFlutterIntegrationCoreApiBridge
 /// A no-op function taking no arguments and returning no value, to sanity
 /// test basic calling.
 - (void)noopWithError:(NiTestsError* _Nonnull)error;
+/// Returns a Flutter error, to test error handling.
+- (NSObject* _Nullable)throwFlutterErrorWithError:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Responds with an error from an async function returning a value.
+- (NSObject* _Nullable)throwErrorWithError:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Responds with an error from an async void function.
+- (void)throwErrorFromVoidWithError:(NiTestsError* _Nonnull)error;
 /// Returns the passed object, to test serialization and deserialization.
 - (NIAllTypesBridge* _Nullable)
     echoNIAllTypesWithEverything:(NIAllTypesBridge* _Nullable)everything
@@ -724,6 +731,11 @@ SWIFT_AVAILABILITY(macos, introduced = 10.15)
 - (PigeonTypedData* _Nullable)
     echoInt64ListWithList:(PigeonTypedData* _Nullable)list
                     error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed float64 list, to test serialization and deserialization.
+- (PigeonTypedData* _Nullable)
+    echoFloat64ListWithList:(PigeonTypedData* _Nullable)list
+                      error:(NiTestsError* _Nonnull)error
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed list, to test serialization and deserialization.
 - (NSArray<NSObject*>* _Nullable)echoListWithList:
@@ -843,6 +855,11 @@ SWIFT_AVAILABILITY(macos, introduced = 10.15)
     echoNullableInt64ListWithList:(PigeonTypedData* _Nullable)list
                             error:(NiTestsError* _Nonnull)error
     SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed float64 list, to test serialization and deserialization.
+- (PigeonTypedData* _Nullable)
+    echoNullableFloat64ListWithList:(PigeonTypedData* _Nullable)list
+                              error:(NiTestsError* _Nonnull)error
+    SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed list, to test serialization and deserialization.
 - (NSArray<NSObject*>* _Nullable)
     echoNullableListWithList:(NSArray<NSObject*>* _Nullable)list
@@ -937,6 +954,9 @@ SWIFT_AVAILABILITY(macos, introduced = 10.15)
 /// test basic asynchronous calling.
 - (void)noopAsyncWithError:(NiTestsError* _Nonnull)error
          completionHandler:(void (^_Nonnull)(void))completionHandler;
+- (void)throwFlutterErrorAsyncWithError:(NiTestsError* _Nonnull)error
+                      completionHandler:(void (^_Nonnull)(NSObject* _Nullable))
+                                            completionHandler;
 - (void)echoAsyncNIAllTypesWithEverything:
             (NIAllTypesBridge* _Nullable)everything
                                     error:(NiTestsError* _Nonnull)error
@@ -993,6 +1013,11 @@ SWIFT_AVAILABILITY(macos, introduced = 10.15)
                  completionHandler:
                      (void (^_Nonnull)(PigeonTypedData* _Nullable))
                          completionHandler;
+- (void)echoAsyncFloat64ListWithList:(PigeonTypedData* _Nullable)list
+                               error:(NiTestsError* _Nonnull)error
+                   completionHandler:
+                       (void (^_Nonnull)(PigeonTypedData* _Nullable))
+                           completionHandler;
 - (void)echoAsyncObjectWithAnObject:(NSObject* _Nullable)anObject
                               error:(NiTestsError* _Nonnull)error
                   completionHandler:
@@ -1101,6 +1126,11 @@ SWIFT_AVAILABILITY(macos, introduced = 10.15)
                          completionHandler:
                              (void (^_Nonnull)(PigeonTypedData* _Nullable))
                                  completionHandler;
+- (void)echoAsyncNullableFloat64ListWithList:(PigeonTypedData* _Nullable)list
+                                       error:(NiTestsError* _Nonnull)error
+                           completionHandler:
+                               (void (^_Nonnull)(PigeonTypedData* _Nullable))
+                                   completionHandler;
 - (void)echoAsyncNullableObjectWithAnObject:(NSObject* _Nullable)anObject
                                       error:(NiTestsError* _Nonnull)error
                           completionHandler:
@@ -1194,8 +1224,8 @@ SWIFT_AVAILABILITY(macos, introduced = 10.15)
 
 SWIFT_CLASS("_TtC11test_plugin36NIFlutterIntegrationCoreApiRegistrar")
 SWIFT_AVAILABILITY(macos, introduced = 10.15)
-    SWIFT_AVAILABILITY(ios, introduced = 13)
-        @interface NIFlutterIntegrationCoreApiRegistrar : NSObject
+SWIFT_AVAILABILITY(ios, introduced = 13)
+@interface NIFlutterIntegrationCoreApiRegistrar : NSObject
 + (void)registerInstanceWithApi:
             (id<NIFlutterIntegrationCoreApiBridge> _Nonnull)api
                            name:(NSString* _Nonnull)name;
@@ -1206,8 +1236,8 @@ SWIFT_AVAILABILITY(macos, introduced = 10.15)
 /// NIHostIntegrationCoreApi classes.
 SWIFT_CLASS("_TtC11test_plugin29NIHostIntegrationCoreApiSetup")
 SWIFT_AVAILABILITY(macos, introduced = 10.15)
-    SWIFT_AVAILABILITY(ios, introduced = 13)
-        @interface NIHostIntegrationCoreApiSetup : NSObject
+SWIFT_AVAILABILITY(ios, introduced = 13)
+@interface NIHostIntegrationCoreApiSetup : NSObject
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 + (NIHostIntegrationCoreApiSetup* _Nullable)getInstanceWithName:
     (NSString* _Nonnull)name SWIFT_WARN_UNUSED_RESULT;
@@ -1908,6 +1938,10 @@ SWIFT_AVAILABILITY(macos, introduced = 10.15)
                                       (void (^_Nonnull)(NSNumber* _Nullable))
                                           completionHandler;
 - (void)callFlutterNoopWithWrappedError:(NiTestsError* _Nonnull)wrappedError;
+- (NSObject* _Nullable)callFlutterThrowErrorWithWrappedError:
+    (NiTestsError* _Nonnull)wrappedError SWIFT_WARN_UNUSED_RESULT;
+- (void)callFlutterThrowErrorFromVoidWithWrappedError:
+    (NiTestsError* _Nonnull)wrappedError;
 - (NIAllTypesBridge* _Nullable)
     callFlutterEchoNIAllTypesWithEverything:
         (NIAllTypesBridge* _Nonnull)everything
@@ -1977,6 +2011,10 @@ SWIFT_AVAILABILITY(macos, introduced = 10.15)
 - (PigeonTypedData* _Nullable)
     callFlutterEchoInt64ListWithList:(PigeonTypedData* _Nonnull)list
                         wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (PigeonTypedData* _Nullable)
+    callFlutterEchoFloat64ListWithList:(PigeonTypedData* _Nonnull)list
+                          wrappedError:(NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
 - (NSArray<NSObject*>* _Nullable)
     callFlutterEchoListWithList:(NSArray<NSObject*>* _Nonnull)list
@@ -2092,6 +2130,11 @@ SWIFT_AVAILABILITY(macos, introduced = 10.15)
     callFlutterEchoNullableInt64ListWithList:(PigeonTypedData* _Nullable)list
                                 wrappedError:
                                     (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+- (PigeonTypedData* _Nullable)
+    callFlutterEchoNullableFloat64ListWithList:(PigeonTypedData* _Nullable)list
+                                  wrappedError:
+                                      (NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
 - (NSArray<NSObject*>* _Nullable)
     callFlutterEchoNullableListWithList:(NSArray<NSObject*>* _Nullable)list
@@ -2257,6 +2300,12 @@ SWIFT_AVAILABILITY(macos, introduced = 10.15)
                             completionHandler:
                                 (void (^_Nonnull)(PigeonTypedData* _Nullable))
                                     completionHandler;
+- (void)callFlutterEchoAsyncFloat64ListWithList:(PigeonTypedData* _Nonnull)list
+                                   wrappedError:
+                                       (NiTestsError* _Nonnull)wrappedError
+                              completionHandler:
+                                  (void (^_Nonnull)(PigeonTypedData* _Nullable))
+                                      completionHandler;
 - (void)callFlutterEchoAsyncObjectWithAnObject:(NSObject* _Nonnull)anObject
                                   wrappedError:
                                       (NiTestsError* _Nonnull)wrappedError
@@ -2406,6 +2455,20 @@ SWIFT_AVAILABILITY(macos, introduced = 10.15)
                                         (void (^_Nonnull)(
                                             PigeonTypedData* _Nullable))
                                             completionHandler;
+- (void)callFlutterEchoAsyncNullableFloat64ListWithList:
+            (PigeonTypedData* _Nullable)list
+                                           wrappedError:(NiTestsError* _Nonnull)
+                                                            wrappedError
+                                      completionHandler:
+                                          (void (^_Nonnull)(
+                                              PigeonTypedData* _Nullable))
+                                              completionHandler;
+- (void)
+    callFlutterThrowFlutterErrorAsyncWithWrappedError:
+        (NiTestsError* _Nonnull)wrappedError
+                                    completionHandler:
+                                        (void (^_Nonnull)(NSObject* _Nullable))
+                                            completionHandler;
 - (void)
     callFlutterEchoAsyncNullableObjectWithAnObject:(NSObject* _Nonnull)anObject
                                       wrappedError:
@@ -2530,8 +2593,8 @@ SWIFT_AVAILABILITY(macos, introduced = 10.15)
 /// Objective-C.
 SWIFT_CLASS("_TtC11test_plugin19NIUnusedClassBridge")
 SWIFT_AVAILABILITY(macos, introduced = 10.15)
-    SWIFT_AVAILABILITY(ios, introduced = 13) @interface NIUnusedClassBridge
-    : NSObject
+SWIFT_AVAILABILITY(ios, introduced = 13)
+@interface NIUnusedClassBridge : NSObject
 - (nonnull instancetype)initWithAField:(NSObject* _Nullable)aField
     OBJC_DESIGNATED_INITIALIZER;
 @property(nonatomic, strong) NSObject* _Nullable aField;
@@ -2575,8 +2638,7 @@ SWIFT_CLASS("_TtC11test_plugin18PigeonInternalNull")
 @class NSData;
 SWIFT_CLASS("_TtC11test_plugin15PigeonTypedData")
 SWIFT_AVAILABILITY(macos, introduced = 10.15)
-    SWIFT_AVAILABILITY(ios, introduced = 13) @interface PigeonTypedData
-    : NSObject
+SWIFT_AVAILABILITY(ios, introduced = 13) @interface PigeonTypedData : NSObject
 @property(nonatomic, readonly, strong) NSData* _Nonnull data;
 @property(nonatomic, readonly) NSInteger type;
 - (nonnull instancetype)initWithData:(NSData* _Nonnull)data
