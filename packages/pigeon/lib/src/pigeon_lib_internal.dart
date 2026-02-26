@@ -518,12 +518,10 @@ class SwiftGeneratorAdapter implements GeneratorAdapter {
 /// A [GeneratorAdapter] that generates FfigenConfig source code.
 class FfigenConfigGeneratorAdapter implements GeneratorAdapter {
   /// Constructor for [FfigenConfigGeneratorAdapter].
-  FfigenConfigGeneratorAdapter({
-    this.fileTypeList = const <FileType>[FileType.na],
-  });
+  const FfigenConfigGeneratorAdapter();
 
   @override
-  List<FileType> fileTypeList;
+  List<FileType> get fileTypeList => const <FileType>[FileType.na];
 
   @override
   void generate(
@@ -743,12 +741,10 @@ class KotlinGeneratorAdapter implements GeneratorAdapter {
 /// A [GeneratorAdapter] that generates JnigenYaml source code.
 class JnigenYamlGeneratorAdapter implements GeneratorAdapter {
   /// Constructor for [JnigenYamlGeneratorAdapter].
-  JnigenYamlGeneratorAdapter({
-    this.fileTypeList = const <FileType>[FileType.na],
-  });
+  const JnigenYamlGeneratorAdapter();
 
   @override
-  List<FileType> fileTypeList;
+  List<FileType> get fileTypeList => const <FileType>[FileType.na];
 
   @override
   void generate(
