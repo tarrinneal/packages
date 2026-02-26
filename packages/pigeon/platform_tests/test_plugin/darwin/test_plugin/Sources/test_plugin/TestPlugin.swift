@@ -1922,8 +1922,28 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return anInt
   }
 
-  func echoNamedDefault(_ everything: NIAllNullableTypes?) throws -> NIAllNullableTypes? {
+  func echoNullable(_ everything: NIAllNullableTypes?) throws -> NIAllNullableTypes? {
     return everything
+  }
+
+  func echoNamedDefault(_ aString: String) throws -> String {
+    return aString
+  }
+
+  func echoOptionalDefault(_ aDouble: Double) throws -> Double {
+    return aDouble
+  }
+
+  func echoRequired(_ anInt: Int64) throws -> Int64 {
+    return anInt
+  }
+
+  func echoOptional(_ aNullableInt: Int64?) throws -> Int64? {
+    return aNullableInt
+  }
+
+  func echoNamed(_ aNullableString: String?) throws -> String? {
+    return aNullableString
   }
 
   func throwError() throws -> Any? {

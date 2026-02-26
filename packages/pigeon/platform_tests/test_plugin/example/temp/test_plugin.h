@@ -1413,6 +1413,21 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
     echoAnotherEnumWithAnotherEnum:(enum NIAnotherEnum)anotherEnum
                       wrappedError:(NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
+/// Returns the default string.
+- (NSString* _Nullable)
+    echoNamedDefaultStringWithAString:(NSString* _Nonnull)aString
+                         wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns passed in double.
+- (NSNumber* _Nullable)
+    echoOptionalDefaultDoubleWithADouble:(double)aDouble
+                            wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns passed in int.
+- (NSNumber* _Nullable)echoRequiredIntWithAnInt:(int64_t)anInt
+                                   wrappedError:
+                                       (NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed object, to test serialization and deserialization.
 - (NIAllNullableTypesBridge* _Nullable)
     echoAllNullableTypesWithEverything:
@@ -1607,6 +1622,18 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
 - (NSNumber* _Nullable)
     echoAnotherNullableEnumWithAnotherEnum:(NSNumber* _Nullable)anotherEnum
                               wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns passed in int.
+- (NSNumber* _Nullable)
+    echoOptionalNullableIntWithANullableInt:(NSNumber* _Nullable)aNullableInt
+                               wrappedError:(NiTestsError* _Nonnull)wrappedError
+    SWIFT_WARN_UNUSED_RESULT;
+/// Returns the passed in string.
+- (NSString* _Nullable)
+    echoNamedNullableStringWithANullableString:
+        (NSString* _Nullable)aNullableString
+                                  wrappedError:
+                                      (NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
 /// A no-op function taking no arguments and returning no value, to sanity
 /// test basic asynchronous calling.

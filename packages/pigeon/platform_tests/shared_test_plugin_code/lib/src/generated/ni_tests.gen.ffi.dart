@@ -21616,6 +21616,54 @@ extension NIHostIntegrationCoreApiSetup$Methods
         : objc.NSDictionary.fromPointer($ret, retain: true, release: true);
   }
 
+  /// Returns the default string.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
+  objc.NSString? echoNamedDefaultStringWithAString(
+    objc.NSString aString, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.echoNamedDefaultStringWithAString:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (10, 15, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoNamedDefaultStringWithAString_wrappedError_,
+      aString.ref.pointer,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSString.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns the passed in string.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
+  objc.NSString? echoNamedNullableStringWithANullableString(
+    objc.NSString? aNullableString, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.echoNamedNullableStringWithANullableString:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (10, 15, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoNamedNullableStringWithANullableString_wrappedError_,
+      aNullableString?.ref.pointer ?? ffi.nullptr,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSString.fromPointer($ret, retain: true, release: true);
+  }
+
   /// Returns the passed list, to test serialization and deserialization.
   ///
   /// iOS: introduced 13.0.0
@@ -22358,6 +22406,78 @@ extension NIHostIntegrationCoreApiSetup$Methods
     return $ret.address == 0
         ? null
         : objc.NSObject.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns passed in double.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
+  objc.NSNumber? echoOptionalDefaultDoubleWithADouble(
+    double aDouble, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.echoOptionalDefaultDoubleWithADouble:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (10, 15, 0)),
+    );
+    final $ret = _objc_msgSend_1ozwf6k(
+      object$.ref.pointer,
+      _sel_echoOptionalDefaultDoubleWithADouble_wrappedError_,
+      aDouble,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSNumber.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns passed in int.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
+  objc.NSNumber? echoOptionalNullableIntWithANullableInt(
+    objc.NSNumber? aNullableInt, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.echoOptionalNullableIntWithANullableInt:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (10, 15, 0)),
+    );
+    final $ret = _objc_msgSend_15qeuct(
+      object$.ref.pointer,
+      _sel_echoOptionalNullableIntWithANullableInt_wrappedError_,
+      aNullableInt?.ref.pointer ?? ffi.nullptr,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSNumber.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// Returns passed in int.
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
+  objc.NSNumber? echoRequiredIntWithAnInt(
+    int anInt, {
+    required NiTestsError wrappedError,
+  }) {
+    objc.checkOsVersionInternal(
+      'NIHostIntegrationCoreApiSetup.echoRequiredIntWithAnInt:wrappedError:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (10, 15, 0)),
+    );
+    final $ret = _objc_msgSend_1j962g9(
+      object$.ref.pointer,
+      _sel_echoRequiredIntWithAnInt_wrappedError_,
+      anInt,
+      wrappedError.ref.pointer,
+    );
+    return $ret.address == 0
+        ? null
+        : objc.NSNumber.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed list, to test serialization and deserialization.
@@ -36339,6 +36459,10 @@ late final _sel_echoNIAllTypesWithEverything_error_ = objc.registerName(
 late final _sel_echoNIAnotherEnumWithAnotherEnum_error_ = objc.registerName(
   "echoNIAnotherEnumWithAnotherEnum:error:",
 );
+late final _sel_echoNamedDefaultStringWithAString_wrappedError_ = objc
+    .registerName("echoNamedDefaultStringWithAString:wrappedError:");
+late final _sel_echoNamedNullableStringWithANullableString_wrappedError_ = objc
+    .registerName("echoNamedNullableStringWithANullableString:wrappedError:");
 late final _sel_echoNonNullClassListWithClassList_error_ = objc.registerName(
   "echoNonNullClassListWithClassList:error:",
 );
@@ -36490,6 +36614,13 @@ late final _sel_echoNullableUint8ListWithList_error_ = objc.registerName(
 );
 late final _sel_echoObjectWithAnObject_wrappedError_ = objc.registerName(
   "echoObjectWithAnObject:wrappedError:",
+);
+late final _sel_echoOptionalDefaultDoubleWithADouble_wrappedError_ = objc
+    .registerName("echoOptionalDefaultDoubleWithADouble:wrappedError:");
+late final _sel_echoOptionalNullableIntWithANullableInt_wrappedError_ = objc
+    .registerName("echoOptionalNullableIntWithANullableInt:wrappedError:");
+late final _sel_echoRequiredIntWithAnInt_wrappedError_ = objc.registerName(
+  "echoRequiredIntWithAnInt:wrappedError:",
 );
 late final _sel_echoStringListWithStringList_wrappedError_ = objc.registerName(
   "echoStringListWithStringList:wrappedError:",

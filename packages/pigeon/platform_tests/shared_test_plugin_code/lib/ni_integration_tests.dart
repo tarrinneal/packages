@@ -798,52 +798,53 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
       expect(receivedEnum, sentEnum);
     });
 
-    //     testWidgets('required named parameter', (WidgetTester _) async {
-    //       final NIHostIntegrationCoreApiForNativeInterop? api =
-    //           NIHostIntegrationCoreApiForNativeInterop.getInstance();
-    //       // This number corresponds with the default value of this method.
-    //       const int sentInt = regularInt;
-    //       final int receivedInt = api!.echoRequiredInt(anInt: sentInt);
-    //       expect(receivedInt, sentInt);
-    //     });
+    testWidgets('required named parameter', (WidgetTester _) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      // This number corresponds with the default value of this method.
+      const int sentInt = regularInt;
+      final int receivedInt = api!.echoRequiredInt(anInt: sentInt);
+      expect(receivedInt, sentInt);
+    });
 
-    //     testWidgets('optional default parameter no arg', (WidgetTester _) async {
-    //       final NIHostIntegrationCoreApiForNativeInterop? api =
-    //           NIHostIntegrationCoreApiForNativeInterop.getInstance();
+    testWidgets('optional default parameter no arg', (WidgetTester _) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
 
-    //       // This number corresponds with the default value of this method.
-    //       const double sentDouble = 3.14;
-    //       final double receivedDouble = api!.echoOptionalDefaultDouble();
-    //       expect(receivedDouble, sentDouble);
-    //     });
+      // This number corresponds with the default value of this method.
+      const double sentDouble = 3.14;
+      final double receivedDouble = api!.echoOptionalDefaultDouble();
+      expect(receivedDouble, sentDouble);
+    });
 
-    //     testWidgets('optional default parameter with arg', (WidgetTester _) async {
-    //       final NIHostIntegrationCoreApiForNativeInterop? api =
-    //           NIHostIntegrationCoreApiForNativeInterop.getInstance();
+    testWidgets('optional default parameter with arg', (WidgetTester _) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
 
-    //       const double sentDouble = 3.15;
-    //       final double receivedDouble = api!.echoOptionalDefaultDouble(sentDouble);
-    //       expect(receivedDouble, sentDouble);
-    //     });
+      const double sentDouble = 3.15;
+      final double receivedDouble = api!.echoOptionalDefaultDouble(sentDouble);
+      expect(receivedDouble, sentDouble);
+    });
 
-    //     testWidgets('named default parameter no arg', (WidgetTester _) async {
-    //       final NIHostIntegrationCoreApiForNativeInterop? api =
-    //           NIHostIntegrationCoreApiForNativeInterop.getInstance();
-    //       // This string corresponds with the default value of this method.
-    //       const String sentString = 'default';
-    //       final String receivedString = api!.echoNamedDefaultString();
-    //       expect(receivedString, sentString);
-    //     });
+    testWidgets('named default parameter no arg', (WidgetTester _) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      // This string corresponds with the default value of this method.
+      const String sentString = 'default';
+      final String receivedString = api!.echoNamedDefaultString();
+      expect(receivedString, sentString);
+    });
 
-    //     testWidgets('named default parameter with arg', (WidgetTester _) async {
-    //       final NIHostIntegrationCoreApiForNativeInterop? api =
-    //           NIHostIntegrationCoreApiForNativeInterop.getInstance();
-    //       // This string corresponds with the default value of this method.
-    //       const String sentString = 'notDefault';
-    //       final String receivedString =
-    //           api!.echoNamedDefaultString(aString: sentString);
-    //       expect(receivedString, sentString);
-    //     });
+    testWidgets('named default parameter with arg', (WidgetTester _) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      // This string corresponds with the default value of this method.
+      const String sentString = 'notDefault';
+      final String receivedString = api!.echoNamedDefaultString(
+        aString: sentString,
+      );
+      expect(receivedString, sentString);
+    });
 
     testWidgets('Nullable Int serialize and deserialize correctly', (
       WidgetTester _,
@@ -1293,39 +1294,40 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
       expect(receivedFloat64List, isNull);
     });
 
-    //     testWidgets('optional nullable parameter', (WidgetTester _) async {
-    //       final NIHostIntegrationCoreApiForNativeInterop? api =
-    //           NIHostIntegrationCoreApiForNativeInterop.getInstance();
+    testWidgets('optional nullable parameter', (WidgetTester _) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
 
-    //       const int sentInt = regularInt;
-    //       final int? receivedInt = api!.echoOptionalNullableInt(sentInt);
-    //       expect(receivedInt, sentInt);
-    //     });
+      const int sentInt = regularInt;
+      final int? receivedInt = api!.echoOptionalNullableInt(sentInt);
+      expect(receivedInt, sentInt);
+    });
 
-    //     testWidgets('Null optional nullable parameter', (WidgetTester _) async {
-    //       final NIHostIntegrationCoreApiForNativeInterop? api =
-    //           NIHostIntegrationCoreApiForNativeInterop.getInstance();
+    testWidgets('Null optional nullable parameter', (WidgetTester _) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
 
-    //       final int? receivedNullInt = api!.echoOptionalNullableInt();
-    //       expect(receivedNullInt, null);
-    //     });
+      final int? receivedNullInt = api!.echoOptionalNullableInt();
+      expect(receivedNullInt, null);
+    });
 
-    //     testWidgets('named nullable parameter', (WidgetTester _) async {
-    //       final NIHostIntegrationCoreApiForNativeInterop? api =
-    //           NIHostIntegrationCoreApiForNativeInterop.getInstance();
-    //       const String sentString = "I'm a computer";
-    //       final String? receivedString =
-    //           api!.echoNamedNullableString(aNullableString: sentString);
-    //       expect(receivedString, sentString);
-    //     });
+    testWidgets('named nullable parameter', (WidgetTester _) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
+      const String sentString = "I'm a computer";
+      final String? receivedString = api!.echoNamedNullableString(
+        aNullableString: sentString,
+      );
+      expect(receivedString, sentString);
+    });
 
-    //     testWidgets('Null named nullable parameter', (WidgetTester _) async {
-    //       final NIHostIntegrationCoreApiForNativeInterop? api =
-    //           NIHostIntegrationCoreApiForNativeInterop.getInstance();
+    testWidgets('Null named nullable parameter', (WidgetTester _) async {
+      final NIHostIntegrationCoreApiForNativeInterop? api =
+          NIHostIntegrationCoreApiForNativeInterop.getInstance();
 
-    //       final String? receivedNullString = api!.echoNamedNullableString();
-    //       expect(receivedNullString, null);
-    //     });
+      final String? receivedNullString = api!.echoNamedNullableString();
+      expect(receivedNullString, null);
+    });
   });
 
   group('Host async API tests', () {

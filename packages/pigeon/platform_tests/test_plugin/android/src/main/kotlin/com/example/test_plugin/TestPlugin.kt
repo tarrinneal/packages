@@ -1047,17 +1047,17 @@ class NIIntegrationTests : NIHostIntegrationCoreApi() {
     return anotherEnum
   }
   //
-  // override fun echoNamedDefaultString(aString: String): String {
-  //   return aString
-  // }
-  //
-  // override fun echoOptionalDefaultDouble(aDouble: Double): Double {
-  //   return aDouble
-  // }
-  //
-  // override fun echoRequiredInt(anInt: Long): Long {
-  //   return anInt
-  // }
+  override fun echoNamedDefaultString(aString: String): String {
+    return aString
+  }
+
+  override fun echoOptionalDefaultDouble(aDouble: Double): Double {
+    return aDouble
+  }
+
+  override fun echoRequiredInt(anInt: Long): Long {
+    return anInt
+  }
 
   override fun echoAllNullableTypes(everything: NIAllNullableTypes?): NIAllNullableTypes? {
     return everything
@@ -1214,13 +1214,13 @@ class NIIntegrationTests : NIHostIntegrationCoreApi() {
     return anotherEnum
   }
 
-  // override fun echoOptionalNullableInt(aNullableInt: Long?): Long? {
-  //   return aNullableInt
-  // }
-  //
-  // override fun echoNamedNullableString(aNullableString: String?): String? {
-  //   return aNullableString
-  // }
+  override fun echoOptionalNullableInt(aNullableInt: Long?): Long? {
+    return aNullableInt
+  }
+
+  override fun echoNamedNullableString(aNullableString: String?): String? {
+    return aNullableString
+  }
 
   override suspend fun noopAsync() {
     return

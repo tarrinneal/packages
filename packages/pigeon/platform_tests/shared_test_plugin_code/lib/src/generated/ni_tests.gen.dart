@@ -4032,6 +4032,73 @@ class NIHostIntegrationCoreApiForNativeInterop {
     }
   }
 
+  String echoNamedDefaultString({String aString = 'default'}) {
+    try {
+      if (_jniApi != null) {
+        final JString res = _jniApi.echoNamedDefaultString(
+          _PigeonJniCodec.writeValue<JString>(aString),
+        );
+        final String dartTypeRes = res.toDartString(releaseOriginal: true);
+        return dartTypeRes;
+      } else if (_ffiApi != null) {
+        final error = ffi_bridge.NiTestsError();
+        final NSString? res = _ffiApi.echoNamedDefaultStringWithAString(
+          _PigeonFfiCodec.writeValue<NSString>(aString),
+          wrappedError: error,
+        );
+        _throwIfFfiError(error);
+        final String dartTypeRes = res!.toDartString();
+        return dartTypeRes;
+      } else {
+        throw Exception('No JNI or FFI api available');
+      }
+    } on JniException catch (e) {
+      throw _wrapJniException(e);
+    }
+  }
+
+  double echoOptionalDefaultDouble([double aDouble = 3.14]) {
+    try {
+      if (_jniApi != null) {
+        return _jniApi.echoOptionalDefaultDouble(aDouble);
+      } else if (_ffiApi != null) {
+        final error = ffi_bridge.NiTestsError();
+        final NSNumber? res = _ffiApi.echoOptionalDefaultDoubleWithADouble(
+          aDouble,
+          wrappedError: error,
+        );
+        _throwIfFfiError(error);
+        final double dartTypeRes = res!.doubleValue;
+        return dartTypeRes;
+      } else {
+        throw Exception('No JNI or FFI api available');
+      }
+    } on JniException catch (e) {
+      throw _wrapJniException(e);
+    }
+  }
+
+  int echoRequiredInt({required int anInt}) {
+    try {
+      if (_jniApi != null) {
+        return _jniApi.echoRequiredInt(anInt);
+      } else if (_ffiApi != null) {
+        final error = ffi_bridge.NiTestsError();
+        final NSNumber? res = _ffiApi.echoRequiredIntWithAnInt(
+          anInt,
+          wrappedError: error,
+        );
+        _throwIfFfiError(error);
+        final int dartTypeRes = res!.longValue;
+        return dartTypeRes;
+      } else {
+        throw Exception('No JNI or FFI api available');
+      }
+    } on JniException catch (e) {
+      throw _wrapJniException(e);
+    }
+  }
+
   NIAllNullableTypes? echoAllNullableTypes(NIAllNullableTypes? everything) {
     try {
       if (_jniApi != null) {
@@ -4953,6 +5020,57 @@ class NIHostIntegrationCoreApiForNativeInterop {
         _throwIfFfiError(error);
         final NIAnotherEnum? dartTypeRes =
             (_PigeonFfiCodec.readValue(res, NIAnotherEnum) as NIAnotherEnum?);
+        return dartTypeRes;
+      } else {
+        throw Exception('No JNI or FFI api available');
+      }
+    } on JniException catch (e) {
+      throw _wrapJniException(e);
+    }
+  }
+
+  int? echoOptionalNullableInt([int? aNullableInt]) {
+    try {
+      if (_jniApi != null) {
+        final JLong? res = _jniApi.echoOptionalNullableInt(
+          _PigeonJniCodec.writeValue<JLong?>(aNullableInt),
+        );
+        final int? dartTypeRes = res?.longValue(releaseOriginal: true);
+        return dartTypeRes;
+      } else if (_ffiApi != null) {
+        final error = ffi_bridge.NiTestsError();
+        final NSNumber? res = _ffiApi.echoOptionalNullableIntWithANullableInt(
+          _PigeonFfiCodec.writeValue<NSNumber?>(aNullableInt),
+          wrappedError: error,
+        );
+        _throwIfFfiError(error);
+        final int? dartTypeRes = res?.longValue;
+        return dartTypeRes;
+      } else {
+        throw Exception('No JNI or FFI api available');
+      }
+    } on JniException catch (e) {
+      throw _wrapJniException(e);
+    }
+  }
+
+  String? echoNamedNullableString({String? aNullableString}) {
+    try {
+      if (_jniApi != null) {
+        final JString? res = _jniApi.echoNamedNullableString(
+          _PigeonJniCodec.writeValue<JString?>(aNullableString),
+        );
+        final String? dartTypeRes = res?.toDartString(releaseOriginal: true);
+        return dartTypeRes;
+      } else if (_ffiApi != null) {
+        final error = ffi_bridge.NiTestsError();
+        final NSString? res = _ffiApi
+            .echoNamedNullableStringWithANullableString(
+              _PigeonFfiCodec.writeValue<NSString?>(aNullableString),
+              wrappedError: error,
+            );
+        _throwIfFfiError(error);
+        final String? dartTypeRes = res?.toDartString();
         return dartTypeRes;
       } else {
         throw Exception('No JNI or FFI api available');
@@ -11419,6 +11537,111 @@ class NIHostIntegrationCoreApi {
     }
   }
 
+  /// Returns the default string.
+  Future<String> echoNamedDefaultString({String aString = 'default'}) async {
+    if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
+        _nativeInteropApi != null) {
+      return _nativeInteropApi.echoNamedDefaultString(aString: aString);
+    }
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.pigeon_integration_tests.NIHostIntegrationCoreApi.echoNamedDefaultString$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[aString],
+    );
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else if (pigeonVar_replyList[0] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (pigeonVar_replyList[0] as String?)!;
+    }
+  }
+
+  /// Returns passed in double.
+  Future<double> echoOptionalDefaultDouble([double aDouble = 3.14]) async {
+    if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
+        _nativeInteropApi != null) {
+      return _nativeInteropApi.echoOptionalDefaultDouble(aDouble);
+    }
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.pigeon_integration_tests.NIHostIntegrationCoreApi.echoOptionalDefaultDouble$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[aDouble],
+    );
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else if (pigeonVar_replyList[0] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (pigeonVar_replyList[0] as double?)!;
+    }
+  }
+
+  /// Returns passed in int.
+  Future<int> echoRequiredInt({required int anInt}) async {
+    if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
+        _nativeInteropApi != null) {
+      return _nativeInteropApi.echoRequiredInt(anInt: anInt);
+    }
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.pigeon_integration_tests.NIHostIntegrationCoreApi.echoRequiredInt$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[anInt],
+    );
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else if (pigeonVar_replyList[0] == null) {
+      throw PlatformException(
+        code: 'null-error',
+        message: 'Host platform returned null value for non-null return value.',
+      );
+    } else {
+      return (pigeonVar_replyList[0] as int?)!;
+    }
+  }
+
   /// Returns the passed object, to test serialization and deserialization.
   Future<NIAllNullableTypes?> echoAllNullableTypes(
     NIAllNullableTypes? everything,
@@ -12430,6 +12653,68 @@ class NIHostIntegrationCoreApi {
       );
     } else {
       return (pigeonVar_replyList[0] as NIAnotherEnum?);
+    }
+  }
+
+  /// Returns passed in int.
+  Future<int?> echoOptionalNullableInt([int? aNullableInt]) async {
+    if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
+        _nativeInteropApi != null) {
+      return _nativeInteropApi.echoOptionalNullableInt(aNullableInt);
+    }
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.pigeon_integration_tests.NIHostIntegrationCoreApi.echoOptionalNullableInt$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[aNullableInt],
+    );
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else {
+      return (pigeonVar_replyList[0] as int?);
+    }
+  }
+
+  /// Returns the passed in string.
+  Future<String?> echoNamedNullableString({String? aNullableString}) async {
+    if ((Platform.isAndroid || Platform.isIOS || Platform.isMacOS) &&
+        _nativeInteropApi != null) {
+      return _nativeInteropApi.echoNamedNullableString(
+        aNullableString: aNullableString,
+      );
+    }
+    final pigeonVar_channelName =
+        'dev.flutter.pigeon.pigeon_integration_tests.NIHostIntegrationCoreApi.echoNamedNullableString$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(
+      <Object?>[aNullableString],
+    );
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    if (pigeonVar_replyList == null) {
+      throw _createConnectionError(pigeonVar_channelName);
+    } else if (pigeonVar_replyList.length > 1) {
+      throw PlatformException(
+        code: pigeonVar_replyList[0]! as String,
+        message: pigeonVar_replyList[1] as String?,
+        details: pigeonVar_replyList[2],
+      );
+    } else {
+      return (pigeonVar_replyList[0] as String?);
     }
   }
 

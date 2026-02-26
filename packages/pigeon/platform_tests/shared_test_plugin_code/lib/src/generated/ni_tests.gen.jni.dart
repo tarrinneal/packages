@@ -1298,6 +1298,104 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
     ).object<NIAnotherEnum>(const $NIAnotherEnum$Type$());
   }
 
+  static final _id_echoNamedDefaultString = _class.instanceMethodId(
+    r'echoNamedDefaultString',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _echoNamedDefaultString =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNamedDefaultString(aString: kotlin.String): kotlin.String`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString echoNamedDefaultString(jni$_.JString string) {
+    final _$string = string.reference;
+    return _echoNamedDefaultString(
+      reference.pointer,
+      _id_echoNamedDefaultString as jni$_.JMethodIDPtr,
+      _$string.pointer,
+    ).object<jni$_.JString>(const jni$_.$JString$Type$());
+  }
+
+  static final _id_echoOptionalDefaultDouble = _class.instanceMethodId(
+    r'echoOptionalDefaultDouble',
+    r'(D)D',
+  );
+
+  static final _echoOptionalDefaultDouble =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Double,)>,
+              )
+            >
+          >('globalEnv_CallDoubleMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              double,
+            )
+          >();
+
+  /// from: `public fun echoOptionalDefaultDouble(aDouble: kotlin.Double): kotlin.Double`
+  double echoOptionalDefaultDouble(double d) {
+    return _echoOptionalDefaultDouble(
+      reference.pointer,
+      _id_echoOptionalDefaultDouble as jni$_.JMethodIDPtr,
+      d,
+    ).doubleFloat;
+  }
+
+  static final _id_echoRequiredInt = _class.instanceMethodId(
+    r'echoRequiredInt',
+    r'(J)J',
+  );
+
+  static final _echoRequiredInt =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int64,)>,
+              )
+            >
+          >('globalEnv_CallLongMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+            )
+          >();
+
+  /// from: `public fun echoRequiredInt(anInt: kotlin.Long): kotlin.Long`
+  int echoRequiredInt(int j) {
+    return _echoRequiredInt(
+      reference.pointer,
+      _id_echoRequiredInt as jni$_.JMethodIDPtr,
+      j,
+    ).long;
+  }
+
   static final _id_echoAllNullableTypes = _class.instanceMethodId(
     r'echoAllNullableTypes',
     r'(LNIAllNullableTypes;)LNIAllNullableTypes;',
@@ -2482,6 +2580,74 @@ class NIHostIntegrationCoreApi extends jni$_.JObject {
       _id_echoAnotherNullableEnum as jni$_.JMethodIDPtr,
       _$nIAnotherEnum.pointer,
     ).object<NIAnotherEnum?>(const $NIAnotherEnum$NullableType$());
+  }
+
+  static final _id_echoOptionalNullableInt = _class.instanceMethodId(
+    r'echoOptionalNullableInt',
+    r'(Ljava/lang/Long;)Ljava/lang/Long;',
+  );
+
+  static final _echoOptionalNullableInt =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoOptionalNullableInt(aNullableInt: kotlin.Long?): kotlin.Long?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JLong? echoOptionalNullableInt(jni$_.JLong? long) {
+    final _$long = long?.reference ?? jni$_.jNullReference;
+    return _echoOptionalNullableInt(
+      reference.pointer,
+      _id_echoOptionalNullableInt as jni$_.JMethodIDPtr,
+      _$long.pointer,
+    ).object<jni$_.JLong?>(const jni$_.$JLong$NullableType$());
+  }
+
+  static final _id_echoNamedNullableString = _class.instanceMethodId(
+    r'echoNamedNullableString',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _echoNamedNullableString =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNamedNullableString(aNullableString: kotlin.String?): kotlin.String?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? echoNamedNullableString(jni$_.JString? string) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _echoNamedNullableString(
+      reference.pointer,
+      _id_echoNamedNullableString as jni$_.JMethodIDPtr,
+      _$string.pointer,
+    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_noopAsync = _class.instanceMethodId(
@@ -12472,6 +12638,104 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
     ).object<NIAnotherEnum>(const $NIAnotherEnum$Type$());
   }
 
+  static final _id_echoNamedDefaultString = _class.instanceMethodId(
+    r'echoNamedDefaultString',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _echoNamedDefaultString =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNamedDefaultString(aString: kotlin.String): kotlin.String`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString echoNamedDefaultString(jni$_.JString string) {
+    final _$string = string.reference;
+    return _echoNamedDefaultString(
+      reference.pointer,
+      _id_echoNamedDefaultString as jni$_.JMethodIDPtr,
+      _$string.pointer,
+    ).object<jni$_.JString>(const jni$_.$JString$Type$());
+  }
+
+  static final _id_echoOptionalDefaultDouble = _class.instanceMethodId(
+    r'echoOptionalDefaultDouble',
+    r'(D)D',
+  );
+
+  static final _echoOptionalDefaultDouble =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Double,)>,
+              )
+            >
+          >('globalEnv_CallDoubleMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              double,
+            )
+          >();
+
+  /// from: `public fun echoOptionalDefaultDouble(aDouble: kotlin.Double): kotlin.Double`
+  double echoOptionalDefaultDouble(double d) {
+    return _echoOptionalDefaultDouble(
+      reference.pointer,
+      _id_echoOptionalDefaultDouble as jni$_.JMethodIDPtr,
+      d,
+    ).doubleFloat;
+  }
+
+  static final _id_echoRequiredInt = _class.instanceMethodId(
+    r'echoRequiredInt',
+    r'(J)J',
+  );
+
+  static final _echoRequiredInt =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int64,)>,
+              )
+            >
+          >('globalEnv_CallLongMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+            )
+          >();
+
+  /// from: `public fun echoRequiredInt(anInt: kotlin.Long): kotlin.Long`
+  int echoRequiredInt(int j) {
+    return _echoRequiredInt(
+      reference.pointer,
+      _id_echoRequiredInt as jni$_.JMethodIDPtr,
+      j,
+    ).long;
+  }
+
   static final _id_echoAllNullableTypes = _class.instanceMethodId(
     r'echoAllNullableTypes',
     r'(LNIAllNullableTypes;)LNIAllNullableTypes;',
@@ -13656,6 +13920,74 @@ class NIHostIntegrationCoreApiRegistrar extends NIHostIntegrationCoreApi {
       _id_echoAnotherNullableEnum as jni$_.JMethodIDPtr,
       _$nIAnotherEnum.pointer,
     ).object<NIAnotherEnum?>(const $NIAnotherEnum$NullableType$());
+  }
+
+  static final _id_echoOptionalNullableInt = _class.instanceMethodId(
+    r'echoOptionalNullableInt',
+    r'(Ljava/lang/Long;)Ljava/lang/Long;',
+  );
+
+  static final _echoOptionalNullableInt =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoOptionalNullableInt(aNullableInt: kotlin.Long?): kotlin.Long?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JLong? echoOptionalNullableInt(jni$_.JLong? long) {
+    final _$long = long?.reference ?? jni$_.jNullReference;
+    return _echoOptionalNullableInt(
+      reference.pointer,
+      _id_echoOptionalNullableInt as jni$_.JMethodIDPtr,
+      _$long.pointer,
+    ).object<jni$_.JLong?>(const jni$_.$JLong$NullableType$());
+  }
+
+  static final _id_echoNamedNullableString = _class.instanceMethodId(
+    r'echoNamedNullableString',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _echoNamedNullableString =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun echoNamedNullableString(aNullableString: kotlin.String?): kotlin.String?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? echoNamedNullableString(jni$_.JString? string) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _echoNamedNullableString(
+      reference.pointer,
+      _id_echoNamedNullableString as jni$_.JMethodIDPtr,
+      _$string.pointer,
+    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_noopAsync = _class.instanceMethodId(

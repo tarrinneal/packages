@@ -1814,8 +1814,14 @@ protocol NIHostIntegrationCoreApi {
   func echo(_ anEnum: NIAnEnum) throws -> NIAnEnum
   /// Returns the passed enum to test serialization and deserialization.
   func echo(_ anotherEnum: NIAnotherEnum) throws -> NIAnotherEnum
+  /// Returns the default string.
+  func echoNamedDefault(_ aString: String) throws -> String
+  /// Returns passed in double.
+  func echoOptionalDefault(_ aDouble: Double) throws -> Double
+  /// Returns passed in int.
+  func echoRequired(_ anInt: Int64) throws -> Int64
   /// Returns the passed object, to test serialization and deserialization.
-  func echoNamedDefault(_ everything: NIAllNullableTypes?) throws -> NIAllNullableTypes?
+  func echoNullable(_ everything: NIAllNullableTypes?) throws -> NIAllNullableTypes?
   /// Returns the passed object, to test serialization and deserialization.
   func echoNullable(_ everything: NIAllNullableTypesWithoutRecursion?) throws
     -> NIAllNullableTypesWithoutRecursion?
@@ -1881,6 +1887,10 @@ protocol NIHostIntegrationCoreApi {
     NIAllNullableTypes]?
   func echoNullable(_ anEnum: NIAnEnum?) throws -> NIAnEnum?
   func echoNullable(_ anotherEnum: NIAnotherEnum?) throws -> NIAnotherEnum?
+  /// Returns passed in int.
+  func echoOptional(_ aNullableInt: Int64?) throws -> Int64?
+  /// Returns the passed in string.
+  func echoNamed(_ aNullableString: String?) throws -> String?
   /// A no-op function taking no arguments and returning no value, to sanity
   /// test basic asynchronous calling.
   func noopAsync() async throws
@@ -2751,13 +2761,58 @@ protocol NIHostIntegrationCoreApi {
     }
     return nil
   }
+  /// Returns the default string.
+  @objc func echoNamedDefaultString(aString: NSString, wrappedError: NiTestsError) -> NSString? {
+    do {
+      return try api!.echoNamedDefault(aString as String) as NSString?
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  /// Returns passed in double.
+  @objc func echoOptionalDefaultDouble(aDouble: Double, wrappedError: NiTestsError) -> NSNumber? {
+    do {
+      return try api!.echoOptionalDefault(aDouble) as NSNumber
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  /// Returns passed in int.
+  @objc func echoRequiredInt(anInt: Int64, wrappedError: NiTestsError) -> NSNumber? {
+    do {
+      return try api!.echoRequired(anInt) as NSNumber
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
   /// Returns the passed object, to test serialization and deserialization.
   @objc func echoAllNullableTypes(everything: NIAllNullableTypesBridge?, wrappedError: NiTestsError)
     -> NIAllNullableTypesBridge?
   {
     do {
       return try NIAllNullableTypesBridge.fromSwift(
-        api!.echoNamedDefault(isNullish(everything) ? nil : everything!.toSwift()))
+        api!.echoNullable(isNullish(everything) ? nil : everything!.toSwift()))
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -3335,6 +3390,41 @@ protocol NIHostIntegrationCoreApi {
         isNullish(anotherEnum) ? nil : NIAnotherEnum.init(rawValue: anotherEnum!.intValue))?
         .rawValue
       return isNullish(res) ? nil : NSNumber(value: res!)
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  /// Returns passed in int.
+  @objc func echoOptionalNullableInt(aNullableInt: NSNumber?, wrappedError: NiTestsError)
+    -> NSNumber?
+  {
+    do {
+      return try api!.echoOptional(isNullish(aNullableInt) ? nil : aNullableInt!.int64Value)
+        as? NSNumber
+    } catch let error as NiTestsError {
+      wrappedError.code = error.code
+      wrappedError.message = error.message
+      wrappedError.details = error.details
+    } catch let error {
+      wrappedError.code = "\(error)"
+      wrappedError.message = "\(type(of: error))"
+      wrappedError.details = "Stacktrace: \(Thread.callStackSymbols)"
+    }
+    return nil
+  }
+  /// Returns the passed in string.
+  @objc func echoNamedNullableString(aNullableString: NSString?, wrappedError: NiTestsError)
+    -> NSString?
+  {
+    do {
+      return try api!.echoNamed(aNullableString as String?) as NSString?
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message

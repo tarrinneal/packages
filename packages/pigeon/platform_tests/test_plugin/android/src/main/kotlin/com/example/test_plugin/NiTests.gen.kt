@@ -778,6 +778,12 @@ abstract class NIHostIntegrationCoreApi {
   abstract fun echoEnum(anEnum: NIAnEnum): NIAnEnum
   /** Returns the passed enum to test serialization and deserialization. */
   abstract fun echoAnotherEnum(anotherEnum: NIAnotherEnum): NIAnotherEnum
+  /** Returns the default string. */
+  abstract fun echoNamedDefaultString(aString: String): String
+  /** Returns passed in double. */
+  abstract fun echoOptionalDefaultDouble(aDouble: Double): Double
+  /** Returns passed in int. */
+  abstract fun echoRequiredInt(anInt: Long): Long
   /** Returns the passed object, to test serialization and deserialization. */
   abstract fun echoAllNullableTypes(everything: NIAllNullableTypes?): NIAllNullableTypes?
   /** Returns the passed object, to test serialization and deserialization. */
@@ -864,6 +870,10 @@ abstract class NIHostIntegrationCoreApi {
   abstract fun echoNullableEnum(anEnum: NIAnEnum?): NIAnEnum?
 
   abstract fun echoAnotherNullableEnum(anotherEnum: NIAnotherEnum?): NIAnotherEnum?
+  /** Returns passed in int. */
+  abstract fun echoOptionalNullableInt(aNullableInt: Long?): Long?
+  /** Returns the passed in string. */
+  abstract fun echoNamedNullableString(aNullableString: String?): String?
   /**
    * A no-op function taking no arguments and returning no value, to sanity test basic asynchronous
    * calling.
@@ -1667,6 +1677,39 @@ class NIHostIntegrationCoreApiRegistrar : NIHostIntegrationCoreApi() {
     }
     error("NIHostIntegrationCoreApi has not been set")
   }
+  /** Returns the default string. */
+  override fun echoNamedDefaultString(aString: String): String {
+    api?.let {
+      try {
+        return api!!.echoNamedDefaultString(aString)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+  /** Returns passed in double. */
+  override fun echoOptionalDefaultDouble(aDouble: Double): Double {
+    api?.let {
+      try {
+        return api!!.echoOptionalDefaultDouble(aDouble)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+  /** Returns passed in int. */
+  override fun echoRequiredInt(anInt: Long): Long {
+    api?.let {
+      try {
+        return api!!.echoRequiredInt(anInt)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
   /** Returns the passed object, to test serialization and deserialization. */
   override fun echoAllNullableTypes(everything: NIAllNullableTypes?): NIAllNullableTypes? {
     api?.let {
@@ -2029,6 +2072,28 @@ class NIHostIntegrationCoreApiRegistrar : NIHostIntegrationCoreApi() {
     api?.let {
       try {
         return api!!.echoAnotherNullableEnum(anotherEnum)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+  /** Returns passed in int. */
+  override fun echoOptionalNullableInt(aNullableInt: Long?): Long? {
+    api?.let {
+      try {
+        return api!!.echoOptionalNullableInt(aNullableInt)
+      } catch (e: Exception) {
+        throw e
+      }
+    }
+    error("NIHostIntegrationCoreApi has not been set")
+  }
+  /** Returns the passed in string. */
+  override fun echoNamedNullableString(aNullableString: String?): String? {
+    api?.let {
+      try {
+        return api!!.echoNamedNullableString(aNullableString)
       } catch (e: Exception) {
         throw e
       }
