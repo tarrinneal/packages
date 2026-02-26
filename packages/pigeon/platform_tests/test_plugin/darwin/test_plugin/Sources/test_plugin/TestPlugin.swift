@@ -1240,8 +1240,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try await flutterApi.throwFlutterErrorAsync()
   }
 
-  func callFlutterEchoNullableBool(aBool: Bool?) throws -> Bool? {
-
+  func callFlutterEchoNullable(_ aBool: Bool?) throws -> Bool? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1249,8 +1248,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableBool(aBool: aBool)
   }
 
-  func callFlutterEchoNullableInt(anInt: Int64?) throws -> Int64? {
-
+  func callFlutterEchoNullable(_ anInt: Int64?) throws -> Int64? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1258,8 +1256,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableInt(anInt: anInt)
   }
 
-  func callFlutterEchoNullableDouble(aDouble: Double?) throws -> Double? {
-
+  func callFlutterEchoNullable(_ aDouble: Double?) throws -> Double? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1267,8 +1264,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableDouble(aDouble: aDouble)
   }
 
-  func callFlutterEchoNullableString(aString: String?) throws -> String? {
-
+  func callFlutterEchoNullable(_ aString: String?) throws -> String? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1276,8 +1272,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableString(aString: aString)
   }
 
-  func callFlutterEchoNullableUint8List(list: [UInt8]?) throws -> [UInt8]? {
-
+  func callFlutterEchoNullable(_ list: [UInt8]?) throws -> [UInt8]? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1285,7 +1280,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableUint8List(list: list)
   }
 
-  func callFlutterEchoNullableInt32List(list: [Int32]?) throws -> [Int32]? {
+  func callFlutterEchoNullable(_ list: [Int32]?) throws -> [Int32]? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1293,7 +1288,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableInt32List(list: list)
   }
 
-  func callFlutterEchoNullableInt64List(list: [Int64]?) throws -> [Int64]? {
+  func callFlutterEchoNullable(_ list: [Int64]?) throws -> [Int64]? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1301,7 +1296,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableInt64List(list: list)
   }
 
-  func callFlutterEchoNullableFloat64List(list: [Float64]?) throws -> [Float64]? {
+  func callFlutterEchoNullable(_ list: [Float64]?) throws -> [Float64]? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1309,8 +1304,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableFloat64List(list: list)
   }
 
-  func callFlutterEchoNullableList(list: [Any?]?) throws -> [Any?]? {
-
+  func callFlutterEchoNullable(_ list: [Any?]?) throws -> [Any?]? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1318,8 +1312,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableList(list: list)
   }
 
-  func callFlutterEchoNullableEnumList(enumList: [NIAnEnum?]?) throws -> [NIAnEnum?]? {
-
+  func callFlutterEchoNullable(enumList: [NIAnEnum?]?) throws -> [NIAnEnum?]? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1327,10 +1320,9 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableEnumList(enumList: enumList)
   }
 
-  func callFlutterEchoNullableClassList(classList: [NIAllNullableTypes?]?) throws
+  func callFlutterEchoNullable(classList: [NIAllNullableTypes?]?) throws
     -> [NIAllNullableTypes?]?
   {
-
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1338,8 +1330,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableClassList(classList: classList)
   }
 
-  func callFlutterEchoNullableNonNullEnumList(enumList: [NIAnEnum]?) throws -> [NIAnEnum]? {
-
+  func callFlutterEchoNullableNonNull(enumList: [NIAnEnum]?) throws -> [NIAnEnum]? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1347,10 +1338,9 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableNonNullEnumList(enumList: enumList)
   }
 
-  func callFlutterEchoNullableNonNullClassList(classList: [NIAllNullableTypes]?) throws
+  func callFlutterEchoNullableNonNull(classList: [NIAllNullableTypes]?) throws
     -> [NIAllNullableTypes]?
   {
-
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1358,8 +1348,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableNonNullClassList(classList: classList)
   }
 
-  func callFlutterEchoNullableMap(map: [AnyHashable?: Any?]?) throws -> [AnyHashable?: Any?]? {
-
+  func callFlutterEchoNullable(_ map: [AnyHashable?: Any?]?) throws -> [AnyHashable?: Any?]? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1383,10 +1372,9 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.throwFlutterError()
   }
 
-  func callFlutterEchoNullableStringMap(stringMap: [String?: String?]?) throws -> [String?:
+  func callFlutterEchoNullable(stringMap: [String?: String?]?) throws -> [String?:
     String?]?
   {
-
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1394,8 +1382,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableStringMap(stringMap: stringMap)
   }
 
-  func callFlutterEchoNullableIntMap(intMap: [Int64?: Int64?]?) throws -> [Int64?: Int64?]? {
-
+  func callFlutterEchoNullable(intMap: [Int64?: Int64?]?) throws -> [Int64?: Int64?]? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1403,10 +1390,9 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableIntMap(intMap: intMap)
   }
 
-  func callFlutterEchoNullableEnumMap(enumMap: [NIAnEnum?: NIAnEnum?]?) throws -> [NIAnEnum?:
+  func callFlutterEchoNullable(enumMap: [NIAnEnum?: NIAnEnum?]?) throws -> [NIAnEnum?:
     NIAnEnum?]?
   {
-
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1414,10 +1400,9 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableEnumMap(enumMap: enumMap)
   }
 
-  func callFlutterEchoNullableClassMap(classMap: [Int64?: NIAllNullableTypes?]?) throws -> [Int64?:
+  func callFlutterEchoNullable(classMap: [Int64?: NIAllNullableTypes?]?) throws -> [Int64?:
     NIAllNullableTypes?]?
   {
-
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1425,10 +1410,9 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableClassMap(classMap: classMap)
   }
 
-  func callFlutterEchoNullableNonNullStringMap(stringMap: [String: String]?) throws -> [String:
+  func callFlutterEchoNullableNonNull(stringMap: [String: String]?) throws -> [String:
     String]?
   {
-
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1436,8 +1420,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableNonNullStringMap(stringMap: stringMap)
   }
 
-  func callFlutterEchoNullableNonNullIntMap(intMap: [Int64: Int64]?) throws -> [Int64: Int64]? {
-
+  func callFlutterEchoNullableNonNull(intMap: [Int64: Int64]?) throws -> [Int64: Int64]? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1445,10 +1428,9 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableNonNullIntMap(intMap: intMap)
   }
 
-  func callFlutterEchoNullableNonNullEnumMap(enumMap: [NIAnEnum: NIAnEnum]?) throws -> [NIAnEnum:
+  func callFlutterEchoNullableNonNull(enumMap: [NIAnEnum: NIAnEnum]?) throws -> [NIAnEnum:
     NIAnEnum]?
   {
-
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1456,10 +1438,9 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableNonNullEnumMap(enumMap: enumMap)
   }
 
-  func callFlutterEchoNullableNonNullClassMap(classMap: [Int64: NIAllNullableTypes]?) throws
+  func callFlutterEchoNullableNonNull(classMap: [Int64: NIAllNullableTypes]?) throws
     -> [Int64: NIAllNullableTypes]?
   {
-
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1467,8 +1448,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableNonNullClassMap(classMap: classMap)
   }
 
-  func callFlutterEchoNullableEnum(anEnum: NIAnEnum?) throws -> NIAnEnum? {
-
+  func callFlutterEchoNullable(_ anEnum: NIAnEnum?) throws -> NIAnEnum? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1476,8 +1456,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNullableEnum(anEnum: anEnum)
   }
 
-  func callFlutterEchoAnotherNullableEnum(anotherEnum: NIAnotherEnum?) throws -> NIAnotherEnum? {
-
+  func callFlutterEchoNullable(_ anotherEnum: NIAnotherEnum?) throws -> NIAnotherEnum? {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1485,7 +1464,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoAnotherNullableEnum(anotherEnum: anotherEnum)
   }
 
-  func callFlutterEchoNIAllNullableTypes(everything: NIAllNullableTypes?) throws
+  func callFlutterEcho(_ everything: NIAllNullableTypes?) throws
     -> NIAllNullableTypes?
   {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
@@ -1496,7 +1475,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
   }
 
   func callFlutterSendMultipleNullableTypes(
-    aNullableBool: Bool?, aNullableInt: Int64?, aNullableString: String?
+    aBool aNullableBool: Bool?, anInt aNullableInt: Int64?, aString aNullableString: String?
   ) throws -> NIAllNullableTypes {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
@@ -1506,9 +1485,9 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
       aNullableBool: aNullableBool, aNullableInt: aNullableInt, aNullableString: aNullableString)
   }
 
-  func callFlutterEchoNIAllNullableTypesWithoutRecursion(
-    everything: NIAllNullableTypesWithoutRecursion?
-  ) throws -> NIAllNullableTypesWithoutRecursion? {
+  func callFlutterEcho(_ everything: NIAllNullableTypesWithoutRecursion?)
+    throws -> NIAllNullableTypesWithoutRecursion?
+  {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1517,7 +1496,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
   }
 
   func callFlutterSendMultipleNullableTypesWithoutRecursion(
-    aNullableBool: Bool?, aNullableInt: Int64?, aNullableString: String?
+    aBool aNullableBool: Bool?, anInt aNullableInt: Int64?, aString aNullableString: String?
   ) throws -> NIAllNullableTypesWithoutRecursion {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
@@ -1527,7 +1506,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
       aNullableBool: aNullableBool, aNullableInt: aNullableInt, aNullableString: aNullableString)
   }
 
-  func callFlutterEchoUint8List(list: [UInt8]) throws -> [UInt8] {
+  func callFlutterEcho(_ list: [UInt8]) throws -> [UInt8] {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1535,7 +1514,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoUint8List(list: list)
   }
 
-  func callFlutterEchoInt32List(list: [Int32]) throws -> [Int32] {
+  func callFlutterEcho(_ list: [Int32]) throws -> [Int32] {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1543,7 +1522,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoInt32List(list: list)
   }
 
-  func callFlutterEchoInt64List(list: [Int64]) throws -> [Int64] {
+  func callFlutterEcho(_ list: [Int64]) throws -> [Int64] {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1551,7 +1530,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoInt64List(list: list)
   }
 
-  func callFlutterEchoFloat64List(list: [Float64]) throws -> [Float64] {
+  func callFlutterEcho(_ list: [Float64]) throws -> [Float64] {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1559,7 +1538,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoFloat64List(list: list)
   }
 
-  func callFlutterEchoList(list: [Any?]) throws -> [Any?] {
+  func callFlutterEcho(_ list: [Any?]) throws -> [Any?] {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1567,7 +1546,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoList(list: list)
   }
 
-  func callFlutterEchoEnumList(enumList: [NIAnEnum?]) throws -> [NIAnEnum?] {
+  func callFlutterEcho(enumList: [NIAnEnum?]) throws -> [NIAnEnum?] {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1575,7 +1554,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoEnumList(enumList: enumList)
   }
 
-  func callFlutterEchoClassList(classList: [NIAllNullableTypes?]) throws -> [NIAllNullableTypes?] {
+  func callFlutterEcho(classList: [NIAllNullableTypes?]) throws -> [NIAllNullableTypes?] {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1583,7 +1562,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoClassList(classList: classList)
   }
 
-  func callFlutterEchoNonNullEnumList(enumList: [NIAnEnum]) throws -> [NIAnEnum] {
+  func callFlutterEchoNonNull(enumList: [NIAnEnum]) throws -> [NIAnEnum] {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1591,7 +1570,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNonNullEnumList(enumList: enumList)
   }
 
-  func callFlutterEchoNonNullClassList(classList: [NIAllNullableTypes]) throws
+  func callFlutterEchoNonNull(classList: [NIAllNullableTypes]) throws
     -> [NIAllNullableTypes]
   {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
@@ -1601,7 +1580,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNonNullClassList(classList: classList)
   }
 
-  func callFlutterEchoMap(map: [AnyHashable?: Any?]) throws -> [AnyHashable?: Any?] {
+  func callFlutterEcho(_ map: [AnyHashable?: Any?]) throws -> [AnyHashable?: Any?] {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1609,7 +1588,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoMap(map: map)
   }
 
-  func callFlutterEchoStringMap(stringMap: [String?: String?]) throws -> [String?: String?] {
+  func callFlutterEcho(stringMap: [String?: String?]) throws -> [String?: String?] {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1617,7 +1596,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoStringMap(stringMap: stringMap)
   }
 
-  func callFlutterEchoIntMap(intMap: [Int64?: Int64?]) throws -> [Int64?: Int64?] {
+  func callFlutterEcho(intMap: [Int64?: Int64?]) throws -> [Int64?: Int64?] {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1625,7 +1604,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoIntMap(intMap: intMap)
   }
 
-  func callFlutterEchoEnumMap(enumMap: [NIAnEnum?: NIAnEnum?]) throws -> [NIAnEnum?: NIAnEnum?] {
+  func callFlutterEcho(enumMap: [NIAnEnum?: NIAnEnum?]) throws -> [NIAnEnum?: NIAnEnum?] {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1633,7 +1612,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoEnumMap(enumMap: enumMap)
   }
 
-  func callFlutterEchoClassMap(classMap: [Int64?: NIAllNullableTypes?]) throws -> [Int64?:
+  func callFlutterEcho(classMap: [Int64?: NIAllNullableTypes?]) throws -> [Int64?:
     NIAllNullableTypes?]
   {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
@@ -1643,7 +1622,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoClassMap(classMap: classMap)
   }
 
-  func callFlutterEchoNonNullStringMap(stringMap: [String: String]) throws -> [String: String] {
+  func callFlutterEchoNonNull(stringMap: [String: String]) throws -> [String: String] {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1651,7 +1630,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNonNullStringMap(stringMap: stringMap)
   }
 
-  func callFlutterEchoNonNullIntMap(intMap: [Int64: Int64]) throws -> [Int64: Int64] {
+  func callFlutterEchoNonNull(intMap: [Int64: Int64]) throws -> [Int64: Int64] {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1659,7 +1638,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNonNullIntMap(intMap: intMap)
   }
 
-  func callFlutterEchoNonNullEnumMap(enumMap: [NIAnEnum: NIAnEnum]) throws -> [NIAnEnum: NIAnEnum] {
+  func callFlutterEchoNonNull(enumMap: [NIAnEnum: NIAnEnum]) throws -> [NIAnEnum: NIAnEnum] {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1667,7 +1646,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNonNullEnumMap(enumMap: enumMap)
   }
 
-  func callFlutterEchoNonNullClassMap(classMap: [Int64: NIAllNullableTypes]) throws -> [Int64:
+  func callFlutterEchoNonNull(classMap: [Int64: NIAllNullableTypes]) throws -> [Int64:
     NIAllNullableTypes]
   {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
@@ -1677,7 +1656,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNonNullClassMap(classMap: classMap)
   }
 
-  func callFlutterEchoEnum(anEnum: NIAnEnum) throws -> NIAnEnum {
+  func callFlutterEcho(_ anEnum: NIAnEnum) throws -> NIAnEnum {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1685,7 +1664,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoEnum(anEnum: anEnum)
   }
 
-  func callFlutterEchoNIAnotherEnum(anotherEnum: NIAnotherEnum) throws -> NIAnotherEnum {
+  func callFlutterEcho(_ anotherEnum: NIAnotherEnum) throws -> NIAnotherEnum {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1693,7 +1672,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNIAnotherEnum(anotherEnum: anotherEnum)
   }
 
-  func callFlutterEchoNIAllTypes(everything: NIAllTypes) throws -> NIAllTypes {
+  func callFlutterEcho(_ everything: NIAllTypes) throws -> NIAllTypes {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1701,7 +1680,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoNIAllTypes(everything: everything)
   }
 
-  func callFlutterEchoInt(anInt: Int64) throws -> Int64 {
+  func callFlutterEcho(_ anInt: Int64) throws -> Int64 {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1709,7 +1688,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoInt(anInt: anInt)
   }
 
-  func callFlutterEchoDouble(aDouble: Double) throws -> Double {
+  func callFlutterEcho(_ aDouble: Double) throws -> Double {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1717,7 +1696,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoDouble(aDouble: aDouble)
   }
 
-  func callFlutterEchoString(aString: String) throws -> String {
+  func callFlutterEcho(_ aString: String) throws -> String {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1733,7 +1712,7 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     try flutterApi.noop()
   }
 
-  func callFlutterEchoBool(aBool: Bool) throws -> Bool {
+  func callFlutterEcho(_ aBool: Bool) throws -> Bool {
     guard let flutterApi = NIFlutterIntegrationCoreApi.getInstance() else {
       throw NiTestsError(
         code: "not_registered", message: "NIFlutterIntegrationCoreApi not registered", details: nil)
@@ -1741,65 +1720,65 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try flutterApi.echoBool(aBool: aBool)
   }
 
-  func echoAsyncUint8List(aUint8List: [UInt8]) async throws -> [UInt8] {
+  func echoAsync(_ aUint8List: [UInt8]) async throws -> [UInt8] {
     return aUint8List
   }
 
-  func echoAsyncInt32List(aInt32List: [Int32]) async throws -> [Int32] {
+  func echoAsync(_ aInt32List: [Int32]) async throws -> [Int32] {
     return aInt32List
   }
 
-  func echoAsyncInt64List(aInt64List: [Int64]) async throws -> [Int64] {
+  func echoAsync(_ aInt64List: [Int64]) async throws -> [Int64] {
     return aInt64List
   }
 
-  func echoAsyncFloat64List(aFloat64List: [Float64]) async throws -> [Float64] {
+  func echoAsync(_ aFloat64List: [Float64]) async throws -> [Float64] {
     return aFloat64List
   }
 
-  func echoAsyncObject(anObject: Any) async throws -> Any {
+  func echoAsync(_ anObject: Any) async throws -> Any {
     return anObject
   }
 
-  func echoAsyncList(list: [Any?]) async throws -> [Any?] {
+  func echoAsync(_ list: [Any?]) async throws -> [Any?] {
     return list
   }
 
-  func echoAsyncEnumList(enumList: [NIAnEnum?]) async throws -> [NIAnEnum?] {
+  func echoAsync(enumList: [NIAnEnum?]) async throws -> [NIAnEnum?] {
     return enumList
   }
 
-  func echoAsyncClassList(classList: [NIAllNullableTypes?]) async throws -> [NIAllNullableTypes?] {
+  func echoAsync(classList: [NIAllNullableTypes?]) async throws -> [NIAllNullableTypes?] {
     return classList
   }
 
-  func echoAsyncMap(map: [AnyHashable?: Any?]) async throws -> [AnyHashable?: Any?] {
+  func echoAsync(_ map: [AnyHashable?: Any?]) async throws -> [AnyHashable?: Any?] {
     return map
   }
 
-  func echoAsyncStringMap(stringMap: [String?: String?]) async throws -> [String?: String?] {
+  func echoAsync(stringMap: [String?: String?]) async throws -> [String?: String?] {
     return stringMap
   }
 
-  func echoAsyncIntMap(intMap: [Int64?: Int64?]) async throws -> [Int64?: Int64?] {
+  func echoAsync(intMap: [Int64?: Int64?]) async throws -> [Int64?: Int64?] {
     return intMap
   }
 
-  func echoAsyncEnumMap(enumMap: [NIAnEnum?: NIAnEnum?]) async throws -> [NIAnEnum?: NIAnEnum?] {
+  func echoAsync(enumMap: [NIAnEnum?: NIAnEnum?]) async throws -> [NIAnEnum?: NIAnEnum?] {
     return enumMap
   }
 
-  func echoAsyncClassMap(classMap: [Int64?: NIAllNullableTypes?]) async throws -> [Int64?:
+  func echoAsync(classMap: [Int64?: NIAllNullableTypes?]) async throws -> [Int64?:
     NIAllNullableTypes?]
   {
     return classMap
   }
 
-  func echoAsyncEnum(anEnum: NIAnEnum) async throws -> NIAnEnum {
+  func echoAsync(_ anEnum: NIAnEnum) async throws -> NIAnEnum {
     return anEnum
   }
 
-  func echoAnotherAsyncEnum(anotherEnum: NIAnotherEnum) async throws -> NIAnotherEnum {
+  func echoAsync(_ anotherEnum: NIAnotherEnum) async throws -> NIAnotherEnum {
     return anotherEnum
   }
 
@@ -1815,47 +1794,47 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     throw NiTestsError(code: "code", message: "message", details: "details")
   }
 
-  func echoAsyncNIAllTypes(everything: NIAllTypes) async throws -> NIAllTypes {
+  func echoAsync(_ everything: NIAllTypes) async throws -> NIAllTypes {
     return everything
   }
 
-  func echoAsyncNullableNIAllNullableTypes(everything: NIAllNullableTypes?) async throws
+  func echoAsync(_ everything: NIAllNullableTypes?) async throws
     -> NIAllNullableTypes?
   {
     return everything
   }
 
-  func echoAsyncNullableNIAllNullableTypesWithoutRecursion(
-    everything: NIAllNullableTypesWithoutRecursion?
-  ) async throws -> NIAllNullableTypesWithoutRecursion? {
+  func echoAsync(_ everything: NIAllNullableTypesWithoutRecursion?)
+    async throws -> NIAllNullableTypesWithoutRecursion?
+  {
     return everything
   }
 
-  func echoAsyncNullableInt(anInt: Int64?) async throws -> Int64? {
+  func echoAsyncNullable(_ anInt: Int64?) async throws -> Int64? {
     return anInt
   }
 
-  func echoAsyncNullableDouble(aDouble: Double?) async throws -> Double? {
+  func echoAsyncNullable(_ aDouble: Double?) async throws -> Double? {
     return aDouble
   }
 
-  func echoAsyncNullableBool(aBool: Bool?) async throws -> Bool? {
+  func echoAsyncNullable(_ aBool: Bool?) async throws -> Bool? {
     return aBool
   }
 
-  func echoAsyncNullableString(aString: String?) async throws -> String? {
+  func echoAsyncNullable(_ aString: String?) async throws -> String? {
     return aString
   }
 
-  func echoAsyncNullableUint8List(aUint8List: [UInt8]?) async throws -> [UInt8]? {
+  func echoAsyncNullable(_ aUint8List: [UInt8]?) async throws -> [UInt8]? {
     return aUint8List
   }
 
-  func echoAsyncNullableInt32List(aInt32List: [Int32]?) async throws -> [Int32]? {
+  func echoAsyncNullable(_ aInt32List: [Int32]?) async throws -> [Int32]? {
     return aInt32List
   }
 
-  func echoAsyncNullableInt64List(aInt64List: [Int64]?) async throws -> [Int64]? {
+  func echoAsyncNullable(_ aInt64List: [Int64]?) async throws -> [Int64]? {
     return aInt64List
   }
 
@@ -1867,71 +1846,71 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return try await flutterApi.echoAsyncFloat64List(list: list)
   }
 
-  func echoAsyncNullableFloat64List(aFloat64List: [Float64]?) async throws -> [Float64]? {
+  func echoAsyncNullable(_ aFloat64List: [Float64]?) async throws -> [Float64]? {
     return aFloat64List
   }
 
-  func echoAsyncNullableObject(anObject: Any?) async throws -> Any? {
+  func echoAsyncNullable(_ anObject: Any?) async throws -> Any? {
     return anObject
   }
 
-  func echoAsyncNullableList(list: [Any?]?) async throws -> [Any?]? {
+  func echoAsyncNullable(_ list: [Any?]?) async throws -> [Any?]? {
     return list
   }
 
-  func echoAsyncNullableEnumList(enumList: [NIAnEnum?]?) async throws -> [NIAnEnum?]? {
+  func echoAsyncNullable(enumList: [NIAnEnum?]?) async throws -> [NIAnEnum?]? {
     return enumList
   }
 
-  func echoAsyncNullableClassList(classList: [NIAllNullableTypes?]?) async throws
+  func echoAsyncNullable(classList: [NIAllNullableTypes?]?) async throws
     -> [NIAllNullableTypes?]?
   {
     return classList
   }
 
-  func echoAsyncNullableMap(map: [AnyHashable?: Any?]?) async throws -> [AnyHashable?: Any?]? {
+  func echoAsyncNullable(_ map: [AnyHashable?: Any?]?) async throws -> [AnyHashable?: Any?]? {
     return map
   }
 
-  func echoAsyncNullableStringMap(stringMap: [String?: String?]?) async throws -> [String?:
+  func echoAsyncNullable(stringMap: [String?: String?]?) async throws -> [String?:
     String?]?
   {
     return stringMap
   }
 
-  func echoAsyncNullableIntMap(intMap: [Int64?: Int64?]?) async throws -> [Int64?: Int64?]? {
+  func echoAsyncNullable(intMap: [Int64?: Int64?]?) async throws -> [Int64?: Int64?]? {
     return intMap
   }
 
-  func echoAsyncNullableEnumMap(enumMap: [NIAnEnum?: NIAnEnum?]?) async throws -> [NIAnEnum?:
+  func echoAsyncNullable(enumMap: [NIAnEnum?: NIAnEnum?]?) async throws -> [NIAnEnum?:
     NIAnEnum?]?
   {
     return enumMap
   }
 
-  func echoAsyncNullableClassMap(classMap: [Int64?: NIAllNullableTypes?]?) async throws -> [Int64?:
+  func echoAsyncNullable(classMap: [Int64?: NIAllNullableTypes?]?) async throws -> [Int64?:
     NIAllNullableTypes?]?
   {
     return classMap
   }
 
-  func echoAsyncNullableEnum(anEnum: NIAnEnum?) async throws -> NIAnEnum? {
+  func echoAsyncNullable(_ anEnum: NIAnEnum?) async throws -> NIAnEnum? {
     return anEnum
   }
 
-  func echoAnotherAsyncNullableEnum(anotherEnum: NIAnotherEnum?) async throws -> NIAnotherEnum? {
+  func echoAsyncNullable(_ anotherEnum: NIAnotherEnum?) async throws -> NIAnotherEnum? {
     return anotherEnum
   }
 
-  func echoAsyncDouble(aDouble: Double) async throws -> Double {
+  func echoAsync(_ aDouble: Double) async throws -> Double {
     return aDouble
   }
 
-  func echoAsyncBool(aBool: Bool) async throws -> Bool {
+  func echoAsync(_ aBool: Bool) async throws -> Bool {
     return aBool
   }
 
-  func echoAsyncString(aString: String) async throws -> String {
+  func echoAsync(_ aString: String) async throws -> String {
     return aString
   }
 
@@ -1939,11 +1918,11 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     return
   }
 
-  func echoAsyncInt(anInt: Int64) async throws -> Int64 {
+  func echoAsync(_ anInt: Int64) async throws -> Int64 {
     return anInt
   }
 
-  func echoAllNullableTypes(everything: NIAllNullableTypes?) throws -> NIAllNullableTypes? {
+  func echoNamedDefault(_ everything: NIAllNullableTypes?) throws -> NIAllNullableTypes? {
     return everything
   }
 
@@ -1959,276 +1938,276 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
     throw NiTestsError(code: "code", message: "message", details: "details")
   }
 
-  func echoUint8List(aUint8List: [UInt8]) throws -> [UInt8] {
+  func echo(_ aUint8List: [UInt8]) throws -> [UInt8] {
     return aUint8List
   }
 
-  func echoInt32List(aInt32List: [Int32]) throws -> [Int32] {
+  func echo(_ aInt32List: [Int32]) throws -> [Int32] {
     return aInt32List
   }
 
-  func echoInt64List(aInt64List: [Int64]) throws -> [Int64] {
+  func echo(_ aInt64List: [Int64]) throws -> [Int64] {
     return aInt64List
   }
 
-  func echoFloat64List(aFloat64List: [Float64]) throws -> [Float64] {
+  func echo(_ aFloat64List: [Float64]) throws -> [Float64] {
     return aFloat64List
   }
 
-  func echoNullableUint8List(aNullableUint8List: [UInt8]?) throws -> [UInt8]? {
+  func echoNullable(_ aNullableUint8List: [UInt8]?) throws -> [UInt8]? {
     return aNullableUint8List
   }
 
-  func echoNullableInt32List(aNullableInt32List: [Int32]?) throws -> [Int32]? {
+  func echoNullable(_ aNullableInt32List: [Int32]?) throws -> [Int32]? {
     return aNullableInt32List
   }
 
-  func echoNullableInt64List(aNullableInt64List: [Int64]?) throws -> [Int64]? {
+  func echoNullable(_ aNullableInt64List: [Int64]?) throws -> [Int64]? {
     return aNullableInt64List
   }
 
-  func echoNullableFloat64List(aNullableFloat64List: [Float64]?) throws -> [Float64]? {
+  func echoNullable(_ aNullableFloat64List: [Float64]?) throws -> [Float64]? {
     return aNullableFloat64List
   }
 
-  func echoNonNullClassMap(classMap: [Int64: NIAllNullableTypes]) throws -> [Int64:
+  func echoNonNull(classMap: [Int64: NIAllNullableTypes]) throws -> [Int64:
     NIAllNullableTypes]
   {
     return classMap
   }
 
-  func echoClassMap(classMap: [Int64?: NIAllNullableTypes?]) throws -> [Int64?:
+  func echo(classMap: [Int64?: NIAllNullableTypes?]) throws -> [Int64?:
     NIAllNullableTypes?]
   {
     return classMap
   }
 
-  func echoNullableNonNullClassList(classList: [NIAllNullableTypes]?) throws
+  func echoNullableNonNull(classList: [NIAllNullableTypes]?) throws
     -> [NIAllNullableTypes]?
   {
     return classList
   }
 
-  func echoNullableClassMap(classMap: [Int64?: NIAllNullableTypes?]?) throws
+  func echoNullable(classMap: [Int64?: NIAllNullableTypes?]?) throws
     -> [Int64?: NIAllNullableTypes?]?
   {
     return classMap
   }
 
-  func echoNullableNonNullClassMap(classMap: [Int64: NIAllNullableTypes]?) throws
+  func echoNullableNonNull(classMap: [Int64: NIAllNullableTypes]?) throws
     -> [Int64: NIAllNullableTypes]?
   {
     return classMap
   }
 
-  func echoEnumMap(enumMap: [NIAnEnum?: NIAnEnum?]) throws -> [NIAnEnum?: NIAnEnum?] {
+  func echo(enumMap: [NIAnEnum?: NIAnEnum?]) throws -> [NIAnEnum?: NIAnEnum?] {
     return enumMap
   }
 
-  func echoNonNullIntMap(intMap: [Int64: Int64]) throws -> [Int64: Int64] {
+  func echoNonNull(intMap: [Int64: Int64]) throws -> [Int64: Int64] {
     return intMap
   }
 
-  func echoNonNullEnumMap(enumMap: [NIAnEnum: NIAnEnum]) throws -> [NIAnEnum: NIAnEnum] {
+  func echoNonNull(enumMap: [NIAnEnum: NIAnEnum]) throws -> [NIAnEnum: NIAnEnum] {
     return enumMap
   }
 
-  func echoNullableNonNullEnumList(enumList: [NIAnEnum]?) throws -> [NIAnEnum]? {
+  func echoNullableNonNull(enumList: [NIAnEnum]?) throws -> [NIAnEnum]? {
     return enumList
   }
 
-  func echoNullableIntMap(intMap: [Int64?: Int64?]?) throws -> [Int64?: Int64?]? {
+  func echoNullable(intMap: [Int64?: Int64?]?) throws -> [Int64?: Int64?]? {
     return intMap
   }
 
-  func echoNullableEnumMap(enumMap: [NIAnEnum?: NIAnEnum?]?) throws -> [NIAnEnum?: NIAnEnum?]? {
+  func echoNullable(enumMap: [NIAnEnum?: NIAnEnum?]?) throws -> [NIAnEnum?: NIAnEnum?]? {
     return enumMap
   }
 
-  func echoNullableNonNullIntMap(intMap: [Int64: Int64]?) throws -> [Int64: Int64]? {
+  func echoNullableNonNull(intMap: [Int64: Int64]?) throws -> [Int64: Int64]? {
     return intMap
   }
 
-  func echoNullableNonNullEnumMap(enumMap: [NIAnEnum: NIAnEnum]?) throws -> [NIAnEnum: NIAnEnum]? {
+  func echoNullableNonNull(enumMap: [NIAnEnum: NIAnEnum]?) throws -> [NIAnEnum: NIAnEnum]? {
     return enumMap
   }
 
-  func echoIntMap(intMap: [Int64?: Int64?]) throws -> [Int64?: Int64?] {
+  func echo(intMap: [Int64?: Int64?]) throws -> [Int64?: Int64?] {
     return intMap
   }
 
-  func echoNonNullEnumList(enumList: [NIAnEnum]) throws -> [NIAnEnum] {
+  func echoNonNull(enumList: [NIAnEnum]) throws -> [NIAnEnum] {
     return enumList
   }
 
-  func echoNonNullClassList(classList: [NIAllNullableTypes]) throws
+  func echoNonNull(classList: [NIAllNullableTypes]) throws
     -> [NIAllNullableTypes]
   {
     return classList
   }
 
-  func echoNonNullStringMap(stringMap: [String: String]) throws -> [String: String] {
+  func echoNonNull(stringMap: [String: String]) throws -> [String: String] {
     return stringMap
   }
 
   func sendMultipleNullableTypes(
-    aNullableBool: Bool?, aNullableInt: Int64?, aNullableString: String?
+    aBool aNullableBool: Bool?, anInt aNullableInt: Int64?, aString aNullableString: String?
   ) throws -> NIAllNullableTypes {
     return NIAllNullableTypes(
       aNullableBool: aNullableBool, aNullableInt: aNullableInt, aNullableString: aNullableString)
   }
 
-  func echoNullableEnumList(enumList: [NIAnEnum?]?) throws -> [NIAnEnum?]? {
+  func echoNullable(enumList: [NIAnEnum?]?) throws -> [NIAnEnum?]? {
     return enumList
   }
 
-  func echoNullableClassList(classList: [NIAllNullableTypes?]?) throws
+  func echoNullable(classList: [NIAllNullableTypes?]?) throws
     -> [NIAllNullableTypes?]?
   {
     return classList
   }
 
-  func echoNullableStringMap(stringMap: [String?: String?]?) throws -> [String?: String?]? {
+  func echoNullable(stringMap: [String?: String?]?) throws -> [String?: String?]? {
     return stringMap
   }
 
-  func echoNullableNonNullStringMap(stringMap: [String: String]?) throws -> [String: String]? {
+  func echoNullableNonNull(stringMap: [String: String]?) throws -> [String: String]? {
     return stringMap
   }
 
-  func echoEnumList(enumList: [NIAnEnum?]) throws -> [NIAnEnum?] {
+  func echo(enumList: [NIAnEnum?]) throws -> [NIAnEnum?] {
     return enumList
   }
 
-  func echoClassList(classList: [NIAllNullableTypes?]) throws
+  func echo(classList: [NIAllNullableTypes?]) throws
     -> [NIAllNullableTypes?]
   {
     return classList
   }
 
-  func echoStringMap(stringMap: [String?: String?]) throws -> [String?: String?] {
+  func echo(stringMap: [String?: String?]) throws -> [String?: String?] {
     return stringMap
   }
 
-  func echoStringList(stringList: [String?]) throws -> [String?] {
+  func echo(stringList: [String?]) throws -> [String?] {
     return stringList
   }
 
-  func echoIntList(intList: [Int64?]) throws -> [Int64?] {
+  func echo(intList: [Int64?]) throws -> [Int64?] {
     return intList
   }
 
-  func echoDoubleList(doubleList: [Double?]) throws -> [Double?] {
+  func echo(doubleList: [Double?]) throws -> [Double?] {
     return doubleList
   }
 
-  func echoBoolList(boolList: [Bool?]) throws -> [Bool?] {
+  func echo(boolList: [Bool?]) throws -> [Bool?] {
     return boolList
   }
 
-  func extractNestedNullableString(wrapper: NIAllClassesWrapper) throws -> String? {
+  func extractNestedNullableString(from wrapper: NIAllClassesWrapper) throws -> String? {
     return wrapper.allNullableTypes.aNullableString
   }
 
-  func createNestedNullableString(nullableString: String?) throws -> NIAllClassesWrapper {
+  func createNestedObject(with nullableString: String?) throws -> NIAllClassesWrapper {
     return NIAllClassesWrapper(
       allNullableTypes: .init(aNullableString: nullableString), classList: [],
       classMap: [:])
   }
 
-  func echoClassWrapper(wrapper: NIAllClassesWrapper) throws -> NIAllClassesWrapper {
+  func echo(_ wrapper: NIAllClassesWrapper) throws -> NIAllClassesWrapper {
     return wrapper
   }
 
   func sendMultipleNullableTypesWithoutRecursion(
-    aNullableBool: Bool?, aNullableInt: Int64?, aNullableString: String?
+    aBool aNullableBool: Bool?, anInt aNullableInt: Int64?, aString aNullableString: String?
   ) throws -> NIAllNullableTypesWithoutRecursion {
     return NIAllNullableTypesWithoutRecursion(
       aNullableBool: aNullableBool, aNullableInt: aNullableInt, aNullableString: aNullableString)
   }
 
-  func echoNullableObject(aNullableObject: Any?) throws -> Any? {
+  func echoNullable(_ aNullableObject: Any?) throws -> Any? {
     return aNullableObject
   }
 
-  func echoNullableList(aNullableList: [Any?]?) throws -> [Any?]? {
+  func echoNullable(_ aNullableList: [Any?]?) throws -> [Any?]? {
     return aNullableList
   }
 
-  func echoNullableMap(map: [AnyHashable?: Any?]?) throws -> [AnyHashable?: Any?]? {
+  func echoNullable(_ map: [AnyHashable?: Any?]?) throws -> [AnyHashable?: Any?]? {
     return map
   }
 
-  func echoNullableEnum(anEnum: NIAnEnum?) throws -> NIAnEnum? {
+  func echoNullable(_ anEnum: NIAnEnum?) throws -> NIAnEnum? {
     return anEnum
   }
 
-  func echoAnotherNullableEnum(anotherEnum: NIAnotherEnum?) throws -> NIAnotherEnum? {
+  func echoNullable(_ anotherEnum: NIAnotherEnum?) throws -> NIAnotherEnum? {
     return anotherEnum
   }
 
-  func echoAllNullableTypesWithoutRecursion(everything: NIAllNullableTypesWithoutRecursion?) throws
+  func echoNullable(_ everything: NIAllNullableTypesWithoutRecursion?) throws
     -> NIAllNullableTypesWithoutRecursion?
   {
     return everything
   }
 
-  func echoNullableInt(aNullableInt: Int64?) throws -> Int64? {
+  func echoNullable(_ aNullableInt: Int64?) throws -> Int64? {
     return aNullableInt
   }
 
-  func echoNullableDouble(aNullableDouble: Double?) throws -> Double? {
+  func echoNullable(_ aNullableDouble: Double?) throws -> Double? {
     return aNullableDouble
   }
 
-  func echoNullableBool(aNullableBool: Bool?) throws -> Bool? {
+  func echoNullable(_ aNullableBool: Bool?) throws -> Bool? {
     return aNullableBool
   }
 
-  func echoNullableString(aNullableString: String?) throws -> String? {
+  func echoNullable(_ aNullableString: String?) throws -> String? {
     return aNullableString
   }
 
-  func echoAnotherEnum(anotherEnum: NIAnotherEnum) throws -> NIAnotherEnum {
+  func echo(_ anotherEnum: NIAnotherEnum) throws -> NIAnotherEnum {
     return anotherEnum
   }
 
-  func echoAllTypes(everything: NIAllTypes) throws -> NIAllTypes {
+  func echo(_ everything: NIAllTypes) throws -> NIAllTypes {
     return everything
   }
 
-  func echoList(list: [Any?]) throws -> [Any?] {
+  func echo(_ list: [Any?]) throws -> [Any?] {
     return list
   }
 
-  func echoMap(map: [AnyHashable?: Any?]) throws -> [AnyHashable?: Any?] {
+  func echo(_ map: [AnyHashable?: Any?]) throws -> [AnyHashable?: Any?] {
     return map
   }
 
-  func noop() {
+  func noop() throws {
     return
   }
 
-  func echoInt(anInt: Int64) throws -> Int64 {
+  func echo(_ anInt: Int64) throws -> Int64 {
     return anInt
   }
 
-  func echoDouble(aDouble: Double) throws -> Double {
+  func echo(_ aDouble: Double) throws -> Double {
     return aDouble
   }
 
-  func echoBool(aBool: Bool) throws -> Bool {
+  func echo(_ aBool: Bool) throws -> Bool {
     return aBool
   }
 
-  func echoString(aString: String) throws -> String {
+  func echo(_ aString: String) throws -> String {
     return aString
   }
 
-  func echoEnum(anEnum: NIAnEnum) throws -> NIAnEnum {
+  func echo(_ anEnum: NIAnEnum) throws -> NIAnEnum {
     return anEnum
   }
-  func echoObject(anObject: Any) throws -> Any {
+  func echo(_ anObject: Any) throws -> Any {
     return anObject
   }
 

@@ -1536,6 +1536,12 @@ if (wrapped == nil) {
           method.documentationComments,
           _docCommentSpec,
         );
+        final components = _SwiftFunctionComponents(
+          name: method.name,
+          parameters: method.parameters,
+          returnType: method.returnType,
+          swiftFunction: method.swiftFunction,
+        );
         indent.write(
           _getMethodSignature(
             name: method.name,
@@ -1545,6 +1551,7 @@ if (wrapped == nil) {
             ffiBridgeApi: generatorOptions.useFfi,
             isAsynchronous: method.isAsynchronous,
             swiftFunction: method.swiftFunction,
+            components: components,
           ),
         );
         indent.addScoped(' {', '}', () {
@@ -1556,8 +1563,8 @@ if (wrapped == nil) {
                 method.returnType.baseName == 'Float32List' ||
                 method.returnType.baseName == 'Float64List') {
               indent.writeln(
-                'let res = try ${method.isAsynchronous ? 'await ' : ''}api!.${method.name}(${method.parameters.map((NamedType param) {
-                  return '${param.name}: ${_varToSwift(param.name, param.type)}';
+                'let res = try ${method.isAsynchronous ? 'await ' : ''}api!.${components.name}(${components.arguments.map((_SwiftFunctionArgument param) {
+                  return '${param.label == "_" || param.label == null ? "" : param.label}${param.label != null ? "" : param.name}${param.label != "_" ? ": " : ""}${_varToSwift(param.name, param.type)}';
                 }).join(', ')})${method.returnType.isEnum ? '?.rawValue' : ''}',
               );
               indent.writeln(
@@ -1565,8 +1572,8 @@ if (wrapped == nil) {
               );
             } else {
               indent.writeln(
-                'return try ${method.isAsynchronous ? 'await ' : ''}${_swiftToFfiConversion(method.returnType, 'api!.${method.name}(${method.parameters.map((NamedType param) {
-                  return '${param.name}: ${_varToSwift(param.name, param.type)}';
+                'return try ${method.isAsynchronous ? 'await ' : ''}${_swiftToFfiConversion(method.returnType, 'api!.${components.name}(${components.arguments.map((_SwiftFunctionArgument param) {
+                  return '${param.label == "_" || param.label == null ? "" : param.label}${param.label != null ? "" : param.name}${param.label != "_" ? ": " : ""}${_varToSwift(param.name, param.type)}';
                 }).join(', ')})', forceNullable: true)}',
               );
             }
@@ -4206,10 +4213,11 @@ String _getMethodSignature({
   bool ffiUserApi = false,
   String? swiftFunction,
   bool ffiBridgeApi = false,
+  _SwiftFunctionComponents? components,
   String Function(int index, NamedType argument) getParameterName =
       _getArgumentName,
 }) {
-  final components = _SwiftFunctionComponents(
+  components ??= _SwiftFunctionComponents(
     name: name,
     parameters: parameters,
     returnType: returnType,
@@ -4228,7 +4236,9 @@ String _getMethodSignature({
     int index,
     _SwiftFunctionArgument argument,
   ) {
-    return argument.label ?? _getArgumentName(index, argument.namedType);
+    return argument.label != null && !ffiBridgeApi
+        ? argument.label!
+        : _getArgumentName(index, argument.namedType);
   });
 
   final objc = ffiBridgeApi ? '@objc ' : '';
