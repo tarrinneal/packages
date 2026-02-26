@@ -1,3 +1,11 @@
+## 26.1.8
+
+* Makes some internal class constructors constant.
+
+## 26.1.7
+
+* [objc] Updates to use module imports.
+
 ## 26.1.6
 
 * Bumps kotlin_version to 2.3.0.

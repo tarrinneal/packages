@@ -712,17 +712,17 @@ ${_argParser.usage}''';
     final List<GeneratorAdapter> safeGeneratorAdapters =
         adapters ??
         <GeneratorAdapter>[
-          DartGeneratorAdapter(),
-          JavaGeneratorAdapter(),
-          SwiftGeneratorAdapter(),
-          FfigenConfigGeneratorAdapter(),
-          KotlinGeneratorAdapter(),
-          JnigenYamlGeneratorAdapter(),
-          CppGeneratorAdapter(),
-          GObjectGeneratorAdapter(),
-          DartTestGeneratorAdapter(),
-          ObjcGeneratorAdapter(),
-          AstGeneratorAdapter(),
+          const DartGeneratorAdapter(),
+          const JavaGeneratorAdapter(),
+          const SwiftGeneratorAdapter(),
+          const FfigenConfigGeneratorAdapter(),
+          const KotlinGeneratorAdapter(),
+          const JnigenYamlGeneratorAdapter(),
+          const CppGeneratorAdapter(),
+          const GObjectGeneratorAdapter(),
+          const DartTestGeneratorAdapter(),
+          const ObjcGeneratorAdapter(),
+          const AstGeneratorAdapter(),
         ];
     _executeConfigurePigeon(options);
 
