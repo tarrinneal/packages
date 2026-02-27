@@ -13,21 +13,32 @@ import 'package:flutter/foundation.dart' show ReadBuffer, WriteBuffer;
 import 'package:flutter/services.dart';
 
 bool _deepEquals(Object? a, Object? b) {
+  if (a == b || identical(a, b)) {
+    return true;
+  }
   if (a is List && b is List) {
-    return a.length == b.length &&
-        a.indexed.every(
-          ((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]),
-        );
+    if (a.length != b.length) {
+      return false;
+    }
+    for (int i = 0; i < a.length; i++) {
+      if (!_deepEquals(a[i], b[i])) {
+        return false;
+      }
+    }
+    return true;
   }
   if (a is Map && b is Map) {
-    return a.length == b.length &&
-        a.entries.every(
-          (MapEntry<Object?, Object?> entry) =>
-              (b as Map<Object?, Object?>).containsKey(entry.key) &&
-              _deepEquals(entry.value, b[entry.key]),
-        );
+    if (a.length != b.length) {
+      return false;
+    }
+    for (final Object? key in a.keys) {
+      if (!b.containsKey(key) || !_deepEquals(a[key], b[key])) {
+        return false;
+      }
+    }
+    return true;
   }
-  return a == b;
+  return false;
 }
 
 enum EventEnum { one, two, three, fortyTwo, fourHundredTwentyTwo }

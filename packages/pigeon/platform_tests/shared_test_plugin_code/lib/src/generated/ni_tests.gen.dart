@@ -41,21 +41,32 @@ List<Object?> wrapResponse({
 }
 
 bool _deepEquals(Object? a, Object? b) {
+  if (a == b || identical(a, b)) {
+    return true;
+  }
   if (a is List && b is List) {
-    return a.length == b.length &&
-        a.indexed.every(
-          ((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]),
-        );
+    if (a.length != b.length) {
+      return false;
+    }
+    for (int i = 0; i < a.length; i++) {
+      if (!_deepEquals(a[i], b[i])) {
+        return false;
+      }
+    }
+    return true;
   }
   if (a is Map && b is Map) {
-    return a.length == b.length &&
-        a.entries.every(
-          (MapEntry<Object?, Object?> entry) =>
-              (b as Map<Object?, Object?>).containsKey(entry.key) &&
-              _deepEquals(entry.value, b[entry.key]),
-        );
+    if (a.length != b.length) {
+      return false;
+    }
+    for (final Object? key in a.keys) {
+      if (!b.containsKey(key) || !_deepEquals(a[key], b[key])) {
+        return false;
+      }
+    }
+    return true;
   }
-  return a == b;
+  return false;
 }
 
 class _PigeonJniCodec {
@@ -73,7 +84,8 @@ class _PigeonJniCodec {
   static Object? readValue(JObject? value) {
     if (value == null) {
       return null;
-    } else if (value.isA<JLong>(JLong.type)) {
+    }
+    if (value.isA<JLong>(JLong.type)) {
       return (value.as(JLong.type)).longValue();
     } else if (value.isA<JDouble>(JDouble.type)) {
       return (value.as(JDouble.type)).doubleValue();
@@ -154,7 +166,8 @@ class _PigeonJniCodec {
   static T writeValue<T extends JObject?>(Object? value) {
     if (value == null) {
       return null as T;
-    } else if (value is bool) {
+    }
+    if (value is bool) {
       return JBoolean(value) as T;
     } else if (value is double) {
       return JDouble(value) as T;
@@ -548,11 +561,16 @@ class _PigeonFfiCodec {
       }
       return res;
     } else if (NSDictionary.isA(value)) {
-      final NSDictionary dictionary = NSDictionary.as(value);
+      final NSDictionary dict = NSDictionary.as(value);
+      final NSArray keys = dict.allKeys;
       final Map<Object?, Object?> res = <Object?, Object?>{};
-      for (final MapEntry<NSCopying?, ObjCObject?> entry
-          in dictionary.asDart().entries) {
-        res[readValue(entry.key, type)] = readValue(entry.value, type2);
+      for (int i = 0; i < keys.count; i++) {
+        final ObjCObject key = keys.objectAtIndex(i);
+        res[readValue(key, type, type2)] = readValue(
+          dict.objectForKey(key),
+          type,
+          type2,
+        );
       }
       return res;
     } else if (ffi_bridge.NumberWrapper.isA(value)) {
@@ -588,21 +606,27 @@ class _PigeonFfiCodec {
         return ffi_bridge.PigeonInternalNull() as T;
       }
       return null as T;
-    } else if (value is bool || value is num || value is Enum) {
-      if (generic) {
-        return convertToFfiNumberWrapper(value) as T;
-      }
-      if (value is bool) {
-        return NSNumber.alloc().initWithLong(value ? 1 : 0) as T;
-      } else if (value is num) {
-        if (value is double) {
-          return NSNumber.alloc().initWithDouble(value) as T;
-        } else {
-          return NSNumber.alloc().initWithLong(value as int) as T;
-        }
-      } else {
-        return NSNumber.alloc().initWithLong((value as Enum).index) as T;
-      }
+    }
+    if (value is bool) {
+      return (generic
+              ? convertToFfiNumberWrapper(value)
+              : NSNumber.alloc().initWithLong(value ? 1 : 0))
+          as T;
+    } else if (value is double) {
+      return (generic
+              ? convertToFfiNumberWrapper(value)
+              : NSNumber.alloc().initWithDouble(value))
+          as T;
+    } else if (value is int) {
+      return (generic
+              ? convertToFfiNumberWrapper(value)
+              : NSNumber.alloc().initWithLong(value))
+          as T;
+    } else if (value is Enum) {
+      return (generic
+              ? convertToFfiNumberWrapper(value)
+              : NSNumber.alloc().initWithLong(value.index))
+          as T;
     } else if (value is String) {
       return NSString(value) as T;
     } else if (value is TypedData) {
@@ -780,11 +804,11 @@ class _PigeonFfiCodec {
       return res as T;
     } else if (value is List) {
       final NSMutableArray res = NSMutableArray();
-      for (int i = 0; i < value.length; i++) {
+      for (final Object? entry in value) {
         res.addObject(
-          value[i] == null
+          entry == null
               ? ffi_bridge.PigeonInternalNull()
-              : writeValue(value[i], generic: true),
+              : writeValue(entry, generic: true),
         );
       }
       return res as T;
@@ -956,58 +980,54 @@ class _PigeonFfiCodec {
 }
 
 ffi_bridge.PigeonTypedData toPigeonTypedData(TypedData value) {
+  final int lengthInBytes = value.lengthInBytes;
   if (value is Uint8List) {
-    final Pointer<Uint8> ptr = calloc<Uint8>(value.length);
-    for (int i = 0; i < value.length; i++) {
-      ptr[i] = value[i];
-    }
+    final int length = value.length;
+    final Pointer<Uint8> ptr = calloc<Uint8>(length);
+    ptr.asTypedList(length).setAll(0, value);
     final NSData nsData = NSData.dataWithBytes(
       ptr.cast<Void>(),
-      length: value.lengthInBytes,
+      length: lengthInBytes,
     );
     calloc.free(ptr);
     return ffi_bridge.PigeonTypedData.alloc().initWithData(nsData, type: 0);
   } else if (value is Int32List) {
-    final Pointer<Int32> ptr = calloc<Int32>(value.length);
-    for (int i = 0; i < value.length; i++) {
-      ptr[i] = value[i];
-    }
+    final int length = value.length;
+    final Pointer<Int32> ptr = calloc<Int32>(length);
+    ptr.asTypedList(length).setAll(0, value);
     final NSData nsData = NSData.dataWithBytes(
       ptr.cast<Void>(),
-      length: value.lengthInBytes,
+      length: lengthInBytes,
     );
     calloc.free(ptr);
     return ffi_bridge.PigeonTypedData.alloc().initWithData(nsData, type: 1);
   } else if (value is Int64List) {
-    final Pointer<Int64> ptr = calloc<Int64>(value.length);
-    for (int i = 0; i < value.length; i++) {
-      ptr[i] = value[i];
-    }
+    final int length = value.length;
+    final Pointer<Int64> ptr = calloc<Int64>(length);
+    ptr.asTypedList(length).setAll(0, value);
     final NSData nsData = NSData.dataWithBytes(
       ptr.cast<Void>(),
-      length: value.lengthInBytes,
+      length: lengthInBytes,
     );
     calloc.free(ptr);
     return ffi_bridge.PigeonTypedData.alloc().initWithData(nsData, type: 2);
   } else if (value is Float32List) {
-    final Pointer<Float> ptr = calloc<Float>(value.length);
-    for (int i = 0; i < value.length; i++) {
-      ptr[i] = value[i];
-    }
+    final int length = value.length;
+    final Pointer<Float> ptr = calloc<Float>(length);
+    ptr.asTypedList(length).setAll(0, value);
     final NSData nsData = NSData.dataWithBytes(
       ptr.cast<Void>(),
-      length: value.lengthInBytes,
+      length: lengthInBytes,
     );
     calloc.free(ptr);
     return ffi_bridge.PigeonTypedData.alloc().initWithData(nsData, type: 3);
   } else if (value is Float64List) {
-    final Pointer<Double> ptr = calloc<Double>(value.length);
-    for (int i = 0; i < value.length; i++) {
-      ptr[i] = value[i];
-    }
+    final int length = value.length;
+    final Pointer<Double> ptr = calloc<Double>(length);
+    ptr.asTypedList(length).setAll(0, value);
     final NSData nsData = NSData.dataWithBytes(
       ptr.cast<Void>(),
-      length: value.lengthInBytes,
+      length: lengthInBytes,
     );
     calloc.free(ptr);
     return ffi_bridge.PigeonTypedData.alloc().initWithData(nsData, type: 4);
