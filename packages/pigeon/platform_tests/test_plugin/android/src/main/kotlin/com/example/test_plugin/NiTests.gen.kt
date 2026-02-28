@@ -35,6 +35,9 @@ private object NiTestsPigeonUtils {
   }
 
   fun deepEquals(a: Any?, b: Any?): Boolean {
+    if (a === b) {
+      return true
+    }
     if (a is ByteArray && b is ByteArray) {
       return a.contentEquals(b)
     }
@@ -47,8 +50,11 @@ private object NiTestsPigeonUtils {
     if (a is DoubleArray && b is DoubleArray) {
       return a.contentEquals(b)
     }
+    if (a is FloatArray && b is FloatArray) {
+      return a.contentEquals(b)
+    }
     if (a is Array<*> && b is Array<*>) {
-      return a.size == b.size && a.indices.all { deepEquals(a[it], b[it]) }
+      return a.contentDeepEquals(b)
     }
     if (a is List<*> && b is List<*>) {
       return a.size == b.size && a.indices.all { deepEquals(a[it], b[it]) }
@@ -58,6 +64,33 @@ private object NiTestsPigeonUtils {
           a.all { (b as Map<Any?, Any?>).contains(it.key) && deepEquals(it.value, b[it.key]) }
     }
     return a == b
+  }
+
+  fun deepHash(value: Any?): Int {
+    return when (value) {
+      null -> 0
+      is ByteArray -> value.contentHashCode()
+      is IntArray -> value.contentHashCode()
+      is LongArray -> value.contentHashCode()
+      is DoubleArray -> value.contentHashCode()
+      is FloatArray -> value.contentHashCode()
+      is Array<*> -> value.contentDeepHashCode()
+      is List<*> -> {
+        var result = 1
+        for (item in value) {
+          result = 31 * result + deepHash(item)
+        }
+        result
+      }
+      is Map<*, *> -> {
+        var result = 0
+        for (entry in value) {
+          result += (deepHash(entry.key) xor deepHash(entry.value))
+        }
+        result
+      }
+      else -> value.hashCode()
+    }
   }
 }
 
@@ -122,10 +155,13 @@ data class NIUnusedClass(val aField: Any? = null) {
     if (this === other) {
       return true
     }
-    return NiTestsPigeonUtils.deepEquals(toList(), other.toList())
+    return NiTestsPigeonUtils.deepEquals(this.aField, other.aField)
   }
 
-  override fun hashCode(): Int = toList().hashCode()
+  override fun hashCode(): Int {
+    var result = NiTestsPigeonUtils.deepHash(this.aField)
+    return result
+  }
 }
 
 /**
@@ -265,10 +301,67 @@ data class NIAllTypes(
     if (this === other) {
       return true
     }
-    return NiTestsPigeonUtils.deepEquals(toList(), other.toList())
+    return NiTestsPigeonUtils.deepEquals(this.aBool, other.aBool) &&
+        NiTestsPigeonUtils.deepEquals(this.anInt, other.anInt) &&
+        NiTestsPigeonUtils.deepEquals(this.anInt64, other.anInt64) &&
+        NiTestsPigeonUtils.deepEquals(this.aDouble, other.aDouble) &&
+        NiTestsPigeonUtils.deepEquals(this.aByteArray, other.aByteArray) &&
+        NiTestsPigeonUtils.deepEquals(this.a4ByteArray, other.a4ByteArray) &&
+        NiTestsPigeonUtils.deepEquals(this.a8ByteArray, other.a8ByteArray) &&
+        NiTestsPigeonUtils.deepEquals(this.aFloatArray, other.aFloatArray) &&
+        NiTestsPigeonUtils.deepEquals(this.anEnum, other.anEnum) &&
+        NiTestsPigeonUtils.deepEquals(this.anotherEnum, other.anotherEnum) &&
+        NiTestsPigeonUtils.deepEquals(this.aString, other.aString) &&
+        NiTestsPigeonUtils.deepEquals(this.anObject, other.anObject) &&
+        NiTestsPigeonUtils.deepEquals(this.list, other.list) &&
+        NiTestsPigeonUtils.deepEquals(this.stringList, other.stringList) &&
+        NiTestsPigeonUtils.deepEquals(this.intList, other.intList) &&
+        NiTestsPigeonUtils.deepEquals(this.doubleList, other.doubleList) &&
+        NiTestsPigeonUtils.deepEquals(this.boolList, other.boolList) &&
+        NiTestsPigeonUtils.deepEquals(this.enumList, other.enumList) &&
+        NiTestsPigeonUtils.deepEquals(this.objectList, other.objectList) &&
+        NiTestsPigeonUtils.deepEquals(this.listList, other.listList) &&
+        NiTestsPigeonUtils.deepEquals(this.mapList, other.mapList) &&
+        NiTestsPigeonUtils.deepEquals(this.map, other.map) &&
+        NiTestsPigeonUtils.deepEquals(this.stringMap, other.stringMap) &&
+        NiTestsPigeonUtils.deepEquals(this.intMap, other.intMap) &&
+        NiTestsPigeonUtils.deepEquals(this.enumMap, other.enumMap) &&
+        NiTestsPigeonUtils.deepEquals(this.objectMap, other.objectMap) &&
+        NiTestsPigeonUtils.deepEquals(this.listMap, other.listMap) &&
+        NiTestsPigeonUtils.deepEquals(this.mapMap, other.mapMap)
   }
 
-  override fun hashCode(): Int = toList().hashCode()
+  override fun hashCode(): Int {
+    var result = NiTestsPigeonUtils.deepHash(this.aBool)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.anInt)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.anInt64)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aDouble)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aByteArray)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.a4ByteArray)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.a8ByteArray)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aFloatArray)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.anEnum)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.anotherEnum)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aString)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.anObject)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.list)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.stringList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.intList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.doubleList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.boolList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.enumList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.objectList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.listList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.mapList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.map)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.stringMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.intMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.enumMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.objectMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.listMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.mapMap)
+    return result
+  }
 }
 
 /**
@@ -420,10 +513,73 @@ data class NIAllNullableTypes(
     if (this === other) {
       return true
     }
-    return NiTestsPigeonUtils.deepEquals(toList(), other.toList())
+    return NiTestsPigeonUtils.deepEquals(this.aNullableBool, other.aNullableBool) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableInt, other.aNullableInt) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableInt64, other.aNullableInt64) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableDouble, other.aNullableDouble) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableByteArray, other.aNullableByteArray) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullable4ByteArray, other.aNullable4ByteArray) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullable8ByteArray, other.aNullable8ByteArray) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableFloatArray, other.aNullableFloatArray) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableEnum, other.aNullableEnum) &&
+        NiTestsPigeonUtils.deepEquals(this.anotherNullableEnum, other.anotherNullableEnum) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableString, other.aNullableString) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableObject, other.aNullableObject) &&
+        NiTestsPigeonUtils.deepEquals(this.allNullableTypes, other.allNullableTypes) &&
+        NiTestsPigeonUtils.deepEquals(this.list, other.list) &&
+        NiTestsPigeonUtils.deepEquals(this.stringList, other.stringList) &&
+        NiTestsPigeonUtils.deepEquals(this.intList, other.intList) &&
+        NiTestsPigeonUtils.deepEquals(this.doubleList, other.doubleList) &&
+        NiTestsPigeonUtils.deepEquals(this.boolList, other.boolList) &&
+        NiTestsPigeonUtils.deepEquals(this.enumList, other.enumList) &&
+        NiTestsPigeonUtils.deepEquals(this.objectList, other.objectList) &&
+        NiTestsPigeonUtils.deepEquals(this.listList, other.listList) &&
+        NiTestsPigeonUtils.deepEquals(this.mapList, other.mapList) &&
+        NiTestsPigeonUtils.deepEquals(this.recursiveClassList, other.recursiveClassList) &&
+        NiTestsPigeonUtils.deepEquals(this.map, other.map) &&
+        NiTestsPigeonUtils.deepEquals(this.stringMap, other.stringMap) &&
+        NiTestsPigeonUtils.deepEquals(this.intMap, other.intMap) &&
+        NiTestsPigeonUtils.deepEquals(this.enumMap, other.enumMap) &&
+        NiTestsPigeonUtils.deepEquals(this.objectMap, other.objectMap) &&
+        NiTestsPigeonUtils.deepEquals(this.listMap, other.listMap) &&
+        NiTestsPigeonUtils.deepEquals(this.mapMap, other.mapMap) &&
+        NiTestsPigeonUtils.deepEquals(this.recursiveClassMap, other.recursiveClassMap)
   }
 
-  override fun hashCode(): Int = toList().hashCode()
+  override fun hashCode(): Int {
+    var result = NiTestsPigeonUtils.deepHash(this.aNullableBool)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableInt)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableInt64)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableDouble)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableByteArray)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullable4ByteArray)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullable8ByteArray)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableFloatArray)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableEnum)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.anotherNullableEnum)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableString)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableObject)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.allNullableTypes)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.list)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.stringList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.intList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.doubleList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.boolList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.enumList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.objectList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.listList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.mapList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.recursiveClassList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.map)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.stringMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.intMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.enumMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.objectMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.listMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.mapMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.recursiveClassMap)
+    return result
+  }
 }
 
 /**
@@ -564,10 +720,67 @@ data class NIAllNullableTypesWithoutRecursion(
     if (this === other) {
       return true
     }
-    return NiTestsPigeonUtils.deepEquals(toList(), other.toList())
+    return NiTestsPigeonUtils.deepEquals(this.aNullableBool, other.aNullableBool) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableInt, other.aNullableInt) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableInt64, other.aNullableInt64) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableDouble, other.aNullableDouble) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableByteArray, other.aNullableByteArray) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullable4ByteArray, other.aNullable4ByteArray) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullable8ByteArray, other.aNullable8ByteArray) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableFloatArray, other.aNullableFloatArray) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableEnum, other.aNullableEnum) &&
+        NiTestsPigeonUtils.deepEquals(this.anotherNullableEnum, other.anotherNullableEnum) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableString, other.aNullableString) &&
+        NiTestsPigeonUtils.deepEquals(this.aNullableObject, other.aNullableObject) &&
+        NiTestsPigeonUtils.deepEquals(this.list, other.list) &&
+        NiTestsPigeonUtils.deepEquals(this.stringList, other.stringList) &&
+        NiTestsPigeonUtils.deepEquals(this.intList, other.intList) &&
+        NiTestsPigeonUtils.deepEquals(this.doubleList, other.doubleList) &&
+        NiTestsPigeonUtils.deepEquals(this.boolList, other.boolList) &&
+        NiTestsPigeonUtils.deepEquals(this.enumList, other.enumList) &&
+        NiTestsPigeonUtils.deepEquals(this.objectList, other.objectList) &&
+        NiTestsPigeonUtils.deepEquals(this.listList, other.listList) &&
+        NiTestsPigeonUtils.deepEquals(this.mapList, other.mapList) &&
+        NiTestsPigeonUtils.deepEquals(this.map, other.map) &&
+        NiTestsPigeonUtils.deepEquals(this.stringMap, other.stringMap) &&
+        NiTestsPigeonUtils.deepEquals(this.intMap, other.intMap) &&
+        NiTestsPigeonUtils.deepEquals(this.enumMap, other.enumMap) &&
+        NiTestsPigeonUtils.deepEquals(this.objectMap, other.objectMap) &&
+        NiTestsPigeonUtils.deepEquals(this.listMap, other.listMap) &&
+        NiTestsPigeonUtils.deepEquals(this.mapMap, other.mapMap)
   }
 
-  override fun hashCode(): Int = toList().hashCode()
+  override fun hashCode(): Int {
+    var result = NiTestsPigeonUtils.deepHash(this.aNullableBool)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableInt)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableInt64)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableDouble)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableByteArray)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullable4ByteArray)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullable8ByteArray)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableFloatArray)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableEnum)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.anotherNullableEnum)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableString)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.aNullableObject)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.list)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.stringList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.intList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.doubleList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.boolList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.enumList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.objectList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.listList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.mapList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.map)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.stringMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.intMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.enumMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.objectMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.listMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.mapMap)
+    return result
+  }
 }
 
 /**
@@ -628,10 +841,26 @@ data class NIAllClassesWrapper(
     if (this === other) {
       return true
     }
-    return NiTestsPigeonUtils.deepEquals(toList(), other.toList())
+    return NiTestsPigeonUtils.deepEquals(this.allNullableTypes, other.allNullableTypes) &&
+        NiTestsPigeonUtils.deepEquals(
+            this.allNullableTypesWithoutRecursion, other.allNullableTypesWithoutRecursion) &&
+        NiTestsPigeonUtils.deepEquals(this.allTypes, other.allTypes) &&
+        NiTestsPigeonUtils.deepEquals(this.classList, other.classList) &&
+        NiTestsPigeonUtils.deepEquals(this.nullableClassList, other.nullableClassList) &&
+        NiTestsPigeonUtils.deepEquals(this.classMap, other.classMap) &&
+        NiTestsPigeonUtils.deepEquals(this.nullableClassMap, other.nullableClassMap)
   }
 
-  override fun hashCode(): Int = toList().hashCode()
+  override fun hashCode(): Int {
+    var result = NiTestsPigeonUtils.deepHash(this.allNullableTypes)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.allNullableTypesWithoutRecursion)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.allTypes)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.classList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.nullableClassList)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.classMap)
+    result = 31 * result + NiTestsPigeonUtils.deepHash(this.nullableClassMap)
+    return result
+  }
 }
 
 private open class NiTestsPigeonCodec : StandardMessageCodec() {

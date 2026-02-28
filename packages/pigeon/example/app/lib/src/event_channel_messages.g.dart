@@ -12,7 +12,7 @@ import 'package:flutter/foundation.dart' show ReadBuffer, WriteBuffer;
 import 'package:flutter/services.dart';
 
 bool _deepEquals(Object? a, Object? b) {
-  if (identical(a, b)) {
+  if (a == b || identical(a, b)) {
     return true;
   }
   if (a is List && b is List) {
@@ -37,7 +37,7 @@ bool _deepEquals(Object? a, Object? b) {
     }
     return true;
   }
-  return a == b;
+  return false;
 }
 
 sealed class PlatformEvent {}

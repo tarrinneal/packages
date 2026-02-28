@@ -1137,16 +1137,32 @@ if (wrapped == nil) {
             indent.writeln('return true');
           });
         }
-        indent.write(
-          'return deepEquals${generatorOptions.fileSpecificClassNameComponent}(lhs.toList(), rhs.toList())',
+        final Iterable<NamedType> fields = getFieldsInSerializationOrder(
+          classDefinition,
         );
+        if (fields.isEmpty) {
+          indent.writeln('return true');
+        } else {
+          final String comparisons = fields
+              .map(
+                (NamedType field) =>
+                    'deepEquals${generatorOptions.fileSpecificClassNameComponent}(lhs.${_camelCase(field.name)}, rhs.${_camelCase(field.name)})',
+              )
+              .join(' &&\n      ');
+          indent.writeln('return $comparisons');
+        }
       },
     );
 
     indent.writeScoped('func hash(into hasher: inout Hasher) {', '}', () {
-      indent.writeln(
-        'deepHash${generatorOptions.fileSpecificClassNameComponent}(value: toList(), hasher: &hasher)',
+      final Iterable<NamedType> fields = getFieldsInSerializationOrder(
+        classDefinition,
       );
+      for (final field in fields) {
+        indent.writeln(
+          'deepHash${generatorOptions.fileSpecificClassNameComponent}(value: ${_camelCase(field.name)}, hasher: &hasher)',
+        );
+      }
     });
   }
 
@@ -2274,6 +2290,9 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
   void _writeDeepEquals(InternalSwiftOptions generatorOptions, Indent indent) {
     indent.format('''
 func deepEquals${generatorOptions.fileSpecificClassNameComponent}(_ lhs: Any?, _ rhs: Any?) -> Bool {
+  if let lhs = lhs as? AnyObject, let rhs = rhs as? AnyObject, lhs === rhs {
+    return true
+  }
   let cleanLhs = nilOrValue(lhs) as Any?
   let cleanRhs = nilOrValue(rhs) as Any?
   switch (cleanLhs, cleanRhs) {
@@ -2286,13 +2305,10 @@ func deepEquals${generatorOptions.fileSpecificClassNameComponent}(_ lhs: Any?, _
   case is (Void, Void):
     return true
 
-  case let (cleanLhsHashable, cleanRhsHashable) as (AnyHashable, AnyHashable):
-    return cleanLhsHashable == cleanRhsHashable
-
   case let (cleanLhsArray, cleanRhsArray) as ([Any?], [Any?]):
     guard cleanLhsArray.count == cleanRhsArray.count else { return false }
-    for (index, element) in cleanLhsArray.enumerated() {
-      if !deepEquals${generatorOptions.fileSpecificClassNameComponent}(element, cleanRhsArray[index]) {
+    for i in 0..<cleanLhsArray.count {
+      if !deepEquals${generatorOptions.fileSpecificClassNameComponent}(cleanLhsArray[i], cleanRhsArray[i]) {
         return false
       }
     }
@@ -2301,27 +2317,31 @@ func deepEquals${generatorOptions.fileSpecificClassNameComponent}(_ lhs: Any?, _
   case let (cleanLhsDictionary, cleanRhsDictionary) as ([AnyHashable: Any?], [AnyHashable: Any?]):
     guard cleanLhsDictionary.count == cleanRhsDictionary.count else { return false }
     for (key, cleanLhsValue) in cleanLhsDictionary {
-      guard cleanRhsDictionary.index(forKey: key) != nil else { return false }
-      if !deepEquals${generatorOptions.fileSpecificClassNameComponent}(cleanLhsValue, cleanRhsDictionary[key]!) {
+      guard let cleanRhsValue = cleanRhsDictionary[key] else { return false }
+      if !deepEquals${generatorOptions.fileSpecificClassNameComponent}(cleanLhsValue, cleanRhsValue) {
         return false
       }
     }
     return true
 
+  case let (cleanLhsHashable, cleanRhsHashable) as (AnyHashable, AnyHashable):
+    return cleanLhsHashable == cleanRhsHashable
+
   default:
-    // Any other type shouldn't be able to be used with pigeon. File an issue if you find this to be untrue.
     return false
   }
 }
 
 func deepHash${generatorOptions.fileSpecificClassNameComponent}(value: Any?, hasher: inout Hasher) {
   if let valueList = value as? [AnyHashable] {
-     for item in valueList { deepHash${generatorOptions.fileSpecificClassNameComponent}(value: item, hasher: &hasher) }
-     return
+    for item in valueList {
+      deepHash${generatorOptions.fileSpecificClassNameComponent}(value: item, hasher: &hasher)
+    }
+    return
   }
 
   if let valueDict = value as? [AnyHashable: AnyHashable] {
-    for key in valueDict.keys { 
+    for key in valueDict.keys {
       hasher.combine(key)
       deepHash${generatorOptions.fileSpecificClassNameComponent}(value: valueDict[key]!, hasher: &hasher)
     }
@@ -2334,8 +2354,7 @@ func deepHash${generatorOptions.fileSpecificClassNameComponent}(value: Any?, has
 
   return hasher.combine(String(describing: value))
 }
-
-    ''');
+''');
   }
 
   void _writeNumberWrapper(Root root, Indent indent) {
@@ -2388,22 +2407,22 @@ func deepHash${generatorOptions.fileSpecificClassNameComponent}(value: Any?, has
         indent.writeScoped('switch number {', '}', () {
           var caseNum = 4;
           indent.format('''
-    case _ as Int:
-        return NumberWrapper(number:NSNumber(value: number as! Int), type: 1)
-    case _ as Int64:
-        return NumberWrapper(number:NSNumber(value: number as! Int64), type: 1)
-    case _ as Double:
-        return NumberWrapper(number: NSNumber(value: number as! Double), type: 2)
-    case _ as Float:
-        return NumberWrapper(number: NSNumber(value: number as! Float), type: 2)
-    case _ as Bool:
-        return NumberWrapper(number: NSNumber(value: number as! Bool), type: 3)
+    case let value as Int:
+      return NumberWrapper(number: NSNumber(value: value), type: 1)
+    case let value as Int64:
+      return NumberWrapper(number: NSNumber(value: value), type: 1)
+    case let value as Double:
+      return NumberWrapper(number: NSNumber(value: value), type: 2)
+    case let value as Float:
+      return NumberWrapper(number: NSNumber(value: value), type: 2)
+    case let value as Bool:
+      return NumberWrapper(number: NSNumber(value: value), type: 3)
 ''');
           for (final Enum anEnum in root.enums) {
-            indent.writeln('case _ as ${anEnum.name}:');
+            indent.writeln('case let value as ${anEnum.name}:');
             indent.inc();
             indent.writeln(
-              'return NumberWrapper(number: NSNumber(value: (number as! ${anEnum.name}).rawValue), type: ${caseNum++})',
+              'return NumberWrapper(number: NSNumber(value: value.rawValue), type: ${caseNum++})',
             );
             indent.dec();
           }
@@ -2421,15 +2440,15 @@ func deepHash${generatorOptions.fileSpecificClassNameComponent}(value: Any?, has
       'private func unwrapNumber(wrappedNumber: NumberWrapper) -> Any {',
       '}',
       () {
-        indent.writeScoped('switch (wrappedNumber.type) {', '}', () {
+        indent.writeScoped('switch wrappedNumber.type {', '}', () {
           var caseNum = 4;
           indent.format('''
     case 1:
-        return wrappedNumber.number.int64Value
+      return wrappedNumber.number.int64Value
     case 2:
-        return wrappedNumber.number.doubleValue
+      return wrappedNumber.number.doubleValue
     case 3:
-        return wrappedNumber.number.boolValue''');
+      return wrappedNumber.number.boolValue''');
           for (final Enum anEnum in root.enums) {
             indent.writeln('case ${caseNum++}:');
             indent.inc();
@@ -2453,16 +2472,16 @@ func deepHash${generatorOptions.fileSpecificClassNameComponent}(value: Any?, has
         indent.writeScoped('switch number {', '}', () {
           var caseNum = 4;
           indent.format('''
-    case _ as Int:
-        return 1
-    case _ as Double:
-        return 2
-    case _ as Float:
-        return 2
-    case _ as Bool:
-        return 3''');
+    case is Int:
+      return 1
+    case is Double:
+      return 2
+    case is Float:
+      return 2
+    case is Bool:
+      return 3''');
           for (final Enum anEnum in root.enums) {
-            indent.writeln('case _ as ${anEnum.name}:');
+            indent.writeln('case is ${anEnum.name}:');
             indent.inc();
             indent.writeln('return ${caseNum++}');
             indent.dec();
@@ -2496,49 +2515,40 @@ enum MyDataType: Int {
   }
 
   public init(_ data: [UInt8]) {
-    let swiftData = data.withUnsafeBufferPointer { Data(buffer: $0) }
-    self.data = NSData(data: swiftData)
+    self.data = NSData(bytes: data, length: data.count)
     self.type = MyDataType.uint8.rawValue
   }
 
   public init(_ data: [Int32]) {
-    let swiftData = data.withUnsafeBufferPointer { Data(buffer: $0) }
-    self.data = NSData(data: swiftData)
+    self.data = NSData(bytes: data, length: data.count * MemoryLayout<Int32>.size)
     self.type = MyDataType.int32.rawValue
   }
 
   public init(_ data: [Int64]) {
-    let swiftData = data.withUnsafeBufferPointer { Data(buffer: $0) }
-    self.data = NSData(data: swiftData)
+    self.data = NSData(bytes: data, length: data.count * MemoryLayout<Int64>.size)
     self.type = MyDataType.int64.rawValue
   }
 
   public init(_ data: [Float32]) {
-    let swiftData = data.withUnsafeBufferPointer { Data(buffer: $0) }
-    self.data = NSData(data: swiftData)
+    self.data = NSData(bytes: data, length: data.count * MemoryLayout<Float32>.size)
     self.type = MyDataType.float32.rawValue
   }
 
   public init(_ data: [Float64]) {
-    let swiftData = data.withUnsafeBufferPointer { Data(buffer: $0) }
-    self.data = NSData(data: swiftData)
+    self.data = NSData(bytes: data, length: data.count * MemoryLayout<Float64>.size)
     self.type = MyDataType.float64.rawValue
   }
 
   /// Returns the data as a [UInt8] array, if the type is .uint8
   public func toUint8Array() -> [UInt8]? {
     guard type == MyDataType.uint8.rawValue else { return nil }
-    var array = [UInt8](repeating: 0, count: data.length)
-    data.getBytes(&array, length: data.length)
-    return array
+    return [UInt8](data as Data)
   }
 
   /// Returns the data as a [Int32] array, if the type is .int32
   public func toInt32Array() -> [Int32]? {
     guard type == MyDataType.int32.rawValue else { return nil }
-    let itemSize = MemoryLayout<Int32>.stride
-    guard data.length % itemSize == 0 else { return nil }
-    let count = data.length / itemSize
+    let count = data.length / MemoryLayout<Int32>.size
     var array = [Int32](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
     return array
@@ -2547,9 +2557,7 @@ enum MyDataType: Int {
   /// Returns the data as a [Int64] array, if the type is .int64
   public func toInt64Array() -> [Int64]? {
     guard type == MyDataType.int64.rawValue else { return nil }
-    let itemSize = MemoryLayout<Int64>.stride
-    guard data.length % itemSize == 0 else { return nil }
-    let count = data.length / itemSize
+    let count = data.length / MemoryLayout<Int64>.size
     var array = [Int64](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
     return array
@@ -2558,9 +2566,7 @@ enum MyDataType: Int {
   /// Returns the data as a [Float32] array, if the type is .float32
   public func toFloat32Array() -> [Float32]? {
     guard type == MyDataType.float32.rawValue else { return nil }
-    let itemSize = MemoryLayout<Float32>.stride
-    guard data.length % itemSize == 0 else { return nil }
-    let count = data.length / itemSize
+    let count = data.length / MemoryLayout<Float32>.size
     var array = [Float32](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
     return array
@@ -2569,32 +2575,10 @@ enum MyDataType: Int {
   /// Returns the data as a [Float64] array (Array<Double>), if the type is .float64
   public func toFloat64Array() -> [Double]? {
     guard type == MyDataType.float64.rawValue else { return nil }
-    let itemSize = MemoryLayout<Double>.stride
-    guard data.length % itemSize == 0 else { return nil }
-    let count = data.length / itemSize
+    let count = data.length / MemoryLayout<Double>.size
     var array = [Double](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
     return array
-  }
-
-  @objc public func getUint8Array() -> [NSNumber]? {
-    return toUint8Array()?.map { NSNumber(value: $0) }
-  }
-
-  @objc public func getInt32Array() -> [NSNumber]? {
-    return toInt32Array()?.map { NSNumber(value: $0) }
-  }
-
-  @objc public func getInt64Array() -> [NSNumber]? {
-    return toInt64Array()?.map { NSNumber(value: $0) }
-  }
-
-  @objc public func getFloat32Array() -> [NSNumber]? {
-    return toFloat32Array()?.map { NSNumber(value: $0) }
-  }
-
-  @objc public func getFloat64Array() -> [NSNumber]? {
-    return toFloat64Array()?.map { NSNumber(value: $0) }
   }
 }
   ''');
