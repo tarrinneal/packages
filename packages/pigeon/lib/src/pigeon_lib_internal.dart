@@ -21,7 +21,7 @@ import 'dart/dart_generator.dart';
 import 'generator_tools.dart';
 import 'gobject/gobject_generator.dart';
 import 'java/java_generator.dart';
-import 'kotlin/jnigen_yaml_generator.dart';
+import 'kotlin/jnigen_config_generator.dart';
 import 'kotlin/kotlin_generator.dart';
 import 'objc/objc_generator.dart';
 import 'pigeon_lib.dart';
@@ -739,9 +739,9 @@ class KotlinGeneratorAdapter implements GeneratorAdapter {
 }
 
 /// A [GeneratorAdapter] that generates JnigenYaml source code.
-class JnigenYamlGeneratorAdapter implements GeneratorAdapter {
-  /// Constructor for [JnigenYamlGeneratorAdapter].
-  const JnigenYamlGeneratorAdapter();
+class JnigenConfigGeneratorAdapter implements GeneratorAdapter {
+  /// Constructor for [JnigenConfigGeneratorAdapter].
+  const JnigenConfigGeneratorAdapter();
 
   @override
   List<FileType> get fileTypeList => const <FileType>[FileType.na];
@@ -756,8 +756,8 @@ class JnigenYamlGeneratorAdapter implements GeneratorAdapter {
     if (options.kotlinOptions == null || options.dartOptions == null) {
       return;
     }
-    final generator = JnigenYamlGenerator();
-    final jnigenYamlOptions = InternalJnigenYamlOptions(
+    final generator = JnigenConfigGenerator();
+    final jnigenYamlOptions = InternalJnigenConfigOptions(
       options.dartOptions!,
       options.kotlinOptions!,
       options.basePath,
@@ -776,7 +776,7 @@ class JnigenYamlGeneratorAdapter implements GeneratorAdapter {
   IOSink? shouldGenerate(InternalPigeonOptions options, FileType _) =>
       options.kotlinOptions?.kotlinOut != null &&
           (options.kotlinOptions?.useJni ?? false)
-      ? _openSink('jnigen.yaml', basePath: options.appDirectory ?? '')
+      ? _openSink('jnigen_config.dart', basePath: options.appDirectory ?? '')
       : null;
 
   @override

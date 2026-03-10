@@ -717,7 +717,7 @@ ${_argParser.usage}''';
           const SwiftGeneratorAdapter(),
           const FfigenConfigGeneratorAdapter(),
           const KotlinGeneratorAdapter(),
-          const JnigenYamlGeneratorAdapter(),
+          const JnigenConfigGeneratorAdapter(),
           const CppGeneratorAdapter(),
           const GObjectGeneratorAdapter(),
           const DartTestGeneratorAdapter(),

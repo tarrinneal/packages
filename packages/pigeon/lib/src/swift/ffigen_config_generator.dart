@@ -46,8 +46,7 @@ class FfigenConfigGenerator extends Generator<InternalFfigenConfigOptions> {
     StringSink sink, {
     required String dartPackageName,
   }) {
-    final indent = Indent(sink);
-
+    final indent = Indent();
     indent.format('''
 import 'package:ffigen/ffigen.dart' as fg;
 import 'package:pub_semver/pub_semver.dart';
@@ -166,5 +165,6 @@ ${hasAsyncFlutterApi ? '''
   );
       ''');
     });
+    sink.write(indent.toString());
   }
 }
