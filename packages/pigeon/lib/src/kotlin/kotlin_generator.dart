@@ -35,6 +35,10 @@ const String _pigeonMethodChannelCodec = 'PigeonMethodCodec';
 
 const String _overflowClassName = '${classNamePrefix}CodecOverflow';
 
+/// Kotlin file-level annotation for generated code.
+const String kotlinGeneratedAnnotation =
+    '@file:Generated("$defaultPluginPackageName")';
+
 /// Options that control how Kotlin code will be generated.
 class KotlinOptions {
   /// Creates a [KotlinOptions] object
@@ -46,6 +50,7 @@ class KotlinOptions {
     this.errorClassName,
     this.includeErrorClass = true,
     this.fileSpecificClassNameComponent,
+    this.useGeneratedAnnotation = false,
   });
 
   /// The package where the generated class will live.
@@ -72,6 +77,11 @@ class KotlinOptions {
   /// A String to augment class names to avoid cross file collisions.
   final String? fileSpecificClassNameComponent;
 
+  /// Determines if the `javax.annotation.Generated` is used in the output. This
+  /// is false by default since that dependency isn't available in plugins by
+  /// default.
+  final bool useGeneratedAnnotation;
+
   /// Creates a [KotlinOptions] from a Map representation where:
   /// `x = KotlinOptions.fromMap(x.toMap())`.
   static KotlinOptions fromMap(Map<String, Object> map) {
@@ -84,6 +94,7 @@ class KotlinOptions {
       includeErrorClass: map['includeErrorClass'] as bool? ?? true,
       fileSpecificClassNameComponent:
           map['fileSpecificClassNameComponent'] as String?,
+      useGeneratedAnnotation: map['useGeneratedAnnotation'] as bool? ?? false,
     );
   }
 
@@ -99,6 +110,7 @@ class KotlinOptions {
       'includeErrorClass': includeErrorClass,
       if (fileSpecificClassNameComponent != null)
         'fileSpecificClassNameComponent': fileSpecificClassNameComponent!,
+      'useGeneratedAnnotation': useGeneratedAnnotation,
     };
     return result;
   }
@@ -122,6 +134,7 @@ class InternalKotlinOptions extends InternalOptions {
     this.useJni = false,
     this.appDirectory,
     this.fileSpecificClassNameComponent,
+    this.useGeneratedAnnotation = false,
   });
 
   /// Creates InternalKotlinOptions from KotlinOptions.
@@ -135,6 +148,7 @@ class InternalKotlinOptions extends InternalOptions {
        includeErrorClass = options.includeErrorClass,
        useJni = options.useJni,
        appDirectory = options.appDirectory,
+       useGeneratedAnnotation = options.useGeneratedAnnotation,
        fileSpecificClassNameComponent =
            options.fileSpecificClassNameComponent ??
            kotlinOut.split('/').lastOrNull?.split('.').first;
@@ -165,6 +179,11 @@ class InternalKotlinOptions extends InternalOptions {
 
   /// A String to augment class names to avoid cross file collisions.
   final String? fileSpecificClassNameComponent;
+
+  /// Determines if the `javax.annotation.Generated` is used in the output. This
+  /// is false by default since that dependency isn't available in plugins by
+  /// default.
+  final bool useGeneratedAnnotation;
 }
 
 /// Options that control how Kotlin code will be generated for a specific
@@ -214,6 +233,9 @@ class KotlinGenerator extends StructuredGenerator<InternalKotlinOptions> {
     indent.writeln('// ${getGeneratedCodeWarning()}');
     indent.writeln('// $seeAlsoWarning');
     indent.writeln('@file:Suppress("UNCHECKED_CAST", "ArrayInDataClass")');
+    if (generatorOptions.useGeneratedAnnotation) {
+      indent.writeln(kotlinGeneratedAnnotation);
+    }
   }
 
   @override
@@ -240,6 +262,9 @@ class KotlinGenerator extends StructuredGenerator<InternalKotlinOptions> {
     indent.writeln('import io.flutter.plugin.common.StandardMessageCodec');
     indent.writeln('import java.io.ByteArrayOutputStream');
     indent.writeln('import java.nio.ByteBuffer');
+    if (generatorOptions.useGeneratedAnnotation) {
+      indent.writeln('import javax.annotation.Generated');
+    }
   }
 
   @override

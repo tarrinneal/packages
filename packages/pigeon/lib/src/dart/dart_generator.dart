@@ -51,7 +51,8 @@ class DartOptions {
     this.sourceOutPath,
     this.testOutPath,
     this.dartOut,
-  });
+    bool ignoreLints = true,
+  }) : _ignoreLints = ignoreLints;
 
   /// A copyright header that will get prepended to generated code.
   final Iterable<String>? copyrightHeader;
@@ -65,6 +66,9 @@ class DartOptions {
   /// Path to output generated Dart file.
   final String? dartOut;
 
+  /// Whether to ignore lint violations in generated Dart code.
+  final bool _ignoreLints;
+
   /// Creates a [DartOptions] from a Map representation where:
   /// `x = DartOptions.fromMap(x.toMap())`.
   static DartOptions fromMap(Map<String, Object> map) {
@@ -74,6 +78,7 @@ class DartOptions {
       sourceOutPath: map['sourceOutPath'] as String?,
       testOutPath: map['testOutPath'] as String?,
       dartOut: map['dartOut'] as String?,
+      ignoreLints: (map['ignoreLints'] as bool?) ?? true,
     );
   }
 
@@ -85,6 +90,7 @@ class DartOptions {
       if (sourceOutPath != null) 'sourceOutPath': sourceOutPath!,
       if (testOutPath != null) 'testOutPath': testOutPath!,
       if (dartOut != null) 'dartOut': dartOut!,
+      'ignoreLints': _ignoreLints,
     };
     return result;
   }
@@ -736,7 +742,8 @@ class InternalDartOptions extends InternalOptions {
     this.useJni = false,
     this.useFfi = false,
     this.ffiErrorClassName,
-  });
+    required bool ignoreLints,
+  }) : _ignoreLints = ignoreLints;
 
   /// Creates InternalDartOptions from DartOptions.
   InternalDartOptions.fromDartOptions(
@@ -749,7 +756,8 @@ class InternalDartOptions extends InternalOptions {
     this.ffiErrorClassName,
   }) : copyrightHeader = copyrightHeader ?? options.copyrightHeader,
        dartOut = (dartOut ?? options.sourceOutPath)!,
-       testOut = testOut ?? options.testOutPath;
+       testOut = testOut ?? options.testOutPath,
+       _ignoreLints = options._ignoreLints;
 
   /// A copyright header that will get prepended to generated code.
   final Iterable<String>? copyrightHeader;
@@ -768,6 +776,9 @@ class InternalDartOptions extends InternalOptions {
 
   /// The error class name used for FFI methods.
   final String? ffiErrorClassName;
+
+  /// Whether to ignore lint violations in generated Dart code.
+  final bool _ignoreLints;
 }
 
 /// Class that manages all Dart code generation.
@@ -792,9 +803,20 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
     }
     indent.writeln('// ${getGeneratedCodeWarning()}');
     indent.writeln('// $seeAlsoWarning');
-    indent.writeln(
-      '// ignore_for_file: public_member_api_docs, non_constant_identifier_names, avoid_as, unused_import, unnecessary_parenthesis, prefer_null_aware_operators, omit_local_variable_types, omit_obvious_local_variable_types, unused_shown_name, unnecessary_import, no_leading_underscores_for_local_identifiers',
-    );
+    indent.writeln('// ignore_for_file: unused_import, unused_shown_name');
+    if (generatorOptions._ignoreLints) {
+      indent.writeln('// ignore_for_file: type=lint');
+    } else {
+      // Just ignore the lint rules we know we violate and which we care about
+      // in our own checked-in generated files.
+      indent.writeln(
+        '// ignore_for_file: public_member_api_docs, '
+        'non_constant_identifier_names, avoid_as, unnecessary_parenthesis, '
+        'prefer_null_aware_operators, omit_local_variable_types, '
+        'omit_obvious_local_variable_types, unnecessary_import, '
+        'no_leading_underscores_for_local_identifiers',
+      );
+    }
     indent.newln();
   }
 
@@ -814,15 +836,15 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
         root.containsProxyApi) {
       indent.writeln("import 'dart:io' show Platform;");
     }
-    indent.writeln("import 'dart:typed_data';");
-    indent.newln();
 
+    indent.writeln(
+      "import 'dart:typed_data' show Float64List, Int32List, Int64List;",
+    );
+    indent.newln();
     if (generatorOptions.useFfi) {
       indent.writeln("import 'package:ffi/ffi.dart';");
     }
-    indent.writeln(
-      "import 'package:flutter/foundation.dart' show ReadBuffer, WriteBuffer${root.containsProxyApi ? ', immutable, protected, visibleForTesting' : ''};",
-    );
+
     indent.writeln("import 'package:flutter/services.dart';");
     if (root.containsProxyApi) {
       indent.writeln(
@@ -846,6 +868,9 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
         "import './${path.withoutExtension(jniFileImportName)}.jni.dart' as jni_bridge;",
       );
     }
+    indent.writeln(
+      "import 'package:meta/meta.dart' show immutable, protected, visibleForTesting;",
+    );
   }
 
   @override
@@ -952,7 +977,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
           docCommentSpec,
         );
 
-        final String datatype = addGenericTypesNullable(field.type);
+        final String datatype = addGenericTypes(field.type);
         indent.writeln('$datatype ${field.name};');
         indent.newln();
       }
@@ -1142,22 +1167,6 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
       _writeFromFfi(indent, classDefinition);
       indent.newln();
     }
-    void writeValueDecode(NamedType field, int index) {
-      final resultAt = 'result[$index]';
-      final castCallPrefix = field.type.isNullable ? '?' : '!';
-      final String genericType = _makeGenericTypeArguments(field.type);
-      final String castCall = _makeGenericCastCall(field.type);
-      if (field.type.typeArguments.isNotEmpty) {
-        indent.add('($resultAt as $genericType?)$castCallPrefix$castCall');
-      } else {
-        final castCallForcePrefix = field.type.isNullable ? '' : '!';
-        final castString = field.type.baseName == 'Object'
-            ? ''
-            : ' as $genericType${_getNullableSymbol(field.type.isNullable)}';
-
-        indent.add('$resultAt$castCallForcePrefix$castString');
-      }
-    }
 
     indent.writeScoped(
       'static ${classDefinition.name} decode(Object result) {',
@@ -1171,7 +1180,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
             final NamedType field,
           ) {
             indent.write('${field.name}: ');
-            writeValueDecode(field, index);
+            indent.add(_castValue('result[$index]', field.type));
             indent.addln(',');
           });
         });
@@ -1480,7 +1489,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
                           final _FfiType ffiReturnType =
                               _FfiType.fromTypeDeclaration(method.returnType);
                           indent.writeln(
-                            'final ${addGenericTypesNullable(method.returnType)} response = $methodCall;',
+                            'final ${addGenericTypes(method.returnType)} response = $methodCall;',
                           );
                           String toFfiCall;
                           if (!method.returnType.isNullable &&
@@ -1604,7 +1613,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
                 indent.writeln('return;');
               } else {
                 indent.writeln(
-                  'final ${addGenericTypesNullable(method.returnType)} response = $methodCall;',
+                  'final ${addGenericTypes(method.returnType)} response = $methodCall;',
                 );
                 final String toJniCall = jniReturnType.getToJniCall(
                   method.returnType,
@@ -1676,8 +1685,8 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
 
         final bool isAsync = func.isAsynchronous;
         final String returnType = isAsync
-            ? 'Future<${addGenericTypesNullable(func.returnType)}>'
-            : addGenericTypesNullable(func.returnType);
+            ? 'Future<${addGenericTypes(func.returnType)}>'
+            : addGenericTypes(func.returnType);
         final String argSignature = _getMethodParameterSignature(
           func.parameters,
         );
@@ -1801,7 +1810,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
 ''');
       for (final Method method in api.methods) {
         indent.writeScoped(
-          '${method.isAsynchronous ? 'Future<' : ''}${addGenericTypesNullable(method.returnType)}${method.isAsynchronous ? '>' : ''} ${method.name}(${_getMethodParameterSignature(method.parameters)}) ${method.isAsynchronous ? 'async ' : ''}{',
+          '${method.isAsynchronous ? 'Future<' : ''}${addGenericTypes(method.returnType)}${method.isAsynchronous ? '>' : ''} ${method.name}(${_getMethodParameterSignature(method.parameters)}) ${method.isAsynchronous ? 'async ' : ''}{',
           '}',
           () {
             indent.writeScoped('try {', '}', () {
@@ -3097,7 +3106,7 @@ Object? getValueFromPigeonTypedData(ffi_bridge.PigeonTypedData value) {
     ''');
   }
 
-  /// Writes [wrapResponse] method.
+  /// Writes the `wrapResponse` method.
   void _writeWrapResponse(InternalDartOptions opt, Root root, Indent indent) {
     indent.newln();
     indent.writeScoped(
@@ -3253,7 +3262,7 @@ if (wrapped == null) {
     addDocumentationComments(indent, documentationComments, docCommentSpec);
     final String argSignature = _getMethodParameterSignature(parameters);
     indent.write(
-      'Future<${addGenericTypesNullable(returnType)}> $name($argSignature) async ',
+      'Future<${addGenericTypes(returnType)}> $name($argSignature) async ',
     );
     indent.addScoped('{', '}', () {
       if (useJni || useFfi) {
@@ -3319,7 +3328,7 @@ if (wrapped == null) {
     indent.format('''
 final ${varNamePrefix}replyList = await $sendFutureVar as List<Object?>?;
 ''');
-    final validateCall =
+    final extractCall =
         '''
 _extractReplyValueOrThrow(
 \t\t${varNamePrefix}replyList,
@@ -3328,34 +3337,11 @@ _extractReplyValueOrThrow(
 )
 ''';
     if (returnType.isVoid) {
-      indent.format('$validateCall;');
+      indent.format('$extractCall;');
     } else {
       const accessor = '${varNamePrefix}replyValue';
-      if (returnType.isNullable) {
-        indent.format('final Object? $accessor = $validateCall;');
-      } else {
-        indent.format('final Object $accessor = $validateCall!;');
-      }
-      String returnTypeName = _makeGenericTypeArguments(returnType);
-      if (returnType.isNullable) {
-        returnTypeName = '$returnTypeName?';
-      }
-      final String genericCastCall = _makeGenericCastCall(returnType);
-
-      if (genericCastCall.isEmpty) {
-        final castedAccessor = returnType.baseName == 'Object'
-            ? accessor
-            : '$accessor as $returnTypeName';
-        indent.format('return $castedAccessor;');
-      } else {
-        final nullablyTypedAccessor = returnType.baseName == 'Object'
-            ? accessor
-            : '($accessor as $returnTypeName)';
-        final nullHandler = returnType.isNullable ? '?' : '';
-        indent.format(
-          'return $nullablyTypedAccessor$nullHandler$genericCastCall;',
-        );
-      }
+      indent.format('final Object? $accessor = $extractCall;');
+      indent.format('return ${_castValue(accessor, returnType)};');
     }
 
     if (!insideAsyncMethod) {
@@ -3406,59 +3392,43 @@ _extractReplyValueOrThrow(
           '$messageHandlerSetterWithOpeningParentheses(Object? message) async ',
         );
         indent.addScoped('{', '});', () {
-          final String returnTypeString = addGenericTypesNullable(returnType);
-          final isAsync = isAsynchronous;
+          final String returnTypeString = addGenericTypes(returnType);
           const emptyReturnStatement = 'return wrapResponse(empty: true);';
           String call;
           if (parameters.isEmpty) {
             call = 'api.$name()';
           } else {
-            indent.writeln('assert(message != null,');
-            indent.writeln("'Argument for $channelName was null.');");
             const argsArray = 'args';
             indent.writeln(
-              'final List<Object?> $argsArray = (message as List<Object?>?)!;',
+              'final List<Object?> $argsArray = message! as List<Object?>;',
             );
-            String argNameFunc(int index, NamedType type) =>
-                _getSafeArgumentName(index, type);
             enumerate(parameters, (int count, NamedType arg) {
-              final String argType = _addGenericTypes(arg.type);
-              final String argName = argNameFunc(count, arg);
-              final String genericArgType = _makeGenericTypeArguments(arg.type);
-              final String castCall = _makeGenericCastCall(arg.type);
-
-              final leftHandSide = 'final $argType? $argName';
-
+              final String argType = addGenericTypes(arg.type);
+              final String argName = _getSafeArgumentName(count, arg);
+              final argValue = '$argsArray[$count]';
               indent.writeln(
-                '$leftHandSide = ($argsArray[$count] as $genericArgType?)${castCall.isEmpty ? '' : '?$castCall'};',
+                'final $argType $argName = ${_castValue(argValue, arg.type)};',
               );
-
-              if (!arg.type.isNullable) {
-                indent.writeln('assert($argName != null,');
-                indent.writeln(
-                  "    'Argument for $channelName was null, expected non-null $argType.');",
-                );
-              }
             });
             final Iterable<String> argNames = indexMap(parameters, (
               int index,
               Parameter field,
             ) {
               final String name = _getSafeArgumentName(index, field);
-              return '${field.isNamed ? '${field.name}: ' : ''}$name${field.type.isNullable ? '' : '!'}';
+              return '${field.isNamed ? '${field.name}: ' : ''}$name';
             });
             call = onCreateApiCall(name, parameters, argNames);
           }
           indent.writeScoped('try {', '} ', () {
             if (returnType.isVoid) {
-              if (isAsync) {
+              if (isAsynchronous) {
                 indent.writeln('await $call;');
               } else {
                 indent.writeln('$call;');
               }
               indent.writeln(emptyReturnStatement);
             } else {
-              if (isAsync) {
+              if (isAsynchronous) {
                 indent.writeln('final $returnTypeString output = await $call;');
               } else {
                 indent.writeln('final $returnTypeString output = $call;');
@@ -3496,7 +3466,7 @@ _extractReplyValueOrThrow(
 
 /// Converts a [TypeDeclaration] to a `code_builder` Reference.
 cb.Reference refer(TypeDeclaration type, {bool asFuture = false}) {
-  final String symbol = addGenericTypesNullable(type);
+  final String symbol = addGenericTypes(type);
   return cb.refer(asFuture ? 'Future<$symbol>' : symbol);
 }
 
@@ -3507,19 +3477,41 @@ String _escapeForDartSingleQuotedString(String raw) {
       .replaceAll(r"'", r"\'");
 }
 
-/// Creates a Dart type where all type arguments are [Objects].
+/// Creates a Dart type where all type arguments are [Object]s.
 String _makeGenericTypeArguments(TypeDeclaration type) {
-  return type.typeArguments.isNotEmpty
-      ? '${type.baseName}<${type.typeArguments.map<String>((TypeDeclaration e) => 'Object?').join(', ')}>'
-      : _addGenericTypes(type);
+  if (type.typeArguments.isEmpty) {
+    return addGenericTypes(type);
+  }
+
+  final withTypeArguments =
+      '${type.baseName}<${type.typeArguments.map<String>((TypeDeclaration e) => 'Object?').join(', ')}>';
+  return '$withTypeArguments${type.isNullable ? '?' : ''}';
 }
 
-/// Creates a `.cast<>` call for an type. Returns an empty string if the
-/// type has no type arguments.
-String _makeGenericCastCall(TypeDeclaration type) {
-  return type.typeArguments.isNotEmpty
-      ? '.cast<${_flattenTypeArguments(type.typeArguments)}>()'
-      : '';
+/// Casts a value to the expected type, considering nullability, and generic
+/// types.
+String _castValue(String value, TypeDeclaration type) {
+  final String typeWithTypeArgs = _makeGenericTypeArguments(type);
+  final nullAssert = type.isNullable ? '' : '!';
+  value = '$value$nullAssert';
+  if (type.typeArguments.isEmpty && type.baseName == 'Object') {
+    return value;
+  }
+
+  final valueWithTypeCast = '$value as $typeWithTypeArgs';
+
+  final List<TypeDeclaration> typeArguments = type.typeArguments;
+  if (typeArguments.isEmpty) {
+    return valueWithTypeCast;
+  }
+  if (typeArguments.every((e) => e.baseName == 'Object' && e.isNullable)) {
+    return valueWithTypeCast;
+  }
+
+  final nullAwareOperator = type.isNullable ? '?' : '';
+  final castCall =
+      '$nullAwareOperator.cast<${_flattenTypeArguments(typeArguments)}>()';
+  return '($valueWithTypeCast)$castCall';
 }
 
 /// Returns an argument name that can be used in a context where it is possible to collide.
@@ -3605,7 +3597,7 @@ String _getMethodParameterSignature(
   String getParameterString(Parameter p) {
     final required = p.isRequired && !p.isPositional ? 'required ' : '';
 
-    final String type = addGenericTypesNullable(p.type);
+    final String type = addGenericTypes(p.type);
 
     final defaultValue = p.defaultValue == null ? '' : ' = ${p.defaultValue}';
     return '$required$type ${p.name}$defaultValue';
@@ -3660,38 +3652,29 @@ String _flattenTypeArguments(List<TypeDeclaration> args) {
 
 /// Creates the type declaration for use in Dart code from a [NamedType] making sure
 /// that type arguments are used for primitive generic types.
-String _addGenericTypes(
+String addGenericTypes(
   TypeDeclaration type, {
   bool useJni = false,
   bool useFfi = false,
 }) {
   final List<TypeDeclaration> typeArguments = type.typeArguments;
-  switch (type.baseName) {
-    case 'List':
-      return typeArguments.isEmpty
+  final String genericType = switch (type.baseName) {
+    'List' =>
+      typeArguments.isEmpty
           ? 'List<Object?>'
-          : 'List<${_flattenTypeArguments(typeArguments)}>';
-    case 'Map':
-      return typeArguments.isEmpty
+          : 'List<${_flattenTypeArguments(typeArguments)}>',
+    'Map' =>
+      typeArguments.isEmpty
           ? 'Map<Object?, Object?>'
-          : 'Map<${_flattenTypeArguments(typeArguments)}>';
-    default:
-      if (useJni) {
-        return _JniType.fromTypeDeclaration(type).jniName;
-      }
-      if (useFfi) {
-        return _FfiType.fromTypeDeclaration(type).ffiName;
-      } else {
-        return type.baseName;
-      }
-  }
-}
-
-/// Converts the type signature of a [TypeDeclaration] that include generic
-/// types.
-String addGenericTypesNullable(TypeDeclaration type, {bool useJni = false}) {
-  final String genericType = _addGenericTypes(type, useJni: useJni);
-  return '$genericType${_getNullableSymbol(type.isNullable)}';
+          : 'Map<${_flattenTypeArguments(typeArguments)}>',
+    _ =>
+      useJni
+          ? _JniType.fromTypeDeclaration(type).jniName
+          : useFfi
+          ? _FfiType.fromTypeDeclaration(type).ffiName
+          : type.baseName,
+  };
+  return type.isNullable ? '$genericType?' : genericType;
 }
 
 /// Converts [inputPath] to a posix absolute path.
