@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 import 'generated.dart';
 import 'src/generated/ni_tests.gen.dart';
-import 'ni_test_types.dart';
 
 void main() {
   runApp(const ExampleApp());

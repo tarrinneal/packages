@@ -21,3 +21,24 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+dependency_overrides:
+  ffi:
+    git:
+      url: https://github.com/dart-lang/native/
+      path: pkgs/ffi
+      ref: main
+  ffigen:
+    git:
+      url: https://github.com/dart-lang/native/
+      path: pkgs/ffigen
+      ref: main
+  objective_c:
+    git:
+      url: https://github.com/dart-lang/native/
+      path: pkgs/objective_c
+      ref: main
+  swift2objc:
+    git:
+      url: https://github.com/dart-lang/native/
+      path: pkgs/swift2objc
+      ref: main

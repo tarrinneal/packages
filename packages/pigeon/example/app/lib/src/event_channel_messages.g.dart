@@ -8,38 +8,8 @@
 
 import 'dart:async';
 import 'dart:typed_data' show Float64List, Int32List, Int64List;
-
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart' show immutable, protected, visibleForTesting;
-
-bool _deepEquals(Object? a, Object? b) {
-  if (a == b || identical(a, b)) {
-    return true;
-  }
-  if (a is List && b is List) {
-    if (a.length != b.length) {
-      return false;
-    }
-    for (int i = 0; i < a.length; i++) {
-      if (!_deepEquals(a[i], b[i])) {
-        return false;
-      }
-    }
-    return true;
-  }
-  if (a is Map && b is Map) {
-    if (a.length != b.length) {
-      return false;
-    }
-    for (final Object? key in a.keys) {
-      if (!b.containsKey(key) || !_deepEquals(a[key], b[key])) {
-        return false;
-      }
-    }
-    return true;
-  }
-  return false;
-}
 
 sealed class PlatformEvent {}
 

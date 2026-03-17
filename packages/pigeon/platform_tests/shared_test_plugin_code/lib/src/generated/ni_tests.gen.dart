@@ -10,15 +10,15 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io' show Platform;
-import 'dart:typed_data' show Float64List, Int32List, Int64List;
-
+import 'dart:typed_data'
+    show Float32List, Float64List, Int32List, Int64List, Int8List, TypedData;
 import 'package:ffi/ffi.dart';
 import 'package:flutter/services.dart';
 import 'package:jni/jni.dart';
+import 'package:meta/meta.dart' show immutable, protected, visibleForTesting;
 import 'package:objective_c/objective_c.dart';
 import './ni_tests.gen.ffi.dart' as ffi_bridge;
 import './ni_tests.gen.jni.dart' as jni_bridge;
-import 'package:meta/meta.dart' show immutable, protected, visibleForTesting;
 
 Object? _extractReplyValueOrThrow(
   List<Object?>? replyList,
@@ -124,24 +124,19 @@ class _PigeonJniCodec {
     } else if (value.isA<JDoubleArray>(JDoubleArray.type)) {
       final JDoubleArray array = value.as(JDoubleArray.type);
       return array.getRange(0, array.length);
-    } else if (value.isA<JList<JObject>>(JList.type<JObject>(JObject.type))) {
-      final JList<JObject?> list = (value.as(
-        JList.type<JObject?>(JObject.nullableType),
-      ));
+    } else if (value.isA<JList<JObject>>(JList.type as JType<JList<JObject>>)) {
+      final List<JObject?> list = value.as(JList.type).asDart();
       final res = <Object?>[];
-      for (int i = 0; i < list.length; i++) {
+      // Cache the length before iterating to avoid a JNI hop per iteration.
+      final int len = list.length;
+      for (int i = 0; i < len; i++) {
         res.add(readValue(list[i]));
       }
       return res;
     } else if (value.isA<JMap<JObject, JObject>>(
-      JMap.type<JObject, JObject>(JObject.type, JObject.type),
+      JMap.type as JType<JMap<JObject, JObject>>,
     )) {
-      final JMap<JObject?, JObject?> map = (value.as(
-        JMap.type<JObject?, JObject?>(
-          JObject.nullableType,
-          JObject.nullableType,
-        ),
-      ));
+      final Map<JObject?, JObject?> map = value.as(JMap.type).asDart();
       final res = <Object?, Object?>{};
       for (final MapEntry<JObject?, JObject?> entry in map.entries) {
         res[readValue(entry.key)] = readValue(entry.value);
@@ -195,342 +190,271 @@ class _PigeonJniCodec {
       return JLong(value) as T;
     } else if (value is String) {
       return JString.fromString(value) as T;
-    } else if (isTypeOrNullableType<JByteArray>(T)) {
-      value as List<int>;
+    } else if (value is Uint8List) {
       final JByteArray array = JByteArray(value.length);
-      array.setRange(0, value.length, value);
+      array.setRange(
+        0,
+        value.length,
+        Int8List.view(value.buffer, value.offsetInBytes, value.length),
+      );
       return array as T;
-    } else if (isTypeOrNullableType<JIntArray>(T)) {
-      value as List<int>;
+    } else if (value is Int32List) {
       final JIntArray array = JIntArray(value.length);
       array.setRange(0, value.length, value);
       return array as T;
-    } else if (isTypeOrNullableType<JLongArray>(T)) {
-      value as List<int>;
+    } else if (value is Int64List) {
       final JLongArray array = JLongArray(value.length);
       array.setRange(0, value.length, value);
       return array as T;
-    } else if (isTypeOrNullableType<JDoubleArray>(T)) {
-      value as List<double>;
+    } else if (value is Float64List) {
       final JDoubleArray array = JDoubleArray(value.length);
       array.setRange(0, value.length, value);
       return array as T;
-    } else if (isTypeOrNullableType<JList<JBoolean>>(T)) {
-      final res = JList<JBoolean>.array(JBoolean.type);
-      for (final bool entry in value as List<bool>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<JDouble>>(T)) {
-      final res = JList<JDouble>.array(JDouble.type);
-      for (final double entry in value as List<double>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<JLong>>(T)) {
-      final res = JList<JLong>.array(JLong.type);
-      for (final int entry in value as List<int>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<JString>>(T)) {
-      final res = JList<JString>.array(JString.type);
-      for (final String entry in value as List<String>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<jni_bridge.NIAllNullableTypes>>(T)) {
-      final res = JList<jni_bridge.NIAllNullableTypes>.array(
-        jni_bridge.NIAllNullableTypes.type,
-      );
-      for (final NIAllNullableTypes entry
-          in value as List<NIAllNullableTypes>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<jni_bridge.NIAnEnum>>(T)) {
-      final res = JList<jni_bridge.NIAnEnum>.array(jni_bridge.NIAnEnum.type);
-      for (final NIAnEnum entry in value as List<NIAnEnum>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<
-      JList<jni_bridge.NIAllNullableTypesWithoutRecursion?>
-    >(T)) {
-      final res = JList<jni_bridge.NIAllNullableTypesWithoutRecursion?>.array(
-        jni_bridge.NIAllNullableTypesWithoutRecursion.nullableType,
-      );
-      for (final NIAllNullableTypesWithoutRecursion? entry
-          in value as List<NIAllNullableTypesWithoutRecursion?>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<jni_bridge.NIAllTypes?>>(T)) {
-      final res = JList<jni_bridge.NIAllTypes?>.array(
-        jni_bridge.NIAllTypes.nullableType,
-      );
-      for (final NIAllTypes? entry in value as List<NIAllTypes?>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<jni_bridge.NIAllNullableTypes?>>(T)) {
-      final res = JList<jni_bridge.NIAllNullableTypes?>.array(
-        jni_bridge.NIAllNullableTypes.nullableType,
-      );
-      for (final NIAllNullableTypes? entry
-          in value as List<NIAllNullableTypes?>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<jni_bridge.NIAnEnum?>>(T)) {
-      final res = JList<jni_bridge.NIAnEnum?>.array(
-        jni_bridge.NIAnEnum.nullableType,
-      );
-      for (final NIAnEnum? entry in value as List<NIAnEnum?>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<JBoolean?>>(T)) {
-      final res = JList<JBoolean?>.array(JBoolean.nullableType);
-      for (final bool? entry in value as List<bool?>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<JDouble?>>(T)) {
-      final res = JList<JDouble?>.array(JDouble.nullableType);
-      for (final double? entry in value as List<double?>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<JLong?>>(T)) {
-      final res = JList<JLong?>.array(JLong.nullableType);
-      for (final int? entry in value as List<int?>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<JString?>>(T)) {
-      final res = JList<JString?>.array(JString.nullableType);
-      for (final String? entry in value as List<String?>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<JList<JObject?>>>(T)) {
-      final res = JList<JList<JObject?>>.array(
-        JList.type(JObject.nullableType),
-      );
-      for (final List<Object?> entry in value as List<List<Object?>>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<JList<JObject?>?>>(T)) {
-      final res = JList<JList<JObject?>?>.array(
-        JList.nullableType(JObject.nullableType),
-      );
-      for (final List<Object?>? entry in value as List<List<Object?>?>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<JMap<JObject?, JObject?>>>(T)) {
-      final res = JList<JMap<JObject?, JObject?>>.array(
-        JMap.type(JObject.nullableType, JObject.nullableType),
-      );
-      for (final Map<Object?, Object?> entry
-          in value as List<Map<Object?, Object?>>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JList<JMap<JObject?, JObject?>?>>(T)) {
-      final res = JList<JMap<JObject?, JObject?>?>.array(
-        JMap.nullableType(JObject.nullableType, JObject.nullableType),
-      );
-      for (final Map<Object?, Object?>? entry
-          in value as List<Map<Object?, Object?>?>) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
+    } else if (value is List<bool>) {
+      return value.map<JBoolean>((e) => writeValue<JBoolean>(e)).toJList() as T;
+    } else if (value is List<double>) {
+      return value.map<JDouble>((e) => writeValue<JDouble>(e)).toJList() as T;
+    } else if (value is List<int>) {
+      return value.map<JLong>((e) => writeValue<JLong>(e)).toJList() as T;
+    } else if (value is List<String>) {
+      return value.map<JString>((e) => writeValue<JString>(e)).toJList() as T;
+    } else if (value is List<NIAllNullableTypes>) {
+      return value
+              .map<jni_bridge.NIAllNullableTypes>(
+                (e) => writeValue<jni_bridge.NIAllNullableTypes>(e),
+              )
+              .toJList()
+          as T;
+    } else if (value is List<NIAnEnum>) {
+      return value
+              .map<jni_bridge.NIAnEnum>(
+                (e) => writeValue<jni_bridge.NIAnEnum>(e),
+              )
+              .toJList()
+          as T;
+    } else if (value is List<NIAllNullableTypesWithoutRecursion?>) {
+      return value
+              .map<jni_bridge.NIAllNullableTypesWithoutRecursion?>(
+                (e) =>
+                    writeValue<jni_bridge.NIAllNullableTypesWithoutRecursion?>(
+                      e,
+                    ),
+              )
+              .toJList()
+          as T;
+    } else if (value is List<NIAllTypes?>) {
+      return value
+              .map<jni_bridge.NIAllTypes?>(
+                (e) => writeValue<jni_bridge.NIAllTypes?>(e),
+              )
+              .toJList()
+          as T;
+    } else if (value is List<NIAllNullableTypes?>) {
+      return value
+              .map<jni_bridge.NIAllNullableTypes?>(
+                (e) => writeValue<jni_bridge.NIAllNullableTypes?>(e),
+              )
+              .toJList()
+          as T;
+    } else if (value is List<NIAnEnum?>) {
+      return value
+              .map<jni_bridge.NIAnEnum?>(
+                (e) => writeValue<jni_bridge.NIAnEnum?>(e),
+              )
+              .toJList()
+          as T;
+    } else if (value is List<bool?>) {
+      return value.map<JBoolean?>((e) => writeValue<JBoolean?>(e)).toJList()
+          as T;
+    } else if (value is List<double?>) {
+      return value.map<JDouble?>((e) => writeValue<JDouble?>(e)).toJList() as T;
+    } else if (value is List<int?>) {
+      return value.map<JLong?>((e) => writeValue<JLong?>(e)).toJList() as T;
+    } else if (value is List<String?>) {
+      return value.map<JString?>((e) => writeValue<JString?>(e)).toJList() as T;
+    } else if (value is List<List<Object?>>) {
+      return value
+              .map<JList<JObject?>>((e) => writeValue<JList<JObject?>>(e))
+              .toJList()
+          as T;
+    } else if (value is List<List<Object?>?>) {
+      return value
+              .map<JList<JObject?>?>((e) => writeValue<JList<JObject?>?>(e))
+              .toJList()
+          as T;
+    } else if (value is List<Map<Object?, Object?>>) {
+      return value
+              .map<JMap<JObject?, JObject?>>(
+                (e) => writeValue<JMap<JObject?, JObject?>>(e),
+              )
+              .toJList()
+          as T;
+    } else if (value is List<Map<Object?, Object?>?>) {
+      return value
+              .map<JMap<JObject?, JObject?>?>(
+                (e) => writeValue<JMap<JObject?, JObject?>?>(e),
+              )
+              .toJList()
+          as T;
     } else if (value is List<Object>) {
-      final res = JList<JObject>.array(JObject.type);
-      for (int i = 0; i < value.length; i++) {
-        res.add(writeValue(value[i]));
-      }
-      return res as T;
+      return value.map<JObject>((e) => writeValue<JObject>(e)).toJList() as T;
     } else if (value is List) {
-      final res = JList<JObject?>.array(JObject.nullableType);
-      for (int i = 0; i < value.length; i++) {
-        res.add(writeValue(value[i]));
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JMap<JLong, jni_bridge.NIAllNullableTypes>>(
-      T,
-    )) {
-      final res = JMap<JLong, jni_bridge.NIAllNullableTypes>.hash(
-        JLong.type,
-        jni_bridge.NIAllNullableTypes.type,
-      );
-      for (final MapEntry<int, NIAllNullableTypes> entry
-          in (value as Map<int, NIAllNullableTypes>).entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<
-      JMap<jni_bridge.NIAnEnum, jni_bridge.NIAnEnum>
-    >(T)) {
-      final res = JMap<jni_bridge.NIAnEnum, jni_bridge.NIAnEnum>.hash(
-        jni_bridge.NIAnEnum.type,
-        jni_bridge.NIAnEnum.type,
-      );
-      for (final MapEntry<NIAnEnum, NIAnEnum> entry
-          in (value as Map<NIAnEnum, NIAnEnum>).entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JMap<JLong, JLong>>(T)) {
-      final res = JMap<JLong, JLong>.hash(JLong.type, JLong.type);
-      for (final MapEntry<int, int> entry in (value as Map<int, int>).entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JMap<JString, JString>>(T)) {
-      final res = JMap<JString, JString>.hash(JString.type, JString.type);
-      for (final MapEntry<String, String> entry
-          in (value as Map<String, String>).entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<
-      JMap<JLong?, jni_bridge.NIAllNullableTypesWithoutRecursion?>
-    >(T)) {
-      final res =
-          JMap<JLong?, jni_bridge.NIAllNullableTypesWithoutRecursion?>.hash(
-            JLong.nullableType,
-            jni_bridge.NIAllNullableTypesWithoutRecursion.nullableType,
-          );
-      for (final MapEntry<int?, NIAllNullableTypesWithoutRecursion?> entry
-          in (value as Map<int?, NIAllNullableTypesWithoutRecursion?>)
-              .entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JMap<JLong?, jni_bridge.NIAllTypes?>>(T)) {
-      final res = JMap<JLong?, jni_bridge.NIAllTypes?>.hash(
-        JLong.nullableType,
-        jni_bridge.NIAllTypes.nullableType,
-      );
-      for (final MapEntry<int?, NIAllTypes?> entry
-          in (value as Map<int?, NIAllTypes?>).entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<
-      JMap<JLong?, jni_bridge.NIAllNullableTypes?>
-    >(T)) {
-      final res = JMap<JLong?, jni_bridge.NIAllNullableTypes?>.hash(
-        JLong.nullableType,
-        jni_bridge.NIAllNullableTypes.nullableType,
-      );
-      for (final MapEntry<int?, NIAllNullableTypes?> entry
-          in (value as Map<int?, NIAllNullableTypes?>).entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<
-      JMap<jni_bridge.NIAnEnum?, jni_bridge.NIAnEnum?>
-    >(T)) {
-      final res = JMap<jni_bridge.NIAnEnum?, jni_bridge.NIAnEnum?>.hash(
-        jni_bridge.NIAnEnum.nullableType,
-        jni_bridge.NIAnEnum.nullableType,
-      );
-      for (final MapEntry<NIAnEnum?, NIAnEnum?> entry
-          in (value as Map<NIAnEnum?, NIAnEnum?>).entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JMap<JLong?, JLong?>>(T)) {
-      final res = JMap<JLong?, JLong?>.hash(
-        JLong.nullableType,
-        JLong.nullableType,
-      );
-      for (final MapEntry<int?, int?> entry
-          in (value as Map<int?, int?>).entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JMap<JString?, JString?>>(T)) {
-      final res = JMap<JString?, JString?>.hash(
-        JString.nullableType,
-        JString.nullableType,
-      );
-      for (final MapEntry<String?, String?> entry
-          in (value as Map<String?, String?>).entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JMap<JLong, JList<JObject?>>>(T)) {
-      final res = JMap<JLong, JList<JObject?>>.hash(
-        JLong.type,
-        JList.type(JObject.nullableType),
-      );
-      for (final MapEntry<int, List<Object?>> entry
-          in (value as Map<int, List<Object?>>).entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JMap<JLong?, JList<JObject?>?>>(T)) {
-      final res = JMap<JLong?, JList<JObject?>?>.hash(
-        JLong.nullableType,
-        JList.nullableType(JObject.nullableType),
-      );
-      for (final MapEntry<int?, List<Object?>?> entry
-          in (value as Map<int?, List<Object?>?>).entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JMap<JLong, JMap<JObject?, JObject?>>>(T)) {
-      final res = JMap<JLong, JMap<JObject?, JObject?>>.hash(
-        JLong.type,
-        JMap.type(JObject.nullableType, JObject.nullableType),
-      );
-      for (final MapEntry<int, Map<Object?, Object?>> entry
-          in (value as Map<int, Map<Object?, Object?>>).entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
-    } else if (isTypeOrNullableType<JMap<JLong?, JMap<JObject?, JObject?>?>>(
-      T,
-    )) {
-      final res = JMap<JLong?, JMap<JObject?, JObject?>?>.hash(
-        JLong.nullableType,
-        JMap.nullableType(JObject.nullableType, JObject.nullableType),
-      );
-      for (final MapEntry<int?, Map<Object?, Object?>?> entry
-          in (value as Map<int?, Map<Object?, Object?>?>).entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
+      return value.map<JObject?>((e) => writeValue<JObject?>(e)).toJList() as T;
+    } else if (value is Map<int, NIAllNullableTypes>) {
+      return value
+              .map<JLong, jni_bridge.NIAllNullableTypes>(
+                (k, v) => MapEntry(
+                  writeValue<JLong>(k),
+                  writeValue<jni_bridge.NIAllNullableTypes>(v),
+                ),
+              )
+              .toJMap()
+          as T;
+    } else if (value is Map<NIAnEnum, NIAnEnum>) {
+      return value
+              .map<jni_bridge.NIAnEnum, jni_bridge.NIAnEnum>(
+                (k, v) => MapEntry(
+                  writeValue<jni_bridge.NIAnEnum>(k),
+                  writeValue<jni_bridge.NIAnEnum>(v),
+                ),
+              )
+              .toJMap()
+          as T;
+    } else if (value is Map<int, int>) {
+      return value
+              .map<JLong, JLong>(
+                (k, v) => MapEntry(writeValue<JLong>(k), writeValue<JLong>(v)),
+              )
+              .toJMap()
+          as T;
+    } else if (value is Map<String, String>) {
+      return value
+              .map<JString, JString>(
+                (k, v) =>
+                    MapEntry(writeValue<JString>(k), writeValue<JString>(v)),
+              )
+              .toJMap()
+          as T;
+    } else if (value is Map<int?, NIAllNullableTypesWithoutRecursion?>) {
+      return value
+              .map<JLong?, jni_bridge.NIAllNullableTypesWithoutRecursion?>(
+                (k, v) => MapEntry(
+                  writeValue<JLong?>(k),
+                  writeValue<jni_bridge.NIAllNullableTypesWithoutRecursion?>(v),
+                ),
+              )
+              .toJMap()
+          as T;
+    } else if (value is Map<int?, NIAllTypes?>) {
+      return value
+              .map<JLong?, jni_bridge.NIAllTypes?>(
+                (k, v) => MapEntry(
+                  writeValue<JLong?>(k),
+                  writeValue<jni_bridge.NIAllTypes?>(v),
+                ),
+              )
+              .toJMap()
+          as T;
+    } else if (value is Map<int?, NIAllNullableTypes?>) {
+      return value
+              .map<JLong?, jni_bridge.NIAllNullableTypes?>(
+                (k, v) => MapEntry(
+                  writeValue<JLong?>(k),
+                  writeValue<jni_bridge.NIAllNullableTypes?>(v),
+                ),
+              )
+              .toJMap()
+          as T;
+    } else if (value is Map<NIAnEnum?, NIAnEnum?>) {
+      return value
+              .map<jni_bridge.NIAnEnum?, jni_bridge.NIAnEnum?>(
+                (k, v) => MapEntry(
+                  writeValue<jni_bridge.NIAnEnum?>(k),
+                  writeValue<jni_bridge.NIAnEnum?>(v),
+                ),
+              )
+              .toJMap()
+          as T;
+    } else if (value is Map<int?, int?>) {
+      return value
+              .map<JLong?, JLong?>(
+                (k, v) =>
+                    MapEntry(writeValue<JLong?>(k), writeValue<JLong?>(v)),
+              )
+              .toJMap()
+          as T;
+    } else if (value is Map<String?, String?>) {
+      return value
+              .map<JString?, JString?>(
+                (k, v) =>
+                    MapEntry(writeValue<JString?>(k), writeValue<JString?>(v)),
+              )
+              .toJMap()
+          as T;
+    } else if (value is Map<int, List<Object?>>) {
+      return value
+              .map<JLong, JList<JObject?>>(
+                (k, v) => MapEntry(
+                  writeValue<JLong>(k),
+                  writeValue<JList<JObject?>>(v),
+                ),
+              )
+              .toJMap()
+          as T;
+    } else if (value is Map<int?, List<Object?>?>) {
+      return value
+              .map<JLong?, JList<JObject?>?>(
+                (k, v) => MapEntry(
+                  writeValue<JLong?>(k),
+                  writeValue<JList<JObject?>?>(v),
+                ),
+              )
+              .toJMap()
+          as T;
+    } else if (value is Map<int, Map<Object?, Object?>>) {
+      return value
+              .map<JLong, JMap<JObject?, JObject?>>(
+                (k, v) => MapEntry(
+                  writeValue<JLong>(k),
+                  writeValue<JMap<JObject?, JObject?>>(v),
+                ),
+              )
+              .toJMap()
+          as T;
+    } else if (value is Map<int?, Map<Object?, Object?>?>) {
+      return value
+              .map<JLong?, JMap<JObject?, JObject?>?>(
+                (k, v) => MapEntry(
+                  writeValue<JLong?>(k),
+                  writeValue<JMap<JObject?, JObject?>?>(v),
+                ),
+              )
+              .toJMap()
+          as T;
     } else if (value is Map<Object, Object>) {
-      final res = JMap<JObject, JObject>.hash(JObject.type, JObject.type);
-      for (final MapEntry<Object, Object> entry in value.entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
+      return value
+              .map<JObject, JObject>(
+                (k, v) =>
+                    MapEntry(writeValue<JObject>(k), writeValue<JObject>(v)),
+              )
+              .toJMap()
+          as T;
     } else if (value is Map<Object, Object?>) {
-      final res = JMap<JObject, JObject?>.hash(
-        JObject.type,
-        JObject.nullableType,
-      );
-      for (final MapEntry<Object, Object?> entry in value.entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
+      return value
+              .map<JObject, JObject?>(
+                (k, v) =>
+                    MapEntry(writeValue<JObject>(k), writeValue<JObject?>(v)),
+              )
+              .toJMap()
+          as T;
     } else if (value is Map) {
-      final res = JMap<JObject, JObject?>.hash(
-        JObject.type,
-        JObject.nullableType,
-      );
-      for (final MapEntry<Object?, Object?> entry in value.entries) {
-        res[writeValue(entry.key)] = writeValue(entry.value);
-      }
-      return res as T;
+      return value
+              .map<JObject?, JObject?>(
+                (k, v) =>
+                    MapEntry(writeValue<JObject?>(k), writeValue<JObject?>(v)),
+              )
+              .toJMap()
+          as T;
     } else if (value is NIUnusedClass) {
       return value.toJni() as T;
     } else if (value is NIAllTypes) {
@@ -636,6 +560,7 @@ class _PigeonFfiCodec {
               ? convertToFfiNumberWrapper(value)
               : NSNumber.alloc().initWithDouble(value))
           as T;
+      // ignore: avoid_double_and_int_checks
     } else if (value is int) {
       return (generic
               ? convertToFfiNumberWrapper(value)
@@ -1157,10 +1082,10 @@ PlatformException _wrapFfiError(ffi_bridge.NiTestsError error) =>
           : error.details,
     );
 
-PlatformException _wrapJniException(JniException e) => PlatformException(
+PlatformException _wrapJniException(JThrowable e) => PlatformException(
   code: 'PlatformException',
   message: e.message,
-  stacktrace: e.stackTrace,
+  stacktrace: e.javaStackTrace,
 );
 
 enum NIAnEnum {
@@ -3131,7 +3056,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3157,7 +3082,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3177,7 +3102,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3194,7 +3119,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3214,7 +3139,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3235,7 +3160,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3256,7 +3181,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3277,7 +3202,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3302,7 +3227,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3332,7 +3257,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3362,7 +3287,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3392,7 +3317,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3422,7 +3347,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3447,7 +3372,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3474,7 +3399,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3501,7 +3426,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3529,7 +3454,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3557,7 +3482,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3585,7 +3510,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3614,7 +3539,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3645,7 +3570,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3673,7 +3598,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3707,7 +3632,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3736,7 +3661,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3765,7 +3690,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3794,7 +3719,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3827,7 +3752,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3861,7 +3786,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3890,7 +3815,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3919,7 +3844,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3952,7 +3877,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -3986,7 +3911,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4013,7 +3938,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4037,7 +3962,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4063,7 +3988,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4088,7 +4013,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4109,7 +4034,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4130,7 +4055,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4156,7 +4081,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4187,7 +4112,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4212,7 +4137,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4243,7 +4168,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4280,7 +4205,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4319,7 +4244,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4344,7 +4269,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4369,7 +4294,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4394,7 +4319,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4419,7 +4344,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4449,7 +4374,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4479,7 +4404,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4509,7 +4434,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4539,7 +4464,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4564,7 +4489,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4591,7 +4516,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4620,7 +4545,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4654,7 +4579,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4684,7 +4609,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4718,7 +4643,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4747,7 +4672,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4778,7 +4703,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4807,7 +4732,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4842,7 +4767,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4876,7 +4801,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4909,7 +4834,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4938,7 +4863,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -4973,7 +4898,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5008,7 +4933,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5034,7 +4959,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5060,7 +4985,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5085,7 +5010,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5111,7 +5036,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5137,7 +5062,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5168,7 +5093,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5199,7 +5124,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5230,7 +5155,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5263,7 +5188,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5300,7 +5225,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5337,7 +5262,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5374,7 +5299,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5411,7 +5336,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5444,7 +5369,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5481,7 +5406,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5520,7 +5445,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5564,7 +5489,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5603,7 +5528,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5644,7 +5569,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5684,7 +5609,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5729,7 +5654,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5774,7 +5699,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5809,7 +5734,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5845,7 +5770,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5875,7 +5800,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5901,7 +5826,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5931,7 +5856,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -5965,7 +5890,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6003,7 +5928,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6046,7 +5971,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6079,7 +6004,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6112,7 +6037,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6145,7 +6070,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6178,7 +6103,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6215,7 +6140,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6252,7 +6177,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6289,7 +6214,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6328,7 +6253,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6361,7 +6286,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6398,7 +6323,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6442,7 +6367,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6486,7 +6411,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6528,7 +6453,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6570,7 +6495,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6612,7 +6537,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6657,7 +6582,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6702,7 +6627,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6737,7 +6662,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6776,7 +6701,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6793,7 +6718,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6815,7 +6740,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6832,7 +6757,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6858,7 +6783,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6887,7 +6812,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6924,7 +6849,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6956,7 +6881,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -6996,7 +6921,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7017,7 +6942,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7038,7 +6963,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7059,7 +6984,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7084,7 +7009,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7112,7 +7037,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7140,7 +7065,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7168,7 +7093,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7196,7 +7121,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7223,7 +7148,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7252,7 +7177,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7286,7 +7211,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7315,7 +7240,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7350,7 +7275,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7379,7 +7304,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7410,7 +7335,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7439,7 +7364,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7474,7 +7399,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7508,7 +7433,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7541,7 +7466,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7571,7 +7496,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7607,7 +7532,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7642,7 +7567,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7668,7 +7593,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7694,7 +7619,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7719,7 +7644,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7744,7 +7669,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7769,7 +7694,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7794,7 +7719,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7822,7 +7747,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7850,7 +7775,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7878,7 +7803,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7906,7 +7831,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7933,7 +7858,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -7966,7 +7891,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8001,7 +7926,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8034,7 +7959,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8069,7 +7994,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8101,7 +8026,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8134,7 +8059,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8164,7 +8089,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8200,7 +8125,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8235,7 +8160,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8268,7 +8193,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8299,7 +8224,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8335,7 +8260,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8370,7 +8295,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8396,7 +8321,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8426,7 +8351,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8452,7 +8377,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8487,7 +8412,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8525,7 +8450,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8568,7 +8493,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8599,7 +8524,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8630,7 +8555,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8661,7 +8586,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8694,7 +8619,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8731,7 +8656,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8768,7 +8693,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8805,7 +8730,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8842,7 +8767,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8875,7 +8800,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8912,7 +8837,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8954,7 +8879,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -8998,7 +8923,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9038,7 +8963,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9082,7 +9007,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9124,7 +9049,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9166,7 +9091,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9209,7 +9134,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9254,7 +9179,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9299,7 +9224,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9334,7 +9259,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9371,7 +9296,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9404,7 +9329,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9437,7 +9362,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9470,7 +9395,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9503,7 +9428,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9543,7 +9468,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9583,7 +9508,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9623,7 +9548,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9663,7 +9588,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9693,7 +9618,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9726,7 +9651,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9766,7 +9691,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9810,7 +9735,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9854,7 +9779,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9896,7 +9821,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9941,7 +9866,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -9983,7 +9908,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -10025,7 +9950,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -10068,7 +9993,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -10113,7 +10038,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -10158,7 +10083,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -10194,7 +10119,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -10233,7 +10158,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -10253,7 +10178,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }
@@ -10283,7 +10208,7 @@ class NIHostIntegrationCoreApiForNativeInterop {
       } else {
         throw Exception('No JNI or FFI api available');
       }
-    } on JniException catch (e) {
+    } on JThrowable catch (e) {
       throw _wrapJniException(e);
     }
   }

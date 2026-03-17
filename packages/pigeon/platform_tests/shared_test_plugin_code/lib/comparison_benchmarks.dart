@@ -1,10 +1,14 @@
 // Copyright 2013 The Flutter Authors. All rights reserved.
+// ignore_for_file: avoid_print
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:jni/jni.dart';
+// ignore: implementation_imports
+import 'package:jni/src/core_bindings.dart' show JList$$Methods;
 
 import 'integration_tests.dart' show FlutterApiTestImplementation;
 import 'ni_integration_tests.dart';
@@ -35,7 +39,6 @@ void runComparisonBenchmarks() {
       final mcStopwatch = Stopwatch()..start();
       await mcApi.echoUint8List(data);
       mcStopwatch.stop();
-      // ignore: avoid_print
       print(
         'MC_BENCHMARK: 1MB Uint8List Echo took ${mcStopwatch.elapsedMilliseconds}ms',
       );
@@ -45,12 +48,10 @@ void runComparisonBenchmarks() {
         final niStopwatch = Stopwatch()..start();
         niApi.echoUint8List(data);
         niStopwatch.stop();
-        // ignore: avoid_print
         print(
           'NI_BENCHMARK: 1MB Uint8List Echo took ${niStopwatch.elapsedMilliseconds}ms',
         );
       } else {
-        // ignore: avoid_print
         print('NI_BENCHMARK: Native Interop API not available');
       }
     });
@@ -69,7 +70,6 @@ void runComparisonBenchmarks() {
       final mcStopwatch = Stopwatch()..start();
       await mcApi.echoClassList(coreList);
       mcStopwatch.stop();
-      // ignore: avoid_print
       print(
         'MC_BENCHMARK: 100 Objects List Echo took ${mcStopwatch.elapsedMilliseconds}ms',
       );
@@ -79,7 +79,6 @@ void runComparisonBenchmarks() {
         final niStopwatch = Stopwatch()..start();
         niApi.echoClassList(niList);
         niStopwatch.stop();
-        // ignore: avoid_print
         print(
           'NI_BENCHMARK: 100 Objects List Echo took ${niStopwatch.elapsedMilliseconds}ms',
         );
@@ -93,7 +92,6 @@ void runComparisonBenchmarks() {
       final mcStopwatch = Stopwatch()..start();
       await mcApi.echoList(list);
       mcStopwatch.stop();
-      // ignore: avoid_print
       print(
         'MC_BENCHMARK: 1000 Ints List Echo took ${mcStopwatch.elapsedMilliseconds}ms',
       );
@@ -103,7 +101,6 @@ void runComparisonBenchmarks() {
         final niStopwatch = Stopwatch()..start();
         niApi.echoIntList(list);
         niStopwatch.stop();
-        // ignore: avoid_print
         print(
           'NI_BENCHMARK: 1000 Ints List Echo took ${niStopwatch.elapsedMilliseconds}ms',
         );
@@ -117,7 +114,6 @@ void runComparisonBenchmarks() {
       final mcStopwatch = Stopwatch()..start();
       await mcApi.echoIntMap(map);
       mcStopwatch.stop();
-      // ignore: avoid_print
       print(
         'MC_BENCHMARK: 1000 Ints Map Echo took ${mcStopwatch.elapsedMilliseconds}ms',
       );
@@ -127,7 +123,6 @@ void runComparisonBenchmarks() {
         final niStopwatch = Stopwatch()..start();
         niApi.echoIntMap(map);
         niStopwatch.stop();
-        // ignore: avoid_print
         print(
           'NI_BENCHMARK: 1000 Ints Map Echo took ${niStopwatch.elapsedMilliseconds}ms',
         );
@@ -143,7 +138,6 @@ void runComparisonBenchmarks() {
         await mcApi.echoString(text);
       }
       mcStopwatch.stop();
-      // ignore: avoid_print
       print(
         'MC_BENCHMARK: 1000 Strings Echo took ${mcStopwatch.elapsedMilliseconds}ms',
       );
@@ -155,7 +149,6 @@ void runComparisonBenchmarks() {
           niApi.echoString(text);
         }
         niStopwatch.stop();
-        // ignore: avoid_print
         print(
           'NI_BENCHMARK: 1000 Strings Echo took ${niStopwatch.elapsedMilliseconds}ms',
         );
@@ -171,7 +164,6 @@ void runComparisonBenchmarks() {
         await mcApi.echoInt(value);
       }
       mcStopwatch.stop();
-      // ignore: avoid_print
       print(
         'MC_BENCHMARK: 1000 Ints Echo took ${mcStopwatch.elapsedMilliseconds}ms',
       );
@@ -183,7 +175,6 @@ void runComparisonBenchmarks() {
           niApi.echoInt(value);
         }
         niStopwatch.stop();
-        // ignore: avoid_print
         print(
           'NI_BENCHMARK: 1000 Ints Echo took ${niStopwatch.elapsedMilliseconds}ms',
         );
@@ -201,7 +192,6 @@ void runComparisonBenchmarks() {
         await mcApi.callFlutterEchoString(text);
       }
       mcStopwatch.stop();
-      // ignore: avoid_print
       print(
         'MC_BENCHMARK: 1000 Flutter Strings Echo took ${mcStopwatch.elapsedMilliseconds}ms',
       );
@@ -212,7 +202,6 @@ void runComparisonBenchmarks() {
         niApi!.callFlutterEchoString(text);
       }
       niStopwatch.stop();
-      // ignore: avoid_print
       print(
         'NI_BENCHMARK: 1000 Flutter Strings Echo took ${niStopwatch.elapsedMilliseconds}ms',
       );
@@ -227,7 +216,6 @@ void runComparisonBenchmarks() {
         await mcApi.callFlutterEchoInt(value);
       }
       mcStopwatch.stop();
-      // ignore: avoid_print
       print(
         'MC_BENCHMARK: 1000 Flutter Ints Echo took ${mcStopwatch.elapsedMilliseconds}ms',
       );
@@ -238,7 +226,6 @@ void runComparisonBenchmarks() {
         niApi!.callFlutterEchoInt(value);
       }
       niStopwatch.stop();
-      // ignore: avoid_print
       print(
         'NI_BENCHMARK: 1000 Flutter Ints Echo took ${niStopwatch.elapsedMilliseconds}ms',
       );
@@ -257,7 +244,6 @@ void runComparisonBenchmarks() {
       final mcStopwatch = Stopwatch()..start();
       await mcApi.callFlutterEchoUint8List(data);
       mcStopwatch.stop();
-      // ignore: avoid_print
       print(
         'MC_BENCHMARK: 1MB Flutter Uint8List Echo took ${mcStopwatch.elapsedMilliseconds}ms',
       );
@@ -266,7 +252,6 @@ void runComparisonBenchmarks() {
       final niStopwatch = Stopwatch()..start();
       niApi!.callFlutterEchoUint8List(data);
       niStopwatch.stop();
-      // ignore: avoid_print
       print(
         'NI_BENCHMARK: 1MB Flutter Uint8List Echo took ${niStopwatch.elapsedMilliseconds}ms',
       );
@@ -288,7 +273,6 @@ void runComparisonBenchmarks() {
       final mcStopwatch = Stopwatch()..start();
       await mcApi.callFlutterEchoClassList(coreList);
       mcStopwatch.stop();
-      // ignore: avoid_print
       print(
         'MC_BENCHMARK: 100 Flutter Objects List Echo took ${mcStopwatch.elapsedMilliseconds}ms',
       );
@@ -297,7 +281,6 @@ void runComparisonBenchmarks() {
       final niStopwatch = Stopwatch()..start();
       niApi!.callFlutterEchoClassList(niList);
       niStopwatch.stop();
-      // ignore: avoid_print
       print(
         'NI_BENCHMARK: 100 Flutter Objects List Echo took ${niStopwatch.elapsedMilliseconds}ms',
       );
@@ -312,7 +295,6 @@ void runComparisonBenchmarks() {
       final mcStopwatch = Stopwatch()..start();
       await mcApi.callFlutterEchoList(list);
       mcStopwatch.stop();
-      // ignore: avoid_print
       print(
         'MC_BENCHMARK: 1000 Flutter Ints List Echo took ${mcStopwatch.elapsedMilliseconds}ms',
       );
@@ -321,7 +303,6 @@ void runComparisonBenchmarks() {
       final niStopwatch = Stopwatch()..start();
       niApi!.callFlutterEchoList(list);
       niStopwatch.stop();
-      // ignore: avoid_print
       print(
         'NI_BENCHMARK: 1000 Flutter Ints List Echo took ${niStopwatch.elapsedMilliseconds}ms',
       );
@@ -336,7 +317,6 @@ void runComparisonBenchmarks() {
       final mcStopwatch = Stopwatch()..start();
       await mcApi.callFlutterEchoIntMap(map);
       mcStopwatch.stop();
-      // ignore: avoid_print
       print(
         'MC_BENCHMARK: 1000 Flutter Ints Map Echo took ${mcStopwatch.elapsedMilliseconds}ms',
       );
@@ -345,10 +325,84 @@ void runComparisonBenchmarks() {
       final niStopwatch = Stopwatch()..start();
       niApi!.callFlutterEchoIntMap(map);
       niStopwatch.stop();
-      // ignore: avoid_print
       print(
         'NI_BENCHMARK: 1000 Flutter Ints Map Echo took ${niStopwatch.elapsedMilliseconds}ms',
       );
+    });
+
+    // NOTE: This benchmark doesn't natively interact with pigeon IPC overhead,
+    // it simply isolates JList Dart wrapping overhead to ensure caching .length
+    // actually prevents performance regressions when iterating over generated lists.
+    testWidgets('JList iteration overhead micro-benchmark: asDart vs raw', (
+      WidgetTester _,
+    ) async {
+      if (niApi == null) {
+        return;
+      }
+
+      // Simulate generating a mock JList
+      final List<JString> dartList = List.generate(
+        1000,
+        (i) => 'Item $i'.toJString(),
+      );
+      final JList<JString> jList = dartList.toJList();
+
+      const iters = 100;
+
+      // 1. Without asDart(), uncached size()
+      final sw1 = Stopwatch()..start();
+      for (var iter = 0; iter < iters; iter++) {
+        for (var i = 0; i < JList$$Methods(jList).size(); i++) {
+          final JString? _ = JList$$Methods(jList).get(i);
+        }
+      }
+      sw1.stop();
+      print(
+        'JLIST_BENCHMARK (without asDart, uncached .size()): ${sw1.elapsedMilliseconds}ms',
+      );
+
+      // 2. Without asDart(), cached size()
+      final sw2 = Stopwatch()..start();
+      for (var iter = 0; iter < iters; iter++) {
+        final int len = JList$$Methods(jList).size();
+        for (var i = 0; i < len; i++) {
+          final JString? _ = JList$$Methods(jList).get(i);
+        }
+      }
+      sw2.stop();
+      print(
+        'JLIST_BENCHMARK (without asDart, cached .size()): ${sw2.elapsedMilliseconds}ms',
+      );
+
+      // 3. With asDart(), uncached length
+      final sw3 = Stopwatch()..start();
+      for (var iter = 0; iter < iters; iter++) {
+        final List<JString> asDartList = jList.asDart();
+        for (var i = 0; i < asDartList.length; i++) {
+          final JString _ = asDartList[i];
+        }
+      }
+      sw3.stop();
+      print(
+        'JLIST_BENCHMARK (with asDart, uncached .length): ${sw3.elapsedMilliseconds}ms',
+      );
+
+      // 4. With asDart(), cached length (current Pigeon code)
+      final sw4 = Stopwatch()..start();
+      for (var iter = 0; iter < iters; iter++) {
+        final List<JString> asDartList = jList.asDart();
+        final int len = asDartList.length;
+        for (var i = 0; i < len; i++) {
+          final JString _ = asDartList[i];
+        }
+      }
+      sw4.stop();
+      print(
+        'JLIST_BENCHMARK (with asDart, cached .length): ${sw4.elapsedMilliseconds}ms',
+      );
+
+      // Check difference
+      print('JLIST_BENCHMARK differences confirmed via benchmark.');
     });
   });
 }

@@ -894,7 +894,7 @@ if (wrapped == nil) {
   }
 
   /////////// THESE NEED TO BE RECONCILED
-  // TODO
+  // TODO(tarrinneal): Reconcile the following methods.
 
   String _varToObjc(
     String varName,
@@ -2604,7 +2604,7 @@ enum MyDataType: Int {
       _writeCreateConnectionError(generatorOptions, indent);
     }
     if (generatorOptions.useFfi) {
-      //TODO: add check for use of Object
+      // TODO(tarrinneal): add check for use of Object.
       _writeNumberWrapper(root, indent);
     }
 

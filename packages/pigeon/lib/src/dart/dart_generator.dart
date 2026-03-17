@@ -504,33 +504,11 @@ class _JniType {
     }
   }
 
-  String get jniTypeGetter {
-    return type.isNullable ? 'nullableType' : 'type';
-  }
-
   String get fullJniName {
     if (type.baseName == 'List' || type.baseName == 'Map') {
       return jniName + jniCollectionTypeAnnotations;
     }
     return jniName;
-  }
-
-  String get fullJniType {
-    if (type.baseName == 'List' || type.baseName == 'Map') {
-      return '$jniName.$jniTypeGetter($getJniCollectionTypeTypes)';
-    }
-    return '$jniName.$jniTypeGetter';
-  }
-
-  String get getJniCollectionTypeTypes {
-    if (type.baseName == 'List') {
-      return subTypeOne?.fullJniType ?? 'JObject.nullableType';
-    }
-    if (type.baseName == 'Map') {
-      return '${subTypeOne?.fullJniType ?? 'JObject.type'}, ${subTypeTwo?.fullJniType ?? 'JObject.nullableType'}';
-    }
-
-    return '$jniName.$jniTypeGetter';
   }
 
   bool get nonNullableNeedsUnwrapping {
@@ -831,16 +809,21 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
     if (generatorOptions.useFfi) {
       indent.writeln("import 'dart:ffi';");
     }
-    if (generatorOptions.useJni ||
-        generatorOptions.useFfi ||
-        root.containsProxyApi) {
+    if (usesNativeInterop(generatorOptions) || root.containsProxyApi) {
       indent.writeln("import 'dart:io' show Platform;");
     }
 
+    final typedDataClasses = <String>[
+      if (usesNativeInterop(generatorOptions)) 'Float32List',
+      'Float64List',
+      'Int32List',
+      'Int64List',
+      if (generatorOptions.useJni) 'Int8List',
+      if (usesNativeInterop(generatorOptions)) 'TypedData',
+    ];
     indent.writeln(
-      "import 'dart:typed_data' show Float64List, Int32List, Int64List;",
+      "import 'dart:typed_data' show ${typedDataClasses.join(', ')};",
     );
-    indent.newln();
     if (generatorOptions.useFfi) {
       indent.writeln("import 'package:ffi/ffi.dart';");
     }
@@ -854,6 +837,9 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
     if (generatorOptions.useJni) {
       indent.writeln("import 'package:jni/jni.dart';");
     }
+    indent.writeln(
+      "import 'package:meta/meta.dart' show immutable, protected, visibleForTesting;",
+    );
     if (generatorOptions.useFfi) {
       indent.writeln("import 'package:objective_c/objective_c.dart';");
 
@@ -868,9 +854,6 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
         "import './${path.withoutExtension(jniFileImportName)}.jni.dart' as jni_bridge;",
       );
     }
-    indent.writeln(
-      "import 'package:meta/meta.dart' show immutable, protected, visibleForTesting;",
-    );
   }
 
   @override
@@ -1655,7 +1638,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
   }) {
     indent.newln();
     addDocumentationComments(indent, api.documentationComments, docCommentSpec);
-    if (generatorOptions.useJni || generatorOptions.useFfi) {
+    if (usesNativeInterop(generatorOptions)) {
       _writeNIFlutterApi(
         generatorOptions,
         root,
@@ -1737,7 +1720,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
           );
         }
       });
-      if (generatorOptions.useJni || generatorOptions.useFfi) {
+      if (usesNativeInterop(generatorOptions)) {
         indent.format('''
               static ${api.name} implement(${api.name} api, {
                 String name = '',
@@ -1756,7 +1739,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
     Indent indent, {
     required String dartPackageName,
   }) {
-    if (generatorOptions.useJni || generatorOptions.useFfi) {
+    if (usesNativeInterop(generatorOptions)) {
       indent.writeln(
         "const String defaultInstanceName = 'PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u';",
       );
@@ -1896,7 +1879,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
                 );
               });
             }, addTrailingNewline: false);
-            indent.addScoped(' on JniException catch (e) {', '}', () {
+            indent.addScoped(' on JThrowable catch (e) {', '}', () {
               indent.writeln('throw _wrapJniException(e);');
             });
           },
@@ -1980,10 +1963,10 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
     }
     if (generatorOptions.useJni) {
       indent.format('''
-  PlatformException _wrapJniException(JniException e) => PlatformException(
+  PlatformException _wrapJniException(JThrowable e) => PlatformException(
     code: 'PlatformException',
     message: e.message,
-    stacktrace: e.stackTrace,
+    stacktrace: e.javaStackTrace,
   );
 ''');
     }
@@ -2044,7 +2027,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
     AstHostApi api, {
     required String dartPackageName,
   }) {
-    if (generatorOptions.useJni || generatorOptions.useFfi) {
+    if (usesNativeInterop(generatorOptions)) {
       _writeNativeInteropHostApi(
         generatorOptions,
         root,
@@ -2601,7 +2584,9 @@ ${api.name}({
         generatorOptions.testOut != null) {
       _writeWrapResponse(generatorOptions, root, indent);
     }
-    if (root.classes.isNotEmpty) {
+    if (root.classes.any(
+      (Class c) => c.fields.any((NamedType f) => isCollectionType(f.type)),
+    )) {
       _writeDeepEquals(indent);
     }
     if (root.containsProxyApi) {
@@ -2680,17 +2665,19 @@ class _PigeonJniCodec {
     } else if (value.isA<JDoubleArray>(JDoubleArray.type)) {
       final JDoubleArray array = value.as(JDoubleArray.type);
       return array.getRange(0, array.length);
-    } else if (value.isA<JList<JObject>>(JList.type<JObject>(JObject.type))) {
-      final JList<JObject?> list = (value.as(JList.type<JObject?>(JObject.nullableType)));
+    } else if (value.isA<JList<JObject>>(JList.type as JType<JList<JObject>>)) {
+      final List<JObject?> list = value.as(JList.type).asDart();
       final res = <Object?>[];
-      for (int i = 0; i < list.length; i++) {
+      // Cache the length before iterating to avoid a JNI hop per iteration.
+      final int len = list.length;
+      for (int i = 0; i < len; i++) {
         res.add(readValue(list[i]));
       }
       return res;
     } else if (value.isA<JMap<JObject, JObject>>(
-        JMap.type<JObject, JObject>(JObject.type, JObject.type))) {
-      final JMap<JObject?, JObject?> map =
-          (value.as(JMap.type<JObject?, JObject?>(JObject.nullableType, JObject.nullableType)));
+        JMap.type as JType<JMap<JObject, JObject>>)) {
+      final Map<JObject?, JObject?> map =
+          value.as(JMap.type).asDart();
       final res = <Object?, Object?>{};
       for (final MapEntry<JObject?, JObject?> entry in map.entries) {
         res[readValue(entry.key)] = readValue(entry.value);
@@ -2730,23 +2717,19 @@ class _PigeonJniCodec {
       return JLong(value) as T;
     } else if (value is String) {
       return JString.fromString(value) as T;
-    } else if (isTypeOrNullableType<JByteArray>(T)) {
-      value as List<int>;
+    } else if (value is Uint8List) {
       final JByteArray array = JByteArray(value.length);
-      array.setRange(0, value.length, value);
+      array.setRange(0, value.length, Int8List.view(value.buffer, value.offsetInBytes, value.length));
       return array as T;
-    } else if (isTypeOrNullableType<JIntArray>(T)) {
-      value as List<int>;
+    } else if (value is Int32List) {
       final JIntArray array = JIntArray(value.length);
       array.setRange(0, value.length, value);
       return array as T;
-    } else if (isTypeOrNullableType<JLongArray>(T)) {
-      value as List<int>;
+    } else if (value is Int64List) {
       final JLongArray array = JLongArray(value.length);
       array.setRange(0, value.length, value);
       return array as T;
-    } else if (isTypeOrNullableType<JDoubleArray>(T)) {
-      value as List<double>;
+    } else if (value is Float64List) {
       final JDoubleArray array = JDoubleArray(value.length);
       array.setRange(0, value.length, value);
       return array as T;
@@ -2756,67 +2739,44 @@ class _PigeonJniCodec {
       }
       final _JniType jniType = _JniType.fromTypeDeclaration(list);
       return '''
-    } else if (isTypeOrNullableType<${jniType.fullJniName}>(T)) {
-      final res =
-          ${jniType.fullJniName}.array(${jniType.subTypeOne?.fullJniType ?? 'JObject.nullableType'});
-      for (final ${jniType.dartCollectionTypes} entry in value as ${jniType.type.getFullName(withNullable: false)}) {
-        res.add(writeValue(entry));
-      }
-      return res as T;
+    } else if (value is ${jniType.type.getFullName(withNullable: false)}) {
+      return value
+          .map<${jniType.subTypeOne?.fullJniName ?? 'JObject'}${jniType.subTypeOne?.type.isNullable ?? true ? '?' : ''}>((e) => writeValue<${jniType.subTypeOne?.fullJniName ?? 'JObject'}${jniType.subTypeOne?.type.isNullable ?? true ? '?' : ''}>(e))
+          .toJList() as T;
         ''';
     }).join()}
     } else if (value is List<Object>) {
-      final res = JList<JObject>.array(JObject.type);
-      for (int i = 0; i < value.length; i++) {
-        res.add(writeValue(value[i]));
-      }
-      return res as T;
+      return value.map<JObject>((e) => writeValue<JObject>(e)).toJList() as T;
     } else if (value is List) {
-      final res = JList<JObject?>.array(JObject.nullableType);
-      for (int i = 0; i < value.length; i++) {
-        res.add(writeValue(value[i]));
-      }
-      return res as T;
+      return value.map<JObject?>((e) => writeValue<JObject?>(e)).toJList() as T;
     ${root.maps.entries.sorted((MapEntry<String, TypeDeclaration> a, MapEntry<String, TypeDeclaration> b) => sortByObjectCount(a.value, b.value)).map((MapEntry<String, TypeDeclaration> mapType) {
       if (mapType.value.typeArguments.isEmpty || (mapType.value.typeArguments.first.baseName == 'Object' && mapType.value.typeArguments.last.baseName == 'Object')) {
         return '';
       }
       final _JniType jniType = _JniType.fromTypeDeclaration(mapType.value);
       return '''
-    } else if (isTypeOrNullableType<${jniType.fullJniName}>(T)) {
-      final res =
-          ${jniType.fullJniName}.hash(${jniType.subTypeOne?.fullJniType ?? 'JObject.nullableType'}, ${jniType.subTypeTwo?.fullJniType ?? 'JObject.nullableType'});
-      for (final MapEntry${jniType.dartCollectionTypeAnnotations} entry in (value as ${jniType.type.getFullName(withNullable: false)}).entries) {
-        res[writeValue(entry.key)] = 
-            writeValue(entry.value);
-      }
-      return res as T;
+    } else if (value is ${jniType.type.getFullName(withNullable: false)}) {
+      return value
+          .map<${jniType.subTypeOne?.fullJniName ?? 'JObject'}${jniType.subTypeOne?.type.isNullable ?? true ? '?' : ''}, ${jniType.subTypeTwo?.fullJniName ?? 'JObject'}${jniType.subTypeTwo?.type.isNullable ?? true ? '?' : ''}>(
+              (k, v) => MapEntry(writeValue<${jniType.subTypeOne?.fullJniName ?? 'JObject'}${jniType.subTypeOne?.type.isNullable ?? true ? '?' : ''}>(k), writeValue<${jniType.subTypeTwo?.fullJniName ?? 'JObject'}${jniType.subTypeTwo?.type.isNullable ?? true ? '?' : ''}>(v)))
+          .toJMap() as T;
         ''';
     }).join()}
     } else if (value is Map<Object, Object>) {
-      final res =
-          JMap<JObject, JObject>.hash(JObject.type, JObject.type);
-      for (final MapEntry<Object, Object> entry in value.entries) {
-        res[writeValue(entry.key)] = 
-            writeValue(entry.value);
-      }
-      return res as T;
+      return value
+          .map<JObject, JObject>((k, v) =>
+              MapEntry(writeValue<JObject>(k), writeValue<JObject>(v)))
+          .toJMap() as T;
     } else if (value is Map<Object, Object?>) {
-      final res =
-          JMap<JObject, JObject?>.hash(JObject.type, JObject.nullableType);
-      for (final MapEntry<Object, Object?> entry in value.entries) {
-        res[writeValue(entry.key)] = 
-            writeValue(entry.value);
-      }
-      return res as T;
+      return value
+          .map<JObject, JObject?>((k, v) =>
+              MapEntry(writeValue<JObject>(k), writeValue<JObject?>(v)))
+          .toJMap() as T;
     } else if (value is Map) {
-      final res =
-          JMap<JObject, JObject?>.hash(JObject.type, JObject.nullableType);
-      for (final MapEntry<Object?, Object?> entry in value.entries) {
-        res[writeValue(entry.key)] = 
-            writeValue(entry.value);
-      }
-      return res as T;
+      return value
+          .map<JObject?, JObject?>((k, v) =>
+              MapEntry(writeValue<JObject?>(k), writeValue<JObject?>(v)))
+          .toJMap() as T;
     ${root.classes.map((Class dataClass) {
       final _JniType jniType = _JniType.fromClass(dataClass);
       return '''
@@ -2963,6 +2923,7 @@ class _PigeonFfiCodec {
       return (generic
           ? convertToFfiNumberWrapper(value)
           : NSNumber.alloc().initWithDouble(value)) as T;
+      // ignore: avoid_double_and_int_checks
     } else if (value is int) {
       return (generic
           ? convertToFfiNumberWrapper(value)

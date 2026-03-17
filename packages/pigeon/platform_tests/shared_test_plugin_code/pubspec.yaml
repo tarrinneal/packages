@@ -13,7 +13,7 @@ dependencies:
     git:
       url: https://github.com/dart-lang/native/
       path: pkgs/ffi
-      ref: 5dbae2be75529957312cf1f2bec68d87987a7154
+      ref: main
   flutter:
     sdk: flutter
   # These are normal dependencies rather than dev_dependencies because the
@@ -27,14 +27,14 @@ dependencies:
     git:
       url: https://github.com/dart-lang/native/
       path: pkgs/jni
-      ref: 5dbae2be75529957312cf1f2bec68d87987a7154
+      ref: main
   meta: ^1.17.0
   mockito: ^5.4.4
   objective_c: 
     git:
       url: https://github.com/dart-lang/native/
       path: pkgs/objective_c
-      ref: 5dbae2be75529957312cf1f2bec68d87987a7154
+      ref: main
 
 dev_dependencies:
   leak_tracker: any
@@ -44,19 +44,19 @@ dependency_overrides:
     git:
       url: https://github.com/dart-lang/native/
       path: pkgs/ffi
-      ref: 5dbae2be75529957312cf1f2bec68d87987a7154
+      ref: main
   ffigen: 
     git:
       url: https://github.com/dart-lang/native/
       path: pkgs/ffigen
-      ref: 5dbae2be75529957312cf1f2bec68d87987a7154
+      ref: main
   objective_c: 
     git:
       url: https://github.com/dart-lang/native/
       path: pkgs/objective_c
-      ref: 5dbae2be75529957312cf1f2bec68d87987a7154
+      ref: main
   swift2objc: 
     git:
       url: https://github.com/dart-lang/native/
       path: pkgs/swift2objc
-      ref: 5dbae2be75529957312cf1f2bec68d87987a7154
+      ref: main

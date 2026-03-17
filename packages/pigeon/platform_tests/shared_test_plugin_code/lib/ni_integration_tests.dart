@@ -812,7 +812,7 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
           NIHostIntegrationCoreApiForNativeInterop.getInstance();
 
       // This number corresponds with the default value of this method.
-      const double sentDouble = 3.14;
+      const sentDouble = 3.14;
       final double receivedDouble = api!.echoOptionalDefaultDouble();
       expect(receivedDouble, sentDouble);
     });
@@ -821,7 +821,7 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
       final NIHostIntegrationCoreApiForNativeInterop? api =
           NIHostIntegrationCoreApiForNativeInterop.getInstance();
 
-      const double sentDouble = 3.15;
+      const sentDouble = 3.15;
       final double receivedDouble = api!.echoOptionalDefaultDouble(sentDouble);
       expect(receivedDouble, sentDouble);
     });
@@ -830,7 +830,7 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
       final NIHostIntegrationCoreApiForNativeInterop? api =
           NIHostIntegrationCoreApiForNativeInterop.getInstance();
       // This string corresponds with the default value of this method.
-      const String sentString = 'default';
+      const sentString = 'default';
       final String receivedString = api!.echoNamedDefaultString();
       expect(receivedString, sentString);
     });
@@ -839,7 +839,7 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
       final NIHostIntegrationCoreApiForNativeInterop? api =
           NIHostIntegrationCoreApiForNativeInterop.getInstance();
       // This string corresponds with the default value of this method.
-      const String sentString = 'notDefault';
+      const sentString = 'notDefault';
       final String receivedString = api!.echoNamedDefaultString(
         aString: sentString,
       );
@@ -1314,7 +1314,7 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
     testWidgets('named nullable parameter', (WidgetTester _) async {
       final NIHostIntegrationCoreApiForNativeInterop? api =
           NIHostIntegrationCoreApiForNativeInterop.getInstance();
-      const String sentString = "I'm a computer";
+      const sentString = "I'm a computer";
       final String? receivedString = api!.echoNamedNullableString(
         aNullableString: sentString,
       );
