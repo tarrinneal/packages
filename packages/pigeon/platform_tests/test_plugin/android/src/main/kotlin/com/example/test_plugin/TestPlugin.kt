@@ -13,6 +13,7 @@ import NIAnotherEnum
 import NIFlutterIntegrationCoreApiRegistrar
 import NIHostIntegrationCoreApi
 import NIHostIntegrationCoreApiRegistrar
+import NiTestsError
 import android.os.Handler
 import android.os.Looper
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -920,7 +921,7 @@ class NIIntegrationTests : NIHostIntegrationCoreApi() {
   }
 
   override fun throwFlutterError(): Any? {
-    throw FlutterError("code", "message", "details")
+    throw NiTestsError("code", "message", "details")
   }
 
   override fun echoInt(anInt: Long): Long {
@@ -1317,7 +1318,7 @@ class NIIntegrationTests : NIHostIntegrationCoreApi() {
   }
 
   override suspend fun throwAsyncFlutterError(): Any? {
-    throw FlutterError("code", "message", "details")
+    throw NiTestsError("code", "message", "details")
   }
 
   override suspend fun echoAsyncNIAllTypes(everything: NIAllTypes): NIAllTypes {

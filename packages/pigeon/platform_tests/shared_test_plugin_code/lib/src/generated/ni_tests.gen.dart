@@ -1082,11 +1082,27 @@ PlatformException _wrapFfiError(ffi_bridge.NiTestsError error) =>
           : error.details,
     );
 
-PlatformException _wrapJniException(JThrowable e) => PlatformException(
-  code: 'PlatformException',
-  message: e.message,
-  stacktrace: e.javaStackTrace,
-);
+PlatformException _wrapJniException(JThrowable e) {
+  if (e.isA<jni_bridge.NiTestsError>(jni_bridge.NiTestsError.type)) {
+    final jni_bridge.NiTestsError pigeonError = e.as(
+      jni_bridge.NiTestsError.type,
+    );
+    return PlatformException(
+      code: pigeonError.getCode().toDartString(),
+      message: pigeonError.getMessage()?.toDartString(),
+      details: pigeonError.getDetails()?.isA<JString>(JString.type) ?? false
+          ? pigeonError.getDetails()!.as(JString.type).toDartString()
+          : pigeonError.getDetails(),
+      stacktrace: e.javaStackTrace,
+    );
+  }
+  return PlatformException(
+    code: 'PlatformException',
+    message: e.message,
+    details: e,
+    stacktrace: e.javaStackTrace,
+  );
+}
 
 enum NIAnEnum {
   one,

@@ -18,7 +18,7 @@ import 'src/generated/ni_tests.gen.dart' as ni;
 import 'test_types.dart' as core_types;
 
 /// Runs benchmarks comparing MethodChannel to Native Interop.
-void runComparisonBenchmarks() {
+void runComparisonBenchmarks(TargetGenerator targetGenerator) {
   group('Comparison Benchmarks (MethodChannel vs Native Interop)', () {
     final mcApi = core.HostIntegrationCoreApi();
     final ni.NIHostIntegrationCoreApiForNativeInterop? niApi =
@@ -330,79 +330,139 @@ void runComparisonBenchmarks() {
       );
     });
 
-    // NOTE: This benchmark doesn't natively interact with pigeon IPC overhead,
-    // it simply isolates JList Dart wrapping overhead to ensure caching .length
-    // actually prevents performance regressions when iterating over generated lists.
-    testWidgets('JList iteration overhead micro-benchmark: asDart vs raw', (
-      WidgetTester _,
-    ) async {
-      if (niApi == null) {
-        return;
-      }
-
-      // Simulate generating a mock JList
-      final List<JString> dartList = List.generate(
-        1000,
-        (i) => 'Item $i'.toJString(),
-      );
-      final JList<JString> jList = dartList.toJList();
-
-      const iters = 100;
-
-      // 1. Without asDart(), uncached size()
-      final sw1 = Stopwatch()..start();
-      for (var iter = 0; iter < iters; iter++) {
-        for (var i = 0; i < JList$$Methods(jList).size(); i++) {
-          final JString? _ = JList$$Methods(jList).get(i);
+    if (targetGenerator == TargetGenerator.kotlin) {
+      testWidgets('JList iteration overhead micro-benchmark: asDart vs raw', (
+        WidgetTester _,
+      ) async {
+        if (niApi == null) {
+          return;
         }
-      }
-      sw1.stop();
-      print(
-        'JLIST_BENCHMARK (without asDart, uncached .size()): ${sw1.elapsedMilliseconds}ms',
-      );
 
-      // 2. Without asDart(), cached size()
-      final sw2 = Stopwatch()..start();
-      for (var iter = 0; iter < iters; iter++) {
-        final int len = JList$$Methods(jList).size();
-        for (var i = 0; i < len; i++) {
-          final JString? _ = JList$$Methods(jList).get(i);
+        // Simulate generating a mock JList
+        final List<JString> dartList = List.generate(
+          1000,
+          (i) => 'Item $i'.toJString(),
+        );
+        final JList<JString> jList = dartList.toJList();
+
+        const iters = 100;
+
+        // 1. Without asDart(), uncached size()
+        final sw1 = Stopwatch()..start();
+        for (var iter = 0; iter < iters; iter++) {
+          for (var i = 0; i < JList$$Methods(jList).size(); i++) {
+            final JString? _ = JList$$Methods(jList).get(i);
+          }
         }
-      }
-      sw2.stop();
-      print(
-        'JLIST_BENCHMARK (without asDart, cached .size()): ${sw2.elapsedMilliseconds}ms',
-      );
+        sw1.stop();
+        print(
+          'JLIST_BENCHMARK (without asDart, uncached .size()): ${sw1.elapsedMilliseconds}ms',
+        );
 
-      // 3. With asDart(), uncached length
-      final sw3 = Stopwatch()..start();
-      for (var iter = 0; iter < iters; iter++) {
-        final List<JString> asDartList = jList.asDart();
-        for (var i = 0; i < asDartList.length; i++) {
-          final JString _ = asDartList[i];
+        // 2. Without asDart(), cached size()
+        final sw2 = Stopwatch()..start();
+        for (var iter = 0; iter < iters; iter++) {
+          final int len = JList$$Methods(jList).size();
+          for (var i = 0; i < len; i++) {
+            final JString? _ = JList$$Methods(jList).get(i);
+          }
         }
-      }
-      sw3.stop();
-      print(
-        'JLIST_BENCHMARK (with asDart, uncached .length): ${sw3.elapsedMilliseconds}ms',
-      );
+        sw2.stop();
+        print(
+          'JLIST_BENCHMARK (without asDart, cached .size()): ${sw2.elapsedMilliseconds}ms',
+        );
 
-      // 4. With asDart(), cached length (current Pigeon code)
-      final sw4 = Stopwatch()..start();
-      for (var iter = 0; iter < iters; iter++) {
-        final List<JString> asDartList = jList.asDart();
-        final int len = asDartList.length;
-        for (var i = 0; i < len; i++) {
-          final JString _ = asDartList[i];
+        // 3. With asDart(), uncached length
+        final sw3 = Stopwatch()..start();
+        for (var iter = 0; iter < iters; iter++) {
+          final List<JString> asDartList = jList.asDart();
+          for (var i = 0; i < asDartList.length; i++) {
+            final JString _ = asDartList[i];
+          }
         }
-      }
-      sw4.stop();
-      print(
-        'JLIST_BENCHMARK (with asDart, cached .length): ${sw4.elapsedMilliseconds}ms',
-      );
+        sw3.stop();
+        print(
+          'JLIST_BENCHMARK (with asDart, uncached .length): ${sw3.elapsedMilliseconds}ms',
+        );
 
-      // Check difference
-      print('JLIST_BENCHMARK differences confirmed via benchmark.');
-    });
+        // 4. With asDart(), cached length (current Pigeon code)
+        final sw4 = Stopwatch()..start();
+        for (var iter = 0; iter < iters; iter++) {
+          final List<JString> asDartList = jList.asDart();
+          final int len = asDartList.length;
+          for (var i = 0; i < len; i++) {
+            final JString _ = asDartList[i];
+          }
+        }
+        sw4.stop();
+        print(
+          'JLIST_BENCHMARK (with asDart, cached .length): ${sw4.elapsedMilliseconds}ms',
+        );
+
+        // Check difference
+        print('JLIST_BENCHMARK differences confirmed via benchmark.');
+      });
+    }
+
+    if (targetGenerator == TargetGenerator.swift ||
+        targetGenerator == TargetGenerator.objc) {
+      testWidgets(
+        'FFI list casting overhead micro-benchmark: cast() vs List.from() vs map()',
+        (WidgetTester _) async {
+          if (niApi == null) {
+            return;
+          }
+
+          // Simulate a decoded FFI NSArray which arrives as List<Object?> via StandardMessageCodec
+          final ffiList = List<Object?>.generate(1000, (i) => 'Item $i');
+
+          const iters = 100;
+
+          // 1. .cast<String>() iteration (What Pigeon currently uses for FFI)
+          final sw1 = Stopwatch()..start();
+          for (var iter = 0; iter < iters; iter++) {
+            final List<String> castList = ffiList.cast<String>();
+            final int len = castList.length;
+            for (var i = 0; i < len; i++) {
+              final String _ = castList[i];
+            }
+          }
+          sw1.stop();
+          print(
+            'FFI_BENCHMARK (cast<T>() iteration): ${sw1.elapsedMilliseconds}ms',
+          );
+
+          // 2. List.from() iteration
+          final sw2 = Stopwatch()..start();
+          for (var iter = 0; iter < iters; iter++) {
+            final fromList = List<String>.from(ffiList);
+            final int len = fromList.length;
+            for (var i = 0; i < len; i++) {
+              final String _ = fromList[i];
+            }
+          }
+          sw2.stop();
+          print(
+            'FFI_BENCHMARK (List.from() iteration): ${sw2.elapsedMilliseconds}ms',
+          );
+
+          // 3. .map().toList() iteration
+          final sw3 = Stopwatch()..start();
+          for (var iter = 0; iter < iters; iter++) {
+            final List<String> mapList = ffiList
+                .map((e) => e! as String)
+                .toList();
+            final int len = mapList.length;
+            for (var i = 0; i < len; i++) {
+              final String _ = mapList[i];
+            }
+          }
+          sw3.stop();
+          print(
+            'FFI_BENCHMARK (.map().toList() iteration): ${sw3.elapsedMilliseconds}ms',
+          );
+        },
+      );
+    }
   });
 }

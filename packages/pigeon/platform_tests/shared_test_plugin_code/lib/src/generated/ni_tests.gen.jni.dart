@@ -36,6 +36,222 @@ import 'dart:core' show Object, String, double, int;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+/// from: `NiTestsError`
+extension type NiTestsError._(jni$_.JObject _$this) implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'NiTestsError');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<NiTestsError> type = $NiTestsError$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V',
+  );
+
+  static final _new$ =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                  )
+                >,
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public void <init>(java.lang.String string, java.lang.String string1, java.lang.Object object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory NiTestsError(
+    jni$_.JString string,
+    jni$_.JString? string1,
+    jni$_.JObject? object,
+  ) {
+    final _$string = string.reference;
+    final _$string1 = string1?.reference ?? jni$_.jNullReference;
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _new$(
+      _class.reference.pointer,
+      _id_new$.pointer,
+      _$string.pointer,
+      _$string1.pointer,
+      _$object.pointer,
+    ).object<NiTestsError>();
+  }
+
+  static final _id_new$1 = _class.constructorId(
+    r'(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;ILkotlin/jvm/internal/DefaultConstructorMarker;)V',
+  );
+
+  static final _new$1 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Int32,
+                    jni$_.Pointer<jni$_.Void>,
+                  )
+                >,
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              int,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `synthetic public void <init>(java.lang.String string, java.lang.String string1, java.lang.Object object, int i, kotlin.jvm.internal.DefaultConstructorMarker defaultConstructorMarker)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory NiTestsError.new$1(
+    jni$_.JString? string,
+    jni$_.JString? string1,
+    jni$_.JObject? object,
+    int i,
+    jni$_.JObject? defaultConstructorMarker,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$string1 = string1?.reference ?? jni$_.jNullReference;
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$defaultConstructorMarker =
+        defaultConstructorMarker?.reference ?? jni$_.jNullReference;
+    return _new$1(
+      _class.reference.pointer,
+      _id_new$1.pointer,
+      _$string.pointer,
+      _$string1.pointer,
+      _$object.pointer,
+      i,
+      _$defaultConstructorMarker.pointer,
+    ).object<NiTestsError>();
+  }
+}
+
+extension NiTestsError$$Methods on NiTestsError {
+  static final _id_getCode = NiTestsError._class.instanceMethodId(
+    r'getCode',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _getCode =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
+
+  /// from: `public final java.lang.String getCode()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString getCode() {
+    return _getCode(
+      reference.pointer,
+      _id_getCode.pointer,
+    ).object<jni$_.JString>();
+  }
+
+  static final _id_getMessage = NiTestsError._class.instanceMethodId(
+    r'getMessage',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _getMessage =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
+
+  /// from: `public java.lang.String getMessage()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? getMessage() {
+    return _getMessage(
+      reference.pointer,
+      _id_getMessage.pointer,
+    ).object<jni$_.JString?>();
+  }
+
+  static final _id_getDetails = NiTestsError._class.instanceMethodId(
+    r'getDetails',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _getDetails =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
+
+  /// from: `public final java.lang.Object getDetails()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? getDetails() {
+    return _getDetails(
+      reference.pointer,
+      _id_getDetails.pointer,
+    ).object<jni$_.JObject?>();
+  }
+}
+
+final class $NiTestsError$Type$ extends jni$_.JType<NiTestsError> {
+  @jni$_.internal
+  const $NiTestsError$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'LNiTestsError;';
+}
+
 /// from: `NIHostIntegrationCoreApi`
 extension type NIHostIntegrationCoreApi._(jni$_.JObject _$this)
     implements jni$_.JObject {

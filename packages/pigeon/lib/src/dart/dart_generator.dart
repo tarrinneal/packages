@@ -720,6 +720,7 @@ class InternalDartOptions extends InternalOptions {
     this.useJni = false,
     this.useFfi = false,
     this.ffiErrorClassName,
+    this.jniErrorClassName,
     required bool ignoreLints,
   }) : _ignoreLints = ignoreLints;
 
@@ -732,6 +733,7 @@ class InternalDartOptions extends InternalOptions {
     required this.useJni,
     required this.useFfi,
     this.ffiErrorClassName,
+    this.jniErrorClassName,
   }) : copyrightHeader = copyrightHeader ?? options.copyrightHeader,
        dartOut = (dartOut ?? options.sourceOutPath)!,
        testOut = testOut ?? options.testOutPath,
@@ -754,6 +756,9 @@ class InternalDartOptions extends InternalOptions {
 
   /// The error class name used for FFI methods.
   final String? ffiErrorClassName;
+
+  /// The error class name used for JNI methods.
+  final String? jniErrorClassName;
 
   /// Whether to ignore lint violations in generated Dart code.
   final bool _ignoreLints;
@@ -1963,11 +1968,25 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
     }
     if (generatorOptions.useJni) {
       indent.format('''
-  PlatformException _wrapJniException(JThrowable e) => PlatformException(
-    code: 'PlatformException',
-    message: e.message,
-    stacktrace: e.javaStackTrace,
-  );
+  PlatformException _wrapJniException(JThrowable e) {
+    if (e.isA<jni_bridge.${generatorOptions.jniErrorClassName}>(jni_bridge.${generatorOptions.jniErrorClassName}.type)) {
+      final jni_bridge.${generatorOptions.jniErrorClassName} pigeonError = e.as(jni_bridge.${generatorOptions.jniErrorClassName}.type);
+      return PlatformException(
+        code: pigeonError.getCode().toDartString(),
+        message: pigeonError.getMessage()?.toDartString(),
+        details: pigeonError.getDetails()?.isA<JString>(JString.type) ?? false
+            ? pigeonError.getDetails()!.as(JString.type).toDartString()
+            : pigeonError.getDetails(),
+        stacktrace: e.javaStackTrace,
+      );
+    }
+    return PlatformException(
+      code: 'PlatformException',
+      message: e.message,
+      details: e,
+      stacktrace: e.javaStackTrace,
+    );
+  }
 ''');
     }
   }

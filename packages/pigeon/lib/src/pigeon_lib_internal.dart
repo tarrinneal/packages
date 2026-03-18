@@ -120,7 +120,10 @@ class InternalPigeonOptions {
               copyrightHeader: copyrightHeader,
               useJni: options.kotlinOptions?.useJni ?? false,
               useFfi: options.swiftOptions?.useFfi ?? false,
-              ffiErrorClassName: options.swiftOptions?.errorClassName,
+              ffiErrorClassName:
+                  options.swiftOptions?.errorClassName ?? 'PigeonError',
+              jniErrorClassName:
+                  options.kotlinOptions?.errorClassName ?? 'FlutterError',
             ),
       copyrightHeader = options.copyrightHeader != null
           ? _lineReader(

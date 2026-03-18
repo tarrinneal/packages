@@ -20,6 +20,7 @@ void main() async {
       ),
       logLevel: Level.ALL,
       classes: [
+        'NiTestsError',
         'NIHostIntegrationCoreApi',
         'NIHostIntegrationCoreApiRegistrar',
         'NIFlutterIntegrationCoreApi',

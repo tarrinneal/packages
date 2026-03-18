@@ -64,6 +64,9 @@ class JnigenConfigGenerator extends Generator<InternalJnigenConfigOptions> {
           ),
           logLevel: Level.ALL,''');
           indent.writeScoped('classes: [', '],', () {
+            indent.writeln(
+              "'${generatorOptions.kotlinOptions.errorClassName ?? 'FlutterError'}',",
+            );
             for (final Api api in root.apis) {
               if (api is AstHostApi || api is AstFlutterApi) {
                 indent.writeln("'${api.name}',");

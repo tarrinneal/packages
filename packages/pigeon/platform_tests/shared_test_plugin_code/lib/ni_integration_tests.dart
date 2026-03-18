@@ -209,23 +209,16 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
     ) async {
       final NIHostIntegrationCoreApiForNativeInterop? api =
           NIHostIntegrationCoreApiForNativeInterop.getInstance();
-      if (targetGenerator == TargetGenerator.kotlin) {
-        expect(
-          () => api!.throwFlutterError(),
-          throwsA(isA<PlatformException>()),
-        );
-      } else {
-        expect(
-          () => api!.throwFlutterError(),
-          throwsA(
-            (dynamic e) =>
-                e is PlatformException &&
-                e.code == 'code' &&
-                e.message == 'message' &&
-                e.details == 'details',
-          ),
-        );
-      }
+      expect(
+        () => api!.throwFlutterError(),
+        throwsA(
+          (dynamic e) =>
+              e is PlatformException &&
+              e.code == 'code' &&
+              e.message == 'message' &&
+              e.details == 'details',
+        ),
+      );
     });
 
     testWidgets('nested objects can be sent correctly', (WidgetTester _) async {
@@ -541,14 +534,21 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
       },
     );
 
-    // testWidgets('Float32List as generic Objects serialize and deserialize correctly', (WidgetTester _) async {
-    //   final NIHostIntegrationCoreApiForNativeInterop? api =
-    //       NIHostIntegrationCoreApiForNativeInterop.getInstance();
+    testWidgets(
+      'Float32List as generic Objects serialize and deserialize correctly',
+      (WidgetTester _) async {
+        final NIHostIntegrationCoreApiForNativeInterop? api =
+            NIHostIntegrationCoreApiForNativeInterop.getInstance();
 
-    //   final Object sentFloat32List = Float32List.fromList(<double>[1.0, 2.0, 3.0]);
-    //   final Object receivedFloat32List = api!.echoObject(sentFloat32List);
-    //   expect(receivedFloat32List, sentFloat32List);
-    // });
+        final Object sentFloat32List = Float32List.fromList(<double>[
+          1.0,
+          2.0,
+          3.0,
+        ]);
+        final Object receivedFloat32List = api!.echoObject(sentFloat32List);
+        expect(receivedFloat32List, sentFloat32List);
+      },
+    );
 
     testWidgets('List as generic Objects serialize and deserialize correctly', (
       WidgetTester _,
@@ -1365,31 +1365,25 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
       (WidgetTester _) async {
         final NIHostIntegrationCoreApiForNativeInterop? api =
             NIHostIntegrationCoreApiForNativeInterop.getInstance();
-        if (targetGenerator == TargetGenerator.kotlin) {
-          expect(() async {
-            await api!.throwAsyncErrorFromVoid();
-          }, throwsA(isA<PlatformException>()));
-        } else {
-          expect(
-            () async {
-              await api!.throwAsyncFlutterError();
-            },
-            throwsA(
-              isA<PlatformException>()
-                  .having((PlatformException e) => e.code, 'code', 'code')
-                  .having(
-                    (PlatformException e) => e.message,
-                    'message',
-                    'message',
-                  )
-                  .having(
-                    (PlatformException e) => e.details,
-                    'details',
-                    'details',
-                  ),
-            ),
-          );
-        }
+        expect(
+          () async {
+            await api!.throwAsyncFlutterError();
+          },
+          throwsA(
+            isA<PlatformException>()
+                .having((PlatformException e) => e.code, 'code', 'code')
+                .having(
+                  (PlatformException e) => e.message,
+                  'message',
+                  'message',
+                )
+                .having(
+                  (PlatformException e) => e.details,
+                  'details',
+                  'details',
+                ),
+          ),
+        );
       },
     );
 
@@ -3434,7 +3428,7 @@ void runPigeonNIIntegrationTests(TargetGenerator targetGenerator) {
     });
   });
 
-  runComparisonBenchmarks();
+  runComparisonBenchmarks(targetGenerator);
 }
 
 /// Implementation of the Flutter API for Native Interop.
