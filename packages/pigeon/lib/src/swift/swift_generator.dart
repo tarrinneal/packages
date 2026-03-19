@@ -32,6 +32,8 @@ class SwiftOptions {
     this.useFfi = false,
     this.ffiModuleName,
     this.appDirectory,
+    this.appleSdkPath,
+    this.appleSdkTriple,
   });
 
   /// A copyright header that will get prepended to generated code.
@@ -58,6 +60,20 @@ class SwiftOptions {
   /// The directory that the app exists in, this is required for FFI APIs.
   final String? appDirectory;
 
+  /// The path to the Apple SDK to use for FFI generation.
+  ///
+  /// If not provided, Pigeon will attempt to find the iOS SDK path using
+  /// `xcrun --sdk iphoneos --show-sdk-path`. If that fails, it falls back
+  /// to a hardcoded default path.
+  final String? appleSdkPath;
+
+  /// The Apple target triple to use for FFI generation.
+  ///
+  /// If not provided, the triple is automatically derived based on the
+  /// `appleSdkPath`, defaulting to `arm64-apple-ios` (or `x86_64-apple-macosx14.0`
+  /// if `appleSdkPath` contains "macosx").
+  final String? appleSdkTriple;
+
   /// Creates a [SwiftOptions] from a Map representation where:
   /// `x = SwiftOptions.fromList(x.toMap())`.
   static SwiftOptions fromList(Map<String, Object> map) {
@@ -70,6 +86,8 @@ class SwiftOptions {
       useFfi: map['useFfi'] as bool? ?? false,
       ffiModuleName: map['ffiModuleName'] as String?,
       appDirectory: map['appDirectory'] as String?,
+      appleSdkPath: map['appleSdkPath'] as String?,
+      appleSdkTriple: map['appleSdkTriple'] as String?,
     );
   }
 
@@ -85,6 +103,8 @@ class SwiftOptions {
       'useFfi': useFfi,
       if (ffiModuleName != null) 'ffiModuleName': ffiModuleName!,
       if (appDirectory != null) 'appDirectory': appDirectory!,
+      if (appleSdkPath != null) 'appleSdkPath': appleSdkPath!,
+      if (appleSdkTriple != null) 'appleSdkTriple': appleSdkTriple!,
     };
     return result;
   }
@@ -108,6 +128,8 @@ class InternalSwiftOptions extends InternalOptions {
     this.useFfi = false,
     this.ffiModuleName,
     this.appDirectory,
+    this.appleSdkPath,
+    this.appleSdkTriple,
   });
 
   /// Creates InternalSwiftOptions from SwiftOptions.
@@ -115,15 +137,22 @@ class InternalSwiftOptions extends InternalOptions {
     SwiftOptions options, {
     required this.swiftOut,
     Iterable<String>? copyrightHeader,
+    String? fileSpecificClassNameComponent,
   }) : copyrightHeader = options.copyrightHeader ?? copyrightHeader,
        fileSpecificClassNameComponent =
-           options.fileSpecificClassNameComponent ??
+           (options.useFfi
+               ? fileSpecificClassNameComponent ??
+                     options.fileSpecificClassNameComponent
+               : options.fileSpecificClassNameComponent ??
+                     fileSpecificClassNameComponent) ??
            swiftOut.split('/').lastOrNull?.split('.').firstOrNull ??
            '',
        errorClassName = options.errorClassName,
        useFfi = options.useFfi,
        ffiModuleName = options.ffiModuleName,
        appDirectory = options.appDirectory,
+       appleSdkPath = options.appleSdkPath,
+       appleSdkTriple = options.appleSdkTriple,
        includeErrorClass = options.includeErrorClass;
 
   /// A copyright header that will get prepended to generated code.
@@ -152,6 +181,20 @@ class InternalSwiftOptions extends InternalOptions {
 
   /// The directory that the app exists in, this is required for FFi APIs.
   final String? appDirectory;
+
+  /// The path to the Apple SDK to use for FFI generation.
+  ///
+  /// If not provided, Pigeon will attempt to find the iOS SDK path using
+  /// `xcrun --sdk iphoneos --show-sdk-path`. If that fails, it falls back
+  /// to a hardcoded default path.
+  final String? appleSdkPath;
+
+  /// The Apple target triple to use for FFI generation.
+  ///
+  /// If not provided, the triple is automatically derived based on the
+  /// `appleSdkPath`, defaulting to `arm64-apple-ios` (or `x86_64-apple-macosx14.0`
+  /// if `appleSdkPath` contains "macosx").
+  final String? appleSdkTriple;
 }
 
 /// Options that control how Swift code will be generated for a specific
@@ -214,6 +257,9 @@ class SwiftEventChannelOptions {
   final bool includeSharedClasses;
 }
 
+// Prefix used mapping prefixed class names for language outputs.
+String _classNamePrefix = '';
+
 /// Class that manages all Swift code generation.
 class SwiftGenerator extends StructuredGenerator<InternalSwiftOptions> {
   /// Instantiates a Swift Generator.
@@ -226,6 +272,7 @@ class SwiftGenerator extends StructuredGenerator<InternalSwiftOptions> {
     Indent indent, {
     required String dartPackageName,
   }) {
+    _classNamePrefix = generatorOptions.fileSpecificClassNameComponent ?? '';
     if (generatorOptions.copyrightHeader != null) {
       addLines(indent, generatorOptions.copyrightHeader!, linePrefix: '// ');
     }
@@ -291,7 +338,7 @@ class SwiftGenerator extends StructuredGenerator<InternalSwiftOptions> {
   void _writeFfiCodec(Indent indent, Root root) {
     indent.newln();
     indent.format('''
-@objc class PigeonInternalNull: NSObject {}
+@objc class ${_classNamePrefix}PigeonInternalNull: NSObject {}
 
 @available(iOS 13, macOS 10.15, *)
 class _PigeonFfiCodec {
@@ -299,17 +346,17 @@ class _PigeonFfiCodec {
     if (isNullish(value)) {
       return nil
     }
-    if let typedData = value as? PigeonTypedData {
+    if let typedData = value as? ${_classNamePrefix}PigeonTypedData {
       switch typedData.type {
-      case MyDataType.uint8.rawValue:
+      case ${_classNamePrefix}MyDataType.uint8.rawValue:
         return typedData.toUint8Array()
-      case MyDataType.int32.rawValue:
+      case ${_classNamePrefix}MyDataType.int32.rawValue:
         return typedData.toInt32Array()
-      case MyDataType.int64.rawValue:
+      case ${_classNamePrefix}MyDataType.int64.rawValue:
         return typedData.toInt64Array()
-      case MyDataType.float32.rawValue:
+      case ${_classNamePrefix}MyDataType.float32.rawValue:
         return typedData.toFloat32Array()
-      case MyDataType.float64.rawValue:
+      case ${_classNamePrefix}MyDataType.float64.rawValue:
         return typedData.toFloat64Array()
       default:
         return typedData
@@ -347,8 +394,8 @@ class _PigeonFfiCodec {
       }
       return res
     } 
-    if (value is NumberWrapper) {
-      return unwrapNumber(wrappedNumber: value as! NumberWrapper)
+    if (value is ${_classNamePrefix}NumberWrapper) {
+      return unwrapNumber(wrappedNumber: value as! ${_classNamePrefix}NumberWrapper)
     }
     if (value is NSString) {
       return value as! NSString
@@ -364,22 +411,22 @@ class _PigeonFfiCodec {
 
   static func writeValue(value: Any?, isObject: Bool = false) -> Any? {
     if (isNullish(value)) {
-      return PigeonInternalNull()
+      return ${_classNamePrefix}PigeonInternalNull()
     }
     if let uint8Array = value as? [UInt8] {
-      return isObject ? PigeonTypedData(uint8Array) : uint8Array as NSArray
+      return isObject ? ${_classNamePrefix}PigeonTypedData(uint8Array) : uint8Array as NSArray
     }
     if let int32Array = value as? [Int32] {
-      return isObject ? PigeonTypedData(int32Array) : int32Array as NSArray
+      return isObject ? ${_classNamePrefix}PigeonTypedData(int32Array) : int32Array as NSArray
     }
     if let int64Array = value as? [Int64] {
-      return isObject ? PigeonTypedData(int64Array) : int64Array as NSArray
+      return isObject ? ${_classNamePrefix}PigeonTypedData(int64Array) : int64Array as NSArray
     }
     if let float32Array = value as? [Float32] {
-      return isObject ? PigeonTypedData(float32Array) : float32Array as NSArray
+      return isObject ? ${_classNamePrefix}PigeonTypedData(float32Array) : float32Array as NSArray
     }
     if let float64Array = value as? [Double] {
-      return isObject ? PigeonTypedData(float64Array) : float64Array as NSArray
+      return isObject ? ${_classNamePrefix}PigeonTypedData(float64Array) : float64Array as NSArray
     }
     if (value is Bool || value is Double || value is Int || value is Int64${root.enums.map((Enum enumDefinition) {
       return ' || value is ${enumDefinition.name}';
@@ -404,14 +451,14 @@ class _PigeonFfiCodec {
     if (value is [Any]) {
       let res: NSMutableArray = NSMutableArray()
       for item in (value as! [Any]) {
-        res.add(isNullish(item) ? PigeonInternalNull() : writeValue(value: item, isObject: true) as! NSObject)
+        res.add(isNullish(item) ? ${_classNamePrefix}PigeonInternalNull() : writeValue(value: item, isObject: true) as! NSObject)
       }
       return res
     }
     if (value is [AnyHashable: Any]) {
       let res: NSMutableDictionary = NSMutableDictionary()
       for (key, value) in (value as! [AnyHashable: Any]) {
-         res.setObject(isNullish(key) ? PigeonInternalNull() : writeValue(value: value, isObject: true) as! NSObject, forKey: writeValue(value: key, isObject: true) as! NSCopying)
+         res.setObject(isNullish(key) ? ${_classNamePrefix}PigeonInternalNull() : writeValue(value: value, isObject: true) as! NSObject, forKey: writeValue(value: key, isObject: true) as! NSCopying)
       }
       return res
     }
@@ -920,7 +967,7 @@ if (wrapped == nil) {
       case 'Float32List':
       case 'Float64List':
         return wrapConditionally(
-          'PigeonTypedData($varName${type.isNullable ? '!' : ''})',
+          '${_classNamePrefix}PigeonTypedData($varName${type.isNullable ? '!' : ''})',
           'isNullish($varName) ? nil : ',
           '',
           type.isNullable || forceNullable,
@@ -1584,7 +1631,7 @@ if (wrapped == nil) {
                 }).join(', ')})${method.returnType.isEnum ? '?.rawValue' : ''}',
               );
               indent.writeln(
-                'return isNullish(res) ? nil : ${method.returnType.isEnum ? 'NSNumber(value: res!)' : 'PigeonTypedData(res${method.returnType.isNullable ? '!' : ''})'}',
+                'return isNullish(res) ? nil : ${method.returnType.isEnum ? 'NSNumber(value: res!)' : '${_classNamePrefix}PigeonTypedData(res${method.returnType.isNullable ? '!' : ''})'}',
               );
             } else {
               indent.writeln(
@@ -2216,7 +2263,7 @@ if (wrapped == nil) {
             return true
         }
 
-        return innerValue is NSNull${useFfi ? ' || innerValue is PigeonInternalNull' : ''}
+        return innerValue is NSNull${useFfi ? ' || innerValue is ${_classNamePrefix}PigeonInternalNull' : ''}
       }''');
   }
 
@@ -2360,7 +2407,7 @@ func deepHash${generatorOptions.fileSpecificClassNameComponent}(value: Any?, has
   void _writeNumberWrapper(Root root, Indent indent) {
     indent.newln();
     indent.writeScoped(
-      '@objc class NumberWrapper: NSObject, NSCopying {',
+      '@objc class ${_classNamePrefix}NumberWrapper: NSObject, NSCopying {',
       '}',
       () {
         indent.writeScoped('@objc required init(', ')', () {
@@ -2382,12 +2429,12 @@ func deepHash${generatorOptions.fileSpecificClassNameComponent}(value: Any?, has
         indent.writeln('@objc var number: NSNumber');
         indent.writeln('@objc var type: Int');
         indent.format('''
-          static func == (lhs: NumberWrapper, rhs: NumberWrapper) -> Bool {
+          static func == (lhs: ${_classNamePrefix}NumberWrapper, rhs: ${_classNamePrefix}NumberWrapper) -> Bool {
             return lhs.number == rhs.number && lhs.type == rhs.type
           }
             
           override func isEqual(_ object: Any?) -> Bool {
-            guard let other = object as? NumberWrapper else {
+            guard let other = object as? ${_classNamePrefix}NumberWrapper else {
               return false
             }
             return self == other
@@ -2401,35 +2448,35 @@ func deepHash${generatorOptions.fileSpecificClassNameComponent}(value: Any?, has
     );
     indent.newln();
     indent.writeScoped(
-      'private func wrapNumber(number: Any) -> NumberWrapper {',
+      'private func wrapNumber(number: Any) -> ${_classNamePrefix}NumberWrapper {',
       '}',
       () {
         indent.writeScoped('switch number {', '}', () {
           var caseNum = 4;
           indent.format('''
     case let value as Int:
-      return NumberWrapper(number: NSNumber(value: value), type: 1)
+      return ${_classNamePrefix}NumberWrapper(number: NSNumber(value: value), type: 1)
     case let value as Int64:
-      return NumberWrapper(number: NSNumber(value: value), type: 1)
+      return ${_classNamePrefix}NumberWrapper(number: NSNumber(value: value), type: 1)
     case let value as Double:
-      return NumberWrapper(number: NSNumber(value: value), type: 2)
+      return ${_classNamePrefix}NumberWrapper(number: NSNumber(value: value), type: 2)
     case let value as Float:
-      return NumberWrapper(number: NSNumber(value: value), type: 2)
+      return ${_classNamePrefix}NumberWrapper(number: NSNumber(value: value), type: 2)
     case let value as Bool:
-      return NumberWrapper(number: NSNumber(value: value), type: 3)
+      return ${_classNamePrefix}NumberWrapper(number: NSNumber(value: value), type: 3)
 ''');
           for (final Enum anEnum in root.enums) {
             indent.writeln('case let value as ${anEnum.name}:');
             indent.inc();
             indent.writeln(
-              'return NumberWrapper(number: NSNumber(value: value.rawValue), type: ${caseNum++})',
+              'return ${_classNamePrefix}NumberWrapper(number: NSNumber(value: value.rawValue), type: ${caseNum++})',
             );
             indent.dec();
           }
           indent.writeln('default:');
           indent.inc();
           indent.writeln(
-            'return NumberWrapper(number: NSNumber(value: 0), type: 0)',
+            'return ${_classNamePrefix}NumberWrapper(number: NSNumber(value: 0), type: 0)',
           );
           indent.dec();
         });
@@ -2437,7 +2484,7 @@ func deepHash${generatorOptions.fileSpecificClassNameComponent}(value: Any?, has
     );
     indent.newln();
     indent.writeScoped(
-      'private func unwrapNumber(wrappedNumber: NumberWrapper) -> Any {',
+      'private func unwrapNumber(wrappedNumber: ${_classNamePrefix}NumberWrapper) -> Any {',
       '}',
       () {
         indent.writeScoped('switch wrappedNumber.type {', '}', () {
@@ -2494,9 +2541,9 @@ func deepHash${generatorOptions.fileSpecificClassNameComponent}(value: Any?, has
       },
     );
 
-    indent.format(r'''
+    indent.format('''
 // Enum to represent the Dart TypedData types
-enum MyDataType: Int {
+enum ${_classNamePrefix}MyDataType: Int {
   case uint8 = 0
   case int32 = 1
   case int64 = 2
@@ -2505,7 +2552,7 @@ enum MyDataType: Int {
 }
 
 @available(iOS 13, macOS 10.15, *)
-@objc public class PigeonTypedData: NSObject {
+@objc public class ${_classNamePrefix}PigeonTypedData: NSObject {
   @objc public let data: NSData
   @objc public let type: Int
 
@@ -2516,38 +2563,38 @@ enum MyDataType: Int {
 
   public init(_ data: [UInt8]) {
     self.data = NSData(bytes: data, length: data.count)
-    self.type = MyDataType.uint8.rawValue
+    self.type = ${_classNamePrefix}MyDataType.uint8.rawValue
   }
 
   public init(_ data: [Int32]) {
     self.data = NSData(bytes: data, length: data.count * MemoryLayout<Int32>.size)
-    self.type = MyDataType.int32.rawValue
+    self.type = ${_classNamePrefix}MyDataType.int32.rawValue
   }
 
   public init(_ data: [Int64]) {
     self.data = NSData(bytes: data, length: data.count * MemoryLayout<Int64>.size)
-    self.type = MyDataType.int64.rawValue
+    self.type = ${_classNamePrefix}MyDataType.int64.rawValue
   }
 
   public init(_ data: [Float32]) {
     self.data = NSData(bytes: data, length: data.count * MemoryLayout<Float32>.size)
-    self.type = MyDataType.float32.rawValue
+    self.type = ${_classNamePrefix}MyDataType.float32.rawValue
   }
 
   public init(_ data: [Float64]) {
     self.data = NSData(bytes: data, length: data.count * MemoryLayout<Float64>.size)
-    self.type = MyDataType.float64.rawValue
+    self.type = ${_classNamePrefix}MyDataType.float64.rawValue
   }
 
   /// Returns the data as a [UInt8] array, if the type is .uint8
   public func toUint8Array() -> [UInt8]? {
-    guard type == MyDataType.uint8.rawValue else { return nil }
+    guard type == ${_classNamePrefix}MyDataType.uint8.rawValue else { return nil }
     return [UInt8](data as Data)
   }
 
   /// Returns the data as a [Int32] array, if the type is .int32
   public func toInt32Array() -> [Int32]? {
-    guard type == MyDataType.int32.rawValue else { return nil }
+    guard type == ${_classNamePrefix}MyDataType.int32.rawValue else { return nil }
     let count = data.length / MemoryLayout<Int32>.size
     var array = [Int32](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
@@ -2556,7 +2603,7 @@ enum MyDataType: Int {
 
   /// Returns the data as a [Int64] array, if the type is .int64
   public func toInt64Array() -> [Int64]? {
-    guard type == MyDataType.int64.rawValue else { return nil }
+    guard type == ${_classNamePrefix}MyDataType.int64.rawValue else { return nil }
     let count = data.length / MemoryLayout<Int64>.size
     var array = [Int64](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
@@ -2565,7 +2612,7 @@ enum MyDataType: Int {
 
   /// Returns the data as a [Float32] array, if the type is .float32
   public func toFloat32Array() -> [Float32]? {
-    guard type == MyDataType.float32.rawValue else { return nil }
+    guard type == ${_classNamePrefix}MyDataType.float32.rawValue else { return nil }
     let count = data.length / MemoryLayout<Float32>.size
     var array = [Float32](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
@@ -2574,7 +2621,7 @@ enum MyDataType: Int {
 
   /// Returns the data as a [Float64] array (Array<Double>), if the type is .float64
   public func toFloat64Array() -> [Double]? {
-    guard type == MyDataType.float64.rawValue else { return nil }
+    guard type == ${_classNamePrefix}MyDataType.float64.rawValue else { return nil }
     let count = data.length / MemoryLayout<Double>.size
     var array = [Double](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
@@ -2624,6 +2671,7 @@ enum MyDataType: Int {
     required String dartPackageName,
   }) {
     indent.newln();
+    // TODO(tarrinneal): Prefix this class to avoid name collisions.
     indent.format('''
       private class PigeonStreamHandler<ReturnType>: NSObject, FlutterStreamHandler {
         private let wrapper: PigeonEventChannelWrapper<ReturnType>
@@ -2648,6 +2696,7 @@ enum MyDataType: Int {
         }
       }''');
     if (api.swiftOptions?.includeSharedClasses ?? true) {
+      // TODO(tarrinneal): Prefix these classes to avoid name collisions.
       indent.format('''
 
       class PigeonEventChannelWrapper<ReturnType> {
@@ -3020,6 +3069,7 @@ enum MyDataType: Int {
         }''');
         indent.newln();
 
+        // TODO(tarrinneal): Prefix this class to avoid name collisions.
         indent.format('''
         private class InstanceManagerApiFinalizerDelegate: ${instanceManagerFinalizerDelegateName(generatorOptions)} {
           let api: $instanceManagerApiName
@@ -4095,17 +4145,17 @@ String? _ffiTypeForBuiltinDartType(
   bool collectionSubType = false,
   bool forceNullable = false,
 }) {
-  const ffiTypeForDartTypeMap = <String, String>{
+  final ffiTypeForDartTypeMap = <String, String>{
     'void': 'Void',
     'bool': 'NSNumber',
     'String': 'NSString',
     'int': 'NSNumber',
     'double': 'NSNumber',
-    'Uint8List': 'PigeonTypedData',
-    'Int32List': 'PigeonTypedData',
-    'Int64List': 'PigeonTypedData',
-    'Float32List': 'PigeonTypedData',
-    'Float64List': 'PigeonTypedData',
+    'Uint8List': '${_classNamePrefix}PigeonTypedData',
+    'Int32List': '${_classNamePrefix}PigeonTypedData',
+    'Int64List': '${_classNamePrefix}PigeonTypedData',
+    'Float32List': '${_classNamePrefix}PigeonTypedData',
+    'Float64List': '${_classNamePrefix}PigeonTypedData',
     'Object': 'NSObject',
   };
   if (type.baseName == 'Object' && collectionSubType) {

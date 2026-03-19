@@ -142,6 +142,7 @@ class InternalKotlinOptions extends InternalOptions {
     KotlinOptions options, {
     required this.kotlinOut,
     Iterable<String>? copyrightHeader,
+    String? fileSpecificClassNameComponent,
   }) : package = options.package,
        copyrightHeader = options.copyrightHeader ?? copyrightHeader,
        errorClassName = options.errorClassName,
@@ -150,7 +151,11 @@ class InternalKotlinOptions extends InternalOptions {
        appDirectory = options.appDirectory,
        useGeneratedAnnotation = options.useGeneratedAnnotation,
        fileSpecificClassNameComponent =
-           options.fileSpecificClassNameComponent ??
+           (options.useJni
+               ? fileSpecificClassNameComponent ??
+                     options.fileSpecificClassNameComponent
+               : options.fileSpecificClassNameComponent ??
+                     fileSpecificClassNameComponent) ??
            kotlinOut.split('/').lastOrNull?.split('.').first;
 
   /// The package where the generated class will live.
@@ -1420,6 +1425,7 @@ class ${api.name}Registrar() {
         ''');
 
     if (api.kotlinOptions?.includeSharedClasses ?? true) {
+      // TODO(tarrinneal): Prefix this class to avoid name collisions.
       indent.format('''
         class PigeonEventSink<T>(private val sink: EventChannel.EventSink) {
           fun success(value: T) {

@@ -61,6 +61,8 @@ class InternalPigeonOptions {
               objcHeaderOut: options.objcHeaderOut!,
               objcSourceOut: options.objcSourceOut!,
               fileSpecificClassNameComponent:
+                  options.objcOptions?.fileSpecificClassNameComponent ??
+                  options.fileSpecificClassNameComponent ??
                   options.objcSourceOut
                       ?.split('/')
                       .lastOrNull
@@ -82,6 +84,9 @@ class InternalPigeonOptions {
               options.swiftOptions ?? const SwiftOptions(),
               swiftOut: options.swiftOut!,
               copyrightHeader: copyrightHeader,
+              fileSpecificClassNameComponent:
+                  options.swiftOptions?.fileSpecificClassNameComponent ??
+                  options.fileSpecificClassNameComponent,
             ),
       kotlinOptions = options.kotlinOut == null
           ? null
@@ -89,6 +94,9 @@ class InternalPigeonOptions {
               options.kotlinOptions ?? const KotlinOptions(),
               kotlinOut: options.kotlinOut!,
               copyrightHeader: copyrightHeader,
+              fileSpecificClassNameComponent:
+                  options.kotlinOptions?.fileSpecificClassNameComponent ??
+                  options.fileSpecificClassNameComponent,
             ),
       cppOptions =
           (options.cppHeaderOut == null || options.cppSourceOut == null)
@@ -124,6 +132,24 @@ class InternalPigeonOptions {
                   options.swiftOptions?.errorClassName ?? 'PigeonError',
               jniErrorClassName:
                   options.kotlinOptions?.errorClassName ?? 'FlutterError',
+              fileSpecificClassNameComponent:
+                  options.fileSpecificClassNameComponent ??
+                  (options.swiftOptions?.useFfi ?? false
+                      ? options.swiftOptions?.fileSpecificClassNameComponent ??
+                            options.swiftOut
+                                ?.split('/')
+                                .lastOrNull
+                                ?.split('.')
+                                .firstOrNull
+                      : null) ??
+                  (options.kotlinOptions?.useJni ?? false
+                      ? options.kotlinOptions?.fileSpecificClassNameComponent ??
+                            options.kotlinOut
+                                ?.split('/')
+                                .lastOrNull
+                                ?.split('.')
+                                .firstOrNull
+                      : null),
             ),
       copyrightHeader = options.copyrightHeader != null
           ? _lineReader(

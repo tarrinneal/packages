@@ -171,13 +171,13 @@ class _FfiType {
       case 'double':
         return 'NSNumber';
       case 'Uint8List':
-        return 'ffi_bridge.PigeonTypedData';
+        return 'ffi_bridge.${_classNamePrefix}PigeonTypedData';
       case 'Int32List':
-        return 'ffi_bridge.PigeonTypedData';
+        return 'ffi_bridge.${_classNamePrefix}PigeonTypedData';
       case 'Int64List':
-        return 'ffi_bridge.PigeonTypedData';
+        return 'ffi_bridge.${_classNamePrefix}PigeonTypedData';
       case 'Float64List':
-        return 'ffi_bridge.PigeonTypedData';
+        return 'ffi_bridge.${_classNamePrefix}PigeonTypedData';
       case 'Object':
         return 'NSObject';
       case 'List':
@@ -717,6 +717,7 @@ class InternalDartOptions extends InternalOptions {
     this.copyrightHeader,
     this.dartOut,
     this.testOut,
+    this.fileSpecificClassNameComponent,
     this.useJni = false,
     this.useFfi = false,
     this.ffiErrorClassName,
@@ -734,6 +735,7 @@ class InternalDartOptions extends InternalOptions {
     required this.useFfi,
     this.ffiErrorClassName,
     this.jniErrorClassName,
+    this.fileSpecificClassNameComponent,
   }) : copyrightHeader = copyrightHeader ?? options.copyrightHeader,
        dartOut = (dartOut ?? options.sourceOutPath)!,
        testOut = testOut ?? options.testOutPath,
@@ -741,6 +743,9 @@ class InternalDartOptions extends InternalOptions {
 
   /// A copyright header that will get prepended to generated code.
   final Iterable<String>? copyrightHeader;
+
+  /// A String to augment class names to avoid cross file collisions.
+  final String? fileSpecificClassNameComponent;
 
   /// Path to output generated Dart file.
   final String? dartOut;
@@ -764,6 +769,9 @@ class InternalDartOptions extends InternalOptions {
   final bool _ignoreLints;
 }
 
+// Prefix used mapping prefixed class names for language outputs.
+String _classNamePrefix = '';
+
 /// Class that manages all Dart code generation.
 class DartGenerator extends StructuredGenerator<InternalDartOptions> {
   /// Instantiates a Dart Generator.
@@ -781,6 +789,8 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
     Indent indent, {
     required String dartPackageName,
   }) {
+    // TODO(tarrinneal): Add file constant initialization method in all generators
+    _classNamePrefix = generatorOptions.fileSpecificClassNameComponent ?? '';
     if (generatorOptions.copyrightHeader != null) {
       addLines(indent, generatorOptions.copyrightHeader!, linePrefix: '// ');
     }
@@ -2822,7 +2832,7 @@ class _PigeonJniCodec {
     indent.newln();
     var typeNum = 4;
     indent.format('''
-      Object? convertNumberWrapperToDart(ffi_bridge.NumberWrapper value) {
+      Object? convertNumberWrapperToDart(ffi_bridge.${_classNamePrefix}NumberWrapper value) {
         switch (value.type) {
           case 1:
             return value.number.longValue;
@@ -2846,20 +2856,20 @@ class _PigeonJniCodec {
     typeNum = 4;
     indent.format(
       '''
-      ffi_bridge.NumberWrapper convertToFfiNumberWrapper(Object value) {
+      ffi_bridge.${_classNamePrefix}NumberWrapper convertToFfiNumberWrapper(Object value) {
         switch (value) {
           case int _:
-            return ffi_bridge.NumberWrapper.alloc().initWithNumber(NSNumber.alloc().initWithLong(value), type: 1);
+            return ffi_bridge.${_classNamePrefix}NumberWrapper.alloc().initWithNumber(NSNumber.alloc().initWithLong(value), type: 1);
           case double _:
-            return ffi_bridge.NumberWrapper.alloc().initWithNumber(NSNumber.alloc().initWithDouble(value), type: 2);
+            return ffi_bridge.${_classNamePrefix}NumberWrapper.alloc().initWithNumber(NSNumber.alloc().initWithDouble(value), type: 2);
           case bool _:
-            return ffi_bridge.NumberWrapper.alloc().initWithNumber(NSNumber.alloc().initWithLong(value ? 1 : 0), type: 3);''',
+            return ffi_bridge.${_classNamePrefix}NumberWrapper.alloc().initWithNumber(NSNumber.alloc().initWithLong(value ? 1 : 0), type: 3);''',
     );
     for (final Enum anEnum in root.enums) {
       indent.format(
         '''
         case ${anEnum.name} _:
-          return ffi_bridge.NumberWrapper.alloc().initWithNumber(value.toNSNumber(), type: ${typeNum++});''',
+          return ffi_bridge.${_classNamePrefix}NumberWrapper.alloc().initWithNumber(value.toNSNumber(), type: ${typeNum++});''',
       );
     }
     indent.format('''
@@ -2875,7 +2885,7 @@ class _PigeonJniCodec {
     indent.format('''
 class _PigeonFfiCodec {
   static Object? readValue(ObjCObject? value, [Type? type, Type? type2]) {
-    if (value == null || ffi_bridge.PigeonInternalNull.isA(value)) {
+    if (value == null || ffi_bridge.${_classNamePrefix}PigeonInternalNull.isA(value)) {
       return null;
     } else if (NSNumber.isA(value)) {
       final NSNumber numValue = NSNumber.as(value);
@@ -2892,8 +2902,8 @@ class _PigeonFfiCodec {
       return numValue.longValue;
     } else if (NSString.isA(value)) {
       return (NSString.as(value)).toDartString();
-    } else if (ffi_bridge.PigeonTypedData.isA(value)) {
-      return getValueFromPigeonTypedData(value as ffi_bridge.PigeonTypedData);
+    } else if (ffi_bridge.${_classNamePrefix}PigeonTypedData.isA(value)) {
+      return getValueFromPigeonTypedData(value as ffi_bridge.${_classNamePrefix}PigeonTypedData);
     } else if (NSArray.isA(value)) {
       final NSArray array = NSArray.as(value);
       final List<Object?> res = <Object?>[];
@@ -2910,8 +2920,8 @@ class _PigeonFfiCodec {
         res[readValue(key, type, type2)] = readValue(dict.objectForKey(key), type, type2);
       }
       return res;
-    } else if (ffi_bridge.NumberWrapper.isA(value)) {
-      return convertNumberWrapperToDart(ffi_bridge.NumberWrapper.as(value));
+    } else if (ffi_bridge.${_classNamePrefix}NumberWrapper.isA(value)) {
+      return convertNumberWrapperToDart(ffi_bridge.${_classNamePrefix}NumberWrapper.as(value));
     ${root.classes.map((Class dataClass) {
       final _FfiType ffiType = _FfiType.fromClass(dataClass);
       return '''
@@ -2930,7 +2940,7 @@ class _PigeonFfiCodec {
   }) {
     if (value == null) {
       if (isTypeOrNullableType<T>(ObjCObject) || isTypeOrNullableType<T>(NSObject)) {
-        return ffi_bridge.PigeonInternalNull() as T;
+        return ffi_bridge.${_classNamePrefix}PigeonInternalNull() as T;
       }
       return null as T;
     }
@@ -2964,7 +2974,7 @@ class _PigeonFfiCodec {
     } else if (value is ${ffiType.type.getFullName(withNullable: false)} && isTypeOrNullableType<${ffiType.fullFfiName}>(T)) {
       final NSMutableArray res = NSMutableArray();
       for (final ${ffiType.dartCollectionTypes} entry in value) {
-        res.addObject(${ffiType.subTypeOne!.type.isNullable ? 'entry == null ? ffi_bridge.PigeonInternalNull() : ' : ''}writeValue<${ffiType.subTypeOne?.getFfiCallReturnType(forceNonNullable: true) ?? 'ObjCObject'}>(entry, generic: true));
+        res.addObject(${ffiType.subTypeOne!.type.isNullable ? 'entry == null ? ffi_bridge.${_classNamePrefix}PigeonInternalNull() : ' : ''}writeValue<${ffiType.subTypeOne?.getFfiCallReturnType(forceNonNullable: true) ?? 'ObjCObject'}>(entry, generic: true));
       }
       return res as T;
         ''';
@@ -2973,7 +2983,7 @@ class _PigeonFfiCodec {
       final NSMutableArray res = NSMutableArray();
       for (final Object? entry in value) {
         res.addObject(entry == null
-            ? ffi_bridge.PigeonInternalNull()
+            ? ffi_bridge.${_classNamePrefix}PigeonInternalNull()
             : writeValue(entry, generic: true));
       }
       return res as T;
@@ -3010,7 +3020,7 @@ class _PigeonFfiCodec {
   }
 }
 
-ffi_bridge.PigeonTypedData toPigeonTypedData(TypedData value) {
+ffi_bridge.${_classNamePrefix}PigeonTypedData toPigeonTypedData(TypedData value) {
   final int lengthInBytes = value.lengthInBytes;
   if (value is Uint8List) {
     final int length = value.length;
@@ -3019,7 +3029,7 @@ ffi_bridge.PigeonTypedData toPigeonTypedData(TypedData value) {
     final NSData nsData =
         NSData.dataWithBytes(ptr.cast<Void>(), length: lengthInBytes);
     calloc.free(ptr);
-    return ffi_bridge.PigeonTypedData.alloc().initWithData(nsData, type: 0);
+    return ffi_bridge.${_classNamePrefix}PigeonTypedData.alloc().initWithData(nsData, type: 0);
   } else if (value is Int32List) {
     final int length = value.length;
     final Pointer<Int32> ptr = calloc<Int32>(length);
@@ -3027,7 +3037,7 @@ ffi_bridge.PigeonTypedData toPigeonTypedData(TypedData value) {
     final NSData nsData =
         NSData.dataWithBytes(ptr.cast<Void>(), length: lengthInBytes);
     calloc.free(ptr);
-    return ffi_bridge.PigeonTypedData.alloc().initWithData(nsData, type: 1);
+    return ffi_bridge.${_classNamePrefix}PigeonTypedData.alloc().initWithData(nsData, type: 1);
   } else if (value is Int64List) {
     final int length = value.length;
     final Pointer<Int64> ptr = calloc<Int64>(length);
@@ -3035,7 +3045,7 @@ ffi_bridge.PigeonTypedData toPigeonTypedData(TypedData value) {
     final NSData nsData =
         NSData.dataWithBytes(ptr.cast<Void>(), length: lengthInBytes);
     calloc.free(ptr);
-    return ffi_bridge.PigeonTypedData.alloc().initWithData(nsData, type: 2);
+    return ffi_bridge.${_classNamePrefix}PigeonTypedData.alloc().initWithData(nsData, type: 2);
   } else if (value is Float32List) {
     final int length = value.length;
     final Pointer<Float> ptr = calloc<Float>(length);
@@ -3043,7 +3053,7 @@ ffi_bridge.PigeonTypedData toPigeonTypedData(TypedData value) {
     final NSData nsData =
         NSData.dataWithBytes(ptr.cast<Void>(), length: lengthInBytes);
     calloc.free(ptr);
-    return ffi_bridge.PigeonTypedData.alloc().initWithData(nsData, type: 3);
+    return ffi_bridge.${_classNamePrefix}PigeonTypedData.alloc().initWithData(nsData, type: 3);
   } else if (value is Float64List) {
     final int length = value.length;
     final Pointer<Double> ptr = calloc<Double>(length);
@@ -3051,13 +3061,13 @@ ffi_bridge.PigeonTypedData toPigeonTypedData(TypedData value) {
     final NSData nsData =
         NSData.dataWithBytes(ptr.cast<Void>(), length: lengthInBytes);
     calloc.free(ptr);
-    return ffi_bridge.PigeonTypedData.alloc().initWithData(nsData, type: 4);
+    return ffi_bridge.${_classNamePrefix}PigeonTypedData.alloc().initWithData(nsData, type: 4);
   }
   throw ArgumentError.value(value);
 }
 
 
-Object? getValueFromPigeonTypedData(ffi_bridge.PigeonTypedData value) {
+Object? getValueFromPigeonTypedData(ffi_bridge.${_classNamePrefix}PigeonTypedData value) {
   final NSData data = value.data;
   final Pointer<Void> bytes = data.bytes;
   switch (value.type) {

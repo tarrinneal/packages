@@ -477,7 +477,7 @@ class _PigeonJniCodec {
 
 class _PigeonFfiCodec {
   static Object? readValue(ObjCObject? value, [Type? type, Type? type2]) {
-    if (value == null || ffi_bridge.PigeonInternalNull.isA(value)) {
+    if (value == null || ffi_bridge.NiTestsPigeonInternalNull.isA(value)) {
       return null;
     } else if (NSNumber.isA(value)) {
       final NSNumber numValue = NSNumber.as(value);
@@ -494,8 +494,10 @@ class _PigeonFfiCodec {
       return numValue.longValue;
     } else if (NSString.isA(value)) {
       return (NSString.as(value)).toDartString();
-    } else if (ffi_bridge.PigeonTypedData.isA(value)) {
-      return getValueFromPigeonTypedData(value as ffi_bridge.PigeonTypedData);
+    } else if (ffi_bridge.NiTestsPigeonTypedData.isA(value)) {
+      return getValueFromPigeonTypedData(
+        value as ffi_bridge.NiTestsPigeonTypedData,
+      );
     } else if (NSArray.isA(value)) {
       final NSArray array = NSArray.as(value);
       final List<Object?> res = <Object?>[];
@@ -516,8 +518,10 @@ class _PigeonFfiCodec {
         );
       }
       return res;
-    } else if (ffi_bridge.NumberWrapper.isA(value)) {
-      return convertNumberWrapperToDart(ffi_bridge.NumberWrapper.as(value));
+    } else if (ffi_bridge.NiTestsNumberWrapper.isA(value)) {
+      return convertNumberWrapperToDart(
+        ffi_bridge.NiTestsNumberWrapper.as(value),
+      );
     } else if (ffi_bridge.NIUnusedClassBridge.isA(value)) {
       return NIUnusedClass.fromFfi(ffi_bridge.NIUnusedClassBridge.as(value));
     } else if (ffi_bridge.NIAllTypesBridge.isA(value)) {
@@ -546,7 +550,7 @@ class _PigeonFfiCodec {
     if (value == null) {
       if (isTypeOrNullableType<T>(ObjCObject) ||
           isTypeOrNullableType<T>(NSObject)) {
-        return ffi_bridge.PigeonInternalNull() as T;
+        return ffi_bridge.NiTestsPigeonInternalNull() as T;
       }
       return null as T;
     }
@@ -623,7 +627,7 @@ class _PigeonFfiCodec {
       for (final NIAllNullableTypesWithoutRecursion? entry in value) {
         res.addObject(
           entry == null
-              ? ffi_bridge.PigeonInternalNull()
+              ? ffi_bridge.NiTestsPigeonInternalNull()
               : writeValue<ffi_bridge.NIAllNullableTypesWithoutRecursionBridge>(
                   entry,
                   generic: true,
@@ -637,7 +641,7 @@ class _PigeonFfiCodec {
       for (final NIAllTypes? entry in value) {
         res.addObject(
           entry == null
-              ? ffi_bridge.PigeonInternalNull()
+              ? ffi_bridge.NiTestsPigeonInternalNull()
               : writeValue<ffi_bridge.NIAllTypesBridge>(entry, generic: true),
         );
       }
@@ -648,7 +652,7 @@ class _PigeonFfiCodec {
       for (final NIAllNullableTypes? entry in value) {
         res.addObject(
           entry == null
-              ? ffi_bridge.PigeonInternalNull()
+              ? ffi_bridge.NiTestsPigeonInternalNull()
               : writeValue<ffi_bridge.NIAllNullableTypesBridge>(
                   entry,
                   generic: true,
@@ -662,7 +666,7 @@ class _PigeonFfiCodec {
       for (final NIAnEnum? entry in value) {
         res.addObject(
           entry == null
-              ? ffi_bridge.PigeonInternalNull()
+              ? ffi_bridge.NiTestsPigeonInternalNull()
               : writeValue<NSNumber>(entry, generic: true),
         );
       }
@@ -673,7 +677,7 @@ class _PigeonFfiCodec {
       for (final bool? entry in value) {
         res.addObject(
           entry == null
-              ? ffi_bridge.PigeonInternalNull()
+              ? ffi_bridge.NiTestsPigeonInternalNull()
               : writeValue<NSNumber>(entry, generic: true),
         );
       }
@@ -684,7 +688,7 @@ class _PigeonFfiCodec {
       for (final double? entry in value) {
         res.addObject(
           entry == null
-              ? ffi_bridge.PigeonInternalNull()
+              ? ffi_bridge.NiTestsPigeonInternalNull()
               : writeValue<NSNumber>(entry, generic: true),
         );
       }
@@ -694,7 +698,7 @@ class _PigeonFfiCodec {
       for (final int? entry in value) {
         res.addObject(
           entry == null
-              ? ffi_bridge.PigeonInternalNull()
+              ? ffi_bridge.NiTestsPigeonInternalNull()
               : writeValue<NSNumber>(entry, generic: true),
         );
       }
@@ -705,7 +709,7 @@ class _PigeonFfiCodec {
       for (final String? entry in value) {
         res.addObject(
           entry == null
-              ? ffi_bridge.PigeonInternalNull()
+              ? ffi_bridge.NiTestsPigeonInternalNull()
               : writeValue<NSString>(entry, generic: true),
         );
       }
@@ -723,7 +727,7 @@ class _PigeonFfiCodec {
       for (final List<Object?>? entry in value) {
         res.addObject(
           entry == null
-              ? ffi_bridge.PigeonInternalNull()
+              ? ffi_bridge.NiTestsPigeonInternalNull()
               : writeValue<NSArray>(entry, generic: true),
         );
       }
@@ -741,7 +745,7 @@ class _PigeonFfiCodec {
       for (final Map<Object?, Object?>? entry in value) {
         res.addObject(
           entry == null
-              ? ffi_bridge.PigeonInternalNull()
+              ? ffi_bridge.NiTestsPigeonInternalNull()
               : writeValue<NSDictionary>(entry, generic: true),
         );
       }
@@ -751,7 +755,7 @@ class _PigeonFfiCodec {
       for (final Object? entry in value) {
         res.addObject(
           entry == null
-              ? ffi_bridge.PigeonInternalNull()
+              ? ffi_bridge.NiTestsPigeonInternalNull()
               : writeValue(entry, generic: true),
         );
       }
@@ -923,7 +927,7 @@ class _PigeonFfiCodec {
   }
 }
 
-ffi_bridge.PigeonTypedData toPigeonTypedData(TypedData value) {
+ffi_bridge.NiTestsPigeonTypedData toPigeonTypedData(TypedData value) {
   final int lengthInBytes = value.lengthInBytes;
   if (value is Uint8List) {
     final int length = value.length;
@@ -934,7 +938,10 @@ ffi_bridge.PigeonTypedData toPigeonTypedData(TypedData value) {
       length: lengthInBytes,
     );
     calloc.free(ptr);
-    return ffi_bridge.PigeonTypedData.alloc().initWithData(nsData, type: 0);
+    return ffi_bridge.NiTestsPigeonTypedData.alloc().initWithData(
+      nsData,
+      type: 0,
+    );
   } else if (value is Int32List) {
     final int length = value.length;
     final Pointer<Int32> ptr = calloc<Int32>(length);
@@ -944,7 +951,10 @@ ffi_bridge.PigeonTypedData toPigeonTypedData(TypedData value) {
       length: lengthInBytes,
     );
     calloc.free(ptr);
-    return ffi_bridge.PigeonTypedData.alloc().initWithData(nsData, type: 1);
+    return ffi_bridge.NiTestsPigeonTypedData.alloc().initWithData(
+      nsData,
+      type: 1,
+    );
   } else if (value is Int64List) {
     final int length = value.length;
     final Pointer<Int64> ptr = calloc<Int64>(length);
@@ -954,7 +964,10 @@ ffi_bridge.PigeonTypedData toPigeonTypedData(TypedData value) {
       length: lengthInBytes,
     );
     calloc.free(ptr);
-    return ffi_bridge.PigeonTypedData.alloc().initWithData(nsData, type: 2);
+    return ffi_bridge.NiTestsPigeonTypedData.alloc().initWithData(
+      nsData,
+      type: 2,
+    );
   } else if (value is Float32List) {
     final int length = value.length;
     final Pointer<Float> ptr = calloc<Float>(length);
@@ -964,7 +977,10 @@ ffi_bridge.PigeonTypedData toPigeonTypedData(TypedData value) {
       length: lengthInBytes,
     );
     calloc.free(ptr);
-    return ffi_bridge.PigeonTypedData.alloc().initWithData(nsData, type: 3);
+    return ffi_bridge.NiTestsPigeonTypedData.alloc().initWithData(
+      nsData,
+      type: 3,
+    );
   } else if (value is Float64List) {
     final int length = value.length;
     final Pointer<Double> ptr = calloc<Double>(length);
@@ -974,12 +990,15 @@ ffi_bridge.PigeonTypedData toPigeonTypedData(TypedData value) {
       length: lengthInBytes,
     );
     calloc.free(ptr);
-    return ffi_bridge.PigeonTypedData.alloc().initWithData(nsData, type: 4);
+    return ffi_bridge.NiTestsPigeonTypedData.alloc().initWithData(
+      nsData,
+      type: 4,
+    );
   }
   throw ArgumentError.value(value);
 }
 
-Object? getValueFromPigeonTypedData(ffi_bridge.PigeonTypedData value) {
+Object? getValueFromPigeonTypedData(ffi_bridge.NiTestsPigeonTypedData value) {
   final NSData data = value.data;
   final Pointer<Void> bytes = data.bytes;
   switch (value.type) {
@@ -1006,7 +1025,7 @@ Object? getValueFromPigeonTypedData(ffi_bridge.PigeonTypedData value) {
   }
 }
 
-Object? convertNumberWrapperToDart(ffi_bridge.NumberWrapper value) {
+Object? convertNumberWrapperToDart(ffi_bridge.NiTestsNumberWrapper value) {
   switch (value.type) {
     case 1:
       return value.number.longValue;
@@ -1023,30 +1042,30 @@ Object? convertNumberWrapperToDart(ffi_bridge.NumberWrapper value) {
   }
 }
 
-ffi_bridge.NumberWrapper convertToFfiNumberWrapper(Object value) {
+ffi_bridge.NiTestsNumberWrapper convertToFfiNumberWrapper(Object value) {
   switch (value) {
     case int _:
-      return ffi_bridge.NumberWrapper.alloc().initWithNumber(
+      return ffi_bridge.NiTestsNumberWrapper.alloc().initWithNumber(
         NSNumber.alloc().initWithLong(value),
         type: 1,
       );
     case double _:
-      return ffi_bridge.NumberWrapper.alloc().initWithNumber(
+      return ffi_bridge.NiTestsNumberWrapper.alloc().initWithNumber(
         NSNumber.alloc().initWithDouble(value),
         type: 2,
       );
     case bool _:
-      return ffi_bridge.NumberWrapper.alloc().initWithNumber(
+      return ffi_bridge.NiTestsNumberWrapper.alloc().initWithNumber(
         NSNumber.alloc().initWithLong(value ? 1 : 0),
         type: 3,
       );
     case NIAnEnum _:
-      return ffi_bridge.NumberWrapper.alloc().initWithNumber(
+      return ffi_bridge.NiTestsNumberWrapper.alloc().initWithNumber(
         value.toNSNumber(),
         type: 4,
       );
     case NIAnotherEnum _:
-      return ffi_bridge.NumberWrapper.alloc().initWithNumber(
+      return ffi_bridge.NiTestsNumberWrapper.alloc().initWithNumber(
         value.toNSNumber(),
         type: 5,
       );
@@ -1385,18 +1404,21 @@ class NIAllTypes {
       anInt: anInt,
       anInt64: anInt64,
       aDouble: aDouble,
-      aByteArray: _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(
+      aByteArray: _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
         aByteArray,
       ),
-      a4ByteArray: _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(
-        a4ByteArray,
-      ),
-      a8ByteArray: _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(
-        a8ByteArray,
-      ),
-      aFloatArray: _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(
-        aFloatArray,
-      ),
+      a4ByteArray:
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
+            a4ByteArray,
+          ),
+      a8ByteArray:
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
+            a8ByteArray,
+          ),
+      aFloatArray:
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
+            aFloatArray,
+          ),
       anEnum: ffi_bridge.NIAnEnum.values[anEnum.index],
       anotherEnum: ffi_bridge.NIAnotherEnum.values[anotherEnum.index],
       aString: _PigeonFfiCodec.writeValue<NSString>(aString),
@@ -1874,19 +1896,19 @@ class NIAllNullableTypes {
       aNullableInt64: _PigeonFfiCodec.writeValue<NSNumber?>(aNullableInt64),
       aNullableDouble: _PigeonFfiCodec.writeValue<NSNumber?>(aNullableDouble),
       aNullableByteArray:
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
             aNullableByteArray,
           ),
       aNullable4ByteArray:
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
             aNullable4ByteArray,
           ),
       aNullable8ByteArray:
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
             aNullable8ByteArray,
           ),
       aNullableFloatArray:
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
             aNullableFloatArray,
           ),
       aNullableEnum: _PigeonFfiCodec.writeValue<NSNumber?>(
@@ -2420,19 +2442,19 @@ class NIAllNullableTypesWithoutRecursion {
             aNullableDouble,
           ),
           aNullableByteArray:
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
                 aNullableByteArray,
               ),
           aNullable4ByteArray:
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
                 aNullable4ByteArray,
               ),
           aNullable8ByteArray:
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
                 aNullable8ByteArray,
               ),
           aNullableFloatArray:
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
                 aNullableFloatArray,
               ),
           aNullableEnum: _PigeonFfiCodec.writeValue<NSNumber?>(
@@ -3259,9 +3281,9 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .echoUint8ListWithAUint8List(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
                 aUint8List,
               ),
               wrappedError: error,
@@ -3289,9 +3311,9 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .echoInt32ListWithAInt32List(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
                 aInt32List,
               ),
               wrappedError: error,
@@ -3319,9 +3341,9 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .echoInt64ListWithAInt64List(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
                 aInt64List,
               ),
               wrappedError: error,
@@ -3349,9 +3371,9 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .echoFloat64ListWithAFloat64List(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
                 aFloat64List,
               ),
               wrappedError: error,
@@ -4376,9 +4398,9 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .echoNullableUint8ListWithANullableUint8List(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
                 aNullableUint8List,
               ),
               wrappedError: error,
@@ -4406,9 +4428,9 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .echoNullableInt32ListWithANullableInt32List(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
                 aNullableInt32List,
               ),
               wrappedError: error,
@@ -4436,9 +4458,9 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .echoNullableInt64ListWithANullableInt64List(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
                 aNullableInt64List,
               ),
               wrappedError: error,
@@ -4466,9 +4488,9 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .echoNullableFloat64ListWithANullableFloat64List(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
                 aNullableFloat64List,
               ),
               wrappedError: error,
@@ -5222,11 +5244,13 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Uint8List> completer = Completer<Uint8List>();
         _ffiApi.echoAsyncUint8ListWithAUint8List(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(aUint8List),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
+            aUint8List,
+          ),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -5259,11 +5283,13 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Int32List> completer = Completer<Int32List>();
         _ffiApi.echoAsyncInt32ListWithAInt32List(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(aInt32List),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
+            aInt32List,
+          ),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -5296,11 +5322,13 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Int64List> completer = Completer<Int64List>();
         _ffiApi.echoAsyncInt64ListWithAInt64List(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(aInt64List),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
+            aInt64List,
+          ),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -5333,11 +5361,13 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Float64List> completer = Completer<Float64List>();
         _ffiApi.echoAsyncFloat64ListWithAFloat64List(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(aFloat64List),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
+            aFloat64List,
+          ),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -6137,11 +6167,13 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Uint8List?> completer = Completer<Uint8List?>();
         _ffiApi.echoAsyncNullableUint8ListWithAUint8List(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(aUint8List),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
+            aUint8List,
+          ),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -6174,11 +6206,13 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Int32List?> completer = Completer<Int32List?>();
         _ffiApi.echoAsyncNullableInt32ListWithAInt32List(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(aInt32List),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
+            aInt32List,
+          ),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -6211,11 +6245,13 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Int64List?> completer = Completer<Int64List?>();
         _ffiApi.echoAsyncNullableInt64ListWithAInt64List(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(aInt64List),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
+            aInt64List,
+          ),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -6250,11 +6286,13 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Float64List?> completer = Completer<Float64List?>();
         _ffiApi.echoAsyncNullableFloat64ListWithAFloat64List(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(aFloat64List),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
+            aFloat64List,
+          ),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -7041,9 +7079,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .callFlutterEchoUint8ListWithList(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(list),
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
+                list,
+              ),
               wrappedError: error,
             );
         _throwIfFfiError(error);
@@ -7069,9 +7109,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .callFlutterEchoInt32ListWithList(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(list),
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
+                list,
+              ),
               wrappedError: error,
             );
         _throwIfFfiError(error);
@@ -7097,9 +7139,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .callFlutterEchoInt64ListWithList(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(list),
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
+                list,
+              ),
               wrappedError: error,
             );
         _throwIfFfiError(error);
@@ -7125,9 +7169,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .callFlutterEchoFloat64ListWithList(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(list),
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(
+                list,
+              ),
               wrappedError: error,
             );
         _throwIfFfiError(error);
@@ -7751,9 +7797,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .callFlutterEchoNullableUint8ListWithList(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(list),
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
+                list,
+              ),
               wrappedError: error,
             );
         _throwIfFfiError(error);
@@ -7779,9 +7827,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .callFlutterEchoNullableInt32ListWithList(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(list),
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
+                list,
+              ),
               wrappedError: error,
             );
         _throwIfFfiError(error);
@@ -7807,9 +7857,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .callFlutterEchoNullableInt64ListWithList(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(list),
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
+                list,
+              ),
               wrappedError: error,
             );
         _throwIfFfiError(error);
@@ -7835,9 +7887,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         return dartTypeRes;
       } else if (_ffiApi != null) {
         final error = ffi_bridge.NiTestsError();
-        final ffi_bridge.PigeonTypedData? res = _ffiApi
+        final ffi_bridge.NiTestsPigeonTypedData? res = _ffiApi
             .callFlutterEchoNullableFloat64ListWithList(
-              _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(list),
+              _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(
+                list,
+              ),
               wrappedError: error,
             );
         _throwIfFfiError(error);
@@ -8653,11 +8707,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Uint8List> completer = Completer<Uint8List>();
         _ffiApi.callFlutterEchoAsyncUint8ListWithList(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(list),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(list),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -8690,11 +8744,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Int32List> completer = Completer<Int32List>();
         _ffiApi.callFlutterEchoAsyncInt32ListWithList(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(list),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(list),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -8727,11 +8781,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Int64List> completer = Completer<Int64List>();
         _ffiApi.callFlutterEchoAsyncInt64ListWithList(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(list),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(list),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -8764,11 +8818,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Float64List> completer = Completer<Float64List>();
         _ffiApi.callFlutterEchoAsyncFloat64ListWithList(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(list),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData>(list),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -9465,11 +9519,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Uint8List?> completer = Completer<Uint8List?>();
         _ffiApi.callFlutterEchoAsyncNullableUint8ListWithList(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(list),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(list),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -9505,11 +9559,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Int32List?> completer = Completer<Int32List?>();
         _ffiApi.callFlutterEchoAsyncNullableInt32ListWithList(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(list),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(list),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -9545,11 +9599,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Int64List?> completer = Completer<Int64List?>();
         _ffiApi.callFlutterEchoAsyncNullableInt64ListWithList(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(list),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(list),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -9585,11 +9639,11 @@ class NIHostIntegrationCoreApiForNativeInterop {
         final error = ffi_bridge.NiTestsError();
         final Completer<Float64List?> completer = Completer<Float64List?>();
         _ffiApi.callFlutterEchoAsyncNullableFloat64ListWithList(
-          _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(list),
+          _PigeonFfiCodec.writeValue<ffi_bridge.NiTestsPigeonTypedData?>(list),
           wrappedError: error,
           completionHandler:
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData.listener((
-                ffi_bridge.PigeonTypedData? res,
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData.listener((
+                ffi_bridge.NiTestsPigeonTypedData? res,
               ) {
                 if (error.code != null) {
                   completer.completeError(_wrapFfiError(error));
@@ -16558,7 +16612,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoUint8ListWithList_error_
           .implement(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
           ) {
             try {
@@ -16566,9 +16620,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 final Uint8List response = dartApi!.echoUint8List(
                   (_PigeonFfiCodec.readValue(list)! as Uint8List),
                 );
-                return _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(
-                  response,
-                );
+                return _PigeonFfiCodec.writeValue<
+                  ffi_bridge.NiTestsPigeonTypedData
+                >(response);
               } else {
                 reportError(
                   errorOut,
@@ -16585,7 +16639,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoInt32ListWithList_error_
           .implement(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
           ) {
             try {
@@ -16593,9 +16647,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 final Int32List response = dartApi!.echoInt32List(
                   (_PigeonFfiCodec.readValue(list)! as Int32List),
                 );
-                return _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(
-                  response,
-                );
+                return _PigeonFfiCodec.writeValue<
+                  ffi_bridge.NiTestsPigeonTypedData
+                >(response);
               } else {
                 reportError(
                   errorOut,
@@ -16612,7 +16666,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoInt64ListWithList_error_
           .implement(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
           ) {
             try {
@@ -16620,9 +16674,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 final Int64List response = dartApi!.echoInt64List(
                   (_PigeonFfiCodec.readValue(list)! as Int64List),
                 );
-                return _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(
-                  response,
-                );
+                return _PigeonFfiCodec.writeValue<
+                  ffi_bridge.NiTestsPigeonTypedData
+                >(response);
               } else {
                 reportError(
                   errorOut,
@@ -16639,7 +16693,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoFloat64ListWithList_error_
           .implement(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
           ) {
             try {
@@ -16647,9 +16701,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 final Float64List response = dartApi!.echoFloat64List(
                   (_PigeonFfiCodec.readValue(list)! as Float64List),
                 );
-                return _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData>(
-                  response,
-                );
+                return _PigeonFfiCodec.writeValue<
+                  ffi_bridge.NiTestsPigeonTypedData
+                >(response);
               } else {
                 reportError(
                   errorOut,
@@ -17195,7 +17249,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoNullableUint8ListWithList_error_
           .implement(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
           ) {
             try {
@@ -17203,9 +17257,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 final Uint8List? response = dartApi!.echoNullableUint8List(
                   (_PigeonFfiCodec.readValue(list) as Uint8List?),
                 );
-                return _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
-                  response,
-                );
+                return _PigeonFfiCodec.writeValue<
+                  ffi_bridge.NiTestsPigeonTypedData?
+                >(response);
               } else {
                 reportError(
                   errorOut,
@@ -17222,7 +17276,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoNullableInt32ListWithList_error_
           .implement(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
           ) {
             try {
@@ -17230,9 +17284,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 final Int32List? response = dartApi!.echoNullableInt32List(
                   (_PigeonFfiCodec.readValue(list) as Int32List?),
                 );
-                return _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
-                  response,
-                );
+                return _PigeonFfiCodec.writeValue<
+                  ffi_bridge.NiTestsPigeonTypedData?
+                >(response);
               } else {
                 reportError(
                   errorOut,
@@ -17249,7 +17303,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoNullableInt64ListWithList_error_
           .implement(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
           ) {
             try {
@@ -17257,9 +17311,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 final Int64List? response = dartApi!.echoNullableInt64List(
                   (_PigeonFfiCodec.readValue(list) as Int64List?),
                 );
-                return _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
-                  response,
-                );
+                return _PigeonFfiCodec.writeValue<
+                  ffi_bridge.NiTestsPigeonTypedData?
+                >(response);
               } else {
                 reportError(
                   errorOut,
@@ -17276,7 +17330,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoNullableFloat64ListWithList_error_
           .implement(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
           ) {
             try {
@@ -17284,9 +17338,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 final Float64List? response = dartApi!.echoNullableFloat64List(
                   (_PigeonFfiCodec.readValue(list) as Float64List?),
                 );
-                return _PigeonFfiCodec.writeValue<ffi_bridge.PigeonTypedData?>(
-                  response,
-                );
+                return _PigeonFfiCodec.writeValue<
+                  ffi_bridge.NiTestsPigeonTypedData?
+                >(response);
               } else {
                 reportError(
                   errorOut,
@@ -18146,9 +18200,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoAsyncUint8ListWithList_error_completionHandler_
           .implementAsListener(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
-            ObjCBlock<Void Function(ffi_bridge.PigeonTypedData?)>
+            ObjCBlock<Void Function(ffi_bridge.NiTestsPigeonTypedData?)>
             completionHandler,
           ) {
             try {
@@ -18159,17 +18213,17 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     )
                     .then(
                       (response) {
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(
                           _PigeonFfiCodec.writeValue<
-                            ffi_bridge.PigeonTypedData
+                            ffi_bridge.NiTestsPigeonTypedData
                           >(response),
                         );
                       },
                       onError: (Object e) {
                         reportError(errorOut, e);
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
                       },
@@ -18180,14 +18234,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
-                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                   completionHandler,
                 ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
               return;
@@ -18197,9 +18251,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoAsyncInt32ListWithList_error_completionHandler_
           .implementAsListener(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
-            ObjCBlock<Void Function(ffi_bridge.PigeonTypedData?)>
+            ObjCBlock<Void Function(ffi_bridge.NiTestsPigeonTypedData?)>
             completionHandler,
           ) {
             try {
@@ -18210,17 +18264,17 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     )
                     .then(
                       (response) {
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(
                           _PigeonFfiCodec.writeValue<
-                            ffi_bridge.PigeonTypedData
+                            ffi_bridge.NiTestsPigeonTypedData
                           >(response),
                         );
                       },
                       onError: (Object e) {
                         reportError(errorOut, e);
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
                       },
@@ -18231,14 +18285,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
-                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                   completionHandler,
                 ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
               return;
@@ -18248,9 +18302,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoAsyncInt64ListWithList_error_completionHandler_
           .implementAsListener(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
-            ObjCBlock<Void Function(ffi_bridge.PigeonTypedData?)>
+            ObjCBlock<Void Function(ffi_bridge.NiTestsPigeonTypedData?)>
             completionHandler,
           ) {
             try {
@@ -18261,17 +18315,17 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     )
                     .then(
                       (response) {
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(
                           _PigeonFfiCodec.writeValue<
-                            ffi_bridge.PigeonTypedData
+                            ffi_bridge.NiTestsPigeonTypedData
                           >(response),
                         );
                       },
                       onError: (Object e) {
                         reportError(errorOut, e);
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
                       },
@@ -18282,14 +18336,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
-                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                   completionHandler,
                 ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
               return;
@@ -18299,9 +18353,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoAsyncFloat64ListWithList_error_completionHandler_
           .implementAsListener(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
-            ObjCBlock<Void Function(ffi_bridge.PigeonTypedData?)>
+            ObjCBlock<Void Function(ffi_bridge.NiTestsPigeonTypedData?)>
             completionHandler,
           ) {
             try {
@@ -18312,17 +18366,17 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     )
                     .then(
                       (response) {
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(
                           _PigeonFfiCodec.writeValue<
-                            ffi_bridge.PigeonTypedData
+                            ffi_bridge.NiTestsPigeonTypedData
                           >(response),
                         );
                       },
                       onError: (Object e) {
                         reportError(errorOut, e);
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
                       },
@@ -18333,14 +18387,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
-                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                   completionHandler,
                 ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
               return;
@@ -19165,9 +19219,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoAsyncNullableUint8ListWithList_error_completionHandler_
           .implementAsListener(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
-            ObjCBlock<Void Function(ffi_bridge.PigeonTypedData?)>
+            ObjCBlock<Void Function(ffi_bridge.NiTestsPigeonTypedData?)>
             completionHandler,
           ) {
             try {
@@ -19178,17 +19232,17 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     )
                     .then(
                       (response) {
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(
                           _PigeonFfiCodec.writeValue<
-                            ffi_bridge.PigeonTypedData?
+                            ffi_bridge.NiTestsPigeonTypedData?
                           >(response),
                         );
                       },
                       onError: (Object e) {
                         reportError(errorOut, e);
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
                       },
@@ -19199,14 +19253,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
-                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                   completionHandler,
                 ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
               return;
@@ -19216,9 +19270,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoAsyncNullableInt32ListWithList_error_completionHandler_
           .implementAsListener(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
-            ObjCBlock<Void Function(ffi_bridge.PigeonTypedData?)>
+            ObjCBlock<Void Function(ffi_bridge.NiTestsPigeonTypedData?)>
             completionHandler,
           ) {
             try {
@@ -19229,17 +19283,17 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     )
                     .then(
                       (response) {
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(
                           _PigeonFfiCodec.writeValue<
-                            ffi_bridge.PigeonTypedData?
+                            ffi_bridge.NiTestsPigeonTypedData?
                           >(response),
                         );
                       },
                       onError: (Object e) {
                         reportError(errorOut, e);
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
                       },
@@ -19250,14 +19304,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
-                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                   completionHandler,
                 ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
               return;
@@ -19267,9 +19321,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoAsyncNullableInt64ListWithList_error_completionHandler_
           .implementAsListener(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
-            ObjCBlock<Void Function(ffi_bridge.PigeonTypedData?)>
+            ObjCBlock<Void Function(ffi_bridge.NiTestsPigeonTypedData?)>
             completionHandler,
           ) {
             try {
@@ -19280,17 +19334,17 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     )
                     .then(
                       (response) {
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(
                           _PigeonFfiCodec.writeValue<
-                            ffi_bridge.PigeonTypedData?
+                            ffi_bridge.NiTestsPigeonTypedData?
                           >(response),
                         );
                       },
                       onError: (Object e) {
                         reportError(errorOut, e);
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
                       },
@@ -19301,14 +19355,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
-                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                   completionHandler,
                 ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
               return;
@@ -19318,9 +19372,9 @@ final class NIFlutterIntegrationCoreApiRegistrar
           .NIFlutterIntegrationCoreApiBridge$Builder
           .echoAsyncNullableFloat64ListWithList_error_completionHandler_
           .implementAsListener(builder, (
-            ffi_bridge.PigeonTypedData? list,
+            ffi_bridge.NiTestsPigeonTypedData? list,
             ffi_bridge.NiTestsError errorOut,
-            ObjCBlock<Void Function(ffi_bridge.PigeonTypedData?)>
+            ObjCBlock<Void Function(ffi_bridge.NiTestsPigeonTypedData?)>
             completionHandler,
           ) {
             try {
@@ -19331,17 +19385,17 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     )
                     .then(
                       (response) {
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(
                           _PigeonFfiCodec.writeValue<
-                            ffi_bridge.PigeonTypedData?
+                            ffi_bridge.NiTestsPigeonTypedData?
                           >(response),
                         );
                       },
                       onError: (Object e) {
                         reportError(errorOut, e);
-                        ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                        ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
                       },
@@ -19352,14 +19406,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
-                ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+                ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                   completionHandler,
                 ).call(null);
                 return;
               }
             } catch (e) {
               reportError(errorOut, e);
-              ffi_bridge.ObjCBlock_ffiVoid_PigeonTypedData$CallExtension(
+              ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
               return;

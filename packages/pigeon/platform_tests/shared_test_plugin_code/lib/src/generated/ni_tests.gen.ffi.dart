@@ -658,7 +658,7 @@ extension type NIAllNullableTypesBridge._(objc.ObjCObject object$)
 extension NIAllNullableTypesBridge$Methods on NIAllNullableTypesBridge {
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? get aNullable4ByteArray {
+  NiTestsPigeonTypedData? get aNullable4ByteArray {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesBridge.aNullable4ByteArray',
       iOS: (false, (13, 0, 0)),
@@ -670,12 +670,12 @@ extension NIAllNullableTypesBridge$Methods on NIAllNullableTypesBridge {
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? get aNullable8ByteArray {
+  NiTestsPigeonTypedData? get aNullable8ByteArray {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesBridge.aNullable8ByteArray',
       iOS: (false, (13, 0, 0)),
@@ -687,7 +687,7 @@ extension NIAllNullableTypesBridge$Methods on NIAllNullableTypesBridge {
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// iOS: introduced 13.0.0
@@ -706,7 +706,7 @@ extension NIAllNullableTypesBridge$Methods on NIAllNullableTypesBridge {
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? get aNullableByteArray {
+  NiTestsPigeonTypedData? get aNullableByteArray {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesBridge.aNullableByteArray',
       iOS: (false, (13, 0, 0)),
@@ -718,7 +718,7 @@ extension NIAllNullableTypesBridge$Methods on NIAllNullableTypesBridge {
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// iOS: introduced 13.0.0
@@ -754,7 +754,7 @@ extension NIAllNullableTypesBridge$Methods on NIAllNullableTypesBridge {
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? get aNullableFloatArray {
+  NiTestsPigeonTypedData? get aNullableFloatArray {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesBridge.aNullableFloatArray',
       iOS: (false, (13, 0, 0)),
@@ -766,7 +766,7 @@ extension NIAllNullableTypesBridge$Methods on NIAllNullableTypesBridge {
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// iOS: introduced 13.0.0
@@ -955,10 +955,10 @@ extension NIAllNullableTypesBridge$Methods on NIAllNullableTypesBridge {
     objc.NSNumber? aNullableInt,
     objc.NSNumber? aNullableInt64,
     objc.NSNumber? aNullableDouble,
-    PigeonTypedData? aNullableByteArray,
-    PigeonTypedData? aNullable4ByteArray,
-    PigeonTypedData? aNullable8ByteArray,
-    PigeonTypedData? aNullableFloatArray,
+    NiTestsPigeonTypedData? aNullableByteArray,
+    NiTestsPigeonTypedData? aNullable4ByteArray,
+    NiTestsPigeonTypedData? aNullable8ByteArray,
+    NiTestsPigeonTypedData? aNullableFloatArray,
     objc.NSNumber? aNullableEnum,
     objc.NSNumber? anotherNullableEnum,
     objc.NSString? aNullableString,
@@ -1206,7 +1206,7 @@ extension NIAllNullableTypesBridge$Methods on NIAllNullableTypesBridge {
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  set aNullable4ByteArray(PigeonTypedData? value) {
+  set aNullable4ByteArray(NiTestsPigeonTypedData? value) {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesBridge.setANullable4ByteArray:',
       iOS: (false, (13, 0, 0)),
@@ -1221,7 +1221,7 @@ extension NIAllNullableTypesBridge$Methods on NIAllNullableTypesBridge {
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  set aNullable8ByteArray(PigeonTypedData? value) {
+  set aNullable8ByteArray(NiTestsPigeonTypedData? value) {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesBridge.setANullable8ByteArray:',
       iOS: (false, (13, 0, 0)),
@@ -1251,7 +1251,7 @@ extension NIAllNullableTypesBridge$Methods on NIAllNullableTypesBridge {
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  set aNullableByteArray(PigeonTypedData? value) {
+  set aNullableByteArray(NiTestsPigeonTypedData? value) {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesBridge.setANullableByteArray:',
       iOS: (false, (13, 0, 0)),
@@ -1296,7 +1296,7 @@ extension NIAllNullableTypesBridge$Methods on NIAllNullableTypesBridge {
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  set aNullableFloatArray(PigeonTypedData? value) {
+  set aNullableFloatArray(NiTestsPigeonTypedData? value) {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesBridge.setANullableFloatArray:',
       iOS: (false, (13, 0, 0)),
@@ -1793,7 +1793,7 @@ extension NIAllNullableTypesWithoutRecursionBridge$Methods
     on NIAllNullableTypesWithoutRecursionBridge {
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? get aNullable4ByteArray {
+  NiTestsPigeonTypedData? get aNullable4ByteArray {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesWithoutRecursionBridge.aNullable4ByteArray',
       iOS: (false, (13, 0, 0)),
@@ -1805,12 +1805,12 @@ extension NIAllNullableTypesWithoutRecursionBridge$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? get aNullable8ByteArray {
+  NiTestsPigeonTypedData? get aNullable8ByteArray {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesWithoutRecursionBridge.aNullable8ByteArray',
       iOS: (false, (13, 0, 0)),
@@ -1822,7 +1822,7 @@ extension NIAllNullableTypesWithoutRecursionBridge$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// iOS: introduced 13.0.0
@@ -1841,7 +1841,7 @@ extension NIAllNullableTypesWithoutRecursionBridge$Methods
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? get aNullableByteArray {
+  NiTestsPigeonTypedData? get aNullableByteArray {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesWithoutRecursionBridge.aNullableByteArray',
       iOS: (false, (13, 0, 0)),
@@ -1853,7 +1853,7 @@ extension NIAllNullableTypesWithoutRecursionBridge$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// iOS: introduced 13.0.0
@@ -1889,7 +1889,7 @@ extension NIAllNullableTypesWithoutRecursionBridge$Methods
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? get aNullableFloatArray {
+  NiTestsPigeonTypedData? get aNullableFloatArray {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesWithoutRecursionBridge.aNullableFloatArray',
       iOS: (false, (13, 0, 0)),
@@ -1901,7 +1901,7 @@ extension NIAllNullableTypesWithoutRecursionBridge$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// iOS: introduced 13.0.0
@@ -2069,10 +2069,10 @@ extension NIAllNullableTypesWithoutRecursionBridge$Methods
     objc.NSNumber? aNullableInt,
     objc.NSNumber? aNullableInt64,
     objc.NSNumber? aNullableDouble,
-    PigeonTypedData? aNullableByteArray,
-    PigeonTypedData? aNullable4ByteArray,
-    PigeonTypedData? aNullable8ByteArray,
-    PigeonTypedData? aNullableFloatArray,
+    NiTestsPigeonTypedData? aNullableByteArray,
+    NiTestsPigeonTypedData? aNullable4ByteArray,
+    NiTestsPigeonTypedData? aNullable8ByteArray,
+    NiTestsPigeonTypedData? aNullableFloatArray,
     objc.NSNumber? aNullableEnum,
     objc.NSNumber? anotherNullableEnum,
     objc.NSString? aNullableString,
@@ -2280,7 +2280,7 @@ extension NIAllNullableTypesWithoutRecursionBridge$Methods
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  set aNullable4ByteArray(PigeonTypedData? value) {
+  set aNullable4ByteArray(NiTestsPigeonTypedData? value) {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesWithoutRecursionBridge.setANullable4ByteArray:',
       iOS: (false, (13, 0, 0)),
@@ -2295,7 +2295,7 @@ extension NIAllNullableTypesWithoutRecursionBridge$Methods
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  set aNullable8ByteArray(PigeonTypedData? value) {
+  set aNullable8ByteArray(NiTestsPigeonTypedData? value) {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesWithoutRecursionBridge.setANullable8ByteArray:',
       iOS: (false, (13, 0, 0)),
@@ -2325,7 +2325,7 @@ extension NIAllNullableTypesWithoutRecursionBridge$Methods
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  set aNullableByteArray(PigeonTypedData? value) {
+  set aNullableByteArray(NiTestsPigeonTypedData? value) {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesWithoutRecursionBridge.setANullableByteArray:',
       iOS: (false, (13, 0, 0)),
@@ -2370,7 +2370,7 @@ extension NIAllNullableTypesWithoutRecursionBridge$Methods
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  set aNullableFloatArray(PigeonTypedData? value) {
+  set aNullableFloatArray(NiTestsPigeonTypedData? value) {
     objc.checkOsVersionInternal(
       'NIAllNullableTypesWithoutRecursionBridge.setANullableFloatArray:',
       iOS: (false, (13, 0, 0)),
@@ -2796,26 +2796,34 @@ extension type NIAllTypesBridge._(objc.ObjCObject object$)
 extension NIAllTypesBridge$Methods on NIAllTypesBridge {
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData get a4ByteArray {
+  NiTestsPigeonTypedData get a4ByteArray {
     objc.checkOsVersionInternal(
       'NIAllTypesBridge.a4ByteArray',
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
     final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_a4ByteArray);
-    return PigeonTypedData.fromPointer($ret, retain: true, release: true);
+    return NiTestsPigeonTypedData.fromPointer(
+      $ret,
+      retain: true,
+      release: true,
+    );
   }
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData get a8ByteArray {
+  NiTestsPigeonTypedData get a8ByteArray {
     objc.checkOsVersionInternal(
       'NIAllTypesBridge.a8ByteArray',
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
     final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_a8ByteArray);
-    return PigeonTypedData.fromPointer($ret, retain: true, release: true);
+    return NiTestsPigeonTypedData.fromPointer(
+      $ret,
+      retain: true,
+      release: true,
+    );
   }
 
   /// iOS: introduced 13.0.0
@@ -2831,14 +2839,18 @@ extension NIAllTypesBridge$Methods on NIAllTypesBridge {
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData get aByteArray {
+  NiTestsPigeonTypedData get aByteArray {
     objc.checkOsVersionInternal(
       'NIAllTypesBridge.aByteArray',
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
     final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_aByteArray);
-    return PigeonTypedData.fromPointer($ret, retain: true, release: true);
+    return NiTestsPigeonTypedData.fromPointer(
+      $ret,
+      retain: true,
+      release: true,
+    );
   }
 
   /// iOS: introduced 13.0.0
@@ -2856,14 +2868,18 @@ extension NIAllTypesBridge$Methods on NIAllTypesBridge {
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData get aFloatArray {
+  NiTestsPigeonTypedData get aFloatArray {
     objc.checkOsVersionInternal(
       'NIAllTypesBridge.aFloatArray',
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
     final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_aFloatArray);
-    return PigeonTypedData.fromPointer($ret, retain: true, release: true);
+    return NiTestsPigeonTypedData.fromPointer(
+      $ret,
+      retain: true,
+      release: true,
+    );
   }
 
   /// iOS: introduced 13.0.0
@@ -3007,10 +3023,10 @@ extension NIAllTypesBridge$Methods on NIAllTypesBridge {
     required int anInt,
     required int anInt64,
     required double aDouble,
-    required PigeonTypedData aByteArray,
-    required PigeonTypedData a4ByteArray,
-    required PigeonTypedData a8ByteArray,
-    required PigeonTypedData aFloatArray,
+    required NiTestsPigeonTypedData aByteArray,
+    required NiTestsPigeonTypedData a4ByteArray,
+    required NiTestsPigeonTypedData a8ByteArray,
+    required NiTestsPigeonTypedData aFloatArray,
     required NIAnEnum anEnum,
     required NIAnotherEnum anotherEnum,
     required objc.NSString aString,
@@ -3194,7 +3210,7 @@ extension NIAllTypesBridge$Methods on NIAllTypesBridge {
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  set a4ByteArray(PigeonTypedData value) {
+  set a4ByteArray(NiTestsPigeonTypedData value) {
     objc.checkOsVersionInternal(
       'NIAllTypesBridge.setA4ByteArray:',
       iOS: (false, (13, 0, 0)),
@@ -3209,7 +3225,7 @@ extension NIAllTypesBridge$Methods on NIAllTypesBridge {
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  set a8ByteArray(PigeonTypedData value) {
+  set a8ByteArray(NiTestsPigeonTypedData value) {
     objc.checkOsVersionInternal(
       'NIAllTypesBridge.setA8ByteArray:',
       iOS: (false, (13, 0, 0)),
@@ -3235,7 +3251,7 @@ extension NIAllTypesBridge$Methods on NIAllTypesBridge {
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  set aByteArray(PigeonTypedData value) {
+  set aByteArray(NiTestsPigeonTypedData value) {
     objc.checkOsVersionInternal(
       'NIAllTypesBridge.setAByteArray:',
       iOS: (false, (13, 0, 0)),
@@ -3261,7 +3277,7 @@ extension NIAllTypesBridge$Methods on NIAllTypesBridge {
 
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  set aFloatArray(PigeonTypedData value) {
+  set aFloatArray(NiTestsPigeonTypedData value) {
     objc.checkOsVersionInternal(
       'NIAllTypesBridge.setAFloatArray:',
       iOS: (false, (13, 0, 0)),
@@ -3914,9 +3930,9 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncFloat64ListWithList(
-    PigeonTypedData? list, {
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -3938,9 +3954,9 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncInt32ListWithList(
-    PigeonTypedData? list, {
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -3962,9 +3978,9 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncInt64ListWithList(
-    PigeonTypedData? list, {
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -4317,9 +4333,9 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncNullableFloat64ListWithList(
-    PigeonTypedData? list, {
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -4341,9 +4357,9 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncNullableInt32ListWithList(
-    PigeonTypedData? list, {
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -4365,9 +4381,9 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncNullableInt64ListWithList(
-    PigeonTypedData? list, {
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -4652,9 +4668,9 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncNullableUint8ListWithList(
-    PigeonTypedData? list, {
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -4748,9 +4764,9 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncUint8ListWithList(
-    PigeonTypedData? list, {
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -4939,8 +4955,8 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoFloat64ListWithList(
-    PigeonTypedData? list, {
+  NiTestsPigeonTypedData? echoFloat64ListWithList(
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
   }) {
     objc.checkOsVersionInternal(
@@ -4956,15 +4972,15 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed int32 list, to test serialization and deserialization.
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoInt32ListWithList(
-    PigeonTypedData? list, {
+  NiTestsPigeonTypedData? echoInt32ListWithList(
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
   }) {
     objc.checkOsVersionInternal(
@@ -4980,15 +4996,15 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed int64 list, to test serialization and deserialization.
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoInt64ListWithList(
-    PigeonTypedData? list, {
+  NiTestsPigeonTypedData? echoInt64ListWithList(
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
   }) {
     objc.checkOsVersionInternal(
@@ -5004,7 +5020,7 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed map, to test serialization and deserialization.
@@ -5524,8 +5540,8 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoNullableFloat64ListWithList(
-    PigeonTypedData? list, {
+  NiTestsPigeonTypedData? echoNullableFloat64ListWithList(
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
   }) {
     objc.checkOsVersionInternal(
@@ -5541,15 +5557,15 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed int32 list, to test serialization and deserialization.
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoNullableInt32ListWithList(
-    PigeonTypedData? list, {
+  NiTestsPigeonTypedData? echoNullableInt32ListWithList(
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
   }) {
     objc.checkOsVersionInternal(
@@ -5565,15 +5581,15 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed int64 list, to test serialization and deserialization.
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoNullableInt64ListWithList(
-    PigeonTypedData? list, {
+  NiTestsPigeonTypedData? echoNullableInt64ListWithList(
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
   }) {
     objc.checkOsVersionInternal(
@@ -5589,7 +5605,7 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed map, to test serialization and deserialization.
@@ -5884,8 +5900,8 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoNullableUint8ListWithList(
-    PigeonTypedData? list, {
+  NiTestsPigeonTypedData? echoNullableUint8ListWithList(
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
   }) {
     objc.checkOsVersionInternal(
@@ -5901,7 +5917,7 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed map, to test serialization and deserialization.
@@ -5956,8 +5972,8 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoUint8ListWithList(
-    PigeonTypedData? list, {
+  NiTestsPigeonTypedData? echoUint8ListWithList(
+    NiTestsPigeonTypedData? list, {
     required NiTestsError error,
   }) {
     objc.checkOsVersionInternal(
@@ -5973,7 +5989,7 @@ extension NIFlutterIntegrationCoreApiBridge$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// A no-op function taking no arguments and returning no value, to sanity
@@ -6232,21 +6248,21 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncEnumWithAnEnum_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncFloat64ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncInt32ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncInt64ListWithList_error_completionHandler_,
     required void Function(
@@ -6334,21 +6350,21 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncNullableEnumWithAnEnum_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableFloat64ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableInt32ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableInt64ListWithList_error_completionHandler_,
     required void Function(
@@ -6420,9 +6436,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncNullableStringWithAString_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableUint8ListWithList_error_completionHandler_,
     required void Function(
@@ -6444,9 +6460,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncStringWithAString_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncUint8ListWithList_error_completionHandler_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
@@ -6463,11 +6479,20 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoEnumMapWithEnumMap_error_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
     echoEnumWithAnEnum_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoFloat64ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoInt32ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoInt64ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoIntMapWithIntMap_error_,
@@ -6517,11 +6542,20 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoNullableEnumMapWithEnumMap_error_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
     echoNullableEnumWithAnEnum_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableFloat64ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableInt32ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableInt64ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoNullableIntMapWithIntMap_error_,
@@ -6547,13 +6581,19 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoNullableStringMapWithStringMap_error_,
     required objc.NSString? Function(objc.NSString?, NiTestsError)
     echoNullableStringWithAString_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableUint8ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoStringMapWithStringMap_error_,
     required objc.NSString? Function(objc.NSString?, NiTestsError)
     echoStringWithAString_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoUint8ListWithList_error_,
     required void Function(NiTestsError, objc.ObjCBlock<ffi.Void Function()>)
     noopAsyncWithError_completionHandler_,
@@ -7075,21 +7115,21 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncEnumWithAnEnum_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncFloat64ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncInt32ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncInt64ListWithList_error_completionHandler_,
     required void Function(
@@ -7177,21 +7217,21 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncNullableEnumWithAnEnum_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableFloat64ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableInt32ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableInt64ListWithList_error_completionHandler_,
     required void Function(
@@ -7263,9 +7303,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncNullableStringWithAString_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableUint8ListWithList_error_completionHandler_,
     required void Function(
@@ -7287,9 +7327,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncStringWithAString_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncUint8ListWithList_error_completionHandler_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
@@ -7306,11 +7346,20 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoEnumMapWithEnumMap_error_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
     echoEnumWithAnEnum_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoFloat64ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoInt32ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoInt64ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoIntMapWithIntMap_error_,
@@ -7360,11 +7409,20 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoNullableEnumMapWithEnumMap_error_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
     echoNullableEnumWithAnEnum_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableFloat64ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableInt32ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableInt64ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoNullableIntMapWithIntMap_error_,
@@ -7390,13 +7448,19 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoNullableStringMapWithStringMap_error_,
     required objc.NSString? Function(objc.NSString?, NiTestsError)
     echoNullableStringWithAString_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableUint8ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoStringMapWithStringMap_error_,
     required objc.NSString? Function(objc.NSString?, NiTestsError)
     echoStringWithAString_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoUint8ListWithList_error_,
     required void Function(NiTestsError, objc.ObjCBlock<ffi.Void Function()>)
     noopAsyncWithError_completionHandler_,
@@ -7913,21 +7977,21 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncEnumWithAnEnum_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncFloat64ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncInt32ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncInt64ListWithList_error_completionHandler_,
     required void Function(
@@ -8015,21 +8079,21 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncNullableEnumWithAnEnum_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableFloat64ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableInt32ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableInt64ListWithList_error_completionHandler_,
     required void Function(
@@ -8101,9 +8165,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncNullableStringWithAString_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableUint8ListWithList_error_completionHandler_,
     required void Function(
@@ -8125,9 +8189,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncStringWithAString_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncUint8ListWithList_error_completionHandler_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
@@ -8144,11 +8208,20 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoEnumMapWithEnumMap_error_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
     echoEnumWithAnEnum_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoFloat64ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoInt32ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoInt64ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoIntMapWithIntMap_error_,
@@ -8198,11 +8271,20 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoNullableEnumMapWithEnumMap_error_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
     echoNullableEnumWithAnEnum_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableFloat64ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableInt32ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableInt64ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoNullableIntMapWithIntMap_error_,
@@ -8228,13 +8310,19 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoNullableStringMapWithStringMap_error_,
     required objc.NSString? Function(objc.NSString?, NiTestsError)
     echoNullableStringWithAString_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableUint8ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoStringMapWithStringMap_error_,
     required objc.NSString? Function(objc.NSString?, NiTestsError)
     echoStringWithAString_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoUint8ListWithList_error_,
     required void Function(NiTestsError, objc.ObjCBlock<ffi.Void Function()>)
     noopAsyncWithError_completionHandler_,
@@ -8776,21 +8864,21 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncEnumWithAnEnum_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncFloat64ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncInt32ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncInt64ListWithList_error_completionHandler_,
     required void Function(
@@ -8878,21 +8966,21 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncNullableEnumWithAnEnum_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableFloat64ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableInt32ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableInt64ListWithList_error_completionHandler_,
     required void Function(
@@ -8964,9 +9052,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncNullableStringWithAString_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableUint8ListWithList_error_completionHandler_,
     required void Function(
@@ -8988,9 +9076,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncStringWithAString_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncUint8ListWithList_error_completionHandler_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
@@ -9007,11 +9095,20 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoEnumMapWithEnumMap_error_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
     echoEnumWithAnEnum_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoFloat64ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoInt32ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoInt64ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoIntMapWithIntMap_error_,
@@ -9061,11 +9158,20 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoNullableEnumMapWithEnumMap_error_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
     echoNullableEnumWithAnEnum_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableFloat64ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableInt32ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableInt64ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoNullableIntMapWithIntMap_error_,
@@ -9091,13 +9197,19 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoNullableStringMapWithStringMap_error_,
     required objc.NSString? Function(objc.NSString?, NiTestsError)
     echoNullableStringWithAString_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableUint8ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoStringMapWithStringMap_error_,
     required objc.NSString? Function(objc.NSString?, NiTestsError)
     echoStringWithAString_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoUint8ListWithList_error_,
     required void Function(NiTestsError, objc.ObjCBlock<ffi.Void Function()>)
     noopAsyncWithError_completionHandler_,
@@ -9633,21 +9745,21 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncEnumWithAnEnum_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncFloat64ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncInt32ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncInt64ListWithList_error_completionHandler_,
     required void Function(
@@ -9735,21 +9847,21 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncNullableEnumWithAnEnum_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableFloat64ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableInt32ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableInt64ListWithList_error_completionHandler_,
     required void Function(
@@ -9821,9 +9933,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncNullableStringWithAString_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableUint8ListWithList_error_completionHandler_,
     required void Function(
@@ -9845,9 +9957,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncStringWithAString_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncUint8ListWithList_error_completionHandler_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
@@ -9864,11 +9976,20 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoEnumMapWithEnumMap_error_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
     echoEnumWithAnEnum_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoFloat64ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoInt32ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoInt64ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoIntMapWithIntMap_error_,
@@ -9918,11 +10039,20 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoNullableEnumMapWithEnumMap_error_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
     echoNullableEnumWithAnEnum_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableFloat64ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableInt32ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableInt64ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoNullableIntMapWithIntMap_error_,
@@ -9948,13 +10078,19 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoNullableStringMapWithStringMap_error_,
     required objc.NSString? Function(objc.NSString?, NiTestsError)
     echoNullableStringWithAString_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableUint8ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoStringMapWithStringMap_error_,
     required objc.NSString? Function(objc.NSString?, NiTestsError)
     echoStringWithAString_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoUint8ListWithList_error_,
     required void Function(NiTestsError, objc.ObjCBlock<ffi.Void Function()>)
     noopAsyncWithError_completionHandler_,
@@ -10496,21 +10632,21 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncEnumWithAnEnum_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncFloat64ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncInt32ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncInt64ListWithList_error_completionHandler_,
     required void Function(
@@ -10598,21 +10734,21 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncNullableEnumWithAnEnum_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableFloat64ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableInt32ListWithList_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableInt64ListWithList_error_completionHandler_,
     required void Function(
@@ -10684,9 +10820,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncNullableStringWithAString_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncNullableUint8ListWithList_error_completionHandler_,
     required void Function(
@@ -10708,9 +10844,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     )
     echoAsyncStringWithAString_error_completionHandler_,
     required void Function(
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     echoAsyncUint8ListWithList_error_completionHandler_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
@@ -10727,11 +10863,20 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoEnumMapWithEnumMap_error_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
     echoEnumWithAnEnum_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoFloat64ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoInt32ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoInt64ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoIntMapWithIntMap_error_,
@@ -10781,11 +10926,20 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoNullableEnumMapWithEnumMap_error_,
     required objc.NSNumber? Function(objc.NSNumber?, NiTestsError)
     echoNullableEnumWithAnEnum_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableFloat64ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableInt32ListWithList_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableInt64ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoNullableIntMapWithIntMap_error_,
@@ -10811,13 +10965,19 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
     echoNullableStringMapWithStringMap_error_,
     required objc.NSString? Function(objc.NSString?, NiTestsError)
     echoNullableStringWithAString_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoNullableUint8ListWithList_error_,
     required objc.NSDictionary? Function(objc.NSDictionary?, NiTestsError)
     echoStringMapWithStringMap_error_,
     required objc.NSString? Function(objc.NSString?, NiTestsError)
     echoStringWithAString_error_,
-    required PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+    required NiTestsPigeonTypedData? Function(
+      NiTestsPigeonTypedData?,
+      NiTestsError,
+    )
     echoUint8ListWithList_error_,
     required void Function(NiTestsError, objc.ObjCBlock<ffi.Void Function()>)
     noopAsyncWithError_completionHandler_,
@@ -12071,9 +12231,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   static final echoAsyncFloat64ListWithList_error_completionHandler_ =
       objc.ObjCProtocolListenableMethod<
         void Function(
-          PigeonTypedData?,
+          NiTestsPigeonTypedData?,
           NiTestsError,
-          objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+          objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
         )
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
@@ -12098,50 +12258,50 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
         ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.fromFunction(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.listener(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.listener(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.blocking(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.blocking(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
       );
@@ -12153,9 +12313,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   static final echoAsyncInt32ListWithList_error_completionHandler_ =
       objc.ObjCProtocolListenableMethod<
         void Function(
-          PigeonTypedData?,
+          NiTestsPigeonTypedData?,
           NiTestsError,
-          objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+          objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
         )
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
@@ -12180,50 +12340,50 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
         ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.fromFunction(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.listener(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.listener(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.blocking(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.blocking(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
       );
@@ -12235,9 +12395,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   static final echoAsyncInt64ListWithList_error_completionHandler_ =
       objc.ObjCProtocolListenableMethod<
         void Function(
-          PigeonTypedData?,
+          NiTestsPigeonTypedData?,
           NiTestsError,
-          objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+          objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
         )
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
@@ -12262,50 +12422,50 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
         ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.fromFunction(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.listener(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.listener(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.blocking(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.blocking(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
       );
@@ -13465,9 +13625,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   static final echoAsyncNullableFloat64ListWithList_error_completionHandler_ =
       objc.ObjCProtocolListenableMethod<
         void Function(
-          PigeonTypedData?,
+          NiTestsPigeonTypedData?,
           NiTestsError,
-          objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+          objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
         )
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
@@ -13492,50 +13652,50 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
         ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.fromFunction(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.listener(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.listener(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.blocking(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.blocking(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
       );
@@ -13547,9 +13707,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   static final echoAsyncNullableInt32ListWithList_error_completionHandler_ =
       objc.ObjCProtocolListenableMethod<
         void Function(
-          PigeonTypedData?,
+          NiTestsPigeonTypedData?,
           NiTestsError,
-          objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+          objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
         )
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
@@ -13574,50 +13734,50 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
         ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.fromFunction(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.listener(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.listener(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.blocking(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.blocking(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
       );
@@ -13629,9 +13789,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   static final echoAsyncNullableInt64ListWithList_error_completionHandler_ =
       objc.ObjCProtocolListenableMethod<
         void Function(
-          PigeonTypedData?,
+          NiTestsPigeonTypedData?,
           NiTestsError,
-          objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+          objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
         )
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
@@ -13656,50 +13816,50 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
         ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.fromFunction(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.listener(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.listener(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.blocking(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.blocking(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
       );
@@ -14633,9 +14793,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   static final echoAsyncNullableUint8ListWithList_error_completionHandler_ =
       objc.ObjCProtocolListenableMethod<
         void Function(
-          PigeonTypedData?,
+          NiTestsPigeonTypedData?,
           NiTestsError,
-          objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+          objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
         )
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
@@ -14660,50 +14820,50 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
         ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.fromFunction(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.listener(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.listener(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.blocking(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.blocking(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
       );
@@ -14961,9 +15121,9 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   static final echoAsyncUint8ListWithList_error_completionHandler_ =
       objc.ObjCProtocolListenableMethod<
         void Function(
-          PigeonTypedData?,
+          NiTestsPigeonTypedData?,
           NiTestsError,
-          objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+          objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
         )
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
@@ -14988,50 +15148,50 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
         ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.fromFunction(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.listener(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.listener(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
         (
           void Function(
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
           func,
         ) =>
-            ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData.blocking(
+            ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData.blocking(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
-                objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+                objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
               ) => func(arg1, arg2, arg3),
             ),
       );
@@ -15301,7 +15461,7 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   /// macOS: introduced 10.15.0
   static final echoFloat64ListWithList_error_ =
       objc.ObjCProtocolMethod<
-        PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+        NiTestsPigeonTypedData? Function(NiTestsPigeonTypedData?, NiTestsError)
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
         _sel_echoFloat64ListWithList_error_,
@@ -15322,11 +15482,17 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
           isRequired: true,
           isInstanceMethod: true,
         ),
-        (PigeonTypedData? Function(PigeonTypedData?, NiTestsError) func) =>
-            ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsError.fromFunction(
+        (
+          NiTestsPigeonTypedData? Function(
+            NiTestsPigeonTypedData?,
+            NiTestsError,
+          )
+          func,
+        ) =>
+            ObjCBlock_NiTestsPigeonTypedData_ffiVoid_NiTestsPigeonTypedData_NiTestsError.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
               ) => func(arg1, arg2),
             ),
@@ -15338,7 +15504,7 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   /// macOS: introduced 10.15.0
   static final echoInt32ListWithList_error_ =
       objc.ObjCProtocolMethod<
-        PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+        NiTestsPigeonTypedData? Function(NiTestsPigeonTypedData?, NiTestsError)
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
         _sel_echoInt32ListWithList_error_,
@@ -15359,11 +15525,17 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
           isRequired: true,
           isInstanceMethod: true,
         ),
-        (PigeonTypedData? Function(PigeonTypedData?, NiTestsError) func) =>
-            ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsError.fromFunction(
+        (
+          NiTestsPigeonTypedData? Function(
+            NiTestsPigeonTypedData?,
+            NiTestsError,
+          )
+          func,
+        ) =>
+            ObjCBlock_NiTestsPigeonTypedData_ffiVoid_NiTestsPigeonTypedData_NiTestsError.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
               ) => func(arg1, arg2),
             ),
@@ -15375,7 +15547,7 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   /// macOS: introduced 10.15.0
   static final echoInt64ListWithList_error_ =
       objc.ObjCProtocolMethod<
-        PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+        NiTestsPigeonTypedData? Function(NiTestsPigeonTypedData?, NiTestsError)
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
         _sel_echoInt64ListWithList_error_,
@@ -15396,11 +15568,17 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
           isRequired: true,
           isInstanceMethod: true,
         ),
-        (PigeonTypedData? Function(PigeonTypedData?, NiTestsError) func) =>
-            ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsError.fromFunction(
+        (
+          NiTestsPigeonTypedData? Function(
+            NiTestsPigeonTypedData?,
+            NiTestsError,
+          )
+          func,
+        ) =>
+            ObjCBlock_NiTestsPigeonTypedData_ffiVoid_NiTestsPigeonTypedData_NiTestsError.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
               ) => func(arg1, arg2),
             ),
@@ -16207,7 +16385,7 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   /// macOS: introduced 10.15.0
   static final echoNullableFloat64ListWithList_error_ =
       objc.ObjCProtocolMethod<
-        PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+        NiTestsPigeonTypedData? Function(NiTestsPigeonTypedData?, NiTestsError)
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
         _sel_echoNullableFloat64ListWithList_error_,
@@ -16228,11 +16406,17 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
           isRequired: true,
           isInstanceMethod: true,
         ),
-        (PigeonTypedData? Function(PigeonTypedData?, NiTestsError) func) =>
-            ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsError.fromFunction(
+        (
+          NiTestsPigeonTypedData? Function(
+            NiTestsPigeonTypedData?,
+            NiTestsError,
+          )
+          func,
+        ) =>
+            ObjCBlock_NiTestsPigeonTypedData_ffiVoid_NiTestsPigeonTypedData_NiTestsError.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
               ) => func(arg1, arg2),
             ),
@@ -16244,7 +16428,7 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   /// macOS: introduced 10.15.0
   static final echoNullableInt32ListWithList_error_ =
       objc.ObjCProtocolMethod<
-        PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+        NiTestsPigeonTypedData? Function(NiTestsPigeonTypedData?, NiTestsError)
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
         _sel_echoNullableInt32ListWithList_error_,
@@ -16265,11 +16449,17 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
           isRequired: true,
           isInstanceMethod: true,
         ),
-        (PigeonTypedData? Function(PigeonTypedData?, NiTestsError) func) =>
-            ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsError.fromFunction(
+        (
+          NiTestsPigeonTypedData? Function(
+            NiTestsPigeonTypedData?,
+            NiTestsError,
+          )
+          func,
+        ) =>
+            ObjCBlock_NiTestsPigeonTypedData_ffiVoid_NiTestsPigeonTypedData_NiTestsError.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
               ) => func(arg1, arg2),
             ),
@@ -16281,7 +16471,7 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   /// macOS: introduced 10.15.0
   static final echoNullableInt64ListWithList_error_ =
       objc.ObjCProtocolMethod<
-        PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+        NiTestsPigeonTypedData? Function(NiTestsPigeonTypedData?, NiTestsError)
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
         _sel_echoNullableInt64ListWithList_error_,
@@ -16302,11 +16492,17 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
           isRequired: true,
           isInstanceMethod: true,
         ),
-        (PigeonTypedData? Function(PigeonTypedData?, NiTestsError) func) =>
-            ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsError.fromFunction(
+        (
+          NiTestsPigeonTypedData? Function(
+            NiTestsPigeonTypedData?,
+            NiTestsError,
+          )
+          func,
+        ) =>
+            ObjCBlock_NiTestsPigeonTypedData_ffiVoid_NiTestsPigeonTypedData_NiTestsError.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
               ) => func(arg1, arg2),
             ),
@@ -16762,7 +16958,7 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   /// macOS: introduced 10.15.0
   static final echoNullableUint8ListWithList_error_ =
       objc.ObjCProtocolMethod<
-        PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+        NiTestsPigeonTypedData? Function(NiTestsPigeonTypedData?, NiTestsError)
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
         _sel_echoNullableUint8ListWithList_error_,
@@ -16783,11 +16979,17 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
           isRequired: true,
           isInstanceMethod: true,
         ),
-        (PigeonTypedData? Function(PigeonTypedData?, NiTestsError) func) =>
-            ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsError.fromFunction(
+        (
+          NiTestsPigeonTypedData? Function(
+            NiTestsPigeonTypedData?,
+            NiTestsError,
+          )
+          func,
+        ) =>
+            ObjCBlock_NiTestsPigeonTypedData_ffiVoid_NiTestsPigeonTypedData_NiTestsError.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
               ) => func(arg1, arg2),
             ),
@@ -16873,7 +17075,7 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
   /// macOS: introduced 10.15.0
   static final echoUint8ListWithList_error_ =
       objc.ObjCProtocolMethod<
-        PigeonTypedData? Function(PigeonTypedData?, NiTestsError)
+        NiTestsPigeonTypedData? Function(NiTestsPigeonTypedData?, NiTestsError)
       >(
         _protocol_NIFlutterIntegrationCoreApiBridge,
         _sel_echoUint8ListWithList_error_,
@@ -16894,11 +17096,17 @@ interface class NIFlutterIntegrationCoreApiBridge$Builder {
           isRequired: true,
           isInstanceMethod: true,
         ),
-        (PigeonTypedData? Function(PigeonTypedData?, NiTestsError) func) =>
-            ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsError.fromFunction(
+        (
+          NiTestsPigeonTypedData? Function(
+            NiTestsPigeonTypedData?,
+            NiTestsError,
+          )
+          func,
+        ) =>
+            ObjCBlock_NiTestsPigeonTypedData_ffiVoid_NiTestsPigeonTypedData_NiTestsError.fromFunction(
               (
                 ffi.Pointer<ffi.Void> _,
-                PigeonTypedData? arg1,
+                NiTestsPigeonTypedData? arg1,
                 NiTestsError arg2,
               ) => func(arg1, arg2),
             ),
@@ -17767,9 +17975,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void callFlutterEchoAsyncFloat64ListWithList(
-    PigeonTypedData list, {
+    NiTestsPigeonTypedData list, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -17791,9 +17999,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void callFlutterEchoAsyncInt32ListWithList(
-    PigeonTypedData list, {
+    NiTestsPigeonTypedData list, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -17815,9 +18023,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void callFlutterEchoAsyncInt64ListWithList(
-    PigeonTypedData list, {
+    NiTestsPigeonTypedData list, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -18170,9 +18378,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void callFlutterEchoAsyncNullableFloat64ListWithList(
-    PigeonTypedData? list, {
+    NiTestsPigeonTypedData? list, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -18194,9 +18402,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void callFlutterEchoAsyncNullableInt32ListWithList(
-    PigeonTypedData? list, {
+    NiTestsPigeonTypedData? list, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -18218,9 +18426,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void callFlutterEchoAsyncNullableInt64ListWithList(
-    PigeonTypedData? list, {
+    NiTestsPigeonTypedData? list, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -18506,9 +18714,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void callFlutterEchoAsyncNullableUint8ListWithList(
-    PigeonTypedData? list, {
+    NiTestsPigeonTypedData? list, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -18602,9 +18810,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void callFlutterEchoAsyncUint8ListWithList(
-    PigeonTypedData list, {
+    NiTestsPigeonTypedData list, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -18793,8 +19001,8 @@ extension NIHostIntegrationCoreApiSetup$Methods
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? callFlutterEchoFloat64ListWithList(
-    PigeonTypedData list, {
+  NiTestsPigeonTypedData? callFlutterEchoFloat64ListWithList(
+    NiTestsPigeonTypedData list, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -18810,15 +19018,15 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// callFlutterEchoInt32ListWithList:wrappedError:
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? callFlutterEchoInt32ListWithList(
-    PigeonTypedData list, {
+  NiTestsPigeonTypedData? callFlutterEchoInt32ListWithList(
+    NiTestsPigeonTypedData list, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -18834,15 +19042,15 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// callFlutterEchoInt64ListWithList:wrappedError:
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? callFlutterEchoInt64ListWithList(
-    PigeonTypedData list, {
+  NiTestsPigeonTypedData? callFlutterEchoInt64ListWithList(
+    NiTestsPigeonTypedData list, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -18858,7 +19066,7 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// callFlutterEchoIntMapWithIntMap:wrappedError:
@@ -19378,8 +19586,8 @@ extension NIHostIntegrationCoreApiSetup$Methods
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? callFlutterEchoNullableFloat64ListWithList(
-    PigeonTypedData? list, {
+  NiTestsPigeonTypedData? callFlutterEchoNullableFloat64ListWithList(
+    NiTestsPigeonTypedData? list, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -19395,15 +19603,15 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// callFlutterEchoNullableInt32ListWithList:wrappedError:
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? callFlutterEchoNullableInt32ListWithList(
-    PigeonTypedData? list, {
+  NiTestsPigeonTypedData? callFlutterEchoNullableInt32ListWithList(
+    NiTestsPigeonTypedData? list, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -19419,15 +19627,15 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// callFlutterEchoNullableInt64ListWithList:wrappedError:
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? callFlutterEchoNullableInt64ListWithList(
-    PigeonTypedData? list, {
+  NiTestsPigeonTypedData? callFlutterEchoNullableInt64ListWithList(
+    NiTestsPigeonTypedData? list, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -19443,7 +19651,7 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// callFlutterEchoNullableIntMapWithIntMap:wrappedError:
@@ -19738,8 +19946,8 @@ extension NIHostIntegrationCoreApiSetup$Methods
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? callFlutterEchoNullableUint8ListWithList(
-    PigeonTypedData? list, {
+  NiTestsPigeonTypedData? callFlutterEchoNullableUint8ListWithList(
+    NiTestsPigeonTypedData? list, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -19755,7 +19963,7 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// callFlutterEchoStringMapWithStringMap:wrappedError:
@@ -19810,8 +20018,8 @@ extension NIHostIntegrationCoreApiSetup$Methods
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? callFlutterEchoUint8ListWithList(
-    PigeonTypedData list, {
+  NiTestsPigeonTypedData? callFlutterEchoUint8ListWithList(
+    NiTestsPigeonTypedData list, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -19827,7 +20035,7 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// callFlutterNoopAsyncWithWrappedError:completionHandler:
@@ -20419,9 +20627,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncFloat64ListWithAFloat64List(
-    PigeonTypedData aFloat64List, {
+    NiTestsPigeonTypedData aFloat64List, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -20443,9 +20651,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncInt32ListWithAInt32List(
-    PigeonTypedData aInt32List, {
+    NiTestsPigeonTypedData aInt32List, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -20467,9 +20675,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncInt64ListWithAInt64List(
-    PigeonTypedData aInt64List, {
+    NiTestsPigeonTypedData aInt64List, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -20776,9 +20984,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncNullableFloat64ListWithAFloat64List(
-    PigeonTypedData? aFloat64List, {
+    NiTestsPigeonTypedData? aFloat64List, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -20800,9 +21008,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncNullableInt32ListWithAInt32List(
-    PigeonTypedData? aInt32List, {
+    NiTestsPigeonTypedData? aInt32List, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -20824,9 +21032,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncNullableInt64ListWithAInt64List(
-    PigeonTypedData? aInt64List, {
+    NiTestsPigeonTypedData? aInt64List, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -21065,9 +21273,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncNullableUint8ListWithAUint8List(
-    PigeonTypedData? aUint8List, {
+    NiTestsPigeonTypedData? aUint8List, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -21161,9 +21369,9 @@ extension NIHostIntegrationCoreApiSetup$Methods
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   void echoAsyncUint8ListWithAUint8List(
-    PigeonTypedData aUint8List, {
+    NiTestsPigeonTypedData aUint8List, {
     required NiTestsError wrappedError,
-    required objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+    required objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
     completionHandler,
   }) {
     objc.checkOsVersionInternal(
@@ -21428,8 +21636,8 @@ extension NIHostIntegrationCoreApiSetup$Methods
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoFloat64ListWithAFloat64List(
-    PigeonTypedData aFloat64List, {
+  NiTestsPigeonTypedData? echoFloat64ListWithAFloat64List(
+    NiTestsPigeonTypedData aFloat64List, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -21445,15 +21653,15 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed in Int32List.
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoInt32ListWithAInt32List(
-    PigeonTypedData aInt32List, {
+  NiTestsPigeonTypedData? echoInt32ListWithAInt32List(
+    NiTestsPigeonTypedData aInt32List, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -21469,15 +21677,15 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed in Int64List.
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoInt64ListWithAInt64List(
-    PigeonTypedData aInt64List, {
+  NiTestsPigeonTypedData? echoInt64ListWithAInt64List(
+    NiTestsPigeonTypedData aInt64List, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -21493,7 +21701,7 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed list, to test serialization and deserialization.
@@ -21980,8 +22188,8 @@ extension NIHostIntegrationCoreApiSetup$Methods
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoNullableFloat64ListWithANullableFloat64List(
-    PigeonTypedData? aNullableFloat64List, {
+  NiTestsPigeonTypedData? echoNullableFloat64ListWithANullableFloat64List(
+    NiTestsPigeonTypedData? aNullableFloat64List, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -21997,15 +22205,15 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed in Int32List.
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoNullableInt32ListWithANullableInt32List(
-    PigeonTypedData? aNullableInt32List, {
+  NiTestsPigeonTypedData? echoNullableInt32ListWithANullableInt32List(
+    NiTestsPigeonTypedData? aNullableInt32List, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -22021,15 +22229,15 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed in Int64List.
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoNullableInt64ListWithANullableInt64List(
-    PigeonTypedData? aNullableInt64List, {
+  NiTestsPigeonTypedData? echoNullableInt64ListWithANullableInt64List(
+    NiTestsPigeonTypedData? aNullableInt64List, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -22045,7 +22253,7 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed map, to test serialization and deserialization.
@@ -22364,8 +22572,8 @@ extension NIHostIntegrationCoreApiSetup$Methods
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoNullableUint8ListWithANullableUint8List(
-    PigeonTypedData? aNullableUint8List, {
+  NiTestsPigeonTypedData? echoNullableUint8ListWithANullableUint8List(
+    NiTestsPigeonTypedData? aNullableUint8List, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -22381,7 +22589,7 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the passed in generic Object.
@@ -22556,8 +22764,8 @@ extension NIHostIntegrationCoreApiSetup$Methods
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  PigeonTypedData? echoUint8ListWithAUint8List(
-    PigeonTypedData aUint8List, {
+  NiTestsPigeonTypedData? echoUint8ListWithAUint8List(
+    NiTestsPigeonTypedData aUint8List, {
     required NiTestsError wrappedError,
   }) {
     objc.checkOsVersionInternal(
@@ -22573,7 +22781,7 @@ extension NIHostIntegrationCoreApiSetup$Methods
     );
     return $ret.address == 0
         ? null
-        : PigeonTypedData.fromPointer($ret, retain: true, release: true);
+        : NiTestsPigeonTypedData.fromPointer($ret, retain: true, release: true);
   }
 
   /// Returns the inner <code>aString</code> value from the wrapped object, to test
@@ -23432,16 +23640,16 @@ extension NiTestsError$Methods on NiTestsError {
   }
 }
 
-/// NumberWrapper
-extension type NumberWrapper._(objc.ObjCObject object$)
+/// NiTestsNumberWrapper
+extension type NiTestsNumberWrapper._(objc.ObjCObject object$)
     implements objc.ObjCObject, objc.NSObject, objc.NSCopying {
-  /// Constructs a [NumberWrapper] that points to the same underlying object as [other].
-  NumberWrapper.as(objc.ObjCObject other) : object$ = other {
+  /// Constructs a [NiTestsNumberWrapper] that points to the same underlying object as [other].
+  NiTestsNumberWrapper.as(objc.ObjCObject other) : object$ = other {
     assert(isA(object$));
   }
 
-  /// Constructs a [NumberWrapper] that wraps the given raw object pointer.
-  NumberWrapper.fromPointer(
+  /// Constructs a [NiTestsNumberWrapper] that wraps the given raw object pointer.
+  NiTestsNumberWrapper.fromPointer(
     ffi.Pointer<objc.ObjCObjectImpl> other, {
     bool retain = false,
     bool release = false,
@@ -23449,42 +23657,42 @@ extension type NumberWrapper._(objc.ObjCObject object$)
     assert(isA(object$));
   }
 
-  /// Returns whether [obj] is an instance of [NumberWrapper].
+  /// Returns whether [obj] is an instance of [NiTestsNumberWrapper].
   static bool isA(objc.ObjCObject? obj) => obj == null
       ? false
       : _objc_msgSend_19nvye5(
           obj.ref.pointer,
           _sel_isKindOfClass_,
-          _class_NumberWrapper,
+          _class_NiTestsNumberWrapper,
         );
 
   /// alloc
-  static NumberWrapper alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_NumberWrapper, _sel_alloc);
-    return NumberWrapper.fromPointer($ret, retain: false, release: true);
+  static NiTestsNumberWrapper alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_NiTestsNumberWrapper, _sel_alloc);
+    return NiTestsNumberWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
-  static NumberWrapper allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+  static NiTestsNumberWrapper allocWithZone(ffi.Pointer<objc.NSZone> zone) {
     final $ret = _objc_msgSend_1cwp428(
-      _class_NumberWrapper,
+      _class_NiTestsNumberWrapper,
       _sel_allocWithZone_,
       zone,
     );
-    return NumberWrapper.fromPointer($ret, retain: false, release: true);
+    return NiTestsNumberWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// new
-  static NumberWrapper new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NumberWrapper, _sel_new);
-    return NumberWrapper.fromPointer($ret, retain: false, release: true);
+  static NiTestsNumberWrapper new$() {
+    final $ret = _objc_msgSend_151sglz(_class_NiTestsNumberWrapper, _sel_new);
+    return NiTestsNumberWrapper.fromPointer($ret, retain: false, release: true);
   }
 
-  /// Returns a new instance of NumberWrapper constructed with the default `new` method.
-  NumberWrapper() : this.as(new$().object$);
+  /// Returns a new instance of NiTestsNumberWrapper constructed with the default `new` method.
+  NiTestsNumberWrapper() : this.as(new$().object$);
 }
 
-extension NumberWrapper$Methods on NumberWrapper {
+extension NiTestsNumberWrapper$Methods on NiTestsNumberWrapper {
   /// copyWithZone:
   objc.ObjCObject copyWithZone$1(ffi.Pointer<objc.NSZone> zone) {
     final $ret = _objc_msgSend_1cwp428(
@@ -23501,9 +23709,9 @@ extension NumberWrapper$Methods on NumberWrapper {
   }
 
   /// init
-  NumberWrapper init() {
+  NiTestsNumberWrapper init() {
     objc.checkOsVersionInternal(
-      'NumberWrapper.init',
+      'NiTestsNumberWrapper.init',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
@@ -23511,18 +23719,21 @@ extension NumberWrapper$Methods on NumberWrapper {
       object$.ref.retainAndReturnPointer(),
       _sel_init,
     );
-    return NumberWrapper.fromPointer($ret, retain: false, release: true);
+    return NiTestsNumberWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// initWithNumber:type:
-  NumberWrapper initWithNumber(objc.NSNumber number, {required int type}) {
+  NiTestsNumberWrapper initWithNumber(
+    objc.NSNumber number, {
+    required int type,
+  }) {
     final $ret = _objc_msgSend_9slupp(
       object$.ref.retainAndReturnPointer(),
       _sel_initWithNumber_type_,
       number.ref.pointer,
       type,
     );
-    return NumberWrapper.fromPointer($ret, retain: false, release: true);
+    return NiTestsNumberWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// isEqual:
@@ -23556,6 +23767,244 @@ extension NumberWrapper$Methods on NumberWrapper {
 
   /// type
   int get type {
+    return _objc_msgSend_1hz7y9r(object$.ref.pointer, _sel_type);
+  }
+}
+
+/// NiTestsPigeonInternalNull
+extension type NiTestsPigeonInternalNull._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject {
+  /// Constructs a [NiTestsPigeonInternalNull] that points to the same underlying object as [other].
+  NiTestsPigeonInternalNull.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [NiTestsPigeonInternalNull] that wraps the given raw object pointer.
+  NiTestsPigeonInternalNull.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [NiTestsPigeonInternalNull].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NiTestsPigeonInternalNull,
+        );
+
+  /// alloc
+  static NiTestsPigeonInternalNull alloc() {
+    final $ret = _objc_msgSend_151sglz(
+      _class_NiTestsPigeonInternalNull,
+      _sel_alloc,
+    );
+    return NiTestsPigeonInternalNull.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// allocWithZone:
+  static NiTestsPigeonInternalNull allocWithZone(
+    ffi.Pointer<objc.NSZone> zone,
+  ) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NiTestsPigeonInternalNull,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NiTestsPigeonInternalNull.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// new
+  static NiTestsPigeonInternalNull new$() {
+    final $ret = _objc_msgSend_151sglz(
+      _class_NiTestsPigeonInternalNull,
+      _sel_new,
+    );
+    return NiTestsPigeonInternalNull.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// Returns a new instance of NiTestsPigeonInternalNull constructed with the default `new` method.
+  NiTestsPigeonInternalNull() : this.as(new$().object$);
+}
+
+extension NiTestsPigeonInternalNull$Methods on NiTestsPigeonInternalNull {
+  /// init
+  NiTestsPigeonInternalNull init() {
+    objc.checkOsVersionInternal(
+      'NiTestsPigeonInternalNull.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      object$.ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return NiTestsPigeonInternalNull.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+}
+
+/// NiTestsPigeonTypedData
+///
+/// iOS: introduced 13.0.0
+/// macOS: introduced 10.15.0
+extension type NiTestsPigeonTypedData._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject {
+  /// Constructs a [NiTestsPigeonTypedData] that points to the same underlying object as [other].
+  NiTestsPigeonTypedData.as(objc.ObjCObject other) : object$ = other {
+    objc.checkOsVersionInternal(
+      'NiTestsPigeonTypedData',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (10, 15, 0)),
+    );
+    assert(isA(object$));
+  }
+
+  /// Constructs a [NiTestsPigeonTypedData] that wraps the given raw object pointer.
+  NiTestsPigeonTypedData.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal(
+      'NiTestsPigeonTypedData',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (10, 15, 0)),
+    );
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [NiTestsPigeonTypedData].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NiTestsPigeonTypedData,
+        );
+
+  /// alloc
+  static NiTestsPigeonTypedData alloc() {
+    final $ret = _objc_msgSend_151sglz(
+      _class_NiTestsPigeonTypedData,
+      _sel_alloc,
+    );
+    return NiTestsPigeonTypedData.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// allocWithZone:
+  static NiTestsPigeonTypedData allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NiTestsPigeonTypedData,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NiTestsPigeonTypedData.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// new
+  static NiTestsPigeonTypedData new$() {
+    final $ret = _objc_msgSend_151sglz(_class_NiTestsPigeonTypedData, _sel_new);
+    return NiTestsPigeonTypedData.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// Returns a new instance of NiTestsPigeonTypedData constructed with the default `new` method.
+  NiTestsPigeonTypedData() : this.as(new$().object$);
+}
+
+extension NiTestsPigeonTypedData$Methods on NiTestsPigeonTypedData {
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
+  objc.NSData get data {
+    objc.checkOsVersionInternal(
+      'NiTestsPigeonTypedData.data',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (10, 15, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_data);
+    return objc.NSData.fromPointer($ret, retain: true, release: true);
+  }
+
+  /// init
+  NiTestsPigeonTypedData init() {
+    objc.checkOsVersionInternal(
+      'NiTestsPigeonTypedData.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      object$.ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return NiTestsPigeonTypedData.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// initWithData:type:
+  ///
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
+  NiTestsPigeonTypedData initWithData(objc.NSData data, {required int type}) {
+    objc.checkOsVersionInternal(
+      'NiTestsPigeonTypedData.initWithData:type:',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (10, 15, 0)),
+    );
+    final $ret = _objc_msgSend_9slupp(
+      object$.ref.retainAndReturnPointer(),
+      _sel_initWithData_type_,
+      data.ref.pointer,
+      type,
+    );
+    return NiTestsPigeonTypedData.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// iOS: introduced 13.0.0
+  /// macOS: introduced 10.15.0
+  int get type {
+    objc.checkOsVersionInternal(
+      'NiTestsPigeonTypedData.type',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (10, 15, 0)),
+    );
     return _objc_msgSend_1hz7y9r(object$.ref.pointer, _sel_type);
   }
 }
@@ -25996,13 +26445,13 @@ extension ObjCBlock_NSString_ffiVoid_NSString_NiTestsError$CallExtension
         );
 }
 
-/// Construction methods for `objc.ObjCBlock<PigeonTypedData? Function(ffi.Pointer<ffi.Void>, PigeonTypedData?, NiTestsError)>`.
-abstract final class ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsError {
+/// Construction methods for `objc.ObjCBlock<NiTestsPigeonTypedData? Function(ffi.Pointer<ffi.Void>, NiTestsPigeonTypedData?, NiTestsError)>`.
+abstract final class ObjCBlock_NiTestsPigeonTypedData_ffiVoid_NiTestsPigeonTypedData_NiTestsError {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<
-    PigeonTypedData? Function(
+    NiTestsPigeonTypedData? Function(
       ffi.Pointer<ffi.Void>,
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
     )
   >
@@ -26012,9 +26461,9 @@ abstract final class ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsEr
     bool release = false,
   }) =>
       objc.ObjCBlock<
-        PigeonTypedData? Function(
+        NiTestsPigeonTypedData? Function(
           ffi.Pointer<ffi.Void>,
-          PigeonTypedData?,
+          NiTestsPigeonTypedData?,
           NiTestsError,
         )
       >(pointer, retain: retain, release: release);
@@ -26025,9 +26474,9 @@ abstract final class ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsEr
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
   static objc.ObjCBlock<
-    PigeonTypedData? Function(
+    NiTestsPigeonTypedData? Function(
       ffi.Pointer<ffi.Void>,
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
     )
   >
@@ -26044,9 +26493,9 @@ abstract final class ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsEr
     ptr,
   ) =>
       objc.ObjCBlock<
-        PigeonTypedData? Function(
+        NiTestsPigeonTypedData? Function(
           ffi.Pointer<ffi.Void>,
-          PigeonTypedData?,
+          NiTestsPigeonTypedData?,
           NiTestsError,
         )
       >(
@@ -26064,25 +26513,25 @@ abstract final class ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsEr
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
   static objc.ObjCBlock<
-    PigeonTypedData? Function(
+    NiTestsPigeonTypedData? Function(
       ffi.Pointer<ffi.Void>,
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
     )
   >
   fromFunction(
-    PigeonTypedData? Function(
+    NiTestsPigeonTypedData? Function(
       ffi.Pointer<ffi.Void>,
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
     )
     fn, {
     bool keepIsolateAlive = true,
   }) =>
       objc.ObjCBlock<
-        PigeonTypedData? Function(
+        NiTestsPigeonTypedData? Function(
           ffi.Pointer<ffi.Void>,
-          PigeonTypedData?,
+          NiTestsPigeonTypedData?,
           NiTestsError,
         )
       >(
@@ -26097,7 +26546,7 @@ abstract final class ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsEr
                 arg0,
                 arg1.address == 0
                     ? null
-                    : PigeonTypedData.fromPointer(
+                    : NiTestsPigeonTypedData.fromPointer(
                         arg1,
                         retain: true,
                         release: true,
@@ -26167,19 +26616,19 @@ abstract final class ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsEr
           .cast();
 }
 
-/// Call operator for `objc.ObjCBlock<PigeonTypedData? Function(ffi.Pointer<ffi.Void>, PigeonTypedData?, NiTestsError)>`.
-extension ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsError$CallExtension
+/// Call operator for `objc.ObjCBlock<NiTestsPigeonTypedData? Function(ffi.Pointer<ffi.Void>, NiTestsPigeonTypedData?, NiTestsError)>`.
+extension ObjCBlock_NiTestsPigeonTypedData_ffiVoid_NiTestsPigeonTypedData_NiTestsError$CallExtension
     on
         objc.ObjCBlock<
-          PigeonTypedData? Function(
+          NiTestsPigeonTypedData? Function(
             ffi.Pointer<ffi.Void>,
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
           )
         > {
-  PigeonTypedData? call(
+  NiTestsPigeonTypedData? call(
     ffi.Pointer<ffi.Void> arg0,
-    PigeonTypedData? arg1,
+    NiTestsPigeonTypedData? arg1,
     NiTestsError arg2,
   ) =>
       ref.pointer.ref.invoke
@@ -26209,7 +26658,7 @@ extension ObjCBlock_PigeonTypedData_ffiVoid_PigeonTypedData_NiTestsError$CallExt
               .address ==
           0
       ? null
-      : PigeonTypedData.fromPointer(
+      : NiTestsPigeonTypedData.fromPointer(
           ref.pointer.ref.invoke
               .cast<
                 ffi.NativeFunction<
@@ -28542,14 +28991,14 @@ extension ObjCBlock_ffiVoid_NSString$CallExtension
       >()(ref.pointer, arg0?.ref.pointer ?? ffi.nullptr);
 }
 
-/// Construction methods for `objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>`.
-abstract final class ObjCBlock_ffiVoid_PigeonTypedData {
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>`.
+abstract final class ObjCBlock_ffiVoid_NiTestsPigeonTypedData {
   /// Returns a block that wraps the given raw block pointer.
-  static objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> fromPointer(
+  static objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> fromPointer(
     ffi.Pointer<objc.ObjCBlockImpl> pointer, {
     bool retain = false,
     bool release = false,
-  }) => objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>(
+  }) => objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>(
     pointer,
     retain: retain,
     release: release,
@@ -28560,7 +29009,7 @@ abstract final class ObjCBlock_ffiVoid_PigeonTypedData {
   /// This block must be invoked by native code running on the same thread as
   /// the isolate that registered it. Invoking the block on the wrong thread
   /// will result in a crash.
-  static objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>
+  static objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
   fromFunctionPointer(
     ffi.Pointer<
       ffi.NativeFunction<
@@ -28568,7 +29017,7 @@ abstract final class ObjCBlock_ffiVoid_PigeonTypedData {
       >
     >
     ptr,
-  ) => objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>(
+  ) => objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>(
     objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
     retain: false,
     release: true,
@@ -28582,16 +29031,21 @@ abstract final class ObjCBlock_ffiVoid_PigeonTypedData {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> fromFunction(
-    void Function(PigeonTypedData?) fn, {
+  static objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>
+  fromFunction(
+    void Function(NiTestsPigeonTypedData?) fn, {
     bool keepIsolateAlive = true,
-  }) => objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>(
+  }) => objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>(
     objc.newClosureBlock(
       _closureCallable,
       (ffi.Pointer<objc.ObjCObjectImpl> arg0) => fn(
         arg0.address == 0
             ? null
-            : PigeonTypedData.fromPointer(arg0, retain: true, release: true),
+            : NiTestsPigeonTypedData.fromPointer(
+                arg0,
+                retain: true,
+                release: true,
+              ),
       ),
       keepIsolateAlive,
     ),
@@ -28608,8 +29062,8 @@ abstract final class ObjCBlock_ffiVoid_PigeonTypedData {
   ///
   /// If `keepIsolateAlive` is true, this block will keep this isolate alive
   /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> listener(
-    void Function(PigeonTypedData?) fn, {
+  static objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> listener(
+    void Function(NiTestsPigeonTypedData?) fn, {
     bool keepIsolateAlive = true,
   }) {
     final raw = objc.newClosureBlock(
@@ -28617,13 +29071,17 @@ abstract final class ObjCBlock_ffiVoid_PigeonTypedData {
       (ffi.Pointer<objc.ObjCObjectImpl> arg0) => fn(
         arg0.address == 0
             ? null
-            : PigeonTypedData.fromPointer(arg0, retain: false, release: true),
+            : NiTestsPigeonTypedData.fromPointer(
+                arg0,
+                retain: false,
+                release: true,
+              ),
       ),
       keepIsolateAlive,
     );
     final wrapper = _umaz4x_wrapListenerBlock_xtuoz7(raw);
     objc.objectRelease(raw.cast());
-    return objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>(
+    return objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>(
       wrapper,
       retain: false,
       release: true,
@@ -28640,8 +29098,8 @@ abstract final class ObjCBlock_ffiVoid_PigeonTypedData {
   /// until it is garbage collected by both Dart and ObjC. If the owner isolate
   /// has shut down, and the block is invoked by native code, it may block
   /// indefinitely, or have other undefined behavior.
-  static objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> blocking(
-    void Function(PigeonTypedData?) fn, {
+  static objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> blocking(
+    void Function(NiTestsPigeonTypedData?) fn, {
     bool keepIsolateAlive = true,
   }) {
     final raw = objc.newClosureBlock(
@@ -28649,7 +29107,11 @@ abstract final class ObjCBlock_ffiVoid_PigeonTypedData {
       (ffi.Pointer<objc.ObjCObjectImpl> arg0) => fn(
         arg0.address == 0
             ? null
-            : PigeonTypedData.fromPointer(arg0, retain: false, release: true),
+            : NiTestsPigeonTypedData.fromPointer(
+                arg0,
+                retain: false,
+                release: true,
+              ),
       ),
       keepIsolateAlive,
     );
@@ -28658,7 +29120,11 @@ abstract final class ObjCBlock_ffiVoid_PigeonTypedData {
       (ffi.Pointer<objc.ObjCObjectImpl> arg0) => fn(
         arg0.address == 0
             ? null
-            : PigeonTypedData.fromPointer(arg0, retain: false, release: true),
+            : NiTestsPigeonTypedData.fromPointer(
+                arg0,
+                retain: false,
+                release: true,
+              ),
       ),
       keepIsolateAlive,
     );
@@ -28669,7 +29135,7 @@ abstract final class ObjCBlock_ffiVoid_PigeonTypedData {
     );
     objc.objectRelease(raw.cast());
     objc.objectRelease(rawListener.cast());
-    return objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>(
+    return objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>(
       wrapper,
       retain: false,
       release: true,
@@ -28780,10 +29246,10 @@ abstract final class ObjCBlock_ffiVoid_PigeonTypedData {
           .cast();
 }
 
-/// Call operator for `objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>`.
-extension ObjCBlock_ffiVoid_PigeonTypedData$CallExtension
-    on objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> {
-  void call(PigeonTypedData? arg0) => ref.pointer.ref.invoke
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>`.
+extension ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension
+    on objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> {
+  void call(NiTestsPigeonTypedData? arg0) => ref.pointer.ref.invoke
       .cast<
         ffi.NativeFunction<
           ffi.Void Function(
@@ -33853,15 +34319,15 @@ extension ObjCBlock_ffiVoid_ffiVoid_NiTestsError_ffiVoiddispatchdatat$CallExtens
       >()(ref.pointer, arg0, arg1.ref.pointer, arg2.ref.pointer);
 }
 
-/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, PigeonTypedData?, NiTestsError, objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>)>`.
-abstract final class ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData {
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NiTestsPigeonTypedData?, NiTestsError, objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>)>`.
+abstract final class ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<
     ffi.Void Function(
       ffi.Pointer<ffi.Void>,
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
   >
   fromPointer(
@@ -33872,9 +34338,9 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiV
       objc.ObjCBlock<
         ffi.Void Function(
           ffi.Pointer<ffi.Void>,
-          PigeonTypedData?,
+          NiTestsPigeonTypedData?,
           NiTestsError,
-          objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+          objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
         )
       >(pointer, retain: retain, release: release);
 
@@ -33886,9 +34352,9 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiV
   static objc.ObjCBlock<
     ffi.Void Function(
       ffi.Pointer<ffi.Void>,
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
   >
   fromFunctionPointer(
@@ -33907,9 +34373,9 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiV
       objc.ObjCBlock<
         ffi.Void Function(
           ffi.Pointer<ffi.Void>,
-          PigeonTypedData?,
+          NiTestsPigeonTypedData?,
           NiTestsError,
-          objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+          objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
         )
       >(
         objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
@@ -33928,17 +34394,17 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiV
   static objc.ObjCBlock<
     ffi.Void Function(
       ffi.Pointer<ffi.Void>,
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
   >
   fromFunction(
     void Function(
       ffi.Pointer<ffi.Void>,
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     fn, {
     bool keepIsolateAlive = true,
@@ -33946,9 +34412,9 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiV
       objc.ObjCBlock<
         ffi.Void Function(
           ffi.Pointer<ffi.Void>,
-          PigeonTypedData?,
+          NiTestsPigeonTypedData?,
           NiTestsError,
-          objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+          objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
         )
       >(
         objc.newClosureBlock(
@@ -33962,13 +34428,13 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiV
             arg0,
             arg1.address == 0
                 ? null
-                : PigeonTypedData.fromPointer(
+                : NiTestsPigeonTypedData.fromPointer(
                     arg1,
                     retain: true,
                     release: true,
                   ),
             NiTestsError.fromPointer(arg2, retain: true, release: true),
-            ObjCBlock_ffiVoid_PigeonTypedData.fromPointer(
+            ObjCBlock_ffiVoid_NiTestsPigeonTypedData.fromPointer(
               arg3,
               retain: true,
               release: true,
@@ -33992,17 +34458,17 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiV
   static objc.ObjCBlock<
     ffi.Void Function(
       ffi.Pointer<ffi.Void>,
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
   >
   listener(
     void Function(
       ffi.Pointer<ffi.Void>,
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     fn, {
     bool keepIsolateAlive = true,
@@ -34018,9 +34484,13 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiV
         arg0,
         arg1.address == 0
             ? null
-            : PigeonTypedData.fromPointer(arg1, retain: false, release: true),
+            : NiTestsPigeonTypedData.fromPointer(
+                arg1,
+                retain: false,
+                release: true,
+              ),
         NiTestsError.fromPointer(arg2, retain: false, release: true),
-        ObjCBlock_ffiVoid_PigeonTypedData.fromPointer(
+        ObjCBlock_ffiVoid_NiTestsPigeonTypedData.fromPointer(
           arg3,
           retain: false,
           release: true,
@@ -34033,9 +34503,9 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiV
     return objc.ObjCBlock<
       ffi.Void Function(
         ffi.Pointer<ffi.Void>,
-        PigeonTypedData?,
+        NiTestsPigeonTypedData?,
         NiTestsError,
-        objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+        objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
       )
     >(wrapper, retain: false, release: true);
   }
@@ -34053,17 +34523,17 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiV
   static objc.ObjCBlock<
     ffi.Void Function(
       ffi.Pointer<ffi.Void>,
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
   >
   blocking(
     void Function(
       ffi.Pointer<ffi.Void>,
-      PigeonTypedData?,
+      NiTestsPigeonTypedData?,
       NiTestsError,
-      objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+      objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
     )
     fn, {
     bool keepIsolateAlive = true,
@@ -34079,9 +34549,13 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiV
         arg0,
         arg1.address == 0
             ? null
-            : PigeonTypedData.fromPointer(arg1, retain: false, release: true),
+            : NiTestsPigeonTypedData.fromPointer(
+                arg1,
+                retain: false,
+                release: true,
+              ),
         NiTestsError.fromPointer(arg2, retain: false, release: true),
-        ObjCBlock_ffiVoid_PigeonTypedData.fromPointer(
+        ObjCBlock_ffiVoid_NiTestsPigeonTypedData.fromPointer(
           arg3,
           retain: false,
           release: true,
@@ -34100,9 +34574,13 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiV
         arg0,
         arg1.address == 0
             ? null
-            : PigeonTypedData.fromPointer(arg1, retain: false, release: true),
+            : NiTestsPigeonTypedData.fromPointer(
+                arg1,
+                retain: false,
+                release: true,
+              ),
         NiTestsError.fromPointer(arg2, retain: false, release: true),
-        ObjCBlock_ffiVoid_PigeonTypedData.fromPointer(
+        ObjCBlock_ffiVoid_NiTestsPigeonTypedData.fromPointer(
           arg3,
           retain: false,
           release: true,
@@ -34120,9 +34598,9 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiV
     return objc.ObjCBlock<
       ffi.Void Function(
         ffi.Pointer<ffi.Void>,
-        PigeonTypedData?,
+        NiTestsPigeonTypedData?,
         NiTestsError,
-        objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+        objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
       )
     >(wrapper, retain: false, release: true);
   }
@@ -34294,22 +34772,22 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiV
           .cast();
 }
 
-/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, PigeonTypedData?, NiTestsError, objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>)>`.
-extension ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTypedData$CallExtension
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NiTestsPigeonTypedData?, NiTestsError, objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>)>`.
+extension ObjCBlock_ffiVoid_ffiVoid_NiTestsPigeonTypedData_NiTestsError_ffiVoidNiTestsPigeonTypedData$CallExtension
     on
         objc.ObjCBlock<
           ffi.Void Function(
             ffi.Pointer<ffi.Void>,
-            PigeonTypedData?,
+            NiTestsPigeonTypedData?,
             NiTestsError,
-            objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)>,
+            objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)>,
           )
         > {
   void call(
     ffi.Pointer<ffi.Void> arg0,
-    PigeonTypedData? arg1,
+    NiTestsPigeonTypedData? arg1,
     NiTestsError arg2,
-    objc.ObjCBlock<ffi.Void Function(PigeonTypedData?)> arg3,
+    objc.ObjCBlock<ffi.Void Function(NiTestsPigeonTypedData?)> arg3,
   ) =>
       ref.pointer.ref.invoke
           .cast<
@@ -34338,283 +34816,6 @@ extension ObjCBlock_ffiVoid_ffiVoid_PigeonTypedData_NiTestsError_ffiVoidPigeonTy
         arg2.ref.pointer,
         arg3.ref.pointer,
       );
-}
-
-/// PigeonInternalNull
-extension type PigeonInternalNull._(objc.ObjCObject object$)
-    implements objc.ObjCObject, objc.NSObject {
-  /// Constructs a [PigeonInternalNull] that points to the same underlying object as [other].
-  PigeonInternalNull.as(objc.ObjCObject other) : object$ = other {
-    assert(isA(object$));
-  }
-
-  /// Constructs a [PigeonInternalNull] that wraps the given raw object pointer.
-  PigeonInternalNull.fromPointer(
-    ffi.Pointer<objc.ObjCObjectImpl> other, {
-    bool retain = false,
-    bool release = false,
-  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
-    assert(isA(object$));
-  }
-
-  /// Returns whether [obj] is an instance of [PigeonInternalNull].
-  static bool isA(objc.ObjCObject? obj) => obj == null
-      ? false
-      : _objc_msgSend_19nvye5(
-          obj.ref.pointer,
-          _sel_isKindOfClass_,
-          _class_PigeonInternalNull,
-        );
-
-  /// alloc
-  static PigeonInternalNull alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_PigeonInternalNull, _sel_alloc);
-    return PigeonInternalNull.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// allocWithZone:
-  static PigeonInternalNull allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_PigeonInternalNull,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return PigeonInternalNull.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// new
-  static PigeonInternalNull new$() {
-    final $ret = _objc_msgSend_151sglz(_class_PigeonInternalNull, _sel_new);
-    return PigeonInternalNull.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// Returns a new instance of PigeonInternalNull constructed with the default `new` method.
-  PigeonInternalNull() : this.as(new$().object$);
-}
-
-extension PigeonInternalNull$Methods on PigeonInternalNull {
-  /// init
-  PigeonInternalNull init() {
-    objc.checkOsVersionInternal(
-      'PigeonInternalNull.init',
-      iOS: (false, (2, 0, 0)),
-      macOS: (false, (10, 0, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return PigeonInternalNull.fromPointer($ret, retain: false, release: true);
-  }
-}
-
-/// PigeonTypedData
-///
-/// iOS: introduced 13.0.0
-/// macOS: introduced 10.15.0
-extension type PigeonTypedData._(objc.ObjCObject object$)
-    implements objc.ObjCObject, objc.NSObject {
-  /// Constructs a [PigeonTypedData] that points to the same underlying object as [other].
-  PigeonTypedData.as(objc.ObjCObject other) : object$ = other {
-    objc.checkOsVersionInternal(
-      'PigeonTypedData',
-      iOS: (false, (13, 0, 0)),
-      macOS: (false, (10, 15, 0)),
-    );
-    assert(isA(object$));
-  }
-
-  /// Constructs a [PigeonTypedData] that wraps the given raw object pointer.
-  PigeonTypedData.fromPointer(
-    ffi.Pointer<objc.ObjCObjectImpl> other, {
-    bool retain = false,
-    bool release = false,
-  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
-    objc.checkOsVersionInternal(
-      'PigeonTypedData',
-      iOS: (false, (13, 0, 0)),
-      macOS: (false, (10, 15, 0)),
-    );
-    assert(isA(object$));
-  }
-
-  /// Returns whether [obj] is an instance of [PigeonTypedData].
-  static bool isA(objc.ObjCObject? obj) => obj == null
-      ? false
-      : _objc_msgSend_19nvye5(
-          obj.ref.pointer,
-          _sel_isKindOfClass_,
-          _class_PigeonTypedData,
-        );
-
-  /// alloc
-  static PigeonTypedData alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_PigeonTypedData, _sel_alloc);
-    return PigeonTypedData.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// allocWithZone:
-  static PigeonTypedData allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_PigeonTypedData,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return PigeonTypedData.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// new
-  static PigeonTypedData new$() {
-    final $ret = _objc_msgSend_151sglz(_class_PigeonTypedData, _sel_new);
-    return PigeonTypedData.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// Returns a new instance of PigeonTypedData constructed with the default `new` method.
-  PigeonTypedData() : this.as(new$().object$);
-}
-
-extension PigeonTypedData$Methods on PigeonTypedData {
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
-  objc.NSData get data {
-    objc.checkOsVersionInternal(
-      'PigeonTypedData.data',
-      iOS: (false, (13, 0, 0)),
-      macOS: (false, (10, 15, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_data);
-    return objc.NSData.fromPointer($ret, retain: true, release: true);
-  }
-
-  /// getFloat32Array
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
-  objc.NSArray? getFloat32Array() {
-    objc.checkOsVersionInternal(
-      'PigeonTypedData.getFloat32Array',
-      iOS: (false, (13, 0, 0)),
-      macOS: (false, (10, 15, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
-      _sel_getFloat32Array,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.NSArray.fromPointer($ret, retain: true, release: true);
-  }
-
-  /// getFloat64Array
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
-  objc.NSArray? getFloat64Array() {
-    objc.checkOsVersionInternal(
-      'PigeonTypedData.getFloat64Array',
-      iOS: (false, (13, 0, 0)),
-      macOS: (false, (10, 15, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.pointer,
-      _sel_getFloat64Array,
-    );
-    return $ret.address == 0
-        ? null
-        : objc.NSArray.fromPointer($ret, retain: true, release: true);
-  }
-
-  /// getInt32Array
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
-  objc.NSArray? getInt32Array() {
-    objc.checkOsVersionInternal(
-      'PigeonTypedData.getInt32Array',
-      iOS: (false, (13, 0, 0)),
-      macOS: (false, (10, 15, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_getInt32Array);
-    return $ret.address == 0
-        ? null
-        : objc.NSArray.fromPointer($ret, retain: true, release: true);
-  }
-
-  /// getInt64Array
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
-  objc.NSArray? getInt64Array() {
-    objc.checkOsVersionInternal(
-      'PigeonTypedData.getInt64Array',
-      iOS: (false, (13, 0, 0)),
-      macOS: (false, (10, 15, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_getInt64Array);
-    return $ret.address == 0
-        ? null
-        : objc.NSArray.fromPointer($ret, retain: true, release: true);
-  }
-
-  /// getUint8Array
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
-  objc.NSArray? getUint8Array() {
-    objc.checkOsVersionInternal(
-      'PigeonTypedData.getUint8Array',
-      iOS: (false, (13, 0, 0)),
-      macOS: (false, (10, 15, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_getUint8Array);
-    return $ret.address == 0
-        ? null
-        : objc.NSArray.fromPointer($ret, retain: true, release: true);
-  }
-
-  /// init
-  PigeonTypedData init() {
-    objc.checkOsVersionInternal(
-      'PigeonTypedData.init',
-      iOS: (false, (2, 0, 0)),
-      macOS: (false, (10, 0, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return PigeonTypedData.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// initWithData:type:
-  ///
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
-  PigeonTypedData initWithData(objc.NSData data, {required int type}) {
-    objc.checkOsVersionInternal(
-      'PigeonTypedData.initWithData:type:',
-      iOS: (false, (13, 0, 0)),
-      macOS: (false, (10, 15, 0)),
-    );
-    final $ret = _objc_msgSend_9slupp(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithData_type_,
-      data.ref.pointer,
-      type,
-    );
-    return PigeonTypedData.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// iOS: introduced 13.0.0
-  /// macOS: introduced 10.15.0
-  int get type {
-    objc.checkOsVersionInternal(
-      'PigeonTypedData.type',
-      iOS: (false, (13, 0, 0)),
-      macOS: (false, (10, 15, 0)),
-    );
-    return _objc_msgSend_1hz7y9r(object$.ref.pointer, _sel_type);
-  }
 }
 
 final class __SecIdentity extends ffi.Opaque {}
@@ -34646,12 +34847,14 @@ late final _class_NSURLCredential = objc.getClass(
   "test_plugin.NSURLCredential",
 );
 late final _class_NiTestsError = objc.getClass("test_plugin.NiTestsError");
-late final _class_NumberWrapper = objc.getClass("test_plugin.NumberWrapper");
-late final _class_PigeonInternalNull = objc.getClass(
-  "test_plugin.PigeonInternalNull",
+late final _class_NiTestsNumberWrapper = objc.getClass(
+  "test_plugin.NiTestsNumberWrapper",
 );
-late final _class_PigeonTypedData = objc.getClass(
-  "test_plugin.PigeonTypedData",
+late final _class_NiTestsPigeonInternalNull = objc.getClass(
+  "test_plugin.NiTestsPigeonInternalNull",
+);
+late final _class_NiTestsPigeonTypedData = objc.getClass(
+  "test_plugin.NiTestsPigeonTypedData",
 );
 final _objc_msgSend_11spmsz = objc.msgSendPointer
     .cast<
@@ -36648,14 +36851,9 @@ late final _sel_enumList = objc.registerName("enumList");
 late final _sel_enumMap = objc.registerName("enumMap");
 late final _sel_extractNestedNullableStringWithWrapper_wrappedError_ = objc
     .registerName("extractNestedNullableStringWithWrapper:wrappedError:");
-late final _sel_getFloat32Array = objc.registerName("getFloat32Array");
-late final _sel_getFloat64Array = objc.registerName("getFloat64Array");
 late final _sel_getInstanceWithName_ = objc.registerName(
   "getInstanceWithName:",
 );
-late final _sel_getInt32Array = objc.registerName("getInt32Array");
-late final _sel_getInt64Array = objc.registerName("getInt64Array");
-late final _sel_getUint8Array = objc.registerName("getUint8Array");
 late final _sel_hasPassword = objc.registerName("hasPassword");
 late final _sel_hash = objc.registerName("hash");
 late final _sel_identity = objc.registerName("identity");

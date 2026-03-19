@@ -373,7 +373,7 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
 @end
 
 @class NSNumber;
-@class PigeonTypedData;
+@class NiTestsPigeonTypedData;
 @class NSString;
 /// A class containing all supported nullable types.
 /// Generated bridge class from Pigeon that moves data from Swift to
@@ -387,10 +387,10 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
              aNullableInt:(NSNumber* _Nullable)aNullableInt
            aNullableInt64:(NSNumber* _Nullable)aNullableInt64
           aNullableDouble:(NSNumber* _Nullable)aNullableDouble
-       aNullableByteArray:(PigeonTypedData* _Nullable)aNullableByteArray
-      aNullable4ByteArray:(PigeonTypedData* _Nullable)aNullable4ByteArray
-      aNullable8ByteArray:(PigeonTypedData* _Nullable)aNullable8ByteArray
-      aNullableFloatArray:(PigeonTypedData* _Nullable)aNullableFloatArray
+       aNullableByteArray:(NiTestsPigeonTypedData* _Nullable)aNullableByteArray
+      aNullable4ByteArray:(NiTestsPigeonTypedData* _Nullable)aNullable4ByteArray
+      aNullable8ByteArray:(NiTestsPigeonTypedData* _Nullable)aNullable8ByteArray
+      aNullableFloatArray:(NiTestsPigeonTypedData* _Nullable)aNullableFloatArray
             aNullableEnum:(NSNumber* _Nullable)aNullableEnum
       anotherNullableEnum:(NSNumber* _Nullable)anotherNullableEnum
           aNullableString:(NSString* _Nullable)aNullableString
@@ -426,10 +426,14 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
 @property(nonatomic, strong) NSNumber* _Nullable aNullableInt;
 @property(nonatomic, strong) NSNumber* _Nullable aNullableInt64;
 @property(nonatomic, strong) NSNumber* _Nullable aNullableDouble;
-@property(nonatomic, strong) PigeonTypedData* _Nullable aNullableByteArray;
-@property(nonatomic, strong) PigeonTypedData* _Nullable aNullable4ByteArray;
-@property(nonatomic, strong) PigeonTypedData* _Nullable aNullable8ByteArray;
-@property(nonatomic, strong) PigeonTypedData* _Nullable aNullableFloatArray;
+@property(nonatomic, strong)
+    NiTestsPigeonTypedData* _Nullable aNullableByteArray;
+@property(nonatomic, strong)
+    NiTestsPigeonTypedData* _Nullable aNullable4ByteArray;
+@property(nonatomic, strong)
+    NiTestsPigeonTypedData* _Nullable aNullable8ByteArray;
+@property(nonatomic, strong)
+    NiTestsPigeonTypedData* _Nullable aNullableFloatArray;
 @property(nonatomic, strong) NSNumber* _Nullable aNullableEnum;
 @property(nonatomic, strong) NSNumber* _Nullable anotherNullableEnum;
 @property(nonatomic, strong) NSString* _Nullable aNullableString;
@@ -479,10 +483,10 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
              aNullableInt:(NSNumber* _Nullable)aNullableInt
            aNullableInt64:(NSNumber* _Nullable)aNullableInt64
           aNullableDouble:(NSNumber* _Nullable)aNullableDouble
-       aNullableByteArray:(PigeonTypedData* _Nullable)aNullableByteArray
-      aNullable4ByteArray:(PigeonTypedData* _Nullable)aNullable4ByteArray
-      aNullable8ByteArray:(PigeonTypedData* _Nullable)aNullable8ByteArray
-      aNullableFloatArray:(PigeonTypedData* _Nullable)aNullableFloatArray
+       aNullableByteArray:(NiTestsPigeonTypedData* _Nullable)aNullableByteArray
+      aNullable4ByteArray:(NiTestsPigeonTypedData* _Nullable)aNullable4ByteArray
+      aNullable8ByteArray:(NiTestsPigeonTypedData* _Nullable)aNullable8ByteArray
+      aNullableFloatArray:(NiTestsPigeonTypedData* _Nullable)aNullableFloatArray
             aNullableEnum:(NSNumber* _Nullable)aNullableEnum
       anotherNullableEnum:(NSNumber* _Nullable)anotherNullableEnum
           aNullableString:(NSString* _Nullable)aNullableString
@@ -514,10 +518,14 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
 @property(nonatomic, strong) NSNumber* _Nullable aNullableInt;
 @property(nonatomic, strong) NSNumber* _Nullable aNullableInt64;
 @property(nonatomic, strong) NSNumber* _Nullable aNullableDouble;
-@property(nonatomic, strong) PigeonTypedData* _Nullable aNullableByteArray;
-@property(nonatomic, strong) PigeonTypedData* _Nullable aNullable4ByteArray;
-@property(nonatomic, strong) PigeonTypedData* _Nullable aNullable8ByteArray;
-@property(nonatomic, strong) PigeonTypedData* _Nullable aNullableFloatArray;
+@property(nonatomic, strong)
+    NiTestsPigeonTypedData* _Nullable aNullableByteArray;
+@property(nonatomic, strong)
+    NiTestsPigeonTypedData* _Nullable aNullable4ByteArray;
+@property(nonatomic, strong)
+    NiTestsPigeonTypedData* _Nullable aNullable8ByteArray;
+@property(nonatomic, strong)
+    NiTestsPigeonTypedData* _Nullable aNullableFloatArray;
 @property(nonatomic, strong) NSNumber* _Nullable aNullableEnum;
 @property(nonatomic, strong) NSNumber* _Nullable anotherNullableEnum;
 @property(nonatomic, strong) NSString* _Nullable aNullableString;
@@ -562,10 +570,10 @@ SWIFT_AVAILABILITY(ios, introduced = 13) @interface NIAllTypesBridge : NSObject
             anInt:(int64_t)anInt
           anInt64:(int64_t)anInt64
           aDouble:(double)aDouble
-       aByteArray:(PigeonTypedData* _Nonnull)aByteArray
-      a4ByteArray:(PigeonTypedData* _Nonnull)a4ByteArray
-      a8ByteArray:(PigeonTypedData* _Nonnull)a8ByteArray
-      aFloatArray:(PigeonTypedData* _Nonnull)aFloatArray
+       aByteArray:(NiTestsPigeonTypedData* _Nonnull)aByteArray
+      a4ByteArray:(NiTestsPigeonTypedData* _Nonnull)a4ByteArray
+      a8ByteArray:(NiTestsPigeonTypedData* _Nonnull)a8ByteArray
+      aFloatArray:(NiTestsPigeonTypedData* _Nonnull)aFloatArray
            anEnum:(enum NIAnEnum)anEnum
       anotherEnum:(enum NIAnotherEnum)anotherEnum
           aString:(NSString* _Nonnull)aString
@@ -591,10 +599,10 @@ SWIFT_AVAILABILITY(ios, introduced = 13) @interface NIAllTypesBridge : NSObject
 @property(nonatomic) int64_t anInt;
 @property(nonatomic) int64_t anInt64;
 @property(nonatomic) double aDouble;
-@property(nonatomic, strong) PigeonTypedData* _Nonnull aByteArray;
-@property(nonatomic, strong) PigeonTypedData* _Nonnull a4ByteArray;
-@property(nonatomic, strong) PigeonTypedData* _Nonnull a8ByteArray;
-@property(nonatomic, strong) PigeonTypedData* _Nonnull aFloatArray;
+@property(nonatomic, strong) NiTestsPigeonTypedData* _Nonnull aByteArray;
+@property(nonatomic, strong) NiTestsPigeonTypedData* _Nonnull a4ByteArray;
+@property(nonatomic, strong) NiTestsPigeonTypedData* _Nonnull a8ByteArray;
+@property(nonatomic, strong) NiTestsPigeonTypedData* _Nonnull aFloatArray;
 @property(nonatomic) enum NIAnEnum anEnum;
 @property(nonatomic) enum NIAnotherEnum anotherEnum;
 @property(nonatomic, strong) NSString* _Nonnull aString;
@@ -718,23 +726,23 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
                                        error:(NiTestsError* _Nonnull)error
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed byte list, to test serialization and deserialization.
-- (PigeonTypedData* _Nullable)
-    echoUint8ListWithList:(PigeonTypedData* _Nullable)list
+- (NiTestsPigeonTypedData* _Nullable)
+    echoUint8ListWithList:(NiTestsPigeonTypedData* _Nullable)list
                     error:(NiTestsError* _Nonnull)error
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed int32 list, to test serialization and deserialization.
-- (PigeonTypedData* _Nullable)
-    echoInt32ListWithList:(PigeonTypedData* _Nullable)list
+- (NiTestsPigeonTypedData* _Nullable)
+    echoInt32ListWithList:(NiTestsPigeonTypedData* _Nullable)list
                     error:(NiTestsError* _Nonnull)error
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed int64 list, to test serialization and deserialization.
-- (PigeonTypedData* _Nullable)
-    echoInt64ListWithList:(PigeonTypedData* _Nullable)list
+- (NiTestsPigeonTypedData* _Nullable)
+    echoInt64ListWithList:(NiTestsPigeonTypedData* _Nullable)list
                     error:(NiTestsError* _Nonnull)error
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed float64 list, to test serialization and deserialization.
-- (PigeonTypedData* _Nullable)
-    echoFloat64ListWithList:(PigeonTypedData* _Nullable)list
+- (NiTestsPigeonTypedData* _Nullable)
+    echoFloat64ListWithList:(NiTestsPigeonTypedData* _Nullable)list
                       error:(NiTestsError* _Nonnull)error
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed list, to test serialization and deserialization.
@@ -841,23 +849,23 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
                             error:(NiTestsError* _Nonnull)error
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed byte list, to test serialization and deserialization.
-- (PigeonTypedData* _Nullable)
-    echoNullableUint8ListWithList:(PigeonTypedData* _Nullable)list
+- (NiTestsPigeonTypedData* _Nullable)
+    echoNullableUint8ListWithList:(NiTestsPigeonTypedData* _Nullable)list
                             error:(NiTestsError* _Nonnull)error
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed int32 list, to test serialization and deserialization.
-- (PigeonTypedData* _Nullable)
-    echoNullableInt32ListWithList:(PigeonTypedData* _Nullable)list
+- (NiTestsPigeonTypedData* _Nullable)
+    echoNullableInt32ListWithList:(NiTestsPigeonTypedData* _Nullable)list
                             error:(NiTestsError* _Nonnull)error
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed int64 list, to test serialization and deserialization.
-- (PigeonTypedData* _Nullable)
-    echoNullableInt64ListWithList:(PigeonTypedData* _Nullable)list
+- (NiTestsPigeonTypedData* _Nullable)
+    echoNullableInt64ListWithList:(NiTestsPigeonTypedData* _Nullable)list
                             error:(NiTestsError* _Nonnull)error
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed float64 list, to test serialization and deserialization.
-- (PigeonTypedData* _Nullable)
-    echoNullableFloat64ListWithList:(PigeonTypedData* _Nullable)list
+- (NiTestsPigeonTypedData* _Nullable)
+    echoNullableFloat64ListWithList:(NiTestsPigeonTypedData* _Nullable)list
                               error:(NiTestsError* _Nonnull)error
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed list, to test serialization and deserialization.
@@ -998,25 +1006,25 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
                              error:(NiTestsError* _Nonnull)error
                  completionHandler:
                      (void (^_Nonnull)(NSString* _Nullable))completionHandler;
-- (void)echoAsyncUint8ListWithList:(PigeonTypedData* _Nullable)list
+- (void)echoAsyncUint8ListWithList:(NiTestsPigeonTypedData* _Nullable)list
                              error:(NiTestsError* _Nonnull)error
                  completionHandler:
-                     (void (^_Nonnull)(PigeonTypedData* _Nullable))
+                     (void (^_Nonnull)(NiTestsPigeonTypedData* _Nullable))
                          completionHandler;
-- (void)echoAsyncInt32ListWithList:(PigeonTypedData* _Nullable)list
+- (void)echoAsyncInt32ListWithList:(NiTestsPigeonTypedData* _Nullable)list
                              error:(NiTestsError* _Nonnull)error
                  completionHandler:
-                     (void (^_Nonnull)(PigeonTypedData* _Nullable))
+                     (void (^_Nonnull)(NiTestsPigeonTypedData* _Nullable))
                          completionHandler;
-- (void)echoAsyncInt64ListWithList:(PigeonTypedData* _Nullable)list
+- (void)echoAsyncInt64ListWithList:(NiTestsPigeonTypedData* _Nullable)list
                              error:(NiTestsError* _Nonnull)error
                  completionHandler:
-                     (void (^_Nonnull)(PigeonTypedData* _Nullable))
+                     (void (^_Nonnull)(NiTestsPigeonTypedData* _Nullable))
                          completionHandler;
-- (void)echoAsyncFloat64ListWithList:(PigeonTypedData* _Nullable)list
+- (void)echoAsyncFloat64ListWithList:(NiTestsPigeonTypedData* _Nullable)list
                                error:(NiTestsError* _Nonnull)error
                    completionHandler:
-                       (void (^_Nonnull)(PigeonTypedData* _Nullable))
+                       (void (^_Nonnull)(NiTestsPigeonTypedData* _Nullable))
                            completionHandler;
 - (void)echoAsyncObjectWithAnObject:(NSObject* _Nullable)anObject
                               error:(NiTestsError* _Nonnull)error
@@ -1111,26 +1119,30 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
                          completionHandler:
                              (void (^_Nonnull)(NSString* _Nullable))
                                  completionHandler;
-- (void)echoAsyncNullableUint8ListWithList:(PigeonTypedData* _Nullable)list
-                                     error:(NiTestsError* _Nonnull)error
-                         completionHandler:
-                             (void (^_Nonnull)(PigeonTypedData* _Nullable))
-                                 completionHandler;
-- (void)echoAsyncNullableInt32ListWithList:(PigeonTypedData* _Nullable)list
-                                     error:(NiTestsError* _Nonnull)error
-                         completionHandler:
-                             (void (^_Nonnull)(PigeonTypedData* _Nullable))
-                                 completionHandler;
-- (void)echoAsyncNullableInt64ListWithList:(PigeonTypedData* _Nullable)list
-                                     error:(NiTestsError* _Nonnull)error
-                         completionHandler:
-                             (void (^_Nonnull)(PigeonTypedData* _Nullable))
-                                 completionHandler;
-- (void)echoAsyncNullableFloat64ListWithList:(PigeonTypedData* _Nullable)list
-                                       error:(NiTestsError* _Nonnull)error
-                           completionHandler:
-                               (void (^_Nonnull)(PigeonTypedData* _Nullable))
-                                   completionHandler;
+- (void)
+    echoAsyncNullableUint8ListWithList:(NiTestsPigeonTypedData* _Nullable)list
+                                 error:(NiTestsError* _Nonnull)error
+                     completionHandler:
+                         (void (^_Nonnull)(NiTestsPigeonTypedData* _Nullable))
+                             completionHandler;
+- (void)
+    echoAsyncNullableInt32ListWithList:(NiTestsPigeonTypedData* _Nullable)list
+                                 error:(NiTestsError* _Nonnull)error
+                     completionHandler:
+                         (void (^_Nonnull)(NiTestsPigeonTypedData* _Nullable))
+                             completionHandler;
+- (void)
+    echoAsyncNullableInt64ListWithList:(NiTestsPigeonTypedData* _Nullable)list
+                                 error:(NiTestsError* _Nonnull)error
+                     completionHandler:
+                         (void (^_Nonnull)(NiTestsPigeonTypedData* _Nullable))
+                             completionHandler;
+- (void)
+    echoAsyncNullableFloat64ListWithList:(NiTestsPigeonTypedData* _Nullable)list
+                                   error:(NiTestsError* _Nonnull)error
+                       completionHandler:
+                           (void (^_Nonnull)(NiTestsPigeonTypedData* _Nullable))
+                               completionHandler;
 - (void)echoAsyncNullableObjectWithAnObject:(NSObject* _Nullable)anObject
                                       error:(NiTestsError* _Nonnull)error
                           completionHandler:
@@ -1276,23 +1288,24 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
                                     (NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed in Uint8List.
-- (PigeonTypedData* _Nullable)
-    echoUint8ListWithAUint8List:(PigeonTypedData* _Nonnull)aUint8List
+- (NiTestsPigeonTypedData* _Nullable)
+    echoUint8ListWithAUint8List:(NiTestsPigeonTypedData* _Nonnull)aUint8List
                    wrappedError:(NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed in Int32List.
-- (PigeonTypedData* _Nullable)
-    echoInt32ListWithAInt32List:(PigeonTypedData* _Nonnull)aInt32List
+- (NiTestsPigeonTypedData* _Nullable)
+    echoInt32ListWithAInt32List:(NiTestsPigeonTypedData* _Nonnull)aInt32List
                    wrappedError:(NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed in Int64List.
-- (PigeonTypedData* _Nullable)
-    echoInt64ListWithAInt64List:(PigeonTypedData* _Nonnull)aInt64List
+- (NiTestsPigeonTypedData* _Nullable)
+    echoInt64ListWithAInt64List:(NiTestsPigeonTypedData* _Nonnull)aInt64List
                    wrappedError:(NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed in Float64List.
-- (PigeonTypedData* _Nullable)
-    echoFloat64ListWithAFloat64List:(PigeonTypedData* _Nonnull)aFloat64List
+- (NiTestsPigeonTypedData* _Nullable)
+    echoFloat64ListWithAFloat64List:
+        (NiTestsPigeonTypedData* _Nonnull)aFloat64List
                        wrappedError:(NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed in generic Object.
@@ -1499,30 +1512,30 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
                              wrappedError:(NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed in Uint8List.
-- (PigeonTypedData* _Nullable)
+- (NiTestsPigeonTypedData* _Nullable)
     echoNullableUint8ListWithANullableUint8List:
-        (PigeonTypedData* _Nullable)aNullableUint8List
+        (NiTestsPigeonTypedData* _Nullable)aNullableUint8List
                                    wrappedError:
                                        (NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed in Int32List.
-- (PigeonTypedData* _Nullable)
+- (NiTestsPigeonTypedData* _Nullable)
     echoNullableInt32ListWithANullableInt32List:
-        (PigeonTypedData* _Nullable)aNullableInt32List
+        (NiTestsPigeonTypedData* _Nullable)aNullableInt32List
                                    wrappedError:
                                        (NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed in Int64List.
-- (PigeonTypedData* _Nullable)
+- (NiTestsPigeonTypedData* _Nullable)
     echoNullableInt64ListWithANullableInt64List:
-        (PigeonTypedData* _Nullable)aNullableInt64List
+        (NiTestsPigeonTypedData* _Nullable)aNullableInt64List
                                    wrappedError:
                                        (NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
 /// Returns the passed in Float64List.
-- (PigeonTypedData* _Nullable)
+- (NiTestsPigeonTypedData* _Nullable)
     echoNullableFloat64ListWithANullableFloat64List:
-        (PigeonTypedData* _Nullable)aNullableFloat64List
+        (NiTestsPigeonTypedData* _Nullable)aNullableFloat64List
                                        wrappedError:
                                            (NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
@@ -1660,29 +1673,33 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
                  completionHandler:
                      (void (^_Nonnull)(NSString* _Nullable))completionHandler;
 /// Returns the passed in Uint8List asynchronously.
-- (void)echoAsyncUint8ListWithAUint8List:(PigeonTypedData* _Nonnull)aUint8List
+- (void)echoAsyncUint8ListWithAUint8List:
+            (NiTestsPigeonTypedData* _Nonnull)aUint8List
                             wrappedError:(NiTestsError* _Nonnull)wrappedError
                        completionHandler:
-                           (void (^_Nonnull)(PigeonTypedData* _Nullable))
+                           (void (^_Nonnull)(NiTestsPigeonTypedData* _Nullable))
                                completionHandler;
 /// Returns the passed in Int32List asynchronously.
-- (void)echoAsyncInt32ListWithAInt32List:(PigeonTypedData* _Nonnull)aInt32List
+- (void)echoAsyncInt32ListWithAInt32List:
+            (NiTestsPigeonTypedData* _Nonnull)aInt32List
                             wrappedError:(NiTestsError* _Nonnull)wrappedError
                        completionHandler:
-                           (void (^_Nonnull)(PigeonTypedData* _Nullable))
+                           (void (^_Nonnull)(NiTestsPigeonTypedData* _Nullable))
                                completionHandler;
 /// Returns the passed in Int64List asynchronously.
-- (void)echoAsyncInt64ListWithAInt64List:(PigeonTypedData* _Nonnull)aInt64List
+- (void)echoAsyncInt64ListWithAInt64List:
+            (NiTestsPigeonTypedData* _Nonnull)aInt64List
                             wrappedError:(NiTestsError* _Nonnull)wrappedError
                        completionHandler:
-                           (void (^_Nonnull)(PigeonTypedData* _Nullable))
+                           (void (^_Nonnull)(NiTestsPigeonTypedData* _Nullable))
                                completionHandler;
 /// Returns the passed in Float64List asynchronously.
 - (void)
-    echoAsyncFloat64ListWithAFloat64List:(PigeonTypedData* _Nonnull)aFloat64List
+    echoAsyncFloat64ListWithAFloat64List:
+        (NiTestsPigeonTypedData* _Nonnull)aFloat64List
                             wrappedError:(NiTestsError* _Nonnull)wrappedError
                        completionHandler:
-                           (void (^_Nonnull)(PigeonTypedData* _Nullable))
+                           (void (^_Nonnull)(NiTestsPigeonTypedData* _Nullable))
                                completionHandler;
 /// Returns the passed in generic Object asynchronously.
 - (void)echoAsyncObjectWithAnObject:(NSObject* _Nonnull)anObject
@@ -1832,40 +1849,40 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
                              (void (^_Nonnull)(NSString* _Nullable))
                                  completionHandler;
 /// Returns the passed in Uint8List asynchronously.
-- (void)
-    echoAsyncNullableUint8ListWithAUint8List:
-        (PigeonTypedData* _Nullable)aUint8List
-                                wrappedError:
-                                    (NiTestsError* _Nonnull)wrappedError
-                           completionHandler:
-                               (void (^_Nonnull)(PigeonTypedData* _Nullable))
-                                   completionHandler;
+- (void)echoAsyncNullableUint8ListWithAUint8List:
+            (NiTestsPigeonTypedData* _Nullable)aUint8List
+                                    wrappedError:
+                                        (NiTestsError* _Nonnull)wrappedError
+                               completionHandler:
+                                   (void (^_Nonnull)(
+                                       NiTestsPigeonTypedData* _Nullable))
+                                       completionHandler;
 /// Returns the passed in Int32List asynchronously.
-- (void)
-    echoAsyncNullableInt32ListWithAInt32List:
-        (PigeonTypedData* _Nullable)aInt32List
-                                wrappedError:
-                                    (NiTestsError* _Nonnull)wrappedError
-                           completionHandler:
-                               (void (^_Nonnull)(PigeonTypedData* _Nullable))
-                                   completionHandler;
+- (void)echoAsyncNullableInt32ListWithAInt32List:
+            (NiTestsPigeonTypedData* _Nullable)aInt32List
+                                    wrappedError:
+                                        (NiTestsError* _Nonnull)wrappedError
+                               completionHandler:
+                                   (void (^_Nonnull)(
+                                       NiTestsPigeonTypedData* _Nullable))
+                                       completionHandler;
 /// Returns the passed in Int64List asynchronously.
-- (void)
-    echoAsyncNullableInt64ListWithAInt64List:
-        (PigeonTypedData* _Nullable)aInt64List
-                                wrappedError:
-                                    (NiTestsError* _Nonnull)wrappedError
-                           completionHandler:
-                               (void (^_Nonnull)(PigeonTypedData* _Nullable))
-                                   completionHandler;
+- (void)echoAsyncNullableInt64ListWithAInt64List:
+            (NiTestsPigeonTypedData* _Nullable)aInt64List
+                                    wrappedError:
+                                        (NiTestsError* _Nonnull)wrappedError
+                               completionHandler:
+                                   (void (^_Nonnull)(
+                                       NiTestsPigeonTypedData* _Nullable))
+                                       completionHandler;
 /// Returns the passed in Float64List asynchronously.
 - (void)echoAsyncNullableFloat64ListWithAFloat64List:
-            (PigeonTypedData* _Nullable)aFloat64List
+            (NiTestsPigeonTypedData* _Nullable)aFloat64List
                                         wrappedError:
                                             (NiTestsError* _Nonnull)wrappedError
                                    completionHandler:
                                        (void (^_Nonnull)(
-                                           PigeonTypedData* _Nullable))
+                                           NiTestsPigeonTypedData* _Nullable))
                                            completionHandler;
 /// Returns the passed in generic Object asynchronously.
 - (void)echoAsyncNullableObjectWithAnObject:(NSObject* _Nonnull)anObject
@@ -2027,20 +2044,20 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
     callFlutterEchoStringWithAString:(NSString* _Nonnull)aString
                         wrappedError:(NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
-- (PigeonTypedData* _Nullable)
-    callFlutterEchoUint8ListWithList:(PigeonTypedData* _Nonnull)list
+- (NiTestsPigeonTypedData* _Nullable)
+    callFlutterEchoUint8ListWithList:(NiTestsPigeonTypedData* _Nonnull)list
                         wrappedError:(NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
-- (PigeonTypedData* _Nullable)
-    callFlutterEchoInt32ListWithList:(PigeonTypedData* _Nonnull)list
+- (NiTestsPigeonTypedData* _Nullable)
+    callFlutterEchoInt32ListWithList:(NiTestsPigeonTypedData* _Nonnull)list
                         wrappedError:(NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
-- (PigeonTypedData* _Nullable)
-    callFlutterEchoInt64ListWithList:(PigeonTypedData* _Nonnull)list
+- (NiTestsPigeonTypedData* _Nullable)
+    callFlutterEchoInt64ListWithList:(NiTestsPigeonTypedData* _Nonnull)list
                         wrappedError:(NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
-- (PigeonTypedData* _Nullable)
-    callFlutterEchoFloat64ListWithList:(PigeonTypedData* _Nonnull)list
+- (NiTestsPigeonTypedData* _Nullable)
+    callFlutterEchoFloat64ListWithList:(NiTestsPigeonTypedData* _Nonnull)list
                           wrappedError:(NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
 - (NSArray<NSObject*>* _Nullable)
@@ -2143,23 +2160,27 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
                                 wrappedError:
                                     (NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
-- (PigeonTypedData* _Nullable)
-    callFlutterEchoNullableUint8ListWithList:(PigeonTypedData* _Nullable)list
+- (NiTestsPigeonTypedData* _Nullable)
+    callFlutterEchoNullableUint8ListWithList:
+        (NiTestsPigeonTypedData* _Nullable)list
                                 wrappedError:
                                     (NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
-- (PigeonTypedData* _Nullable)
-    callFlutterEchoNullableInt32ListWithList:(PigeonTypedData* _Nullable)list
+- (NiTestsPigeonTypedData* _Nullable)
+    callFlutterEchoNullableInt32ListWithList:
+        (NiTestsPigeonTypedData* _Nullable)list
                                 wrappedError:
                                     (NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
-- (PigeonTypedData* _Nullable)
-    callFlutterEchoNullableInt64ListWithList:(PigeonTypedData* _Nullable)list
+- (NiTestsPigeonTypedData* _Nullable)
+    callFlutterEchoNullableInt64ListWithList:
+        (NiTestsPigeonTypedData* _Nullable)list
                                 wrappedError:
                                     (NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
-- (PigeonTypedData* _Nullable)
-    callFlutterEchoNullableFloat64ListWithList:(PigeonTypedData* _Nullable)list
+- (NiTestsPigeonTypedData* _Nullable)
+    callFlutterEchoNullableFloat64ListWithList:
+        (NiTestsPigeonTypedData* _Nullable)list
                                   wrappedError:
                                       (NiTestsError* _Nonnull)wrappedError
     SWIFT_WARN_UNUSED_RESULT;
@@ -2309,29 +2330,34 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
                             completionHandler:
                                 (void (^_Nonnull)(NSString* _Nullable))
                                     completionHandler;
-- (void)callFlutterEchoAsyncUint8ListWithList:(PigeonTypedData* _Nonnull)list
-                                 wrappedError:
-                                     (NiTestsError* _Nonnull)wrappedError
-                            completionHandler:
-                                (void (^_Nonnull)(PigeonTypedData* _Nullable))
-                                    completionHandler;
-- (void)callFlutterEchoAsyncInt32ListWithList:(PigeonTypedData* _Nonnull)list
-                                 wrappedError:
-                                     (NiTestsError* _Nonnull)wrappedError
-                            completionHandler:
-                                (void (^_Nonnull)(PigeonTypedData* _Nullable))
-                                    completionHandler;
-- (void)callFlutterEchoAsyncInt64ListWithList:(PigeonTypedData* _Nonnull)list
-                                 wrappedError:
-                                     (NiTestsError* _Nonnull)wrappedError
-                            completionHandler:
-                                (void (^_Nonnull)(PigeonTypedData* _Nullable))
-                                    completionHandler;
-- (void)callFlutterEchoAsyncFloat64ListWithList:(PigeonTypedData* _Nonnull)list
+- (void)
+    callFlutterEchoAsyncUint8ListWithList:(NiTestsPigeonTypedData* _Nonnull)list
+                             wrappedError:(NiTestsError* _Nonnull)wrappedError
+                        completionHandler:
+                            (void (^_Nonnull)(
+                                NiTestsPigeonTypedData* _Nullable))
+                                completionHandler;
+- (void)
+    callFlutterEchoAsyncInt32ListWithList:(NiTestsPigeonTypedData* _Nonnull)list
+                             wrappedError:(NiTestsError* _Nonnull)wrappedError
+                        completionHandler:
+                            (void (^_Nonnull)(
+                                NiTestsPigeonTypedData* _Nullable))
+                                completionHandler;
+- (void)
+    callFlutterEchoAsyncInt64ListWithList:(NiTestsPigeonTypedData* _Nonnull)list
+                             wrappedError:(NiTestsError* _Nonnull)wrappedError
+                        completionHandler:
+                            (void (^_Nonnull)(
+                                NiTestsPigeonTypedData* _Nullable))
+                                completionHandler;
+- (void)callFlutterEchoAsyncFloat64ListWithList:
+            (NiTestsPigeonTypedData* _Nonnull)list
                                    wrappedError:
                                        (NiTestsError* _Nonnull)wrappedError
                               completionHandler:
-                                  (void (^_Nonnull)(PigeonTypedData* _Nullable))
+                                  (void (^_Nonnull)(
+                                      NiTestsPigeonTypedData* _Nullable))
                                       completionHandler;
 - (void)callFlutterEchoAsyncObjectWithAnObject:(NSObject* _Nonnull)anObject
                                   wrappedError:
@@ -2459,37 +2485,38 @@ SWIFT_AVAILABILITY(ios, introduced = 13)
                                     (void (^_Nonnull)(NSString* _Nullable))
                                         completionHandler;
 - (void)callFlutterEchoAsyncNullableUint8ListWithList:
-            (PigeonTypedData* _Nullable)list
+            (NiTestsPigeonTypedData* _Nullable)list
                                          wrappedError:(NiTestsError* _Nonnull)
                                                           wrappedError
                                     completionHandler:
                                         (void (^_Nonnull)(
-                                            PigeonTypedData* _Nullable))
+                                            NiTestsPigeonTypedData* _Nullable))
                                             completionHandler;
 - (void)callFlutterEchoAsyncNullableInt32ListWithList:
-            (PigeonTypedData* _Nullable)list
+            (NiTestsPigeonTypedData* _Nullable)list
                                          wrappedError:(NiTestsError* _Nonnull)
                                                           wrappedError
                                     completionHandler:
                                         (void (^_Nonnull)(
-                                            PigeonTypedData* _Nullable))
+                                            NiTestsPigeonTypedData* _Nullable))
                                             completionHandler;
 - (void)callFlutterEchoAsyncNullableInt64ListWithList:
-            (PigeonTypedData* _Nullable)list
+            (NiTestsPigeonTypedData* _Nullable)list
                                          wrappedError:(NiTestsError* _Nonnull)
                                                           wrappedError
                                     completionHandler:
                                         (void (^_Nonnull)(
-                                            PigeonTypedData* _Nullable))
+                                            NiTestsPigeonTypedData* _Nullable))
                                             completionHandler;
-- (void)callFlutterEchoAsyncNullableFloat64ListWithList:
-            (PigeonTypedData* _Nullable)list
-                                           wrappedError:(NiTestsError* _Nonnull)
-                                                            wrappedError
-                                      completionHandler:
-                                          (void (^_Nonnull)(
-                                              PigeonTypedData* _Nullable))
-                                              completionHandler;
+- (void)
+    callFlutterEchoAsyncNullableFloat64ListWithList:
+        (NiTestsPigeonTypedData* _Nullable)list
+                                       wrappedError:
+                                           (NiTestsError* _Nonnull)wrappedError
+                                  completionHandler:
+                                      (void (^_Nonnull)(
+                                          NiTestsPigeonTypedData* _Nullable))
+                                          completionHandler;
 - (void)
     callFlutterThrowFlutterErrorAsyncWithWrappedError:
         (NiTestsError* _Nonnull)wrappedError
@@ -2654,8 +2681,8 @@ SWIFT_CLASS("_TtC11test_plugin12NiTestsError")
     OBJC_DESIGNATED_INITIALIZER;
 @end
 
-SWIFT_CLASS("_TtC11test_plugin13NumberWrapper")
-@interface NumberWrapper : NSObject <NSCopying>
+SWIFT_CLASS("_TtC11test_plugin20NiTestsNumberWrapper")
+@interface NiTestsNumberWrapper : NSObject <NSCopying>
 - (nonnull instancetype)initWithNumber:(NSNumber* _Nonnull)number
                                   type:(NSInteger)type
     OBJC_DESIGNATED_INITIALIZER;
@@ -2669,25 +2696,21 @@ SWIFT_CLASS("_TtC11test_plugin13NumberWrapper")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
-SWIFT_CLASS("_TtC11test_plugin18PigeonInternalNull")
-@interface PigeonInternalNull : NSObject
+SWIFT_CLASS("_TtC11test_plugin25NiTestsPigeonInternalNull")
+@interface NiTestsPigeonInternalNull : NSObject
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 @class NSData;
-SWIFT_CLASS("_TtC11test_plugin15PigeonTypedData")
+SWIFT_CLASS("_TtC11test_plugin22NiTestsPigeonTypedData")
 SWIFT_AVAILABILITY(macos, introduced = 10.15)
-SWIFT_AVAILABILITY(ios, introduced = 13) @interface PigeonTypedData : NSObject
+SWIFT_AVAILABILITY(ios, introduced = 13)
+@interface NiTestsPigeonTypedData : NSObject
 @property(nonatomic, readonly, strong) NSData* _Nonnull data;
 @property(nonatomic, readonly) NSInteger type;
 - (nonnull instancetype)initWithData:(NSData* _Nonnull)data
                                 type:(NSInteger)type
     OBJC_DESIGNATED_INITIALIZER;
-- (NSArray<NSNumber*>* _Nullable)getUint8Array SWIFT_WARN_UNUSED_RESULT;
-- (NSArray<NSNumber*>* _Nullable)getInt32Array SWIFT_WARN_UNUSED_RESULT;
-- (NSArray<NSNumber*>* _Nullable)getInt64Array SWIFT_WARN_UNUSED_RESULT;
-- (NSArray<NSNumber*>* _Nullable)getFloat32Array SWIFT_WARN_UNUSED_RESULT;
-- (NSArray<NSNumber*>* _Nullable)getFloat64Array SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end

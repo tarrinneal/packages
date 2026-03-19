@@ -1,14 +1,44 @@
+import 'dart:io';
 import 'package:ffigen/ffigen.dart' as fg;
 import 'package:pub_semver/pub_semver.dart';
 import 'package:swift2objc/src/ast/_core/interfaces/declaration.dart';
 import 'package:swiftgen/src/config.dart';
 import 'package:swiftgen/swiftgen.dart';
 
-Future<void> main() async {
+Future<void> main(List<String> args) async {
+  var sdkPath =
+      '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk';
+  if (args.isNotEmpty) {
+    sdkPath = args[0];
+  } else {
+    var didFallback = true;
+    try {
+      final ProcessResult result = await Process.run('xcrun', <String>[
+        '--sdk',
+        'iphoneos',
+        '--show-sdk-path',
+      ]);
+      if (result.exitCode == 0) {
+        sdkPath = (result.stdout as String).trim();
+        didFallback = false;
+      }
+    } catch (_) {}
+    if (didFallback) {
+      // ignore: avoid_print
+      print(
+        'Failed to find iOS SDK path with xcrun. Falling back to default iOS SDK path.',
+      );
+      // ignore: avoid_print
+      print(
+        'If FFI generation fails, please provide a valid iOS SDK path in the Pigeon configuration for SwiftOptions(appleSdkPath: ...), or pass it as an argument when running ffigen.',
+      );
+    }
+  }
+
   final classes = <String>[
-    'PigeonInternalNull',
-    'PigeonTypedData',
-    'NumberWrapper',
+    'NiTestsPigeonInternalNull',
+    'NiTestsPigeonTypedData',
+    'NiTestsNumberWrapper',
     'NSURLCredential',
     'NIHostIntegrationCoreApi',
     'NIHostIntegrationCoreApiSetup',
@@ -25,16 +55,17 @@ Future<void> main() async {
     'NIAnEnum',
     'NIAnotherEnum',
     'NSURLSessionAuthChallengeDisposition',
+    'NiTestsMyDataType',
   ];
+  var targetTriple = '';
+  if (targetTriple.isEmpty) {
+    targetTriple = sdkPath.toLowerCase().contains('macosx')
+        ? 'x86_64-apple-macosx14.0'
+        : 'arm64-apple-ios';
+  }
+
   await SwiftGenerator(
-    target: Target(
-      // triple: 'x86_64-apple-macosx14.0',
-      triple: 'arm64-apple-ios',
-      sdk: Uri.directory(
-        '/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk',
-        // '/Applications/Xcode/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk',
-      ),
-    ),
+    target: Target(triple: targetTriple, sdk: Uri.directory(sdkPath)),
     inputs: <SwiftGenInput>[
       ObjCCompatibleSwiftFileInput(
         files: <Uri>[

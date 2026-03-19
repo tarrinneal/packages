@@ -264,6 +264,7 @@ class PigeonOptions {
     this.astOut,
     this.debugGenerators,
     this.basePath,
+    this.fileSpecificClassNameComponent,
     String? dartPackageName,
     this.ignoreLints = true,
   }) : _dartPackageName = dartPackageName;
@@ -347,6 +348,9 @@ class PigeonOptions {
   /// Whether to ignore lint violations in generated Dart code.
   final bool ignoreLints;
 
+  /// A String to augment class names to avoid cross file collisions.
+  final String? fileSpecificClassNameComponent;
+
   /// Creates a [PigeonOptions] from a Map representation where:
   /// `x = PigeonOptions.fromMap(x.toMap())`.
   static PigeonOptions fromMap(Map<String, Object> map) {
@@ -391,6 +395,8 @@ class PigeonOptions {
       astOut: map['astOut'] as String?,
       debugGenerators: map['debugGenerators'] as bool?,
       basePath: map['basePath'] as String?,
+      fileSpecificClassNameComponent:
+          map['fileSpecificClassNameComponent'] as String?,
       dartPackageName: map['dartPackageName'] as String?,
     );
   }
@@ -423,6 +429,8 @@ class PigeonOptions {
       if (astOut != null) 'astOut': astOut!,
       if (debugGenerators != null) 'debugGenerators': debugGenerators!,
       if (basePath != null) 'basePath': basePath!,
+      if (fileSpecificClassNameComponent != null)
+        'fileSpecificClassNameComponent': fileSpecificClassNameComponent!,
       if (_dartPackageName != null) 'dartPackageName': _dartPackageName,
     };
     return result;
@@ -623,6 +631,10 @@ ${_argParser.usage}''';
       hide: true,
     )
     ..addOption(
+      'file_specific_class_name_component',
+      help: 'A String to augment class names to avoid cross file collisions.',
+    )
+    ..addOption(
       'package_name',
       help: 'The package that generated code will be in.',
     )
@@ -672,6 +684,8 @@ ${_argParser.usage}''';
       astOut: results['ast_out'] as String?,
       debugGenerators: results['debug_generators'] as bool?,
       basePath: results['base_path'] as String?,
+      fileSpecificClassNameComponent:
+          results['file_specific_class_name_component'] as String?,
       dartPackageName: results['package_name'] as String?,
       ignoreLints: results.flag('ignore_lints'),
     );
