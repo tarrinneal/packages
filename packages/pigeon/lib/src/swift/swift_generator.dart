@@ -940,9 +940,6 @@ if (wrapped == nil) {
     });
   }
 
-  /////////// THESE NEED TO BE RECONCILED
-  // TODO(tarrinneal): Reconcile the following methods.
-
   String _varToObjc(
     String varName,
     TypeDeclaration type, {
@@ -1066,30 +1063,6 @@ if (wrapped == nil) {
     }
   }
 
-  String _swiftToFfiConversion(
-    TypeDeclaration type,
-    String toConvert, {
-    bool forceNullable = false,
-  }) {
-    if (type.isVoid) {
-      return toConvert;
-    }
-    final nullable = type.isNullable || forceNullable ? '?' : '';
-    if (type.isEnum) {
-      return _varToObjc(toConvert, type, forceNullable: true);
-    }
-    if (type.baseName == 'Object') {
-      return '_PigeonFfiCodec.writeValue(value: $toConvert, isObject: true) as$nullable NSObject';
-    }
-    if (_conversionToObjcRequired(type)) {
-      if (type.isClass) {
-        return '${type.baseName}Bridge.fromSwift($toConvert)${type.isNullable || forceNullable ? '' : '!'}';
-      }
-      final cast = type.isNullable ? 'as?' : 'as';
-      return '$toConvert $cast ${_ffiTypeForBuiltinDartType(type, forceNullable: true)}';
-    }
-    return _varToObjc(toConvert, type, forceNullable: forceNullable);
-  }
   //////////
 
   void _writeClassInit(
@@ -1505,7 +1478,7 @@ if (wrapped == nil) {
         indent.addScoped('{', '}', () {
           indent.writeln('let error = $errorClassName()');
           final List<String> params = method.parameters.map((NamedType param) {
-            return '${param.name}: ${_swiftToFfiConversion(param.type, param.name, forceNullable: true)}';
+            return '${param.name}: ${_varToObjc(param.name, param.type, forceNullable: true)}';
           }).toList();
           params.add('error: error');
 
@@ -1635,9 +1608,9 @@ if (wrapped == nil) {
               );
             } else {
               indent.writeln(
-                'return try ${method.isAsynchronous ? 'await ' : ''}${_swiftToFfiConversion(method.returnType, 'api!.${components.name}(${components.arguments.map((_SwiftFunctionArgument param) {
+                'return try ${method.isAsynchronous ? 'await ' : ''}${_varToObjc('api!.${components.name}(${components.arguments.map((_SwiftFunctionArgument param) {
                   return '${param.label == "_" || param.label == null ? "" : param.label}${param.label != null ? "" : param.name}${param.label != "_" ? ": " : ""}${_varToSwift(param.name, param.type)}';
-                }).join(', ')})', forceNullable: true)}',
+                }).join(', ')})', method.returnType, forceNullable: true)}',
               );
             }
           }, addTrailingNewline: false);
@@ -2595,6 +2568,7 @@ enum ${_classNamePrefix}MyDataType: Int {
   /// Returns the data as a [Int32] array, if the type is .int32
   public func toInt32Array() -> [Int32]? {
     guard type == ${_classNamePrefix}MyDataType.int32.rawValue else { return nil }
+    guard data.length % MemoryLayout<Int32>.size == 0 else { return nil }
     let count = data.length / MemoryLayout<Int32>.size
     var array = [Int32](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
@@ -2604,6 +2578,7 @@ enum ${_classNamePrefix}MyDataType: Int {
   /// Returns the data as a [Int64] array, if the type is .int64
   public func toInt64Array() -> [Int64]? {
     guard type == ${_classNamePrefix}MyDataType.int64.rawValue else { return nil }
+    guard data.length % MemoryLayout<Int64>.size == 0 else { return nil }
     let count = data.length / MemoryLayout<Int64>.size
     var array = [Int64](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
@@ -2613,6 +2588,7 @@ enum ${_classNamePrefix}MyDataType: Int {
   /// Returns the data as a [Float32] array, if the type is .float32
   public func toFloat32Array() -> [Float32]? {
     guard type == ${_classNamePrefix}MyDataType.float32.rawValue else { return nil }
+    guard data.length % MemoryLayout<Float32>.size == 0 else { return nil }
     let count = data.length / MemoryLayout<Float32>.size
     var array = [Float32](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
@@ -2622,6 +2598,7 @@ enum ${_classNamePrefix}MyDataType: Int {
   /// Returns the data as a [Float64] array (Array<Double>), if the type is .float64
   public func toFloat64Array() -> [Double]? {
     guard type == ${_classNamePrefix}MyDataType.float64.rawValue else { return nil }
+    guard data.length % MemoryLayout<Double>.size == 0 else { return nil }
     let count = data.length / MemoryLayout<Double>.size
     var array = [Double](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
@@ -4402,9 +4379,3 @@ class _SwiftFunctionComponents {
   final List<_SwiftFunctionArgument> arguments;
   final TypeDeclaration returnType;
 }
-
-bool _conversionToObjcRequired(TypeDeclaration type) =>
-    type.baseName == 'int' ||
-    type.baseName == 'double' ||
-    type.baseName == 'bool' ||
-    type.isClass;

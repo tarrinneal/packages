@@ -174,6 +174,7 @@ enum NiTestsMyDataType: Int {
   /// Returns the data as a [Int32] array, if the type is .int32
   public func toInt32Array() -> [Int32]? {
     guard type == NiTestsMyDataType.int32.rawValue else { return nil }
+    guard data.length % MemoryLayout<Int32>.size == 0 else { return nil }
     let count = data.length / MemoryLayout<Int32>.size
     var array = [Int32](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
@@ -183,6 +184,7 @@ enum NiTestsMyDataType: Int {
   /// Returns the data as a [Int64] array, if the type is .int64
   public func toInt64Array() -> [Int64]? {
     guard type == NiTestsMyDataType.int64.rawValue else { return nil }
+    guard data.length % MemoryLayout<Int64>.size == 0 else { return nil }
     let count = data.length / MemoryLayout<Int64>.size
     var array = [Int64](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
@@ -192,6 +194,7 @@ enum NiTestsMyDataType: Int {
   /// Returns the data as a [Float32] array, if the type is .float32
   public func toFloat32Array() -> [Float32]? {
     guard type == NiTestsMyDataType.float32.rawValue else { return nil }
+    guard data.length % MemoryLayout<Float32>.size == 0 else { return nil }
     let count = data.length / MemoryLayout<Float32>.size
     var array = [Float32](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
@@ -201,6 +204,7 @@ enum NiTestsMyDataType: Int {
   /// Returns the data as a [Float64] array (Array<Double>), if the type is .float64
   public func toFloat64Array() -> [Double]? {
     guard type == NiTestsMyDataType.float64.rawValue else { return nil }
+    guard data.length % MemoryLayout<Double>.size == 0 else { return nil }
     let count = data.length / MemoryLayout<Double>.size
     var array = [Double](repeating: 0, count: count)
     data.getBytes(&array, length: data.length)
@@ -2294,7 +2298,7 @@ protocol NIHostIntegrationCoreApi {
     -> NIAllTypesBridge?
   {
     do {
-      return try NIAllTypesBridge.fromSwift(api!.echo(everything.toSwift()))
+      return try NIAllTypesBridge.fromSwift(api!.echo(everything.toSwift()))!
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -2355,7 +2359,7 @@ protocol NIHostIntegrationCoreApi {
   /// Returns passed in int.
   @objc func echoInt(anInt: Int64, wrappedError: NiTestsError) -> NSNumber? {
     do {
-      return try api!.echo(anInt) as NSNumber
+      return try NSNumber(value: api!.echo(anInt))
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -2370,7 +2374,7 @@ protocol NIHostIntegrationCoreApi {
   /// Returns passed in double.
   @objc func echoDouble(aDouble: Double, wrappedError: NiTestsError) -> NSNumber? {
     do {
-      return try api!.echo(aDouble) as NSNumber
+      return try NSNumber(value: api!.echo(aDouble))
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -2385,7 +2389,7 @@ protocol NIHostIntegrationCoreApi {
   /// Returns the passed in boolean.
   @objc func echoBool(aBool: Bool, wrappedError: NiTestsError) -> NSNumber? {
     do {
-      return try api!.echo(aBool) as NSNumber
+      return try NSNumber(value: api!.echo(aBool))
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -2855,7 +2859,7 @@ protocol NIHostIntegrationCoreApi {
     -> NIAllClassesWrapperBridge?
   {
     do {
-      return try NIAllClassesWrapperBridge.fromSwift(api!.echo(wrapper.toSwift()))
+      return try NIAllClassesWrapperBridge.fromSwift(api!.echo(wrapper.toSwift()))!
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -2915,7 +2919,7 @@ protocol NIHostIntegrationCoreApi {
   /// Returns passed in double.
   @objc func echoOptionalDefaultDouble(aDouble: Double, wrappedError: NiTestsError) -> NSNumber? {
     do {
-      return try api!.echoOptionalDefault(aDouble) as NSNumber
+      return try NSNumber(value: api!.echoOptionalDefault(aDouble))
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -2930,7 +2934,7 @@ protocol NIHostIntegrationCoreApi {
   /// Returns passed in int.
   @objc func echoRequiredInt(anInt: Int64, wrappedError: NiTestsError) -> NSNumber? {
     do {
-      return try api!.echoRequired(anInt) as NSNumber
+      return try NSNumber(value: api!.echoRequired(anInt))
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -3003,7 +3007,7 @@ protocol NIHostIntegrationCoreApi {
   {
     do {
       return try NIAllClassesWrapperBridge.fromSwift(
-        api!.createNestedObject(with: nullableString as String?))
+        api!.createNestedObject(with: nullableString as String?))!
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -3024,7 +3028,7 @@ protocol NIHostIntegrationCoreApi {
         api!.sendMultipleNullableTypes(
           aBool: isNullish(aNullableBool) ? nil : aNullableBool!.boolValue,
           anInt: isNullish(aNullableInt) ? nil : aNullableInt!.int64Value,
-          aString: aNullableString as String?))
+          aString: aNullableString as String?))!
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -3045,7 +3049,7 @@ protocol NIHostIntegrationCoreApi {
         api!.sendMultipleNullableTypesWithoutRecursion(
           aBool: isNullish(aNullableBool) ? nil : aNullableBool!.boolValue,
           anInt: isNullish(aNullableInt) ? nil : aNullableInt!.int64Value,
-          aString: aNullableString as String?))
+          aString: aNullableString as String?))!
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -3060,8 +3064,11 @@ protocol NIHostIntegrationCoreApi {
   /// Returns passed in int.
   @objc func echoNullableInt(aNullableInt: NSNumber?, wrappedError: NiTestsError) -> NSNumber? {
     do {
-      return try api!.echoNullable(isNullish(aNullableInt) ? nil : aNullableInt!.int64Value)
-        as? NSNumber
+      return try isNullish(
+        api!.echoNullable(isNullish(aNullableInt) ? nil : aNullableInt!.int64Value))
+        ? nil
+        : NSNumber(
+          value: api!.echoNullable(isNullish(aNullableInt) ? nil : aNullableInt!.int64Value)!)
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -3077,8 +3084,12 @@ protocol NIHostIntegrationCoreApi {
   @objc func echoNullableDouble(aNullableDouble: NSNumber?, wrappedError: NiTestsError) -> NSNumber?
   {
     do {
-      return try api!.echoNullable(isNullish(aNullableDouble) ? nil : aNullableDouble!.doubleValue)
-        as? NSNumber
+      return try isNullish(
+        api!.echoNullable(isNullish(aNullableDouble) ? nil : aNullableDouble!.doubleValue))
+        ? nil
+        : NSNumber(
+          value: api!.echoNullable(isNullish(aNullableDouble) ? nil : aNullableDouble!.doubleValue)!
+        )
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -3093,8 +3104,11 @@ protocol NIHostIntegrationCoreApi {
   /// Returns the passed in boolean.
   @objc func echoNullableBool(aNullableBool: NSNumber?, wrappedError: NiTestsError) -> NSNumber? {
     do {
-      return try api!.echoNullable(isNullish(aNullableBool) ? nil : aNullableBool!.boolValue)
-        as? NSNumber
+      return try isNullish(
+        api!.echoNullable(isNullish(aNullableBool) ? nil : aNullableBool!.boolValue))
+        ? nil
+        : NSNumber(
+          value: api!.echoNullable(isNullish(aNullableBool) ? nil : aNullableBool!.boolValue)!)
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -3542,8 +3556,11 @@ protocol NIHostIntegrationCoreApi {
     -> NSNumber?
   {
     do {
-      return try api!.echoOptional(isNullish(aNullableInt) ? nil : aNullableInt!.int64Value)
-        as? NSNumber
+      return try isNullish(
+        api!.echoOptional(isNullish(aNullableInt) ? nil : aNullableInt!.int64Value))
+        ? nil
+        : NSNumber(
+          value: api!.echoOptional(isNullish(aNullableInt) ? nil : aNullableInt!.int64Value)!)
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -3591,7 +3608,7 @@ protocol NIHostIntegrationCoreApi {
   /// Returns passed in int asynchronously.
   @objc func echoAsyncInt(anInt: Int64, wrappedError: NiTestsError) async -> NSNumber? {
     do {
-      return try await api!.echoAsync(anInt) as NSNumber
+      return try await NSNumber(value: api!.echoAsync(anInt))
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -3606,7 +3623,7 @@ protocol NIHostIntegrationCoreApi {
   /// Returns passed in double asynchronously.
   @objc func echoAsyncDouble(aDouble: Double, wrappedError: NiTestsError) async -> NSNumber? {
     do {
-      return try await api!.echoAsync(aDouble) as NSNumber
+      return try await NSNumber(value: api!.echoAsync(aDouble))
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -3621,7 +3638,7 @@ protocol NIHostIntegrationCoreApi {
   /// Returns the passed in boolean asynchronously.
   @objc func echoAsyncBool(aBool: Bool, wrappedError: NiTestsError) async -> NSNumber? {
     do {
-      return try await api!.echoAsync(aBool) as NSNumber
+      return try await NSNumber(value: api!.echoAsync(aBool))
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -3983,7 +4000,7 @@ protocol NIHostIntegrationCoreApi {
     -> NIAllTypesBridge?
   {
     do {
-      return try await NIAllTypesBridge.fromSwift(api!.echoAsync(everything.toSwift()))
+      return try await NIAllTypesBridge.fromSwift(api!.echoAsync(everything.toSwift()))!
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -4034,8 +4051,8 @@ protocol NIHostIntegrationCoreApi {
   /// Returns passed in int asynchronously.
   @objc func echoAsyncNullableInt(anInt: NSNumber?, wrappedError: NiTestsError) async -> NSNumber? {
     do {
-      return try await api!.echoAsyncNullable(isNullish(anInt) ? nil : anInt!.int64Value)
-        as? NSNumber
+      return try await isNullish(api!.echoAsyncNullable(isNullish(anInt) ? nil : anInt!.int64Value))
+        ? nil : NSNumber(value: api!.echoAsyncNullable(isNullish(anInt) ? nil : anInt!.int64Value)!)
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -4052,8 +4069,10 @@ protocol NIHostIntegrationCoreApi {
     -> NSNumber?
   {
     do {
-      return try await api!.echoAsyncNullable(isNullish(aDouble) ? nil : aDouble!.doubleValue)
-        as? NSNumber
+      return try await isNullish(
+        api!.echoAsyncNullable(isNullish(aDouble) ? nil : aDouble!.doubleValue))
+        ? nil
+        : NSNumber(value: api!.echoAsyncNullable(isNullish(aDouble) ? nil : aDouble!.doubleValue)!)
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -4069,8 +4088,8 @@ protocol NIHostIntegrationCoreApi {
   @objc func echoAsyncNullableBool(aBool: NSNumber?, wrappedError: NiTestsError) async -> NSNumber?
   {
     do {
-      return try await api!.echoAsyncNullable(isNullish(aBool) ? nil : aBool!.boolValue)
-        as? NSNumber
+      return try await isNullish(api!.echoAsyncNullable(isNullish(aBool) ? nil : aBool!.boolValue))
+        ? nil : NSNumber(value: api!.echoAsyncNullable(isNullish(aBool) ? nil : aBool!.boolValue)!)
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -4443,7 +4462,7 @@ protocol NIHostIntegrationCoreApi {
     -> NIAllTypesBridge?
   {
     do {
-      return try NIAllTypesBridge.fromSwift(api!.callFlutterEcho(everything.toSwift()))
+      return try NIAllTypesBridge.fromSwift(api!.callFlutterEcho(everything.toSwift()))!
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -4481,7 +4500,7 @@ protocol NIHostIntegrationCoreApi {
         api!.callFlutterSendMultipleNullableTypes(
           aBool: isNullish(aNullableBool) ? nil : aNullableBool!.boolValue,
           anInt: isNullish(aNullableInt) ? nil : aNullableInt!.int64Value,
-          aString: aNullableString as String?))
+          aString: aNullableString as String?))!
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -4519,7 +4538,7 @@ protocol NIHostIntegrationCoreApi {
         api!.callFlutterSendMultipleNullableTypesWithoutRecursion(
           aBool: isNullish(aNullableBool) ? nil : aNullableBool!.boolValue,
           anInt: isNullish(aNullableInt) ? nil : aNullableInt!.int64Value,
-          aString: aNullableString as String?))
+          aString: aNullableString as String?))!
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -4533,7 +4552,7 @@ protocol NIHostIntegrationCoreApi {
   }
   @objc func callFlutterEchoBool(aBool: Bool, wrappedError: NiTestsError) -> NSNumber? {
     do {
-      return try api!.callFlutterEcho(aBool) as NSNumber
+      return try NSNumber(value: api!.callFlutterEcho(aBool))
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -4547,7 +4566,7 @@ protocol NIHostIntegrationCoreApi {
   }
   @objc func callFlutterEchoInt(anInt: Int64, wrappedError: NiTestsError) -> NSNumber? {
     do {
-      return try api!.callFlutterEcho(anInt) as NSNumber
+      return try NSNumber(value: api!.callFlutterEcho(anInt))
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -4561,7 +4580,7 @@ protocol NIHostIntegrationCoreApi {
   }
   @objc func callFlutterEchoDouble(aDouble: Double, wrappedError: NiTestsError) -> NSNumber? {
     do {
-      return try api!.callFlutterEcho(aDouble) as NSNumber
+      return try NSNumber(value: api!.callFlutterEcho(aDouble))
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -4960,8 +4979,9 @@ protocol NIHostIntegrationCoreApi {
   @objc func callFlutterEchoNullableBool(aBool: NSNumber?, wrappedError: NiTestsError) -> NSNumber?
   {
     do {
-      return try api!.callFlutterEchoNullable(isNullish(aBool) ? nil : aBool!.boolValue)
-        as? NSNumber
+      return try isNullish(api!.callFlutterEchoNullable(isNullish(aBool) ? nil : aBool!.boolValue))
+        ? nil
+        : NSNumber(value: api!.callFlutterEchoNullable(isNullish(aBool) ? nil : aBool!.boolValue)!)
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -4975,8 +4995,9 @@ protocol NIHostIntegrationCoreApi {
   }
   @objc func callFlutterEchoNullableInt(anInt: NSNumber?, wrappedError: NiTestsError) -> NSNumber? {
     do {
-      return try api!.callFlutterEchoNullable(isNullish(anInt) ? nil : anInt!.int64Value)
-        as? NSNumber
+      return try isNullish(api!.callFlutterEchoNullable(isNullish(anInt) ? nil : anInt!.int64Value))
+        ? nil
+        : NSNumber(value: api!.callFlutterEchoNullable(isNullish(anInt) ? nil : anInt!.int64Value)!)
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -4992,8 +5013,11 @@ protocol NIHostIntegrationCoreApi {
     -> NSNumber?
   {
     do {
-      return try api!.callFlutterEchoNullable(isNullish(aDouble) ? nil : aDouble!.doubleValue)
-        as? NSNumber
+      return try isNullish(
+        api!.callFlutterEchoNullable(isNullish(aDouble) ? nil : aDouble!.doubleValue))
+        ? nil
+        : NSNumber(
+          value: api!.callFlutterEchoNullable(isNullish(aDouble) ? nil : aDouble!.doubleValue)!)
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -5418,7 +5442,7 @@ protocol NIHostIntegrationCoreApi {
   ) async -> NIAllTypesBridge? {
     do {
       return try await NIAllTypesBridge.fromSwift(
-        api!.callFlutterEchoAsyncNIAllTypes(everything: everything.toSwift()))
+        api!.callFlutterEchoAsyncNIAllTypes(everything: everything.toSwift()))!
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -5468,7 +5492,7 @@ protocol NIHostIntegrationCoreApi {
   }
   @objc func callFlutterEchoAsyncBool(aBool: Bool, wrappedError: NiTestsError) async -> NSNumber? {
     do {
-      return try await api!.callFlutterEchoAsyncBool(aBool: aBool) as NSNumber
+      return try await NSNumber(value: api!.callFlutterEchoAsyncBool(aBool: aBool))
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -5482,7 +5506,7 @@ protocol NIHostIntegrationCoreApi {
   }
   @objc func callFlutterEchoAsyncInt(anInt: Int64, wrappedError: NiTestsError) async -> NSNumber? {
     do {
-      return try await api!.callFlutterEchoAsyncInt(anInt: anInt) as NSNumber
+      return try await NSNumber(value: api!.callFlutterEchoAsyncInt(anInt: anInt))
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -5498,7 +5522,7 @@ protocol NIHostIntegrationCoreApi {
     -> NSNumber?
   {
     do {
-      return try await api!.callFlutterEchoAsyncDouble(aDouble: aDouble) as NSNumber
+      return try await NSNumber(value: api!.callFlutterEchoAsyncDouble(aDouble: aDouble))
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -5844,8 +5868,12 @@ protocol NIHostIntegrationCoreApi {
     -> NSNumber?
   {
     do {
-      return try await api!.callFlutterEchoAsyncNullableBool(
-        aBool: isNullish(aBool) ? nil : aBool!.boolValue) as? NSNumber
+      return try await isNullish(
+        api!.callFlutterEchoAsyncNullableBool(aBool: isNullish(aBool) ? nil : aBool!.boolValue))
+        ? nil
+        : NSNumber(
+          value: api!.callFlutterEchoAsyncNullableBool(
+            aBool: isNullish(aBool) ? nil : aBool!.boolValue)!)
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -5861,8 +5889,12 @@ protocol NIHostIntegrationCoreApi {
     -> NSNumber?
   {
     do {
-      return try await api!.callFlutterEchoAsyncNullableInt(
-        anInt: isNullish(anInt) ? nil : anInt!.int64Value) as? NSNumber
+      return try await isNullish(
+        api!.callFlutterEchoAsyncNullableInt(anInt: isNullish(anInt) ? nil : anInt!.int64Value))
+        ? nil
+        : NSNumber(
+          value: api!.callFlutterEchoAsyncNullableInt(
+            anInt: isNullish(anInt) ? nil : anInt!.int64Value)!)
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -5878,8 +5910,13 @@ protocol NIHostIntegrationCoreApi {
     async -> NSNumber?
   {
     do {
-      return try await api!.callFlutterEchoAsyncNullableDouble(
-        aDouble: isNullish(aDouble) ? nil : aDouble!.doubleValue) as? NSNumber
+      return try await isNullish(
+        api!.callFlutterEchoAsyncNullableDouble(
+          aDouble: isNullish(aDouble) ? nil : aDouble!.doubleValue))
+        ? nil
+        : NSNumber(
+          value: api!.callFlutterEchoAsyncNullableDouble(
+            aDouble: isNullish(aDouble) ? nil : aDouble!.doubleValue)!)
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -6248,7 +6285,7 @@ protocol NIHostIntegrationCoreApi {
   /// Returns true if the handler is run on a main thread.
   @objc func defaultIsMainThread(wrappedError: NiTestsError) -> NSNumber? {
     do {
-      return try api!.defaultIsMainThread() as NSNumber
+      return try NSNumber(value: api!.defaultIsMainThread())
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -6265,7 +6302,7 @@ protocol NIHostIntegrationCoreApi {
   /// Returns the result of whether the flutter call was successful.
   @objc func callFlutterNoopOnBackgroundThread(wrappedError: NiTestsError) async -> NSNumber? {
     do {
-      return try await api!.callFlutterNoopOnBackgroundThread() as NSNumber
+      return try await NSNumber(value: api!.callFlutterNoopOnBackgroundThread())
     } catch let error as NiTestsError {
       wrappedError.code = error.code
       wrappedError.message = error.message
@@ -6589,7 +6626,7 @@ class NIFlutterIntegrationCoreApi {
   /// Returns the passed object, to test serialization and deserialization.
   func echoNIAllTypes(everything: NIAllTypes) throws -> NIAllTypes {
     let error = NiTestsError()
-    let res = api!.echoNIAllTypes(everything: NIAllTypesBridge.fromSwift(everything), error: error)
+    let res = api!.echoNIAllTypes(everything: NIAllTypesBridge.fromSwift(everything)!, error: error)
     if error.code != nil {
       throw error
     }
@@ -6616,7 +6653,8 @@ class NIFlutterIntegrationCoreApi {
   ) throws -> NIAllNullableTypes {
     let error = NiTestsError()
     let res = api!.sendMultipleNullableTypes(
-      aNullableBool: aNullableBool as? NSNumber, aNullableInt: aNullableInt as? NSNumber,
+      aNullableBool: isNullish(aNullableBool) ? nil : NSNumber(value: aNullableBool!),
+      aNullableInt: isNullish(aNullableInt) ? nil : NSNumber(value: aNullableInt!),
       aNullableString: aNullableString as NSString?, error: error)
     if error.code != nil {
       throw error
@@ -6647,7 +6685,8 @@ class NIFlutterIntegrationCoreApi {
   ) throws -> NIAllNullableTypesWithoutRecursion {
     let error = NiTestsError()
     let res = api!.sendMultipleNullableTypesWithoutRecursion(
-      aNullableBool: aNullableBool as? NSNumber, aNullableInt: aNullableInt as? NSNumber,
+      aNullableBool: isNullish(aNullableBool) ? nil : NSNumber(value: aNullableBool!),
+      aNullableInt: isNullish(aNullableInt) ? nil : NSNumber(value: aNullableInt!),
       aNullableString: aNullableString as NSString?, error: error)
     if error.code != nil {
       throw error
@@ -6659,7 +6698,7 @@ class NIFlutterIntegrationCoreApi {
   /// Returns the passed boolean, to test serialization and deserialization.
   func echoBool(aBool: Bool) throws -> Bool {
     let error = NiTestsError()
-    let res = api!.echoBool(aBool: aBool as NSNumber, error: error)
+    let res = api!.echoBool(aBool: NSNumber(value: aBool), error: error)
     if error.code != nil {
       throw error
     }
@@ -6669,7 +6708,7 @@ class NIFlutterIntegrationCoreApi {
   /// Returns the passed int, to test serialization and deserialization.
   func echoInt(anInt: Int64) throws -> Int64 {
     let error = NiTestsError()
-    let res = api!.echoInt(anInt: anInt as NSNumber, error: error)
+    let res = api!.echoInt(anInt: NSNumber(value: anInt), error: error)
     if error.code != nil {
       throw error
     }
@@ -6679,7 +6718,7 @@ class NIFlutterIntegrationCoreApi {
   /// Returns the passed double, to test serialization and deserialization.
   func echoDouble(aDouble: Double) throws -> Double {
     let error = NiTestsError()
-    let res = api!.echoDouble(aDouble: aDouble as NSNumber, error: error)
+    let res = api!.echoDouble(aDouble: NSNumber(value: aDouble), error: error)
     if error.code != nil {
       throw error
     }
@@ -6930,7 +6969,8 @@ class NIFlutterIntegrationCoreApi {
   /// Returns the passed boolean, to test serialization and deserialization.
   func echoNullableBool(aBool: Bool?) throws -> Bool? {
     let error = NiTestsError()
-    let res = api!.echoNullableBool(aBool: aBool as? NSNumber, error: error)
+    let res = api!.echoNullableBool(
+      aBool: isNullish(aBool) ? nil : NSNumber(value: aBool!), error: error)
     if error.code != nil {
       throw error
     }
@@ -6940,7 +6980,8 @@ class NIFlutterIntegrationCoreApi {
   /// Returns the passed int, to test serialization and deserialization.
   func echoNullableInt(anInt: Int64?) throws -> Int64? {
     let error = NiTestsError()
-    let res = api!.echoNullableInt(anInt: anInt as? NSNumber, error: error)
+    let res = api!.echoNullableInt(
+      anInt: isNullish(anInt) ? nil : NSNumber(value: anInt!), error: error)
     if error.code != nil {
       throw error
     }
@@ -6950,7 +6991,8 @@ class NIFlutterIntegrationCoreApi {
   /// Returns the passed double, to test serialization and deserialization.
   func echoNullableDouble(aDouble: Double?) throws -> Double? {
     let error = NiTestsError()
-    let res = api!.echoNullableDouble(aDouble: aDouble as? NSNumber, error: error)
+    let res = api!.echoNullableDouble(
+      aDouble: isNullish(aDouble) ? nil : NSNumber(value: aDouble!), error: error)
     if error.code != nil {
       throw error
     }
@@ -7225,7 +7267,7 @@ class NIFlutterIntegrationCoreApi {
   func echoAsyncNIAllTypes(everything: NIAllTypes) async throws -> NIAllTypes {
     let error = NiTestsError()
     let res = await api!.echoAsyncNIAllTypes(
-      everything: NIAllTypesBridge.fromSwift(everything), error: error)
+      everything: NIAllTypesBridge.fromSwift(everything)!, error: error)
     if error.code != nil {
       throw error
     }
@@ -7260,7 +7302,7 @@ class NIFlutterIntegrationCoreApi {
 
   func echoAsyncBool(aBool: Bool) async throws -> Bool {
     let error = NiTestsError()
-    let res = await api!.echoAsyncBool(aBool: aBool as NSNumber, error: error)
+    let res = await api!.echoAsyncBool(aBool: NSNumber(value: aBool), error: error)
     if error.code != nil {
       throw error
     }
@@ -7269,7 +7311,7 @@ class NIFlutterIntegrationCoreApi {
 
   func echoAsyncInt(anInt: Int64) async throws -> Int64 {
     let error = NiTestsError()
-    let res = await api!.echoAsyncInt(anInt: anInt as NSNumber, error: error)
+    let res = await api!.echoAsyncInt(anInt: NSNumber(value: anInt), error: error)
     if error.code != nil {
       throw error
     }
@@ -7278,7 +7320,7 @@ class NIFlutterIntegrationCoreApi {
 
   func echoAsyncDouble(aDouble: Double) async throws -> Double {
     let error = NiTestsError()
-    let res = await api!.echoAsyncDouble(aDouble: aDouble as NSNumber, error: error)
+    let res = await api!.echoAsyncDouble(aDouble: NSNumber(value: aDouble), error: error)
     if error.code != nil {
       throw error
     }
@@ -7476,7 +7518,8 @@ class NIFlutterIntegrationCoreApi {
 
   func echoAsyncNullableBool(aBool: Bool?) async throws -> Bool? {
     let error = NiTestsError()
-    let res = await api!.echoAsyncNullableBool(aBool: aBool as? NSNumber, error: error)
+    let res = await api!.echoAsyncNullableBool(
+      aBool: isNullish(aBool) ? nil : NSNumber(value: aBool!), error: error)
     if error.code != nil {
       throw error
     }
@@ -7485,7 +7528,8 @@ class NIFlutterIntegrationCoreApi {
 
   func echoAsyncNullableInt(anInt: Int64?) async throws -> Int64? {
     let error = NiTestsError()
-    let res = await api!.echoAsyncNullableInt(anInt: anInt as? NSNumber, error: error)
+    let res = await api!.echoAsyncNullableInt(
+      anInt: isNullish(anInt) ? nil : NSNumber(value: anInt!), error: error)
     if error.code != nil {
       throw error
     }
@@ -7494,7 +7538,8 @@ class NIFlutterIntegrationCoreApi {
 
   func echoAsyncNullableDouble(aDouble: Double?) async throws -> Double? {
     let error = NiTestsError()
-    let res = await api!.echoAsyncNullableDouble(aDouble: aDouble as? NSNumber, error: error)
+    let res = await api!.echoAsyncNullableDouble(
+      aDouble: isNullish(aDouble) ? nil : NSNumber(value: aDouble!), error: error)
     if error.code != nil {
       throw error
     }
