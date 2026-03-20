@@ -1,22 +1,32 @@
-// Copyright 2013 The Flutter Authors. All rights reserved.
+// Copyright 2013 The Flutter Authors
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import Flutter
-import UIKit
+import Foundation
+
+#if os(iOS)
+  import Flutter
+#elseif os(macOS)
+  import FlutterMacOS
+#endif
 
 /// This plugin handles the native side of the integration tests in
 /// example/integration_test/.
 public class TestPlugin: NSObject, FlutterPlugin, HostIntegrationCoreApi {
-
   var flutterAPI: FlutterIntegrationCoreApi
   var flutterSmallApiOne: FlutterSmallApi
   var flutterSmallApiTwo: FlutterSmallApi
   var proxyApiRegistrar: ProxyApiTestsPigeonProxyApiRegistrar?
 
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let plugin = TestPlugin(binaryMessenger: registrar.messenger())
-    HostIntegrationCoreApiSetup.setUp(binaryMessenger: registrar.messenger(), api: plugin)
+    // Workaround for https://github.com/flutter/flutter/issues/118103.
+    #if os(iOS)
+      let messenger = registrar.messenger()
+    #else
+      let messenger = registrar.messenger
+    #endif
+    let plugin = TestPlugin(binaryMessenger: messenger)
+    HostIntegrationCoreApiSetup.setUp(binaryMessenger: messenger, api: plugin)
     TestPluginWithSuffix.register(with: registrar, suffix: "suffixOne")
     TestPluginWithSuffix.register(with: registrar, suffix: "suffixTwo")
     registrar.publish(plugin)
@@ -2645,8 +2655,14 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
 public class TestPluginWithSuffix: HostSmallApi {
   public static func register(with registrar: FlutterPluginRegistrar, suffix: String) {
     let plugin = TestPluginWithSuffix()
+    // Workaround for https://github.com/flutter/flutter/issues/118103.
+    #if os(iOS)
+      let messenger = registrar.messenger()
+    #else
+      let messenger = registrar.messenger
+    #endif
     HostSmallApiSetup.setUp(
-      binaryMessenger: registrar.messenger(), api: plugin, messageChannelSuffix: suffix)
+      binaryMessenger: messenger, api: plugin, messageChannelSuffix: suffix)
   }
 
   func echo(aString: String, completion: @escaping (Result<String, Error>) -> Void) {
