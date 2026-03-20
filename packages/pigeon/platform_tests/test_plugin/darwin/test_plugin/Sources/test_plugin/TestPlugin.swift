@@ -4420,9 +4420,7 @@ class ProxyApiDelegate: ProxyApiTestsPigeonProxyApiDelegate {
         return ProxyApiSuperClass()
       }
 
-      func aSuperMethod(
-        pigeonApi: PigeonApiProxyApiSuperClass, pigeonInstance: ProxyApiSuperClass
-      )
+      func aSuperMethod(pigeonApi: PigeonApiProxyApiSuperClass, pigeonInstance: ProxyApiSuperClass)
         throws
       {}
     }
@@ -4430,18 +4428,26 @@ class ProxyApiDelegate: ProxyApiTestsPigeonProxyApiDelegate {
       pigeonRegistrar: registrar, delegate: ProxyApiSuperClassDelegate())
   }
 
+  func pigeonApiProxyApiInterface(_ registrar: ProxyApiTestsPigeonProxyApiRegistrar)
+    -> PigeonApiProxyApiInterface
+  {
+    class ProxyApiInterfaceDelegate: PigeonApiDelegateProxyApiInterface {}
+    return PigeonApiProxyApiInterface(
+      pigeonRegistrar: registrar, delegate: ProxyApiInterfaceDelegate())
+  }
+
   func pigeonApiClassWithApiRequirement(_ registrar: ProxyApiTestsPigeonProxyApiRegistrar)
     -> PigeonApiClassWithApiRequirement
   {
     class ClassWithApiRequirementDelegate: PigeonApiDelegateClassWithApiRequirement {
-      @available(iOS 15, *)
+      @available(iOS 15, macOS 10, *)
       func pigeonDefaultConstructor(pigeonApi: PigeonApiClassWithApiRequirement) throws
         -> ClassWithApiRequirement
       {
         return ClassWithApiRequirement()
       }
 
-      @available(iOS 15, *)
+      @available(iOS 15, macOS 10, *)
       func aMethod(
         pigeonApi: PigeonApiClassWithApiRequirement, pigeonInstance: ClassWithApiRequirement
       ) throws {
