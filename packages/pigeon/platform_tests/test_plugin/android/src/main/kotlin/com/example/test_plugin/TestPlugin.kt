@@ -37,11 +37,6 @@ class TestPlugin : FlutterPlugin, HostIntegrationCoreApi {
     testSuffixApiOne.setUp(binding, "suffixOne")
     val testSuffixApiTwo = TestPluginWithSuffix()
     testSuffixApiTwo.setUp(binding, "suffixTwo")
-
-    niMessageApi = NIHostIntegrationCoreApiRegistrar().register(NIIntegrationTests())
-    // niSmallApiOne = NIHostSmallApiRegistrar().register(NIHostSmallApiTests(), "suffixOne")
-    // niSmallApiTwo = NIHostSmallApiRegistrar().register(NIHostSmallApiTests(), "suffixTwo")
-
     flutterApi = FlutterIntegrationCoreApi(binding.binaryMessenger)
     flutterSmallApiOne = FlutterSmallApi(binding.binaryMessenger, "suffixOne")
     flutterSmallApiTwo = FlutterSmallApi(binding.binaryMessenger, "suffixTwo")
@@ -547,11 +542,11 @@ class TestPlugin : FlutterPlugin, HostIntegrationCoreApi {
   }
 
   override fun defaultIsMainThread(): Boolean {
-    return Thread.currentThread() == Looper.getMainLooper().thread
+    return Thread.currentThread() == Looper.getMainLooper().getThread()
   }
 
   override fun taskQueueIsBackgroundThread(): Boolean {
-    return Thread.currentThread() != Looper.getMainLooper().thread
+    return Thread.currentThread() != Looper.getMainLooper().getThread()
   }
 
   override fun callFlutterNoop(callback: (Result<Unit>) -> Unit) {

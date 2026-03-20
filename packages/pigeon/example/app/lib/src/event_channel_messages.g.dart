@@ -40,7 +40,7 @@ class IntEvent extends PlatformEvent {
     if (identical(this, other)) {
       return true;
     }
-    return data == other.data;
+    return _deepEquals(encode(), other.encode());
   }
 
   @override
@@ -80,7 +80,7 @@ class StringEvent extends PlatformEvent {
     if (identical(this, other)) {
       return true;
     }
-    return data == other.data;
+    return _deepEquals(encode(), other.encode());
   }
 
   @override

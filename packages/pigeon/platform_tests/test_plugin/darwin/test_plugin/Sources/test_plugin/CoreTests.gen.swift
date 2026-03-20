@@ -84,9 +84,6 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
 }
 
 func deepEqualsCoreTests(_ lhs: Any?, _ rhs: Any?) -> Bool {
-  if let lhs = lhs as? AnyObject, let rhs = rhs as? AnyObject, lhs === rhs {
-    return true
-  }
   let cleanLhs = nilOrValue(lhs) as Any?
   let cleanRhs = nilOrValue(rhs) as Any?
   switch (cleanLhs, cleanRhs) {
@@ -99,10 +96,13 @@ func deepEqualsCoreTests(_ lhs: Any?, _ rhs: Any?) -> Bool {
   case is (Void, Void):
     return true
 
+  case let (cleanLhsHashable, cleanRhsHashable) as (AnyHashable, AnyHashable):
+    return cleanLhsHashable == cleanRhsHashable
+
   case let (cleanLhsArray, cleanRhsArray) as ([Any?], [Any?]):
     guard cleanLhsArray.count == cleanRhsArray.count else { return false }
-    for i in 0..<cleanLhsArray.count {
-      if !deepEqualsCoreTests(cleanLhsArray[i], cleanRhsArray[i]) {
+    for (index, element) in cleanLhsArray.enumerated() {
+      if !deepEqualsCoreTests(element, cleanRhsArray[index]) {
         return false
       }
     }
@@ -111,26 +111,22 @@ func deepEqualsCoreTests(_ lhs: Any?, _ rhs: Any?) -> Bool {
   case let (cleanLhsDictionary, cleanRhsDictionary) as ([AnyHashable: Any?], [AnyHashable: Any?]):
     guard cleanLhsDictionary.count == cleanRhsDictionary.count else { return false }
     for (key, cleanLhsValue) in cleanLhsDictionary {
-      guard let cleanRhsValue = cleanRhsDictionary[key] else { return false }
-      if !deepEqualsCoreTests(cleanLhsValue, cleanRhsValue) {
+      guard cleanRhsDictionary.index(forKey: key) != nil else { return false }
+      if !deepEqualsCoreTests(cleanLhsValue, cleanRhsDictionary[key]!) {
         return false
       }
     }
     return true
 
-  case let (cleanLhsHashable, cleanRhsHashable) as (AnyHashable, AnyHashable):
-    return cleanLhsHashable == cleanRhsHashable
-
   default:
+    // Any other type shouldn't be able to be used with pigeon. File an issue if you find this to be untrue.
     return false
   }
 }
 
 func deepHashCoreTests(value: Any?, hasher: inout Hasher) {
   if let valueList = value as? [AnyHashable] {
-    for item in valueList {
-      deepHashCoreTests(value: item, hasher: &hasher)
-    }
+    for item in valueList { deepHashCoreTests(value: item, hasher: &hasher) }
     return
   }
 
@@ -178,10 +174,10 @@ struct UnusedClass: Hashable {
     ]
   }
   static func == (lhs: UnusedClass, rhs: UnusedClass) -> Bool {
-    return deepEqualsCoreTests(lhs.aField, rhs.aField)
+    return deepEqualsCoreTests(lhs.toList(), rhs.toList())
   }
   func hash(into hasher: inout Hasher) {
-    deepHashCoreTests(value: aField, hasher: &hasher)
+    deepHashCoreTests(value: toList(), hasher: &hasher)
   }
 }
 
@@ -312,61 +308,10 @@ struct AllTypes: Hashable {
     ]
   }
   static func == (lhs: AllTypes, rhs: AllTypes) -> Bool {
-    return deepEqualsCoreTests(lhs.aBool, rhs.aBool) && deepEqualsCoreTests(lhs.anInt, rhs.anInt)
-      && deepEqualsCoreTests(lhs.anInt64, rhs.anInt64)
-      && deepEqualsCoreTests(lhs.aDouble, rhs.aDouble)
-      && deepEqualsCoreTests(lhs.aByteArray, rhs.aByteArray)
-      && deepEqualsCoreTests(lhs.a4ByteArray, rhs.a4ByteArray)
-      && deepEqualsCoreTests(lhs.a8ByteArray, rhs.a8ByteArray)
-      && deepEqualsCoreTests(lhs.aFloatArray, rhs.aFloatArray)
-      && deepEqualsCoreTests(lhs.anEnum, rhs.anEnum)
-      && deepEqualsCoreTests(lhs.anotherEnum, rhs.anotherEnum)
-      && deepEqualsCoreTests(lhs.aString, rhs.aString)
-      && deepEqualsCoreTests(lhs.anObject, rhs.anObject) && deepEqualsCoreTests(lhs.list, rhs.list)
-      && deepEqualsCoreTests(lhs.stringList, rhs.stringList)
-      && deepEqualsCoreTests(lhs.intList, rhs.intList)
-      && deepEqualsCoreTests(lhs.doubleList, rhs.doubleList)
-      && deepEqualsCoreTests(lhs.boolList, rhs.boolList)
-      && deepEqualsCoreTests(lhs.enumList, rhs.enumList)
-      && deepEqualsCoreTests(lhs.objectList, rhs.objectList)
-      && deepEqualsCoreTests(lhs.listList, rhs.listList)
-      && deepEqualsCoreTests(lhs.mapList, rhs.mapList) && deepEqualsCoreTests(lhs.map, rhs.map)
-      && deepEqualsCoreTests(lhs.stringMap, rhs.stringMap)
-      && deepEqualsCoreTests(lhs.intMap, rhs.intMap)
-      && deepEqualsCoreTests(lhs.enumMap, rhs.enumMap)
-      && deepEqualsCoreTests(lhs.objectMap, rhs.objectMap)
-      && deepEqualsCoreTests(lhs.listMap, rhs.listMap)
-      && deepEqualsCoreTests(lhs.mapMap, rhs.mapMap)
+    return deepEqualsCoreTests(lhs.toList(), rhs.toList())
   }
   func hash(into hasher: inout Hasher) {
-    deepHashCoreTests(value: aBool, hasher: &hasher)
-    deepHashCoreTests(value: anInt, hasher: &hasher)
-    deepHashCoreTests(value: anInt64, hasher: &hasher)
-    deepHashCoreTests(value: aDouble, hasher: &hasher)
-    deepHashCoreTests(value: aByteArray, hasher: &hasher)
-    deepHashCoreTests(value: a4ByteArray, hasher: &hasher)
-    deepHashCoreTests(value: a8ByteArray, hasher: &hasher)
-    deepHashCoreTests(value: aFloatArray, hasher: &hasher)
-    deepHashCoreTests(value: anEnum, hasher: &hasher)
-    deepHashCoreTests(value: anotherEnum, hasher: &hasher)
-    deepHashCoreTests(value: aString, hasher: &hasher)
-    deepHashCoreTests(value: anObject, hasher: &hasher)
-    deepHashCoreTests(value: list, hasher: &hasher)
-    deepHashCoreTests(value: stringList, hasher: &hasher)
-    deepHashCoreTests(value: intList, hasher: &hasher)
-    deepHashCoreTests(value: doubleList, hasher: &hasher)
-    deepHashCoreTests(value: boolList, hasher: &hasher)
-    deepHashCoreTests(value: enumList, hasher: &hasher)
-    deepHashCoreTests(value: objectList, hasher: &hasher)
-    deepHashCoreTests(value: listList, hasher: &hasher)
-    deepHashCoreTests(value: mapList, hasher: &hasher)
-    deepHashCoreTests(value: map, hasher: &hasher)
-    deepHashCoreTests(value: stringMap, hasher: &hasher)
-    deepHashCoreTests(value: intMap, hasher: &hasher)
-    deepHashCoreTests(value: enumMap, hasher: &hasher)
-    deepHashCoreTests(value: objectMap, hasher: &hasher)
-    deepHashCoreTests(value: listMap, hasher: &hasher)
-    deepHashCoreTests(value: mapMap, hasher: &hasher)
+    deepHashCoreTests(value: toList(), hasher: &hasher)
   }
 }
 
@@ -577,69 +522,10 @@ class AllNullableTypes: Hashable {
     if lhs === rhs {
       return true
     }
-    return deepEqualsCoreTests(lhs.aNullableBool, rhs.aNullableBool)
-      && deepEqualsCoreTests(lhs.aNullableInt, rhs.aNullableInt)
-      && deepEqualsCoreTests(lhs.aNullableInt64, rhs.aNullableInt64)
-      && deepEqualsCoreTests(lhs.aNullableDouble, rhs.aNullableDouble)
-      && deepEqualsCoreTests(lhs.aNullableByteArray, rhs.aNullableByteArray)
-      && deepEqualsCoreTests(lhs.aNullable4ByteArray, rhs.aNullable4ByteArray)
-      && deepEqualsCoreTests(lhs.aNullable8ByteArray, rhs.aNullable8ByteArray)
-      && deepEqualsCoreTests(lhs.aNullableFloatArray, rhs.aNullableFloatArray)
-      && deepEqualsCoreTests(lhs.aNullableEnum, rhs.aNullableEnum)
-      && deepEqualsCoreTests(lhs.anotherNullableEnum, rhs.anotherNullableEnum)
-      && deepEqualsCoreTests(lhs.aNullableString, rhs.aNullableString)
-      && deepEqualsCoreTests(lhs.aNullableObject, rhs.aNullableObject)
-      && deepEqualsCoreTests(lhs.allNullableTypes, rhs.allNullableTypes)
-      && deepEqualsCoreTests(lhs.list, rhs.list)
-      && deepEqualsCoreTests(lhs.stringList, rhs.stringList)
-      && deepEqualsCoreTests(lhs.intList, rhs.intList)
-      && deepEqualsCoreTests(lhs.doubleList, rhs.doubleList)
-      && deepEqualsCoreTests(lhs.boolList, rhs.boolList)
-      && deepEqualsCoreTests(lhs.enumList, rhs.enumList)
-      && deepEqualsCoreTests(lhs.objectList, rhs.objectList)
-      && deepEqualsCoreTests(lhs.listList, rhs.listList)
-      && deepEqualsCoreTests(lhs.mapList, rhs.mapList)
-      && deepEqualsCoreTests(lhs.recursiveClassList, rhs.recursiveClassList)
-      && deepEqualsCoreTests(lhs.map, rhs.map) && deepEqualsCoreTests(lhs.stringMap, rhs.stringMap)
-      && deepEqualsCoreTests(lhs.intMap, rhs.intMap)
-      && deepEqualsCoreTests(lhs.enumMap, rhs.enumMap)
-      && deepEqualsCoreTests(lhs.objectMap, rhs.objectMap)
-      && deepEqualsCoreTests(lhs.listMap, rhs.listMap)
-      && deepEqualsCoreTests(lhs.mapMap, rhs.mapMap)
-      && deepEqualsCoreTests(lhs.recursiveClassMap, rhs.recursiveClassMap)
+    return deepEqualsCoreTests(lhs.toList(), rhs.toList())
   }
   func hash(into hasher: inout Hasher) {
-    deepHashCoreTests(value: aNullableBool, hasher: &hasher)
-    deepHashCoreTests(value: aNullableInt, hasher: &hasher)
-    deepHashCoreTests(value: aNullableInt64, hasher: &hasher)
-    deepHashCoreTests(value: aNullableDouble, hasher: &hasher)
-    deepHashCoreTests(value: aNullableByteArray, hasher: &hasher)
-    deepHashCoreTests(value: aNullable4ByteArray, hasher: &hasher)
-    deepHashCoreTests(value: aNullable8ByteArray, hasher: &hasher)
-    deepHashCoreTests(value: aNullableFloatArray, hasher: &hasher)
-    deepHashCoreTests(value: aNullableEnum, hasher: &hasher)
-    deepHashCoreTests(value: anotherNullableEnum, hasher: &hasher)
-    deepHashCoreTests(value: aNullableString, hasher: &hasher)
-    deepHashCoreTests(value: aNullableObject, hasher: &hasher)
-    deepHashCoreTests(value: allNullableTypes, hasher: &hasher)
-    deepHashCoreTests(value: list, hasher: &hasher)
-    deepHashCoreTests(value: stringList, hasher: &hasher)
-    deepHashCoreTests(value: intList, hasher: &hasher)
-    deepHashCoreTests(value: doubleList, hasher: &hasher)
-    deepHashCoreTests(value: boolList, hasher: &hasher)
-    deepHashCoreTests(value: enumList, hasher: &hasher)
-    deepHashCoreTests(value: objectList, hasher: &hasher)
-    deepHashCoreTests(value: listList, hasher: &hasher)
-    deepHashCoreTests(value: mapList, hasher: &hasher)
-    deepHashCoreTests(value: recursiveClassList, hasher: &hasher)
-    deepHashCoreTests(value: map, hasher: &hasher)
-    deepHashCoreTests(value: stringMap, hasher: &hasher)
-    deepHashCoreTests(value: intMap, hasher: &hasher)
-    deepHashCoreTests(value: enumMap, hasher: &hasher)
-    deepHashCoreTests(value: objectMap, hasher: &hasher)
-    deepHashCoreTests(value: listMap, hasher: &hasher)
-    deepHashCoreTests(value: mapMap, hasher: &hasher)
-    deepHashCoreTests(value: recursiveClassMap, hasher: &hasher)
+    deepHashCoreTests(value: toList(), hasher: &hasher)
   }
 }
 
@@ -774,63 +660,10 @@ struct AllNullableTypesWithoutRecursion: Hashable {
   static func == (lhs: AllNullableTypesWithoutRecursion, rhs: AllNullableTypesWithoutRecursion)
     -> Bool
   {
-    return deepEqualsCoreTests(lhs.aNullableBool, rhs.aNullableBool)
-      && deepEqualsCoreTests(lhs.aNullableInt, rhs.aNullableInt)
-      && deepEqualsCoreTests(lhs.aNullableInt64, rhs.aNullableInt64)
-      && deepEqualsCoreTests(lhs.aNullableDouble, rhs.aNullableDouble)
-      && deepEqualsCoreTests(lhs.aNullableByteArray, rhs.aNullableByteArray)
-      && deepEqualsCoreTests(lhs.aNullable4ByteArray, rhs.aNullable4ByteArray)
-      && deepEqualsCoreTests(lhs.aNullable8ByteArray, rhs.aNullable8ByteArray)
-      && deepEqualsCoreTests(lhs.aNullableFloatArray, rhs.aNullableFloatArray)
-      && deepEqualsCoreTests(lhs.aNullableEnum, rhs.aNullableEnum)
-      && deepEqualsCoreTests(lhs.anotherNullableEnum, rhs.anotherNullableEnum)
-      && deepEqualsCoreTests(lhs.aNullableString, rhs.aNullableString)
-      && deepEqualsCoreTests(lhs.aNullableObject, rhs.aNullableObject)
-      && deepEqualsCoreTests(lhs.list, rhs.list)
-      && deepEqualsCoreTests(lhs.stringList, rhs.stringList)
-      && deepEqualsCoreTests(lhs.intList, rhs.intList)
-      && deepEqualsCoreTests(lhs.doubleList, rhs.doubleList)
-      && deepEqualsCoreTests(lhs.boolList, rhs.boolList)
-      && deepEqualsCoreTests(lhs.enumList, rhs.enumList)
-      && deepEqualsCoreTests(lhs.objectList, rhs.objectList)
-      && deepEqualsCoreTests(lhs.listList, rhs.listList)
-      && deepEqualsCoreTests(lhs.mapList, rhs.mapList) && deepEqualsCoreTests(lhs.map, rhs.map)
-      && deepEqualsCoreTests(lhs.stringMap, rhs.stringMap)
-      && deepEqualsCoreTests(lhs.intMap, rhs.intMap)
-      && deepEqualsCoreTests(lhs.enumMap, rhs.enumMap)
-      && deepEqualsCoreTests(lhs.objectMap, rhs.objectMap)
-      && deepEqualsCoreTests(lhs.listMap, rhs.listMap)
-      && deepEqualsCoreTests(lhs.mapMap, rhs.mapMap)
+    return deepEqualsCoreTests(lhs.toList(), rhs.toList())
   }
   func hash(into hasher: inout Hasher) {
-    deepHashCoreTests(value: aNullableBool, hasher: &hasher)
-    deepHashCoreTests(value: aNullableInt, hasher: &hasher)
-    deepHashCoreTests(value: aNullableInt64, hasher: &hasher)
-    deepHashCoreTests(value: aNullableDouble, hasher: &hasher)
-    deepHashCoreTests(value: aNullableByteArray, hasher: &hasher)
-    deepHashCoreTests(value: aNullable4ByteArray, hasher: &hasher)
-    deepHashCoreTests(value: aNullable8ByteArray, hasher: &hasher)
-    deepHashCoreTests(value: aNullableFloatArray, hasher: &hasher)
-    deepHashCoreTests(value: aNullableEnum, hasher: &hasher)
-    deepHashCoreTests(value: anotherNullableEnum, hasher: &hasher)
-    deepHashCoreTests(value: aNullableString, hasher: &hasher)
-    deepHashCoreTests(value: aNullableObject, hasher: &hasher)
-    deepHashCoreTests(value: list, hasher: &hasher)
-    deepHashCoreTests(value: stringList, hasher: &hasher)
-    deepHashCoreTests(value: intList, hasher: &hasher)
-    deepHashCoreTests(value: doubleList, hasher: &hasher)
-    deepHashCoreTests(value: boolList, hasher: &hasher)
-    deepHashCoreTests(value: enumList, hasher: &hasher)
-    deepHashCoreTests(value: objectList, hasher: &hasher)
-    deepHashCoreTests(value: listList, hasher: &hasher)
-    deepHashCoreTests(value: mapList, hasher: &hasher)
-    deepHashCoreTests(value: map, hasher: &hasher)
-    deepHashCoreTests(value: stringMap, hasher: &hasher)
-    deepHashCoreTests(value: intMap, hasher: &hasher)
-    deepHashCoreTests(value: enumMap, hasher: &hasher)
-    deepHashCoreTests(value: objectMap, hasher: &hasher)
-    deepHashCoreTests(value: listMap, hasher: &hasher)
-    deepHashCoreTests(value: mapMap, hasher: &hasher)
+    deepHashCoreTests(value: toList(), hasher: &hasher)
   }
 }
 
@@ -883,23 +716,10 @@ struct AllClassesWrapper: Hashable {
     ]
   }
   static func == (lhs: AllClassesWrapper, rhs: AllClassesWrapper) -> Bool {
-    return deepEqualsCoreTests(lhs.allNullableTypes, rhs.allNullableTypes)
-      && deepEqualsCoreTests(
-        lhs.allNullableTypesWithoutRecursion, rhs.allNullableTypesWithoutRecursion)
-      && deepEqualsCoreTests(lhs.allTypes, rhs.allTypes)
-      && deepEqualsCoreTests(lhs.classList, rhs.classList)
-      && deepEqualsCoreTests(lhs.nullableClassList, rhs.nullableClassList)
-      && deepEqualsCoreTests(lhs.classMap, rhs.classMap)
-      && deepEqualsCoreTests(lhs.nullableClassMap, rhs.nullableClassMap)
+    return deepEqualsCoreTests(lhs.toList(), rhs.toList())
   }
   func hash(into hasher: inout Hasher) {
-    deepHashCoreTests(value: allNullableTypes, hasher: &hasher)
-    deepHashCoreTests(value: allNullableTypesWithoutRecursion, hasher: &hasher)
-    deepHashCoreTests(value: allTypes, hasher: &hasher)
-    deepHashCoreTests(value: classList, hasher: &hasher)
-    deepHashCoreTests(value: nullableClassList, hasher: &hasher)
-    deepHashCoreTests(value: classMap, hasher: &hasher)
-    deepHashCoreTests(value: nullableClassMap, hasher: &hasher)
+    deepHashCoreTests(value: toList(), hasher: &hasher)
   }
 }
 
@@ -922,10 +742,10 @@ struct TestMessage: Hashable {
     ]
   }
   static func == (lhs: TestMessage, rhs: TestMessage) -> Bool {
-    return deepEqualsCoreTests(lhs.testList, rhs.testList)
+    return deepEqualsCoreTests(lhs.toList(), rhs.toList())
   }
   func hash(into hasher: inout Hasher) {
-    deepHashCoreTests(value: testList, hasher: &hasher)
+    deepHashCoreTests(value: toList(), hasher: &hasher)
   }
 }
 
@@ -1012,7 +832,6 @@ class CoreTestsPigeonCodec: FlutterStandardMessageCodec, @unchecked Sendable {
 /// platform_test integration tests.
 ///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
-@available(iOS 13, macOS 10.15, *)
 protocol HostIntegrationCoreApi {
   /// A no-op function taking no arguments and returning no value, to sanity
   /// test basic calling.
@@ -6037,7 +5856,6 @@ class FlutterIntegrationCoreApi: FlutterIntegrationCoreApiProtocol {
 /// An API that can be implemented for minimal, compile-only tests.
 ///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
-@available(iOS 13, macOS 10.15, *)
 protocol HostTrivialApi {
   func noop() throws
 }
@@ -6070,7 +5888,6 @@ class HostTrivialApiSetup {
 /// A simple API implemented in some unit tests.
 ///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
-@available(iOS 13, macOS 10.15, *)
 protocol HostSmallApi {
   func echo(aString: String, completion: @escaping (Result<String, Error>) -> Void)
   func voidVoid(completion: @escaping (Result<Void, Error>) -> Void)

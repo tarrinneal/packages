@@ -95,7 +95,7 @@ class DataWithEnum {
     if (identical(this, other)) {
       return true;
     }
-    return state == other.state;
+    return _deepEquals(encode(), other.encode());
   }
 
   @override

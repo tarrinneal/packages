@@ -133,6 +133,7 @@ Future<int> generateTestPigeons({
     final String? swiftErrorClassName = swiftErrorUseDefaultErrorName
         ? null
         : '${pascalCaseName}Error';
+
     // Generate the default language test plugin output.
     int generateCode = await runPigeon(
       input: './pigeons/$input.dart',

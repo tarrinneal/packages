@@ -13,32 +13,21 @@ import 'package:flutter/services.dart';
 import 'package:meta/meta.dart' show immutable, protected, visibleForTesting;
 
 bool _deepEquals(Object? a, Object? b) {
-  if (a == b || identical(a, b)) {
-    return true;
-  }
   if (a is List && b is List) {
-    if (a.length != b.length) {
-      return false;
-    }
-    for (int i = 0; i < a.length; i++) {
-      if (!_deepEquals(a[i], b[i])) {
-        return false;
-      }
-    }
-    return true;
+    return a.length == b.length &&
+        a.indexed.every(
+          ((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]),
+        );
   }
   if (a is Map && b is Map) {
-    if (a.length != b.length) {
-      return false;
-    }
-    for (final Object? key in a.keys) {
-      if (!b.containsKey(key) || !_deepEquals(a[key], b[key])) {
-        return false;
-      }
-    }
-    return true;
+    return a.length == b.length &&
+        a.entries.every(
+          (MapEntry<Object?, Object?> entry) =>
+              (b as Map<Object?, Object?>).containsKey(entry.key) &&
+              _deepEquals(entry.value, b[entry.key]),
+        );
   }
-  return false;
+  return a == b;
 }
 
 enum EventEnum { one, two, three, fortyTwo, fourHundredTwentyTwo }
@@ -235,37 +224,7 @@ class EventAllNullableTypes {
     if (identical(this, other)) {
       return true;
     }
-    return aNullableBool == other.aNullableBool &&
-        aNullableInt == other.aNullableInt &&
-        aNullableInt64 == other.aNullableInt64 &&
-        aNullableDouble == other.aNullableDouble &&
-        _deepEquals(aNullableByteArray, other.aNullableByteArray) &&
-        _deepEquals(aNullable4ByteArray, other.aNullable4ByteArray) &&
-        _deepEquals(aNullable8ByteArray, other.aNullable8ByteArray) &&
-        _deepEquals(aNullableFloatArray, other.aNullableFloatArray) &&
-        aNullableEnum == other.aNullableEnum &&
-        anotherNullableEnum == other.anotherNullableEnum &&
-        aNullableString == other.aNullableString &&
-        aNullableObject == other.aNullableObject &&
-        allNullableTypes == other.allNullableTypes &&
-        _deepEquals(list, other.list) &&
-        _deepEquals(stringList, other.stringList) &&
-        _deepEquals(intList, other.intList) &&
-        _deepEquals(doubleList, other.doubleList) &&
-        _deepEquals(boolList, other.boolList) &&
-        _deepEquals(enumList, other.enumList) &&
-        _deepEquals(objectList, other.objectList) &&
-        _deepEquals(listList, other.listList) &&
-        _deepEquals(mapList, other.mapList) &&
-        _deepEquals(recursiveClassList, other.recursiveClassList) &&
-        _deepEquals(map, other.map) &&
-        _deepEquals(stringMap, other.stringMap) &&
-        _deepEquals(intMap, other.intMap) &&
-        _deepEquals(enumMap, other.enumMap) &&
-        _deepEquals(objectMap, other.objectMap) &&
-        _deepEquals(listMap, other.listMap) &&
-        _deepEquals(mapMap, other.mapMap) &&
-        _deepEquals(recursiveClassMap, other.recursiveClassMap);
+    return _deepEquals(encode(), other.encode());
   }
 
   @override
@@ -307,7 +266,7 @@ class IntEvent extends PlatformEvent {
     if (identical(this, other)) {
       return true;
     }
-    return value == other.value;
+    return _deepEquals(encode(), other.encode());
   }
 
   @override
@@ -347,7 +306,7 @@ class StringEvent extends PlatformEvent {
     if (identical(this, other)) {
       return true;
     }
-    return value == other.value;
+    return _deepEquals(encode(), other.encode());
   }
 
   @override
@@ -387,7 +346,7 @@ class BoolEvent extends PlatformEvent {
     if (identical(this, other)) {
       return true;
     }
-    return value == other.value;
+    return _deepEquals(encode(), other.encode());
   }
 
   @override
@@ -427,7 +386,7 @@ class DoubleEvent extends PlatformEvent {
     if (identical(this, other)) {
       return true;
     }
-    return value == other.value;
+    return _deepEquals(encode(), other.encode());
   }
 
   @override
@@ -467,7 +426,7 @@ class ObjectsEvent extends PlatformEvent {
     if (identical(this, other)) {
       return true;
     }
-    return value == other.value;
+    return _deepEquals(encode(), other.encode());
   }
 
   @override
@@ -507,7 +466,7 @@ class EnumEvent extends PlatformEvent {
     if (identical(this, other)) {
       return true;
     }
-    return value == other.value;
+    return _deepEquals(encode(), other.encode());
   }
 
   @override
@@ -547,7 +506,7 @@ class ClassEvent extends PlatformEvent {
     if (identical(this, other)) {
       return true;
     }
-    return value == other.value;
+    return _deepEquals(encode(), other.encode());
   }
 
   @override

@@ -667,20 +667,6 @@ class _PigeonFfiCodec {
       extendsString += useFfi ? ', ' : ': ';
       extendsString += useFfi ? 'Hashable' : 'Hashable';
     }
-    // final String nsExtends = !useFfi
-    //     ? ''
-    //     : classDefinition.superClass != null
-    //         ? ', NSObject '
-    //         : ': NSObject';
-    // final String extendsString = classDefinition.superClass != null
-    //     ? ': ${classDefinition.superClass!.name}$nsExtends'
-    //     : nsExtends;
-    // final String extendsString =
-    //     classDefinition.superClass != null
-    //         ? ': ${classDefinition.superClass!.name}'
-    //         : hashable
-    //         ? ': Hashable'
-    //         : '';
     if (classDefinition.isSwiftClass || useFfi) {
       indent.write(
         '$privateString${objcString}class ${classDefinition.name}$bridge$extendsString ',
@@ -764,6 +750,7 @@ class _PigeonFfiCodec {
       );
 
       indent.format('''
+// swift-format-ignore: AlwaysUseLowerCamelCase
 static func fromList(_ ${varNamePrefix}list: [Any?]) -> Any? {
   let type = ${varNamePrefix}list[0] as! Int
   let wrapped: Any? = ${varNamePrefix}list[1]
@@ -842,6 +829,7 @@ if (wrapped == nil) {
       if (classDefinition.isSealed) {
         return;
       }
+      indent.newln();
       writeClassDecode(
         generatorOptions,
         root,
@@ -1157,32 +1145,16 @@ if (wrapped == nil) {
             indent.writeln('return true');
           });
         }
-        final Iterable<NamedType> fields = getFieldsInSerializationOrder(
-          classDefinition,
+        indent.write(
+          'return deepEquals${generatorOptions.fileSpecificClassNameComponent}(lhs.toList(), rhs.toList())',
         );
-        if (fields.isEmpty) {
-          indent.writeln('return true');
-        } else {
-          final String comparisons = fields
-              .map(
-                (NamedType field) =>
-                    'deepEquals${generatorOptions.fileSpecificClassNameComponent}(lhs.${_camelCase(field.name)}, rhs.${_camelCase(field.name)})',
-              )
-              .join(' &&\n      ');
-          indent.writeln('return $comparisons');
-        }
       },
     );
 
     indent.writeScoped('func hash(into hasher: inout Hasher) {', '}', () {
-      final Iterable<NamedType> fields = getFieldsInSerializationOrder(
-        classDefinition,
+      indent.writeln(
+        'deepHash${generatorOptions.fileSpecificClassNameComponent}(value: toList(), hasher: &hasher)',
       );
-      for (final field in fields) {
-        indent.writeln(
-          'deepHash${generatorOptions.fileSpecificClassNameComponent}(value: ${_camelCase(field.name)}, hasher: &hasher)',
-        );
-      }
     });
   }
 
@@ -1670,7 +1642,9 @@ if (wrapped == nil) {
       generatorComments: generatedComments,
     );
 
-    indent.writeln('@available(iOS 13, macOS 10.15, *)');
+    if (generatorOptions.useFfi) {
+      indent.writeln('@available(iOS 13, macOS 10.15, *)');
+    }
     indent.write('protocol $apiName ');
     indent.addScoped('{', '}', () {
       for (final Method method in api.methods) {
@@ -2310,9 +2284,6 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
   void _writeDeepEquals(InternalSwiftOptions generatorOptions, Indent indent) {
     indent.format('''
 func deepEquals${generatorOptions.fileSpecificClassNameComponent}(_ lhs: Any?, _ rhs: Any?) -> Bool {
-  if let lhs = lhs as? AnyObject, let rhs = rhs as? AnyObject, lhs === rhs {
-    return true
-  }
   let cleanLhs = nilOrValue(lhs) as Any?
   let cleanRhs = nilOrValue(rhs) as Any?
   switch (cleanLhs, cleanRhs) {
@@ -2325,10 +2296,13 @@ func deepEquals${generatorOptions.fileSpecificClassNameComponent}(_ lhs: Any?, _
   case is (Void, Void):
     return true
 
+  case let (cleanLhsHashable, cleanRhsHashable) as (AnyHashable, AnyHashable):
+    return cleanLhsHashable == cleanRhsHashable
+
   case let (cleanLhsArray, cleanRhsArray) as ([Any?], [Any?]):
     guard cleanLhsArray.count == cleanRhsArray.count else { return false }
-    for i in 0..<cleanLhsArray.count {
-      if !deepEquals${generatorOptions.fileSpecificClassNameComponent}(cleanLhsArray[i], cleanRhsArray[i]) {
+    for (index, element) in cleanLhsArray.enumerated() {
+      if !deepEquals${generatorOptions.fileSpecificClassNameComponent}(element, cleanRhsArray[index]) {
         return false
       }
     }
@@ -2337,26 +2311,22 @@ func deepEquals${generatorOptions.fileSpecificClassNameComponent}(_ lhs: Any?, _
   case let (cleanLhsDictionary, cleanRhsDictionary) as ([AnyHashable: Any?], [AnyHashable: Any?]):
     guard cleanLhsDictionary.count == cleanRhsDictionary.count else { return false }
     for (key, cleanLhsValue) in cleanLhsDictionary {
-      guard let cleanRhsValue = cleanRhsDictionary[key] else { return false }
-      if !deepEquals${generatorOptions.fileSpecificClassNameComponent}(cleanLhsValue, cleanRhsValue) {
+      guard cleanRhsDictionary.index(forKey: key) != nil else { return false }
+      if !deepEquals${generatorOptions.fileSpecificClassNameComponent}(cleanLhsValue, cleanRhsDictionary[key]!) {
         return false
       }
     }
     return true
 
-  case let (cleanLhsHashable, cleanRhsHashable) as (AnyHashable, AnyHashable):
-    return cleanLhsHashable == cleanRhsHashable
-
   default:
+    // Any other type shouldn't be able to be used with pigeon. File an issue if you find this to be untrue.
     return false
   }
 }
 
 func deepHash${generatorOptions.fileSpecificClassNameComponent}(value: Any?, hasher: inout Hasher) {
   if let valueList = value as? [AnyHashable] {
-    for item in valueList {
-      deepHash${generatorOptions.fileSpecificClassNameComponent}(value: item, hasher: &hasher)
-    }
+     for item in valueList { deepHash${generatorOptions.fileSpecificClassNameComponent}(value: item, hasher: &hasher) }
     return
   }
 
@@ -2628,7 +2598,6 @@ enum ${_classNamePrefix}MyDataType: Int {
       _writeCreateConnectionError(generatorOptions, indent);
     }
     if (generatorOptions.useFfi) {
-      // TODO(tarrinneal): add check for use of Object.
       _writeNumberWrapper(root, indent);
     }
 
@@ -4054,15 +4023,6 @@ String _ffiTypeForBuiltinGenericDartType(TypeDeclaration type) {
   } else {
     return 'NSObject';
   }
-  // } else {
-  //   if (type.baseName == 'List') {
-  //     return '[${_nullSafeFfiTypeForDartType(type.typeArguments.first, collectionSubType: true)}]';
-  //   } else if (type.baseName == 'Map') {
-  //     return '[${_nullSafeFfiTypeForDartType(type.typeArguments.first, collectionSubType: true)}: ${_nullSafeFfiTypeForDartType(type.typeArguments.last, collectionSubType: true)}]';
-  //   } else {
-  //     return '${type.baseName}<${_flattenFfiTypeArguments(type.typeArguments)}>';
-  //   }
-  // }
 }
 
 String? _swiftTypeForBuiltinDartType(

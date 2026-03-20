@@ -2654,13 +2654,13 @@ class NITestsClass: NSObject, NIHostIntegrationCoreApi {
 
 public class TestPluginWithSuffix: HostSmallApi {
   public static func register(with registrar: FlutterPluginRegistrar, suffix: String) {
-    let plugin = TestPluginWithSuffix()
     // Workaround for https://github.com/flutter/flutter/issues/118103.
     #if os(iOS)
       let messenger = registrar.messenger()
     #else
       let messenger = registrar.messenger
     #endif
+    let plugin = TestPluginWithSuffix()
     HostSmallApiSetup.setUp(
       binaryMessenger: messenger, api: plugin, messageChannelSuffix: suffix)
   }

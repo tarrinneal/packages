@@ -1152,19 +1152,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
       indent.writeScoped('if (identical(this, other)) {', '}', () {
         indent.writeln('return true;');
       });
-      indent.writeScoped('return ', '', () {
-        indent.format(
-          classDefinition.fields
-              .map(
-                (NamedType field) => isCollectionType(field.type)
-                    ? '_deepEquals(${field.name}, other.${field.name})'
-                    : '${field.name} == other.${field.name}',
-              )
-              .join('\n&& '),
-          trailingNewline: false,
-        );
-        indent.addln(';');
-      }, addTrailingNewline: false);
+      indent.writeln('return _deepEquals(encode(), other.encode());');
     });
     indent.newln();
     indent.writeln('@override');
@@ -2470,6 +2458,7 @@ ${api.name}({
       // If we can't figure out the package name or the relative path doesn't
       // include a 'lib' directory, try relative path import which only works in
       // certain (older) versions of Dart.
+      // TODO(gaaclarke): We should add a command-line parameter to override this import.
       indent.writeln(
         "import '${_escapeForDartSingleQuotedString(relativeDartPath)}';",
       );
@@ -3056,32 +3045,17 @@ Object? getValueFromPigeonTypedData(ffi_bridge.${_classNamePrefix}PigeonTypedDat
   void _writeDeepEquals(Indent indent) {
     indent.format(r'''
 bool _deepEquals(Object? a, Object? b) {
-  if (a == b || identical(a, b)) {
-    return true;
-  }
   if (a is List && b is List) {
-    if (a.length != b.length) {
-      return false;
-    }
-    for (int i = 0; i < a.length; i++) {
-      if (!_deepEquals(a[i], b[i])) {
-        return false;
-      }
-    }
-    return true;
+    return a.length == b.length &&
+        a.indexed
+        .every(((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]));
   }
   if (a is Map && b is Map) {
-    if (a.length != b.length) {
-      return false;
-    }
-    for (final Object? key in a.keys) {
-      if (!b.containsKey(key) || !_deepEquals(a[key], b[key])) {
-        return false;
-      }
-    }
-    return true;
+    return a.length == b.length && a.entries.every((MapEntry<Object?, Object?> entry) =>
+        (b as Map<Object?, Object?>).containsKey(entry.key) &&
+        _deepEquals(entry.value, b[entry.key]));
   }
-  return false;
+  return a == b;
 }
 ''');
   }
@@ -3577,8 +3551,8 @@ String _flattenTypeArguments(List<TypeDeclaration> args) {
       .join(', ');
 }
 
-/// Creates the type declaration for use in Dart code from a [NamedType] making sure
-/// that type arguments are used for primitive generic types.
+/// Returns the string representation of a [TypeDeclaration], including type
+/// arguments and a nullability suffix, if the type is nullable.
 String addGenericTypes(
   TypeDeclaration type, {
   bool useJni = false,

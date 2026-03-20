@@ -33,9 +33,6 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
 }
 
 func deepEqualsEventChannelMessages(_ lhs: Any?, _ rhs: Any?) -> Bool {
-  if let lhs = lhs as? AnyObject, let rhs = rhs as? AnyObject, lhs === rhs {
-    return true
-  }
   let cleanLhs = nilOrValue(lhs) as Any?
   let cleanRhs = nilOrValue(rhs) as Any?
   switch (cleanLhs, cleanRhs) {
@@ -48,10 +45,13 @@ func deepEqualsEventChannelMessages(_ lhs: Any?, _ rhs: Any?) -> Bool {
   case is (Void, Void):
     return true
 
+  case let (cleanLhsHashable, cleanRhsHashable) as (AnyHashable, AnyHashable):
+    return cleanLhsHashable == cleanRhsHashable
+
   case let (cleanLhsArray, cleanRhsArray) as ([Any?], [Any?]):
     guard cleanLhsArray.count == cleanRhsArray.count else { return false }
-    for i in 0..<cleanLhsArray.count {
-      if !deepEqualsEventChannelMessages(cleanLhsArray[i], cleanRhsArray[i]) {
+    for (index, element) in cleanLhsArray.enumerated() {
+      if !deepEqualsEventChannelMessages(element, cleanRhsArray[index]) {
         return false
       }
     }
@@ -60,26 +60,22 @@ func deepEqualsEventChannelMessages(_ lhs: Any?, _ rhs: Any?) -> Bool {
   case let (cleanLhsDictionary, cleanRhsDictionary) as ([AnyHashable: Any?], [AnyHashable: Any?]):
     guard cleanLhsDictionary.count == cleanRhsDictionary.count else { return false }
     for (key, cleanLhsValue) in cleanLhsDictionary {
-      guard let cleanRhsValue = cleanRhsDictionary[key] else { return false }
-      if !deepEqualsEventChannelMessages(cleanLhsValue, cleanRhsValue) {
+      guard cleanRhsDictionary.index(forKey: key) != nil else { return false }
+      if !deepEqualsEventChannelMessages(cleanLhsValue, cleanRhsDictionary[key]!) {
         return false
       }
     }
     return true
 
-  case let (cleanLhsHashable, cleanRhsHashable) as (AnyHashable, AnyHashable):
-    return cleanLhsHashable == cleanRhsHashable
-
   default:
+    // Any other type shouldn't be able to be used with pigeon. File an issue if you find this to be untrue.
     return false
   }
 }
 
 func deepHashEventChannelMessages(value: Any?, hasher: inout Hasher) {
   if let valueList = value as? [AnyHashable] {
-    for item in valueList {
-      deepHashEventChannelMessages(value: item, hasher: &hasher)
-    }
+    for item in valueList { deepHashEventChannelMessages(value: item, hasher: &hasher) }
     return
   }
 
@@ -121,10 +117,10 @@ struct IntEvent: PlatformEvent {
     ]
   }
   static func == (lhs: IntEvent, rhs: IntEvent) -> Bool {
-    return deepEqualsEventChannelMessages(lhs.data, rhs.data)
+    return deepEqualsEventChannelMessages(lhs.toList(), rhs.toList())
   }
   func hash(into hasher: inout Hasher) {
-    deepHashEventChannelMessages(value: data, hasher: &hasher)
+    deepHashEventChannelMessages(value: toList(), hasher: &hasher)
   }
 }
 
@@ -145,10 +141,10 @@ struct StringEvent: PlatformEvent {
     ]
   }
   static func == (lhs: StringEvent, rhs: StringEvent) -> Bool {
-    return deepEqualsEventChannelMessages(lhs.data, rhs.data)
+    return deepEqualsEventChannelMessages(lhs.toList(), rhs.toList())
   }
   func hash(into hasher: inout Hasher) {
-    deepHashEventChannelMessages(value: data, hasher: &hasher)
+    deepHashEventChannelMessages(value: toList(), hasher: &hasher)
   }
 }
 

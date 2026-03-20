@@ -101,7 +101,7 @@ class MessageSearchRequest {
     if (identical(this, other)) {
       return true;
     }
-    return query == other.query && anInt == other.anInt && aBool == other.aBool;
+    return _deepEquals(encode(), other.encode());
   }
 
   @override
@@ -155,9 +155,7 @@ class MessageSearchReply {
     if (identical(this, other)) {
       return true;
     }
-    return result == other.result &&
-        error == other.error &&
-        state == other.state;
+    return _deepEquals(encode(), other.encode());
   }
 
   @override
@@ -199,7 +197,7 @@ class MessageNested {
     if (identical(this, other)) {
       return true;
     }
-    return request == other.request;
+    return _deepEquals(encode(), other.encode());
   }
 
   @override

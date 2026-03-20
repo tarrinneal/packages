@@ -36,9 +36,6 @@ private object MessagesPigeonUtils {
   }
 
   fun deepEquals(a: Any?, b: Any?): Boolean {
-    if (a === b) {
-      return true
-    }
     if (a is ByteArray && b is ByteArray) {
       return a.contentEquals(b)
     }
@@ -51,11 +48,8 @@ private object MessagesPigeonUtils {
     if (a is DoubleArray && b is DoubleArray) {
       return a.contentEquals(b)
     }
-    if (a is FloatArray && b is FloatArray) {
-      return a.contentEquals(b)
-    }
     if (a is Array<*> && b is Array<*>) {
-      return a.contentDeepEquals(b)
+      return a.size == b.size && a.indices.all { deepEquals(a[it], b[it]) }
     }
     if (a is List<*> && b is List<*>) {
       return a.size == b.size && a.indices.all { deepEquals(a[it], b[it]) }
@@ -65,33 +59,6 @@ private object MessagesPigeonUtils {
           a.all { (b as Map<Any?, Any?>).contains(it.key) && deepEquals(it.value, b[it.key]) }
     }
     return a == b
-  }
-
-  fun deepHash(value: Any?): Int {
-    return when (value) {
-      null -> 0
-      is ByteArray -> value.contentHashCode()
-      is IntArray -> value.contentHashCode()
-      is LongArray -> value.contentHashCode()
-      is DoubleArray -> value.contentHashCode()
-      is FloatArray -> value.contentHashCode()
-      is Array<*> -> value.contentDeepHashCode()
-      is List<*> -> {
-        var result = 1
-        for (item in value) {
-          result = 31 * result + deepHash(item)
-        }
-        result
-      }
-      is Map<*, *> -> {
-        var result = 0
-        for (entry in value) {
-          result += (deepHash(entry.key) xor deepHash(entry.value))
-        }
-        result
-      }
-      else -> value.hashCode()
-    }
   }
 }
 
@@ -114,7 +81,7 @@ enum class Code(val raw: Int) {
 
   companion object {
     fun ofRaw(raw: Int): Code? {
-      return entries.firstOrNull { it.raw == raw }
+      return values().firstOrNull { it.raw == raw }
     }
   }
 }
@@ -152,19 +119,10 @@ data class MessageData(
     if (this === other) {
       return true
     }
-    return MessagesPigeonUtils.deepEquals(this.name, other.name) &&
-        MessagesPigeonUtils.deepEquals(this.description, other.description) &&
-        MessagesPigeonUtils.deepEquals(this.code, other.code) &&
-        MessagesPigeonUtils.deepEquals(this.data, other.data)
+    return MessagesPigeonUtils.deepEquals(toList(), other.toList())
   }
 
-  override fun hashCode(): Int {
-    var result = MessagesPigeonUtils.deepHash(this.name)
-    result = 31 * result + MessagesPigeonUtils.deepHash(this.description)
-    result = 31 * result + MessagesPigeonUtils.deepHash(this.code)
-    result = 31 * result + MessagesPigeonUtils.deepHash(this.data)
-    return result
-  }
+  override fun hashCode(): Int = toList().hashCode()
 }
 
 private open class MessagesPigeonCodec : StandardMessageCodec() {

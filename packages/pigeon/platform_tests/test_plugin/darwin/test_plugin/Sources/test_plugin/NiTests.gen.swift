@@ -230,9 +230,6 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
 }
 
 func deepEqualsNiTests(_ lhs: Any?, _ rhs: Any?) -> Bool {
-  if let lhs = lhs as? AnyObject, let rhs = rhs as? AnyObject, lhs === rhs {
-    return true
-  }
   let cleanLhs = nilOrValue(lhs) as Any?
   let cleanRhs = nilOrValue(rhs) as Any?
   switch (cleanLhs, cleanRhs) {
@@ -245,10 +242,13 @@ func deepEqualsNiTests(_ lhs: Any?, _ rhs: Any?) -> Bool {
   case is (Void, Void):
     return true
 
+  case let (cleanLhsHashable, cleanRhsHashable) as (AnyHashable, AnyHashable):
+    return cleanLhsHashable == cleanRhsHashable
+
   case let (cleanLhsArray, cleanRhsArray) as ([Any?], [Any?]):
     guard cleanLhsArray.count == cleanRhsArray.count else { return false }
-    for i in 0..<cleanLhsArray.count {
-      if !deepEqualsNiTests(cleanLhsArray[i], cleanRhsArray[i]) {
+    for (index, element) in cleanLhsArray.enumerated() {
+      if !deepEqualsNiTests(element, cleanRhsArray[index]) {
         return false
       }
     }
@@ -257,26 +257,22 @@ func deepEqualsNiTests(_ lhs: Any?, _ rhs: Any?) -> Bool {
   case let (cleanLhsDictionary, cleanRhsDictionary) as ([AnyHashable: Any?], [AnyHashable: Any?]):
     guard cleanLhsDictionary.count == cleanRhsDictionary.count else { return false }
     for (key, cleanLhsValue) in cleanLhsDictionary {
-      guard let cleanRhsValue = cleanRhsDictionary[key] else { return false }
-      if !deepEqualsNiTests(cleanLhsValue, cleanRhsValue) {
+      guard cleanRhsDictionary.index(forKey: key) != nil else { return false }
+      if !deepEqualsNiTests(cleanLhsValue, cleanRhsDictionary[key]!) {
         return false
       }
     }
     return true
 
-  case let (cleanLhsHashable, cleanRhsHashable) as (AnyHashable, AnyHashable):
-    return cleanLhsHashable == cleanRhsHashable
-
   default:
+    // Any other type shouldn't be able to be used with pigeon. File an issue if you find this to be untrue.
     return false
   }
 }
 
 func deepHashNiTests(value: Any?, hasher: inout Hasher) {
   if let valueList = value as? [AnyHashable] {
-    for item in valueList {
-      deepHashNiTests(value: item, hasher: &hasher)
-    }
+    for item in valueList { deepHashNiTests(value: item, hasher: &hasher) }
     return
   }
 
@@ -324,10 +320,10 @@ struct NIUnusedClass: Hashable {
     ]
   }
   static func == (lhs: NIUnusedClass, rhs: NIUnusedClass) -> Bool {
-    return deepEqualsNiTests(lhs.aField, rhs.aField)
+    return deepEqualsNiTests(lhs.toList(), rhs.toList())
   }
   func hash(into hasher: inout Hasher) {
-    deepHashNiTests(value: aField, hasher: &hasher)
+    deepHashNiTests(value: toList(), hasher: &hasher)
   }
 }
 
@@ -484,58 +480,10 @@ struct NIAllTypes: Hashable {
     ]
   }
   static func == (lhs: NIAllTypes, rhs: NIAllTypes) -> Bool {
-    return deepEqualsNiTests(lhs.aBool, rhs.aBool) && deepEqualsNiTests(lhs.anInt, rhs.anInt)
-      && deepEqualsNiTests(lhs.anInt64, rhs.anInt64) && deepEqualsNiTests(lhs.aDouble, rhs.aDouble)
-      && deepEqualsNiTests(lhs.aByteArray, rhs.aByteArray)
-      && deepEqualsNiTests(lhs.a4ByteArray, rhs.a4ByteArray)
-      && deepEqualsNiTests(lhs.a8ByteArray, rhs.a8ByteArray)
-      && deepEqualsNiTests(lhs.aFloatArray, rhs.aFloatArray)
-      && deepEqualsNiTests(lhs.anEnum, rhs.anEnum)
-      && deepEqualsNiTests(lhs.anotherEnum, rhs.anotherEnum)
-      && deepEqualsNiTests(lhs.aString, rhs.aString)
-      && deepEqualsNiTests(lhs.anObject, rhs.anObject) && deepEqualsNiTests(lhs.list, rhs.list)
-      && deepEqualsNiTests(lhs.stringList, rhs.stringList)
-      && deepEqualsNiTests(lhs.intList, rhs.intList)
-      && deepEqualsNiTests(lhs.doubleList, rhs.doubleList)
-      && deepEqualsNiTests(lhs.boolList, rhs.boolList)
-      && deepEqualsNiTests(lhs.enumList, rhs.enumList)
-      && deepEqualsNiTests(lhs.objectList, rhs.objectList)
-      && deepEqualsNiTests(lhs.listList, rhs.listList)
-      && deepEqualsNiTests(lhs.mapList, rhs.mapList) && deepEqualsNiTests(lhs.map, rhs.map)
-      && deepEqualsNiTests(lhs.stringMap, rhs.stringMap)
-      && deepEqualsNiTests(lhs.intMap, rhs.intMap) && deepEqualsNiTests(lhs.enumMap, rhs.enumMap)
-      && deepEqualsNiTests(lhs.objectMap, rhs.objectMap)
-      && deepEqualsNiTests(lhs.listMap, rhs.listMap) && deepEqualsNiTests(lhs.mapMap, rhs.mapMap)
+    return deepEqualsNiTests(lhs.toList(), rhs.toList())
   }
   func hash(into hasher: inout Hasher) {
-    deepHashNiTests(value: aBool, hasher: &hasher)
-    deepHashNiTests(value: anInt, hasher: &hasher)
-    deepHashNiTests(value: anInt64, hasher: &hasher)
-    deepHashNiTests(value: aDouble, hasher: &hasher)
-    deepHashNiTests(value: aByteArray, hasher: &hasher)
-    deepHashNiTests(value: a4ByteArray, hasher: &hasher)
-    deepHashNiTests(value: a8ByteArray, hasher: &hasher)
-    deepHashNiTests(value: aFloatArray, hasher: &hasher)
-    deepHashNiTests(value: anEnum, hasher: &hasher)
-    deepHashNiTests(value: anotherEnum, hasher: &hasher)
-    deepHashNiTests(value: aString, hasher: &hasher)
-    deepHashNiTests(value: anObject, hasher: &hasher)
-    deepHashNiTests(value: list, hasher: &hasher)
-    deepHashNiTests(value: stringList, hasher: &hasher)
-    deepHashNiTests(value: intList, hasher: &hasher)
-    deepHashNiTests(value: doubleList, hasher: &hasher)
-    deepHashNiTests(value: boolList, hasher: &hasher)
-    deepHashNiTests(value: enumList, hasher: &hasher)
-    deepHashNiTests(value: objectList, hasher: &hasher)
-    deepHashNiTests(value: listList, hasher: &hasher)
-    deepHashNiTests(value: mapList, hasher: &hasher)
-    deepHashNiTests(value: map, hasher: &hasher)
-    deepHashNiTests(value: stringMap, hasher: &hasher)
-    deepHashNiTests(value: intMap, hasher: &hasher)
-    deepHashNiTests(value: enumMap, hasher: &hasher)
-    deepHashNiTests(value: objectMap, hasher: &hasher)
-    deepHashNiTests(value: listMap, hasher: &hasher)
-    deepHashNiTests(value: mapMap, hasher: &hasher)
+    deepHashNiTests(value: toList(), hasher: &hasher)
   }
 }
 
@@ -921,66 +869,10 @@ class NIAllNullableTypes: Hashable {
     if lhs === rhs {
       return true
     }
-    return deepEqualsNiTests(lhs.aNullableBool, rhs.aNullableBool)
-      && deepEqualsNiTests(lhs.aNullableInt, rhs.aNullableInt)
-      && deepEqualsNiTests(lhs.aNullableInt64, rhs.aNullableInt64)
-      && deepEqualsNiTests(lhs.aNullableDouble, rhs.aNullableDouble)
-      && deepEqualsNiTests(lhs.aNullableByteArray, rhs.aNullableByteArray)
-      && deepEqualsNiTests(lhs.aNullable4ByteArray, rhs.aNullable4ByteArray)
-      && deepEqualsNiTests(lhs.aNullable8ByteArray, rhs.aNullable8ByteArray)
-      && deepEqualsNiTests(lhs.aNullableFloatArray, rhs.aNullableFloatArray)
-      && deepEqualsNiTests(lhs.aNullableEnum, rhs.aNullableEnum)
-      && deepEqualsNiTests(lhs.anotherNullableEnum, rhs.anotherNullableEnum)
-      && deepEqualsNiTests(lhs.aNullableString, rhs.aNullableString)
-      && deepEqualsNiTests(lhs.aNullableObject, rhs.aNullableObject)
-      && deepEqualsNiTests(lhs.allNullableTypes, rhs.allNullableTypes)
-      && deepEqualsNiTests(lhs.list, rhs.list) && deepEqualsNiTests(lhs.stringList, rhs.stringList)
-      && deepEqualsNiTests(lhs.intList, rhs.intList)
-      && deepEqualsNiTests(lhs.doubleList, rhs.doubleList)
-      && deepEqualsNiTests(lhs.boolList, rhs.boolList)
-      && deepEqualsNiTests(lhs.enumList, rhs.enumList)
-      && deepEqualsNiTests(lhs.objectList, rhs.objectList)
-      && deepEqualsNiTests(lhs.listList, rhs.listList)
-      && deepEqualsNiTests(lhs.mapList, rhs.mapList)
-      && deepEqualsNiTests(lhs.recursiveClassList, rhs.recursiveClassList)
-      && deepEqualsNiTests(lhs.map, rhs.map) && deepEqualsNiTests(lhs.stringMap, rhs.stringMap)
-      && deepEqualsNiTests(lhs.intMap, rhs.intMap) && deepEqualsNiTests(lhs.enumMap, rhs.enumMap)
-      && deepEqualsNiTests(lhs.objectMap, rhs.objectMap)
-      && deepEqualsNiTests(lhs.listMap, rhs.listMap) && deepEqualsNiTests(lhs.mapMap, rhs.mapMap)
-      && deepEqualsNiTests(lhs.recursiveClassMap, rhs.recursiveClassMap)
+    return deepEqualsNiTests(lhs.toList(), rhs.toList())
   }
   func hash(into hasher: inout Hasher) {
-    deepHashNiTests(value: aNullableBool, hasher: &hasher)
-    deepHashNiTests(value: aNullableInt, hasher: &hasher)
-    deepHashNiTests(value: aNullableInt64, hasher: &hasher)
-    deepHashNiTests(value: aNullableDouble, hasher: &hasher)
-    deepHashNiTests(value: aNullableByteArray, hasher: &hasher)
-    deepHashNiTests(value: aNullable4ByteArray, hasher: &hasher)
-    deepHashNiTests(value: aNullable8ByteArray, hasher: &hasher)
-    deepHashNiTests(value: aNullableFloatArray, hasher: &hasher)
-    deepHashNiTests(value: aNullableEnum, hasher: &hasher)
-    deepHashNiTests(value: anotherNullableEnum, hasher: &hasher)
-    deepHashNiTests(value: aNullableString, hasher: &hasher)
-    deepHashNiTests(value: aNullableObject, hasher: &hasher)
-    deepHashNiTests(value: allNullableTypes, hasher: &hasher)
-    deepHashNiTests(value: list, hasher: &hasher)
-    deepHashNiTests(value: stringList, hasher: &hasher)
-    deepHashNiTests(value: intList, hasher: &hasher)
-    deepHashNiTests(value: doubleList, hasher: &hasher)
-    deepHashNiTests(value: boolList, hasher: &hasher)
-    deepHashNiTests(value: enumList, hasher: &hasher)
-    deepHashNiTests(value: objectList, hasher: &hasher)
-    deepHashNiTests(value: listList, hasher: &hasher)
-    deepHashNiTests(value: mapList, hasher: &hasher)
-    deepHashNiTests(value: recursiveClassList, hasher: &hasher)
-    deepHashNiTests(value: map, hasher: &hasher)
-    deepHashNiTests(value: stringMap, hasher: &hasher)
-    deepHashNiTests(value: intMap, hasher: &hasher)
-    deepHashNiTests(value: enumMap, hasher: &hasher)
-    deepHashNiTests(value: objectMap, hasher: &hasher)
-    deepHashNiTests(value: listMap, hasher: &hasher)
-    deepHashNiTests(value: mapMap, hasher: &hasher)
-    deepHashNiTests(value: recursiveClassMap, hasher: &hasher)
+    deepHashNiTests(value: toList(), hasher: &hasher)
   }
 }
 
@@ -1327,60 +1219,10 @@ struct NIAllNullableTypesWithoutRecursion: Hashable {
   static func == (lhs: NIAllNullableTypesWithoutRecursion, rhs: NIAllNullableTypesWithoutRecursion)
     -> Bool
   {
-    return deepEqualsNiTests(lhs.aNullableBool, rhs.aNullableBool)
-      && deepEqualsNiTests(lhs.aNullableInt, rhs.aNullableInt)
-      && deepEqualsNiTests(lhs.aNullableInt64, rhs.aNullableInt64)
-      && deepEqualsNiTests(lhs.aNullableDouble, rhs.aNullableDouble)
-      && deepEqualsNiTests(lhs.aNullableByteArray, rhs.aNullableByteArray)
-      && deepEqualsNiTests(lhs.aNullable4ByteArray, rhs.aNullable4ByteArray)
-      && deepEqualsNiTests(lhs.aNullable8ByteArray, rhs.aNullable8ByteArray)
-      && deepEqualsNiTests(lhs.aNullableFloatArray, rhs.aNullableFloatArray)
-      && deepEqualsNiTests(lhs.aNullableEnum, rhs.aNullableEnum)
-      && deepEqualsNiTests(lhs.anotherNullableEnum, rhs.anotherNullableEnum)
-      && deepEqualsNiTests(lhs.aNullableString, rhs.aNullableString)
-      && deepEqualsNiTests(lhs.aNullableObject, rhs.aNullableObject)
-      && deepEqualsNiTests(lhs.list, rhs.list) && deepEqualsNiTests(lhs.stringList, rhs.stringList)
-      && deepEqualsNiTests(lhs.intList, rhs.intList)
-      && deepEqualsNiTests(lhs.doubleList, rhs.doubleList)
-      && deepEqualsNiTests(lhs.boolList, rhs.boolList)
-      && deepEqualsNiTests(lhs.enumList, rhs.enumList)
-      && deepEqualsNiTests(lhs.objectList, rhs.objectList)
-      && deepEqualsNiTests(lhs.listList, rhs.listList)
-      && deepEqualsNiTests(lhs.mapList, rhs.mapList) && deepEqualsNiTests(lhs.map, rhs.map)
-      && deepEqualsNiTests(lhs.stringMap, rhs.stringMap)
-      && deepEqualsNiTests(lhs.intMap, rhs.intMap) && deepEqualsNiTests(lhs.enumMap, rhs.enumMap)
-      && deepEqualsNiTests(lhs.objectMap, rhs.objectMap)
-      && deepEqualsNiTests(lhs.listMap, rhs.listMap) && deepEqualsNiTests(lhs.mapMap, rhs.mapMap)
+    return deepEqualsNiTests(lhs.toList(), rhs.toList())
   }
   func hash(into hasher: inout Hasher) {
-    deepHashNiTests(value: aNullableBool, hasher: &hasher)
-    deepHashNiTests(value: aNullableInt, hasher: &hasher)
-    deepHashNiTests(value: aNullableInt64, hasher: &hasher)
-    deepHashNiTests(value: aNullableDouble, hasher: &hasher)
-    deepHashNiTests(value: aNullableByteArray, hasher: &hasher)
-    deepHashNiTests(value: aNullable4ByteArray, hasher: &hasher)
-    deepHashNiTests(value: aNullable8ByteArray, hasher: &hasher)
-    deepHashNiTests(value: aNullableFloatArray, hasher: &hasher)
-    deepHashNiTests(value: aNullableEnum, hasher: &hasher)
-    deepHashNiTests(value: anotherNullableEnum, hasher: &hasher)
-    deepHashNiTests(value: aNullableString, hasher: &hasher)
-    deepHashNiTests(value: aNullableObject, hasher: &hasher)
-    deepHashNiTests(value: list, hasher: &hasher)
-    deepHashNiTests(value: stringList, hasher: &hasher)
-    deepHashNiTests(value: intList, hasher: &hasher)
-    deepHashNiTests(value: doubleList, hasher: &hasher)
-    deepHashNiTests(value: boolList, hasher: &hasher)
-    deepHashNiTests(value: enumList, hasher: &hasher)
-    deepHashNiTests(value: objectList, hasher: &hasher)
-    deepHashNiTests(value: listList, hasher: &hasher)
-    deepHashNiTests(value: mapList, hasher: &hasher)
-    deepHashNiTests(value: map, hasher: &hasher)
-    deepHashNiTests(value: stringMap, hasher: &hasher)
-    deepHashNiTests(value: intMap, hasher: &hasher)
-    deepHashNiTests(value: enumMap, hasher: &hasher)
-    deepHashNiTests(value: objectMap, hasher: &hasher)
-    deepHashNiTests(value: listMap, hasher: &hasher)
-    deepHashNiTests(value: mapMap, hasher: &hasher)
+    deepHashNiTests(value: toList(), hasher: &hasher)
   }
 }
 
@@ -1628,23 +1470,10 @@ struct NIAllClassesWrapper: Hashable {
     ]
   }
   static func == (lhs: NIAllClassesWrapper, rhs: NIAllClassesWrapper) -> Bool {
-    return deepEqualsNiTests(lhs.allNullableTypes, rhs.allNullableTypes)
-      && deepEqualsNiTests(
-        lhs.allNullableTypesWithoutRecursion, rhs.allNullableTypesWithoutRecursion)
-      && deepEqualsNiTests(lhs.allTypes, rhs.allTypes)
-      && deepEqualsNiTests(lhs.classList, rhs.classList)
-      && deepEqualsNiTests(lhs.nullableClassList, rhs.nullableClassList)
-      && deepEqualsNiTests(lhs.classMap, rhs.classMap)
-      && deepEqualsNiTests(lhs.nullableClassMap, rhs.nullableClassMap)
+    return deepEqualsNiTests(lhs.toList(), rhs.toList())
   }
   func hash(into hasher: inout Hasher) {
-    deepHashNiTests(value: allNullableTypes, hasher: &hasher)
-    deepHashNiTests(value: allNullableTypesWithoutRecursion, hasher: &hasher)
-    deepHashNiTests(value: allTypes, hasher: &hasher)
-    deepHashNiTests(value: classList, hasher: &hasher)
-    deepHashNiTests(value: nullableClassList, hasher: &hasher)
-    deepHashNiTests(value: classMap, hasher: &hasher)
-    deepHashNiTests(value: nullableClassMap, hasher: &hasher)
+    deepHashNiTests(value: toList(), hasher: &hasher)
   }
 }
 

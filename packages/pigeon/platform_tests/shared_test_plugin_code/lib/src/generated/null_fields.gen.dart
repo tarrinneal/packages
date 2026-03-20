@@ -52,32 +52,21 @@ List<Object?> wrapResponse({
 }
 
 bool _deepEquals(Object? a, Object? b) {
-  if (a == b || identical(a, b)) {
-    return true;
-  }
   if (a is List && b is List) {
-    if (a.length != b.length) {
-      return false;
-    }
-    for (int i = 0; i < a.length; i++) {
-      if (!_deepEquals(a[i], b[i])) {
-        return false;
-      }
-    }
-    return true;
+    return a.length == b.length &&
+        a.indexed.every(
+          ((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]),
+        );
   }
   if (a is Map && b is Map) {
-    if (a.length != b.length) {
-      return false;
-    }
-    for (final Object? key in a.keys) {
-      if (!b.containsKey(key) || !_deepEquals(a[key], b[key])) {
-        return false;
-      }
-    }
-    return true;
+    return a.length == b.length &&
+        a.entries.every(
+          (MapEntry<Object?, Object?> entry) =>
+              (b as Map<Object?, Object?>).containsKey(entry.key) &&
+              _deepEquals(entry.value, b[entry.key]),
+        );
   }
-  return false;
+  return a == b;
 }
 
 enum NullFieldsSearchReplyType { success, failure }
@@ -114,7 +103,7 @@ class NullFieldsSearchRequest {
     if (identical(this, other)) {
       return true;
     }
-    return query == other.query && identifier == other.identifier;
+    return _deepEquals(encode(), other.encode());
   }
 
   @override
@@ -174,11 +163,7 @@ class NullFieldsSearchReply {
     if (identical(this, other)) {
       return true;
     }
-    return result == other.result &&
-        error == other.error &&
-        _deepEquals(indices, other.indices) &&
-        request == other.request &&
-        type == other.type;
+    return _deepEquals(encode(), other.encode());
   }
 
   @override

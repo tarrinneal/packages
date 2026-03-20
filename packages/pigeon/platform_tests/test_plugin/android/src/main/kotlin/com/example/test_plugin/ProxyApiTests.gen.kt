@@ -541,7 +541,7 @@ enum class ProxyApiTestEnum(val raw: Int) {
 
   companion object {
     fun ofRaw(raw: Int): ProxyApiTestEnum? {
-      return entries.firstOrNull { it.raw == raw }
+      return values().firstOrNull { it.raw == raw }
     }
   }
 }
