@@ -1101,6 +1101,18 @@ PlatformException _wrapFfiError(ffi_bridge.NiTestsError error) =>
           : error.details,
     );
 
+void _reportFfiError(ffi_bridge.NiTestsError errorOut, Object e) {
+  if (e is PlatformException) {
+    errorOut.code = NSString(e.code);
+    errorOut.message = NSString(e.message ?? '');
+    errorOut.details = NSString((e.details ?? '').toString());
+  } else {
+    errorOut.code = NSString('error');
+    errorOut.message = NSString(e.toString());
+    errorOut.details = null;
+  }
+}
+
 PlatformException _wrapJniException(JThrowable e) {
   if (e.isA<jni_bridge.NiTestsError>(jni_bridge.NiTestsError.type)) {
     final jni_bridge.NiTestsError pigeonError = e.as(
@@ -16278,18 +16290,6 @@ final class NIFlutterIntegrationCoreApiRegistrar
       );
     }
     if (Platform.isIOS || Platform.isMacOS) {
-      void reportError(ffi_bridge.NiTestsError errorOut, Object e) {
-        if (e is PlatformException) {
-          errorOut.code = NSString(e.code);
-          errorOut.message = NSString(e.message ?? '');
-          errorOut.details = NSString((e.details ?? '').toString());
-        } else {
-          errorOut.code = NSString('error');
-          errorOut.message = NSString(e.toString());
-          errorOut.details = null;
-        }
-      }
-
       final ObjCProtocolBuilder builder = ObjCProtocolBuilder(
         debugName: 'NIFlutterIntegrationCoreApiBridge',
       );
@@ -16300,14 +16300,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 dartApi!.noop();
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return;
             }
           });
@@ -16323,14 +16323,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   generic: true,
                 );
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16344,14 +16344,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   generic: true,
                 );
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16364,14 +16364,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 dartApi!.throwErrorFromVoid();
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return;
             }
           });
@@ -16389,14 +16389,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return response.toFfi();
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16415,14 +16415,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return response == null ? null : response.toFfi();
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16445,14 +16445,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return response.toFfi();
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16471,14 +16471,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return response == null ? null : response.toFfi();
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16501,14 +16501,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return response.toFfi();
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16524,14 +16524,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 final bool response = dartApi!.echoBool(aBool!.boolValue);
                 return _PigeonFfiCodec.writeValue<NSNumber>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16547,14 +16547,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 final int response = dartApi!.echoInt(anInt!.longValue);
                 return _PigeonFfiCodec.writeValue<NSNumber>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16572,14 +16572,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSNumber>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16597,14 +16597,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSString>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16624,14 +16624,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   ffi_bridge.NiTestsPigeonTypedData
                 >(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16651,14 +16651,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   ffi_bridge.NiTestsPigeonTypedData
                 >(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16678,14 +16678,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   ffi_bridge.NiTestsPigeonTypedData
                 >(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16705,14 +16705,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   ffi_bridge.NiTestsPigeonTypedData
                 >(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16731,14 +16731,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSMutableArray>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16758,14 +16758,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSMutableArray>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16785,14 +16785,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSMutableArray>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16812,14 +16812,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSMutableArray>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16839,14 +16839,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSMutableArray>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16863,14 +16863,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSDictionary>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16890,14 +16890,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSDictionary>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16917,14 +16917,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSDictionary>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16944,14 +16944,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSDictionary>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -16972,14 +16972,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSDictionary>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17000,14 +17000,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSDictionary>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17027,14 +17027,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSDictionary>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17055,14 +17055,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSDictionary>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17083,14 +17083,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSDictionary>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17108,14 +17108,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSNumber>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17134,14 +17134,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSNumber>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17159,14 +17159,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSNumber?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17184,14 +17184,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSNumber?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17209,14 +17209,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSNumber?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17234,14 +17234,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSString?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17261,14 +17261,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   ffi_bridge.NiTestsPigeonTypedData?
                 >(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17288,14 +17288,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   ffi_bridge.NiTestsPigeonTypedData?
                 >(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17315,14 +17315,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   ffi_bridge.NiTestsPigeonTypedData?
                 >(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17342,14 +17342,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                   ffi_bridge.NiTestsPigeonTypedData?
                 >(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17368,14 +17368,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSMutableArray?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17395,14 +17395,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSMutableArray?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17422,14 +17422,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSMutableArray?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17450,14 +17450,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSMutableArray?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17477,14 +17477,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSMutableArray?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17504,14 +17504,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSDictionary?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17532,14 +17532,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSDictionary?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17559,14 +17559,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSDictionary?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17587,14 +17587,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSDictionary?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17615,14 +17615,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSDictionary?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17643,14 +17643,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSDictionary?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17671,14 +17671,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSDictionary?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17699,14 +17699,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSDictionary?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17727,14 +17727,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSDictionary?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17752,14 +17752,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return _PigeonFfiCodec.writeValue<NSNumber?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17779,14 +17779,14 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return _PigeonFfiCodec.writeValue<NSNumber?>(response);
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
                 return null;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               return null;
             }
           });
@@ -17806,7 +17806,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     ).call();
                   },
                   onError: (Object e) {
-                    reportError(errorOut, e);
+                    _reportFfiError(errorOut, e);
                     ffi_bridge.ObjCBlock_ffiVoid$CallExtension(
                       completionHandler,
                     ).call();
@@ -17814,7 +17814,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -17824,7 +17824,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid$CallExtension(
                 completionHandler,
               ).call();
@@ -17852,7 +17852,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                   },
                   onError: (Object e) {
-                    reportError(errorOut, e);
+                    _reportFfiError(errorOut, e);
                     ffi_bridge.ObjCBlock_ffiVoid_NSObject$CallExtension(
                       completionHandler,
                     ).call(null);
@@ -17860,7 +17860,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -17870,7 +17870,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSObject$CallExtension(
                 completionHandler,
               ).call(null);
@@ -17897,7 +17897,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         ).call(response.toFfi());
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NIAllTypesBridge$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -17905,7 +17905,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -17915,7 +17915,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NIAllTypesBridge$CallExtension(
                 completionHandler,
               ).call(null);
@@ -17944,7 +17944,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         ).call(response == null ? null : response.toFfi());
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NIAllNullableTypesBridge$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -17952,7 +17952,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -17962,7 +17962,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NIAllNullableTypesBridge$CallExtension(
                 completionHandler,
               ).call(null);
@@ -17995,7 +17995,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         ).call(response == null ? null : response.toFfi());
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NIAllNullableTypesWithoutRecursionBridge$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18003,7 +18003,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18013,7 +18013,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NIAllNullableTypesWithoutRecursionBridge$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18039,7 +18039,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         ).call(_PigeonFfiCodec.writeValue<NSNumber>(response));
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18047,7 +18047,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18057,7 +18057,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18083,7 +18083,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         ).call(_PigeonFfiCodec.writeValue<NSNumber>(response));
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18091,7 +18091,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18101,7 +18101,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18127,7 +18127,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         ).call(_PigeonFfiCodec.writeValue<NSNumber>(response));
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18135,7 +18135,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18145,7 +18145,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18171,7 +18171,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         ).call(_PigeonFfiCodec.writeValue<NSString>(response));
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSString$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18179,7 +18179,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18189,7 +18189,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSString$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18222,7 +18222,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18230,7 +18230,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18240,7 +18240,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18273,7 +18273,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18281,7 +18281,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18291,7 +18291,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18324,7 +18324,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18332,7 +18332,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18342,7 +18342,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18375,7 +18375,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18383,7 +18383,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18393,7 +18393,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18424,7 +18424,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSObject$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18432,7 +18432,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18442,7 +18442,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSObject$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18473,7 +18473,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18481,7 +18481,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18491,7 +18491,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18523,7 +18523,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18531,7 +18531,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18541,7 +18541,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18572,7 +18572,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18580,7 +18580,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18590,7 +18590,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18622,7 +18622,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18630,7 +18630,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18640,7 +18640,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18671,7 +18671,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18679,7 +18679,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18689,7 +18689,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18720,7 +18720,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18728,7 +18728,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18738,7 +18738,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18770,7 +18770,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18778,7 +18778,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18788,7 +18788,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18820,7 +18820,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18828,7 +18828,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18838,7 +18838,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18870,7 +18870,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18878,7 +18878,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18888,7 +18888,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18920,7 +18920,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18928,7 +18928,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18938,7 +18938,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                 completionHandler,
               ).call(null);
@@ -18967,7 +18967,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         ).call(_PigeonFfiCodec.writeValue<NSNumber>(response));
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -18975,7 +18975,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -18985,7 +18985,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19014,7 +19014,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         ).call(_PigeonFfiCodec.writeValue<NSNumber>(response));
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19022,7 +19022,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19032,7 +19032,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19058,7 +19058,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         ).call(_PigeonFfiCodec.writeValue<NSNumber?>(response));
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19066,7 +19066,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19076,7 +19076,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19102,7 +19102,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         ).call(_PigeonFfiCodec.writeValue<NSNumber?>(response));
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19110,7 +19110,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19120,7 +19120,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19146,7 +19146,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         ).call(_PigeonFfiCodec.writeValue<NSNumber?>(response));
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19154,7 +19154,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19164,7 +19164,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19190,7 +19190,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         ).call(_PigeonFfiCodec.writeValue<NSString?>(response));
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSString$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19198,7 +19198,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19208,7 +19208,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSString$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19241,7 +19241,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19249,7 +19249,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19259,7 +19259,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19292,7 +19292,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19300,7 +19300,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19310,7 +19310,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19343,7 +19343,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19351,7 +19351,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19361,7 +19361,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19394,7 +19394,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19402,7 +19402,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19412,7 +19412,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NiTestsPigeonTypedData$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19445,7 +19445,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSObject$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19453,7 +19453,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19463,7 +19463,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSObject$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19494,7 +19494,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19502,7 +19502,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19512,7 +19512,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19544,7 +19544,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19552,7 +19552,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19562,7 +19562,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19593,7 +19593,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19601,7 +19601,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19611,7 +19611,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19643,7 +19643,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19651,7 +19651,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19661,7 +19661,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19692,7 +19692,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19700,7 +19700,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19710,7 +19710,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSArray$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19741,7 +19741,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19749,7 +19749,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19759,7 +19759,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19791,7 +19791,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19799,7 +19799,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19809,7 +19809,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19841,7 +19841,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19849,7 +19849,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19859,7 +19859,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19891,7 +19891,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19899,7 +19899,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19909,7 +19909,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19941,7 +19941,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         );
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19949,7 +19949,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -19959,7 +19959,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSDictionary$CallExtension(
                 completionHandler,
               ).call(null);
@@ -19988,7 +19988,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         ).call(_PigeonFfiCodec.writeValue<NSNumber?>(response));
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -19996,7 +19996,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -20006,7 +20006,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                 completionHandler,
               ).call(null);
@@ -20035,7 +20035,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                         ).call(_PigeonFfiCodec.writeValue<NSNumber?>(response));
                       },
                       onError: (Object e) {
-                        reportError(errorOut, e);
+                        _reportFfiError(errorOut, e);
                         ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                           completionHandler,
                         ).call(null);
@@ -20043,7 +20043,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                     );
                 return;
               } else {
-                reportError(
+                _reportFfiError(
                   errorOut,
                   'ArgumentError: NIFlutterIntegrationCoreApi was not registered.',
                 );
@@ -20053,7 +20053,7 @@ final class NIFlutterIntegrationCoreApiRegistrar
                 return;
               }
             } catch (e) {
-              reportError(errorOut, e);
+              _reportFfiError(errorOut, e);
               ffi_bridge.ObjCBlock_ffiVoid_NSNumber$CallExtension(
                 completionHandler,
               ).call(null);

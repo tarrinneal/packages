@@ -102,16 +102,20 @@ class DartOptions {
   }
 }
 
-class _FfiType {
-  _FfiType({required this.type, this.subTypeOne, this.subTypeTwo});
+abstract class _NativeInteropType<T extends _NativeInteropType<T>> {
+  _NativeInteropType({required this.type, this.subTypeOne, this.subTypeTwo});
 
   final TypeDeclaration type;
-  final _FfiType? subTypeOne;
-  final _FfiType? subTypeTwo;
+  final T? subTypeOne;
+  final T? subTypeTwo;
 
-  static _FfiType fromTypeDeclaration(TypeDeclaration? type) {
+  static T fromTypeDeclaration<T extends _NativeInteropType<T>>(
+    TypeDeclaration? type,
+    T Function({required TypeDeclaration type, T? subTypeOne, T? subTypeTwo})
+    creator,
+  ) {
     if (type == null) {
-      return _FfiType(
+      return creator(
         type: const TypeDeclaration(
           baseName: 'type was null',
           isNullable: false,
@@ -119,45 +123,108 @@ class _FfiType {
       );
     }
     if (type.baseName == 'List') {
-      final _FfiType? subType = type.typeArguments.firstOrNull != null
-          ? _FfiType.fromTypeDeclaration(type.typeArguments.firstOrNull)
+      final T? subType = type.typeArguments.firstOrNull != null
+          ? fromTypeDeclaration<T>(type.typeArguments.firstOrNull, creator)
           : null;
-      final ffiType = _FfiType(type: type, subTypeOne: subType);
-      return ffiType;
+      return creator(type: type, subTypeOne: subType);
     } else if (type.baseName == 'Map') {
-      final _FfiType? subTypeOne = type.typeArguments.firstOrNull != null
-          ? _FfiType.fromTypeDeclaration(type.typeArguments.firstOrNull)
+      final T? subTypeOne = type.typeArguments.firstOrNull != null
+          ? fromTypeDeclaration<T>(type.typeArguments.firstOrNull, creator)
           : null;
-      final _FfiType? subTypeTwo = type.typeArguments.lastOrNull != null
-          ? _FfiType.fromTypeDeclaration(type.typeArguments.lastOrNull)
+      final T? subTypeTwo = type.typeArguments.lastOrNull != null
+          ? fromTypeDeclaration<T>(type.typeArguments.lastOrNull, creator)
           : null;
-      final ffiType = _FfiType(
+      return creator(
         type: type,
         subTypeOne: subTypeOne,
         subTypeTwo: subTypeTwo,
       );
-      return ffiType;
     }
-
-    return _FfiType(type: type);
+    return creator(type: type);
   }
 
-  static _FfiType fromClass(Class classDefinition) {
+  static T fromClass<T extends _NativeInteropType<T>>(
+    Class classDefinition,
+    T Function({required TypeDeclaration type}) creator,
+  ) {
     final fakeType = TypeDeclaration(
       baseName: classDefinition.name,
       isNullable: true,
       associatedClass: classDefinition,
     );
-    return _FfiType(type: fakeType);
+    return creator(type: fakeType);
   }
 
-  static _FfiType fromEnum(Enum enumDefinition) {
+  static T fromEnum<T extends _NativeInteropType<T>>(
+    Enum enumDefinition,
+    T Function({required TypeDeclaration type}) creator,
+  ) {
     final fakeType = TypeDeclaration(
       baseName: enumDefinition.name,
       isNullable: true,
       associatedEnum: enumDefinition,
     );
-    return _FfiType(type: fakeType);
+    return creator(type: fakeType);
+  }
+
+  bool get nonNullableNeedsUnwrapping {
+    if (type.isClass ||
+        type.isEnum ||
+        type.baseName == 'String' ||
+        type.baseName == 'Object' ||
+        type.baseName == 'List' ||
+        type.baseName == 'Map' ||
+        type.baseName == 'Uint8List' ||
+        type.baseName == 'Int32List' ||
+        type.baseName == 'Int64List' ||
+        type.baseName == 'Float64List') {
+      return true;
+    }
+    return false;
+  }
+
+  String getDartReturnType(bool forceUnwrap) {
+    if (forceUnwrap || type.isNullable || nonNullableNeedsUnwrapping) {
+      return '${type.baseName}$dartCollectionTypeAnnotations${_getNullableSymbol(type.isNullable)}';
+    }
+    return type.baseName;
+  }
+
+  String get dartCollectionTypeAnnotations {
+    if (type.baseName == 'List') {
+      return '<$dartCollectionTypes>';
+    } else if (type.baseName == 'Map') {
+      return '<$dartCollectionTypes>';
+    }
+    return '';
+  }
+
+  String get dartCollectionTypes {
+    if (type.baseName == 'List') {
+      return subTypeOne?.getDartReturnType(true) ?? 'Object?';
+    } else if (type.baseName == 'Map') {
+      return '${subTypeOne?.getDartReturnType(true) ?? 'Object?'}, ${subTypeTwo?.getDartReturnType(true) ?? 'Object?'}';
+    }
+    return '';
+  }
+}
+
+class _FfiType extends _NativeInteropType<_FfiType> {
+  _FfiType({required super.type, super.subTypeOne, super.subTypeTwo});
+
+  static _FfiType fromTypeDeclaration(TypeDeclaration? type) {
+    return _NativeInteropType.fromTypeDeclaration<_FfiType>(type, _FfiType.new);
+  }
+
+  static _FfiType fromClass(Class classDefinition) {
+    return _NativeInteropType.fromClass<_FfiType>(
+      classDefinition,
+      _FfiType.new,
+    );
+  }
+
+  static _FfiType fromEnum(Enum enumDefinition) {
+    return _NativeInteropType.fromEnum<_FfiType>(enumDefinition, _FfiType.new);
   }
 
   String get ffiName {
@@ -205,22 +272,6 @@ class _FfiType {
     return ffiName;
   }
 
-  bool get nonNullableNeedsUnwrapping {
-    if (type.isClass ||
-        type.isEnum ||
-        type.baseName == 'String' ||
-        type.baseName == 'Object' ||
-        type.baseName == 'List' ||
-        type.baseName == 'Map' ||
-        type.baseName == 'Uint8List' ||
-        type.baseName == 'Int32List' ||
-        type.baseName == 'Int64List' ||
-        type.baseName == 'Float64List') {
-      return true;
-    }
-    return false;
-  }
-
   String get primitiveToDartMethodName {
     switch (type.baseName) {
       case 'String':
@@ -257,7 +308,7 @@ class _FfiType {
       }
       return '${type.baseName}.values[$varName.index]';
     }
-    var asType = ' as ${getDartReturnType(forceUnwrap: true)}';
+    var asType = ' as ${getDartReturnType(true)}';
     var castCall = '';
     String getHint(TypeDeclaration type) {
       if (type.isEnum ||
@@ -366,36 +417,11 @@ class _FfiType {
     return '${ffiName.replaceAll('ffi_bridge.', prefix)}${_getNullableSymbol((forceNullable || type.isNullable) && !forceNonNullable)}';
   }
 
-  String getDartReturnType({required bool forceUnwrap}) {
-    if (forceUnwrap || type.isNullable || nonNullableNeedsUnwrapping) {
-      return '${type.baseName}$dartCollectionTypeAnnotations${_getNullableSymbol(type.isNullable)}';
-    }
-    return type.baseName;
-  }
-
-  String get dartCollectionTypeAnnotations {
-    if (type.baseName == 'List') {
-      return '<$dartCollectionTypes>';
-    } else if (type.baseName == 'Map') {
-      return '<$dartCollectionTypes>';
-    }
-    return '';
-  }
-
   String get ffiCollectionTypeAnnotations {
     if (type.baseName == 'List') {
       return '<$ffiCollectionTypes>';
     } else if (type.baseName == 'Map') {
       return '<$ffiCollectionTypes>';
-    }
-    return '';
-  }
-
-  String get dartCollectionTypes {
-    if (type.baseName == 'List') {
-      return subTypeOne?.getDartReturnType(forceUnwrap: true) ?? 'Object?';
-    } else if (type.baseName == 'Map') {
-      return '${subTypeOne?.getDartReturnType(forceUnwrap: true) ?? 'Object?'}, ${subTypeTwo?.getDartReturnType(forceUnwrap: true) ?? 'Object?'}';
     }
     return '';
   }
@@ -410,62 +436,22 @@ class _FfiType {
   }
 }
 
-class _JniType {
-  _JniType({required this.type, this.subTypeOne, this.subTypeTwo});
-
-  final TypeDeclaration type;
-  final _JniType? subTypeOne;
-  final _JniType? subTypeTwo;
+class _JniType extends _NativeInteropType<_JniType> {
+  _JniType({required super.type, super.subTypeOne, super.subTypeTwo});
 
   static _JniType fromTypeDeclaration(TypeDeclaration? type) {
-    if (type == null) {
-      return _JniType(
-        type: const TypeDeclaration(
-          baseName: 'type was null',
-          isNullable: false,
-        ),
-      );
-    }
-    if (type.baseName == 'List') {
-      final _JniType? subType = type.typeArguments.firstOrNull != null
-          ? _JniType.fromTypeDeclaration(type.typeArguments.firstOrNull)
-          : null;
-      final jniType = _JniType(type: type, subTypeOne: subType);
-      return jniType;
-    } else if (type.baseName == 'Map') {
-      final _JniType? subTypeOne = type.typeArguments.firstOrNull != null
-          ? _JniType.fromTypeDeclaration(type.typeArguments.firstOrNull)
-          : null;
-      final _JniType? subTypeTwo = type.typeArguments.lastOrNull != null
-          ? _JniType.fromTypeDeclaration(type.typeArguments.lastOrNull)
-          : null;
-      final jniType = _JniType(
-        type: type,
-        subTypeOne: subTypeOne,
-        subTypeTwo: subTypeTwo,
-      );
-      return jniType;
-    }
-
-    return _JniType(type: type);
+    return _NativeInteropType.fromTypeDeclaration<_JniType>(type, _JniType.new);
   }
 
   static _JniType fromClass(Class classDefinition) {
-    final fakeType = TypeDeclaration(
-      baseName: classDefinition.name,
-      isNullable: true,
-      associatedClass: classDefinition,
+    return _NativeInteropType.fromClass<_JniType>(
+      classDefinition,
+      _JniType.new,
     );
-    return _JniType(type: fakeType);
   }
 
   static _JniType fromEnum(Enum enumDefinition) {
-    final fakeType = TypeDeclaration(
-      baseName: enumDefinition.name,
-      isNullable: true,
-      associatedEnum: enumDefinition,
-    );
-    return _JniType(type: fakeType);
+    return _NativeInteropType.fromEnum<_JniType>(enumDefinition, _JniType.new);
   }
 
   String get jniName {
@@ -509,22 +495,6 @@ class _JniType {
       return jniName + jniCollectionTypeAnnotations;
     }
     return jniName;
-  }
-
-  bool get nonNullableNeedsUnwrapping {
-    if (type.isClass ||
-        type.isEnum ||
-        type.baseName == 'String' ||
-        type.baseName == 'Object' ||
-        type.baseName == 'List' ||
-        type.baseName == 'Map' ||
-        type.baseName == 'Uint8List' ||
-        type.baseName == 'Int32List' ||
-        type.baseName == 'Int64List' ||
-        type.baseName == 'Float64List') {
-      return true;
-    }
-    return false;
   }
 
   String getJniGetterMethodName(String field) {
@@ -621,22 +591,6 @@ class _JniType {
     return type.baseName;
   }
 
-  String getDartReturnType(bool forceUnwrap) {
-    if (forceUnwrap || type.isNullable || nonNullableNeedsUnwrapping) {
-      return '${type.baseName}$dartCollectionTypeAnnotations${_getNullableSymbol(type.isNullable)}';
-    }
-    return type.baseName;
-  }
-
-  String get dartCollectionTypeAnnotations {
-    if (type.baseName == 'List') {
-      return '<$dartCollectionTypes>';
-    } else if (type.baseName == 'Map') {
-      return '<$dartCollectionTypes>';
-    }
-    return '';
-  }
-
   String getJniCollectionTypeAnnotations({
     bool isParameter = false,
     bool isAsynchronous = false,
@@ -650,15 +604,6 @@ class _JniType {
   }
 
   String get jniCollectionTypeAnnotations => getJniCollectionTypeAnnotations();
-
-  String get dartCollectionTypes {
-    if (type.baseName == 'List') {
-      return subTypeOne?.getDartReturnType(true) ?? 'Object?';
-    } else if (type.baseName == 'Map') {
-      return '${subTypeOne?.getDartReturnType(true) ?? 'Object?'}, ${subTypeTwo?.getDartReturnType(true) ?? 'Object?'}';
-    }
-    return '';
-  }
 
   String getJniCollectionTypes({
     bool isParameter = false,
@@ -1398,26 +1343,6 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
         }
         if (generatorOptions.useFfi) {
           indent.writeScoped('if (Platform.isIOS || Platform.isMacOS) {', '}', () {
-            indent.writeScoped(
-              'void reportError(ffi_bridge.${generatorOptions.ffiErrorClassName} errorOut, Object e) {',
-              '}',
-              () {
-                indent.writeScoped('if (e is PlatformException) {', '}', () {
-                  indent.writeln('errorOut.code = NSString(e.code);');
-                  indent.writeln(
-                    "errorOut.message = NSString(e.message ?? '');",
-                  );
-                  indent.writeln(
-                    "errorOut.details = NSString((e.details ?? '').toString());",
-                  );
-                }, addTrailingNewline: false);
-                indent.addScoped(' else {', '}', () {
-                  indent.writeln("errorOut.code = NSString('error');");
-                  indent.writeln('errorOut.message = NSString(e.toString());');
-                  indent.writeln('errorOut.details = null;');
-                });
-              },
-            );
             indent.newln();
             indent.writeln(
               "final ObjCProtocolBuilder builder = ObjCProtocolBuilder(debugName: '${api.name}Bridge');",
@@ -1467,7 +1392,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
                           }
                         });
                         indent.writeScoped('onError: (Object e) {', '});', () {
-                          indent.writeln('reportError(errorOut, e);');
+                          indent.writeln('_reportFfiError(errorOut, e);');
                           if (method.returnType.isVoid) {
                             indent.writeln(
                               'ffi_bridge.${_getFfiBlockCallExtensionName(method.returnType)}(completionHandler).call();',
@@ -1510,7 +1435,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
                     }, addTrailingNewline: false);
                     indent.addScoped(' else {', '}', () {
                       indent.writeln(
-                        "reportError(errorOut, 'ArgumentError: ${api.name} was not registered.');",
+                        "_reportFfiError(errorOut, 'ArgumentError: ${api.name} was not registered.');",
                       );
                       if (method.isAsynchronous) {
                         indent.writeln(
@@ -1523,7 +1448,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
                     });
                   }, addTrailingNewline: false);
                   indent.addScoped(' catch (e) {', '}', () {
-                    indent.writeln('reportError(errorOut, e);');
+                    indent.writeln('_reportFfiError(errorOut, e);');
                     if (method.isAsynchronous) {
                       indent.writeln(
                         'ffi_bridge.${_getFfiBlockCallExtensionName(method.returnType)}(completionHandler).call(${method.returnType.isVoid ? '' : 'null'});',
@@ -1880,7 +1805,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
                   indent.writeln('_throwIfFfiError(error);');
                   if (!returnType.type.isVoid) {
                     indent.writeln(
-                      'final ${returnType.getDartReturnType(forceUnwrap: method.isAsynchronous)} dartTypeRes = ${returnType.getToDartCall(method.returnType, varName: 'res$forceRes')};',
+                      'final ${returnType.getDartReturnType(method.isAsynchronous)} dartTypeRes = ${returnType.getToDartCall(method.returnType, varName: 'res$forceRes')};',
                     );
                     indent.writeln('return dartTypeRes;');
                   } else {
@@ -1974,6 +1899,18 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
             ? error.details!.toDartString()
             : error.details,
       );
+
+  void _reportFfiError(ffi_bridge.${generatorOptions.ffiErrorClassName} errorOut, Object e) {
+    if (e is PlatformException) {
+      errorOut.code = NSString(e.code);
+      errorOut.message = NSString(e.message ?? '');
+      errorOut.details = NSString((e.details ?? '').toString());
+    } else {
+      errorOut.code = NSString('error');
+      errorOut.message = NSString(e.toString());
+      errorOut.details = null;
+    }
+  }
 ''');
     }
     if (generatorOptions.useJni) {
