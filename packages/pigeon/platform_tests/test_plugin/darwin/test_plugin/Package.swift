@@ -19,9 +19,14 @@ let package = Package(
   dependencies: [],
   targets: [
     .target(
-      name: "test_plugin",
+      name: "test_plugin_objc",
       dependencies: [],
       resources: []
-    )
+    ),
+    .target(
+      name: "test_plugin",
+      dependencies: ["test_plugin_objc"],
+      resources: []
+    ),
   ]
 )
