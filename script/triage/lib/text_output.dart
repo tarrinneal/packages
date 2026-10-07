@@ -2,70 +2,127 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// ignore_for_file: avoid_print
+import 'dart:io';
 
 import 'package:ansicolor/ansicolor.dart';
 
+import 'report_state.dart';
+import 'triage.dart';
 import 'types.dart';
 import 'utils.dart';
 
-Future<void> printPRDetails(String repo, PRAnalysis prAnalysis) async {
-  final PRInfo pr = prAnalysis.pr;
-  final greypen = AnsiPen()..gray(level: 0.5);
-  final Map<ReviewState, int>? reviewStateCount = pr.comments.reviewStateCount;
-  var reviewStateString = '';
-  for (final state in ReviewState.values) {
-    final count = reviewStateCount?[state] ?? 0;
-    if (count > 0) {
-      reviewStateString += ' ${emojiForReviewState(state)}' * count;
+/// Prints [prs], which must already be sorted with [comparePRs], grouped by
+/// page and section.
+///
+/// PRs with any of [hiddenLabels] are left out unless [showHidden] is true.
+void printTextReport(
+  String repo,
+  List<PRAnalysis> prs, {
+  Set<String> hiddenLabels = defaultHiddenLabels,
+  bool showHidden = false,
+  Map<int, PreviousPlacement>? previous,
+  StringSink? out,
+}) {
+  final StringSink sink = out ?? stdout;
+  final headingPen = AnsiPen()..white(bold: true);
+  final List<PRAnalysis> shown = showHidden
+      ? prs
+      : prs.where((PRAnalysis a) => !hasHiddenLabel(a.pr, hiddenLabels)).toList();
+  for (final ReportPage page in ReportPage.values) {
+    final List<PRAnalysis> pagePRs = shown.where((PRAnalysis a) => a.page == page).toList();
+    sink
+      ..writeln(headingPen('$repo · ${pageTitle(page)} (${pagePRs.length})'))
+      ..writeln();
+    for (final Section section in sectionsFor(page)) {
+      final List<PRAnalysis> rows = pagePRs.where((PRAnalysis a) => a.section == section).toList();
+      if (rows.isEmpty) {
+        continue;
+      }
+      sink.writeln(headingPen('${sectionTitle(section, page)} (${rows.length})'));
+      for (final row in rows) {
+        _printRow(sink, row, previous);
+      }
+      sink.writeln();
     }
   }
-  if (reviewStateString.isNotEmpty) {
-    reviewStateString = ' $reviewStateString';
+  final int hiddenCount = prs.length - shown.length;
+  if (hiddenCount > 0) {
+    sink.writeln(
+      '$hiddenCount ${hiddenCount == 1 ? 'PR' : 'PRs'} labeled ${hiddenLabels.join(' or ')} '
+      'not shown; use --show-hidden to include them.',
+    );
   }
-  print(
-    '  #${pr.number}: ${pr.isDraft ? greypen(pr.title) : pr.title} by ${emojiForContributorType(pr.authorType)}${pr.author} on ${formatAsDay(pr.creationDate)}$reviewStateString',
-  );
-
-  final greenPen = AnsiPen()..green();
-  final yellowPen = AnsiPen()..yellow();
-  final redPen = AnsiPen()..red();
-  final AnsiPen? memberColor = _penForFreshness(
-    prAnalysis.memberFreshness,
-    greenPen,
-    yellowPen,
-    redPen,
-  );
-  final AnsiPen? authorColor = _penForFreshness(
-    prAnalysis.authorFreshness,
-    greenPen,
-    yellowPen,
-    redPen,
-  );
-
-  print('    Latest Comments:');
-  print('      Author: ${_formatComment(pr.comments.authorComment, dateColor: authorColor)}');
-  print('      Member: ${_formatComment(pr.comments.memberComment, dateColor: memberColor)}');
-  print('      Non-Member: ${_formatComment(pr.comments.nonMemberComment)}');
-  print('');
 }
 
-AnsiPen? _penForFreshness(CommentFreshness freshness, AnsiPen green, AnsiPen yellow, AnsiPen red) {
-  return switch (freshness) {
-    CommentFreshness.fresh => green,
-    CommentFreshness.stale => yellow,
-    CommentFreshness.veryStale => red,
-    CommentFreshness.none => null,
+void _printRow(StringSink sink, PRAnalysis analysis, Map<int, PreviousPlacement>? previous) {
+  final PRInfo pr = analysis.pr;
+  final Badge? badge = badgeFor(analysis, previous);
+  final String reviewers = reviewersText(pr);
+  final details = <String>[
+    _penFor(analysis)(waitingLabel(analysis)),
+    if (analysis.nextStep.isNotEmpty) analysis.nextStep,
+    if (reviewers.isNotEmpty) reviewers,
+  ];
+  sink
+    ..writeln(
+      '  #${pr.number}${badge == null ? '' : ' [${badge.label}]'} ${pr.title} · '
+      '${emojiForContributorType(pr.authorType)} ${pr.author}',
+    )
+    ..writeln('    ${details.join(' · ')}')
+    ..writeln('    ${pr.url}');
+}
+
+AnsiPen _penFor(PRAnalysis analysis) {
+  if (analysis.section == Section.loadError) {
+    return AnsiPen()..magenta();
+  }
+  return switch (analysis.urgency) {
+    Urgency.notYet => AnsiPen()..green(),
+    Urgency.due => AnsiPen()..yellow(),
+    Urgency.overdue => AnsiPen()..red(),
+    Urgency.critical => AnsiPen()..red(bold: true),
   };
 }
 
-String _formatComment(Comment? comment, {AnsiPen? dateColor}) {
+/// Prints everything the tool knows about [analysis]'s PR, and why it was
+/// placed where it was.
+void printExplanation(PRAnalysis analysis, {StringSink? out}) {
+  final StringSink sink = out ?? stdout;
+  final PRInfo pr = analysis.pr;
+  final String reviewers = reviewersText(pr);
+  sink
+    ..writeln('#${pr.number}: ${pr.title}')
+    ..writeln('  ${pr.url}')
+    ..writeln(
+      '  Author:     ${emojiForContributorType(pr.authorType)} ${pr.author} '
+      '(${pr.authorType.name})',
+    )
+    ..writeln(
+      '  Placement:  ${pageTitle(analysis.page)} › ${sectionTitle(analysis.section, analysis.page)}',
+    )
+    ..writeln(
+      '  Waiting:    ${_penFor(analysis)(waitingLabel(analysis))} since '
+      '${formatAsDay(analysis.waitingSince)} (${urgencyLabel(analysis.urgency)})',
+    )
+    ..writeln('  Next step:  ${analysis.nextStep.isEmpty ? 'nothing yet' : analysis.nextStep}')
+    ..writeln('  Reviewers:  ${reviewers.isEmpty ? 'none' : reviewers}')
+    ..writeln('  Labels:     ${pr.labels.isEmpty ? 'none' : pr.labels.join(', ')}');
+  if (pr.hasDetails) {
+    sink
+      ..writeln('  Last comments:')
+      ..writeln('    Author:     ${_formatComment(pr.authorComment)}')
+      ..writeln('    Team:       ${_formatComment(pr.memberComment)}')
+      ..writeln('    Non-member: ${_formatComment(pr.nonMemberComment)}');
+  }
+  sink.writeln('  Why:');
+  for (final String reason in analysis.reasons) {
+    sink.writeln('    - $reason');
+  }
+}
+
+String _formatComment(Comment? comment) {
   if (comment == null) {
-    return dateColor == null ? 'N/A' : dateColor('N/A');
+    return 'N/A';
   }
-  String dateString = formatAsDay(comment.date);
-  if (dateColor != null) {
-    dateString = dateColor(dateString);
-  }
-  return '${comment.username} at $dateString';
+  return '${comment.username} on ${formatAsDay(comment.date)}';
 }

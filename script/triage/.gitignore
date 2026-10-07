@@ -1,1 +1,3 @@
 .dart_tool
+# Holds the GitHub token; see README.md.
+.env
