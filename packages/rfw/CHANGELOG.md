@@ -1,3 +1,12 @@
+## NEXT
+
+* Updates minimum supported SDK version to Flutter 3.41/Dart 3.11.
+
+## 1.1.4
+
+* Updates minimum supported SDK version to Flutter 3.38/Dart 3.10.
+* Fixes `fontWeight` not being applied in release mode for `Text` and `StrutStyle` widgets.
+
 ## 1.1.3
 
 * Fixes dartdoc comments that accidentally used HTML.

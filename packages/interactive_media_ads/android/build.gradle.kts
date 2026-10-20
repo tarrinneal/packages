@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 group = "dev.flutter.packages.interactive_media_ads"
 version = "1.0-SNAPSHOT"
 
@@ -25,12 +23,11 @@ allprojects {
 
 plugins {
     id("com.android.library")
-    id("kotlin-android")
 }
 
 kotlin {
     compilerOptions {
-        jvmTarget = JvmTarget.fromTarget(JavaVersion.VERSION_17.toString())
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 
@@ -49,11 +46,10 @@ android {
     }
 
     dependencies {
-        implementation("androidx.annotation:annotation:1.9.1")
+        implementation("androidx.annotation:annotation:1.10.0")
         implementation("androidx.core:core-ktx:1.18.0")
         implementation("com.google.ads.interactivemedia.v3:interactivemedia:3.39.0")
-        testImplementation("junit:junit:4.13.2")
-        testImplementation("org.jetbrains.kotlin:kotlin-test")
+        testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:2.3.0")
         testImplementation("org.mockito.kotlin:mockito-kotlin:6.2.3")
         testImplementation("org.mockito:mockito-inline:5.2.0")
         testImplementation("androidx.test:core:1.7.0")

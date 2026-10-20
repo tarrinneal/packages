@@ -45,6 +45,7 @@ import io.flutter.plugins.camera.features.flash.FlashFeature;
 import io.flutter.plugins.camera.features.flash.FlashMode;
 import io.flutter.plugins.camera.features.focuspoint.FocusPointFeature;
 import io.flutter.plugins.camera.features.fpsrange.FpsRangeFeature;
+import io.flutter.plugins.camera.features.jpegquality.JpegQualityFeature;
 import io.flutter.plugins.camera.features.noisereduction.NoiseReductionFeature;
 import io.flutter.plugins.camera.features.resolution.ResolutionFeature;
 import io.flutter.plugins.camera.features.resolution.ResolutionPreset;
@@ -52,6 +53,7 @@ import io.flutter.plugins.camera.features.sensororientation.DeviceOrientationMan
 import io.flutter.plugins.camera.features.sensororientation.SensorOrientationFeature;
 import io.flutter.plugins.camera.features.zoomlevel.ZoomLevelFeature;
 import io.flutter.plugins.camera.media.ImageStreamReader;
+import io.flutter.plugins.camera.media.MediaRecorderBuilder;
 import io.flutter.view.TextureRegistry;
 import java.io.Closeable;
 import java.io.File;
@@ -206,6 +208,14 @@ public class CameraTest {
 
     camera.captureSession = mockCaptureSession;
     camera.previewRequestBuilder = mockPreviewRequestBuilder;
+
+    final SensorOrientationFeature mockSensorOrientationFeature =
+        mockCameraFeatureFactory.createSensorOrientationFeature(
+            mockCameraProperties, mockActivity, mockDartMessenger);
+    final DeviceOrientationManager mockDeviceOrientationManager =
+        mock(DeviceOrientationManager.class);
+    when(mockSensorOrientationFeature.getDeviceOrientationManager())
+        .thenReturn(mockDeviceOrientationManager);
   }
 
   @After
@@ -712,6 +722,109 @@ public class CameraTest {
   }
 
   @Test
+  public void startVideoRecording_usesCustomPath() throws IOException, CameraAccessException {
+    final String customPath =
+        new File(System.getProperty("java.io.tmpdir"), "custom_video.mp4").getAbsolutePath();
+    final MediaRecorder mockMediaRecorder = mock(MediaRecorder.class);
+
+    final ArrayList<CaptureRequest.Builder> mockRequestBuilders = new ArrayList<>();
+    CaptureRequest.Builder mockRequestBuilder = mock(CaptureRequest.Builder.class);
+    mockRequestBuilders.add(mockRequestBuilder);
+    final SurfaceTexture mockSurfaceTexture = mock(SurfaceTexture.class);
+    final Size mockSize = mock(Size.class);
+    final ImageReader mockPictureImageReader = mock(ImageReader.class);
+    camera.pictureImageReader = mockPictureImageReader;
+    final CameraDeviceWrapper fakeCamera =
+        new FakeCameraDeviceWrapper(mockRequestBuilders, mockCaptureSession);
+
+    camera.cameraDevice = fakeCamera;
+
+    TextureRegistry.SurfaceTextureEntry cameraFlutterTexture = camera.flutterTexture;
+    ResolutionFeature resolutionFeature = mockCameraFeatureFactory.mockResolutionFeature;
+
+    assertNotNull(cameraFlutterTexture);
+    when(cameraFlutterTexture.surfaceTexture()).thenReturn(mockSurfaceTexture);
+
+    assertNotNull(resolutionFeature);
+    when(resolutionFeature.getPreviewSize()).thenReturn(mockSize);
+
+    try (MockedConstruction<MediaRecorderBuilder> mockedBuilder =
+        Mockito.mockConstruction(
+            MediaRecorderBuilder.class,
+            (mock, context) -> {
+              MediaRecorderBuilder.RecordingParameters params =
+                  (MediaRecorderBuilder.RecordingParameters) context.arguments().get(1);
+              assertEquals(customPath, params.outputFilePath);
+              when(mock.setEnableAudio(anyBoolean())).thenReturn(mock);
+              when(mock.setMediaOrientation(anyInt())).thenReturn(mock);
+              when(mock.build()).thenReturn(mockMediaRecorder);
+            })) {
+
+      camera.startVideoRecording(null, customPath);
+
+      assertEquals(1, mockedBuilder.constructed().size());
+    }
+  }
+
+  @SuppressWarnings("try")
+  @Test
+  public void startVideoRecording_errorsOnInvalidPath() throws IOException, CameraAccessException {
+    final String invalidPath = "/non/existent/path.mp4";
+
+    try (MockedConstruction<MediaRecorderBuilder> mockedBuilder =
+        Mockito.mockConstruction(
+            MediaRecorderBuilder.class,
+            (mock, context) -> {
+              when(mock.setEnableAudio(anyBoolean())).thenReturn(mock);
+              when(mock.setMediaOrientation(anyInt())).thenReturn(mock);
+              when(mock.build()).thenThrow(new IOException("Invalid path"));
+            })) {
+
+      Messages.FlutterError error =
+          assertThrows(
+              Messages.FlutterError.class,
+              () -> {
+                camera.startVideoRecording(null, invalidPath);
+              });
+      // Assert the IOError from validateOutputPath which is thrown prior to building.
+      assertEquals("IOError", error.code);
+    }
+  }
+
+  @Test
+  public void startVideoRecording_errorsOnDirectoryPath() {
+    Messages.FlutterError error =
+        assertThrows(
+            Messages.FlutterError.class,
+            () -> {
+              camera.startVideoRecording(null, "/");
+            });
+    assertEquals("IOError", error.code);
+  }
+
+  @Test
+  public void startVideoRecording_errorsOnNonExistentParentPath() {
+    Messages.FlutterError error =
+        assertThrows(
+            Messages.FlutterError.class,
+            () -> {
+              camera.startVideoRecording(null, "/non/existent/parent/file.mp4");
+            });
+    assertEquals("IOError", error.code);
+  }
+
+  @Test
+  public void startVideoRecording_errorsOnInvalidExtension() {
+    Messages.FlutterError error =
+        assertThrows(
+            Messages.FlutterError.class,
+            () -> {
+              camera.startVideoRecording(null, "file.txt");
+            });
+    assertEquals("IOError", error.code);
+  }
+
+  @Test
   public void setDescriptionWhileRecording_errorsWhenUnsupported() {
     MediaRecorder mockMediaRecorder = mock(MediaRecorder.class);
     VideoRenderer mockVideoRenderer = mock(VideoRenderer.class);
@@ -939,9 +1052,9 @@ public class CameraTest {
 
     when(cameraFlutterTexture.surfaceTexture()).thenReturn(mockSurfaceTexture);
     when(resolutionFeature.getPreviewSize()).thenReturn(mockSize);
-    doNothing().when(cameraSpy).prepareRecording();
+    doNothing().when(cameraSpy).prepareRecording(any());
 
-    cameraSpy.startVideoRecording(null);
+    cameraSpy.startVideoRecording(null, null);
     verify(mockMediaRecorder, times(1))
         .getSurface(); // stream pulled from media recorder's surface.
     verify(
@@ -974,6 +1087,66 @@ public class CameraTest {
         .thenThrow(new CameraAccessException(0, ""));
     camera.setFocusMode(FocusMode.locked);
     verify(mockDartMessenger, times(1)).sendCameraErrorEvent(any());
+  }
+
+  @Test
+  public void createTriggerResetCallback_shouldResetTriggerOnCaptureCompleted() {
+    CaptureRequest.Key<Integer> triggerKey = CaptureRequest.CONTROL_AF_TRIGGER;
+    int idleValue = CameraMetadata.CONTROL_AF_TRIGGER_IDLE;
+
+    CameraCaptureSession.CaptureCallback callback =
+        camera.createTriggerResetCallback(triggerKey, idleValue);
+
+    callback.onCaptureCompleted(
+        mock(CameraCaptureSession.class),
+        mock(CaptureRequest.class),
+        mock(TotalCaptureResult.class));
+
+    verify(mockPreviewRequestBuilder, times(1)).set(triggerKey, idleValue);
+  }
+
+  @Test
+  public void createTriggerResetCallback_shouldResetTriggerOnCaptureFailed() {
+    CaptureRequest.Key<Integer> triggerKey = CaptureRequest.CONTROL_AF_TRIGGER;
+    int idleValue = CameraMetadata.CONTROL_AF_TRIGGER_IDLE;
+
+    CameraCaptureSession.CaptureCallback callback =
+        camera.createTriggerResetCallback(triggerKey, idleValue);
+
+    callback.onCaptureFailed(
+        mock(CameraCaptureSession.class), mock(CaptureRequest.class), mock(CaptureFailure.class));
+
+    verify(mockPreviewRequestBuilder, times(1)).set(triggerKey, idleValue);
+  }
+
+  @Test
+  public void createTriggerResetCallback_shouldResetAEPrecaptureTriggerOnCaptureCompleted() {
+    CaptureRequest.Key<Integer> triggerKey = CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER;
+    int idleValue = CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_IDLE;
+
+    CameraCaptureSession.CaptureCallback callback =
+        camera.createTriggerResetCallback(triggerKey, idleValue);
+
+    callback.onCaptureCompleted(
+        mock(CameraCaptureSession.class),
+        mock(CaptureRequest.class),
+        mock(TotalCaptureResult.class));
+
+    verify(mockPreviewRequestBuilder, times(1)).set(triggerKey, idleValue);
+  }
+
+  @Test
+  public void createTriggerResetCallback_shouldResetAEPrecaptureTriggerOnCaptureFailed() {
+    CaptureRequest.Key<Integer> triggerKey = CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER;
+    int idleValue = CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_IDLE;
+
+    CameraCaptureSession.CaptureCallback callback =
+        camera.createTriggerResetCallback(triggerKey, idleValue);
+
+    callback.onCaptureFailed(
+        mock(CameraCaptureSession.class), mock(CaptureRequest.class), mock(CaptureFailure.class));
+
+    verify(mockPreviewRequestBuilder, times(1)).set(triggerKey, idleValue);
   }
 
   @Test
@@ -1219,11 +1392,11 @@ public class CameraTest {
     final ResolutionPreset resolutionPreset = ResolutionPreset.high;
     final boolean enableAudio = true;
 
-    //region These parameters should be set in android MediaRecorder.
+    // region These parameters should be set in android MediaRecorder.
     final int fps = 15;
     final int videoBitrate = 200000;
     final int audioBitrate = 32000;
-    //endregion
+    // endregion
 
     when(mockCameraProperties.getCameraName()).thenReturn(cameraName);
 
@@ -1301,9 +1474,9 @@ public class CameraTest {
       assertNotNull(resolutionFeature);
       when(resolutionFeature.getPreviewSize()).thenReturn(mockSize);
 
-      camera.startVideoRecording(null);
+      camera.startVideoRecording(null, null);
 
-      //region Check that FPS parameter affects AE range at which the camera captures frames.
+      // region Check that FPS parameter affects AE range at which the camera captures frames.
       assertEquals(camera.cameraFeatures.getFpsRange().getValue().getLower(), Integer.valueOf(fps));
       assertEquals(camera.cameraFeatures.getFpsRange().getValue().getUpper(), Integer.valueOf(fps));
 
@@ -1312,16 +1485,24 @@ public class CameraTest {
               eq(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE),
               argThat(
                   (Range<Integer> range) -> range.getLower() == fps && range.getUpper() == fps));
-      //endregion
+      // endregion
 
       final MediaRecorder recorder = camera.mediaRecorder;
 
-      //region Check that parameters affects movies, written by MediaRecorder.
+      // region Check that parameters affects movies, written by MediaRecorder.
       verify(recorder).setVideoFrameRate(fps);
       verify(recorder).setAudioEncodingBitRate(audioBitrate);
       verify(recorder).setVideoEncodingBitRate(videoBitrate);
-      //endregion
+      // endregion
     }
+  }
+
+  @Test
+  public void setJpegImageQuality_shouldSetJpegQualityOnCaptureRequestBuilder() {
+    camera.setJpegImageQuality(75L);
+    camera.updateBuilderSettings(mockPreviewRequestBuilder);
+
+    verify(mockPreviewRequestBuilder, times(1)).set(CaptureRequest.JPEG_QUALITY, (byte) 75);
   }
 
   @Test
@@ -1467,6 +1648,11 @@ public class CameraTest {
     public NoiseReductionFeature createNoiseReductionFeature(
         @NonNull CameraProperties cameraProperties) {
       return mockNoiseReductionFeature;
+    }
+
+    @Override
+    public JpegQualityFeature createJpegQualityFeature(@NonNull CameraProperties cameraProperties) {
+      return new JpegQualityFeature(cameraProperties);
     }
   }
 }

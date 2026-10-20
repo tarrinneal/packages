@@ -14,6 +14,7 @@
 
 #include <map>
 #include <optional>
+#include <ostream>
 #include <string>
 
 namespace core_tests_pigeontest {
@@ -21,6 +22,13 @@ namespace core_tests_pigeontest {
 class CoreTestsTest;
 
 // Generated class from Pigeon.
+
+inline constexpr const char* aStringConstant = "stringConstantValue";
+inline constexpr const char* aStringConstantWithEscapes =
+    "string\\'\\\"\\$ConstantValue";
+inline constexpr int64_t anIntConstant = 42;
+inline constexpr double aDoubleConstant = 3.14;
+inline constexpr bool aBoolConstant = true;
 
 class FlutterError {
  public:
@@ -55,7 +63,9 @@ class ErrorOr {
 
  private:
   friend class HostIntegrationCoreApi;
+  friend class FlutterCallbackCoreApi;
   friend class FlutterIntegrationCoreApi;
+  friend class HostCallbackCoreApi;
   friend class HostTrivialApi;
   friend class HostSmallApi;
   friend class FlutterSmallApi;
@@ -93,12 +103,16 @@ class UnusedClass {
   /// Returns a hash code value for the object. This method is supported for the
   /// benefit of hash tables.
   size_t Hash() const;
+  /// Stream output operator for formatted string representation.
+  friend std::ostream& operator<<(std::ostream& os, const UnusedClass& obj);
 
  private:
   static UnusedClass FromEncodableList(const ::flutter::EncodableList& list);
   ::flutter::EncodableList ToEncodableList() const;
   friend class HostIntegrationCoreApi;
+  friend class FlutterCallbackCoreApi;
   friend class FlutterIntegrationCoreApi;
+  friend class HostCallbackCoreApi;
   friend class HostTrivialApi;
   friend class HostSmallApi;
   friend class FlutterSmallApi;
@@ -239,13 +253,17 @@ class AllTypes {
   /// Returns a hash code value for the object. This method is supported for the
   /// benefit of hash tables.
   size_t Hash() const;
+  /// Stream output operator for formatted string representation.
+  friend std::ostream& operator<<(std::ostream& os, const AllTypes& obj);
 
  private:
   static AllTypes FromEncodableList(const ::flutter::EncodableList& list);
   ::flutter::EncodableList ToEncodableList() const;
   friend class AllClassesWrapper;
   friend class HostIntegrationCoreApi;
+  friend class FlutterCallbackCoreApi;
   friend class FlutterIntegrationCoreApi;
+  friend class HostCallbackCoreApi;
   friend class HostTrivialApi;
   friend class HostSmallApi;
   friend class FlutterSmallApi;
@@ -467,6 +485,9 @@ class AllNullableTypes {
   /// Returns a hash code value for the object. This method is supported for the
   /// benefit of hash tables.
   size_t Hash() const;
+  /// Stream output operator for formatted string representation.
+  friend std::ostream& operator<<(std::ostream& os,
+                                  const AllNullableTypes& obj);
 
  private:
   static AllNullableTypes FromEncodableList(
@@ -474,7 +495,9 @@ class AllNullableTypes {
   ::flutter::EncodableList ToEncodableList() const;
   friend class AllClassesWrapper;
   friend class HostIntegrationCoreApi;
+  friend class FlutterCallbackCoreApi;
   friend class FlutterIntegrationCoreApi;
+  friend class HostCallbackCoreApi;
   friend class HostTrivialApi;
   friend class HostSmallApi;
   friend class FlutterSmallApi;
@@ -670,6 +693,9 @@ class AllNullableTypesWithoutRecursion {
   /// Returns a hash code value for the object. This method is supported for the
   /// benefit of hash tables.
   size_t Hash() const;
+  /// Stream output operator for formatted string representation.
+  friend std::ostream& operator<<(std::ostream& os,
+                                  const AllNullableTypesWithoutRecursion& obj);
 
  private:
   static AllNullableTypesWithoutRecursion FromEncodableList(
@@ -677,7 +703,9 @@ class AllNullableTypesWithoutRecursion {
   ::flutter::EncodableList ToEncodableList() const;
   friend class AllClassesWrapper;
   friend class HostIntegrationCoreApi;
+  friend class FlutterCallbackCoreApi;
   friend class FlutterIntegrationCoreApi;
+  friend class HostCallbackCoreApi;
   friend class HostTrivialApi;
   friend class HostSmallApi;
   friend class FlutterSmallApi;
@@ -713,6 +741,37 @@ class AllNullableTypesWithoutRecursion {
   std::optional<::flutter::EncodableMap> map_map_;
 };
 
+// A data class without fields for testing empty classes.
+//
+// Generated class from Pigeon that represents data sent in messages.
+class AnEmptyClass {
+ public:
+  // Constructs an object setting all fields.
+  AnEmptyClass();
+
+  bool operator==(const AnEmptyClass& other) const;
+  bool operator!=(const AnEmptyClass& other) const;
+  /// Returns a hash code value for the object. This method is supported for the
+  /// benefit of hash tables.
+  size_t Hash() const;
+  /// Stream output operator for formatted string representation.
+  friend std::ostream& operator<<(std::ostream& os, const AnEmptyClass& obj);
+
+ private:
+  static AnEmptyClass FromEncodableList(const ::flutter::EncodableList& list);
+  ::flutter::EncodableList ToEncodableList() const;
+  friend class AllClassesWrapper;
+  friend class HostIntegrationCoreApi;
+  friend class FlutterCallbackCoreApi;
+  friend class FlutterIntegrationCoreApi;
+  friend class HostCallbackCoreApi;
+  friend class HostTrivialApi;
+  friend class HostSmallApi;
+  friend class FlutterSmallApi;
+  friend class PigeonInternalCodecSerializer;
+  friend class CoreTestsTest;
+};
+
 // A class for testing nested class handling.
 //
 // This is needed to test nested nullable and non-nullable classes,
@@ -735,7 +794,8 @@ class AllClassesWrapper {
       const AllTypes* all_types, const ::flutter::EncodableList& class_list,
       const ::flutter::EncodableList* nullable_class_list,
       const ::flutter::EncodableMap& class_map,
-      const ::flutter::EncodableMap* nullable_class_map);
+      const ::flutter::EncodableMap* nullable_class_map,
+      const AnEmptyClass* an_empty_class);
 
   ~AllClassesWrapper() = default;
   AllClassesWrapper(const AllClassesWrapper& other);
@@ -770,18 +830,27 @@ class AllClassesWrapper {
   void set_nullable_class_map(const ::flutter::EncodableMap* value_arg);
   void set_nullable_class_map(const ::flutter::EncodableMap& value_arg);
 
+  const AnEmptyClass* an_empty_class() const;
+  void set_an_empty_class(const AnEmptyClass* value_arg);
+  void set_an_empty_class(const AnEmptyClass& value_arg);
+
   bool operator==(const AllClassesWrapper& other) const;
   bool operator!=(const AllClassesWrapper& other) const;
   /// Returns a hash code value for the object. This method is supported for the
   /// benefit of hash tables.
   size_t Hash() const;
+  /// Stream output operator for formatted string representation.
+  friend std::ostream& operator<<(std::ostream& os,
+                                  const AllClassesWrapper& obj);
 
  private:
   static AllClassesWrapper FromEncodableList(
       const ::flutter::EncodableList& list);
   ::flutter::EncodableList ToEncodableList() const;
   friend class HostIntegrationCoreApi;
+  friend class FlutterCallbackCoreApi;
   friend class FlutterIntegrationCoreApi;
+  friend class HostCallbackCoreApi;
   friend class HostTrivialApi;
   friend class HostSmallApi;
   friend class FlutterSmallApi;
@@ -795,6 +864,7 @@ class AllClassesWrapper {
   std::optional<::flutter::EncodableList> nullable_class_list_;
   ::flutter::EncodableMap class_map_;
   std::optional<::flutter::EncodableMap> nullable_class_map_;
+  std::unique_ptr<AnEmptyClass> an_empty_class_;
 };
 
 // A data class containing a List, used in unit tests.
@@ -817,12 +887,16 @@ class TestMessage {
   /// Returns a hash code value for the object. This method is supported for the
   /// benefit of hash tables.
   size_t Hash() const;
+  /// Stream output operator for formatted string representation.
+  friend std::ostream& operator<<(std::ostream& os, const TestMessage& obj);
 
  private:
   static TestMessage FromEncodableList(const ::flutter::EncodableList& list);
   ::flutter::EncodableList ToEncodableList() const;
   friend class HostIntegrationCoreApi;
+  friend class FlutterCallbackCoreApi;
   friend class FlutterIntegrationCoreApi;
+  friend class HostCallbackCoreApi;
   friend class HostTrivialApi;
   friend class HostSmallApi;
   friend class FlutterSmallApi;
@@ -887,6 +961,18 @@ class HostIntegrationCoreApi {
   // Returns the passed list, to test serialization and deserialization.
   virtual ErrorOr<::flutter::EncodableList> EchoList(
       const ::flutter::EncodableList& list) = 0;
+  // Returns the passed list, to test serialization and deserialization.
+  virtual ErrorOr<::flutter::EncodableList> EchoStringList(
+      const ::flutter::EncodableList& string_list) = 0;
+  // Returns the passed list, to test serialization and deserialization.
+  virtual ErrorOr<::flutter::EncodableList> EchoIntList(
+      const ::flutter::EncodableList& int_list) = 0;
+  // Returns the passed list, to test serialization and deserialization.
+  virtual ErrorOr<::flutter::EncodableList> EchoDoubleList(
+      const ::flutter::EncodableList& double_list) = 0;
+  // Returns the passed list, to test serialization and deserialization.
+  virtual ErrorOr<::flutter::EncodableList> EchoBoolList(
+      const ::flutter::EncodableList& bool_list) = 0;
   // Returns the passed list, to test serialization and deserialization.
   virtual ErrorOr<::flutter::EncodableList> EchoEnumList(
       const ::flutter::EncodableList& enum_list) = 0;
@@ -1247,6 +1333,10 @@ class HostIntegrationCoreApi {
   // Returns true if the handler is run on a non-main thread, which should be
   // true for any platform with TaskQueue support.
   virtual ErrorOr<bool> TaskQueueIsBackgroundThread() = 0;
+  // Returns true if the handler is run on a non-main thread, which should be
+  // true for any platform with TaskQueue support.
+  virtual void AsyncTaskQueueIsBackgroundThread(
+      std::function<void(ErrorOr<bool> reply)> result) = 0;
   virtual void CallFlutterNoop(
       std::function<void(std::optional<FlutterError> reply)> result) = 0;
   virtual void CallFlutterThrowError(
@@ -1424,6 +1514,19 @@ class HostIntegrationCoreApi {
   virtual void CallFlutterSmallApiEchoString(
       const std::string& a_string,
       std::function<void(ErrorOr<std::string> reply)> result) = 0;
+  virtual void CallFlutterCallbackNoop(
+      std::function<void(std::optional<FlutterError> reply)> result) = 0;
+  virtual void CallFlutterCallbackEchoString(
+      const std::string& a_string,
+      std::function<void(ErrorOr<std::string> reply)> result) = 0;
+  virtual void CallFlutterCallbackThrowError(
+      std::function<
+          void(ErrorOr<std::optional<::flutter::EncodableValue>> reply)>
+          result) = 0;
+  virtual void CallFlutterCallbackThrowErrorFromVoid(
+      std::function<void(std::optional<FlutterError> reply)> result) = 0;
+  virtual void CallFlutterIsAsyncFlutterApiOnRoot(
+      std::function<void(ErrorOr<bool> reply)> result) = 0;
 
   // The codec used by HostIntegrationCoreApi.
   static const ::flutter::StandardMessageCodec& GetCodec();
@@ -1440,6 +1543,32 @@ class HostIntegrationCoreApi {
  protected:
   HostIntegrationCoreApi() = default;
 };
+// A Flutter API using callback-based asynchronous methods (@asyncCallback).
+//
+// Generated class from Pigeon that represents Flutter messages that can be
+// called from C++.
+class FlutterCallbackCoreApi {
+ public:
+  FlutterCallbackCoreApi(::flutter::BinaryMessenger* binary_messenger);
+  FlutterCallbackCoreApi(::flutter::BinaryMessenger* binary_messenger,
+                         const std::string& message_channel_suffix);
+  static const ::flutter::StandardMessageCodec& GetCodec();
+  void Noop(std::function<void(void)>&& on_success,
+            std::function<void(const FlutterError&)>&& on_error);
+  void EchoString(const std::string& a_string,
+                  std::function<void(const std::string&)>&& on_success,
+                  std::function<void(const FlutterError&)>&& on_error);
+  void ThrowError(
+      std::function<void(const ::flutter::EncodableValue*)>&& on_success,
+      std::function<void(const FlutterError&)>&& on_error);
+  void ThrowErrorFromVoid(std::function<void(void)>&& on_success,
+                          std::function<void(const FlutterError&)>&& on_error);
+
+ private:
+  ::flutter::BinaryMessenger* binary_messenger_;
+  std::string message_channel_suffix_;
+};
+
 // The core interface that the Dart platform_test code implements for host
 // integration tests to call into.
 //
@@ -1695,12 +1824,61 @@ class FlutterIntegrationCoreApi {
   void EchoAsyncString(const std::string& a_string,
                        std::function<void(const std::string&)>&& on_success,
                        std::function<void(const FlutterError&)>&& on_error);
+  // Returns true if the async FlutterApi method is run on the root isolate.
+  void IsAsyncFlutterApiOnRoot(
+      std::function<void(bool)>&& on_success,
+      std::function<void(const FlutterError&)>&& on_error);
 
  private:
   ::flutter::BinaryMessenger* binary_messenger_;
   std::string message_channel_suffix_;
 };
 
+// A Host API using callback-based asynchronous methods (@asyncCallback).
+//
+// Generated interface from Pigeon that represents a handler of messages from
+// Flutter.
+class HostCallbackCoreApi {
+ public:
+  HostCallbackCoreApi(const HostCallbackCoreApi&) = delete;
+  HostCallbackCoreApi& operator=(const HostCallbackCoreApi&) = delete;
+  virtual ~HostCallbackCoreApi() {}
+  virtual void Noop(
+      std::function<void(std::optional<FlutterError> reply)> result) = 0;
+  virtual void EchoString(
+      const std::string& a_string,
+      std::function<void(ErrorOr<std::string> reply)> result) = 0;
+  virtual void EchoAllTypes(
+      const AllTypes& everything,
+      std::function<void(ErrorOr<AllTypes> reply)> result) = 0;
+  virtual void EchoNullableString(
+      const std::string* a_string,
+      std::function<void(ErrorOr<std::optional<std::string>> reply)>
+          result) = 0;
+  virtual void ThrowError(
+      std::function<
+          void(ErrorOr<std::optional<::flutter::EncodableValue>> reply)>
+          result) = 0;
+  virtual void ThrowErrorFromVoid(
+      std::function<void(std::optional<FlutterError> reply)> result) = 0;
+  virtual void TaskQueueIsBackgroundThread(
+      std::function<void(ErrorOr<bool> reply)> result) = 0;
+
+  // The codec used by HostCallbackCoreApi.
+  static const ::flutter::StandardMessageCodec& GetCodec();
+  // Sets up an instance of `HostCallbackCoreApi` to handle messages through the
+  // `binary_messenger`.
+  static void SetUp(::flutter::BinaryMessenger* binary_messenger,
+                    HostCallbackCoreApi* api);
+  static void SetUp(::flutter::BinaryMessenger* binary_messenger,
+                    HostCallbackCoreApi* api,
+                    const std::string& message_channel_suffix);
+  static ::flutter::EncodableValue WrapError(std::string_view error_message);
+  static ::flutter::EncodableValue WrapError(const FlutterError& error);
+
+ protected:
+  HostCallbackCoreApi() = default;
+};
 // An API that can be implemented for minimal, compile-only tests.
 //
 // Generated interface from Pigeon that represents a handler of messages from

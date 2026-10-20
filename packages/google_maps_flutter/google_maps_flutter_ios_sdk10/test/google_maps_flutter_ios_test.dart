@@ -43,28 +43,18 @@ void main() {
 
   test('getScreenCoordinate converts and passes values correctly', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     // Arbitrary values that are all different from each other.
     const latLng = LatLng(10, 20);
     const expectedCoord = ScreenCoordinate(x: 30, y: 40);
     when(api.getScreenCoordinate(any)).thenAnswer(
-      (_) async => PlatformPoint(
-        x: expectedCoord.x.toDouble(),
-        y: expectedCoord.y.toDouble(),
-      ),
+      (_) async => PlatformPoint(x: expectedCoord.x.toDouble(), y: expectedCoord.y.toDouble()),
     );
 
-    final ScreenCoordinate coord = await maps.getScreenCoordinate(
-      latLng,
-      mapId: mapId,
-    );
+    final ScreenCoordinate coord = await maps.getScreenCoordinate(latLng, mapId: mapId);
     expect(coord, expectedCoord);
-    final VerificationResult verification = verify(
-      api.getScreenCoordinate(captureAny),
-    );
+    final VerificationResult verification = verify(api.getScreenCoordinate(captureAny));
     final passedLatLng = verification.captured[0] as PlatformLatLng;
     expect(passedLatLng.latitude, latLng.latitude);
     expect(passedLatLng.longitude, latLng.longitude);
@@ -72,18 +62,14 @@ void main() {
 
   test('getLatLng converts and passes values correctly', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     // Arbitrary values that are all different from each other.
     const expectedLatLng = LatLng(10, 20);
     const coord = ScreenCoordinate(x: 30, y: 40);
     when(api.getLatLng(any)).thenAnswer(
-      (_) async => PlatformLatLng(
-        latitude: expectedLatLng.latitude,
-        longitude: expectedLatLng.longitude,
-      ),
+      (_) async =>
+          PlatformLatLng(latitude: expectedLatLng.latitude, longitude: expectedLatLng.longitude),
     );
 
     final LatLng latLng = await maps.getLatLng(coord, mapId: mapId);
@@ -96,9 +82,7 @@ void main() {
 
   test('getVisibleRegion converts and passes values correctly', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     // Arbitrary values that are all different from each other.
     final expectedBounds = LatLngBounds(
@@ -124,16 +108,14 @@ void main() {
 
   test('moveCamera calls through with expected scrollBy', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     final CameraUpdate update = CameraUpdate.scrollBy(10, 20);
     await maps.moveCamera(update, mapId: mapId);
 
     final VerificationResult verification = verify(api.moveCamera(captureAny));
     final passedUpdate = verification.captured[0] as PlatformCameraUpdate;
-    final scroll = passedUpdate.cameraUpdate as PlatformCameraUpdateScrollBy;
+    final scroll = passedUpdate as PlatformCameraUpdateScrollBy;
     update as CameraUpdateScrollBy;
     expect(scroll.dx, update.dx);
     expect(scroll.dy, update.dy);
@@ -141,18 +123,14 @@ void main() {
 
   test('animateCamera calls through with expected scrollBy', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     final CameraUpdate update = CameraUpdate.scrollBy(10, 20);
     await maps.animateCamera(update, mapId: mapId);
 
-    final VerificationResult verification = verify(
-      api.animateCamera(captureAny, captureAny),
-    );
+    final VerificationResult verification = verify(api.animateCamera(captureAny, captureAny));
     final passedUpdate = verification.captured[0] as PlatformCameraUpdate;
-    final scroll = passedUpdate.cameraUpdate as PlatformCameraUpdateScrollBy;
+    final scroll = passedUpdate as PlatformCameraUpdateScrollBy;
     update as CameraUpdateScrollBy;
     expect(scroll.dx, update.dx);
     expect(scroll.dy, update.dy);
@@ -161,26 +139,16 @@ void main() {
 
   test('animateCameraWithConfiguration calls through', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     final CameraUpdate update = CameraUpdate.scrollBy(10, 20);
-    const configuration = CameraUpdateAnimationConfiguration(
-      duration: Duration(seconds: 1),
-    );
+    const configuration = CameraUpdateAnimationConfiguration(duration: Duration(seconds: 1));
     expect(configuration.duration?.inSeconds, 1);
-    await maps.animateCameraWithConfiguration(
-      update,
-      configuration,
-      mapId: mapId,
-    );
+    await maps.animateCameraWithConfiguration(update, configuration, mapId: mapId);
 
-    final VerificationResult verification = verify(
-      api.animateCamera(captureAny, captureAny),
-    );
+    final VerificationResult verification = verify(api.animateCamera(captureAny, captureAny));
     final passedUpdate = verification.captured[0] as PlatformCameraUpdate;
-    final scroll = passedUpdate.cameraUpdate as PlatformCameraUpdateScrollBy;
+    final scroll = passedUpdate as PlatformCameraUpdateScrollBy;
     update as CameraUpdateScrollBy;
     expect(scroll.dx, update.dx);
     expect(scroll.dy, update.dy);
@@ -191,9 +159,7 @@ void main() {
 
   test('getZoomLevel passes values correctly', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     const expectedZoom = 4.2;
     when(api.getZoomLevel()).thenAnswer((_) async => expectedZoom);
@@ -204,9 +170,7 @@ void main() {
 
   test('showInfoWindow calls through', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     const markedId = 'a_marker';
     await maps.showMarkerInfoWindow(const MarkerId(markedId), mapId: mapId);
@@ -216,9 +180,7 @@ void main() {
 
   test('hideInfoWindow calls through', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     const markedId = 'a_marker';
     await maps.hideMarkerInfoWindow(const MarkerId(markedId), mapId: mapId);
@@ -228,27 +190,17 @@ void main() {
 
   test('isInfoWindowShown calls through', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     const markedId = 'a_marker';
     when(api.isInfoWindowShown(markedId)).thenAnswer((_) async => true);
 
-    expect(
-      await maps.isMarkerInfoWindowShown(
-        const MarkerId(markedId),
-        mapId: mapId,
-      ),
-      true,
-    );
+    expect(await maps.isMarkerInfoWindowShown(const MarkerId(markedId), mapId: mapId), true);
   });
 
   test('takeSnapshot calls through', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     final fakeSnapshot = Uint8List(10);
     when(api.takeSnapshot()).thenAnswer((_) async => fakeSnapshot);
@@ -258,9 +210,7 @@ void main() {
 
   test('clearTileCache calls through', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     const tileOverlayId = 'overlay';
     await maps.clearTileCache(const TileOverlayId(tileOverlayId), mapId: mapId);
@@ -270,16 +220,11 @@ void main() {
 
   test('updateMapConfiguration passes expected arguments', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     // Set some arbitrary options.
     final cameraBounds = CameraTargetBounds(
-      LatLngBounds(
-        southwest: const LatLng(10, 20),
-        northeast: const LatLng(30, 40),
-      ),
+      LatLngBounds(southwest: const LatLng(10, 20), northeast: const LatLng(30, 40)),
     );
     final config = MapConfiguration(
       compassEnabled: true,
@@ -288,9 +233,7 @@ void main() {
     );
     await maps.updateMapConfiguration(config, mapId: mapId);
 
-    final VerificationResult verification = verify(
-      api.updateMapConfiguration(captureAny),
-    );
+    final VerificationResult verification = verify(api.updateMapConfiguration(captureAny));
     final passedConfig = verification.captured[0] as PlatformMapConfiguration;
     // Each set option should be present.
     expect(passedConfig.compassEnabled, true);
@@ -319,16 +262,11 @@ void main() {
 
   test('updateMapOptions passes expected arguments', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     // Set some arbitrary options.
     final cameraBounds = CameraTargetBounds(
-      LatLngBounds(
-        southwest: const LatLng(10, 20),
-        northeast: const LatLng(30, 40),
-      ),
+      LatLngBounds(southwest: const LatLng(10, 20), northeast: const LatLng(30, 40)),
     );
     final config = <String, Object?>{
       'compassEnabled': true,
@@ -337,9 +275,7 @@ void main() {
     };
     await maps.updateMapOptions(config, mapId: mapId);
 
-    final VerificationResult verification = verify(
-      api.updateMapConfiguration(captureAny),
-    );
+    final VerificationResult verification = verify(api.updateMapConfiguration(captureAny));
     final passedConfig = verification.captured[0] as PlatformMapConfiguration;
     // Each set option should be present.
     expect(passedConfig.compassEnabled, true);
@@ -368,19 +304,14 @@ void main() {
 
   test('updateCircles passes expected arguments', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     const object1 = Circle(circleId: CircleId('1'));
     const object2old = Circle(circleId: CircleId('2'));
     final Circle object2new = object2old.copyWith(radiusParam: 42);
     const object3 = Circle(circleId: CircleId('3'));
     await maps.updateCircles(
-      CircleUpdates.from(
-        <Circle>{object1, object2old},
-        <Circle>{object2new, object3},
-      ),
+      CircleUpdates.from(<Circle>{object1, object2old}, <Circle>{object2new, object3}),
       mapId: mapId,
     );
 
@@ -427,17 +358,12 @@ void main() {
 
   test('updateClusterManagers passes expected arguments', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     const object1 = ClusterManager(clusterManagerId: ClusterManagerId('1'));
     const object3 = ClusterManager(clusterManagerId: ClusterManagerId('3'));
     await maps.updateClusterManagers(
-      ClusterManagerUpdates.from(
-        <ClusterManager>{object1},
-        <ClusterManager>{object3},
-      ),
+      ClusterManagerUpdates.from(<ClusterManager>{object1}, <ClusterManager>{object3}),
       mapId: mapId,
     );
 
@@ -458,19 +384,14 @@ void main() {
 
   test('updateMarkers passes expected arguments', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     const object1 = Marker(markerId: MarkerId('1'));
     const object2old = Marker(markerId: MarkerId('2'));
     final Marker object2new = object2old.copyWith(rotationParam: 42);
     const object3 = Marker(markerId: MarkerId('3'));
     await maps.updateMarkers(
-      MarkerUpdates.from(
-        <Marker>{object1, object2old},
-        <Marker>{object2new, object3},
-      ),
+      MarkerUpdates.from(<Marker>{object1, object2old}, <Marker>{object2new, object3}),
       mapId: mapId,
     );
 
@@ -494,10 +415,8 @@ void main() {
       expect(firstChanged.draggable, object2new.draggable);
       expect(firstChanged.flat, object2new.flat);
       expect(
-        firstChanged.icon.bitmap.runtimeType,
-        GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(
-          object2new.icon,
-        ).bitmap.runtimeType,
+        firstChanged.icon.runtimeType,
+        GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(object2new.icon).runtimeType,
       );
       expect(firstChanged.infoWindow.title, object2new.infoWindow.title);
       expect(firstChanged.infoWindow.snippet, object2new.infoWindow.snippet);
@@ -522,10 +441,8 @@ void main() {
       expect(firstAdded.draggable, object3.draggable);
       expect(firstAdded.flat, object3.flat);
       expect(
-        firstAdded.icon.bitmap.runtimeType,
-        GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(
-          object3.icon,
-        ).bitmap.runtimeType,
+        firstAdded.icon.runtimeType,
+        GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(object3.icon).runtimeType,
       );
       expect(firstAdded.infoWindow.title, object3.infoWindow.title);
       expect(firstAdded.infoWindow.snippet, object3.infoWindow.snippet);
@@ -543,21 +460,17 @@ void main() {
 
   test('updateMarkers passes expected arguments (AdvancedMarkers)', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     final object1 = AdvancedMarker(markerId: const MarkerId('1'));
     final object2old = AdvancedMarker(markerId: const MarkerId('2'));
     final AdvancedMarker object2new = object2old.copyWith(
       rotationParam: 42,
-      collisionBehaviorParam:
-          advanced_marker.MarkerCollisionBehavior.optionalAndHidesLowerPriority,
+      collisionBehaviorParam: advanced_marker.MarkerCollisionBehavior.optionalAndHidesLowerPriority,
     );
     final object3 = AdvancedMarker(
       markerId: const MarkerId('3'),
-      collisionBehavior:
-          advanced_marker.MarkerCollisionBehavior.requiredAndHidesOptional,
+      collisionBehavior: advanced_marker.MarkerCollisionBehavior.requiredAndHidesOptional,
     );
     await maps.updateMarkers(
       MarkerUpdates.from(
@@ -587,10 +500,8 @@ void main() {
       expect(firstChanged.draggable, object2new.draggable);
       expect(firstChanged.flat, object2new.flat);
       expect(
-        firstChanged.icon.bitmap.runtimeType,
-        GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(
-          object2new.icon,
-        ).bitmap.runtimeType,
+        firstChanged.icon.runtimeType,
+        GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(object2new.icon).runtimeType,
       );
       expect(firstChanged.infoWindow.title, object2new.infoWindow.title);
       expect(firstChanged.infoWindow.snippet, object2new.infoWindow.snippet);
@@ -600,7 +511,7 @@ void main() {
       expect(firstChanged.position.longitude, object2new.position.longitude);
       expect(firstChanged.rotation, object2new.rotation);
       expect(firstChanged.visible, object2new.visible);
-      expect(firstChanged.zIndex, object2new.zIndex);
+      expect(firstChanged.zIndex, object2new.zIndexInt);
       expect(firstChanged.markerId, object2new.markerId.value);
       expect(firstChanged.clusterManagerId, object2new.clusterManagerId?.value);
       expect(
@@ -621,10 +532,8 @@ void main() {
       expect(firstAdded.draggable, object3.draggable);
       expect(firstAdded.flat, object3.flat);
       expect(
-        firstAdded.icon.bitmap.runtimeType,
-        GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(
-          object3.icon,
-        ).bitmap.runtimeType,
+        firstAdded.icon.runtimeType,
+        GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(object3.icon).runtimeType,
       );
       expect(firstAdded.infoWindow.title, object3.infoWindow.title);
       expect(firstAdded.infoWindow.snippet, object3.infoWindow.snippet);
@@ -634,7 +543,7 @@ void main() {
       expect(firstAdded.position.longitude, object3.position.longitude);
       expect(firstAdded.rotation, object3.rotation);
       expect(firstAdded.visible, object3.visible);
-      expect(firstAdded.zIndex, object3.zIndex);
+      expect(firstAdded.zIndex, object3.zIndexInt);
       expect(firstAdded.markerId, object3.markerId.value);
       expect(firstAdded.clusterManagerId, object3.clusterManagerId?.value);
       expect(
@@ -648,19 +557,14 @@ void main() {
 
   test('updatePolygons passes expected arguments', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     const object1 = Polygon(polygonId: PolygonId('1'));
     const object2old = Polygon(polygonId: PolygonId('2'));
     final Polygon object2new = object2old.copyWith(strokeWidthParam: 42);
     const object3 = Polygon(polygonId: PolygonId('3'));
     await maps.updatePolygons(
-      PolygonUpdates.from(
-        <Polygon>{object1, object2old},
-        <Polygon>{object2new, object3},
-      ),
+      PolygonUpdates.from(<Polygon>{object1, object2old}, <Polygon>{object2new, object3}),
       mapId: mapId,
     );
 
@@ -707,9 +611,7 @@ void main() {
 
   test('updatePolylines passes expected arguments', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     const object1 = Polyline(polylineId: PolylineId('1'));
     const object2old = Polyline(polylineId: PolylineId('2'));
@@ -718,20 +620,14 @@ void main() {
       startCapParam: Cap.squareCap,
       endCapParam: Cap.buttCap,
     );
-    final Cap customCap = Cap.customCapFromBitmap(
-      BitmapDescriptor.defaultMarker,
-      refWidth: 15,
-    );
+    final Cap customCap = Cap.customCapFromBitmap(BitmapDescriptor.defaultMarker, refWidth: 15);
     final object3 = Polyline(
       polylineId: const PolylineId('3'),
       startCap: customCap,
       endCap: Cap.roundCap,
     );
     await maps.updatePolylines(
-      PolylineUpdates.from(
-        <Polyline>{object1, object2old},
-        <Polyline>{object2new, object3},
-      ),
+      PolylineUpdates.from(<Polyline>{object1, object2old}, <Polyline>{object2new, object3}),
       mapId: mapId,
     );
 
@@ -746,10 +642,7 @@ void main() {
       expect(actual.consumesTapEvents, expected.consumeTapEvents);
       _expectColorsEqual(actual.color, expected.color);
       expect(actual.geodesic, expected.geodesic);
-      expect(
-        actual.jointType,
-        platformJointTypeFromJointType(expected.jointType),
-      );
+      expect(actual.jointType, platformJointTypeFromJointType(expected.jointType));
       expect(actual.visible, expected.visible);
       expect(actual.width, expected.width);
       expect(actual.zIndex, expected.zIndex);
@@ -759,8 +652,7 @@ void main() {
         expect(point?.longitude, actual.points[i].longitude);
       }
       expect(actual.patterns.length, expected.patterns.length);
-      for (final (int i, PlatformPatternItem? pattern)
-          in actual.patterns.indexed) {
+      for (final (int i, PlatformPatternItem? pattern) in actual.patterns.indexed) {
         expect(
           pattern?.encode(),
           platformPatternItemFromPatternItem(expected.patterns[i]).encode(),
@@ -781,9 +673,7 @@ void main() {
 
   test('updateTileOverlays passes expected arguments', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     const object1 = TileOverlay(tileOverlayId: TileOverlayId('1'));
     const object2old = TileOverlay(tileOverlayId: TileOverlayId('2'));
@@ -830,9 +720,7 @@ void main() {
 
   test('updateGroundOverlays passes expected arguments', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     final image = AssetMapBitmap(
       'assets/red_square.png',
@@ -842,18 +730,12 @@ void main() {
 
     final object1 = GroundOverlay.fromBounds(
       groundOverlayId: const GroundOverlayId('1'),
-      bounds: LatLngBounds(
-        southwest: const LatLng(10, 20),
-        northeast: const LatLng(30, 40),
-      ),
+      bounds: LatLngBounds(southwest: const LatLng(10, 20), northeast: const LatLng(30, 40)),
       image: image,
     );
     final object2old = GroundOverlay.fromBounds(
       groundOverlayId: const GroundOverlayId('2'),
-      bounds: LatLngBounds(
-        southwest: const LatLng(10, 20),
-        northeast: const LatLng(30, 40),
-      ),
+      bounds: LatLngBounds(southwest: const LatLng(10, 20), northeast: const LatLng(30, 40)),
       image: image,
     );
     final GroundOverlay object2new = object2old.copyWith(
@@ -895,22 +777,10 @@ void main() {
       expect(firstChanged.anchor?.x, object2new.anchor?.dx);
       expect(firstChanged.anchor?.y, object2new.anchor?.dy);
       expect(firstChanged.bearing, object2new.bearing);
-      expect(
-        firstChanged.bounds?.northeast.latitude,
-        object2new.bounds?.northeast.latitude,
-      );
-      expect(
-        firstChanged.bounds?.northeast.longitude,
-        object2new.bounds?.northeast.longitude,
-      );
-      expect(
-        firstChanged.bounds?.southwest.latitude,
-        object2new.bounds?.southwest.latitude,
-      );
-      expect(
-        firstChanged.bounds?.southwest.longitude,
-        object2new.bounds?.southwest.longitude,
-      );
+      expect(firstChanged.bounds?.northeast.latitude, object2new.bounds?.northeast.latitude);
+      expect(firstChanged.bounds?.northeast.longitude, object2new.bounds?.northeast.longitude);
+      expect(firstChanged.bounds?.southwest.latitude, object2new.bounds?.southwest.latitude);
+      expect(firstChanged.bounds?.southwest.longitude, object2new.bounds?.southwest.longitude);
       expect(firstChanged.visible, object2new.visible);
       expect(firstChanged.clickable, object2new.clickable);
       expect(firstChanged.zIndex, object2new.zIndex);
@@ -919,10 +789,8 @@ void main() {
       expect(firstChanged.zoomLevel, object2new.zoomLevel);
       expect(firstChanged.transparency, object2new.transparency);
       expect(
-        firstChanged.image.bitmap.runtimeType,
-        GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(
-          object2new.image,
-        ).bitmap.runtimeType,
+        firstChanged.image.runtimeType,
+        GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(object2new.image).runtimeType,
       );
     }
     // Object three should be added.
@@ -932,22 +800,10 @@ void main() {
       expect(firstAdded.anchor?.x, object3.anchor?.dx);
       expect(firstAdded.anchor?.y, object3.anchor?.dy);
       expect(firstAdded.bearing, object3.bearing);
-      expect(
-        firstAdded.bounds?.northeast.latitude,
-        object3.bounds?.northeast.latitude,
-      );
-      expect(
-        firstAdded.bounds?.northeast.longitude,
-        object3.bounds?.northeast.longitude,
-      );
-      expect(
-        firstAdded.bounds?.southwest.latitude,
-        object3.bounds?.southwest.latitude,
-      );
-      expect(
-        firstAdded.bounds?.southwest.longitude,
-        object3.bounds?.southwest.longitude,
-      );
+      expect(firstAdded.bounds?.northeast.latitude, object3.bounds?.northeast.latitude);
+      expect(firstAdded.bounds?.northeast.longitude, object3.bounds?.northeast.longitude);
+      expect(firstAdded.bounds?.southwest.latitude, object3.bounds?.southwest.latitude);
+      expect(firstAdded.bounds?.southwest.longitude, object3.bounds?.southwest.longitude);
       expect(firstAdded.visible, object3.visible);
       expect(firstAdded.clickable, object3.clickable);
       expect(firstAdded.zIndex, object3.zIndex);
@@ -956,49 +812,40 @@ void main() {
       expect(firstAdded.zoomLevel, object3.zoomLevel);
       expect(firstAdded.transparency, object3.transparency);
       expect(
-        firstAdded.image.bitmap.runtimeType,
-        GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(
-          object3.image,
-        ).bitmap.runtimeType,
+        firstAdded.image.runtimeType,
+        GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(object3.image).runtimeType,
       );
     }
   });
 
-  test(
-    'updateGroundOverlays throws assertion error on unsupported ground overlays',
-    () async {
-      const mapId = 1;
-      final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
+  test('updateGroundOverlays throws assertion error on unsupported ground overlays', () async {
+    const mapId = 1;
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
+
+    final image = AssetMapBitmap(
+      'assets/red_square.png',
+      imagePixelRatio: 1.0,
+      bitmapScaling: MapBitmapScaling.none,
+    );
+
+    final object3 = GroundOverlay.fromPosition(
+      groundOverlayId: const GroundOverlayId('1'),
+      position: const LatLng(10, 20),
+      // Assert should be thrown because zoomLevel is not set for position-based
+      // ground overlay on iOS.
+      // ignore: avoid_redundant_argument_values
+      zoomLevel: null,
+      image: image,
+    );
+
+    expect(
+      () async => maps.updateGroundOverlays(
+        GroundOverlayUpdates.from(const <GroundOverlay>{}, <GroundOverlay>{object3}),
         mapId: mapId,
-      );
-
-      final image = AssetMapBitmap(
-        'assets/red_square.png',
-        imagePixelRatio: 1.0,
-        bitmapScaling: MapBitmapScaling.none,
-      );
-
-      final object3 = GroundOverlay.fromPosition(
-        groundOverlayId: const GroundOverlayId('1'),
-        position: const LatLng(10, 20),
-        // Assert should be thrown because zoomLevel is not set for position-based
-        // ground overlay on iOS.
-        // ignore: avoid_redundant_argument_values
-        zoomLevel: null,
-        image: image,
-      );
-
-      expect(
-        () async => maps.updateGroundOverlays(
-          GroundOverlayUpdates.from(const <GroundOverlay>{}, <GroundOverlay>{
-            object3,
-          }),
-          mapId: mapId,
-        ),
-        throwsAssertionError,
-      );
-    },
-  );
+      ),
+      throwsAssertionError,
+    );
+  });
 
   test('markers send drag event to correct streams', () async {
     const mapId = 1;
@@ -1008,19 +855,13 @@ void main() {
     final fakePosition = PlatformLatLng(latitude: 1.0, longitude: 1.0);
 
     final maps = GoogleMapsFlutterIOS();
-    final HostMapMessageHandler callbackHandler = maps.ensureHandlerInitialized(
-      mapId,
-    );
+    final HostMapMessageHandler callbackHandler = maps.ensureHandlerInitialized(mapId);
 
     final markerDragStartStream = StreamQueue<MarkerDragStartEvent>(
       maps.onMarkerDragStart(mapId: mapId),
     );
-    final markerDragStream = StreamQueue<MarkerDragEvent>(
-      maps.onMarkerDrag(mapId: mapId),
-    );
-    final markerDragEndStream = StreamQueue<MarkerDragEndEvent>(
-      maps.onMarkerDragEnd(mapId: mapId),
-    );
+    final markerDragStream = StreamQueue<MarkerDragEvent>(maps.onMarkerDrag(mapId: mapId));
+    final markerDragEndStream = StreamQueue<MarkerDragEndEvent>(maps.onMarkerDragEnd(mapId: mapId));
 
     // Simulate messages from the native side.
     callbackHandler.onMarkerDragStart(dragStartId, fakePosition);
@@ -1037,9 +878,7 @@ void main() {
     const objectId = 'object-id';
 
     final maps = GoogleMapsFlutterIOS();
-    final HostMapMessageHandler callbackHandler = maps.ensureHandlerInitialized(
-      mapId,
-    );
+    final HostMapMessageHandler callbackHandler = maps.ensureHandlerInitialized(mapId);
 
     final stream = StreamQueue<MarkerTapEvent>(maps.onMarkerTap(mapId: mapId));
 
@@ -1054,9 +893,7 @@ void main() {
     const objectId = 'object-id';
 
     final maps = GoogleMapsFlutterIOS();
-    final HostMapMessageHandler callbackHandler = maps.ensureHandlerInitialized(
-      mapId,
-    );
+    final HostMapMessageHandler callbackHandler = maps.ensureHandlerInitialized(mapId);
 
     final stream = StreamQueue<CircleTapEvent>(maps.onCircleTap(mapId: mapId));
 
@@ -1064,6 +901,20 @@ void main() {
     callbackHandler.onCircleTap(objectId);
 
     expect((await stream.next).value.value, equals(objectId));
+  });
+
+  test('points of interest send tap events to correct stream', () async {
+    const mapId = 1;
+    const placeId = 'place-id';
+
+    final maps = GoogleMapsFlutterIOS();
+    final HostMapMessageHandler callbackHandler = maps.ensureHandlerInitialized(mapId);
+
+    final stream = StreamQueue<PointOfInterestTapEvent>(maps.onPointOfInterestTap(mapId: mapId));
+
+    callbackHandler.onPointOfInterestTap(placeId);
+
+    expect((await stream.next).value.value, equals(placeId));
   });
 
   test('clusters send tap events to correct stream', () async {
@@ -1083,13 +934,9 @@ void main() {
     );
 
     final maps = GoogleMapsFlutterIOS();
-    final HostMapMessageHandler callbackHandler = maps.ensureHandlerInitialized(
-      mapId,
-    );
+    final HostMapMessageHandler callbackHandler = maps.ensureHandlerInitialized(mapId);
 
-    final stream = StreamQueue<ClusterTapEvent>(
-      maps.onClusterTap(mapId: mapId),
-    );
+    final stream = StreamQueue<ClusterTapEvent>(maps.onClusterTap(mapId: mapId));
 
     // Simulate message from the native side.
     callbackHandler.onClusterTap(cluster);
@@ -1099,15 +946,9 @@ void main() {
     expect(eventValue.position.latitude, fakePosition.latitude);
     expect(eventValue.position.longitude, fakePosition.longitude);
     expect(eventValue.bounds.southwest.latitude, fakeBounds.southwest.latitude);
-    expect(
-      eventValue.bounds.southwest.longitude,
-      fakeBounds.southwest.longitude,
-    );
+    expect(eventValue.bounds.southwest.longitude, fakeBounds.southwest.longitude);
     expect(eventValue.bounds.northeast.latitude, fakeBounds.northeast.latitude);
-    expect(
-      eventValue.bounds.northeast.longitude,
-      fakeBounds.northeast.longitude,
-    );
+    expect(eventValue.bounds.northeast.longitude, fakeBounds.northeast.longitude);
     expect(eventValue.markerIds.length, markerIds.length);
     expect(eventValue.markerIds.first.value, markerIds.first);
   });
@@ -1117,13 +958,9 @@ void main() {
     const objectId = 'object-id';
 
     final maps = GoogleMapsFlutterIOS();
-    final HostMapMessageHandler callbackHandler = maps.ensureHandlerInitialized(
-      mapId,
-    );
+    final HostMapMessageHandler callbackHandler = maps.ensureHandlerInitialized(mapId);
 
-    final stream = StreamQueue<PolygonTapEvent>(
-      maps.onPolygonTap(mapId: mapId),
-    );
+    final stream = StreamQueue<PolygonTapEvent>(maps.onPolygonTap(mapId: mapId));
 
     // Simulate message from the native side.
     callbackHandler.onPolygonTap(objectId);
@@ -1136,13 +973,9 @@ void main() {
     const objectId = 'object-id';
 
     final maps = GoogleMapsFlutterIOS();
-    final HostMapMessageHandler callbackHandler = maps.ensureHandlerInitialized(
-      mapId,
-    );
+    final HostMapMessageHandler callbackHandler = maps.ensureHandlerInitialized(mapId);
 
-    final stream = StreamQueue<PolylineTapEvent>(
-      maps.onPolylineTap(mapId: mapId),
-    );
+    final stream = StreamQueue<PolylineTapEvent>(maps.onPolylineTap(mapId: mapId));
 
     // Simulate message from the native side.
     callbackHandler.onPolylineTap(objectId);
@@ -1155,13 +988,9 @@ void main() {
     const objectId = 'object-id';
 
     final maps = GoogleMapsFlutterIOS();
-    final HostMapMessageHandler callbackHandler = maps.ensureHandlerInitialized(
-      mapId,
-    );
+    final HostMapMessageHandler callbackHandler = maps.ensureHandlerInitialized(mapId);
 
-    final stream = StreamQueue<GroundOverlayTapEvent>(
-      maps.onGroundOverlayTap(mapId: mapId),
-    );
+    final stream = StreamQueue<GroundOverlayTapEvent>(maps.onGroundOverlayTap(mapId: mapId));
 
     // Simulate message from the native side.
     callbackHandler.onGroundOverlayTap(objectId);
@@ -1171,9 +1000,7 @@ void main() {
 
   test('moveCamera calls through with expected newCameraPosition', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     const latLng = LatLng(10.0, 20.0);
     const position = CameraPosition(target: latLng);
@@ -1182,24 +1009,15 @@ void main() {
 
     final VerificationResult verification = verify(api.moveCamera(captureAny));
     final passedUpdate = verification.captured[0] as PlatformCameraUpdate;
-    final typedUpdate =
-        passedUpdate.cameraUpdate as PlatformCameraUpdateNewCameraPosition;
+    final typedUpdate = passedUpdate as PlatformCameraUpdateNewCameraPosition;
     update as CameraUpdateNewCameraPosition;
-    expect(
-      typedUpdate.cameraPosition.target.latitude,
-      update.cameraPosition.target.latitude,
-    );
-    expect(
-      typedUpdate.cameraPosition.target.longitude,
-      update.cameraPosition.target.longitude,
-    );
+    expect(typedUpdate.cameraPosition.target.latitude, update.cameraPosition.target.latitude);
+    expect(typedUpdate.cameraPosition.target.longitude, update.cameraPosition.target.longitude);
   });
 
   test('moveCamera calls through with expected newLatLng', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     const latLng = LatLng(10.0, 20.0);
     final CameraUpdate update = CameraUpdate.newLatLng(latLng);
@@ -1207,8 +1025,7 @@ void main() {
 
     final VerificationResult verification = verify(api.moveCamera(captureAny));
     final passedUpdate = verification.captured[0] as PlatformCameraUpdate;
-    final typedUpdate =
-        passedUpdate.cameraUpdate as PlatformCameraUpdateNewLatLng;
+    final typedUpdate = passedUpdate as PlatformCameraUpdateNewLatLng;
     update as CameraUpdateNewLatLng;
     expect(typedUpdate.latLng.latitude, update.latLng.latitude);
     expect(typedUpdate.latLng.longitude, update.latLng.longitude);
@@ -1216,9 +1033,7 @@ void main() {
 
   test('moveCamera calls through with expected newLatLngBounds', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     final latLng = LatLngBounds(
       northeast: const LatLng(10.0, 20.0),
@@ -1229,33 +1044,18 @@ void main() {
 
     final VerificationResult verification = verify(api.moveCamera(captureAny));
     final passedUpdate = verification.captured[0] as PlatformCameraUpdate;
-    final typedUpdate =
-        passedUpdate.cameraUpdate as PlatformCameraUpdateNewLatLngBounds;
+    final typedUpdate = passedUpdate as PlatformCameraUpdateNewLatLngBounds;
     update as CameraUpdateNewLatLngBounds;
-    expect(
-      typedUpdate.bounds.northeast.latitude,
-      update.bounds.northeast.latitude,
-    );
-    expect(
-      typedUpdate.bounds.northeast.longitude,
-      update.bounds.northeast.longitude,
-    );
-    expect(
-      typedUpdate.bounds.southwest.latitude,
-      update.bounds.southwest.latitude,
-    );
-    expect(
-      typedUpdate.bounds.southwest.longitude,
-      update.bounds.southwest.longitude,
-    );
+    expect(typedUpdate.bounds.northeast.latitude, update.bounds.northeast.latitude);
+    expect(typedUpdate.bounds.northeast.longitude, update.bounds.northeast.longitude);
+    expect(typedUpdate.bounds.southwest.latitude, update.bounds.southwest.latitude);
+    expect(typedUpdate.bounds.southwest.longitude, update.bounds.southwest.longitude);
     expect(typedUpdate.padding, update.padding);
   });
 
   test('moveCamera calls through with expected newLatLngZoom', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     const latLng = LatLng(10.0, 20.0);
     final CameraUpdate update = CameraUpdate.newLatLngZoom(latLng, 2.0);
@@ -1263,8 +1063,7 @@ void main() {
 
     final VerificationResult verification = verify(api.moveCamera(captureAny));
     final passedUpdate = verification.captured[0] as PlatformCameraUpdate;
-    final typedUpdate =
-        passedUpdate.cameraUpdate as PlatformCameraUpdateNewLatLngZoom;
+    final typedUpdate = passedUpdate as PlatformCameraUpdateNewLatLngZoom;
     update as CameraUpdateNewLatLngZoom;
     expect(typedUpdate.latLng.latitude, update.latLng.latitude);
     expect(typedUpdate.latLng.longitude, update.latLng.longitude);
@@ -1273,9 +1072,7 @@ void main() {
 
   test('moveCamera calls through with expected zoomBy', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     const focus = Offset(10.0, 20.0);
     final CameraUpdate update = CameraUpdate.zoomBy(2.0, focus);
@@ -1283,7 +1080,7 @@ void main() {
 
     final VerificationResult verification = verify(api.moveCamera(captureAny));
     final passedUpdate = verification.captured[0] as PlatformCameraUpdate;
-    final typedUpdate = passedUpdate.cameraUpdate as PlatformCameraUpdateZoomBy;
+    final typedUpdate = passedUpdate as PlatformCameraUpdateZoomBy;
     update as CameraUpdateZoomBy;
     expect(typedUpdate.focus?.x, update.focus?.dx);
     expect(typedUpdate.focus?.y, update.focus?.dy);
@@ -1292,71 +1089,62 @@ void main() {
 
   test('moveCamera calls through with expected zoomTo', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     final CameraUpdate update = CameraUpdate.zoomTo(2.0);
     await maps.moveCamera(update, mapId: mapId);
 
     final VerificationResult verification = verify(api.moveCamera(captureAny));
     final passedUpdate = verification.captured[0] as PlatformCameraUpdate;
-    final typedUpdate = passedUpdate.cameraUpdate as PlatformCameraUpdateZoomTo;
+    final typedUpdate = passedUpdate as PlatformCameraUpdateZoomTo;
     update as CameraUpdateZoomTo;
     expect(typedUpdate.zoom, update.zoom);
   });
 
   test('moveCamera calls through with expected zoomIn', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     final CameraUpdate update = CameraUpdate.zoomIn();
     await maps.moveCamera(update, mapId: mapId);
 
     final VerificationResult verification = verify(api.moveCamera(captureAny));
     final passedUpdate = verification.captured[0] as PlatformCameraUpdate;
-    final typedUpdate = passedUpdate.cameraUpdate as PlatformCameraUpdateZoom;
+    final typedUpdate = passedUpdate as PlatformCameraUpdateZoom;
     expect(typedUpdate.out, false);
   });
 
   test('moveCamera calls through with expected zoomOut', () async {
     const mapId = 1;
-    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(
-      mapId: mapId,
-    );
+    final (GoogleMapsFlutterIOS maps, MockMapsApi api) = setUpMockMap(mapId: mapId);
 
     final CameraUpdate update = CameraUpdate.zoomOut();
     await maps.moveCamera(update, mapId: mapId);
 
     final VerificationResult verification = verify(api.moveCamera(captureAny));
     final passedUpdate = verification.captured[0] as PlatformCameraUpdate;
-    final typedUpdate = passedUpdate.cameraUpdate as PlatformCameraUpdateZoom;
+    final typedUpdate = passedUpdate as PlatformCameraUpdateZoom;
     expect(typedUpdate.out, true);
   });
 
   test('MapBitmapScaling to PlatformMapBitmapScaling', () {
     expect(
-      GoogleMapsFlutterIOS.platformMapBitmapScalingFromScaling(
-        MapBitmapScaling.auto,
-      ),
+      GoogleMapsFlutterIOS.platformMapBitmapScalingFromScaling(MapBitmapScaling.auto),
       PlatformMapBitmapScaling.auto,
     );
     expect(
-      GoogleMapsFlutterIOS.platformMapBitmapScalingFromScaling(
-        MapBitmapScaling.none,
-      ),
+      GoogleMapsFlutterIOS.platformMapBitmapScalingFromScaling(MapBitmapScaling.none),
       PlatformMapBitmapScaling.none,
     );
   });
 
   test('DefaultMarker bitmap to PlatformBitmap', () {
     final BitmapDescriptor bitmap = BitmapDescriptor.defaultMarkerWithHue(10.0);
-    final PlatformBitmap platformBitmap =
-        GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(bitmap);
-    expect(platformBitmap.bitmap, isA<PlatformBitmapDefaultMarker>());
-    final typedBitmap = platformBitmap.bitmap as PlatformBitmapDefaultMarker;
+    final PlatformBitmap platformBitmap = GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(
+      bitmap,
+    );
+    expect(platformBitmap, isA<PlatformBitmapDefaultMarker>());
+    final typedBitmap = platformBitmap as PlatformBitmapDefaultMarker;
     expect(typedBitmap.hue, 10.0);
   });
 
@@ -1368,10 +1156,11 @@ void main() {
       width: 100.0,
       height: 200.0,
     );
-    final PlatformBitmap platformBitmap =
-        GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(bitmap);
-    expect(platformBitmap.bitmap, isA<PlatformBitmapBytesMap>());
-    final typedBitmap = platformBitmap.bitmap as PlatformBitmapBytesMap;
+    final PlatformBitmap platformBitmap = GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(
+      bitmap,
+    );
+    expect(platformBitmap, isA<PlatformBitmapBytesMap>());
+    final typedBitmap = platformBitmap as PlatformBitmapBytesMap;
     expect(typedBitmap.byteData, data);
     expect(typedBitmap.bitmapScaling, PlatformMapBitmapScaling.auto);
     expect(typedBitmap.imagePixelRatio, 2.0);
@@ -1381,16 +1170,12 @@ void main() {
 
   test('AssetMapBitmap bitmap to PlatformBitmap', () {
     const assetName = 'fake_asset_name';
-    final bitmap = AssetMapBitmap(
-      assetName,
-      imagePixelRatio: 2.0,
-      width: 100.0,
-      height: 200.0,
+    final bitmap = AssetMapBitmap(assetName, imagePixelRatio: 2.0, width: 100.0, height: 200.0);
+    final PlatformBitmap platformBitmap = GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(
+      bitmap,
     );
-    final PlatformBitmap platformBitmap =
-        GoogleMapsFlutterIOS.platformBitmapFromBitmapDescriptor(bitmap);
-    expect(platformBitmap.bitmap, isA<PlatformBitmapAssetMap>());
-    final typedBitmap = platformBitmap.bitmap as PlatformBitmapAssetMap;
+    expect(platformBitmap, isA<PlatformBitmapAssetMap>());
+    final typedBitmap = platformBitmap as PlatformBitmapAssetMap;
     expect(typedBitmap.assetName, assetName);
     expect(typedBitmap.bitmapScaling, PlatformMapBitmapScaling.auto);
     expect(typedBitmap.imagePixelRatio, 2.0);
@@ -1402,31 +1187,28 @@ void main() {
     const cloudMapId = '000000000000000'; // Dummy map ID.
     final passedCloudMapIdCompleter = Completer<String>();
 
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(SystemChannels.platform_views, (
-          MethodCall methodCall,
-        ) {
-          if (methodCall.method == 'create') {
-            final args = Map<String, dynamic>.from(
-              methodCall.arguments as Map<dynamic, dynamic>,
-            );
-            if (args.containsKey('params')) {
-              final paramsUint8List = args['params'] as Uint8List;
-              final byteData = ByteData.sublistView(paramsUint8List);
-              final creationParams =
-                  MapsApi.pigeonChannelCodec.decodeMessage(byteData)
-                      as PlatformMapViewCreationParams?;
-              if (creationParams != null) {
-                final String? passedMapId =
-                    creationParams.mapConfiguration.mapId;
-                if (passedMapId != null) {
-                  passedCloudMapIdCompleter.complete(passedMapId);
-                }
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform_views,
+      (MethodCall methodCall) {
+        if (methodCall.method == 'create') {
+          final args = Map<String, dynamic>.from(methodCall.arguments as Map<dynamic, dynamic>);
+          if (args.containsKey('params')) {
+            final paramsUint8List = args['params'] as Uint8List;
+            final byteData = ByteData.sublistView(paramsUint8List);
+            final creationParams =
+                MapsApi.pigeonChannelCodec.decodeMessage(byteData)
+                    as PlatformMapViewCreationParams?;
+            if (creationParams != null) {
+              final String? passedMapId = creationParams.mapConfiguration.mapId;
+              if (passedMapId != null) {
+                passedCloudMapIdCompleter.complete(passedMapId);
               }
             }
           }
-          return null;
-        });
+        }
+        return null;
+      },
+    );
 
     final maps = GoogleMapsFlutterIOS();
 
@@ -1437,10 +1219,7 @@ void main() {
           1,
           (int id) {},
           widgetConfiguration: const MapWidgetConfiguration(
-            initialCameraPosition: CameraPosition(
-              target: LatLng(0, 0),
-              zoom: 1,
-            ),
+            initialCameraPosition: CameraPosition(target: LatLng(0, 0), zoom: 1),
             textDirection: TextDirection.ltr,
           ),
           mapConfiguration: const MapConfiguration(mapId: cloudMapId),
@@ -1462,30 +1241,25 @@ void main() {
     ) async {
       final passedMarkerTypeCompleter = Completer<PlatformMarkerType>();
 
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(SystemChannels.platform_views, (
-            MethodCall methodCall,
-          ) {
-            if (methodCall.method == 'create') {
-              final args = Map<String, dynamic>.from(
-                methodCall.arguments as Map<dynamic, dynamic>,
-              );
-              if (args.containsKey('params')) {
-                final paramsUint8List = args['params'] as Uint8List;
-                final byteData = ByteData.sublistView(paramsUint8List);
-                final creationParams =
-                    MapsApi.pigeonChannelCodec.decodeMessage(byteData)
-                        as PlatformMapViewCreationParams?;
-                if (creationParams != null &&
-                    !passedMarkerTypeCompleter.isCompleted) {
-                  passedMarkerTypeCompleter.complete(
-                    creationParams.mapConfiguration.markerType,
-                  );
-                }
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+        SystemChannels.platform_views,
+        (MethodCall methodCall) {
+          if (methodCall.method == 'create') {
+            final args = Map<String, dynamic>.from(methodCall.arguments as Map<dynamic, dynamic>);
+            if (args.containsKey('params')) {
+              final paramsUint8List = args['params'] as Uint8List;
+              final byteData = ByteData.sublistView(paramsUint8List);
+              final creationParams =
+                  MapsApi.pigeonChannelCodec.decodeMessage(byteData)
+                      as PlatformMapViewCreationParams?;
+              if (creationParams != null && !passedMarkerTypeCompleter.isCompleted) {
+                passedMarkerTypeCompleter.complete(creationParams.mapConfiguration.markerType);
               }
             }
-            return null;
-          });
+          }
+          return null;
+        },
+      );
 
       final maps = GoogleMapsFlutterIOS();
 
@@ -1496,10 +1270,7 @@ void main() {
             1,
             (int id) {},
             widgetConfiguration: const MapWidgetConfiguration(
-              initialCameraPosition: CameraPosition(
-                target: LatLng(0, 0),
-                zoom: 1,
-              ),
+              initialCameraPosition: CameraPosition(target: LatLng(0, 0), zoom: 1),
               textDirection: TextDirection.ltr,
             ),
             mapConfiguration: MapConfiguration(markerType: markerType),
@@ -1513,11 +1284,10 @@ void main() {
     testWidgets('passes advancedMarker when MarkerType.advancedMarker is set', (
       WidgetTester tester,
     ) async {
-      final PlatformMarkerType passedMarkerType =
-          await getMarkerTypeFromCreationParams(
-            tester,
-            MarkerType.advancedMarker,
-          );
+      final PlatformMarkerType passedMarkerType = await getMarkerTypeFromCreationParams(
+        tester,
+        MarkerType.advancedMarker,
+      );
 
       expect(
         passedMarkerType,
@@ -1527,31 +1297,29 @@ void main() {
       );
     });
 
-    testWidgets('passes marker when MarkerType.marker is set', (
-      WidgetTester tester,
-    ) async {
-      final PlatformMarkerType passedMarkerType =
-          await getMarkerTypeFromCreationParams(tester, MarkerType.marker);
+    testWidgets('passes marker when MarkerType.marker is set', (WidgetTester tester) async {
+      final PlatformMarkerType passedMarkerType = await getMarkerTypeFromCreationParams(
+        tester,
+        MarkerType.marker,
+      );
 
       expect(
         passedMarkerType,
         PlatformMarkerType.marker,
-        reason:
-            'Should pass marker on PlatformView creation when MarkerType.marker is set',
+        reason: 'Should pass marker on PlatformView creation when MarkerType.marker is set',
       );
     });
 
-    testWidgets('passes marker when markerType is null', (
-      WidgetTester tester,
-    ) async {
-      final PlatformMarkerType passedMarkerType =
-          await getMarkerTypeFromCreationParams(tester, null);
+    testWidgets('passes marker when markerType is null', (WidgetTester tester) async {
+      final PlatformMarkerType passedMarkerType = await getMarkerTypeFromCreationParams(
+        tester,
+        null,
+      );
 
       expect(
         passedMarkerType,
         PlatformMarkerType.marker,
-        reason:
-            'Should default to marker on PlatformView creation when markerType is null',
+        reason: 'Should default to marker on PlatformView creation when markerType is null',
       );
     });
   });

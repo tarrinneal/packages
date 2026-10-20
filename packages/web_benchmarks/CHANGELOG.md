@@ -1,3 +1,12 @@
+## NEXT
+
+* Updates minimum supported SDK version to Flutter 3.41/Dart 3.11.
+
+## 4.1.2
+
+* Updates Chrome launch arguments to unblock Chrome 145+ upgrade.
+* Updates minimum supported SDK version to Flutter 3.38/Dart 3.10.
+
 ## 4.1.1
 
 * Makes connecting to Chrome more robust.

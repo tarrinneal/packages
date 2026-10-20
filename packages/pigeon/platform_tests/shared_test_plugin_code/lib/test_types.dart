@@ -41,12 +41,7 @@ final List<List<Object>> nonNullListList = <List<Object>>[
 
 final List<List<bool>> nonNullBoolListList = <List<bool>>[nonNullBoolList];
 
-final Map<Object, Object> nonNullMap = <Object, Object>{
-  'a': 1,
-  'b': 2.0,
-  'c': 'three',
-  'd': false,
-};
+final Map<Object, Object> nonNullMap = <Object, Object>{'a': 1, 'b': 2.0, 'c': 'three', 'd': false};
 
 final Map<String, String> nonNullStringMap = <String, String>{
   'a': '1',
@@ -57,12 +52,7 @@ final Map<String, String> nonNullStringMap = <String, String>{
 
 final Map<int, int> nonNullIntMap = <int, int>{0: 0, 1: 1, 2: 3, 4: -1};
 
-final Map<double, double> nonNullDoubleMap = <double, double>{
-  0.0: 0,
-  1.1: 2.0,
-  3: 0.3,
-  -.4: -0.2,
-};
+final Map<double, double> nonNullDoubleMap = <double, double>{0.0: 0, 1.1: 2.0, 3: 0.3, -.4: -0.2};
 
 final Map<int, bool> nonNullBoolMap = <int, bool>{0: true, 1: false, 2: true};
 
@@ -82,9 +72,7 @@ final Map<int, List<Object>> nonNullListMap = <int, List<Object>>{
   6: nonNullEnumList,
 };
 
-final Map<int, List<bool>> nonNullBoolListMap = <int, List<bool>>{
-  0: nonNullBoolList,
-};
+final Map<int, List<bool>> nonNullBoolListMap = <int, List<bool>>{0: nonNullBoolList};
 
 final Map<int, Map<Object, Object>> nonNullMapMap = <int, Map<Object, Object>>{
   0: nonNullMap,
@@ -104,19 +92,11 @@ final List<Map<Object, Object>> nonNullMapList = <Map<Object, Object>>[
   nonNullEnumMap,
 ];
 
-final List<Map<int, bool>> nonNullBoolMapList = <Map<int, bool>>[
-  nonNullBoolMap,
-];
+final List<Map<int, bool>> nonNullBoolMapList = <Map<int, bool>>[nonNullBoolMap];
 
 final List<Object?> list = <Object?>['Thing 1', 2, true, 3.14, null];
 
-final List<String?> stringList = <String?>[
-  'Thing 1',
-  '2',
-  'true',
-  '3.14',
-  null,
-];
+final List<String?> stringList = <String?>['Thing 1', '2', 'true', '3.14', null];
 
 final List<int?> intList = <int?>[1, 2, 3, 4, null];
 
@@ -170,12 +150,7 @@ final Map<double?, double?> doubleMap = <double?, double?>{
   1111111111111111.11111111111111111111111111111111111111111111: null,
 };
 
-final Map<int?, bool?> boolMap = <int?, bool?>{
-  0: true,
-  1: false,
-  2: true,
-  3: null,
-};
+final Map<int?, bool?> boolMap = <int?, bool?>{0: true, 1: false, 2: true, 3: null};
 
 final Map<AnEnum?, AnEnum?> enumMap = <AnEnum?, AnEnum?>{
   AnEnum.one: AnEnum.one,
@@ -246,15 +221,14 @@ final AllNullableTypesWithoutRecursion genericAllNullableTypesWithoutRecursion =
       mapMap: mapMap,
     );
 
-final List<AllNullableTypesWithoutRecursion?>
-allNullableTypesWithoutRecursionClassList = <AllNullableTypesWithoutRecursion?>[
-  genericAllNullableTypesWithoutRecursion,
-  AllNullableTypesWithoutRecursion(),
-  null,
-];
+final List<AllNullableTypesWithoutRecursion?> allNullableTypesWithoutRecursionClassList =
+    <AllNullableTypesWithoutRecursion?>[
+      genericAllNullableTypesWithoutRecursion,
+      AllNullableTypesWithoutRecursion(),
+      null,
+    ];
 
-final Map<int, AllNullableTypesWithoutRecursion?>
-allNullableTypesWithoutRecursionClassMap =
+final Map<int, AllNullableTypesWithoutRecursion?> allNullableTypesWithoutRecursionClassMap =
     <int, AllNullableTypesWithoutRecursion?>{
       0: genericAllNullableTypesWithoutRecursion,
       1: AllNullableTypesWithoutRecursion(),
@@ -298,10 +272,7 @@ final AllTypes genericAllTypes = AllTypes(
 
 final List<AllTypes?> allTypesClassList = <AllTypes?>[genericAllTypes, null];
 
-final Map<int, AllTypes?> allTypesClassMap = <int, AllTypes?>{
-  0: genericAllTypes,
-  1: null,
-};
+final Map<int, AllTypes?> allTypesClassMap = <int, AllTypes?>{0: genericAllTypes, 1: null};
 
 final AllNullableTypes genericAllNullableTypes = AllNullableTypes(
   aNullableBool: true,
@@ -338,8 +309,10 @@ final List<AllNullableTypes> nonNullAllNullableTypesList = <AllNullableTypes>[
   AllNullableTypes(),
 ];
 
-final Map<int, AllNullableTypes> nonNullAllNullableTypesMap =
-    <int, AllNullableTypes>{0: genericAllNullableTypes, 1: AllNullableTypes()};
+final Map<int, AllNullableTypes> nonNullAllNullableTypesMap = <int, AllNullableTypes>{
+  0: genericAllNullableTypes,
+  1: AllNullableTypes(),
+};
 
 final List<AllNullableTypes?> allNullableTypesList = <AllNullableTypes?>[
   genericAllNullableTypes,
@@ -347,12 +320,11 @@ final List<AllNullableTypes?> allNullableTypesList = <AllNullableTypes?>[
   null,
 ];
 
-final Map<int, AllNullableTypes?> allNullableTypesMap =
-    <int, AllNullableTypes?>{
-      0: genericAllNullableTypes,
-      1: AllNullableTypes(),
-      2: null,
-    };
+final Map<int, AllNullableTypes?> allNullableTypesMap = <int, AllNullableTypes?>{
+  0: genericAllNullableTypes,
+  1: AllNullableTypes(),
+  2: null,
+};
 
 final AllNullableTypes recursiveAllNullableTypes = AllNullableTypes(
   aNullableBool: true,

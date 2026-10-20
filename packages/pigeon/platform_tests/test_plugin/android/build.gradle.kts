@@ -1,10 +1,8 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 group = "com.example.test_plugin"
 version = "1.0-SNAPSHOT"
 
 buildscript {
-    val kotlinVersion = "2.3.0"
+    val kotlin_version = "2.1.0"
     repositories {
         google()
         mavenCentral()
@@ -12,7 +10,7 @@ buildscript {
 
     dependencies {
         classpath("com.android.tools.build:gradle:8.13.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
     }
 }
 
@@ -25,12 +23,11 @@ allprojects {
 
 plugins {
     id("com.android.library")
-    id("kotlin-android")
 }
 
 kotlin {
     compilerOptions {
-        jvmTarget = JvmTarget.fromTarget(JavaVersion.VERSION_17.toString())
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
         allWarningsAsErrors = true
     }
 }
@@ -46,6 +43,9 @@ android {
 
     defaultConfig {
         minSdk = 24
+        // TODO(tarrinneal): Remove, along with consumer-rules.pro, once package:jni
+        // ships the Kotlin keep rules: https://github.com/dart-lang/native/issues/3732
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     testOptions {
@@ -72,9 +72,10 @@ android {
     dependencies {
         compileOnly("javax.annotation:javax.annotation-api:1.3.2")
         testImplementation("junit:junit:4.13.2")
-        testImplementation("io.mockk:mockk:1.14.9")
+        testImplementation("io.mockk:mockk:1.14.11")
+        testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.1")
         // org.jetbrains.kotlin:kotlin-bom artifact purpose is to align kotlin stdlib and related code versions.
         // See: https://youtrack.jetbrains.com/issue/KT-55297/kotlin-stdlib-should-declare-constraints-on-kotlin-stdlib-jdk8-and-kotlin-stdlib-jdk7
-        implementation(platform("org.jetbrains.kotlin:kotlin-bom:2.3.10"))
+        implementation(platform("org.jetbrains.kotlin:kotlin-bom:2.1.0"))
     }
 }

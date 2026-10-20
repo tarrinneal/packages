@@ -1,7 +1,143 @@
-## 26.3.4
+## 29.0.12
 
 * [dart] Supports serializing Lists of Lists and Maps, and serializing Maps of
   Lists and Maps.
+
+## 29.0.11
+
+* [swift] Warns after FFI code generation if the `objective_c` version constraint in `pubspec.yaml` does not match the generated `ObjCVersionCheck`.
+* [kotlin] Warns after JNI code generation if the `jni` version constraint in `pubspec.yaml` does not match the generated `JniVersionCheck`.
+
+## 29.0.10
+
+* [swift] [kotlin] Allows `sealed` classes in native interop files.
+
+## 29.0.9
+
+* [kotlin] Stops generating unused JNI bindings for host API interfaces, significantly
+  reducing the size of the generated `.jni.dart` file.
+
+## 29.0.8
+
+* [swift] Adds validation errors for code that Swift FFI doesn't support:
+  event channels, ProxyApis, sealed classes, data class fields that conflict with
+  `NSObject` members, host API parameters named `wrappedError`, and
+  `includeErrorClass: false`.
+* [swift] Fixes Swift FFI code that didn't compile for classes without fields,
+  `@asyncCallback` methods, `@SwiftFunction` overloads, methods named `type`,
+  parameters named `error`, and multiple FFI files in the same module.
+* [kotlin] Adds validation errors for code that Kotlin JNI doesn't support:
+  event channels, ProxyApis, and sealed classes. Files that use Kotlin JNI
+  previously generated method channel code for event channels and ProxyApis;
+  move them to a separate pigeon file that doesn't use Kotlin JNI.
+* [dart] Adds a validation error for API method names that conflict with
+  generated native interop members.
+* [dart] Fixes native interop code that didn't compile for JNI member names that
+  JNIgen renames, parameter names that match generated local variables, lists or
+  maps of ProxyApis, a `fileSpecificClassNameComponent` that isn't
+  UpperCamelCase or is set only in `SwiftOptions`, and Dart test files.
+* [dart] Fixes a crash converting classes without fields with Swift FFI.
+* [dart] Fixes Swift FFI code that didn't compile for method names that end
+  with a preposition, like `signIn`, or first parameter and field names that
+  start with one, like `forKey`.
+
+## 29.0.7
+
+* [kotlin] Fixes native interop calls failing with `ClassNotFoundException` in minified
+  Android release builds, by adding `@Keep` to every generated class that JNI reaches by name.
+* Updates native interop guides and migration skill with the keep rules that Android
+  release builds need for the Kotlin classes that `package:jni` looks up by name.
+
+## 29.0.6
+
+* Updates native interop guides and migration skill with SwiftPM `<plugin_name>_objc_gen` target guidance.
+* Updates FFI and JNI dependencies and pins code generation `dev_dependencies` (`ffigen`, `jnigen`, `swift2objc`, and `swiftgen`).
+
+## 29.0.5
+
+* [dart] Fixes JNI typed data arrays being backed by native memory that is freed when
+  the isolate that read them exits.
+* [dart] Fixes a potential use-after-free when reading FFI typed data arrays.
+* Updates native interop guides and migration skill for `jnigen` 1.0.0 and
+  current tooling requirements.
+
+## 29.0.4
+
+* [swift] Fixes FFI number wrapping for Objective-C `CFBoolean` and floating-point `NSNumber` values.
+* [swift] Fixes FFI dictionary serialization checking `isNullish` on the key instead of the value.
+
+## 29.0.3
+
+* [swift] Uses `isNullish` to check for null and `NSNull` in non-null Flutter API returns.
+* Updates minimum supported SDK version to Flutter 3.41/Dart 3.11.
+
+## 29.0.2
+
+* [swift] Fixes a crash when a Flutter API returns null for a non-null return
+  value and the null arrives as `NSNull`.
+
+## 29.0.1
+
+* [swift] Annotates async `FlutterApi` methods with `@MainActor`.
+
+## 29.0.0
+
+* [swift] [kotlin] Adds experimental support for FFI and JNI.
+* Exposes missing PigeonOptions and language-specific configurations as command-line arguments.
+
+## 28.1.0
+
+* [swift] Adds support for multiple output locations in `swiftOut` and `--swift_out`.
+
+## 28.0.0
+
+* **Breaking Change** Updates Kotlin and Swift generators to generate `suspend` functions and `async` signatures for `@FlutterApi` methods by default, and for `@HostApi` methods annotated with `@async`.
+  * Use `@asyncCallback` if callback-style signatures are required.
+
+## 27.3.2
+
+* [dart] Fixes lint warning from unused codec variable in Dart proxy classes.
+
+## 27.3.1
+
+* Updates `analyzer` dependency to support versions 13 and 14.
+* Updates minimum Dart SDK constraint to 3.11.0.
+
+
+## 27.3.0
+
+* Adds support for sharing constants across platforms.
+
+## 27.2.0
+
+* Adds support for empty data classes.
+
+## 27.1.2
+
+* Reports a clear error when an input file uses an enhanced enum (one with a
+  constructor, fields, methods, or arguments on its values), instead of
+  silently generating incorrect output.
+
+## 27.1.1
+
+* [dart] Adds usage documentation to generated event channel methods, and
+  emits the user's documentation comments on them.
+
+## 27.1.0
+
+* [swift] Adds `CaseIterable` conformance to generated enums.
+
+## 27.0.0
+
+* **Breaking Change** Overrides `toString` (or equivalent) methods on generated data classes
+  * This can conflict with custom `description` implementations in Swift.
+* [swift] Updates `isNullish` to handle double nested `Any?` values.
+* Updates minimum supported SDK version to Flutter 3.38/Dart 3.10.
+
+## 26.3.4
+
+* [kotlin] Updates generated error class to inherit from `RuntimeException`
+  instead of `Throwable`, for better Java interoperability.
 
 ## 26.3.3
 
@@ -915,7 +1051,7 @@
 
 ## 3.0.3
 
-* Adds ability for generators to do AST validation.  This can help generators
+* Adds ability for generators to do AST validation. This can help generators
   without complete implementations to report gaps in coverage.
 
 ## 3.0.2
@@ -1078,11 +1214,11 @@
   `dart:mirrors` doesn't support null-safe code so there were a class of
   features we couldn't implement without this migration.
 * **BREAKING CHANGE** - the `configurePigeon` function has been migrated to a
-  `@ConfigurePigeon` annotation.  See `./pigeons/message.dart` for an example.
+  `@ConfigurePigeon` annotation. See `./pigeons/message.dart` for an example.
   The annotation can be attached to anything in the file to take effect.
 * **BREAKING CHANGE** - Now Pigeon files must be in one file per invocation of
-  Pigeon.  For example, the classes your APIs use must be in the same file as
-  your APIs.  If your Pigeon file imports another source file, it won't actually
+  Pigeon. For example, the classes your APIs use must be in the same file as
+  your APIs. If your Pigeon file imports another source file, it won't actually
   import it.
 
 ## 0.2.4
@@ -1104,10 +1240,10 @@
 
 ## 0.2.0
 
-* **BREAKING CHANGE** - Pigeon files must be null-safe now.  That means the
+* **BREAKING CHANGE** - Pigeon files must be null-safe now. That means the
   fields inside of the classes must be declared nullable (
   [non-null fields](https://github.com/flutter/flutter/issues/59118) aren't yet
-  supported).  Migration example:
+  supported). Migration example:
 
 ```dart
 // Version 0.1.x
@@ -1123,7 +1259,7 @@ class Foo {
 }
 ```
 
-* **BREAKING CHANGE** - The default output from Pigeon is now null-safe.  If you
+* **BREAKING CHANGE** - The default output from Pigeon is now null-safe. If you
   want non-null-safe code you must provide the `--no-dart_null_safety` flag.
 * The Pigeon source code is now null-safe.
 * Fixed niladic non-value returning async functions in the Java generator.
@@ -1209,7 +1345,7 @@ class Foo {
 
 ## 0.1.8
 
-* Started spawning pigeon_lib in an isolate instead of a subprocess.  The
+* Started spawning pigeon_lib in an isolate instead of a subprocess. The
   subprocess could have lead to errors if the dart version on $PATH didn't match
   the one that comes with flutter.
 

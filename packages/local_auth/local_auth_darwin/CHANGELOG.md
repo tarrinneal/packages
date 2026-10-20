@@ -1,3 +1,13 @@
+## 2.0.5
+
+* Fixes Swift 6 concurrency analyzer errors from `@MainActor` lifecycle delegate methods.
+* Updates minimum supported SDK version to Flutter 3.41/Dart 3.11.
+
+## 2.0.4
+
+* Updates pigeon dev_dependency to ^27.3.2 for analyzer 14 compatibility.
+* Updates minimum supported SDK version to Flutter 3.38/Dart 3.10.
+
 ## 2.0.3
 
 * Adds iOS setup instructions to README.

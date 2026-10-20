@@ -10,8 +10,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 import static org.robolectric.Shadows.shadowOf;
 
 import android.content.ContentProvider;
@@ -61,11 +63,23 @@ public class FileUtilsTest {
       // present already.
       //noinspection deprecation
       var mimeTypeMap = shadowOf(MimeTypeMap.getSingleton());
-      mimeTypeMap.addExtensionMimeTypeMapping("txt", "document/txt");
+      mimeTypeMap.addExtensionMimeTypeMapping("txt", "text/plain");
       mimeTypeMap.addExtensionMimeTypeMapping("jpg", "image/jpeg");
       mimeTypeMap.addExtensionMimeTypeMapping("png", "image/png");
       mimeTypeMap.addExtensionMimeTypeMapping("webp", "image/webp");
     }
+  }
+
+  @Test
+  public void getPathFromCopyOfFileFromUri_throwsIOExceptionForNullStream() throws IOException {
+    Uri uri = Uri.parse("content://dummy/dummy.txt");
+
+    ContentResolver mockContentResolver = mock(ContentResolver.class);
+    when(mockContentResolver.openInputStream(uri)).thenReturn(null);
+    Context mockContext = mock(Context.class);
+    when(mockContext.getContentResolver()).thenReturn(mockContentResolver);
+
+    assertThrows(IOException.class, () -> FileUtils.getPathFromCopyOfFileFromUri(mockContext, uri));
   }
 
   @Test
@@ -88,7 +102,8 @@ public class FileUtilsTest {
 
   @Test
   public void getPathFromUri_throwExceptionForExternalDocumentUriWithNonPrimaryStorageVolume() {
-    // Uri that represents Documents/test directory from some external storage volume ("external" for this test):
+    // Uri that represents Documents/test directory from some external storage volume ("external"
+    // for this test):
     Uri uri =
         Uri.parse(
             "content://com.android.externalstorage.documents/tree/external%3ADocuments%2Ftest");
@@ -224,7 +239,7 @@ public class FileUtilsTest {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-      if (uri.equals(TXT_URI)) return "document/txt";
+      if (uri.equals(TXT_URI)) return "text/plain";
       if (uri.equals(PNG_URI)) return "image/png";
       if (uri.equals(WEBP_URI)) return "image/webp";
       if (uri.equals(NO_EXTENSION_URI)) return "image/png";
@@ -255,7 +270,8 @@ public class FileUtilsTest {
 
   // Mocks a malicious content provider attempting to use path indirection to modify files outside
   // of the intended directory.
-  // See https://developer.android.com/privacy-and-security/risks/untrustworthy-contentprovider-provided-filename#don%27t-trust-user-input.
+  // See
+  // https://developer.android.com/privacy-and-security/risks/untrustworthy-contentprovider-provided-filename#don%27t-trust-user-input.
   private static class MockMaliciousContentProvider extends ContentProvider {
     public static String PNG_URI = "content://dummy/a.png";
 

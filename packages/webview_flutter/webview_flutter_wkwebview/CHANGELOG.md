@@ -1,3 +1,51 @@
+## 3.27.1
+
+* Updates minimum iOS version to 15 and minimum macOS version to 12.
+* Removes the pre-iOS 15/macOS 12 code path that used the deprecated `SecTrustGetCertificateAtIndex`.
+
+## 3.27.0
+
+* Adds `WebKitWebViewWidgetCreationParams.uiKitGestureBlockingPolicy` for choosing the gesture
+  blocking policy of the iOS platform view. Setting it to `doNotBlockGesture` works around web
+  views becoming unresponsive to touches. See
+  https://github.com/flutter/flutter/issues/175099.
+
+## 3.26.2
+
+* Fixes a crash when a `WKNavigationDelegate` authentication challenge reply cannot be
+  resolved to a native instance.
+* Updates minimum supported SDK version to Flutter 3.41/Dart 3.11.
+
+## 3.26.1
+
+* Updates pigeon dev_dependency to ^27.3.2 for analyzer 14 compatibility.
+
+## 3.26.0
+
+* Adds new method for accessing a native `WKWebView` from a `FlutterPluginRegistrar`.
+* Updates minimum supported SDK version to Flutter 3.44/Dart 3.12.
+
+## 3.25.1
+
+* Relands update to prevent message calls when application will terminate.
+* Updates minimum supported SDK version to Flutter 3.38/Dart 3.10.
+
+## 3.25.0
+
+* Adds support for retrieving cookies with `PlatformWebViewCookieManager.getCookies`.
+
+## 3.24.5
+
+* Reverts `3.24.4` to prevent missing `FlutterSceneLifeCycleDelegate` build error.
+
+## 3.24.4
+
+* Updates plugin to prevent message calls when application will terminate.
+
+## 3.24.3
+
+* Adds support to get failing url from DNS errors on iOS 26+.
+
 ## 3.24.2
 
 * Fixes dartdoc comments that accidentally used HTML.

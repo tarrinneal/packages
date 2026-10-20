@@ -1,3 +1,16 @@
+## NEXT
+
+* Updates minimum supported SDK version to Flutter 3.41/Dart 3.11.
+
+## 2.3.1
+
+* Removes dependency on `PathUtils` to avoid a potential
+  `ClassNotFoundException` when running in release mode.
+
+## 2.3.0
+
+* Changes internal implementation to use JNI.
+
 ## 2.2.23
 
 * Updates build files from Groovy to Kotlin.

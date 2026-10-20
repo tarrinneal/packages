@@ -1,3 +1,33 @@
+## 0.6.4+1
+
+* Fixes AdvancedMarker anchor handling.
+
+## 0.6.4
+
+* Adds support for tapping points of interest on the map.
+* Updates minimum supported SDK version to Flutter 3.41/Dart 3.11.
+
+## 0.6.3+1
+
+* Fixes flickering of byte-backed advanced markers when updating their position on web.
+
+## 0.6.3
+
+* Adds support for mapTypeControlEnabled, fullscreenControlEnabled, and streetViewControlEnabled.
+
+## 0.6.2+3
+
+* Updates README to include setup information.
+
+## 0.6.2+2
+
+* Updates README to note that heatmap support was removed from the underlying SDK in 3.65.
+* Updates minimum supported SDK version to Flutter 3.38/Dart 3.10.
+
+## 0.6.2+1
+
+* Fixes a bug that prevented non-cloud styles from being applied.
+
 ## 0.6.2
 
 * Adds `colorScheme` support for controlling cloud-based map brightness.

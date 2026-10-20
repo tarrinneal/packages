@@ -1,3 +1,49 @@
+## 2.21.1
+
+* Updates Robolectric to 4.17 and adds the JVM arguments it requires for unit tests.
+
+## 2.21.0
+
+* Switches to Pigeon's new 'suspend' support for platform communication.
+
+## 2.20.0
+
+* Adds support for tapping points of interest on the map.
+* Updates minimum supported SDK version to Flutter 3.41/Dart 3.11.
+
+## 2.19.13
+
+* Updates pigeon dev_dependency to ^27.3.2 for analyzer 14 compatibility.
+
+## 2.19.12
+
+* Bumps the androidx group across 10 directories with 1 update.
+
+## 2.19.11
+
+* Migrates to Built-in Kotlin to support AGP 9.
+* Updates minimum supported SDK version to Flutter 3.44/Dart 3.12.
+
+## 2.19.10
+
+* Updates README to include setup information.
+
+## 2.19.9
+
+* Adds attribution ID for Google Maps SDK usage.
+
+## 2.19.8
+
+* Updates internal implementation to use Kotlin Pigeon.
+
+## 2.19.7
+
+* Fixes warnings in Java code.
+
+## 2.19.6
+
+* Fixes the onTap callback for clustered pin info window taps.
+
 ## 2.19.5
 
 * Fixes a crash when using the legacy map renderer by adding the `org.apache.http.legacy` library.

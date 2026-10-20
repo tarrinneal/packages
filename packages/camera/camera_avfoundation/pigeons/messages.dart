@@ -7,8 +7,7 @@ import 'package:pigeon/pigeon.dart';
 @ConfigurePigeon(
   PigeonOptions(
     dartOut: 'lib/src/messages.g.dart',
-    swiftOut:
-        'ios/camera_avfoundation/Sources/camera_avfoundation/Messages.swift',
+    swiftOut: 'darwin/camera_avfoundation/Sources/camera_avfoundation/Messages.swift',
     copyrightHeader: 'pigeons/copyright.txt',
   ),
 )
@@ -40,12 +39,7 @@ enum PlatformCameraLensType {
 }
 
 // Pigeon version of DeviceOrientation.
-enum PlatformDeviceOrientation {
-  portraitUp,
-  landscapeLeft,
-  portraitDown,
-  landscapeRight,
-}
+enum PlatformDeviceOrientation { portraitUp, landscapeLeft, portraitDown, landscapeRight }
 
 // Pigeon version of ExposureMode.
 enum PlatformExposureMode { auto, locked }
@@ -65,12 +59,7 @@ enum PlatformImageFormatGroup { bgra8888, yuv420 }
 // Pigeon version of ResolutionPreset.
 enum PlatformResolutionPreset { low, medium, high, veryHigh, ultraHigh, max }
 
-enum PlatformVideoStabilizationMode {
-  off,
-  standard,
-  cinematic,
-  cinematicExtended,
-}
+enum PlatformVideoStabilizationMode { off, standard, cinematic, cinematicExtended }
 
 // Pigeon version of CameraDescription.
 class PlatformCameraDescription {
@@ -247,8 +236,8 @@ abstract class CameraApi {
   /// Begins recording video, optionally enabling streaming to Dart at the same
   /// time.
   @async
-  @ObjCSelector('startVideoRecordingWithStreaming:')
-  void startVideoRecording(bool enableStream);
+  @ObjCSelector('startVideoRecordingWithStreaming:videoOutputPath:')
+  void startVideoRecording(bool enableStream, String? videoOutputPath);
 
   /// Stops recording video, and results the path to the resulting file.
   @async
@@ -349,6 +338,11 @@ abstract class CameraApi {
   @async
   @ObjCSelector('setImageFileFormat:')
   void setImageFileFormat(PlatformImageFileFormat format);
+
+  /// Sets the JPEG compression quality for still image capture.
+  @async
+  @ObjCSelector('setJpegImageQuality:')
+  void setJpegImageQuality(int quality);
 }
 
 @EventChannelApi()

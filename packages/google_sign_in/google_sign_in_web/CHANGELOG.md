@@ -1,3 +1,7 @@
+## NEXT
+
+* Updates minimum supported SDK version to Flutter 3.41/Dart 3.11.
+
 ## 1.1.3
 
 * Restored previously reverted changes to prevent `_initCalled` from being invoked twice on web.

@@ -1,6 +1,7 @@
 ## NEXT
 
-* Updates minimum supported SDK version to Flutter 3.35/Dart 3.9.
+* Updates minimum supported SDK version to Flutter 3.41/Dart 3.11.
+* Updates the minimum supported `package:web` version to 1.0.0.
 
 ## 2.4.0
 

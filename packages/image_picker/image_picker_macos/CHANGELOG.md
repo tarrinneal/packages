@@ -1,3 +1,7 @@
+## NEXT
+
+* Updates minimum supported SDK version to Flutter 3.41/Dart 3.11.
+
 ## 0.2.2+1
 
 * Updates minimum supported version to macOS 10.15.
