@@ -417,14 +417,7 @@ void _errorOnSwiftFfiUnsupportedFeatures(
   Root root,
 ) {
   for (final Api api in root.apis) {
-    if (api is AstEventChannelApi) {
-      errors.add(
-        Error(
-          message:
-              'Swift FFI does not support event channels yet (in API "${api.name}"). $_moveToNonFfiFileSuggestion',
-        ),
-      );
-    } else if (api is AstProxyApi) {
+    if (api is AstProxyApi) {
       errors.add(
         Error(
           message:
@@ -481,14 +474,7 @@ const String _moveToNonJniFileSuggestion =
 
 void _errorOnKotlinJniUnsupportedFeatures(List<Error> errors, Root root) {
   for (final Api api in root.apis) {
-    if (api is AstEventChannelApi) {
-      errors.add(
-        Error(
-          message:
-              'Kotlin JNI does not support event channels yet (in API "${api.name}"). $_moveToNonJniFileSuggestion',
-        ),
-      );
-    } else if (api is AstProxyApi) {
+    if (api is AstProxyApi) {
       errors.add(
         Error(
           message:

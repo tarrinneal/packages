@@ -2150,3 +2150,49 @@ abstract class NativeInteropSealedClassHostApi {
 abstract class NativeInteropSealedClassFlutterApi {
   NativeInteropShape echoShape(NativeInteropShape shape);
 }
+
+sealed class NativeInteropPlatformEvent {}
+
+class NativeInteropIntEvent extends NativeInteropPlatformEvent {
+  NativeInteropIntEvent(this.value);
+  final int value;
+}
+
+class NativeInteropStringEvent extends NativeInteropPlatformEvent {
+  NativeInteropStringEvent(this.value);
+  final String value;
+}
+
+class NativeInteropBoolEvent extends NativeInteropPlatformEvent {
+  NativeInteropBoolEvent(this.value);
+  final bool value;
+}
+
+class NativeInteropDoubleEvent extends NativeInteropPlatformEvent {
+  NativeInteropDoubleEvent(this.value);
+  final double value;
+}
+
+class NativeInteropObjectsEvent extends NativeInteropPlatformEvent {
+  NativeInteropObjectsEvent(this.value);
+  final Object value;
+}
+
+class NativeInteropEnumEvent extends NativeInteropPlatformEvent {
+  NativeInteropEnumEvent(this.value);
+  final NativeInteropAnEnum value;
+}
+
+class NativeInteropClassEvent extends NativeInteropPlatformEvent {
+  NativeInteropClassEvent(this.value);
+  final NativeInteropAllNullableTypes value;
+}
+
+class NativeInteropEmptyEvent extends NativeInteropPlatformEvent {}
+
+@EventChannelApi()
+abstract class NativeInteropEventChannelMethods {
+  int nativeInteropStreamInts();
+  NativeInteropPlatformEvent nativeInteropStreamEvents();
+  int nativeInteropStreamConsistentNumbers();
+}

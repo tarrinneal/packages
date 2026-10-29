@@ -64,11 +64,23 @@ class TestPlugin : FlutterPlugin, HostIntegrationCoreApi, HostCallbackCoreApi {
         binding.binaryMessenger, SendConsistentNumbers(1), "1")
     StreamConsistentNumbersStreamHandler.register(
         binding.binaryMessenger, SendConsistentNumbers(2), "2")
+    NativeInteropStreamEventsStreamHandler.register(SendNativeInteropClass)
+    NativeInteropStreamIntsStreamHandler.register(SendNativeInteropInts)
+    NativeInteropStreamConsistentNumbersStreamHandler.register(
+        SendNativeInteropConsistentNumbers(1), "1")
+    NativeInteropStreamConsistentNumbersStreamHandler.register(
+        SendNativeInteropConsistentNumbers(2), "2")
+    NativeInteropStreamConsistentNumbersStreamHandler.register(SendNativeInteropError, "error")
   }
 
   override fun onDetachedFromEngine(binding: FlutterPluginBinding) {
     HostIntegrationCoreApi.setUp(binding.binaryMessenger, null)
     HostCallbackCoreApi.setUp(binding.binaryMessenger, null)
+    NativeInteropStreamEventsStreamHandler.register(null)
+    NativeInteropStreamIntsStreamHandler.register(null)
+    NativeInteropStreamConsistentNumbersStreamHandler.register(null, "1")
+    NativeInteropStreamConsistentNumbersStreamHandler.register(null, "2")
+    NativeInteropStreamConsistentNumbersStreamHandler.register(null, "error")
     proxyApiRegistrar?.tearDown()
   }
 
@@ -2375,3 +2387,101 @@ class NativeInteropSealedClassHostApiImpl : NativeInteropSealedClassHostApi {
     return NativeInteropSealedClassFlutterApiRegistrar().getInstance()!!.echoShape(shape)
   }
 }
+
+object SendNativeInteropInts : NativeInteropStreamIntsStreamHandler() {
+  val handler = Handler(Looper.getMainLooper())
+
+  override fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<Long>) {
+    var count: Long = 0
+    val r: Runnable =
+        object : Runnable {
+          override fun run() {
+            handler.post {
+              if (count >= 5) {
+                sink.endOfStream()
+              } else {
+                sink.success(count)
+                count++
+                handler.postDelayed(this, 10)
+              }
+            }
+          }
+        }
+    handler.postDelayed(r, 10)
+  }
+}
+
+object SendNativeInteropClass : NativeInteropStreamEventsStreamHandler() {
+  val handler = Handler(Looper.getMainLooper())
+  val eventList =
+      listOf(
+          NativeInteropIntEvent(1),
+          NativeInteropStringEvent("string"),
+          NativeInteropBoolEvent(false),
+          NativeInteropDoubleEvent(3.14),
+          NativeInteropObjectsEvent(true),
+          NativeInteropEnumEvent(NativeInteropAnEnum.FORTY_TWO),
+          NativeInteropClassEvent(NativeInteropAllNullableTypes(aNullableInt = 0)),
+          NativeInteropEmptyEvent())
+
+  override fun onListen(
+      p0: Any?,
+      sink: NativeInteropTestsPigeonEventSink<NativeInteropPlatformEvent>
+  ) {
+    var count = 0
+    val r: Runnable =
+        object : Runnable {
+          override fun run() {
+            if (count >= eventList.size) {
+              sink.endOfStream()
+            } else {
+              sink.success(eventList[count])
+              count++
+              handler.postDelayed(this, 10)
+            }
+          }
+        }
+    handler.postDelayed(r, 10)
+  }
+}
+
+class SendNativeInteropConsistentNumbers(private val numberToSend: Long) :
+    NativeInteropStreamConsistentNumbersStreamHandler() {
+  private val handler = Handler(Looper.getMainLooper())
+  private var activeRunnable: Runnable? = null
+
+  override fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<Long>) {
+    var count = 0
+    val r: Runnable =
+        object : Runnable {
+          override fun run() {
+            if (count >= 10) {
+              sink.endOfStream()
+            } else {
+              sink.success(numberToSend)
+              count++
+              handler.postDelayed(this, 10)
+            }
+          }
+        }
+    activeRunnable = r
+    handler.postDelayed(r, 10)
+  }
+
+  override fun onCancel(p0: Any?) {
+    activeRunnable?.let { handler.removeCallbacks(it) }
+    activeRunnable = null
+  }
+}
+
+object SendNativeInteropError : NativeInteropStreamConsistentNumbersStreamHandler() {
+  private val handler = Handler(Looper.getMainLooper())
+
+  override fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<Long>) {
+    handler.post {
+      sink.error("error_code", "error_message", "error_details")
+      sink.endOfStream()
+    }
+  }
+}
+

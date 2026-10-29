@@ -233,6 +233,19 @@ class _PigeonJniCodec {
       jni_bridge.NativeInteropReservedNames.type.jClass;
   static final JClass _classNativeInteropCircle = jni_bridge.NativeInteropCircle.type.jClass;
   static final JClass _classNativeInteropSquare = jni_bridge.NativeInteropSquare.type.jClass;
+  static final JClass _classNativeInteropIntEvent = jni_bridge.NativeInteropIntEvent.type.jClass;
+  static final JClass _classNativeInteropStringEvent =
+      jni_bridge.NativeInteropStringEvent.type.jClass;
+  static final JClass _classNativeInteropBoolEvent = jni_bridge.NativeInteropBoolEvent.type.jClass;
+  static final JClass _classNativeInteropDoubleEvent =
+      jni_bridge.NativeInteropDoubleEvent.type.jClass;
+  static final JClass _classNativeInteropObjectsEvent =
+      jni_bridge.NativeInteropObjectsEvent.type.jClass;
+  static final JClass _classNativeInteropEnumEvent = jni_bridge.NativeInteropEnumEvent.type.jClass;
+  static final JClass _classNativeInteropClassEvent =
+      jni_bridge.NativeInteropClassEvent.type.jClass;
+  static final JClass _classNativeInteropEmptyEvent =
+      jni_bridge.NativeInteropEmptyEvent.type.jClass;
   static final JClass _classNativeInteropAnEnum = jni_bridge.NativeInteropAnEnum.type.jClass;
   static final JClass _classNativeInteropAnotherEnum =
       jni_bridge.NativeInteropAnotherEnum.type.jClass;
@@ -313,6 +326,22 @@ class _PigeonJniCodec {
       return NativeInteropCircle.fromJni(value as jni_bridge.NativeInteropCircle);
     } else if (value.isInstanceOf(_classNativeInteropSquare)) {
       return NativeInteropSquare.fromJni(value as jni_bridge.NativeInteropSquare);
+    } else if (value.isInstanceOf(_classNativeInteropIntEvent)) {
+      return NativeInteropIntEvent.fromJni(value as jni_bridge.NativeInteropIntEvent);
+    } else if (value.isInstanceOf(_classNativeInteropStringEvent)) {
+      return NativeInteropStringEvent.fromJni(value as jni_bridge.NativeInteropStringEvent);
+    } else if (value.isInstanceOf(_classNativeInteropBoolEvent)) {
+      return NativeInteropBoolEvent.fromJni(value as jni_bridge.NativeInteropBoolEvent);
+    } else if (value.isInstanceOf(_classNativeInteropDoubleEvent)) {
+      return NativeInteropDoubleEvent.fromJni(value as jni_bridge.NativeInteropDoubleEvent);
+    } else if (value.isInstanceOf(_classNativeInteropObjectsEvent)) {
+      return NativeInteropObjectsEvent.fromJni(value as jni_bridge.NativeInteropObjectsEvent);
+    } else if (value.isInstanceOf(_classNativeInteropEnumEvent)) {
+      return NativeInteropEnumEvent.fromJni(value as jni_bridge.NativeInteropEnumEvent);
+    } else if (value.isInstanceOf(_classNativeInteropClassEvent)) {
+      return NativeInteropClassEvent.fromJni(value as jni_bridge.NativeInteropClassEvent);
+    } else if (value.isInstanceOf(_classNativeInteropEmptyEvent)) {
+      return NativeInteropEmptyEvent.fromJni(value as jni_bridge.NativeInteropEmptyEvent);
     } else if (value.isInstanceOf(_classNativeInteropAnEnum)) {
       return NativeInteropAnEnum.fromJni(value as jni_bridge.NativeInteropAnEnum);
     } else if (value.isInstanceOf(_classNativeInteropAnotherEnum)) {
@@ -596,6 +625,22 @@ class _PigeonJniCodec {
       return value.toJni() as T;
     } else if (value is NativeInteropSquare) {
       return value.toJni() as T;
+    } else if (value is NativeInteropIntEvent) {
+      return value.toJni() as T;
+    } else if (value is NativeInteropStringEvent) {
+      return value.toJni() as T;
+    } else if (value is NativeInteropBoolEvent) {
+      return value.toJni() as T;
+    } else if (value is NativeInteropDoubleEvent) {
+      return value.toJni() as T;
+    } else if (value is NativeInteropObjectsEvent) {
+      return value.toJni() as T;
+    } else if (value is NativeInteropEnumEvent) {
+      return value.toJni() as T;
+    } else if (value is NativeInteropClassEvent) {
+      return value.toJni() as T;
+    } else if (value is NativeInteropEmptyEvent) {
+      return value.toJni() as T;
     } else if (value is NativeInteropAnEnum) {
       return value.toJni() as T;
     } else if (value is NativeInteropAnotherEnum) {
@@ -627,6 +672,77 @@ class _PigeonJniBuffers {
     final Uint8List? bytes = _jByteArrayToDart(array, release: true);
     return bytes == null ? null : const _PigeonCodec().decodeMessage(ByteData.sublistView(bytes));
   }
+}
+
+Stream<T> _pigeonJniEventStream<T>({
+  required void Function(jni_bridge.NativeInteropTestsPigeonEventSinkBridge sink) onListen,
+  required void Function() onCancel,
+}) {
+  late final StreamController<T> controller;
+  jni_bridge.NativeInteropTestsPigeonEventSinkBridge? jniSink;
+  controller = StreamController<T>.broadcast(
+    onListen: () {
+      late final jni_bridge.NativeInteropTestsPigeonEventSinkBridge currentSink;
+      currentSink = jni_bridge.NativeInteropTestsPigeonEventSinkBridge.implement(
+        jni_bridge.$NativeInteropTestsPigeonEventSinkBridge(
+          onSuccess: (JByteArray? event) {
+            final Object? decoded = _PigeonJniBuffers.decode(event);
+            if (identical(jniSink, currentSink) && !controller.isClosed) {
+              controller.add(decoded as T);
+            }
+          },
+          onSuccess$async: true,
+          onError: (JString code, JString? message, JByteArray? details) {
+            final String dartCode;
+            final String? dartMessage;
+            final Object? dartDetails;
+            var detailsReleased = false;
+            try {
+              dartCode = code.toDartString();
+              dartMessage = message?.toDartString();
+              detailsReleased = true;
+              dartDetails = _PigeonJniBuffers.decode(details);
+            } finally {
+              code.release();
+              message?.release();
+              if (!detailsReleased) {
+                details?.release();
+              }
+            }
+            if (identical(jniSink, currentSink) && !controller.isClosed) {
+              controller.addError(
+                PlatformException(code: dartCode, message: dartMessage, details: dartDetails),
+              );
+            }
+          },
+          onError$async: true,
+          onEndOfStream: () {
+            if (identical(jniSink, currentSink) && !controller.isClosed) {
+              unawaited(controller.close());
+            }
+          },
+          onEndOfStream$async: true,
+        ),
+      );
+      jniSink = currentSink;
+      try {
+        onListen(currentSink);
+      } catch (_) {
+        jniSink?.release();
+        jniSink = null;
+        rethrow;
+      }
+    },
+    onCancel: () {
+      try {
+        onCancel();
+      } finally {
+        jniSink?.release();
+        jniSink = null;
+      }
+    },
+  );
+  return controller.stream;
 }
 
 // ignore: unused_element
@@ -709,6 +825,24 @@ class _PigeonFfiCodec {
       return NativeInteropCircle.fromFfi(ffi_bridge.NativeInteropCircleBridge.as(value));
     } else if (ffi_bridge.NativeInteropSquareBridge.isA(value)) {
       return NativeInteropSquare.fromFfi(ffi_bridge.NativeInteropSquareBridge.as(value));
+    } else if (ffi_bridge.NativeInteropIntEventBridge.isA(value)) {
+      return NativeInteropIntEvent.fromFfi(ffi_bridge.NativeInteropIntEventBridge.as(value));
+    } else if (ffi_bridge.NativeInteropStringEventBridge.isA(value)) {
+      return NativeInteropStringEvent.fromFfi(ffi_bridge.NativeInteropStringEventBridge.as(value));
+    } else if (ffi_bridge.NativeInteropBoolEventBridge.isA(value)) {
+      return NativeInteropBoolEvent.fromFfi(ffi_bridge.NativeInteropBoolEventBridge.as(value));
+    } else if (ffi_bridge.NativeInteropDoubleEventBridge.isA(value)) {
+      return NativeInteropDoubleEvent.fromFfi(ffi_bridge.NativeInteropDoubleEventBridge.as(value));
+    } else if (ffi_bridge.NativeInteropObjectsEventBridge.isA(value)) {
+      return NativeInteropObjectsEvent.fromFfi(
+        ffi_bridge.NativeInteropObjectsEventBridge.as(value),
+      );
+    } else if (ffi_bridge.NativeInteropEnumEventBridge.isA(value)) {
+      return NativeInteropEnumEvent.fromFfi(ffi_bridge.NativeInteropEnumEventBridge.as(value));
+    } else if (ffi_bridge.NativeInteropClassEventBridge.isA(value)) {
+      return NativeInteropClassEvent.fromFfi(ffi_bridge.NativeInteropClassEventBridge.as(value));
+    } else if (ffi_bridge.NativeInteropEmptyEventBridge.isA(value)) {
+      return NativeInteropEmptyEvent.fromFfi(ffi_bridge.NativeInteropEmptyEventBridge.as(value));
     } else {
       throw ArgumentError.value(value);
     }
@@ -1095,6 +1229,22 @@ class _PigeonFfiCodec {
       return value.toFfi() as T;
     } else if (value is NativeInteropSquare) {
       return value.toFfi() as T;
+    } else if (value is NativeInteropIntEvent) {
+      return value.toFfi() as T;
+    } else if (value is NativeInteropStringEvent) {
+      return value.toFfi() as T;
+    } else if (value is NativeInteropBoolEvent) {
+      return value.toFfi() as T;
+    } else if (value is NativeInteropDoubleEvent) {
+      return value.toFfi() as T;
+    } else if (value is NativeInteropObjectsEvent) {
+      return value.toFfi() as T;
+    } else if (value is NativeInteropEnumEvent) {
+      return value.toFfi() as T;
+    } else if (value is NativeInteropClassEvent) {
+      return value.toFfi() as T;
+    } else if (value is NativeInteropEmptyEvent) {
+      return value.toFfi() as T;
     } else {
       throw ArgumentError.value(value);
     }
@@ -1191,6 +1341,59 @@ class _PigeonFfiBuffers {
     final Uint8List? bytes = toUint8List(data);
     return bytes == null ? null : const _PigeonCodec().decodeMessage(ByteData.sublistView(bytes));
   }
+}
+
+Stream<T> _pigeonFfiEventStream<T>({
+  required void Function(ffi_bridge.NativeInteropTestsPigeonEventSinkBridge sink) onListen,
+  required void Function() onCancel,
+}) {
+  late final StreamController<T> controller;
+  ffi_bridge.NativeInteropTestsPigeonEventSinkBridge? ffiSink;
+  controller = StreamController<T>.broadcast(
+    onListen: () {
+      late final ffi_bridge.NativeInteropTestsPigeonEventSinkBridge currentSink;
+      currentSink = ffi_bridge.NativeInteropTestsPigeonEventSinkBridge$Builder.implementAsListener(
+        onSuccessWithEvent_: (NSData? event) {
+          final Object? decoded = _PigeonFfiBuffers.decode(event);
+          if (identical(ffiSink, currentSink) && !controller.isClosed) {
+            controller.add(decoded as T);
+          }
+        },
+        onErrorWithCode_message_details_: (NSString code, NSString? message, NSData? details) {
+          final Object? dartDetails = _PigeonFfiBuffers.decode(details);
+          if (identical(ffiSink, currentSink) && !controller.isClosed) {
+            controller.addError(
+              PlatformException(
+                code: code.toDartString(),
+                message: message?.toDartString(),
+                details: dartDetails,
+              ),
+            );
+          }
+        },
+        onEndOfStream: () {
+          if (identical(ffiSink, currentSink) && !controller.isClosed) {
+            unawaited(controller.close());
+          }
+        },
+      );
+      ffiSink = currentSink;
+      try {
+        onListen(currentSink);
+      } catch (_) {
+        ffiSink = null;
+        rethrow;
+      }
+    },
+    onCancel: () {
+      try {
+        onCancel();
+      } finally {
+        ffiSink = null;
+      }
+    },
+  );
+  return controller.stream;
 }
 
 Object? _convertNumberWrapperToDart(ffi_bridge.NativeInteropTestsNumberWrapper value) {
@@ -3524,6 +3727,573 @@ class NativeInteropSquare extends NativeInteropShape {
   }
 }
 
+sealed class NativeInteropPlatformEvent {
+  jni_bridge.NativeInteropPlatformEvent toJni();
+
+  static NativeInteropPlatformEvent? fromJni(jni_bridge.NativeInteropPlatformEvent? jniClass) {
+    if (jniClass == null) {
+      return null;
+    }
+    if (jniClass.isA<jni_bridge.NativeInteropIntEvent>(jni_bridge.NativeInteropIntEvent.type)) {
+      return NativeInteropIntEvent.fromJni(jniClass.as(jni_bridge.NativeInteropIntEvent.type));
+    }
+    if (jniClass.isA<jni_bridge.NativeInteropStringEvent>(
+      jni_bridge.NativeInteropStringEvent.type,
+    )) {
+      return NativeInteropStringEvent.fromJni(
+        jniClass.as(jni_bridge.NativeInteropStringEvent.type),
+      );
+    }
+    if (jniClass.isA<jni_bridge.NativeInteropBoolEvent>(jni_bridge.NativeInteropBoolEvent.type)) {
+      return NativeInteropBoolEvent.fromJni(jniClass.as(jni_bridge.NativeInteropBoolEvent.type));
+    }
+    if (jniClass.isA<jni_bridge.NativeInteropDoubleEvent>(
+      jni_bridge.NativeInteropDoubleEvent.type,
+    )) {
+      return NativeInteropDoubleEvent.fromJni(
+        jniClass.as(jni_bridge.NativeInteropDoubleEvent.type),
+      );
+    }
+    if (jniClass.isA<jni_bridge.NativeInteropObjectsEvent>(
+      jni_bridge.NativeInteropObjectsEvent.type,
+    )) {
+      return NativeInteropObjectsEvent.fromJni(
+        jniClass.as(jni_bridge.NativeInteropObjectsEvent.type),
+      );
+    }
+    if (jniClass.isA<jni_bridge.NativeInteropEnumEvent>(jni_bridge.NativeInteropEnumEvent.type)) {
+      return NativeInteropEnumEvent.fromJni(jniClass.as(jni_bridge.NativeInteropEnumEvent.type));
+    }
+    if (jniClass.isA<jni_bridge.NativeInteropClassEvent>(jni_bridge.NativeInteropClassEvent.type)) {
+      return NativeInteropClassEvent.fromJni(jniClass.as(jni_bridge.NativeInteropClassEvent.type));
+    }
+    if (jniClass.isA<jni_bridge.NativeInteropEmptyEvent>(jni_bridge.NativeInteropEmptyEvent.type)) {
+      return NativeInteropEmptyEvent.fromJni(jniClass.as(jni_bridge.NativeInteropEmptyEvent.type));
+    }
+    throw ArgumentError.value(jniClass);
+  }
+
+  ffi_bridge.NativeInteropPlatformEventBridge toFfi();
+
+  static NativeInteropPlatformEvent? fromFfi(
+    ffi_bridge.NativeInteropPlatformEventBridge? ffiClass,
+  ) {
+    if (ffiClass == null) {
+      return null;
+    }
+    if (ffi_bridge.NativeInteropIntEventBridge.isA(ffiClass)) {
+      return NativeInteropIntEvent.fromFfi(ffi_bridge.NativeInteropIntEventBridge.as(ffiClass));
+    }
+    if (ffi_bridge.NativeInteropStringEventBridge.isA(ffiClass)) {
+      return NativeInteropStringEvent.fromFfi(
+        ffi_bridge.NativeInteropStringEventBridge.as(ffiClass),
+      );
+    }
+    if (ffi_bridge.NativeInteropBoolEventBridge.isA(ffiClass)) {
+      return NativeInteropBoolEvent.fromFfi(ffi_bridge.NativeInteropBoolEventBridge.as(ffiClass));
+    }
+    if (ffi_bridge.NativeInteropDoubleEventBridge.isA(ffiClass)) {
+      return NativeInteropDoubleEvent.fromFfi(
+        ffi_bridge.NativeInteropDoubleEventBridge.as(ffiClass),
+      );
+    }
+    if (ffi_bridge.NativeInteropObjectsEventBridge.isA(ffiClass)) {
+      return NativeInteropObjectsEvent.fromFfi(
+        ffi_bridge.NativeInteropObjectsEventBridge.as(ffiClass),
+      );
+    }
+    if (ffi_bridge.NativeInteropEnumEventBridge.isA(ffiClass)) {
+      return NativeInteropEnumEvent.fromFfi(ffi_bridge.NativeInteropEnumEventBridge.as(ffiClass));
+    }
+    if (ffi_bridge.NativeInteropClassEventBridge.isA(ffiClass)) {
+      return NativeInteropClassEvent.fromFfi(ffi_bridge.NativeInteropClassEventBridge.as(ffiClass));
+    }
+    if (ffi_bridge.NativeInteropEmptyEventBridge.isA(ffiClass)) {
+      return NativeInteropEmptyEvent.fromFfi(ffi_bridge.NativeInteropEmptyEventBridge.as(ffiClass));
+    }
+    throw ArgumentError.value(ffiClass);
+  }
+}
+
+class NativeInteropIntEvent extends NativeInteropPlatformEvent {
+  NativeInteropIntEvent({required this.value});
+
+  int value;
+
+  List<Object?> _toList() {
+    return <Object?>[value];
+  }
+
+  @override
+  jni_bridge.NativeInteropIntEvent toJni() {
+    return jni_bridge.NativeInteropIntEvent(value);
+  }
+
+  @override
+  ffi_bridge.NativeInteropIntEventBridge toFfi() {
+    return ffi_bridge.NativeInteropIntEventBridge.alloc().initWithValue(value);
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static NativeInteropIntEvent? fromJni(jni_bridge.NativeInteropIntEvent? jniClass) {
+    return jniClass == null ? null : NativeInteropIntEvent(value: jniClass.value);
+  }
+
+  static NativeInteropIntEvent? fromFfi(ffi_bridge.NativeInteropIntEventBridge? ffiClass) {
+    return ffiClass == null ? null : NativeInteropIntEvent(value: ffiClass.value);
+  }
+
+  static NativeInteropIntEvent decode(Object result) {
+    result as List<Object?>;
+    return NativeInteropIntEvent(value: result[0]! as int);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! NativeInteropIntEvent || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(value, other.value);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'NativeInteropIntEvent(value: $value)';
+  }
+}
+
+class NativeInteropStringEvent extends NativeInteropPlatformEvent {
+  NativeInteropStringEvent({required this.value});
+
+  String value;
+
+  List<Object?> _toList() {
+    return <Object?>[value];
+  }
+
+  @override
+  jni_bridge.NativeInteropStringEvent toJni() {
+    return jni_bridge.NativeInteropStringEvent(_PigeonJniCodec.writeValue<JString>(value));
+  }
+
+  @override
+  ffi_bridge.NativeInteropStringEventBridge toFfi() {
+    return ffi_bridge.NativeInteropStringEventBridge.alloc().initWithValue(
+      _PigeonFfiCodec.writeValue<NSString>(value),
+    );
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static NativeInteropStringEvent? fromJni(jni_bridge.NativeInteropStringEvent? jniClass) {
+    return jniClass == null
+        ? null
+        : NativeInteropStringEvent(value: jniClass.value.toDartString(releaseOriginal: true));
+  }
+
+  static NativeInteropStringEvent? fromFfi(ffi_bridge.NativeInteropStringEventBridge? ffiClass) {
+    return ffiClass == null ? null : NativeInteropStringEvent(value: ffiClass.value.toDartString());
+  }
+
+  static NativeInteropStringEvent decode(Object result) {
+    result as List<Object?>;
+    return NativeInteropStringEvent(value: result[0]! as String);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! NativeInteropStringEvent || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(value, other.value);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'NativeInteropStringEvent(value: $value)';
+  }
+}
+
+class NativeInteropBoolEvent extends NativeInteropPlatformEvent {
+  NativeInteropBoolEvent({required this.value});
+
+  bool value;
+
+  List<Object?> _toList() {
+    return <Object?>[value];
+  }
+
+  @override
+  jni_bridge.NativeInteropBoolEvent toJni() {
+    return jni_bridge.NativeInteropBoolEvent(value);
+  }
+
+  @override
+  ffi_bridge.NativeInteropBoolEventBridge toFfi() {
+    return ffi_bridge.NativeInteropBoolEventBridge.alloc().initWithValue(value);
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static NativeInteropBoolEvent? fromJni(jni_bridge.NativeInteropBoolEvent? jniClass) {
+    return jniClass == null ? null : NativeInteropBoolEvent(value: jniClass.value);
+  }
+
+  static NativeInteropBoolEvent? fromFfi(ffi_bridge.NativeInteropBoolEventBridge? ffiClass) {
+    return ffiClass == null ? null : NativeInteropBoolEvent(value: ffiClass.value);
+  }
+
+  static NativeInteropBoolEvent decode(Object result) {
+    result as List<Object?>;
+    return NativeInteropBoolEvent(value: result[0]! as bool);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! NativeInteropBoolEvent || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(value, other.value);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'NativeInteropBoolEvent(value: $value)';
+  }
+}
+
+class NativeInteropDoubleEvent extends NativeInteropPlatformEvent {
+  NativeInteropDoubleEvent({required this.value});
+
+  double value;
+
+  List<Object?> _toList() {
+    return <Object?>[value];
+  }
+
+  @override
+  jni_bridge.NativeInteropDoubleEvent toJni() {
+    return jni_bridge.NativeInteropDoubleEvent(value);
+  }
+
+  @override
+  ffi_bridge.NativeInteropDoubleEventBridge toFfi() {
+    return ffi_bridge.NativeInteropDoubleEventBridge.alloc().initWithValue(value);
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static NativeInteropDoubleEvent? fromJni(jni_bridge.NativeInteropDoubleEvent? jniClass) {
+    return jniClass == null ? null : NativeInteropDoubleEvent(value: jniClass.value);
+  }
+
+  static NativeInteropDoubleEvent? fromFfi(ffi_bridge.NativeInteropDoubleEventBridge? ffiClass) {
+    return ffiClass == null ? null : NativeInteropDoubleEvent(value: ffiClass.value);
+  }
+
+  static NativeInteropDoubleEvent decode(Object result) {
+    result as List<Object?>;
+    return NativeInteropDoubleEvent(value: result[0]! as double);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! NativeInteropDoubleEvent || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(value, other.value);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'NativeInteropDoubleEvent(value: $value)';
+  }
+}
+
+class NativeInteropObjectsEvent extends NativeInteropPlatformEvent {
+  NativeInteropObjectsEvent({required this.value});
+
+  Object value;
+
+  List<Object?> _toList() {
+    return <Object?>[value];
+  }
+
+  @override
+  jni_bridge.NativeInteropObjectsEvent toJni() {
+    return jni_bridge.NativeInteropObjectsEvent(_PigeonJniCodec.writeValue<JObject>(value));
+  }
+
+  @override
+  ffi_bridge.NativeInteropObjectsEventBridge toFfi() {
+    return ffi_bridge.NativeInteropObjectsEventBridge.alloc().initWithValue(
+      _PigeonFfiCodec.writeValue<NSObject>(value, generic: true),
+    );
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static NativeInteropObjectsEvent? fromJni(jni_bridge.NativeInteropObjectsEvent? jniClass) {
+    return jniClass == null
+        ? null
+        : NativeInteropObjectsEvent(value: _PigeonJniCodec.readValue(jniClass.value)!);
+  }
+
+  static NativeInteropObjectsEvent? fromFfi(ffi_bridge.NativeInteropObjectsEventBridge? ffiClass) {
+    return ffiClass == null
+        ? null
+        : NativeInteropObjectsEvent(value: _PigeonFfiCodec.readValue(ffiClass.value)!);
+  }
+
+  static NativeInteropObjectsEvent decode(Object result) {
+    result as List<Object?>;
+    return NativeInteropObjectsEvent(value: result[0]!);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! NativeInteropObjectsEvent || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(value, other.value);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'NativeInteropObjectsEvent(value: $value)';
+  }
+}
+
+class NativeInteropEnumEvent extends NativeInteropPlatformEvent {
+  NativeInteropEnumEvent({required this.value});
+
+  NativeInteropAnEnum value;
+
+  List<Object?> _toList() {
+    return <Object?>[value];
+  }
+
+  @override
+  jni_bridge.NativeInteropEnumEvent toJni() {
+    return jni_bridge.NativeInteropEnumEvent(value.toJni());
+  }
+
+  @override
+  ffi_bridge.NativeInteropEnumEventBridge toFfi() {
+    return ffi_bridge.NativeInteropEnumEventBridge.alloc().initWithValue(
+      ffi_bridge.NativeInteropAnEnum.values[value.index],
+    );
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static NativeInteropEnumEvent? fromJni(jni_bridge.NativeInteropEnumEvent? jniClass) {
+    return jniClass == null
+        ? null
+        : NativeInteropEnumEvent(value: NativeInteropAnEnum.fromJni(jniClass.value)!);
+  }
+
+  static NativeInteropEnumEvent? fromFfi(ffi_bridge.NativeInteropEnumEventBridge? ffiClass) {
+    return ffiClass == null
+        ? null
+        : NativeInteropEnumEvent(value: NativeInteropAnEnum.values[ffiClass.value.index]);
+  }
+
+  static NativeInteropEnumEvent decode(Object result) {
+    result as List<Object?>;
+    return NativeInteropEnumEvent(value: result[0]! as NativeInteropAnEnum);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! NativeInteropEnumEvent || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(value, other.value);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'NativeInteropEnumEvent(value: $value)';
+  }
+}
+
+class NativeInteropClassEvent extends NativeInteropPlatformEvent {
+  NativeInteropClassEvent({required this.value});
+
+  NativeInteropAllNullableTypes value;
+
+  List<Object?> _toList() {
+    return <Object?>[value];
+  }
+
+  @override
+  jni_bridge.NativeInteropClassEvent toJni() {
+    return jni_bridge.NativeInteropClassEvent(value.toJni());
+  }
+
+  @override
+  ffi_bridge.NativeInteropClassEventBridge toFfi() {
+    return ffi_bridge.NativeInteropClassEventBridge.alloc().initWithValue(value.toFfi());
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static NativeInteropClassEvent? fromJni(jni_bridge.NativeInteropClassEvent? jniClass) {
+    return jniClass == null
+        ? null
+        : NativeInteropClassEvent(value: NativeInteropAllNullableTypes.fromJni(jniClass.value)!);
+  }
+
+  static NativeInteropClassEvent? fromFfi(ffi_bridge.NativeInteropClassEventBridge? ffiClass) {
+    return ffiClass == null
+        ? null
+        : NativeInteropClassEvent(value: NativeInteropAllNullableTypes.fromFfi(ffiClass.value)!);
+  }
+
+  static NativeInteropClassEvent decode(Object result) {
+    result as List<Object?>;
+    return NativeInteropClassEvent(value: result[0]! as NativeInteropAllNullableTypes);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! NativeInteropClassEvent || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(value, other.value);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'NativeInteropClassEvent(value: $value)';
+  }
+}
+
+class NativeInteropEmptyEvent extends NativeInteropPlatformEvent {
+  NativeInteropEmptyEvent();
+
+  List<Object?> _toList() {
+    return <Object?>[];
+  }
+
+  @override
+  jni_bridge.NativeInteropEmptyEvent toJni() {
+    return jni_bridge.NativeInteropEmptyEvent();
+  }
+
+  @override
+  ffi_bridge.NativeInteropEmptyEventBridge toFfi() {
+    return ffi_bridge.NativeInteropEmptyEventBridge.alloc().init();
+  }
+
+  Object encode() {
+    return _toList();
+  }
+
+  static NativeInteropEmptyEvent? fromJni(jni_bridge.NativeInteropEmptyEvent? jniClass) {
+    return jniClass == null ? null : NativeInteropEmptyEvent();
+  }
+
+  static NativeInteropEmptyEvent? fromFfi(ffi_bridge.NativeInteropEmptyEventBridge? ffiClass) {
+    return ffiClass == null ? null : NativeInteropEmptyEvent();
+  }
+
+  static NativeInteropEmptyEvent decode(Object result) {
+    result as List<Object?>;
+    return NativeInteropEmptyEvent();
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! NativeInteropEmptyEvent || other.runtimeType != runtimeType) {
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'NativeInteropEmptyEvent()';
+  }
+}
+
 class _PigeonCodec extends StandardMessageCodec {
   const _PigeonCodec();
   @override
@@ -3570,6 +4340,30 @@ class _PigeonCodec extends StandardMessageCodec {
     } else if (value is NativeInteropSquare) {
       buffer.putUint8(141);
       writeValue(buffer, value.encode());
+    } else if (value is NativeInteropIntEvent) {
+      buffer.putUint8(142);
+      writeValue(buffer, value.encode());
+    } else if (value is NativeInteropStringEvent) {
+      buffer.putUint8(143);
+      writeValue(buffer, value.encode());
+    } else if (value is NativeInteropBoolEvent) {
+      buffer.putUint8(144);
+      writeValue(buffer, value.encode());
+    } else if (value is NativeInteropDoubleEvent) {
+      buffer.putUint8(145);
+      writeValue(buffer, value.encode());
+    } else if (value is NativeInteropObjectsEvent) {
+      buffer.putUint8(146);
+      writeValue(buffer, value.encode());
+    } else if (value is NativeInteropEnumEvent) {
+      buffer.putUint8(147);
+      writeValue(buffer, value.encode());
+    } else if (value is NativeInteropClassEvent) {
+      buffer.putUint8(148);
+      writeValue(buffer, value.encode());
+    } else if (value is NativeInteropEmptyEvent) {
+      buffer.putUint8(149);
+      writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
     }
@@ -3606,12 +4400,29 @@ class _PigeonCodec extends StandardMessageCodec {
         return NativeInteropCircle.decode(readValue(buffer)!);
       case 141:
         return NativeInteropSquare.decode(readValue(buffer)!);
+      case 142:
+        return NativeInteropIntEvent.decode(readValue(buffer)!);
+      case 143:
+        return NativeInteropStringEvent.decode(readValue(buffer)!);
+      case 144:
+        return NativeInteropBoolEvent.decode(readValue(buffer)!);
+      case 145:
+        return NativeInteropDoubleEvent.decode(readValue(buffer)!);
+      case 146:
+        return NativeInteropObjectsEvent.decode(readValue(buffer)!);
+      case 147:
+        return NativeInteropEnumEvent.decode(readValue(buffer)!);
+      case 148:
+        return NativeInteropClassEvent.decode(readValue(buffer)!);
+      case 149:
+        return NativeInteropEmptyEvent.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
   }
 }
 
+const StandardMethodCodec pigeonMethodCodec = StandardMethodCodec(_PigeonCodec());
 const String defaultInstanceName = 'PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u';
 
 class NativeInteropHostIntegrationCoreApiForNativeInterop {
@@ -26117,4 +26928,202 @@ abstract class NativeInteropSealedClassFlutterApi {
   }) {
     return NativeInteropSealedClassFlutterApiRegistrar().register(api, name: name);
   }
+}
+
+/// Returns a broadcast [Stream] of events from the `nativeInteropStreamInts` event channel.
+///
+/// Each call to this method creates a new [EventChannel], so it should
+/// not be called multiple times for the same `instanceName`. To deliver
+/// events to multiple listeners, call this method once and listen to the
+/// returned broadcast stream multiple times instead.
+Stream<int> nativeInteropStreamInts({String instanceName = ''}) {
+  if (Platform.isAndroid) {
+    final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
+    return _pigeonJniEventStream<int>(
+      onListen: (jni_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
+        final jni_bridge.NativeInteropEventChannelMethodsRegistrar registrar =
+            jni_bridge.NativeInteropEventChannelMethodsRegistrar();
+        final JString jName = resolvedName.toJString();
+        try {
+          registrar.pigeon_listen_nativeInteropStreamInts(jName, sink);
+        } finally {
+          jName.release();
+          registrar.release();
+        }
+      },
+      onCancel: () {
+        final jni_bridge.NativeInteropEventChannelMethodsRegistrar registrar =
+            jni_bridge.NativeInteropEventChannelMethodsRegistrar();
+        final JString jName = resolvedName.toJString();
+        try {
+          registrar.pigeon_cancel_nativeInteropStreamInts(jName);
+        } finally {
+          jName.release();
+          registrar.release();
+        }
+      },
+    );
+  }
+
+  if (Platform.isIOS || Platform.isMacOS) {
+    final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
+    return _pigeonFfiEventStream<int>(
+      onListen: (ffi_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
+        ffi_bridge
+            .NativeInteropEventChannelMethodsSetup.pigeon_listen_nativeInteropStreamIntsWithInstanceName(
+          NSString(resolvedName),
+          sink: sink,
+        );
+      },
+      onCancel: () {
+        ffi_bridge
+            .NativeInteropEventChannelMethodsSetup.pigeon_cancel_nativeInteropStreamIntsWithInstanceName(
+          NSString(resolvedName),
+        );
+      },
+    );
+  }
+
+  if (instanceName.isNotEmpty) {
+    instanceName = '.$instanceName';
+  }
+  final EventChannel nativeInteropStreamIntsChannel = EventChannel(
+    'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropEventChannelMethods.nativeInteropStreamInts$instanceName',
+    pigeonMethodCodec,
+  );
+  return nativeInteropStreamIntsChannel.receiveBroadcastStream().map((dynamic event) {
+    return event as int;
+  });
+}
+
+/// Returns a broadcast [Stream] of events from the `nativeInteropStreamEvents` event channel.
+///
+/// Each call to this method creates a new [EventChannel], so it should
+/// not be called multiple times for the same `instanceName`. To deliver
+/// events to multiple listeners, call this method once and listen to the
+/// returned broadcast stream multiple times instead.
+Stream<NativeInteropPlatformEvent> nativeInteropStreamEvents({String instanceName = ''}) {
+  if (Platform.isAndroid) {
+    final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
+    return _pigeonJniEventStream<NativeInteropPlatformEvent>(
+      onListen: (jni_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
+        final jni_bridge.NativeInteropEventChannelMethodsRegistrar registrar =
+            jni_bridge.NativeInteropEventChannelMethodsRegistrar();
+        final JString jName = resolvedName.toJString();
+        try {
+          registrar.pigeon_listen_nativeInteropStreamEvents(jName, sink);
+        } finally {
+          jName.release();
+          registrar.release();
+        }
+      },
+      onCancel: () {
+        final jni_bridge.NativeInteropEventChannelMethodsRegistrar registrar =
+            jni_bridge.NativeInteropEventChannelMethodsRegistrar();
+        final JString jName = resolvedName.toJString();
+        try {
+          registrar.pigeon_cancel_nativeInteropStreamEvents(jName);
+        } finally {
+          jName.release();
+          registrar.release();
+        }
+      },
+    );
+  }
+
+  if (Platform.isIOS || Platform.isMacOS) {
+    final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
+    return _pigeonFfiEventStream<NativeInteropPlatformEvent>(
+      onListen: (ffi_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
+        ffi_bridge
+            .NativeInteropEventChannelMethodsSetup.pigeon_listen_nativeInteropStreamEventsWithInstanceName(
+          NSString(resolvedName),
+          sink: sink,
+        );
+      },
+      onCancel: () {
+        ffi_bridge
+            .NativeInteropEventChannelMethodsSetup.pigeon_cancel_nativeInteropStreamEventsWithInstanceName(
+          NSString(resolvedName),
+        );
+      },
+    );
+  }
+
+  if (instanceName.isNotEmpty) {
+    instanceName = '.$instanceName';
+  }
+  final EventChannel nativeInteropStreamEventsChannel = EventChannel(
+    'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropEventChannelMethods.nativeInteropStreamEvents$instanceName',
+    pigeonMethodCodec,
+  );
+  return nativeInteropStreamEventsChannel.receiveBroadcastStream().map((dynamic event) {
+    return event as NativeInteropPlatformEvent;
+  });
+}
+
+/// Returns a broadcast [Stream] of events from the `nativeInteropStreamConsistentNumbers` event channel.
+///
+/// Each call to this method creates a new [EventChannel], so it should
+/// not be called multiple times for the same `instanceName`. To deliver
+/// events to multiple listeners, call this method once and listen to the
+/// returned broadcast stream multiple times instead.
+Stream<int> nativeInteropStreamConsistentNumbers({String instanceName = ''}) {
+  if (Platform.isAndroid) {
+    final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
+    return _pigeonJniEventStream<int>(
+      onListen: (jni_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
+        final jni_bridge.NativeInteropEventChannelMethodsRegistrar registrar =
+            jni_bridge.NativeInteropEventChannelMethodsRegistrar();
+        final JString jName = resolvedName.toJString();
+        try {
+          registrar.pigeon_listen_nativeInteropStreamConsistentNumbers(jName, sink);
+        } finally {
+          jName.release();
+          registrar.release();
+        }
+      },
+      onCancel: () {
+        final jni_bridge.NativeInteropEventChannelMethodsRegistrar registrar =
+            jni_bridge.NativeInteropEventChannelMethodsRegistrar();
+        final JString jName = resolvedName.toJString();
+        try {
+          registrar.pigeon_cancel_nativeInteropStreamConsistentNumbers(jName);
+        } finally {
+          jName.release();
+          registrar.release();
+        }
+      },
+    );
+  }
+
+  if (Platform.isIOS || Platform.isMacOS) {
+    final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
+    return _pigeonFfiEventStream<int>(
+      onListen: (ffi_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
+        ffi_bridge
+            .NativeInteropEventChannelMethodsSetup.pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName(
+          NSString(resolvedName),
+          sink: sink,
+        );
+      },
+      onCancel: () {
+        ffi_bridge
+            .NativeInteropEventChannelMethodsSetup.pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName(
+          NSString(resolvedName),
+        );
+      },
+    );
+  }
+
+  if (instanceName.isNotEmpty) {
+    instanceName = '.$instanceName';
+  }
+  final EventChannel nativeInteropStreamConsistentNumbersChannel = EventChannel(
+    'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropEventChannelMethods.nativeInteropStreamConsistentNumbers$instanceName',
+    pigeonMethodCodec,
+  );
+  return nativeInteropStreamConsistentNumbersChannel.receiveBroadcastStream().map((dynamic event) {
+    return event as int;
+  });
 }

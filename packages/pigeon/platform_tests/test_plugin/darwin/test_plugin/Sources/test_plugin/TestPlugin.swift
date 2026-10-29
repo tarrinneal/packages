@@ -73,9 +73,28 @@ public class TestPlugin: NSObject, FlutterPlugin, HostIntegrationCoreApi, HostCa
     NativeInteropHostIntegrationCoreApiSetup.register(api: NativeInteropTestsClass())
     NativeInteropReservedNamesHostApiSetup.register(api: NativeInteropReservedNamesHostApiImpl())
     NativeInteropSealedClassHostApiSetup.register(api: NativeInteropSealedClassHostApiImpl())
+    NativeInteropStreamIntsStreamHandler.register(streamHandler: SendNativeInteropInts())
+    NativeInteropStreamEventsStreamHandler.register(streamHandler: SendNativeInteropEvents())
+    NativeInteropStreamConsistentNumbersStreamHandler.register(
+      instanceName: "1",
+      streamHandler: SendNativeInteropConsistentNumbers(numberToSend: 1))
+    NativeInteropStreamConsistentNumbersStreamHandler.register(
+      instanceName: "2",
+      streamHandler: SendNativeInteropConsistentNumbers(numberToSend: 2))
+    NativeInteropStreamConsistentNumbersStreamHandler.register(
+      instanceName: "error",
+      streamHandler: SendNativeInteropError())
   }
 
   public func detachFromEngine(for registrar: FlutterPluginRegistrar) {
+    NativeInteropStreamIntsStreamHandler.register(streamHandler: nil)
+    NativeInteropStreamEventsStreamHandler.register(streamHandler: nil)
+    NativeInteropStreamConsistentNumbersStreamHandler.register(
+      instanceName: "1", streamHandler: nil)
+    NativeInteropStreamConsistentNumbersStreamHandler.register(
+      instanceName: "2", streamHandler: nil)
+    NativeInteropStreamConsistentNumbersStreamHandler.register(
+      instanceName: "error", streamHandler: nil)
     proxyApiRegistrar!.tearDown()
     proxyApiRegistrar = nil
   }
@@ -2311,3 +2330,115 @@ class NativeInteropSealedClassHostApiImpl: NativeInteropSealedClassHostApi {
     return try NativeInteropSealedClassFlutterApi.getInstance()!.echoShape(shape: shape)
   }
 }
+
+class SendNativeInteropInts: NativeInteropStreamIntsStreamHandler {
+  var timerActive = false
+  var timer: Timer?
+
+  override func onListen(
+    withArguments arguments: Any?, sink: NativeInteropTestsPigeonEventSink<Int64>
+  ) {
+    var count: Int64 = 0
+    if !timerActive {
+      timerActive = true
+      timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
+        DispatchQueue.main.async {
+          sink.success(count)
+          count += 1
+          if count >= 5 {
+            sink.endOfStream()
+            self.timer?.invalidate()
+            self.timerActive = false
+          }
+        }
+      }
+    }
+  }
+}
+
+class SendNativeInteropEvents: NativeInteropStreamEventsStreamHandler {
+  var timerActive = false
+  var timer: Timer?
+  var eventList: [NativeInteropPlatformEvent] =
+    [
+      NativeInteropIntEvent(value: 1),
+      NativeInteropStringEvent(value: "string"),
+      NativeInteropBoolEvent(value: false),
+      NativeInteropDoubleEvent(value: 3.14),
+      NativeInteropObjectsEvent(value: true),
+      NativeInteropEnumEvent(value: NativeInteropAnEnum.fortyTwo),
+      NativeInteropClassEvent(value: NativeInteropAllNullableTypes(aNullableInt: 0)),
+      NativeInteropEmptyEvent(),
+    ]
+
+  override func onListen(
+    withArguments arguments: Any?,
+    sink: NativeInteropTestsPigeonEventSink<NativeInteropPlatformEvent>
+  ) {
+    var count = 0
+    if !timerActive {
+      timerActive = true
+      timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
+        DispatchQueue.main.async {
+          if count >= self.eventList.count {
+            sink.endOfStream()
+            self.timer?.invalidate()
+            self.timerActive = false
+          } else {
+            sink.success(self.eventList[count])
+            count += 1
+          }
+        }
+      }
+    }
+  }
+}
+
+class SendNativeInteropConsistentNumbers: NativeInteropStreamConsistentNumbersStreamHandler {
+  let numberToSend: Int64
+  init(numberToSend: Int64) {
+    self.numberToSend = numberToSend
+  }
+  var timerActive = false
+  var timer: Timer?
+
+  override func onListen(
+    withArguments arguments: Any?, sink: NativeInteropTestsPigeonEventSink<Int64>
+  ) {
+    let numberThatWillBeSent: Int64 = numberToSend
+    var count: Int64 = 0
+    if !timerActive {
+      timerActive = true
+      timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
+        DispatchQueue.main.async {
+          guard self.timerActive else { return }
+          sink.success(numberThatWillBeSent)
+          count += 1
+          if count >= 10 {
+            sink.endOfStream()
+            self.timer?.invalidate()
+            self.timerActive = false
+          }
+        }
+      }
+    }
+  }
+
+  override func onCancel(withArguments arguments: Any?) {
+    timer?.invalidate()
+    timer = nil
+    timerActive = false
+  }
+}
+
+class SendNativeInteropError: NativeInteropStreamConsistentNumbersStreamHandler {
+  override func onListen(
+    withArguments arguments: Any?, sink: NativeInteropTestsPigeonEventSink<Int64>
+  ) {
+    DispatchQueue.main.async {
+      sink.error(code: "error_code", message: "error_message", details: "error_details")
+      sink.endOfStream()
+    }
+  }
+}
+

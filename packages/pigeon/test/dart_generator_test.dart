@@ -119,6 +119,85 @@ void main() {
     );
   });
 
+  test('gen event channel api with native interop (JNI and FFI)', () {
+    final api = AstEventChannelApi(
+      name: 'EventApi',
+      methods: <Method>[
+        Method(
+          name: 'streamEvents',
+          location: ApiLocation.host,
+          returnType: const TypeDeclaration(baseName: 'int', isNullable: false),
+          parameters: <Parameter>[],
+        ),
+      ],
+    );
+    final root = Root(
+      apis: <Api>[api],
+      classes: <Class>[],
+      enums: <Enum>[],
+      containsEventChannel: true,
+    );
+    const generator = DartGenerator();
+
+    final sink = StringBuffer();
+    generator.generate(
+      const InternalDartOptions(
+        dartOut: 'lib/messages.g.dart',
+        useJni: true,
+        useFfi: true,
+        ignoreLints: false,
+      ),
+      root,
+      sink,
+      dartPackageName: DEFAULT_PACKAGE_NAME,
+    );
+    final code = sink.toString();
+    expect(code, contains('Stream<T> _pigeonJniEventStream<T>({'));
+    expect(code, contains('Stream<T> _pigeonFfiEventStream<T>({'));
+    expect(code, contains('identical(jniSink, currentSink)'));
+    expect(code, contains('identical(ffiSink, currentSink)'));
+    expect(code, contains(r'onSuccess$async: true,'));
+    expect(code, contains(r'PigeonEventSinkBridge$Builder.implementAsListener('));
+    expect(code, contains('registrar.pigeon_listen_streamEvents(jName, sink);'));
+    expect(code, contains('registrar.pigeon_cancel_streamEvents(jName);'));
+    expect(code, contains('ffi_bridge.EventApiSetup.pigeon_listen_streamEventsWithInstanceName('));
+    expect(code, contains('ffi_bridge.EventApiSetup.pigeon_cancel_streamEventsWithInstanceName('));
+
+    final jniOnlySink = StringBuffer();
+    generator.generate(
+      const InternalDartOptions(
+        dartOut: 'lib/messages.g.dart',
+        useJni: true,
+        nativeInteropTransport: NativeInteropTransport.objects,
+        ignoreLints: false,
+      ),
+      root,
+      jniOnlySink,
+      dartPackageName: DEFAULT_PACKAGE_NAME,
+    );
+    final jniOnlyCode = jniOnlySink.toString();
+    expect(jniOnlyCode, contains('Stream<T> _pigeonJniEventStream<T>({'));
+    expect(jniOnlyCode, contains('class _PigeonJniBuffers {'));
+    expect(jniOnlyCode, isNot(contains('Stream<T> _pigeonFfiEventStream<T>({')));
+
+    final ffiOnlySink = StringBuffer();
+    generator.generate(
+      const InternalDartOptions(
+        dartOut: 'lib/messages.g.dart',
+        useFfi: true,
+        nativeInteropTransport: NativeInteropTransport.objects,
+        ignoreLints: false,
+      ),
+      root,
+      ffiOnlySink,
+      dartPackageName: DEFAULT_PACKAGE_NAME,
+    );
+    final ffiOnlyCode = ffiOnlySink.toString();
+    expect(ffiOnlyCode, contains('Stream<T> _pigeonFfiEventStream<T>({'));
+    expect(ffiOnlyCode, contains('class _PigeonFfiBuffers {'));
+    expect(ffiOnlyCode, isNot(contains('Stream<T> _pigeonJniEventStream<T>({')));
+  });
+
   test('gen one host api', () {
     final root = Root(
       apis: <Api>[

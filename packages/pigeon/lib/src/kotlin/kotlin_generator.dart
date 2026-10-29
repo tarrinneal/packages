@@ -292,7 +292,7 @@ class KotlinGenerator extends StructuredGenerator<InternalKotlinOptions> {
     if (generatorOptions.useJni) {
       indent.writeln('import androidx.annotation.Keep');
     }
-    if (!generatorOptions.useJni || root.containsEventChannel || root.containsProxyApi) {
+    if (!generatorOptions.useJni || root.containsProxyApi) {
       indent.writeln('import io.flutter.plugin.common.BasicMessageChannel');
       indent.writeln('import io.flutter.plugin.common.BinaryMessenger');
       indent.writeln('import io.flutter.plugin.common.EventChannel');
@@ -301,7 +301,7 @@ class KotlinGenerator extends StructuredGenerator<InternalKotlinOptions> {
       indent.writeln('import io.flutter.plugin.common.StandardMessageCodec');
       indent.writeln('import java.io.ByteArrayOutputStream');
       indent.writeln('import java.nio.ByteBuffer');
-    } else if (generatorOptions.useJniHybrid) {
+    } else if (generatorOptions.useJniHybrid || root.containsEventChannel) {
       indent.writeln('import io.flutter.plugin.common.StandardMessageCodec');
       indent.writeln('import java.io.ByteArrayOutputStream');
       indent.writeln('import java.nio.ByteBuffer');
@@ -743,10 +743,10 @@ class KotlinGenerator extends StructuredGenerator<InternalKotlinOptions> {
       });
     });
     indent.newln();
-    if (generatorOptions.useJniHybrid) {
+    if (generatorOptions.useJniHybrid || (generatorOptions.useJni && root.containsEventChannel)) {
       _writeInteropCodec(generatorOptions, indent);
     }
-    if (root.containsEventChannel) {
+    if (root.containsEventChannel && !generatorOptions.useJni) {
       indent.writeln(
         'val ${generatorOptions.fileSpecificClassNameComponent}$_pigeonMethodCodec = StandardMethodCodec(${generatorOptions.fileSpecificClassNameComponent}$_codecName())',
       );
@@ -1629,6 +1629,16 @@ class ${api.name}Registrar() {
     AstEventChannelApi api, {
     required String dartPackageName,
   }) {
+    if (generatorOptions.useJni) {
+      _writeJniEventChannelApi(
+        generatorOptions,
+        root,
+        indent,
+        api,
+        dartPackageName: dartPackageName,
+      );
+      return;
+    }
     indent.newln();
     indent.format('''
         private class ${generatorOptions.fileSpecificClassNameComponent}PigeonStreamHandler<T>(
@@ -1688,6 +1698,103 @@ class ${api.name}Registrar() {
           }
         // Implement methods from ${generatorOptions.fileSpecificClassNameComponent}PigeonEventChannelWrapper
         override fun onListen(p0: Any?, sink: PigeonEventSink<${_kotlinTypeForDartType(func.returnType)}>) {}
+
+        override fun onCancel(p0: Any?) {}
+        }
+      ''');
+    }
+  }
+
+  void _writeJniEventChannelApi(
+    InternalKotlinOptions generatorOptions,
+    Root root,
+    Indent indent,
+    AstEventChannelApi api, {
+    required String dartPackageName,
+  }) {
+    final String prefix = generatorOptions.fileSpecificClassNameComponent ?? '';
+    final String codec = _interopCodecName(generatorOptions);
+    final sinkClassName = '${prefix}PigeonEventSink';
+    indent.newln();
+    indent.format('''
+        @Keep
+        interface ${prefix}PigeonEventSinkBridge {
+          fun onSuccess(event: ByteArray?)
+
+          fun onError(code: String, message: String?, details: ByteArray?)
+
+          fun onEndOfStream()
+        }
+
+        interface ${prefix}PigeonEventChannelWrapper<T> {
+          open fun onListen(p0: Any?, sink: $sinkClassName<T>) {}
+
+          open fun onCancel(p0: Any?) {}
+        }
+
+        class $sinkClassName<T>(private val bridge: ${prefix}PigeonEventSinkBridge) {
+          fun success(value: T) {
+            bridge.onSuccess($codec.encodeOrNull(value))
+          }
+
+          fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
+            bridge.onError(errorCode, errorMessage, $codec.encodeOrNull(errorDetails))
+          }
+
+          fun endOfStream() {
+            bridge.onEndOfStream()
+          }
+        }
+      ''');
+
+    indent.newln();
+    indent.writeln('@Keep');
+    indent.writeScoped('class ${api.name}Registrar {', '}', () {
+      indent.writeScoped('companion object {', '}', () {
+        for (final Method func in api.methods) {
+          final handlerClass = '${toUpperCamelCase(func.name)}StreamHandler';
+          indent.writeln(
+            'internal val ${func.name}Handlers = mutableMapOf<String, $handlerClass>()',
+          );
+        }
+      });
+      for (final Method func in api.methods) {
+        final String returnType = _kotlinTypeForDartType(func.returnType);
+        indent.newln();
+        indent.writeScoped(
+          'fun pigeon_listen_${func.name}(instanceName: String, sink: ${prefix}PigeonEventSinkBridge) {',
+          '}',
+          () {
+            indent.writeln(
+              '${func.name}Handlers[instanceName]?.onListen(null, $sinkClassName<$returnType>(sink))',
+            );
+          },
+        );
+        indent.newln();
+        indent.writeScoped('fun pigeon_cancel_${func.name}(instanceName: String) {', '}', () {
+          indent.writeln('${func.name}Handlers[instanceName]?.onCancel(null)');
+        });
+      }
+    });
+
+    addDocumentationComments(indent, api.documentationComments, _docCommentSpec);
+    for (final Method func in api.methods) {
+      final handlerClass = '${toUpperCamelCase(func.name)}StreamHandler';
+      final String returnType = _kotlinTypeForDartType(func.returnType);
+      indent.format('''
+        abstract class $handlerClass : ${prefix}PigeonEventChannelWrapper<$returnType> {
+          companion object {
+            fun register(streamHandler: $handlerClass?, instanceName: String = defaultInstanceName) {
+              val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+              if (streamHandler != null) {
+                ${api.name}Registrar.${func.name}Handlers[resolvedName] = streamHandler
+              } else {
+                ${api.name}Registrar.${func.name}Handlers.remove(resolvedName)
+              }
+            }
+          }
+        // Implement methods from ${prefix}PigeonEventChannelWrapper
+        override fun onListen(p0: Any?, sink: $sinkClassName<$returnType>) {}
 
         override fun onCancel(p0: Any?) {}
         }

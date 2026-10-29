@@ -32,7 +32,7 @@ Native Interop calls are direct in-process function calls across the C ABI (FFI)
 Using Native Interop in pigeon follows the standard pigeon workflow, with a few additional configuration and compilation steps. The complete end-to-end process is:
 
 1. **Add Dependencies**: Add required interop packages to your `pubspec.yaml` (see [Step 1: Add Dependencies](#step-1-add-dependencies) below).
-2. **Define the Interface**: Create a Dart definition file outlining your `HostApi` and `FlutterApi` declarations (refer to the [Pigeon README](./README.md#rules-for-defining-your-communication-interface) for syntax and rules).
+2. **Define the Interface**: Create a Dart definition file outlining your `HostApi`, `FlutterApi`, and `EventChannelApi` declarations (refer to the [Pigeon README](./README.md#rules-for-defining-your-communication-interface) for syntax and rules).
 3. **Configure Options**: Configure `kotlinOptions.useJni` or `swiftOptions.useFfi` in your `PigeonOptions` (see [Step 2: Configure Pigeon Options](#step-2-configure-pigeon-options) below).
 4. **Prerequisites**: Ensure your local environment meets the toolchain prerequisites for `jnigen` and `ffigen` (see [Section 3: Prerequisites](#3-prerequisites) below).
 5. **Run Code Generation**: Run the `pigeon` tool to generate the native bridge code and interop bindings (see [Step 3: Run Code Generation](#step-3-run-code-generation) below).
@@ -142,7 +142,7 @@ When Native Interop options (`useJni` or `useFfi`) are enabled, Pigeon automatic
 
 Because Dart FFI cannot directly call Swift symbols, the FFI toolchain generates intermediate Objective-C bridging files in a subdirectory named `<swift_output_dir>_objc_gen`:
 - **`.h` (Headers)**: Always generated to declare module interfaces and types.
-- **`.m` (Bridging Implementation)**: Generated when the schema contains callbacks, closures, Flutter APIs, or Objective-C blocks requiring trampoline implementations.
+- **`.m` (Bridging Implementation)**: Generated when the schema contains callbacks, closures, `@FlutterApi`, `@EventChannelApi`, or Objective-C blocks/protocols requiring trampoline implementations.
 - **`.o` (Temporary Object Files)**: Intermediate binary files generated during `ffigen`/`swiftgen` AST extraction. These are **not** needed after code generation and must **not** be committed to version control.
 
 To compile the generated Objective-C files alongside your Swift code, you must configure your iOS/macOS build systems:
@@ -290,7 +290,7 @@ F DartJNI : JNI is not initialized. Are you trying to invoke a Java API from Dar
 ### 5.6 Xcode Error: `Build input file cannot be found: '.../<plugin_name>_objc_gen.o'`
 
 If an iOS or macOS SwiftPM build fails because `<plugin_name>_objc_gen.o` cannot be found:
-- **Cause**: `Package.swift` defines a `<plugin_name>_objc_gen` target, but `ffigen` did not generate a `.m` implementation file in `Sources/<plugin_name>_objc_gen/` (because the Pigeon schema has no async callbacks, closures, or `@FlutterApi` methods requiring Objective-C trampolines). Without a `.m` source file, SwiftPM does not produce an object file for the target. (Note: any `.o` file produced inside `Sources/<plugin_name>_objc_gen/` during `ffigen` execution is a temporary `swiftc` artifact and must not be committed or used.)
+- **Cause**: `Package.swift` defines a `<plugin_name>_objc_gen` target, but `ffigen` did not generate a `.m` implementation file in `Sources/<plugin_name>_objc_gen/` (because the Pigeon schema has no async callbacks, closures, `@FlutterApi` methods, or `@EventChannelApi` methods requiring Objective-C trampolines). Without a `.m` source file, SwiftPM does not produce an object file for the target. (Note: any `.o` file produced inside `Sources/<plugin_name>_objc_gen/` during `ffigen` execution is a temporary `swiftc` artifact and must not be committed or used.)
 - **Solution**: Remove the `<plugin_name>_objc_gen` target and its dependency entry from `Package.swift`.
 
 ### 5.7 `ClassNotFoundException` or `NoSuchMethodError` in Android Release Builds (JNI)

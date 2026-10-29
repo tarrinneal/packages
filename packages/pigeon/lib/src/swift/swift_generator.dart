@@ -1215,9 +1215,9 @@ fileprivate enum $codec {
     Indent indent, {
     required String dartPackageName,
   }) {
-    if (generatorOptions.useFfi && !root.containsEventChannel && !root.containsProxyApi) {
+    if (generatorOptions.useFfi && !root.containsProxyApi) {
       _writeFfiCodec(indent, root);
-      if (generatorOptions.useFfiHybrid) {
+      if (generatorOptions.useFfiHybrid || root.containsEventChannel) {
         _writeFfiInteropCodec(generatorOptions, root, indent);
       }
       return;
@@ -3476,6 +3476,16 @@ enum ${_classNamePrefix}PigeonInternalNumberType: Int {
     AstEventChannelApi api, {
     required String dartPackageName,
   }) {
+    if (generatorOptions.useFfi) {
+      _writeFfiEventChannelApi(
+        generatorOptions,
+        root,
+        indent,
+        api,
+        dartPackageName: dartPackageName,
+      );
+      return;
+    }
     indent.newln();
     // TODO(tarrinneal): Prefix this class to avoid name collisions.
     indent.format('''
@@ -3546,6 +3556,104 @@ enum ${_classNamePrefix}PigeonInternalNumberType: Int {
             let internalStreamHandler = PigeonStreamHandler<${_swiftTypeForDartType(func.returnType)}>(wrapper: streamHandler)
             let channel = FlutterEventChannel(name: channelName, binaryMessenger: messenger, codec: ${_getMethodCodecVarName(generatorOptions)})
             channel.setStreamHandler(internalStreamHandler)
+          }
+        }
+      ''');
+    }
+  }
+
+  void _writeFfiEventChannelApi(
+    InternalSwiftOptions generatorOptions,
+    Root root,
+    Indent indent,
+    AstEventChannelApi api, {
+    required String dartPackageName,
+  }) {
+    final String prefix = _classNamePrefix;
+    final codec = '${prefix}PigeonInteropCodec';
+    final wrapperClassName = '${prefix}PigeonEventChannelWrapper';
+    final sinkClassName = '${prefix}PigeonEventSink';
+    indent.newln();
+    indent.format('''
+      @objc protocol ${prefix}PigeonEventSinkBridge {
+        @objc func onSuccess(event: NSData?)
+        @objc func onError(code: String, message: String?, details: NSData?)
+        @objc func onEndOfStream()
+      }
+
+      class $wrapperClassName<ReturnType> {
+        func onListen(withArguments arguments: Any?, sink: $sinkClassName<ReturnType>) {}
+        func onCancel(withArguments arguments: Any?) {}
+      }
+
+      class $sinkClassName<ReturnType> {
+        private let bridge: ${prefix}PigeonEventSinkBridge
+
+        fileprivate init(_ bridge: ${prefix}PigeonEventSinkBridge) {
+          self.bridge = bridge
+        }
+
+        func success(_ value: ReturnType) {
+          bridge.onSuccess(event: $codec.encodeOrNil(value))
+        }
+
+        func error(code: String, message: String?, details: Any?) {
+          bridge.onError(code: code, message: message, details: $codec.encodeOrNil(details))
+        }
+
+        func endOfStream() {
+          bridge.onEndOfStream()
+        }
+      }
+      ''');
+
+    indent.newln();
+    indent.writeScoped('@objc class ${api.name}Setup: NSObject {', '}', () {
+      for (final Method func in api.methods) {
+        final handlerClass = '${toUpperCamelCase(func.name)}StreamHandler';
+        indent.writeln('fileprivate static var ${func.name}Handlers = [String: $handlerClass]()');
+      }
+      for (final Method func in api.methods) {
+        final String returnType = _swiftTypeForDartType(func.returnType, ffiTypedData: true);
+        indent.newln();
+        indent.writeln('// swift-format-ignore: AlwaysUseLowerCamelCase');
+        indent.writeScoped(
+          '@objc static func pigeon_listen_${func.name}(instanceName: String, sink: ${prefix}PigeonEventSinkBridge) {',
+          '}',
+          () {
+            indent.writeln(
+              '${func.name}Handlers[instanceName]?.onListen(withArguments: nil, sink: $sinkClassName<$returnType>(sink))',
+            );
+          },
+        );
+        indent.newln();
+        indent.writeln('// swift-format-ignore: AlwaysUseLowerCamelCase');
+        indent.writeScoped(
+          '@objc static func pigeon_cancel_${func.name}(instanceName: String) {',
+          '}',
+          () {
+            indent.writeln('${func.name}Handlers[instanceName]?.onCancel(withArguments: nil)');
+          },
+        );
+      }
+    });
+
+    addDocumentationComments(indent, api.documentationComments, _docCommentSpec);
+    for (final Method func in api.methods) {
+      final handlerClass = '${toUpperCamelCase(func.name)}StreamHandler';
+      final String returnType = _swiftTypeForDartType(func.returnType, ffiTypedData: true);
+      indent.format('''
+        class $handlerClass: $wrapperClassName<$returnType> {
+          static func register(
+            instanceName: String = ${prefix}PigeonInternal.defaultInstanceName,
+            streamHandler: $handlerClass?
+          ) {
+            let resolvedName = instanceName.isEmpty ? ${prefix}PigeonInternal.defaultInstanceName : instanceName
+            if let streamHandler = streamHandler {
+              ${api.name}Setup.${func.name}Handlers[resolvedName] = streamHandler
+            } else {
+              ${api.name}Setup.${func.name}Handlers.removeValue(forKey: resolvedName)
+            }
           }
         }
       ''');

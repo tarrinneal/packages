@@ -2286,5 +2286,53 @@ void main() {
         ),
       );
     });
+
+    test('generates Foundation-only EventChannelApi in FFI mode', () {
+      final root = Root(
+        apis: <Api>[
+          AstEventChannelApi(
+            name: 'EventApi',
+            methods: <Method>[
+              Method(
+                name: 'streamInts',
+                location: ApiLocation.host,
+                returnType: intType,
+                parameters: <Parameter>[],
+              ),
+            ],
+          ),
+        ],
+        classes: <Class>[],
+        enums: <Enum>[],
+        containsEventChannel: true,
+      );
+      final sink = StringBuffer();
+      const SwiftGenerator().generate(
+        const InternalSwiftOptions(
+          swiftOut: '',
+          useFfi: true,
+          fileSpecificClassNameComponent: 'Foo',
+        ),
+        root,
+        sink,
+        dartPackageName: DEFAULT_PACKAGE_NAME,
+      );
+      final code = sink.toString();
+      expect(code, isNot(contains('import Flutter')));
+      expect(code, isNot(contains('FlutterEventChannel')));
+      expect(code, contains('@objc protocol FooPigeonEventSinkBridge {'));
+      expect(code, contains('class FooPigeonEventChannelWrapper<ReturnType> {'));
+      expect(code, contains('class FooPigeonEventSink<ReturnType> {'));
+      expect(code, contains('@objc class EventApiSetup: NSObject {'));
+      expect(
+        code,
+        contains(
+          '@objc static func pigeon_listen_streamInts(instanceName: String, sink: FooPigeonEventSinkBridge)',
+        ),
+      );
+      expect(code, contains('@objc static func pigeon_cancel_streamInts(instanceName: String)'));
+      expect(code, contains('class StreamIntsStreamHandler: FooPigeonEventChannelWrapper<Int64>'));
+      expect(code, contains('streamHandler: StreamIntsStreamHandler?'));
+    });
   });
 }

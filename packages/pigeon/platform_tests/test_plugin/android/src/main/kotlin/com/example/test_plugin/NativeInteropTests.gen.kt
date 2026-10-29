@@ -1386,6 +1386,311 @@ data class NativeInteropSquare(val side: Double, val label: String? = null) : Na
   }
 }
 
+/**
+ * Generated class from Pigeon that represents data sent in messages. This class should not be
+ * extended by any user class outside of the generated file.
+ */
+@Keep sealed class NativeInteropPlatformEvent
+/** Generated class from Pigeon that represents data sent in messages. */
+@Keep
+data class NativeInteropIntEvent(val value: Long) : NativeInteropPlatformEvent() {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): NativeInteropIntEvent {
+      val value = pigeonVar_list[0] as Long
+      return NativeInteropIntEvent(value)
+    }
+  }
+
+  fun toList(): List<Any?> {
+    return listOf(
+        value,
+    )
+  }
+
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as NativeInteropIntEvent
+    return NativeInteropTestsPigeonUtils.deepEquals(this.value, other.value)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + NativeInteropTestsPigeonUtils.deepHash(this.value)
+    return result
+  }
+
+  override fun toString(): String {
+    return "NativeInteropIntEvent(value=$value)"
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+@Keep
+data class NativeInteropStringEvent(val value: String) : NativeInteropPlatformEvent() {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): NativeInteropStringEvent {
+      val value = pigeonVar_list[0] as String
+      return NativeInteropStringEvent(value)
+    }
+  }
+
+  fun toList(): List<Any?> {
+    return listOf(
+        value,
+    )
+  }
+
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as NativeInteropStringEvent
+    return NativeInteropTestsPigeonUtils.deepEquals(this.value, other.value)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + NativeInteropTestsPigeonUtils.deepHash(this.value)
+    return result
+  }
+
+  override fun toString(): String {
+    return "NativeInteropStringEvent(value=$value)"
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+@Keep
+data class NativeInteropBoolEvent(val value: Boolean) : NativeInteropPlatformEvent() {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): NativeInteropBoolEvent {
+      val value = pigeonVar_list[0] as Boolean
+      return NativeInteropBoolEvent(value)
+    }
+  }
+
+  fun toList(): List<Any?> {
+    return listOf(
+        value,
+    )
+  }
+
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as NativeInteropBoolEvent
+    return NativeInteropTestsPigeonUtils.deepEquals(this.value, other.value)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + NativeInteropTestsPigeonUtils.deepHash(this.value)
+    return result
+  }
+
+  override fun toString(): String {
+    return "NativeInteropBoolEvent(value=$value)"
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+@Keep
+data class NativeInteropDoubleEvent(val value: Double) : NativeInteropPlatformEvent() {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): NativeInteropDoubleEvent {
+      val value = pigeonVar_list[0] as Double
+      return NativeInteropDoubleEvent(value)
+    }
+  }
+
+  fun toList(): List<Any?> {
+    return listOf(
+        value,
+    )
+  }
+
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as NativeInteropDoubleEvent
+    return NativeInteropTestsPigeonUtils.deepEquals(this.value, other.value)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + NativeInteropTestsPigeonUtils.deepHash(this.value)
+    return result
+  }
+
+  override fun toString(): String {
+    return "NativeInteropDoubleEvent(value=$value)"
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+@Keep
+data class NativeInteropObjectsEvent(val value: Any) : NativeInteropPlatformEvent() {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): NativeInteropObjectsEvent {
+      val value = pigeonVar_list[0] as Any
+      return NativeInteropObjectsEvent(value)
+    }
+  }
+
+  fun toList(): List<Any?> {
+    return listOf(
+        value,
+    )
+  }
+
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as NativeInteropObjectsEvent
+    return NativeInteropTestsPigeonUtils.deepEquals(this.value, other.value)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + NativeInteropTestsPigeonUtils.deepHash(this.value)
+    return result
+  }
+
+  override fun toString(): String {
+    return "NativeInteropObjectsEvent(value=$value)"
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+@Keep
+data class NativeInteropEnumEvent(val value: NativeInteropAnEnum) : NativeInteropPlatformEvent() {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): NativeInteropEnumEvent {
+      val value = pigeonVar_list[0] as NativeInteropAnEnum
+      return NativeInteropEnumEvent(value)
+    }
+  }
+
+  fun toList(): List<Any?> {
+    return listOf(
+        value,
+    )
+  }
+
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as NativeInteropEnumEvent
+    return NativeInteropTestsPigeonUtils.deepEquals(this.value, other.value)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + NativeInteropTestsPigeonUtils.deepHash(this.value)
+    return result
+  }
+
+  override fun toString(): String {
+    return "NativeInteropEnumEvent(value=$value)"
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+@Keep
+data class NativeInteropClassEvent(val value: NativeInteropAllNullableTypes) :
+    NativeInteropPlatformEvent() {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): NativeInteropClassEvent {
+      val value = pigeonVar_list[0] as NativeInteropAllNullableTypes
+      return NativeInteropClassEvent(value)
+    }
+  }
+
+  fun toList(): List<Any?> {
+    return listOf(
+        value,
+    )
+  }
+
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    val other = other as NativeInteropClassEvent
+    return NativeInteropTestsPigeonUtils.deepEquals(this.value, other.value)
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    result = 31 * result + NativeInteropTestsPigeonUtils.deepHash(this.value)
+    return result
+  }
+
+  override fun toString(): String {
+    return "NativeInteropClassEvent(value=$value)"
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+@Keep
+class NativeInteropEmptyEvent : NativeInteropPlatformEvent() {
+  companion object {
+    fun fromList(pigeonVar_list: List<Any?>): NativeInteropEmptyEvent {
+      return NativeInteropEmptyEvent()
+    }
+  }
+
+  fun toList(): List<Any?> {
+    return listOf()
+  }
+
+  override fun equals(other: Any?): Boolean {
+    if (other == null || other.javaClass != javaClass) {
+      return false
+    }
+    if (this === other) {
+      return true
+    }
+    return true
+  }
+
+  override fun hashCode(): Int {
+    var result = javaClass.hashCode()
+    return result
+  }
+
+  override fun toString(): String {
+    return "NativeInteropEmptyEvent()"
+  }
+}
+
 private open class NativeInteropTestsPigeonCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
     return when (type) {
@@ -1439,6 +1744,30 @@ private open class NativeInteropTestsPigeonCodec : StandardMessageCodec() {
       }
       141.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let { NativeInteropSquare.fromList(it) }
+      }
+      142.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropIntEvent.fromList(it) }
+      }
+      143.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropStringEvent.fromList(it) }
+      }
+      144.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropBoolEvent.fromList(it) }
+      }
+      145.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropDoubleEvent.fromList(it) }
+      }
+      146.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropObjectsEvent.fromList(it) }
+      }
+      147.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropEnumEvent.fromList(it) }
+      }
+      148.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropClassEvent.fromList(it) }
+      }
+      149.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropEmptyEvent.fromList(it) }
       }
       else -> super.readValueOfType(type, buffer)
     }
@@ -1496,6 +1825,38 @@ private open class NativeInteropTestsPigeonCodec : StandardMessageCodec() {
       }
       is NativeInteropSquare -> {
         stream.write(141)
+        writeValue(stream, value.toList())
+      }
+      is NativeInteropIntEvent -> {
+        stream.write(142)
+        writeValue(stream, value.toList())
+      }
+      is NativeInteropStringEvent -> {
+        stream.write(143)
+        writeValue(stream, value.toList())
+      }
+      is NativeInteropBoolEvent -> {
+        stream.write(144)
+        writeValue(stream, value.toList())
+      }
+      is NativeInteropDoubleEvent -> {
+        stream.write(145)
+        writeValue(stream, value.toList())
+      }
+      is NativeInteropObjectsEvent -> {
+        stream.write(146)
+        writeValue(stream, value.toList())
+      }
+      is NativeInteropEnumEvent -> {
+        stream.write(147)
+        writeValue(stream, value.toList())
+      }
+      is NativeInteropClassEvent -> {
+        stream.write(148)
+        writeValue(stream, value.toList())
+      }
+      is NativeInteropEmptyEvent -> {
+        stream.write(149)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -7592,3 +7953,156 @@ private class NativeInteropSealedClassFlutterApiBridgeAdapter(
     return pigeonVar_decoded as NativeInteropShape
   }
 }
+
+@Keep
+interface NativeInteropTestsPigeonEventSinkBridge {
+  fun onSuccess(event: ByteArray?)
+
+  fun onError(code: String, message: String?, details: ByteArray?)
+
+  fun onEndOfStream()
+}
+
+interface NativeInteropTestsPigeonEventChannelWrapper<T> {
+  open fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<T>) {}
+
+  open fun onCancel(p0: Any?) {}
+}
+
+class NativeInteropTestsPigeonEventSink<T>(
+    private val bridge: NativeInteropTestsPigeonEventSinkBridge
+) {
+  fun success(value: T) {
+    bridge.onSuccess(NativeInteropTestsPigeonInteropCodec.encodeOrNull(value))
+  }
+
+  fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
+    bridge.onError(
+        errorCode, errorMessage, NativeInteropTestsPigeonInteropCodec.encodeOrNull(errorDetails))
+  }
+
+  fun endOfStream() {
+    bridge.onEndOfStream()
+  }
+}
+
+@Keep
+class NativeInteropEventChannelMethodsRegistrar {
+  companion object {
+    internal val nativeInteropStreamIntsHandlers =
+        mutableMapOf<String, NativeInteropStreamIntsStreamHandler>()
+    internal val nativeInteropStreamEventsHandlers =
+        mutableMapOf<String, NativeInteropStreamEventsStreamHandler>()
+    internal val nativeInteropStreamConsistentNumbersHandlers =
+        mutableMapOf<String, NativeInteropStreamConsistentNumbersStreamHandler>()
+  }
+
+  fun pigeon_listen_nativeInteropStreamInts(
+      instanceName: String,
+      sink: NativeInteropTestsPigeonEventSinkBridge
+  ) {
+    nativeInteropStreamIntsHandlers[instanceName]?.onListen(
+        null, NativeInteropTestsPigeonEventSink<Long>(sink))
+  }
+
+  fun pigeon_cancel_nativeInteropStreamInts(instanceName: String) {
+    nativeInteropStreamIntsHandlers[instanceName]?.onCancel(null)
+  }
+
+  fun pigeon_listen_nativeInteropStreamEvents(
+      instanceName: String,
+      sink: NativeInteropTestsPigeonEventSinkBridge
+  ) {
+    nativeInteropStreamEventsHandlers[instanceName]?.onListen(
+        null, NativeInteropTestsPigeonEventSink<NativeInteropPlatformEvent>(sink))
+  }
+
+  fun pigeon_cancel_nativeInteropStreamEvents(instanceName: String) {
+    nativeInteropStreamEventsHandlers[instanceName]?.onCancel(null)
+  }
+
+  fun pigeon_listen_nativeInteropStreamConsistentNumbers(
+      instanceName: String,
+      sink: NativeInteropTestsPigeonEventSinkBridge
+  ) {
+    nativeInteropStreamConsistentNumbersHandlers[instanceName]?.onListen(
+        null, NativeInteropTestsPigeonEventSink<Long>(sink))
+  }
+
+  fun pigeon_cancel_nativeInteropStreamConsistentNumbers(instanceName: String) {
+    nativeInteropStreamConsistentNumbersHandlers[instanceName]?.onCancel(null)
+  }
+}
+
+abstract class NativeInteropStreamIntsStreamHandler :
+    NativeInteropTestsPigeonEventChannelWrapper<Long> {
+  companion object {
+    fun register(
+        streamHandler: NativeInteropStreamIntsStreamHandler?,
+        instanceName: String = defaultInstanceName
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      if (streamHandler != null) {
+        NativeInteropEventChannelMethodsRegistrar.nativeInteropStreamIntsHandlers[resolvedName] =
+            streamHandler
+      } else {
+        NativeInteropEventChannelMethodsRegistrar.nativeInteropStreamIntsHandlers.remove(
+            resolvedName)
+      }
+    }
+  }
+  // Implement methods from NativeInteropTestsPigeonEventChannelWrapper
+  override fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<Long>) {}
+
+  override fun onCancel(p0: Any?) {}
+}
+
+abstract class NativeInteropStreamEventsStreamHandler :
+    NativeInteropTestsPigeonEventChannelWrapper<NativeInteropPlatformEvent> {
+  companion object {
+    fun register(
+        streamHandler: NativeInteropStreamEventsStreamHandler?,
+        instanceName: String = defaultInstanceName
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      if (streamHandler != null) {
+        NativeInteropEventChannelMethodsRegistrar.nativeInteropStreamEventsHandlers[resolvedName] =
+            streamHandler
+      } else {
+        NativeInteropEventChannelMethodsRegistrar.nativeInteropStreamEventsHandlers.remove(
+            resolvedName)
+      }
+    }
+  }
+  // Implement methods from NativeInteropTestsPigeonEventChannelWrapper
+  override fun onListen(
+      p0: Any?,
+      sink: NativeInteropTestsPigeonEventSink<NativeInteropPlatformEvent>
+  ) {}
+
+  override fun onCancel(p0: Any?) {}
+}
+
+abstract class NativeInteropStreamConsistentNumbersStreamHandler :
+    NativeInteropTestsPigeonEventChannelWrapper<Long> {
+  companion object {
+    fun register(
+        streamHandler: NativeInteropStreamConsistentNumbersStreamHandler?,
+        instanceName: String = defaultInstanceName
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      if (streamHandler != null) {
+        NativeInteropEventChannelMethodsRegistrar.nativeInteropStreamConsistentNumbersHandlers[
+                resolvedName] = streamHandler
+      } else {
+        NativeInteropEventChannelMethodsRegistrar.nativeInteropStreamConsistentNumbersHandlers
+            .remove(resolvedName)
+      }
+    }
+  }
+  // Implement methods from NativeInteropTestsPigeonEventChannelWrapper
+  override fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<Long>) {}
+
+  override fun onCancel(p0: Any?) {}
+}
+

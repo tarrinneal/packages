@@ -142,6 +142,28 @@ final String result = await Isolate.run(() => api.doSomething(value));
 ```
 *Note: Callers must ensure the isolate stays alive while there are pending asynchronous calls, as attempting to execute a callback after the isolate has terminated will cause a crash.*
 
+### 3.4 Migrating `@EventChannelApi` Stream Handlers
+
+In Native Interop mode, generated `<MethodName>StreamHandler` classes keep the same `onListen` / `onCancel` and `PigeonEventSink<T>` (`success`, `error`, `endOfStream`) API, but `register` no longer takes a `BinaryMessenger`:
+
+- **Swift (FFI)**:
+  ```swift
+  // BEFORE (platform channels):
+  // StreamEventsStreamHandler.register(with: messenger, streamHandler: handler)
+
+  // AFTER (Native Interop FFI):
+  StreamEventsStreamHandler.register(streamHandler: handler)
+  ```
+- **Kotlin (JNI)**:
+  ```kotlin
+  // BEFORE (platform channels):
+  // StreamEventsStreamHandler.register(messenger, handler)
+
+  // AFTER (Native Interop JNI):
+  StreamEventsStreamHandler.register(handler)
+  ```
+- **Dart**: Top-level stream functions (`<methodName>({String instanceName = ''})`) automatically use JNI on Android (when `useJni: true`) and FFI on iOS/macOS (when `useFfi: true`), falling back to `EventChannel` on other platforms.
+
 ---
 
 ## 4. Dart Client Adaptation
@@ -171,7 +193,7 @@ From the Dart side, instantiate your generated Host API using `<MyApi>.createWit
 
 For Swift FFI, the toolchain generates an Objective-C bridging directory under `<swift_output_dir>_objc_gen`:
 - **`.h` (Headers)**: Always generated to declare module interfaces and types for `ffigen`.
-- **`.m` (Bridging Implementation)**: Only generated when the schema contains async callbacks, closures, `@FlutterApi`, or Objective-C blocks requiring trampoline implementations.
+- **`.m` (Bridging Implementation)**: Only generated when the schema contains async callbacks, closures, `@FlutterApi`, `@EventChannelApi`, or Objective-C blocks/protocols requiring trampoline implementations.
 - **`.o` (Temporary Object Files)**: Intermediate binary files generated during `ffigen`/`swiftgen` AST parsing. These are **not** needed after code generation and must **not** be committed to version control.
 
 Ensure your build system is configured appropriately:

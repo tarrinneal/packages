@@ -2560,6 +2560,538 @@ struct NativeInteropSquare: NativeInteropShape, Hashable, CustomStringConvertibl
   }
 }
 
+/// Generated class from Pigeon that represents data sent in messages.
+/// This protocol should not be extended by any user class outside of the generated file.
+protocol NativeInteropPlatformEvent {
+
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+@objc class NativeInteropPlatformEventBridge: NSObject {
+  @objc override init() {
+  }
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromSwift(_ pigeonVar_Class: NativeInteropPlatformEvent?)
+    -> NativeInteropPlatformEventBridge?
+  {
+    switch pigeonVar_Class {
+    case let pigeonVar_value as NativeInteropIntEvent:
+      return NativeInteropIntEventBridge.fromSwift(pigeonVar_value)
+    case let pigeonVar_value as NativeInteropStringEvent:
+      return NativeInteropStringEventBridge.fromSwift(pigeonVar_value)
+    case let pigeonVar_value as NativeInteropBoolEvent:
+      return NativeInteropBoolEventBridge.fromSwift(pigeonVar_value)
+    case let pigeonVar_value as NativeInteropDoubleEvent:
+      return NativeInteropDoubleEventBridge.fromSwift(pigeonVar_value)
+    case let pigeonVar_value as NativeInteropObjectsEvent:
+      return NativeInteropObjectsEventBridge.fromSwift(pigeonVar_value)
+    case let pigeonVar_value as NativeInteropEnumEvent:
+      return NativeInteropEnumEventBridge.fromSwift(pigeonVar_value)
+    case let pigeonVar_value as NativeInteropClassEvent:
+      return NativeInteropClassEventBridge.fromSwift(pigeonVar_value)
+    case let pigeonVar_value as NativeInteropEmptyEvent:
+      return NativeInteropEmptyEventBridge.fromSwift(pigeonVar_value)
+    default:
+      return nil
+    }
+  }
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func toSwift(_ pigeonVar_bridge: NativeInteropPlatformEventBridge?)
+    -> NativeInteropPlatformEvent?
+  {
+    switch pigeonVar_bridge {
+    case let pigeonVar_value as NativeInteropIntEventBridge:
+      return pigeonVar_value.toSwift()
+    case let pigeonVar_value as NativeInteropStringEventBridge:
+      return pigeonVar_value.toSwift()
+    case let pigeonVar_value as NativeInteropBoolEventBridge:
+      return pigeonVar_value.toSwift()
+    case let pigeonVar_value as NativeInteropDoubleEventBridge:
+      return pigeonVar_value.toSwift()
+    case let pigeonVar_value as NativeInteropObjectsEventBridge:
+      return pigeonVar_value.toSwift()
+    case let pigeonVar_value as NativeInteropEnumEventBridge:
+      return pigeonVar_value.toSwift()
+    case let pigeonVar_value as NativeInteropClassEventBridge:
+      return pigeonVar_value.toSwift()
+    case let pigeonVar_value as NativeInteropEmptyEventBridge:
+      return pigeonVar_value.toSwift()
+    default:
+      return nil
+    }
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct NativeInteropIntEvent: NativeInteropPlatformEvent, Hashable, CustomStringConvertible {
+  var value: Int64
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> NativeInteropIntEvent? {
+    let value = pigeonVar_list[0] as! Int64
+
+    return NativeInteropIntEvent(
+      value: value
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      value
+    ]
+  }
+  static func == (lhs: NativeInteropIntEvent, rhs: NativeInteropIntEvent) -> Bool {
+    if Swift.type(of: lhs) != Swift.type(of: rhs) {
+      return false
+    }
+    return NativeInteropTestsPigeonInternal.deepEquals(lhs.value, rhs.value)
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine("NativeInteropIntEvent")
+    NativeInteropTestsPigeonInternal.deepHash(value: value, hasher: &hasher)
+  }
+
+  public var description: String {
+    return "NativeInteropIntEvent(value: \(String(describing: value)))"
+  }
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+@objc class NativeInteropIntEventBridge: NativeInteropPlatformEventBridge {
+  @objc init(
+    value: Int64
+  ) {
+    self.value = value
+  }
+  @objc var value: Int64
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromSwift(_ pigeonVar_Class: NativeInteropIntEvent?) -> NativeInteropIntEventBridge? {
+    if NativeInteropTestsPigeonInternal.isNullish(pigeonVar_Class) {
+      return nil
+    }
+    return NativeInteropIntEventBridge(
+      value: pigeonVar_Class!.value,
+    )
+  }
+  func toSwift() -> NativeInteropIntEvent {
+    return NativeInteropIntEvent(
+      value: value,
+    )
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct NativeInteropStringEvent: NativeInteropPlatformEvent, Hashable, CustomStringConvertible {
+  var value: String
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> NativeInteropStringEvent? {
+    let value = pigeonVar_list[0] as! String
+
+    return NativeInteropStringEvent(
+      value: value
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      value
+    ]
+  }
+  static func == (lhs: NativeInteropStringEvent, rhs: NativeInteropStringEvent) -> Bool {
+    if Swift.type(of: lhs) != Swift.type(of: rhs) {
+      return false
+    }
+    return NativeInteropTestsPigeonInternal.deepEquals(lhs.value, rhs.value)
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine("NativeInteropStringEvent")
+    NativeInteropTestsPigeonInternal.deepHash(value: value, hasher: &hasher)
+  }
+
+  public var description: String {
+    return "NativeInteropStringEvent(value: \(String(describing: value)))"
+  }
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+@objc class NativeInteropStringEventBridge: NativeInteropPlatformEventBridge {
+  @objc init(
+    value: NSString
+  ) {
+    self.value = value
+  }
+  @objc var value: NSString
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromSwift(_ pigeonVar_Class: NativeInteropStringEvent?)
+    -> NativeInteropStringEventBridge?
+  {
+    if NativeInteropTestsPigeonInternal.isNullish(pigeonVar_Class) {
+      return nil
+    }
+    return NativeInteropStringEventBridge(
+      value: pigeonVar_Class!.value as NSString,
+    )
+  }
+  func toSwift() -> NativeInteropStringEvent {
+    return NativeInteropStringEvent(
+      value: value as String,
+    )
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct NativeInteropBoolEvent: NativeInteropPlatformEvent, Hashable, CustomStringConvertible {
+  var value: Bool
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> NativeInteropBoolEvent? {
+    let value = pigeonVar_list[0] as! Bool
+
+    return NativeInteropBoolEvent(
+      value: value
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      value
+    ]
+  }
+  static func == (lhs: NativeInteropBoolEvent, rhs: NativeInteropBoolEvent) -> Bool {
+    if Swift.type(of: lhs) != Swift.type(of: rhs) {
+      return false
+    }
+    return NativeInteropTestsPigeonInternal.deepEquals(lhs.value, rhs.value)
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine("NativeInteropBoolEvent")
+    NativeInteropTestsPigeonInternal.deepHash(value: value, hasher: &hasher)
+  }
+
+  public var description: String {
+    return "NativeInteropBoolEvent(value: \(String(describing: value)))"
+  }
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+@objc class NativeInteropBoolEventBridge: NativeInteropPlatformEventBridge {
+  @objc init(
+    value: Bool
+  ) {
+    self.value = value
+  }
+  @objc var value: Bool
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromSwift(_ pigeonVar_Class: NativeInteropBoolEvent?) -> NativeInteropBoolEventBridge?
+  {
+    if NativeInteropTestsPigeonInternal.isNullish(pigeonVar_Class) {
+      return nil
+    }
+    return NativeInteropBoolEventBridge(
+      value: pigeonVar_Class!.value,
+    )
+  }
+  func toSwift() -> NativeInteropBoolEvent {
+    return NativeInteropBoolEvent(
+      value: value,
+    )
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct NativeInteropDoubleEvent: NativeInteropPlatformEvent, Hashable, CustomStringConvertible {
+  var value: Double
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> NativeInteropDoubleEvent? {
+    let value = pigeonVar_list[0] as! Double
+
+    return NativeInteropDoubleEvent(
+      value: value
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      value
+    ]
+  }
+  static func == (lhs: NativeInteropDoubleEvent, rhs: NativeInteropDoubleEvent) -> Bool {
+    if Swift.type(of: lhs) != Swift.type(of: rhs) {
+      return false
+    }
+    return NativeInteropTestsPigeonInternal.deepEquals(lhs.value, rhs.value)
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine("NativeInteropDoubleEvent")
+    NativeInteropTestsPigeonInternal.deepHash(value: value, hasher: &hasher)
+  }
+
+  public var description: String {
+    return "NativeInteropDoubleEvent(value: \(String(describing: value)))"
+  }
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+@objc class NativeInteropDoubleEventBridge: NativeInteropPlatformEventBridge {
+  @objc init(
+    value: Double
+  ) {
+    self.value = value
+  }
+  @objc var value: Double
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromSwift(_ pigeonVar_Class: NativeInteropDoubleEvent?)
+    -> NativeInteropDoubleEventBridge?
+  {
+    if NativeInteropTestsPigeonInternal.isNullish(pigeonVar_Class) {
+      return nil
+    }
+    return NativeInteropDoubleEventBridge(
+      value: pigeonVar_Class!.value,
+    )
+  }
+  func toSwift() -> NativeInteropDoubleEvent {
+    return NativeInteropDoubleEvent(
+      value: value,
+    )
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct NativeInteropObjectsEvent: NativeInteropPlatformEvent, Hashable, CustomStringConvertible {
+  var value: Any
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> NativeInteropObjectsEvent? {
+    let value = pigeonVar_list[0]!
+
+    return NativeInteropObjectsEvent(
+      value: value
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      value
+    ]
+  }
+  static func == (lhs: NativeInteropObjectsEvent, rhs: NativeInteropObjectsEvent) -> Bool {
+    if Swift.type(of: lhs) != Swift.type(of: rhs) {
+      return false
+    }
+    return NativeInteropTestsPigeonInternal.deepEquals(lhs.value, rhs.value)
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine("NativeInteropObjectsEvent")
+    NativeInteropTestsPigeonInternal.deepHash(value: value, hasher: &hasher)
+  }
+
+  public var description: String {
+    return "NativeInteropObjectsEvent(value: \(String(describing: value)))"
+  }
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+@objc class NativeInteropObjectsEventBridge: NativeInteropPlatformEventBridge {
+  @objc init(
+    value: NSObject
+  ) {
+    self.value = value
+  }
+  @objc var value: NSObject
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromSwift(_ pigeonVar_Class: NativeInteropObjectsEvent?)
+    -> NativeInteropObjectsEventBridge?
+  {
+    if NativeInteropTestsPigeonInternal.isNullish(pigeonVar_Class) {
+      return nil
+    }
+    return NativeInteropObjectsEventBridge(
+      value: _PigeonFfiCodec.writeValue(value: pigeonVar_Class!.value, isObject: true) as! NSObject,
+    )
+  }
+  func toSwift() -> NativeInteropObjectsEvent {
+    return NativeInteropObjectsEvent(
+      value: _PigeonFfiCodec.readValue(value: value)!,
+    )
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct NativeInteropEnumEvent: NativeInteropPlatformEvent, Hashable, CustomStringConvertible {
+  var value: NativeInteropAnEnum
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> NativeInteropEnumEvent? {
+    let value = pigeonVar_list[0] as! NativeInteropAnEnum
+
+    return NativeInteropEnumEvent(
+      value: value
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      value
+    ]
+  }
+  static func == (lhs: NativeInteropEnumEvent, rhs: NativeInteropEnumEvent) -> Bool {
+    if Swift.type(of: lhs) != Swift.type(of: rhs) {
+      return false
+    }
+    return NativeInteropTestsPigeonInternal.deepEquals(lhs.value, rhs.value)
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine("NativeInteropEnumEvent")
+    NativeInteropTestsPigeonInternal.deepHash(value: value, hasher: &hasher)
+  }
+
+  public var description: String {
+    return "NativeInteropEnumEvent(value: \(String(describing: value)))"
+  }
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+@objc class NativeInteropEnumEventBridge: NativeInteropPlatformEventBridge {
+  @objc init(
+    value: NativeInteropAnEnum
+  ) {
+    self.value = value
+  }
+  @objc var value: NativeInteropAnEnum
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromSwift(_ pigeonVar_Class: NativeInteropEnumEvent?) -> NativeInteropEnumEventBridge?
+  {
+    if NativeInteropTestsPigeonInternal.isNullish(pigeonVar_Class) {
+      return nil
+    }
+    return NativeInteropEnumEventBridge(
+      value: pigeonVar_Class!.value,
+    )
+  }
+  func toSwift() -> NativeInteropEnumEvent {
+    return NativeInteropEnumEvent(
+      value: value,
+    )
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct NativeInteropClassEvent: NativeInteropPlatformEvent, Hashable, CustomStringConvertible {
+  var value: NativeInteropAllNullableTypes
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> NativeInteropClassEvent? {
+    let value = pigeonVar_list[0] as! NativeInteropAllNullableTypes
+
+    return NativeInteropClassEvent(
+      value: value
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      value
+    ]
+  }
+  static func == (lhs: NativeInteropClassEvent, rhs: NativeInteropClassEvent) -> Bool {
+    if Swift.type(of: lhs) != Swift.type(of: rhs) {
+      return false
+    }
+    return NativeInteropTestsPigeonInternal.deepEquals(lhs.value, rhs.value)
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine("NativeInteropClassEvent")
+    NativeInteropTestsPigeonInternal.deepHash(value: value, hasher: &hasher)
+  }
+
+  public var description: String {
+    return "NativeInteropClassEvent(value: \(String(describing: value)))"
+  }
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+@objc class NativeInteropClassEventBridge: NativeInteropPlatformEventBridge {
+  @objc init(
+    value: NativeInteropAllNullableTypesBridge
+  ) {
+    self.value = value
+  }
+  @objc var value: NativeInteropAllNullableTypesBridge
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromSwift(_ pigeonVar_Class: NativeInteropClassEvent?)
+    -> NativeInteropClassEventBridge?
+  {
+    if NativeInteropTestsPigeonInternal.isNullish(pigeonVar_Class) {
+      return nil
+    }
+    return NativeInteropClassEventBridge(
+      value: NativeInteropAllNullableTypesBridge.fromSwift(pigeonVar_Class!.value)!,
+    )
+  }
+  func toSwift() -> NativeInteropClassEvent {
+    return NativeInteropClassEvent(
+      value: value.toSwift(),
+    )
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct NativeInteropEmptyEvent: NativeInteropPlatformEvent, Hashable, CustomStringConvertible {
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromList(_ pigeonVar_list: [Any?]) -> NativeInteropEmptyEvent? {
+
+    return NativeInteropEmptyEvent()
+  }
+  func toList() -> [Any?] {
+    return []
+  }
+  static func == (lhs: NativeInteropEmptyEvent, rhs: NativeInteropEmptyEvent) -> Bool {
+    if Swift.type(of: lhs) != Swift.type(of: rhs) {
+      return false
+    }
+    return true
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine("NativeInteropEmptyEvent")
+  }
+
+  public var description: String {
+    return "NativeInteropEmptyEvent()"
+  }
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+@objc class NativeInteropEmptyEventBridge: NativeInteropPlatformEventBridge {
+  @objc override init() {
+  }
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  static func fromSwift(_ pigeonVar_Class: NativeInteropEmptyEvent?)
+    -> NativeInteropEmptyEventBridge?
+  {
+    if NativeInteropTestsPigeonInternal.isNullish(pigeonVar_Class) {
+      return nil
+    }
+    return NativeInteropEmptyEventBridge()
+  }
+  func toSwift() -> NativeInteropEmptyEvent {
+    return NativeInteropEmptyEvent()
+  }
+}
+
 @objc class NativeInteropTestsPigeonInternalNull: NSObject {}
 
 private class _PigeonFfiCodec {
@@ -2641,6 +3173,22 @@ private class _PigeonFfiCodec {
       return (value! as! NativeInteropCircleBridge).toSwift()
     } else if value is NativeInteropSquareBridge {
       return (value! as! NativeInteropSquareBridge).toSwift()
+    } else if value is NativeInteropIntEventBridge {
+      return (value! as! NativeInteropIntEventBridge).toSwift()
+    } else if value is NativeInteropStringEventBridge {
+      return (value! as! NativeInteropStringEventBridge).toSwift()
+    } else if value is NativeInteropBoolEventBridge {
+      return (value! as! NativeInteropBoolEventBridge).toSwift()
+    } else if value is NativeInteropDoubleEventBridge {
+      return (value! as! NativeInteropDoubleEventBridge).toSwift()
+    } else if value is NativeInteropObjectsEventBridge {
+      return (value! as! NativeInteropObjectsEventBridge).toSwift()
+    } else if value is NativeInteropEnumEventBridge {
+      return (value! as! NativeInteropEnumEventBridge).toSwift()
+    } else if value is NativeInteropClassEventBridge {
+      return (value! as! NativeInteropClassEventBridge).toSwift()
+    } else if value is NativeInteropEmptyEventBridge {
+      return (value! as! NativeInteropEmptyEventBridge).toSwift()
 
     }
     return value
@@ -2734,6 +3282,22 @@ private class _PigeonFfiCodec {
       return NativeInteropCircleBridge.fromSwift(value as? NativeInteropCircle)
     } else if value is NativeInteropSquare {
       return NativeInteropSquareBridge.fromSwift(value as? NativeInteropSquare)
+    } else if value is NativeInteropIntEvent {
+      return NativeInteropIntEventBridge.fromSwift(value as? NativeInteropIntEvent)
+    } else if value is NativeInteropStringEvent {
+      return NativeInteropStringEventBridge.fromSwift(value as? NativeInteropStringEvent)
+    } else if value is NativeInteropBoolEvent {
+      return NativeInteropBoolEventBridge.fromSwift(value as? NativeInteropBoolEvent)
+    } else if value is NativeInteropDoubleEvent {
+      return NativeInteropDoubleEventBridge.fromSwift(value as? NativeInteropDoubleEvent)
+    } else if value is NativeInteropObjectsEvent {
+      return NativeInteropObjectsEventBridge.fromSwift(value as? NativeInteropObjectsEvent)
+    } else if value is NativeInteropEnumEvent {
+      return NativeInteropEnumEventBridge.fromSwift(value as? NativeInteropEnumEvent)
+    } else if value is NativeInteropClassEvent {
+      return NativeInteropClassEventBridge.fromSwift(value as? NativeInteropClassEvent)
+    } else if value is NativeInteropEmptyEvent {
+      return NativeInteropEmptyEventBridge.fromSwift(value as? NativeInteropEmptyEvent)
 
     }
     return value
@@ -3191,6 +3755,53 @@ private struct NativeInteropTestsPigeonInteropWriter {
     writeValue(value.label)
   }
 
+  mutating func writeNativeInteropIntEvent(_ value: NativeInteropIntEvent) {
+    writeByte(12)
+    writeSize(1)
+    writeValue(value.value)
+  }
+
+  mutating func writeNativeInteropStringEvent(_ value: NativeInteropStringEvent) {
+    writeByte(12)
+    writeSize(1)
+    writeValue(value.value)
+  }
+
+  mutating func writeNativeInteropBoolEvent(_ value: NativeInteropBoolEvent) {
+    writeByte(12)
+    writeSize(1)
+    writeValue(value.value)
+  }
+
+  mutating func writeNativeInteropDoubleEvent(_ value: NativeInteropDoubleEvent) {
+    writeByte(12)
+    writeSize(1)
+    writeValue(value.value)
+  }
+
+  mutating func writeNativeInteropObjectsEvent(_ value: NativeInteropObjectsEvent) {
+    writeByte(12)
+    writeSize(1)
+    writeValue(value.value)
+  }
+
+  mutating func writeNativeInteropEnumEvent(_ value: NativeInteropEnumEvent) {
+    writeByte(12)
+    writeSize(1)
+    writeValue(value.value)
+  }
+
+  mutating func writeNativeInteropClassEvent(_ value: NativeInteropClassEvent) {
+    writeByte(12)
+    writeSize(1)
+    writeValue(value.value)
+  }
+
+  mutating func writeNativeInteropEmptyEvent(_ value: NativeInteropEmptyEvent) {
+    writeByte(12)
+    writeSize(0)
+  }
+
   mutating func writeCustomValue(_ value: Any, type valueType: Any.Type) -> Bool {
     if valueType == NativeInteropAnEnum.self {
       writeByte(129)
@@ -3256,6 +3867,46 @@ private struct NativeInteropTestsPigeonInteropWriter {
     if valueType == NativeInteropSquare.self {
       writeByte(141)
       writeNativeInteropSquare((value as! NativeInteropSquare))
+      return true
+    }
+    if valueType == NativeInteropIntEvent.self {
+      writeByte(142)
+      writeNativeInteropIntEvent((value as! NativeInteropIntEvent))
+      return true
+    }
+    if valueType == NativeInteropStringEvent.self {
+      writeByte(143)
+      writeNativeInteropStringEvent((value as! NativeInteropStringEvent))
+      return true
+    }
+    if valueType == NativeInteropBoolEvent.self {
+      writeByte(144)
+      writeNativeInteropBoolEvent((value as! NativeInteropBoolEvent))
+      return true
+    }
+    if valueType == NativeInteropDoubleEvent.self {
+      writeByte(145)
+      writeNativeInteropDoubleEvent((value as! NativeInteropDoubleEvent))
+      return true
+    }
+    if valueType == NativeInteropObjectsEvent.self {
+      writeByte(146)
+      writeNativeInteropObjectsEvent((value as! NativeInteropObjectsEvent))
+      return true
+    }
+    if valueType == NativeInteropEnumEvent.self {
+      writeByte(147)
+      writeNativeInteropEnumEvent((value as! NativeInteropEnumEvent))
+      return true
+    }
+    if valueType == NativeInteropClassEvent.self {
+      writeByte(148)
+      writeNativeInteropClassEvent((value as! NativeInteropClassEvent))
+      return true
+    }
+    if valueType == NativeInteropEmptyEvent.self {
+      writeByte(149)
+      writeNativeInteropEmptyEvent((value as! NativeInteropEmptyEvent))
       return true
     }
     return false
@@ -3325,6 +3976,46 @@ private struct NativeInteropTestsPigeonInteropWriter {
     if let value = value as? NativeInteropSquare {
       writeByte(141)
       writeNativeInteropSquare(value)
+      return true
+    }
+    if let value = value as? NativeInteropIntEvent {
+      writeByte(142)
+      writeNativeInteropIntEvent(value)
+      return true
+    }
+    if let value = value as? NativeInteropStringEvent {
+      writeByte(143)
+      writeNativeInteropStringEvent(value)
+      return true
+    }
+    if let value = value as? NativeInteropBoolEvent {
+      writeByte(144)
+      writeNativeInteropBoolEvent(value)
+      return true
+    }
+    if let value = value as? NativeInteropDoubleEvent {
+      writeByte(145)
+      writeNativeInteropDoubleEvent(value)
+      return true
+    }
+    if let value = value as? NativeInteropObjectsEvent {
+      writeByte(146)
+      writeNativeInteropObjectsEvent(value)
+      return true
+    }
+    if let value = value as? NativeInteropEnumEvent {
+      writeByte(147)
+      writeNativeInteropEnumEvent(value)
+      return true
+    }
+    if let value = value as? NativeInteropClassEvent {
+      writeByte(148)
+      writeNativeInteropClassEvent(value)
+      return true
+    }
+    if let value = value as? NativeInteropEmptyEvent {
+      writeByte(149)
+      writeNativeInteropEmptyEvent(value)
       return true
     }
     return false
@@ -3734,6 +4425,60 @@ private struct NativeInteropTestsPigeonInteropReader {
     )
   }
 
+  mutating func readNativeInteropIntEvent() -> NativeInteropIntEvent {
+    readListHeader()
+    return NativeInteropIntEvent(
+      value: read(Int64.self)
+    )
+  }
+
+  mutating func readNativeInteropStringEvent() -> NativeInteropStringEvent {
+    readListHeader()
+    return NativeInteropStringEvent(
+      value: read(String.self)
+    )
+  }
+
+  mutating func readNativeInteropBoolEvent() -> NativeInteropBoolEvent {
+    readListHeader()
+    return NativeInteropBoolEvent(
+      value: read(Bool.self)
+    )
+  }
+
+  mutating func readNativeInteropDoubleEvent() -> NativeInteropDoubleEvent {
+    readListHeader()
+    return NativeInteropDoubleEvent(
+      value: read(Double.self)
+    )
+  }
+
+  mutating func readNativeInteropObjectsEvent() -> NativeInteropObjectsEvent {
+    readListHeader()
+    return NativeInteropObjectsEvent(
+      value: readValue()!
+    )
+  }
+
+  mutating func readNativeInteropEnumEvent() -> NativeInteropEnumEvent {
+    readListHeader()
+    return NativeInteropEnumEvent(
+      value: read(NativeInteropAnEnum.self)
+    )
+  }
+
+  mutating func readNativeInteropClassEvent() -> NativeInteropClassEvent {
+    readListHeader()
+    return NativeInteropClassEvent(
+      value: read(NativeInteropAllNullableTypes.self)
+    )
+  }
+
+  mutating func readNativeInteropEmptyEvent() -> NativeInteropEmptyEvent {
+    readListHeader()
+    return NativeInteropEmptyEvent()
+  }
+
   mutating func readCustomValue(ofType type: UInt8) -> Any? {
     switch type {
     case 129:
@@ -3764,6 +4509,22 @@ private struct NativeInteropTestsPigeonInteropReader {
       return readNativeInteropCircle()
     case 141:
       return readNativeInteropSquare()
+    case 142:
+      return readNativeInteropIntEvent()
+    case 143:
+      return readNativeInteropStringEvent()
+    case 144:
+      return readNativeInteropBoolEvent()
+    case 145:
+      return readNativeInteropDoubleEvent()
+    case 146:
+      return readNativeInteropObjectsEvent()
+    case 147:
+      return readNativeInteropEnumEvent()
+    case 148:
+      return readNativeInteropClassEvent()
+    case 149:
+      return readNativeInteropEmptyEvent()
     default:
       preconditionFailure("Unsupported type: \(type)")
     }
@@ -11572,3 +12333,144 @@ class NativeInteropSealedClassFlutterApi {
     return reader.read(NativeInteropShape.self)
   }
 }
+
+@objc protocol NativeInteropTestsPigeonEventSinkBridge {
+  @objc func onSuccess(event: NSData?)
+  @objc func onError(code: String, message: String?, details: NSData?)
+  @objc func onEndOfStream()
+}
+
+class NativeInteropTestsPigeonEventChannelWrapper<ReturnType> {
+  func onListen(withArguments arguments: Any?, sink: NativeInteropTestsPigeonEventSink<ReturnType>)
+  {}
+  func onCancel(withArguments arguments: Any?) {}
+}
+
+class NativeInteropTestsPigeonEventSink<ReturnType> {
+  private let bridge: NativeInteropTestsPigeonEventSinkBridge
+
+  fileprivate init(_ bridge: NativeInteropTestsPigeonEventSinkBridge) {
+    self.bridge = bridge
+  }
+
+  func success(_ value: ReturnType) {
+    bridge.onSuccess(event: NativeInteropTestsPigeonInteropCodec.encodeOrNil(value))
+  }
+
+  func error(code: String, message: String?, details: Any?) {
+    bridge.onError(
+      code: code, message: message,
+      details: NativeInteropTestsPigeonInteropCodec.encodeOrNil(details))
+  }
+
+  func endOfStream() {
+    bridge.onEndOfStream()
+  }
+}
+
+@objc class NativeInteropEventChannelMethodsSetup: NSObject {
+  fileprivate static var nativeInteropStreamIntsHandlers = [
+    String: NativeInteropStreamIntsStreamHandler
+  ]()
+  fileprivate static var nativeInteropStreamEventsHandlers = [
+    String: NativeInteropStreamEventsStreamHandler
+  ]()
+  fileprivate static var nativeInteropStreamConsistentNumbersHandlers = [
+    String: NativeInteropStreamConsistentNumbersStreamHandler
+  ]()
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  @objc static func pigeon_listen_nativeInteropStreamInts(
+    instanceName: String, sink: NativeInteropTestsPigeonEventSinkBridge
+  ) {
+    nativeInteropStreamIntsHandlers[instanceName]?.onListen(
+      withArguments: nil, sink: NativeInteropTestsPigeonEventSink<Int64>(sink))
+  }
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  @objc static func pigeon_cancel_nativeInteropStreamInts(instanceName: String) {
+    nativeInteropStreamIntsHandlers[instanceName]?.onCancel(withArguments: nil)
+  }
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  @objc static func pigeon_listen_nativeInteropStreamEvents(
+    instanceName: String, sink: NativeInteropTestsPigeonEventSinkBridge
+  ) {
+    nativeInteropStreamEventsHandlers[instanceName]?.onListen(
+      withArguments: nil, sink: NativeInteropTestsPigeonEventSink<NativeInteropPlatformEvent>(sink))
+  }
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  @objc static func pigeon_cancel_nativeInteropStreamEvents(instanceName: String) {
+    nativeInteropStreamEventsHandlers[instanceName]?.onCancel(withArguments: nil)
+  }
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  @objc static func pigeon_listen_nativeInteropStreamConsistentNumbers(
+    instanceName: String, sink: NativeInteropTestsPigeonEventSinkBridge
+  ) {
+    nativeInteropStreamConsistentNumbersHandlers[instanceName]?.onListen(
+      withArguments: nil, sink: NativeInteropTestsPigeonEventSink<Int64>(sink))
+  }
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  @objc static func pigeon_cancel_nativeInteropStreamConsistentNumbers(instanceName: String) {
+    nativeInteropStreamConsistentNumbersHandlers[instanceName]?.onCancel(withArguments: nil)
+  }
+}
+class NativeInteropStreamIntsStreamHandler: NativeInteropTestsPigeonEventChannelWrapper<Int64> {
+  static func register(
+    instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName,
+    streamHandler: NativeInteropStreamIntsStreamHandler?
+  ) {
+    let resolvedName =
+      instanceName.isEmpty ? NativeInteropTestsPigeonInternal.defaultInstanceName : instanceName
+    if let streamHandler = streamHandler {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamIntsHandlers[resolvedName] =
+        streamHandler
+    } else {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamIntsHandlers.removeValue(
+        forKey: resolvedName)
+    }
+  }
+}
+
+class NativeInteropStreamEventsStreamHandler: NativeInteropTestsPigeonEventChannelWrapper<
+  NativeInteropPlatformEvent
+>
+{
+  static func register(
+    instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName,
+    streamHandler: NativeInteropStreamEventsStreamHandler?
+  ) {
+    let resolvedName =
+      instanceName.isEmpty ? NativeInteropTestsPigeonInternal.defaultInstanceName : instanceName
+    if let streamHandler = streamHandler {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamEventsHandlers[resolvedName] =
+        streamHandler
+    } else {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamEventsHandlers.removeValue(
+        forKey: resolvedName)
+    }
+  }
+}
+
+class NativeInteropStreamConsistentNumbersStreamHandler:
+  NativeInteropTestsPigeonEventChannelWrapper<Int64>
+{
+  static func register(
+    instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName,
+    streamHandler: NativeInteropStreamConsistentNumbersStreamHandler?
+  ) {
+    let resolvedName =
+      instanceName.isEmpty ? NativeInteropTestsPigeonInternal.defaultInstanceName : instanceName
+    if let streamHandler = streamHandler {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamConsistentNumbersHandlers[
+        resolvedName] = streamHandler
+    } else {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamConsistentNumbersHandlers
+        .removeValue(forKey: resolvedName)
+    }
+  }
+}
+

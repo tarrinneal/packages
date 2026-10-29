@@ -2292,5 +2292,58 @@ void main() {
       expect(code, contains('return pigeonValues.getOrNull(raw)'));
       expect(code, isNot(contains('firstOrNull { it.raw == raw }')));
     });
+
+    test('generates JNI EventChannelApi without Flutter EventChannel import', () {
+      final root = Root(
+        apis: <Api>[
+          AstEventChannelApi(
+            name: 'EventApi',
+            methods: <Method>[
+              Method(
+                name: 'streamInts',
+                parameters: <Parameter>[],
+                returnType: const TypeDeclaration(baseName: 'int', isNullable: false),
+                location: ApiLocation.host,
+              ),
+            ],
+          ),
+        ],
+        classes: <Class>[],
+        enums: <Enum>[],
+        containsEventChannel: true,
+      );
+      final sink = StringBuffer();
+      const KotlinGenerator().generate(
+        const InternalKotlinOptions(
+          errorClassName: 'FooError',
+          kotlinOut: '',
+          useJni: true,
+          nativeInteropTransport: NativeInteropTransport.objects,
+          fileSpecificClassNameComponent: 'Foo',
+        ),
+        root,
+        sink,
+        dartPackageName: DEFAULT_PACKAGE_NAME,
+      );
+      final code = sink.toString();
+      expect(code, isNot(contains('import io.flutter.plugin.common.EventChannel')));
+      expect(code, contains('import io.flutter.plugin.common.StandardMessageCodec'));
+      expect(code, contains('private object FooPigeonInteropCodec : FooPigeonCodec()'));
+      expect(code, contains('@Keep\ninterface FooPigeonEventSinkBridge {'));
+      expect(code, contains('fun onSuccess(event: ByteArray?)'));
+      expect(
+        code,
+        contains('class FooPigeonEventSink<T>(private val bridge: FooPigeonEventSinkBridge)'),
+      );
+      expect(code, contains('@Keep\nclass EventApiRegistrar {'));
+      expect(code, contains('fun pigeon_listen_streamInts('));
+      expect(code, contains('fun pigeon_cancel_streamInts('));
+      expect(
+        code,
+        contains(
+          'fun register(streamHandler: StreamIntsStreamHandler?, instanceName: String = defaultInstanceName)',
+        ),
+      );
+    });
   });
 }

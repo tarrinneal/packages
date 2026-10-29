@@ -2947,27 +2947,22 @@ dev_dependencies:
       return adapter.validate(options, results.root);
     }
 
-    const unsupportedFeaturesSource = '''
+    const eventChannelSource = '''
 @EventChannelApi()
 abstract class Events {
   int numbers();
 }
 ''';
 
-    test('Swift FFI rejects event channels', () {
-      final List<Error> errors = validate(const SwiftGeneratorAdapter(), unsupportedFeaturesSource);
-      expect(
-        errors.map((Error e) => e.message),
-        containsAll(<Matcher>[
-          contains('Swift FFI does not support event channels yet (in API "Events")'),
-        ]),
-      );
+    test('Swift FFI allows event channels', () {
+      final List<Error> errors = validate(const SwiftGeneratorAdapter(), eventChannelSource);
+      expect(errors, isEmpty);
     });
 
     test('Swift without FFI allows event channels', () {
       final List<Error> errors = validate(
         const SwiftGeneratorAdapter(),
-        unsupportedFeaturesSource,
+        eventChannelSource,
         swiftOptions: const SwiftOptions(),
       );
       expect(errors, isEmpty);
@@ -3029,23 +3024,15 @@ abstract class Api {
       expect(errors[0].message, contains('Swift FFI requires `includeErrorClass: true`'));
     });
 
-    test('Kotlin JNI rejects event channels', () {
-      final List<Error> errors = validate(
-        const KotlinGeneratorAdapter(),
-        unsupportedFeaturesSource,
-      );
-      expect(
-        errors.map((Error e) => e.message),
-        containsAll(<Matcher>[
-          contains('Kotlin JNI does not support event channels yet (in API "Events")'),
-        ]),
-      );
+    test('Kotlin JNI allows event channels', () {
+      final List<Error> errors = validate(const KotlinGeneratorAdapter(), eventChannelSource);
+      expect(errors, isEmpty);
     });
 
     test('Kotlin without JNI allows event channels', () {
       final List<Error> errors = validate(
         const KotlinGeneratorAdapter(),
-        unsupportedFeaturesSource,
+        eventChannelSource,
         kotlinOptions: const KotlinOptions(),
       );
       expect(errors, isEmpty);
@@ -3359,6 +3346,52 @@ abstract class MyFlutterApi {
       expect(hybridConfig, contains("'com.example.MyData',"));
       expect(hybridConfig, contains("'com.example.MyEnum',"));
     });
+
+    test(
+      'JnigenConfigGenerator and FfigenConfigGenerator bind EventChannelApi bridge and setup',
+      () {
+        final ParseResults parseResult = parseSource('''
+@EventChannelApi()
+abstract class MyEventApi {
+  int streamInts();
+}
+''');
+        expect(parseResult.errors, isEmpty);
+
+        final InternalPigeonOptions options = InternalPigeonOptions.fromPigeonOptions(
+          const PigeonOptions(
+            input: 'pigeons/messages.dart',
+            dartOut: 'lib/messages.dart',
+            kotlinOut: 'android/src/main/kotlin/com/example/Messages.kt',
+            kotlinOptions: KotlinOptions(package: 'com.example', useJni: true),
+            swiftOut: 'ios/Classes/Messages.swift',
+            swiftOptions: SwiftOptions(useFfi: true),
+          ),
+        );
+
+        final jnigenBuffer = StringBuffer();
+        const JnigenConfigGeneratorAdapter().generate(
+          jnigenBuffer,
+          options,
+          parseResult.root,
+          FileType.na,
+        );
+        final jnigenConfig = jnigenBuffer.toString();
+        expect(jnigenConfig, contains("'com.example.MessagesPigeonEventSinkBridge',"));
+        expect(jnigenConfig, contains("'com.example.MyEventApiRegistrar',"));
+
+        final ffigenBuffer = StringBuffer();
+        const FfigenConfigGeneratorAdapter().generate(
+          ffigenBuffer,
+          options,
+          parseResult.root,
+          FileType.na,
+        );
+        final ffigenConfig = ffigenBuffer.toString();
+        expect(ffigenConfig, contains("'MessagesPigeonEventSinkBridge',"));
+        expect(ffigenConfig, contains("'MyEventApiSetup',"));
+      },
+    );
 
     test(
       'SwiftGeneratorAdapter errors on async HostApi parameter named completionHandler when useFfi is true',

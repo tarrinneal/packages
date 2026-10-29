@@ -156,6 +156,10 @@ import 'package:swiftgen/swiftgen.dart';
             indent.writeln("'${api.name}Bridge',");
             indent.writeln("'${api.name}Registrar',");
           }
+          if (api is AstEventChannelApi) {
+            indent.writeln("'${prefix}PigeonEventSinkBridge',");
+            indent.writeln("'${api.name}Setup',");
+          }
         }
         for (final Class dataClass in root.classes) {
           indent.writeln("'${dataClass.name}Bridge',");

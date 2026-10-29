@@ -61,6 +61,23 @@ external ffi.Pointer<objc.ObjCObjectImpl> _julz8q_protocolTrampoline_1o0u9up(
 );
 
 @ffi.Native<
+  ffi.Void Function(
+    ffi.Pointer<objc.ObjCObjectImpl>,
+    ffi.Pointer<ffi.Void>,
+    ffi.Pointer<objc.ObjCObjectImpl>,
+    ffi.Pointer<objc.ObjCObjectImpl>,
+    ffi.Pointer<objc.ObjCObjectImpl>,
+  )
+>()
+external void _julz8q_protocolTrampoline_1tz5yf(
+  ffi.Pointer<objc.ObjCObjectImpl> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ffi.Pointer<objc.ObjCObjectImpl> arg2,
+  ffi.Pointer<objc.ObjCObjectImpl> arg3,
+);
+
+@ffi.Native<
   ffi.Pointer<objc.ObjCObjectImpl> Function(
     ffi.Pointer<objc.ObjCObjectImpl>,
     ffi.Pointer<ffi.Void>,
@@ -137,6 +154,12 @@ external void _julz8q_protocolTrampoline_omyb6r(
   double arg1,
   ffi.Pointer<objc.ObjCObjectImpl> arg2,
   ffi.Pointer<objc.ObjCBlockImpl> arg3,
+);
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Void>)>()
+external void _julz8q_protocolTrampoline_ovsamd(
+  ffi.Pointer<objc.ObjCObjectImpl> target,
+  ffi.Pointer<ffi.Void> arg0,
 );
 
 @ffi.Native<
@@ -252,6 +275,20 @@ external ffi.Pointer<objc.ObjCBlockImpl> _julz8q_wrapBlockingBlock_1pl9qdv(
     ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl> args)>>,
   )
 >(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl> _julz8q_wrapBlockingBlock_1tz5yf(
+  int port,
+  ffi.Pointer<objc.DOBJC_Context> context,
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl> args)>>
+  directInvoke,
+);
+
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Int64,
+    ffi.Pointer<objc.DOBJC_Context>,
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl> args)>>,
+  )
+>(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl> _julz8q_wrapBlockingBlock_bklti2(
   int port,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -281,6 +318,20 @@ external ffi.Pointer<objc.ObjCBlockImpl> _julz8q_wrapBlockingBlock_jk1ljc(
   )
 >(isLeaf: true)
 external ffi.Pointer<objc.ObjCBlockImpl> _julz8q_wrapBlockingBlock_omyb6r(
+  int port,
+  ffi.Pointer<objc.DOBJC_Context> context,
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl> args)>>
+  directInvoke,
+);
+
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(
+    ffi.Int64,
+    ffi.Pointer<objc.DOBJC_Context>,
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl> args)>>,
+  )
+>(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl> _julz8q_wrapBlockingBlock_ovsamd(
   int port,
   ffi.Pointer<objc.DOBJC_Context> context,
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl> args)>>
@@ -342,6 +393,14 @@ external ffi.Pointer<objc.ObjCBlockImpl> _julz8q_wrapListenerBlock_1pl9qdv(
 @ffi.Native<ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Int64, ffi.Pointer<objc.DOBJC_Context>)>(
   isLeaf: true,
 )
+external ffi.Pointer<objc.ObjCBlockImpl> _julz8q_wrapListenerBlock_1tz5yf(
+  int port,
+  ffi.Pointer<objc.DOBJC_Context> context,
+);
+
+@ffi.Native<ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Int64, ffi.Pointer<objc.DOBJC_Context>)>(
+  isLeaf: true,
+)
 external ffi.Pointer<objc.ObjCBlockImpl> _julz8q_wrapListenerBlock_bklti2(
   int port,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -359,6 +418,14 @@ external ffi.Pointer<objc.ObjCBlockImpl> _julz8q_wrapListenerBlock_jk1ljc(
   isLeaf: true,
 )
 external ffi.Pointer<objc.ObjCBlockImpl> _julz8q_wrapListenerBlock_omyb6r(
+  int port,
+  ffi.Pointer<objc.DOBJC_Context> context,
+);
+
+@ffi.Native<ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Int64, ffi.Pointer<objc.DOBJC_Context>)>(
+  isLeaf: true,
+)
+external ffi.Pointer<objc.ObjCBlockImpl> _julz8q_wrapListenerBlock_ovsamd(
   int port,
   ffi.Pointer<objc.DOBJC_Context> context,
 );
@@ -2675,6 +2742,70 @@ enum NativeInteropAnotherEnum {
 }
 
 /// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+extension type NativeInteropBoolEventBridge._(objc.ObjCObject object$)
+    implements objc.ObjCObject, NativeInteropPlatformEventBridge {
+  /// Constructs a [NativeInteropBoolEventBridge] that points to the same underlying object as [other].
+  NativeInteropBoolEventBridge.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [NativeInteropBoolEventBridge] that wraps the given raw object pointer.
+  NativeInteropBoolEventBridge.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [NativeInteropBoolEventBridge].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NativeInteropBoolEventBridge,
+        );
+
+  /// alloc
+  static NativeInteropBoolEventBridge alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_NativeInteropBoolEventBridge, _sel_alloc);
+    return NativeInteropBoolEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static NativeInteropBoolEventBridge allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NativeInteropBoolEventBridge,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NativeInteropBoolEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+}
+
+extension NativeInteropBoolEventBridge$Methods on NativeInteropBoolEventBridge {
+  /// initWithValue:
+  NativeInteropBoolEventBridge initWithValue(bool value) {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_1t6aok9(_$$ref.retainAndReturnPointer(), _sel_initWithValue_, value);
+    return NativeInteropBoolEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// setValue:
+  set value(bool value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_1s56lr9(_$$ref.pointer, _sel_setValue_, value);
+  }
+
+  /// value
+  bool get value {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_91o635(_$$ref.pointer, _sel_value);
+  }
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
 extension type NativeInteropCircleBridge._(objc.ObjCObject object$)
     implements objc.ObjCObject, NativeInteropShapeBridge {
   /// Constructs a [NativeInteropCircleBridge] that points to the same underlying object as [other].
@@ -2737,6 +2868,209 @@ extension NativeInteropCircleBridge$Methods on NativeInteropCircleBridge {
   set radius(double value) {
     final _$$ref = object$.ref;
     _objc_msgSend_hwm8nu(_$$ref.pointer, _sel_setRadius_, value);
+  }
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+extension type NativeInteropClassEventBridge._(objc.ObjCObject object$)
+    implements objc.ObjCObject, NativeInteropPlatformEventBridge {
+  /// Constructs a [NativeInteropClassEventBridge] that points to the same underlying object as [other].
+  NativeInteropClassEventBridge.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [NativeInteropClassEventBridge] that wraps the given raw object pointer.
+  NativeInteropClassEventBridge.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [NativeInteropClassEventBridge].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NativeInteropClassEventBridge,
+        );
+
+  /// alloc
+  static NativeInteropClassEventBridge alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_NativeInteropClassEventBridge, _sel_alloc);
+    return NativeInteropClassEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static NativeInteropClassEventBridge allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NativeInteropClassEventBridge,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NativeInteropClassEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+}
+
+extension NativeInteropClassEventBridge$Methods on NativeInteropClassEventBridge {
+  /// initWithValue:
+  NativeInteropClassEventBridge initWithValue(NativeInteropAllNullableTypesBridge value) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value.ref;
+    final $ret = _objc_msgSend_1sotr3r(
+      _$$ref.retainAndReturnPointer(),
+      _sel_initWithValue_,
+      _$$ref$1.pointer,
+    );
+    return NativeInteropClassEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// setValue:
+  set value(NativeInteropAllNullableTypesBridge value) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value.ref;
+    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setValue_, _$$ref$1.pointer);
+  }
+
+  /// value
+  NativeInteropAllNullableTypesBridge get value {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_value);
+    return NativeInteropAllNullableTypesBridge.fromPointer($ret, retain: true, release: true);
+  }
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+extension type NativeInteropDoubleEventBridge._(objc.ObjCObject object$)
+    implements objc.ObjCObject, NativeInteropPlatformEventBridge {
+  /// Constructs a [NativeInteropDoubleEventBridge] that points to the same underlying object as [other].
+  NativeInteropDoubleEventBridge.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [NativeInteropDoubleEventBridge] that wraps the given raw object pointer.
+  NativeInteropDoubleEventBridge.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [NativeInteropDoubleEventBridge].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NativeInteropDoubleEventBridge,
+        );
+
+  /// alloc
+  static NativeInteropDoubleEventBridge alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_NativeInteropDoubleEventBridge, _sel_alloc);
+    return NativeInteropDoubleEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static NativeInteropDoubleEventBridge allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NativeInteropDoubleEventBridge,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NativeInteropDoubleEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+}
+
+extension NativeInteropDoubleEventBridge$Methods on NativeInteropDoubleEventBridge {
+  /// initWithValue:
+  NativeInteropDoubleEventBridge initWithValue(double value) {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_oa8mke(_$$ref.retainAndReturnPointer(), _sel_initWithValue_, value);
+    return NativeInteropDoubleEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// setValue:
+  set value(double value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_hwm8nu(_$$ref.pointer, _sel_setValue_, value);
+  }
+
+  /// value
+  double get value {
+    final _$$ref = object$.ref;
+    return objc.useMsgSendVariants
+        ? _objc_msgSend_1ukqyt8Fpret(_$$ref.pointer, _sel_value)
+        : _objc_msgSend_1ukqyt8(_$$ref.pointer, _sel_value);
+  }
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+extension type NativeInteropEmptyEventBridge._(objc.ObjCObject object$)
+    implements objc.ObjCObject, NativeInteropPlatformEventBridge {
+  /// Constructs a [NativeInteropEmptyEventBridge] that points to the same underlying object as [other].
+  NativeInteropEmptyEventBridge.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [NativeInteropEmptyEventBridge] that wraps the given raw object pointer.
+  NativeInteropEmptyEventBridge.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [NativeInteropEmptyEventBridge].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NativeInteropEmptyEventBridge,
+        );
+
+  /// alloc
+  static NativeInteropEmptyEventBridge alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_NativeInteropEmptyEventBridge, _sel_alloc);
+    return NativeInteropEmptyEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static NativeInteropEmptyEventBridge allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NativeInteropEmptyEventBridge,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NativeInteropEmptyEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// new
+  static NativeInteropEmptyEventBridge new$() {
+    final $ret = _objc_msgSend_151sglz(_class_NativeInteropEmptyEventBridge, _sel_new);
+    return NativeInteropEmptyEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// Returns a new instance of NativeInteropEmptyEventBridge constructed with the default `new` method.
+  NativeInteropEmptyEventBridge() : this.as(new$().object$);
+}
+
+extension NativeInteropEmptyEventBridge$Methods on NativeInteropEmptyEventBridge {
+  /// init
+  NativeInteropEmptyEventBridge init() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NativeInteropEmptyEventBridge.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(_$$ref.retainAndReturnPointer(), _sel_init);
+    return NativeInteropEmptyEventBridge.fromPointer($ret, retain: false, release: true);
   }
 }
 
@@ -2804,6 +3138,218 @@ extension NativeInteropEmptySealedClassBridge$Methods on NativeInteropEmptySeale
     );
     final $ret = _objc_msgSend_151sglz(_$$ref.retainAndReturnPointer(), _sel_init);
     return NativeInteropEmptySealedClassBridge.fromPointer($ret, retain: false, release: true);
+  }
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+extension type NativeInteropEnumEventBridge._(objc.ObjCObject object$)
+    implements objc.ObjCObject, NativeInteropPlatformEventBridge {
+  /// Constructs a [NativeInteropEnumEventBridge] that points to the same underlying object as [other].
+  NativeInteropEnumEventBridge.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [NativeInteropEnumEventBridge] that wraps the given raw object pointer.
+  NativeInteropEnumEventBridge.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [NativeInteropEnumEventBridge].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NativeInteropEnumEventBridge,
+        );
+
+  /// alloc
+  static NativeInteropEnumEventBridge alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_NativeInteropEnumEventBridge, _sel_alloc);
+    return NativeInteropEnumEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static NativeInteropEnumEventBridge allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NativeInteropEnumEventBridge,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NativeInteropEnumEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+}
+
+extension NativeInteropEnumEventBridge$Methods on NativeInteropEnumEventBridge {
+  /// initWithValue:
+  NativeInteropEnumEventBridge initWithValue(NativeInteropAnEnum value) {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_fs41fd(
+      _$$ref.retainAndReturnPointer(),
+      _sel_initWithValue_,
+      value.value,
+    );
+    return NativeInteropEnumEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// setValue:
+  set value(NativeInteropAnEnum value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_wqpzrx(_$$ref.pointer, _sel_setValue_, value.value);
+  }
+
+  /// value
+  NativeInteropAnEnum get value {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_13e57b1(_$$ref.pointer, _sel_value);
+    return NativeInteropAnEnum.fromValue($ret);
+  }
+}
+
+/// NativeInteropEventChannelMethodsSetup
+extension type NativeInteropEventChannelMethodsSetup._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject {
+  /// Constructs a [NativeInteropEventChannelMethodsSetup] that points to the same underlying object as [other].
+  NativeInteropEventChannelMethodsSetup.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [NativeInteropEventChannelMethodsSetup] that wraps the given raw object pointer.
+  NativeInteropEventChannelMethodsSetup.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [NativeInteropEventChannelMethodsSetup].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NativeInteropEventChannelMethodsSetup,
+        );
+
+  /// alloc
+  static NativeInteropEventChannelMethodsSetup alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_NativeInteropEventChannelMethodsSetup, _sel_alloc);
+    return NativeInteropEventChannelMethodsSetup.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static NativeInteropEventChannelMethodsSetup allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NativeInteropEventChannelMethodsSetup,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NativeInteropEventChannelMethodsSetup.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// new
+  static NativeInteropEventChannelMethodsSetup new$() {
+    final $ret = _objc_msgSend_151sglz(_class_NativeInteropEventChannelMethodsSetup, _sel_new);
+    return NativeInteropEventChannelMethodsSetup.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName:
+  static void pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName(
+    objc.NSString instanceName,
+  ) {
+    final _$$ref = instanceName.ref;
+    _objc_msgSend_xtuoz7(
+      _class_NativeInteropEventChannelMethodsSetup,
+      _sel_pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName_,
+      _$$ref.pointer,
+    );
+  }
+
+  /// pigeon_cancel_nativeInteropStreamEventsWithInstanceName:
+  static void pigeon_cancel_nativeInteropStreamEventsWithInstanceName(objc.NSString instanceName) {
+    final _$$ref = instanceName.ref;
+    _objc_msgSend_xtuoz7(
+      _class_NativeInteropEventChannelMethodsSetup,
+      _sel_pigeon_cancel_nativeInteropStreamEventsWithInstanceName_,
+      _$$ref.pointer,
+    );
+  }
+
+  /// pigeon_cancel_nativeInteropStreamIntsWithInstanceName:
+  static void pigeon_cancel_nativeInteropStreamIntsWithInstanceName(objc.NSString instanceName) {
+    final _$$ref = instanceName.ref;
+    _objc_msgSend_xtuoz7(
+      _class_NativeInteropEventChannelMethodsSetup,
+      _sel_pigeon_cancel_nativeInteropStreamIntsWithInstanceName_,
+      _$$ref.pointer,
+    );
+  }
+
+  /// pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName:sink:
+  static void pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName(
+    objc.NSString instanceName, {
+    required NativeInteropTestsPigeonEventSinkBridge sink,
+  }) {
+    final _$$ref = instanceName.ref;
+    final _$$ref$1 = sink.ref;
+    _objc_msgSend_pfv6jd(
+      _class_NativeInteropEventChannelMethodsSetup,
+      _sel_pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName_sink_,
+      _$$ref.pointer,
+      _$$ref$1.pointer,
+    );
+  }
+
+  /// pigeon_listen_nativeInteropStreamEventsWithInstanceName:sink:
+  static void pigeon_listen_nativeInteropStreamEventsWithInstanceName(
+    objc.NSString instanceName, {
+    required NativeInteropTestsPigeonEventSinkBridge sink,
+  }) {
+    final _$$ref = instanceName.ref;
+    final _$$ref$1 = sink.ref;
+    _objc_msgSend_pfv6jd(
+      _class_NativeInteropEventChannelMethodsSetup,
+      _sel_pigeon_listen_nativeInteropStreamEventsWithInstanceName_sink_,
+      _$$ref.pointer,
+      _$$ref$1.pointer,
+    );
+  }
+
+  /// pigeon_listen_nativeInteropStreamIntsWithInstanceName:sink:
+  static void pigeon_listen_nativeInteropStreamIntsWithInstanceName(
+    objc.NSString instanceName, {
+    required NativeInteropTestsPigeonEventSinkBridge sink,
+  }) {
+    final _$$ref = instanceName.ref;
+    final _$$ref$1 = sink.ref;
+    _objc_msgSend_pfv6jd(
+      _class_NativeInteropEventChannelMethodsSetup,
+      _sel_pigeon_listen_nativeInteropStreamIntsWithInstanceName_sink_,
+      _$$ref.pointer,
+      _$$ref$1.pointer,
+    );
+  }
+
+  /// Returns a new instance of NativeInteropEventChannelMethodsSetup constructed with the default `new` method.
+  NativeInteropEventChannelMethodsSetup() : this.as(new$().object$);
+}
+
+extension NativeInteropEventChannelMethodsSetup$Methods on NativeInteropEventChannelMethodsSetup {
+  /// init
+  NativeInteropEventChannelMethodsSetup init() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NativeInteropEventChannelMethodsSetup.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(_$$ref.retainAndReturnPointer(), _sel_init);
+    return NativeInteropEventChannelMethodsSetup.fromPointer($ret, retain: false, release: true);
   }
 }
 
@@ -18825,6 +19371,207 @@ extension NativeInteropHostIntegrationCoreApiSetup$Methods
   }
 }
 
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+extension type NativeInteropIntEventBridge._(objc.ObjCObject object$)
+    implements objc.ObjCObject, NativeInteropPlatformEventBridge {
+  /// Constructs a [NativeInteropIntEventBridge] that points to the same underlying object as [other].
+  NativeInteropIntEventBridge.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [NativeInteropIntEventBridge] that wraps the given raw object pointer.
+  NativeInteropIntEventBridge.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [NativeInteropIntEventBridge].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NativeInteropIntEventBridge,
+        );
+
+  /// alloc
+  static NativeInteropIntEventBridge alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_NativeInteropIntEventBridge, _sel_alloc);
+    return NativeInteropIntEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static NativeInteropIntEventBridge allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NativeInteropIntEventBridge,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NativeInteropIntEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+}
+
+extension NativeInteropIntEventBridge$Methods on NativeInteropIntEventBridge {
+  /// initWithValue:
+  NativeInteropIntEventBridge initWithValue(int value) {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_1ya1kjn(_$$ref.retainAndReturnPointer(), _sel_initWithValue_, value);
+    return NativeInteropIntEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// setValue:
+  set value(int value) {
+    final _$$ref = object$.ref;
+    _objc_msgSend_17gvxvj(_$$ref.pointer, _sel_setValue_, value);
+  }
+
+  /// value
+  int get value {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_pysgoz(_$$ref.pointer, _sel_value);
+  }
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+extension type NativeInteropObjectsEventBridge._(objc.ObjCObject object$)
+    implements objc.ObjCObject, NativeInteropPlatformEventBridge {
+  /// Constructs a [NativeInteropObjectsEventBridge] that points to the same underlying object as [other].
+  NativeInteropObjectsEventBridge.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [NativeInteropObjectsEventBridge] that wraps the given raw object pointer.
+  NativeInteropObjectsEventBridge.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [NativeInteropObjectsEventBridge].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NativeInteropObjectsEventBridge,
+        );
+
+  /// alloc
+  static NativeInteropObjectsEventBridge alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_NativeInteropObjectsEventBridge, _sel_alloc);
+    return NativeInteropObjectsEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static NativeInteropObjectsEventBridge allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NativeInteropObjectsEventBridge,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NativeInteropObjectsEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+}
+
+extension NativeInteropObjectsEventBridge$Methods on NativeInteropObjectsEventBridge {
+  /// initWithValue:
+  NativeInteropObjectsEventBridge initWithValue(objc.NSObject value) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value.ref;
+    final $ret = _objc_msgSend_1sotr3r(
+      _$$ref.retainAndReturnPointer(),
+      _sel_initWithValue_,
+      _$$ref$1.pointer,
+    );
+    return NativeInteropObjectsEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// setValue:
+  set value(objc.NSObject value) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value.ref;
+    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setValue_, _$$ref$1.pointer);
+  }
+
+  /// value
+  objc.NSObject get value {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_value);
+    return objc.NSObject.fromPointer($ret, retain: true, release: true);
+  }
+}
+
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+extension type NativeInteropPlatformEventBridge._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject {
+  /// Constructs a [NativeInteropPlatformEventBridge] that points to the same underlying object as [other].
+  NativeInteropPlatformEventBridge.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [NativeInteropPlatformEventBridge] that wraps the given raw object pointer.
+  NativeInteropPlatformEventBridge.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [NativeInteropPlatformEventBridge].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NativeInteropPlatformEventBridge,
+        );
+
+  /// alloc
+  static NativeInteropPlatformEventBridge alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_NativeInteropPlatformEventBridge, _sel_alloc);
+    return NativeInteropPlatformEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static NativeInteropPlatformEventBridge allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NativeInteropPlatformEventBridge,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NativeInteropPlatformEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// new
+  static NativeInteropPlatformEventBridge new$() {
+    final $ret = _objc_msgSend_151sglz(_class_NativeInteropPlatformEventBridge, _sel_new);
+    return NativeInteropPlatformEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// Returns a new instance of NativeInteropPlatformEventBridge constructed with the default `new` method.
+  NativeInteropPlatformEventBridge() : this.as(new$().object$);
+}
+
+extension NativeInteropPlatformEventBridge$Methods on NativeInteropPlatformEventBridge {
+  /// init
+  NativeInteropPlatformEventBridge init() {
+    final _$$ref = object$.ref;
+    objc.checkOsVersionInternal(
+      'NativeInteropPlatformEventBridge.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(_$$ref.retainAndReturnPointer(), _sel_init);
+    return NativeInteropPlatformEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+}
+
 /// A class whose field names collide with members of the bindings that JNIgen
 /// generates, so JNIgen renames their accessors.
 /// The Dart generator has to predict those names, since it is generated before
@@ -20703,6 +21450,77 @@ extension NativeInteropSquareBridge$Methods on NativeInteropSquareBridge {
   }
 }
 
+/// Generated bridge class from Pigeon that moves data from Swift to Objective-C.
+extension type NativeInteropStringEventBridge._(objc.ObjCObject object$)
+    implements objc.ObjCObject, NativeInteropPlatformEventBridge {
+  /// Constructs a [NativeInteropStringEventBridge] that points to the same underlying object as [other].
+  NativeInteropStringEventBridge.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [NativeInteropStringEventBridge] that wraps the given raw object pointer.
+  NativeInteropStringEventBridge.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [NativeInteropStringEventBridge].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NativeInteropStringEventBridge,
+        );
+
+  /// alloc
+  static NativeInteropStringEventBridge alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_NativeInteropStringEventBridge, _sel_alloc);
+    return NativeInteropStringEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static NativeInteropStringEventBridge allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_NativeInteropStringEventBridge,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return NativeInteropStringEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+}
+
+extension NativeInteropStringEventBridge$Methods on NativeInteropStringEventBridge {
+  /// initWithValue:
+  NativeInteropStringEventBridge initWithValue(objc.NSString value) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value.ref;
+    final $ret = _objc_msgSend_1sotr3r(
+      _$$ref.retainAndReturnPointer(),
+      _sel_initWithValue_,
+      _$$ref$1.pointer,
+    );
+    return NativeInteropStringEventBridge.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// setValue:
+  set value(objc.NSString value) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = value.ref;
+    _objc_msgSend_xtuoz7(_$$ref.pointer, _sel_setValue_, _$$ref$1.pointer);
+  }
+
+  /// value
+  objc.NSString get value {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_value);
+    return objc.NSString.fromPointer($ret, retain: true, release: true);
+  }
+}
+
 /// Error class for passing custom error details to Dart side.
 extension type NativeInteropTestsError._(objc.ObjCObject object$)
     implements objc.ObjCObject, objc.NSObject {
@@ -20925,6 +21743,341 @@ extension NativeInteropTestsNumberWrapper$Methods on NativeInteropTestsNumberWra
     final _$$ref = object$.ref;
     return _objc_msgSend_1hz7y9r(_$$ref.pointer, _sel_type);
   }
+}
+
+/// NativeInteropTestsPigeonEventSinkBridge
+extension type NativeInteropTestsPigeonEventSinkBridge._(objc.ObjCProtocol object$)
+    implements objc.ObjCProtocol {
+  /// Constructs a [NativeInteropTestsPigeonEventSinkBridge] that points to the same underlying object as [other].
+  NativeInteropTestsPigeonEventSinkBridge.as(objc.ObjCObject other) : object$ = other;
+
+  /// Constructs a [NativeInteropTestsPigeonEventSinkBridge] that wraps the given raw object pointer.
+  NativeInteropTestsPigeonEventSinkBridge.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [NativeInteropTestsPigeonEventSinkBridge].
+  static bool conformsTo(objc.ObjCObject obj) {
+    return _objc_msgSend_e3qsqz(
+      obj.ref.pointer,
+      _sel_conformsToProtocol_,
+      _protocol_NativeInteropTestsPigeonEventSinkBridge,
+    );
+  }
+}
+
+extension NativeInteropTestsPigeonEventSinkBridge$Methods
+    on NativeInteropTestsPigeonEventSinkBridge {
+  /// onEndOfStream
+  void onEndOfStream() {
+    final _$$ref = object$.ref;
+    _objc_msgSend_1pl9qdv(_$$ref.pointer, _sel_onEndOfStream);
+  }
+
+  /// onErrorWithCode:message:details:
+  void onErrorWithCode(objc.NSString code, {objc.NSString? message, objc.NSData? details}) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = code.ref;
+    final _$$ref$2 = message?.ref;
+    final _$$ref$3 = details?.ref;
+    _objc_msgSend_r8gdi7(
+      _$$ref.pointer,
+      _sel_onErrorWithCode_message_details_,
+      _$$ref$1.pointer,
+      _$$ref$2?.pointer ?? ffi.nullptr,
+      _$$ref$3?.pointer ?? ffi.nullptr,
+    );
+  }
+
+  /// onSuccessWithEvent:
+  void onSuccessWithEvent(objc.NSData? event) {
+    final _$$ref = object$.ref;
+    final _$$ref$1 = event?.ref;
+    _objc_msgSend_xtuoz7(
+      _$$ref.pointer,
+      _sel_onSuccessWithEvent_,
+      _$$ref$1?.pointer ?? ffi.nullptr,
+    );
+  }
+}
+
+interface class NativeInteropTestsPigeonEventSinkBridge$Builder {
+  /// Returns the [objc.Protocol] object for this protocol.
+  static objc.Protocol get $protocol =>
+      objc.Protocol.fromPointer(_protocol_NativeInteropTestsPigeonEventSinkBridge.cast());
+
+  /// Builds an object that implements the NativeInteropTestsPigeonEventSinkBridge protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
+  static NativeInteropTestsPigeonEventSinkBridge implement({
+    required void Function() onEndOfStream,
+    required void Function(objc.NSString, objc.NSString?, objc.NSData?)
+    onErrorWithCode_message_details_,
+    required void Function(objc.NSData?) onSuccessWithEvent_,
+    bool $keepIsolateAlive = true,
+  }) {
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NativeInteropTestsPigeonEventSinkBridge');
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onEndOfStream.implement(builder, onEndOfStream);
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onErrorWithCode_message_details_.implement(
+      builder,
+      onErrorWithCode_message_details_,
+    );
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onSuccessWithEvent_.implement(
+      builder,
+      onSuccessWithEvent_,
+    );
+    builder.addProtocol($protocol);
+    return NativeInteropTestsPigeonEventSinkBridge.as(
+      builder.build(keepIsolateAlive: $keepIsolateAlive),
+    );
+  }
+
+  /// Adds the implementation of the NativeInteropTestsPigeonEventSinkBridge protocol to an existing
+  /// [objc.ObjCProtocolBuilder].
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
+  static void addToBuilder(
+    objc.ObjCProtocolBuilder builder, {
+    required void Function() onEndOfStream,
+    required void Function(objc.NSString, objc.NSString?, objc.NSData?)
+    onErrorWithCode_message_details_,
+    required void Function(objc.NSData?) onSuccessWithEvent_,
+    bool $keepIsolateAlive = true,
+  }) {
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onEndOfStream.implement(builder, onEndOfStream);
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onErrorWithCode_message_details_.implement(
+      builder,
+      onErrorWithCode_message_details_,
+    );
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onSuccessWithEvent_.implement(
+      builder,
+      onSuccessWithEvent_,
+    );
+    builder.addProtocol($protocol);
+  }
+
+  /// Builds an object that implements the NativeInteropTestsPigeonEventSinkBridge protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
+  /// methods that can be implemented as listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
+  static NativeInteropTestsPigeonEventSinkBridge implementAsListener({
+    required void Function() onEndOfStream,
+    required void Function(objc.NSString, objc.NSString?, objc.NSData?)
+    onErrorWithCode_message_details_,
+    required void Function(objc.NSData?) onSuccessWithEvent_,
+    bool $keepIsolateAlive = true,
+  }) {
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NativeInteropTestsPigeonEventSinkBridge');
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onEndOfStream.implementAsListener(
+      builder,
+      onEndOfStream,
+    );
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onErrorWithCode_message_details_
+        .implementAsListener(builder, onErrorWithCode_message_details_);
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onSuccessWithEvent_.implementAsListener(
+      builder,
+      onSuccessWithEvent_,
+    );
+    builder.addProtocol($protocol);
+    return NativeInteropTestsPigeonEventSinkBridge.as(
+      builder.build(keepIsolateAlive: $keepIsolateAlive),
+    );
+  }
+
+  /// Adds the implementation of the NativeInteropTestsPigeonEventSinkBridge protocol to an existing
+  /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as listeners will
+  /// be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
+  static void addToBuilderAsListener(
+    objc.ObjCProtocolBuilder builder, {
+    required void Function() onEndOfStream,
+    required void Function(objc.NSString, objc.NSString?, objc.NSData?)
+    onErrorWithCode_message_details_,
+    required void Function(objc.NSData?) onSuccessWithEvent_,
+    bool $keepIsolateAlive = true,
+  }) {
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onEndOfStream.implementAsListener(
+      builder,
+      onEndOfStream,
+    );
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onErrorWithCode_message_details_
+        .implementAsListener(builder, onErrorWithCode_message_details_);
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onSuccessWithEvent_.implementAsListener(
+      builder,
+      onSuccessWithEvent_,
+    );
+    builder.addProtocol($protocol);
+  }
+
+  /// Builds an object that implements the NativeInteropTestsPigeonEventSinkBridge protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
+  /// methods that can be implemented as blocking listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
+  static NativeInteropTestsPigeonEventSinkBridge implementAsBlocking({
+    required void Function() onEndOfStream,
+    required void Function(objc.NSString, objc.NSString?, objc.NSData?)
+    onErrorWithCode_message_details_,
+    required void Function(objc.NSData?) onSuccessWithEvent_,
+    bool $keepIsolateAlive = true,
+  }) {
+    final builder = objc.ObjCProtocolBuilder(debugName: 'NativeInteropTestsPigeonEventSinkBridge');
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onEndOfStream.implementAsBlocking(
+      builder,
+      onEndOfStream,
+    );
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onErrorWithCode_message_details_
+        .implementAsBlocking(builder, onErrorWithCode_message_details_);
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onSuccessWithEvent_.implementAsBlocking(
+      builder,
+      onSuccessWithEvent_,
+    );
+    builder.addProtocol($protocol);
+    return NativeInteropTestsPigeonEventSinkBridge.as(
+      builder.build(keepIsolateAlive: $keepIsolateAlive),
+    );
+  }
+
+  /// Adds the implementation of the NativeInteropTestsPigeonEventSinkBridge protocol to an existing
+  /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as blocking
+  /// listeners will be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
+  static void addToBuilderAsBlocking(
+    objc.ObjCProtocolBuilder builder, {
+    required void Function() onEndOfStream,
+    required void Function(objc.NSString, objc.NSString?, objc.NSData?)
+    onErrorWithCode_message_details_,
+    required void Function(objc.NSData?) onSuccessWithEvent_,
+    bool $keepIsolateAlive = true,
+  }) {
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onEndOfStream.implementAsBlocking(
+      builder,
+      onEndOfStream,
+    );
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onErrorWithCode_message_details_
+        .implementAsBlocking(builder, onErrorWithCode_message_details_);
+    NativeInteropTestsPigeonEventSinkBridge$Builder.onSuccessWithEvent_.implementAsBlocking(
+      builder,
+      onSuccessWithEvent_,
+    );
+    builder.addProtocol($protocol);
+  }
+
+  /// onEndOfStream
+  static final onEndOfStream = objc.ObjCProtocolListenableMethod<void Function()>(
+    _protocol_NativeInteropTestsPigeonEventSinkBridge,
+    _sel_onEndOfStream,
+    ffi.Native.addressOf<
+          ffi.NativeFunction<
+            ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Void>)
+          >
+        >(_julz8q_protocolTrampoline_ovsamd)
+        .cast(),
+    objc.getProtocolMethodSignature(
+      _protocol_NativeInteropTestsPigeonEventSinkBridge,
+      _sel_onEndOfStream,
+      isRequired: true,
+      isInstanceMethod: true,
+    ),
+    (void Function() func) =>
+        ObjCBlock_ffiVoid_ffiVoid.fromFunction((ffi.Pointer<ffi.Void> _) => func()),
+    (void Function() func) =>
+        ObjCBlock_ffiVoid_ffiVoid.listener((ffi.Pointer<ffi.Void> _) => func()),
+    (void Function() func) =>
+        ObjCBlock_ffiVoid_ffiVoid.blocking((ffi.Pointer<ffi.Void> _) => func()),
+  );
+
+  /// onErrorWithCode:message:details:
+  static final onErrorWithCode_message_details_ =
+      objc.ObjCProtocolListenableMethod<void Function(objc.NSString, objc.NSString?, objc.NSData?)>(
+        _protocol_NativeInteropTestsPigeonEventSinkBridge,
+        _sel_onErrorWithCode_message_details_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Void Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_julz8q_protocolTrampoline_1tz5yf)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_NativeInteropTestsPigeonEventSinkBridge,
+          _sel_onErrorWithCode_message_details_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (void Function(objc.NSString, objc.NSString?, objc.NSData?) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSString_NSString_NSData.fromFunction(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSString arg1,
+                objc.NSString? arg2,
+                objc.NSData? arg3,
+              ) => func(arg1, arg2, arg3),
+            ),
+        (void Function(objc.NSString, objc.NSString?, objc.NSData?) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSString_NSString_NSData.listener(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSString arg1,
+                objc.NSString? arg2,
+                objc.NSData? arg3,
+              ) => func(arg1, arg2, arg3),
+            ),
+        (void Function(objc.NSString, objc.NSString?, objc.NSData?) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSString_NSString_NSData.blocking(
+              (
+                ffi.Pointer<ffi.Void> _,
+                objc.NSString arg1,
+                objc.NSString? arg2,
+                objc.NSData? arg3,
+              ) => func(arg1, arg2, arg3),
+            ),
+      );
+
+  /// onSuccessWithEvent:
+  static final onSuccessWithEvent_ = objc.ObjCProtocolListenableMethod<void Function(objc.NSData?)>(
+    _protocol_NativeInteropTestsPigeonEventSinkBridge,
+    _sel_onSuccessWithEvent_,
+    ffi.Native.addressOf<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >
+        >(_julz8q_protocolTrampoline_18v1jvf)
+        .cast(),
+    objc.getProtocolMethodSignature(
+      _protocol_NativeInteropTestsPigeonEventSinkBridge,
+      _sel_onSuccessWithEvent_,
+      isRequired: true,
+      isInstanceMethod: true,
+    ),
+    (void Function(objc.NSData?) func) => ObjCBlock_ffiVoid_ffiVoid_NSData.fromFunction(
+      (ffi.Pointer<ffi.Void> _, objc.NSData? arg1) => func(arg1),
+    ),
+    (void Function(objc.NSData?) func) => ObjCBlock_ffiVoid_ffiVoid_NSData.listener(
+      (ffi.Pointer<ffi.Void> _, objc.NSData? arg1) => func(arg1),
+    ),
+    (void Function(objc.NSData?) func) => ObjCBlock_ffiVoid_ffiVoid_NSData.blocking(
+      (ffi.Pointer<ffi.Void> _, objc.NSData? arg1) => func(arg1),
+    ),
+  );
 }
 
 /// NativeInteropTestsPigeonInternalNull
@@ -23926,6 +25079,140 @@ extension ObjCBlock_ffiVoid_NSString$CallExtension
   }
 }
 
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>`.
+abstract final class ObjCBlock_ffiVoid_ffiVoid {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+    pointer,
+    retain: retain,
+    release: release,
+  );
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> fromFunctionPointer(
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> arg0)>> ptr,
+  ) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> fromFunction(
+    void Function(ffi.Pointer<ffi.Void>) fn, {
+    bool keepIsolateAlive = true,
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+    objc.newClosureBlock(_closureCallable, (ffi.Pointer<ffi.Void> arg0) {
+      return fn(arg0);
+    }, keepIsolateAlive),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This block can be invoked from any thread, but only supports void
+  /// functions, and is not run synchronously. Async functions (ie returning
+  /// Future<void>) are not supported.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> listener(
+    void Function(ffi.Pointer<ffi.Void>) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+      objc.newBlockPort(_julz8q_wrapListenerBlock_ovsamd, (
+        ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
+      ) {
+        final args = _BlockArgs_awd5mj.fromPointer(rawArgs, retain: false, release: false);
+
+        fn(args.arg0);
+      }, keepIsolateAlive),
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions (ie returning Future<void>) are not supported.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
+  /// indefinitely, or have other undefined behavior.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> blocking(
+    void Function(ffi.Pointer<ffi.Void>) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+      objc.newBlockingBlockPort(_julz8q_wrapBlockingBlock_ovsamd, (
+        ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
+      ) {
+        final args = _BlockArgs_awd5mj.fromPointer(rawArgs, retain: false, release: false);
+
+        fn(args.arg0);
+      }, keepIsolateAlive),
+      retain: false,
+      release: true,
+    );
+  }
+
+  static void _fnPtrTrampoline(ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0) =>
+      block.ref.target
+          .cast<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> arg0)>>()
+          .asFunction<void Function(ffi.Pointer<ffi.Void>)>()(arg0);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)
+          >(_fnPtrTrampoline)
+          .cast();
+  static void _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+  ) => (objc.getBlockClosure(block) as void Function(ffi.Pointer<ffi.Void>))(arg0);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>`.
+extension ObjCBlock_ffiVoid_ffiVoid$CallExtension
+    on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)> {
+  void call(ffi.Pointer<ffi.Void> arg0) {
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Void Function(ffi.Pointer<objc.ObjCBlockImpl> block, ffi.Pointer<ffi.Void> arg0)
+          >
+        >()
+        .asFunction<void Function(ffi.Pointer<objc.ObjCBlockImpl>, ffi.Pointer<ffi.Void>)>()(
+      ref.pointer,
+      arg0,
+    );
+  }
+}
+
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int64, NativeInteropTestsError, objc.ObjCBlock<ffi.Void Function(objc.NSNumber?)>)>`.
 abstract final class ObjCBlock_ffiVoid_ffiVoid_Int64_NativeInteropTestsError_ffiVoidNSNumber {
   /// Returns a block that wraps the given raw block pointer.
@@ -24234,6 +25521,181 @@ extension ObjCBlock_ffiVoid_ffiVoid_Int64_NativeInteropTestsError_ffiVoidNSNumbe
             ffi.Pointer<objc.ObjCBlockImpl>,
           )
         >()(ref.pointer, arg0, arg1, _$$ref.pointer, _$$ref$1.pointer);
+  }
+}
+
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSData?)>`.
+abstract final class ObjCBlock_ffiVoid_ffiVoid_NSData {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSData?)> fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSData?)>(
+    pointer,
+    retain: retain,
+    release: release,
+  );
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSData?)> fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObjectImpl> arg1)
+      >
+    >
+    ptr,
+  ) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSData?)>(
+    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSData?)> fromFunction(
+    void Function(ffi.Pointer<ffi.Void>, objc.NSData?) fn, {
+    bool keepIsolateAlive = true,
+  }) => objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSData?)>(
+    objc.newClosureBlock(_closureCallable, (
+      ffi.Pointer<ffi.Void> arg0,
+      ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ) {
+      return fn(
+        arg0,
+        arg1.address == 0 ? null : objc.NSData.fromPointer(arg1, retain: true, release: true),
+      );
+    }, keepIsolateAlive),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This block can be invoked from any thread, but only supports void
+  /// functions, and is not run synchronously. Async functions (ie returning
+  /// Future<void>) are not supported.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSData?)> listener(
+    void Function(ffi.Pointer<ffi.Void>, objc.NSData?) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSData?)>(
+      objc.newBlockPort(_julz8q_wrapListenerBlock_18v1jvf, (
+        ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
+      ) {
+        final args = _BlockArgs_18i58nl.fromPointer(rawArgs, retain: false, release: false);
+
+        fn(args.arg0, args.arg1);
+      }, keepIsolateAlive),
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions (ie returning Future<void>) are not supported.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
+  /// indefinitely, or have other undefined behavior.
+  static objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSData?)> blocking(
+    void Function(ffi.Pointer<ffi.Void>, objc.NSData?) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSData?)>(
+      objc.newBlockingBlockPort(_julz8q_wrapBlockingBlock_18v1jvf, (
+        ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
+      ) {
+        final args = _BlockArgs_18i58nl.fromPointer(rawArgs, retain: false, release: false);
+
+        fn(args.arg0, args.arg1);
+      }, keepIsolateAlive),
+      retain: false,
+      release: true,
+    );
+  }
+
+  static void _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ) =>
+      block.ref.target
+          .cast<
+            ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<ffi.Void> arg0, ffi.Pointer<objc.ObjCObjectImpl> arg1)
+            >
+          >()
+          .asFunction<void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>)>()(
+        arg0,
+        arg1,
+      );
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static void _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ) =>
+      (objc.getBlockClosure(block)
+          as void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<objc.ObjCObjectImpl>))(arg0, arg1);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSData?)>`.
+extension ObjCBlock_ffiVoid_ffiVoid_NSData$CallExtension
+    on objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSData?)> {
+  void call(ffi.Pointer<ffi.Void> arg0, objc.NSData? arg1) {
+    final _$$ref = arg1?.ref;
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<ffi.Void> arg0,
+              ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            )
+          >
+        >()
+        .asFunction<
+          void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >()(ref.pointer, arg0, _$$ref?.pointer ?? ffi.nullptr);
   }
 }
 
@@ -25170,6 +26632,251 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSNumber_NativeInteropTestsError_ffiVoidNSNu
             ffi.Pointer<objc.ObjCBlockImpl>,
           )
         >()(ref.pointer, arg0, _$$ref?.pointer ?? ffi.nullptr, _$$ref$1.pointer, _$$ref$2.pointer);
+  }
+}
+
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?)>`.
+abstract final class ObjCBlock_ffiVoid_ffiVoid_NSString_NSString_NSData {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?)
+  >
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?)
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?)
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          ffi.Pointer<objc.ObjCObjectImpl> arg3,
+        )
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?)
+      >(objc.newPointerBlock(_fnPtrCallable, ptr.cast()), retain: false, release: true);
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?)
+  >
+  fromFunction(
+    void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?) fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?)
+      >(
+        objc.newClosureBlock(_closureCallable, (
+          ffi.Pointer<ffi.Void> arg0,
+          ffi.Pointer<objc.ObjCObjectImpl> arg1,
+          ffi.Pointer<objc.ObjCObjectImpl> arg2,
+          ffi.Pointer<objc.ObjCObjectImpl> arg3,
+        ) {
+          return fn(
+            arg0,
+            objc.NSString.fromPointer(arg1, retain: true, release: true),
+            arg2.address == 0 ? null : objc.NSString.fromPointer(arg2, retain: true, release: true),
+            arg3.address == 0 ? null : objc.NSData.fromPointer(arg3, retain: true, release: true),
+          );
+        }, keepIsolateAlive),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This block can be invoked from any thread, but only supports void
+  /// functions, and is not run synchronously. Async functions (ie returning
+  /// Future<void>) are not supported.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?)
+  >
+  listener(
+    void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    return objc.ObjCBlock<
+      ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?)
+    >(
+      objc.newBlockPort(_julz8q_wrapListenerBlock_1tz5yf, (
+        ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
+      ) {
+        final args = _BlockArgs_16s8w6i.fromPointer(rawArgs, retain: false, release: false);
+
+        fn(args.arg0, args.arg1, args.arg2, args.arg3);
+      }, keepIsolateAlive),
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions (ie returning Future<void>) are not supported.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
+  /// indefinitely, or have other undefined behavior.
+  static objc.ObjCBlock<
+    ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?)
+  >
+  blocking(
+    void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    return objc.ObjCBlock<
+      ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?)
+    >(
+      objc.newBlockingBlockPort(_julz8q_wrapBlockingBlock_1tz5yf, (
+        ffi.Pointer<objc.ObjCObjectImpl> rawArgs,
+      ) {
+        final args = _BlockArgs_16s8w6i.fromPointer(rawArgs, retain: false, release: false);
+
+        fn(args.arg0, args.arg1, args.arg2, args.arg3);
+      }, keepIsolateAlive),
+      retain: false,
+      release: true,
+    );
+  }
+
+  static void _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+    ffi.Pointer<objc.ObjCObjectImpl> arg3,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<ffi.Void> arg0,
+            ffi.Pointer<objc.ObjCObjectImpl> arg1,
+            ffi.Pointer<objc.ObjCObjectImpl> arg2,
+            ffi.Pointer<objc.ObjCObjectImpl> arg3,
+          )
+        >
+      >()
+      .asFunction<
+        void Function(
+          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >()(arg0, arg1, arg2, arg3);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static void _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+    ffi.Pointer<objc.ObjCObjectImpl> arg1,
+    ffi.Pointer<objc.ObjCObjectImpl> arg2,
+    ffi.Pointer<objc.ObjCObjectImpl> arg3,
+  ) =>
+      (objc.getBlockClosure(block)
+          as void Function(
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          ))(arg0, arg1, arg2, arg3);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?)>`.
+extension ObjCBlock_ffiVoid_ffiVoid_NSString_NSString_NSData$CallExtension
+    on
+        objc.ObjCBlock<
+          ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString, objc.NSString?, objc.NSData?)
+        > {
+  void call(
+    ffi.Pointer<ffi.Void> arg0,
+    objc.NSString arg1,
+    objc.NSString? arg2,
+    objc.NSData? arg3,
+  ) {
+    final _$$ref = arg1.ref;
+    final _$$ref$1 = arg2?.ref;
+    final _$$ref$2 = arg3?.ref;
+    return ref.pointer.ref.invoke
+        .cast<
+          ffi.NativeFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl> block,
+              ffi.Pointer<ffi.Void> arg0,
+              ffi.Pointer<objc.ObjCObjectImpl> arg1,
+              ffi.Pointer<objc.ObjCObjectImpl> arg2,
+              ffi.Pointer<objc.ObjCObjectImpl> arg3,
+            )
+          >
+        >()
+        .asFunction<
+          void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >()(
+      ref.pointer,
+      arg0,
+      _$$ref.pointer,
+      _$$ref$1?.pointer ?? ffi.nullptr,
+      _$$ref$2?.pointer ?? ffi.nullptr,
+    );
   }
 }
 
@@ -27236,6 +28943,86 @@ extension _BlockArgs_12qasvt$Methods on _BlockArgs_12qasvt {
   }
 }
 
+extension type _BlockArgs_16s8w6i._(objc.ObjCObject object$) implements objc.ObjCObject {
+  /// Constructs a [_BlockArgs_16s8w6i] that points to the same underlying object as [other].
+  _BlockArgs_16s8w6i.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [_BlockArgs_16s8w6i] that wraps the given raw object pointer.
+  _BlockArgs_16s8w6i.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [_BlockArgs_16s8w6i].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(obj.ref.pointer, _sel_isKindOfClass_, _class__BlockArgs_16s8w6i);
+}
+
+extension _BlockArgs_16s8w6i$Methods on _BlockArgs_16s8w6i {
+  ffi.Pointer<ffi.Void> get arg0 {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+  }
+
+  objc.NSString get arg1 {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+    return objc.NSString.fromPointer($ret, retain: true, release: true);
+  }
+
+  objc.NSString? get arg2 {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg2);
+    return $ret.address == 0 ? null : objc.NSString.fromPointer($ret, retain: true, release: true);
+  }
+
+  objc.NSData? get arg3 {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg3);
+    return $ret.address == 0 ? null : objc.NSData.fromPointer($ret, retain: true, release: true);
+  }
+}
+
+extension type _BlockArgs_18i58nl._(objc.ObjCObject object$) implements objc.ObjCObject {
+  /// Constructs a [_BlockArgs_18i58nl] that points to the same underlying object as [other].
+  _BlockArgs_18i58nl.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [_BlockArgs_18i58nl] that wraps the given raw object pointer.
+  _BlockArgs_18i58nl.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [_BlockArgs_18i58nl].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(obj.ref.pointer, _sel_isKindOfClass_, _class__BlockArgs_18i58nl);
+}
+
+extension _BlockArgs_18i58nl$Methods on _BlockArgs_18i58nl {
+  ffi.Pointer<ffi.Void> get arg0 {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
+  }
+
+  objc.NSData? get arg1 {
+    final _$$ref = object$.ref;
+    final $ret = _objc_msgSend_151sglz(_$$ref.pointer, _sel_arg1);
+    return $ret.address == 0 ? null : objc.NSData.fromPointer($ret, retain: true, release: true);
+  }
+}
+
 extension type _BlockArgs_1narc9q._(objc.ObjCObject object$) implements objc.ObjCObject {
   /// Constructs a [_BlockArgs_1narc9q] that points to the same underlying object as [other].
   _BlockArgs_1narc9q.as(objc.ObjCObject other) : object$ = other {
@@ -27439,6 +29226,34 @@ extension _BlockArgs_97ibck$Methods on _BlockArgs_97ibck {
     final _$$ref = object$.ref;
     final $ret = _objc_msgSend_uwvaik(_$$ref.pointer, _sel_arg2);
     return ObjCBlock_ffiVoid_NSData.fromPointer($ret, retain: true, release: true);
+  }
+}
+
+extension type _BlockArgs_awd5mj._(objc.ObjCObject object$) implements objc.ObjCObject {
+  /// Constructs a [_BlockArgs_awd5mj] that points to the same underlying object as [other].
+  _BlockArgs_awd5mj.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [_BlockArgs_awd5mj] that wraps the given raw object pointer.
+  _BlockArgs_awd5mj.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [_BlockArgs_awd5mj].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(obj.ref.pointer, _sel_isKindOfClass_, _class__BlockArgs_awd5mj);
+}
+
+extension _BlockArgs_awd5mj$Methods on _BlockArgs_awd5mj {
+  ffi.Pointer<ffi.Void> get arg0 {
+    final _$$ref = object$.ref;
+    return _objc_msgSend_6ex6p5(_$$ref.pointer, _sel_arg0);
   }
 }
 
@@ -27807,6 +29622,16 @@ final _class_NativeInteropAllTypesBridge = objc.getClass(
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__TtC11test_plugin28NativeInteropBoolEventBridge',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NativeInteropBoolEventBridge_raw;
+final _class_NativeInteropBoolEventBridge = objc.getClass(
+  "test_plugin.NativeInteropBoolEventBridge",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NativeInteropBoolEventBridge_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$__TtC11test_plugin25NativeInteropCircleBridge',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_NativeInteropCircleBridge_raw;
@@ -27817,6 +29642,36 @@ final _class_NativeInteropCircleBridge = objc.getClass(
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__TtC11test_plugin29NativeInteropClassEventBridge',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NativeInteropClassEventBridge_raw;
+final _class_NativeInteropClassEventBridge = objc.getClass(
+  "test_plugin.NativeInteropClassEventBridge",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NativeInteropClassEventBridge_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__TtC11test_plugin30NativeInteropDoubleEventBridge',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NativeInteropDoubleEventBridge_raw;
+final _class_NativeInteropDoubleEventBridge = objc.getClass(
+  "test_plugin.NativeInteropDoubleEventBridge",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NativeInteropDoubleEventBridge_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__TtC11test_plugin29NativeInteropEmptyEventBridge',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NativeInteropEmptyEventBridge_raw;
+final _class_NativeInteropEmptyEventBridge = objc.getClass(
+  "test_plugin.NativeInteropEmptyEventBridge",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NativeInteropEmptyEventBridge_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$__TtC11test_plugin35NativeInteropEmptySealedClassBridge',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_NativeInteropEmptySealedClassBridge_raw;
@@ -27824,6 +29679,26 @@ final _class_NativeInteropEmptySealedClassBridge = objc.getClass(
   "test_plugin.NativeInteropEmptySealedClassBridge",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
     _class_NativeInteropEmptySealedClassBridge_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__TtC11test_plugin28NativeInteropEnumEventBridge',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NativeInteropEnumEventBridge_raw;
+final _class_NativeInteropEnumEventBridge = objc.getClass(
+  "test_plugin.NativeInteropEnumEventBridge",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NativeInteropEnumEventBridge_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__TtC11test_plugin37NativeInteropEventChannelMethodsSetup',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NativeInteropEventChannelMethodsSetup_raw;
+final _class_NativeInteropEventChannelMethodsSetup = objc.getClass(
+  "test_plugin.NativeInteropEventChannelMethodsSetup",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NativeInteropEventChannelMethodsSetup_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
@@ -27845,6 +29720,36 @@ final _class_NativeInteropHostIntegrationCoreApiSetup = objc.getClass(
   "test_plugin.NativeInteropHostIntegrationCoreApiSetup",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
     _class_NativeInteropHostIntegrationCoreApiSetup_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__TtC11test_plugin27NativeInteropIntEventBridge',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NativeInteropIntEventBridge_raw;
+final _class_NativeInteropIntEventBridge = objc.getClass(
+  "test_plugin.NativeInteropIntEventBridge",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NativeInteropIntEventBridge_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__TtC11test_plugin31NativeInteropObjectsEventBridge',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NativeInteropObjectsEventBridge_raw;
+final _class_NativeInteropObjectsEventBridge = objc.getClass(
+  "test_plugin.NativeInteropObjectsEventBridge",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NativeInteropObjectsEventBridge_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__TtC11test_plugin32NativeInteropPlatformEventBridge',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NativeInteropPlatformEventBridge_raw;
+final _class_NativeInteropPlatformEventBridge = objc.getClass(
+  "test_plugin.NativeInteropPlatformEventBridge",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NativeInteropPlatformEventBridge_raw,
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
@@ -27948,6 +29853,16 @@ final _class_NativeInteropSquareBridge = objc.getClass(
   ).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
+  symbol: 'OBJC_CLASS_\$__TtC11test_plugin30NativeInteropStringEventBridge',
+)
+external ffi.Pointer<objc.ObjCObjectImpl> _class_NativeInteropStringEventBridge_raw;
+final _class_NativeInteropStringEventBridge = objc.getClass(
+  "test_plugin.NativeInteropStringEventBridge",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(
+    _class_NativeInteropStringEventBridge_raw,
+  ).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(
   symbol: 'OBJC_CLASS_\$__TtC11test_plugin23NativeInteropTestsError',
 )
 external ffi.Pointer<objc.ObjCObjectImpl> _class_NativeInteropTestsError_raw;
@@ -28011,6 +29926,20 @@ final _class__BlockArgs_12qasvt = objc.getClass(
   () =>
       ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(_class__BlockArgs_12qasvt_raw).cast(),
 );
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$__julz8q_BlockArgs_1tz5yf')
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_16s8w6i_raw;
+final _class__BlockArgs_16s8w6i = objc.getClass(
+  "_julz8q_BlockArgs_1tz5yf",
+  () =>
+      ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(_class__BlockArgs_16s8w6i_raw).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$__julz8q_BlockArgs_18v1jvf')
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_18i58nl_raw;
+final _class__BlockArgs_18i58nl = objc.getClass(
+  "_julz8q_BlockArgs_18v1jvf",
+  () =>
+      ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(_class__BlockArgs_18i58nl_raw).cast(),
+);
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$__julz8q_BlockArgs_bklti2')
 external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_1narc9q_raw;
 final _class__BlockArgs_1narc9q = objc.getClass(
@@ -28041,6 +29970,12 @@ external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_97ibck_raw;
 final _class__BlockArgs_97ibck = objc.getClass(
   "_julz8q_BlockArgs_jk1ljc",
   () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(_class__BlockArgs_97ibck_raw).cast(),
+);
+@ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$__julz8q_BlockArgs_ovsamd')
+external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_awd5mj_raw;
+final _class__BlockArgs_awd5mj = objc.getClass(
+  "_julz8q_BlockArgs_ovsamd",
+  () => ffi.Native.addressOf<ffi.Pointer<objc.ObjCObjectImpl>>(_class__BlockArgs_awd5mj_raw).cast(),
 );
 @ffi.Native<ffi.Pointer<objc.ObjCObjectImpl>>(symbol: 'OBJC_CLASS_\$__julz8q_BlockArgs_ymbgmo')
 external ffi.Pointer<objc.ObjCObjectImpl> _class__BlockArgs_friywh_raw;
@@ -28380,6 +30315,13 @@ final _objc_msgSend_1ozwf6k = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
+final _objc_msgSend_1pl9qdv = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<objc.ObjCSelector>)
+      >
+    >()
+    .asFunction<void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<objc.ObjCSelector>)>();
 final _objc_msgSend_1ptq3i3 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -28511,6 +30453,23 @@ final _objc_msgSend_1sotr3r = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
+final _objc_msgSend_1t6aok9 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Bool,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        bool,
+      )
+    >();
 final _objc_msgSend_1ukqyt8 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -28528,6 +30487,23 @@ final _objc_msgSend_1ukqyt8Fpret = objc.msgSendFpretPointer
     >()
     .asFunction<
       double Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<objc.ObjCSelector>)
+    >();
+final _objc_msgSend_1ya1kjn = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Int64,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        int,
+      )
     >();
 final _objc_msgSend_3auj9p = objc.msgSendPointer
     .cast<
@@ -28821,6 +30797,23 @@ final _objc_msgSend_f15nnv = objc.msgSendPointer
         ffi.Pointer<objc.ObjCBlockImpl>,
       )
     >();
+final _objc_msgSend_fs41fd = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Long,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        int,
+      )
+    >();
 final _objc_msgSend_hwm8nu = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -28951,6 +30944,27 @@ final _objc_msgSend_pysgoz = objc.msgSendPointer
       >
     >()
     .asFunction<int Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<objc.ObjCSelector>)>();
+final _objc_msgSend_r8gdi7 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
 final _objc_msgSend_s92gih = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -29078,6 +31092,14 @@ _protocol_NativeInteropSealedClassFlutterApiBridge_raw();
 final _protocol_NativeInteropSealedClassFlutterApiBridge = objc.getProtocol(
   "test_plugin.NativeInteropSealedClassFlutterApiBridge",
   _protocol_NativeInteropSealedClassFlutterApiBridge_raw,
+);
+@ffi.Native<ffi.Pointer<objc.ObjCProtocolImpl> Function()>(
+  symbol: '_julz8q_NativeInteropTestsPigeonEventSinkBridge',
+)
+external ffi.Pointer<objc.ObjCProtocolImpl> _protocol_NativeInteropTestsPigeonEventSinkBridge_raw();
+final _protocol_NativeInteropTestsPigeonEventSinkBridge = objc.getProtocol(
+  "test_plugin.NativeInteropTestsPigeonEventSinkBridge",
+  _protocol_NativeInteropTestsPigeonEventSinkBridge_raw,
 );
 late final _sel_a4ByteArray = objc.registerName("a4ByteArray");
 late final _sel_a8ByteArray = objc.registerName("a8ByteArray");
@@ -30100,6 +32122,7 @@ late final _sel_initWithType_use_reference_releasedBy_fromReference_jClass_isIns
     objc.registerName(
       "initWithType:use:reference:releasedBy:fromReference:jClass:isInstanceOf:isNull:isReleased:equals:isEnabled:isMaybe:isCount:getValue:",
     );
+late final _sel_initWithValue_ = objc.registerName("initWithValue:");
 late final _sel_intList = objc.registerName("intList");
 late final _sel_intMap = objc.registerName("intMap");
 late final _sel_isCount = objc.registerName("isCount");
@@ -30140,8 +32163,29 @@ late final _sel_nullableSealedClass = objc.registerName("nullableSealedClass");
 late final _sel_number = objc.registerName("number");
 late final _sel_objectList = objc.registerName("objectList");
 late final _sel_objectMap = objc.registerName("objectMap");
+late final _sel_onEndOfStream = objc.registerName("onEndOfStream");
+late final _sel_onErrorWithCode_message_details_ = objc.registerName(
+  "onErrorWithCode:message:details:",
+);
+late final _sel_onSuccessWithEvent_ = objc.registerName("onSuccessWithEvent:");
 late final _sel_password = objc.registerName("password");
 late final _sel_persistence = objc.registerName("persistence");
+late final _sel_pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName_ = objc
+    .registerName("pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName:");
+late final _sel_pigeon_cancel_nativeInteropStreamEventsWithInstanceName_ = objc.registerName(
+  "pigeon_cancel_nativeInteropStreamEventsWithInstanceName:",
+);
+late final _sel_pigeon_cancel_nativeInteropStreamIntsWithInstanceName_ = objc.registerName(
+  "pigeon_cancel_nativeInteropStreamIntsWithInstanceName:",
+);
+late final _sel_pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName_sink_ = objc
+    .registerName("pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName:sink:");
+late final _sel_pigeon_listen_nativeInteropStreamEventsWithInstanceName_sink_ = objc.registerName(
+  "pigeon_listen_nativeInteropStreamEventsWithInstanceName:sink:",
+);
+late final _sel_pigeon_listen_nativeInteropStreamIntsWithInstanceName_sink_ = objc.registerName(
+  "pigeon_listen_nativeInteropStreamIntsWithInstanceName:sink:",
+);
 late final _sel_radius = objc.registerName("radius");
 late final _sel_recursiveClassList = objc.registerName("recursiveClassList");
 late final _sel_recursiveClassMap = objc.registerName("recursiveClassMap");
@@ -30256,6 +32300,7 @@ late final _sel_setStringList_ = objc.registerName("setStringList:");
 late final _sel_setStringMap_ = objc.registerName("setStringMap:");
 late final _sel_setType_ = objc.registerName("setType:");
 late final _sel_setUse_ = objc.registerName("setUse:");
+late final _sel_setValue_ = objc.registerName("setValue:");
 late final _sel_side = objc.registerName("side");
 late final _sel_stringList = objc.registerName("stringList");
 late final _sel_stringMap = objc.registerName("stringMap");
@@ -30297,5 +32342,6 @@ late final _sel_typeWithWrappedError_ = objc.registerName("typeWithWrappedError:
 late final _sel_use = objc.registerName("use");
 late final _sel_useWithValue_wrappedError_ = objc.registerName("useWithValue:wrappedError:");
 late final _sel_user = objc.registerName("user");
+late final _sel_value = objc.registerName("value");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

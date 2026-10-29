@@ -2703,18 +2703,86 @@ ${api.name}({
           'returned broadcast stream multiple times instead.',
         ],
       );
-      indent.format('''
-      Stream<${func.returnType.baseName}> ${func.name}(${_getMethodParameterSignature(func.parameters, addTrailingComma: true)} {String instanceName = ''}) {
-        if (instanceName.isNotEmpty) {
-          instanceName = '.\$instanceName';
-        }
-        final EventChannel ${func.name}Channel =
-            EventChannel('${makeChannelName(api, func, dartPackageName)}\$instanceName', $_pigeonMethodCodec);
-        return ${func.name}Channel.receiveBroadcastStream().map((dynamic event) {
-          return event as ${func.returnType.baseName};
-        });
-      }
-    ''');
+      final String returnType = func.returnType.baseName;
+      indent.writeScoped(
+        "Stream<$returnType> ${func.name}(${_getMethodParameterSignature(func.parameters, addTrailingComma: true)} {String instanceName = ''}) {",
+        '}',
+        () {
+          if (generatorOptions.useJni) {
+            final jniRegistrar = '$_jniBridgePrefix.${api.name}Registrar';
+            final jniSinkBridge = '$_jniBridgePrefix.${_classNamePrefix}PigeonEventSinkBridge';
+            final jniListenName = 'pigeon_listen_${func.name}';
+            final jniCancelName = 'pigeon_cancel_${func.name}';
+            indent.format('''
+              if (Platform.isAndroid) {
+                final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
+                return _pigeonJniEventStream<$returnType>(
+                  onListen: ($jniSinkBridge sink) {
+                    final $jniRegistrar registrar = $jniRegistrar();
+                    final JString jName = resolvedName.toJString();
+                    try {
+                      registrar.$jniListenName(jName, sink);
+                    } finally {
+                      jName.release();
+                      registrar.release();
+                    }
+                  },
+                  onCancel: () {
+                    final $jniRegistrar registrar = $jniRegistrar();
+                    final JString jName = resolvedName.toJString();
+                    try {
+                      registrar.$jniCancelName(jName);
+                    } finally {
+                      jName.release();
+                      registrar.release();
+                    }
+                  },
+                );
+              }
+            ''');
+          }
+          if (generatorOptions.useFfi) {
+            final ffiSetup = '$_ffiBridgePrefix.${api.name}Setup';
+            final ffiSinkBridge = '$_ffiBridgePrefix.${_classNamePrefix}PigeonEventSinkBridge';
+            final String ffiListenName = _swiftObjcSelectorFirstPiece(
+              'pigeon_listen_${func.name}',
+              'instanceName',
+            );
+            final String ffiCancelName = _swiftObjcSelectorFirstPiece(
+              'pigeon_cancel_${func.name}',
+              'instanceName',
+            );
+            indent.format('''
+              if (Platform.isIOS || Platform.isMacOS) {
+                final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
+                return _pigeonFfiEventStream<$returnType>(
+                  onListen: ($ffiSinkBridge sink) {
+                    $ffiSetup.$ffiListenName(
+                      NSString(resolvedName),
+                      sink: sink,
+                    );
+                  },
+                  onCancel: () {
+                    $ffiSetup.$ffiCancelName(
+                      NSString(resolvedName),
+                    );
+                  },
+                );
+              }
+            ''');
+          }
+          indent.format('''
+            if (instanceName.isNotEmpty) {
+              instanceName = '.\$instanceName';
+            }
+            final EventChannel ${func.name}Channel =
+                EventChannel('${makeChannelName(api, func, dartPackageName)}\$instanceName', $_pigeonMethodCodec);
+            return ${func.name}Channel.receiveBroadcastStream().map((dynamic event) {
+              return event as $returnType;
+            });
+          ''');
+        },
+      );
     }
   }
 
@@ -3123,14 +3191,20 @@ ${api.name}({
     if (usesNativeInterop(generatorOptions)) {
       if (generatorOptions.useJni) {
         _writeJniCodec(indent, root);
-        if (generatorOptions.useJniHybrid) {
+        if (generatorOptions.useJniHybrid || root.containsEventChannel) {
           _writeJniBufferHelpers(indent);
+        }
+        if (root.containsEventChannel) {
+          _writeJniEventStreamHelper(indent);
         }
       }
       if (generatorOptions.useFfi) {
         _writeFfiCodec(indent, root);
-        if (generatorOptions.useFfiHybrid) {
+        if (generatorOptions.useFfiHybrid || root.containsEventChannel) {
           _writeFfiBufferHelpers(indent);
+        }
+        if (root.containsEventChannel) {
+          _writeFfiEventStreamHelper(indent);
         }
         _writeConvertNumberWrapper(indent, root);
       }
@@ -3152,6 +3226,147 @@ ${api.name}({
       _writeErrorHelpers(indent, generatorOptions);
       indent.newln();
     }
+  }
+
+  void _writeJniEventStreamHelper(Indent indent) {
+    final jniSinkBridge = '$_jniBridgePrefix.${_classNamePrefix}PigeonEventSinkBridge';
+    final jniSinkMixin = '$_jniBridgePrefix.\$${_classNamePrefix}PigeonEventSinkBridge';
+    indent.newln();
+    indent.format('''
+Stream<T> _pigeonJniEventStream<T>({
+  required void Function($jniSinkBridge sink) onListen,
+  required void Function() onCancel,
+}) {
+  late final StreamController<T> controller;
+  $jniSinkBridge? jniSink;
+  controller = StreamController<T>.broadcast(
+    onListen: () {
+      late final $jniSinkBridge currentSink;
+      currentSink = $jniSinkBridge.implement(
+        $jniSinkMixin(
+          onSuccess: (JByteArray? event) {
+            final Object? decoded = _PigeonJniBuffers.decode(event);
+            if (identical(jniSink, currentSink) && !controller.isClosed) {
+              controller.add(decoded as T);
+            }
+          },
+          onSuccess\$async: true,
+          onError: (JString code, JString? message, JByteArray? details) {
+            final String dartCode;
+            final String? dartMessage;
+            final Object? dartDetails;
+            var detailsReleased = false;
+            try {
+              dartCode = code.toDartString();
+              dartMessage = message?.toDartString();
+              detailsReleased = true;
+              dartDetails = _PigeonJniBuffers.decode(details);
+            } finally {
+              code.release();
+              message?.release();
+              if (!detailsReleased) {
+                details?.release();
+              }
+            }
+            if (identical(jniSink, currentSink) && !controller.isClosed) {
+              controller.addError(
+                PlatformException(
+                  code: dartCode,
+                  message: dartMessage,
+                  details: dartDetails,
+                ),
+              );
+            }
+          },
+          onError\$async: true,
+          onEndOfStream: () {
+            if (identical(jniSink, currentSink) && !controller.isClosed) {
+              unawaited(controller.close());
+            }
+          },
+          onEndOfStream\$async: true,
+        ),
+      );
+      jniSink = currentSink;
+      try {
+        onListen(currentSink);
+      } catch (_) {
+        jniSink?.release();
+        jniSink = null;
+        rethrow;
+      }
+    },
+    onCancel: () {
+      try {
+        onCancel();
+      } finally {
+        jniSink?.release();
+        jniSink = null;
+      }
+    },
+  );
+  return controller.stream;
+}
+''');
+  }
+
+  void _writeFfiEventStreamHelper(Indent indent) {
+    final ffiSinkBridge = '$_ffiBridgePrefix.${_classNamePrefix}PigeonEventSinkBridge';
+    indent.newln();
+    indent.format('''
+Stream<T> _pigeonFfiEventStream<T>({
+  required void Function($ffiSinkBridge sink) onListen,
+  required void Function() onCancel,
+}) {
+  late final StreamController<T> controller;
+  $ffiSinkBridge? ffiSink;
+  controller = StreamController<T>.broadcast(
+    onListen: () {
+      late final $ffiSinkBridge currentSink;
+      currentSink = $ffiSinkBridge\$Builder.implementAsListener(
+        onSuccessWithEvent_: (NSData? event) {
+          final Object? decoded = _PigeonFfiBuffers.decode(event);
+          if (identical(ffiSink, currentSink) && !controller.isClosed) {
+            controller.add(decoded as T);
+          }
+        },
+        onErrorWithCode_message_details_: (NSString code, NSString? message, NSData? details) {
+          final Object? dartDetails = _PigeonFfiBuffers.decode(details);
+          if (identical(ffiSink, currentSink) && !controller.isClosed) {
+            controller.addError(
+              PlatformException(
+                code: code.toDartString(),
+                message: message?.toDartString(),
+                details: dartDetails,
+              ),
+            );
+          }
+        },
+        onEndOfStream: () {
+          if (identical(ffiSink, currentSink) && !controller.isClosed) {
+            unawaited(controller.close());
+          }
+        },
+      );
+      ffiSink = currentSink;
+      try {
+        onListen(currentSink);
+      } catch (_) {
+        ffiSink = null;
+        rethrow;
+      }
+    },
+    onCancel: () {
+      try {
+        onCancel();
+      } finally {
+        ffiSink = null;
+      }
+    },
+  );
+  return controller.stream;
+}
+''');
   }
 
   void _writeJniCodec(Indent indent, Root root) {

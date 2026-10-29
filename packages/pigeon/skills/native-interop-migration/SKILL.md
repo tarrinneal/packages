@@ -80,7 +80,7 @@ In your Pigeon Dart definition file (`pigeons/<messages_file>.dart`), update `@C
 
 Swift FFI generates Objective-C bridging files under `<swift_output_dir>_objc_gen`:
 - **`.h` (Headers)**: Always generated to declare module interfaces and types.
-- **`.m` (Bridging Implementation)**: Generated when the schema includes callbacks, closures, Flutter APIs, or Objective-C blocks requiring trampoline implementations.
+- **`.m` (Bridging Implementation)**: Generated when the schema includes callbacks, closures, `@FlutterApi`, `@EventChannelApi`, or Objective-C blocks/protocols requiring trampoline implementations.
 - **`.o` (Temporary Object Files)**: Intermediate binary files generated during `ffigen`/`swiftgen` AST parsing. These are **not** needed after code generation and must **not** be committed to version control (they can be deleted or added to `.gitignore`).
 
 Both CocoaPods and Swift Package Manager (SPM) must be configured to compile these Objective-C sources:
@@ -213,6 +213,27 @@ For `@FlutterApi()` interfaces (where host native code calls into Dart):
   flutterApi.onEvent(data)
   ```
 
+### 4.3.1 EventChannelApi (Host-to-Dart Event Streams)
+For `@EventChannelApi()` interfaces:
+
+- **Dart side**: Call the generated top-level `<methodName>({String instanceName = ''})` function directly—it returns a `Stream<T>` backed by JNI on Android (when `useJni: true`) and FFI on iOS/macOS (when `useFfi: true`), automatically falling back to `EventChannel` on other platforms.
+- **Swift (FFI)**: Register your `<MethodName>StreamHandler` subclass without a `BinaryMessenger`:
+  ```swift
+  // BEFORE (platform channels):
+  // StreamEventsStreamHandler.register(with: messenger, streamHandler: handler)
+
+  // AFTER (Native Interop FFI):
+  StreamEventsStreamHandler.register(streamHandler: handler)
+  ```
+- **Kotlin (JNI)**: Register your `<MethodName>StreamHandler` subclass without a `BinaryMessenger`:
+  ```kotlin
+  // BEFORE (platform channels):
+  // StreamEventsStreamHandler.register(messenger, handler)
+
+  // AFTER (Native Interop JNI):
+  StreamEventsStreamHandler.register(handler)
+  ```
+
 ### 4.4 Dart Plugin Client (`createWithNativeInteropApi` & `dartPluginClass`)
 In your Dart plugin implementation class, instantiate the Pigeon Host API using `<MyApi>.createWithNativeInteropApi()` (passing `messageChannelSuffix` if multiple named instances are registered on the host).
 
@@ -337,7 +358,7 @@ F DartJNI : JNI is not initialized. Are you trying to invoke a Java API from Dar
 
 ### 6.9 Xcode Build Error: `Build input file cannot be found: '.../<plugin_name>_objc_gen.o'`
 If an iOS or macOS SwiftPM build fails because `<plugin_name>_objc_gen.o` cannot be found:
-- **Cause**: `Package.swift` defines a `<plugin_name>_objc_gen` target, but `ffigen` did not generate a `.m` implementation file in `Sources/<plugin_name>_objc_gen/` (because the Pigeon schema has no async callbacks, closures, or `@FlutterApi` methods requiring Objective-C trampolines). Without a `.m` source file, SwiftPM does not produce an object file for the target. (Note: any `.o` file produced inside `Sources/<plugin_name>_objc_gen/` during `ffigen` execution is a temporary `swiftc` artifact and must be deleted/ignored, never committed.)
+- **Cause**: `Package.swift` defines a `<plugin_name>_objc_gen` target, but `ffigen` did not generate a `.m` implementation file in `Sources/<plugin_name>_objc_gen/` (because the Pigeon schema has no async callbacks, closures, `@FlutterApi` methods, or `@EventChannelApi` methods requiring Objective-C trampolines). Without a `.m` source file, SwiftPM does not produce an object file for the target. (Note: any `.o` file produced inside `Sources/<plugin_name>_objc_gen/` during `ffigen` execution is a temporary `swiftc` artifact and must be deleted/ignored, never committed.)
 - **Solution**: Remove the `<plugin_name>_objc_gen` target and its dependency entry from `Package.swift`.
 
 ### 6.10 `ClassNotFoundException` or `NoSuchMethodError` in Android Release Builds (JNI)

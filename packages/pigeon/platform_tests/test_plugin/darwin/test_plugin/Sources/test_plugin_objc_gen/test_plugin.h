@@ -655,6 +655,23 @@ typedef SWIFT_ENUM(NSInteger, NativeInteropAnotherEnum, closed){
     NativeInteropAnotherEnumJustInCase = 0,
 };
 
+/// Generated bridge class from Pigeon that moves data from Swift to
+/// Objective-C.
+SWIFT_CLASS("_TtC11test_plugin32NativeInteropPlatformEventBridge")
+@interface NativeInteropPlatformEventBridge : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+/// Generated bridge class from Pigeon that moves data from Swift to
+/// Objective-C.
+SWIFT_CLASS("_TtC11test_plugin28NativeInteropBoolEventBridge")
+@interface NativeInteropBoolEventBridge : NativeInteropPlatformEventBridge
+- (nonnull instancetype)initWithValue:(BOOL)value OBJC_DESIGNATED_INITIALIZER;
+@property(nonatomic) BOOL value;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 /// A sealed class passed in the call’s buffer with the hybrid transport.
 /// Generated bridge class from Pigeon that moves data from Swift to
 /// Objective-C.
@@ -674,6 +691,36 @@ SWIFT_CLASS("_TtC11test_plugin25NativeInteropCircleBridge")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+/// Generated bridge class from Pigeon that moves data from Swift to
+/// Objective-C.
+SWIFT_CLASS("_TtC11test_plugin29NativeInteropClassEventBridge")
+@interface NativeInteropClassEventBridge : NativeInteropPlatformEventBridge
+- (nonnull instancetype)initWithValue:
+    (NativeInteropAllNullableTypesBridge* _Nonnull)value
+    OBJC_DESIGNATED_INITIALIZER;
+@property(nonatomic, strong)
+    NativeInteropAllNullableTypesBridge* _Nonnull value;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+/// Generated bridge class from Pigeon that moves data from Swift to
+/// Objective-C.
+SWIFT_CLASS("_TtC11test_plugin30NativeInteropDoubleEventBridge")
+@interface NativeInteropDoubleEventBridge : NativeInteropPlatformEventBridge
+- (nonnull instancetype)initWithValue:(double)value OBJC_DESIGNATED_INITIALIZER;
+@property(nonatomic) double value;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+/// Generated bridge class from Pigeon that moves data from Swift to
+/// Objective-C.
+SWIFT_CLASS("_TtC11test_plugin29NativeInteropEmptyEventBridge")
+@interface NativeInteropEmptyEventBridge : NativeInteropPlatformEventBridge
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
 /// A sealed class, to test sealed class handling.
 /// Generated bridge class from Pigeon that moves data from Swift to
 /// Objective-C.
@@ -687,6 +734,47 @@ SWIFT_CLASS("_TtC11test_plugin30NativeInteropSealedClassBridge")
 /// Objective-C.
 SWIFT_CLASS("_TtC11test_plugin35NativeInteropEmptySealedClassBridge")
 @interface NativeInteropEmptySealedClassBridge : NativeInteropSealedClassBridge
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+/// Generated bridge class from Pigeon that moves data from Swift to
+/// Objective-C.
+SWIFT_CLASS("_TtC11test_plugin28NativeInteropEnumEventBridge")
+@interface NativeInteropEnumEventBridge : NativeInteropPlatformEventBridge
+- (nonnull instancetype)initWithValue:(enum NativeInteropAnEnum)value
+    OBJC_DESIGNATED_INITIALIZER;
+@property(nonatomic) enum NativeInteropAnEnum value;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+@protocol NativeInteropTestsPigeonEventSinkBridge;
+SWIFT_CLASS("_TtC11test_plugin37NativeInteropEventChannelMethodsSetup")
+@interface NativeInteropEventChannelMethodsSetup : NSObject
++ (void)
+    pigeon_listen_nativeInteropStreamIntsWithInstanceName:
+        (NSString* _Nonnull)instanceName
+                                                     sink:
+                                                         (id<NativeInteropTestsPigeonEventSinkBridge> _Nonnull)
+                                                             sink;
++ (void)pigeon_cancel_nativeInteropStreamIntsWithInstanceName:
+    (NSString* _Nonnull)instanceName;
++ (void)
+    pigeon_listen_nativeInteropStreamEventsWithInstanceName:
+        (NSString* _Nonnull)instanceName
+                                                       sink:
+                                                           (id<NativeInteropTestsPigeonEventSinkBridge> _Nonnull)
+                                                               sink;
++ (void)pigeon_cancel_nativeInteropStreamEventsWithInstanceName:
+    (NSString* _Nonnull)instanceName;
++ (void)
+    pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName:
+        (NSString* _Nonnull)instanceName
+                                                                  sink:
+                                                                      (id<NativeInteropTestsPigeonEventSinkBridge> _Nonnull)
+                                                                          sink;
++ (void)pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName:
+    (NSString* _Nonnull)instanceName;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -2912,6 +3000,28 @@ SWIFT_CLASS("_TtC11test_plugin40NativeInteropHostIntegrationCoreApiSetup")
     SWIFT_WARN_UNUSED_RESULT;
 @end
 
+/// Generated bridge class from Pigeon that moves data from Swift to
+/// Objective-C.
+SWIFT_CLASS("_TtC11test_plugin27NativeInteropIntEventBridge")
+@interface NativeInteropIntEventBridge : NativeInteropPlatformEventBridge
+- (nonnull instancetype)initWithValue:(int64_t)value
+    OBJC_DESIGNATED_INITIALIZER;
+@property(nonatomic) int64_t value;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+/// Generated bridge class from Pigeon that moves data from Swift to
+/// Objective-C.
+SWIFT_CLASS("_TtC11test_plugin31NativeInteropObjectsEventBridge")
+@interface NativeInteropObjectsEventBridge : NativeInteropPlatformEventBridge
+- (nonnull instancetype)initWithValue:(NSObject* _Nonnull)value
+    OBJC_DESIGNATED_INITIALIZER;
+@property(nonatomic, strong) NSObject* _Nonnull value;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 /// A class whose field names collide with members of the bindings that JNIgen
 /// generates, so JNIgen renames their accessors.
 /// The Dart generator has to predict those names, since it is generated before
@@ -3177,6 +3287,17 @@ SWIFT_CLASS("_TtC11test_plugin25NativeInteropSquareBridge")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+/// Generated bridge class from Pigeon that moves data from Swift to
+/// Objective-C.
+SWIFT_CLASS("_TtC11test_plugin30NativeInteropStringEventBridge")
+@interface NativeInteropStringEventBridge : NativeInteropPlatformEventBridge
+- (nonnull instancetype)initWithValue:(NSString* _Nonnull)value
+    OBJC_DESIGNATED_INITIALIZER;
+@property(nonatomic, strong) NSString* _Nonnull value;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 /// Error class for passing custom error details to Dart side.
 SWIFT_CLASS("_TtC11test_plugin23NativeInteropTestsError")
 @interface NativeInteropTestsError : NSObject
@@ -3203,6 +3324,15 @@ SWIFT_CLASS("_TtC11test_plugin31NativeInteropTestsNumberWrapper")
 @property(nonatomic, readonly) NSUInteger hash;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+SWIFT_PROTOCOL("_TtP11test_plugin39NativeInteropTestsPigeonEventSinkBridge_")
+@protocol NativeInteropTestsPigeonEventSinkBridge
+- (void)onSuccessWithEvent:(NSData* _Nullable)event;
+- (void)onErrorWithCode:(NSString* _Nonnull)code
+                message:(NSString* _Nullable)message
+                details:(NSData* _Nullable)details;
+- (void)onEndOfStream;
 @end
 
 SWIFT_CLASS("_TtC11test_plugin36NativeInteropTestsPigeonInternalNull")

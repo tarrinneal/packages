@@ -4,6 +4,7 @@
 
 // ignore_for_file: unused_local_variable
 
+import 'dart:async';
 import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
@@ -3078,6 +3079,123 @@ void runPigeonNativeInteropIntegrationTests(TargetGenerator targetGenerator) {
           recursiveNativeInteropAllNullableTypes,
         );
       }
+    });
+  });
+
+  group('Event channels', () {
+    testWidgets('event channel sends continuous ints', (WidgetTester _) async {
+      final Stream<int> events = nativeInteropStreamInts();
+      final List<int> listEvents = await events.toList();
+      for (final value in listEvents) {
+        expect(listEvents[value], value);
+      }
+    });
+
+    testWidgets('event channel handles extended sealed classes', (WidgetTester _) async {
+      final completer = Completer<void>();
+      var count = 0;
+      final Stream<NativeInteropPlatformEvent> events = nativeInteropStreamEvents();
+      events
+          .listen((NativeInteropPlatformEvent event) {
+            switch (event) {
+              case NativeInteropIntEvent():
+                expect(event.value, 1);
+                expect(count, 0);
+                count++;
+              case NativeInteropStringEvent():
+                expect(event.value, 'string');
+                expect(count, 1);
+                count++;
+              case NativeInteropBoolEvent():
+                expect(event.value, false);
+                expect(count, 2);
+                count++;
+              case NativeInteropDoubleEvent():
+                expect(event.value, 3.14);
+                expect(count, 3);
+                count++;
+              case NativeInteropObjectsEvent():
+                expect(event.value, true);
+                expect(count, 4);
+                count++;
+              case NativeInteropEnumEvent():
+                expect(event.value, NativeInteropAnEnum.fortyTwo);
+                expect(count, 5);
+                count++;
+              case NativeInteropClassEvent():
+                expect(event.value.aNullableInt, 0);
+                expect(count, 6);
+                count++;
+              case NativeInteropEmptyEvent():
+                expect(count, 7);
+                count++;
+            }
+          })
+          .onDone(() => completer.complete());
+      await completer.future;
+      expect(count, 8);
+    });
+
+    testWidgets('event channels handle multiple instances', (WidgetTester _) async {
+      final completer1 = Completer<void>();
+      final completer2 = Completer<void>();
+      final Stream<int> events1 = nativeInteropStreamConsistentNumbers(instanceName: '1');
+      final Stream<int> events2 = nativeInteropStreamConsistentNumbers(instanceName: '2');
+
+      events1
+          .listen((int event) {
+            expect(event, 1);
+          })
+          .onDone(() => completer1.complete());
+
+      events2
+          .listen((int event) {
+            expect(event, 2);
+          })
+          .onDone(() => completer2.complete());
+
+      await completer1.future;
+      await completer2.future;
+    });
+
+    testWidgets('event channels handle error events and mid-stream cancel', (WidgetTester _) async {
+      final errorCompleter = Completer<Object>();
+      final doneCompleter = Completer<void>();
+      nativeInteropStreamConsistentNumbers(instanceName: 'error').listen(
+        (_) {},
+        onError: (Object error) {
+          if (!errorCompleter.isCompleted) {
+            errorCompleter.complete(error);
+          }
+        },
+        onDone: () {
+          if (!doneCompleter.isCompleted) {
+            doneCompleter.complete();
+          }
+        },
+      );
+      final Object error = await errorCompleter.future;
+      await doneCompleter.future;
+      expect(
+        error,
+        isA<PlatformException>()
+            .having((PlatformException e) => e.code, 'code', 'error_code')
+            .having((PlatformException e) => e.message, 'message', 'error_message')
+            .having((PlatformException e) => e.details, 'details', 'error_details'),
+      );
+
+      final firstEventCompleter = Completer<void>();
+      var receivedCount = 0;
+      late final StreamSubscription<int> subscription;
+      subscription = nativeInteropStreamConsistentNumbers(instanceName: '1').listen((int event) {
+        expect(event, 1);
+        receivedCount++;
+        if (receivedCount == 1) {
+          unawaited(subscription.cancel().then((_) => firstEventCompleter.complete()));
+        }
+      });
+      await firstEventCompleter.future;
+      expect(receivedCount, 1);
     });
   });
 }
