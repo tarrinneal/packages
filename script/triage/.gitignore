@@ -1,3 +1,5 @@
-.dart_tool
+.dart_tool/
+pubspec.lock
+site/
 # Holds the GitHub token; see README.md.
 .env

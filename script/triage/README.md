@@ -1,13 +1,27 @@
-This is a partially vibe-coded prototype for a PR triage tool. It attempts to classify PRs by
-whose turn it is to act next (the Flutter team or the PR author), sort them by how long they have
-been waiting on whoever needs to act, and flag PRs that are missing reviewers.
+This is a prototype for a PR triage tool. It classifies open PRs by whose turn it is to act next
+(the Flutter team or the PR author), sorts them by how long they have been waiting on whoever needs
+to act, and flags PRs that are missing reviewers.
 
-The heuristics are imperfect, and currently it must run locally, manually. If the team decides
-to continue using it, it should be productionized and the heuristics should be improved.
+## Hosting on GitHub Pages
 
-## Running it
+This repository includes [`.github/workflows/deploy_pages.yml`](.github/workflows/deploy_pages.yml),
+which builds the HTML report every Tuesday at 12:37 PM Pacific so it is ready before 1:00 PM Pacific
+(and on pushes to `main`, manual **Run workflow** triggers, or the in-page **Refresh report**
+button, rate-limited to once every 5 minutes) and publishes it to GitHub Pages.
 
-Put a GitHub token in `script/triage/.env`, which is gitignored, so that it has a line like this:
+To enable it on a standalone repository:
+1. Go to **Settings → Pages**.
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+
+Once enabled, the report will be published at:
+- `https://<owner>.github.io/<repo>/` (Community PRs)
+- `https://<owner>.github.io/<repo>/index_team.html` (Team PRs)
+- `https://<owner>.github.io/<repo>/index_issues.html` (Package Issues from `flutter/flutter`)
+
+## Running it locally
+
+Put a GitHub token in `.env` next to `pubspec.yaml` (which is gitignored), so that it has a line
+like this:
 
 ```
 GITHUB_TOKEN=github_pat_YOUR_TOKEN
@@ -16,34 +30,55 @@ GITHUB_TOKEN=github_pat_YOUR_TOKEN
 A fine-grained token with read-only access to public repositories is enough. A `GITHUB_TOKEN`
 environment variable, if set, takes precedence over the file.
 
-Then run the tool with an output file. The repository defaults to `flutter/packages`; pass
-another one (e.g. `flutter/core-packages`) as the first argument.
+Then run the tool with an output file. By default it inspects both `flutter/packages` and
+`flutter/core-packages`; pass one or more `owner/repo` arguments to override.
 
 ```sh
 dart run bin/pr_inspector.dart --html /tmp/triage.html --open
 ```
 
-This writes two linked pages:
+Or install it globally as a command-line tool:
+
+```sh
+dart pub global activate -s git https://github.com/<owner>/<repo>.git
+GITHUB_TOKEN=github_pat_YOUR_TOKEN pr_inspector --html /tmp/triage.html --open
+```
+
+This writes three linked pages:
 
 - `/tmp/triage.html`: PRs from community members and bots.
 - `/tmp/triage_team.html`: PRs from team members.
+- `/tmp/triage_issues.html`: Actionable package issues (`team-ecosystem` and `fyi-ecosystem` issues from `flutter/flutter`). Pass `--no-issues` to skip fetching issues.
 
 Without `--html`, the same report is printed as text.
 
 ## Reading the report
 
-Each page is split into sections, in this order:
+Each PR page is split into sections, in this order:
 
 | Section | Meaning |
 |---|---|
 | Failed to load | Some data couldn't be fetched, so the PR isn't sorted. Rerun to retry. |
 | Needs reviewer | Community PR with no engaged reviewer and fewer than two approvals. |
-| Waiting on team | The team needs to act next. Timed from the author's last comment. (On the team page: "Waiting on reviewer".) |
+| Waiting on team | The team needs to act next. Timed from the author's earliest follow-up after the team's last comment (or the author's last comment if the team hasn't commented yet). (On the team page: "Waiting on reviewer".) |
 | Waiting on author | The author needs to act next. Timed from the team's last comment. |
 | Bots | PRs opened by bots (collapsed). |
 | Drafts | Draft PRs, timed from their last update (collapsed). |
 
-Within a section, PRs that have waited longest come first. Waiting times are colored by urgency:
+PRs and issues where a team member commented/reviewed and the contributor replied afterwards are
+marked with a **`FOLLOW-UP`** badge, prioritized ahead of non-follow-ups at the same urgency tier,
+and can be filtered using the **Follow-up PRs** / **Follow-up issues** toggle button in the header.
+Their waiting time is measured from the contributor's *first* follow-up reply after the team's last
+comment, so subsequent "friendly ping" comments by the contributor do not reset their wait time.
+
+The **Issues** page groups actionable `flutter/flutter` ecosystem issues into:
+- **Untriaged (`team-ecosystem`)**: Open `team-ecosystem` issues missing `triaged-ecosystem` or a `P0`–`P3` priority label.
+- **FYI Ecosystem (`fyi-ecosystem`)**: Open `fyi-ecosystem` issues missing `triaged-ecosystem`.
+- **Waiting on team (author followed up)**: Open ecosystem issues where a team member commented and the issue reporter replied afterwards.
+- **High priority (`P0` / `P1`)**: Open triaged `P0` and `P1` ecosystem issues.
+- **Waiting on author (`waiting for response`)**: Open issues labeled `waiting for response` where the author has not replied since the team's last comment.
+
+Within a section, items that have waited longest come first. Waiting times are colored by urgency:
 due at 7 days, overdue at 14, and critical at 30. Community PRs that have waited 30 days on their
 author, and community drafts idle for 30 days, are suggested for closing. The **Next step** column
 says what to do, and hovering over a waiting time shows why the PR is in its section.
