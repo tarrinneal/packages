@@ -4,8 +4,8 @@
 # found in the LICENSE file.
 
 # Formats, tests, commits, and deploys `script/triage` both to the current
-# branch on `origin` and to the standalone GitHub Pages repository (`workflow_repo`
-# in `triage.yaml`, defaulting to `tarrinneal/packages-triage`).
+# branch on `origin` and to the standalone GitHub Pages repository (`workflowRepo`
+# in `lib/config.dart`, defaulting to `tarrinneal/packages-triage`).
 #
 # Uses core `git commit-tree` instead of `git subtree` so it works out of the box
 # on macOS/Linux without extra git add-ons.
@@ -13,7 +13,16 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel)"
+if git -C "$SCRIPT_DIR/.." rev-parse --show-toplevel >/dev/null 2>&1; then
+  REPO_ROOT="$(git -C "$SCRIPT_DIR/.." rev-parse --show-toplevel)"
+  # Remove any accidental nested .git directory inside script/triage so the
+  # parent repository tracks all files cleanly.
+  if [[ -d "$SCRIPT_DIR/.git" && "$SCRIPT_DIR" != "$REPO_ROOT" ]]; then
+    rm -rf "$SCRIPT_DIR/.git"
+  fi
+else
+  REPO_ROOT="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel)"
+fi
 
 if [[ "$SCRIPT_DIR" == "$REPO_ROOT" ]]; then
   SUBTREE_PREFIX=""
@@ -21,13 +30,33 @@ else
   SUBTREE_PREFIX="${SCRIPT_DIR#"$REPO_ROOT"/}"
 fi
 
-# Read default workflow_repo from triage.yaml if present.
+# Read workflowRepo from lib/config.dart if explicitly uncommented.
 DEFAULT_DEPLOY_REPO="tarrinneal/packages-triage"
-if [[ -f "$SCRIPT_DIR/triage.yaml" ]]; then
-  PARSED_REPO="$(sed -n 's/^[[:space:]]*workflow_repo:[[:space:]]*\([^#[:space:]]*\).*/\1/p' "$SCRIPT_DIR/triage.yaml" | head -n 1 | tr -d "\"'")"
+if [[ -f "$SCRIPT_DIR/lib/config.dart" ]]; then
+  PARSED_REPO="$(sed -n "s/^[[:space:]]*workflowRepo:[[:space:]]*['\"]\([^'\"]*\)['\"].*/\1/p" "$SCRIPT_DIR/lib/config.dart" | head -n 1)"
   if [[ -n "$PARSED_REPO" ]]; then
     DEFAULT_DEPLOY_REPO="$PARSED_REPO"
   fi
+fi
+
+# Discover GitHub token from environment or .env files for non-interactive HTTPS pushes.
+TOKEN="${GITHUB_TOKEN:-${GH_TOKEN:-}}"
+if [[ -z "$TOKEN" ]]; then
+  for env_candidate in "$SCRIPT_DIR/.env" "$HOME/.config/pr_inspector/.env"; do
+    if [[ -f "$env_candidate" ]]; then
+      PARSED_TOKEN="$(sed -n 's/^[[:space:]]*\(GITHUB_TOKEN\|GH_TOKEN\)[[:space:]]*=[[:space:]]*["'\'']\{0,1\}\([^"'\''[:space:]]*\)["'\'']\{0,1\}.*/\2/p' "$env_candidate" | head -n 1)"
+      if [[ -n "$PARSED_TOKEN" ]]; then
+        TOKEN="$PARSED_TOKEN"
+        break
+      fi
+    fi
+  done
+fi
+
+GIT_AUTH_ARGS=()
+if [[ -n "$TOKEN" ]]; then
+  AUTH_B64="$(printf 'x-access-token:%s' "$TOKEN" | base64 | tr -d '\r\n')"
+  GIT_AUTH_ARGS=(-c "http.https://github.com/.extraheader=AUTHORIZATION: basic ${AUTH_B64}")
 fi
 
 COMMIT_MSG=""
@@ -106,9 +135,10 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ "$SKIP_CHECKS" == "false" ]]; then
-  echo "==> Running dart format, analyze, and test in $SCRIPT_DIR..."
+  echo "==> Syncing workflow schedules and running dart format, analyze, and test in $SCRIPT_DIR..."
   (
     cd "$SCRIPT_DIR"
+    dart run bin/sync_reviewers.dart --schedules-only
     dart format .
     dart analyze
     dart test
@@ -138,7 +168,7 @@ if [[ "$SKIP_ORIGIN" == "false" && -n "$SUBTREE_PREFIX" ]]; then
     echo "[dry-run] Would push $CURRENT_BRANCH to origin"
   else
     echo "==> Pushing $CURRENT_BRANCH to origin..."
-    git push origin "$CURRENT_BRANCH"
+    git "${GIT_AUTH_ARGS[@]}" push origin "$CURRENT_BRANCH"
   fi
 fi
 
@@ -156,7 +186,7 @@ if [[ -z "$TREE_SHA" ]]; then
 fi
 
 echo "==> Fetching $DEPLOY_REPO ($TARGET_BRANCH)..."
-git fetch "$DEPLOY_URL" "$TARGET_BRANCH"
+git "${GIT_AUTH_ARGS[@]}" fetch "$DEPLOY_URL" "$TARGET_BRANCH"
 REMOTE_TREE_SHA="$(git rev-parse FETCH_HEAD^{tree})"
 
 if [[ "$TREE_SHA" == "$REMOTE_TREE_SHA" ]]; then
@@ -169,6 +199,6 @@ if [[ "$DRY_RUN" == "true" ]]; then
   echo "[dry-run] Would push commit $DEPLOY_COMMIT_SHA (tree $TREE_SHA) to $DEPLOY_URL refs/heads/$TARGET_BRANCH"
 else
   echo "==> Pushing $TREE_SPEC ($DEPLOY_COMMIT_SHA) to $DEPLOY_REPO ($TARGET_BRANCH)..."
-  git push "$DEPLOY_URL" "${DEPLOY_COMMIT_SHA}:refs/heads/${TARGET_BRANCH}"
+  git "${GIT_AUTH_ARGS[@]}" push "$DEPLOY_URL" "${DEPLOY_COMMIT_SHA}:refs/heads/${TARGET_BRANCH}"
   echo "✓ Deployed to https://github.com/${DEPLOY_REPO}"
 fi
