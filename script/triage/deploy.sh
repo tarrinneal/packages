@@ -39,30 +39,6 @@ if [[ -f "$SCRIPT_DIR/lib/config.dart" ]]; then
   fi
 fi
 
-# Discover GitHub token from environment or .env files for non-interactive HTTPS pushes.
-TOKEN="${GITHUB_TOKEN:-${GH_TOKEN:-}}"
-if [[ -z "$TOKEN" ]]; then
-  for env_candidate in "$SCRIPT_DIR/.env" "$HOME/.config/pr_inspector/.env"; do
-    if [[ -f "$env_candidate" ]]; then
-      PARSED_TOKEN="$(sed -E -n "s/^[[:space:]]*(export[[:space:]]+)?(GITHUB_TOKEN|GH_TOKEN)[[:space:]]*=[[:space:]]*['\"]?([^'\"[:space:]#]+)['\"]?.*/\3/p" "$env_candidate" | head -n 1)"
-      if [[ -n "$PARSED_TOKEN" ]]; then
-        TOKEN="$PARSED_TOKEN"
-        break
-      fi
-    fi
-  done
-fi
-
-git_with_auth() {
-  if [[ -n "$TOKEN" ]]; then
-    local auth_b64
-    auth_b64="$(printf 'x-access-token:%s' "$TOKEN" | base64 | tr -d '\r\n')"
-    git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic ${auth_b64}" "$@"
-  else
-    git "$@"
-  fi
-}
-
 COMMIT_MSG=""
 DEPLOY_REPO="$DEFAULT_DEPLOY_REPO"
 TARGET_BRANCH="main"
@@ -172,7 +148,7 @@ if [[ "$SKIP_ORIGIN" == "false" && -n "$SUBTREE_PREFIX" ]]; then
     echo "[dry-run] Would push $CURRENT_BRANCH to origin"
   else
     echo "==> Pushing $CURRENT_BRANCH to origin..."
-    git_with_auth push origin "$CURRENT_BRANCH"
+    git push origin "$CURRENT_BRANCH"
   fi
 fi
 
@@ -190,7 +166,7 @@ if [[ -z "$TREE_SHA" ]]; then
 fi
 
 echo "==> Fetching $DEPLOY_REPO ($TARGET_BRANCH)..."
-git_with_auth fetch "$DEPLOY_URL" "$TARGET_BRANCH"
+git fetch "$DEPLOY_URL" "$TARGET_BRANCH"
 REMOTE_TREE_SHA="$(git rev-parse FETCH_HEAD^{tree})"
 
 if [[ "$TREE_SHA" == "$REMOTE_TREE_SHA" ]]; then
@@ -203,6 +179,6 @@ if [[ "$DRY_RUN" == "true" ]]; then
   echo "[dry-run] Would push commit $DEPLOY_COMMIT_SHA (tree $TREE_SHA) to $DEPLOY_URL refs/heads/$TARGET_BRANCH"
 else
   echo "==> Pushing $TREE_SPEC ($DEPLOY_COMMIT_SHA) to $DEPLOY_REPO ($TARGET_BRANCH)..."
-  git_with_auth push "$DEPLOY_URL" "${DEPLOY_COMMIT_SHA}:refs/heads/${TARGET_BRANCH}"
+  git push "$DEPLOY_URL" "${DEPLOY_COMMIT_SHA}:refs/heads/${TARGET_BRANCH}"
   echo "✓ Deployed to https://github.com/${DEPLOY_REPO}"
 fi
