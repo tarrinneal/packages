@@ -55,6 +55,10 @@ const TriageConfig config = TriageConfig(
   hiddenLabels: <String>{'triage-design'},
   nonHiddenFilterLabel: 'triage-packages',
 
+  // Adds a short Gemini-generated next step to each PR and issue (except the
+  // "Other" issues section). Needs GEMINI_API_KEY; see README.md.
+  aiAnalysis: true,
+
   // Optional overrides:
   // issuesRepo: 'flutter/flutter',
   // workflowRepo: 'tarrinneal/packages-triage',

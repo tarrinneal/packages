@@ -235,6 +235,7 @@ class _DartConfigParser {
     'routingLabelPrefixes',
     'packageLabelPrefix',
     'showAllLabels',
+    'aiAnalysis',
     'waitingForResponseLabels',
     'issueTeamLabel',
     'issueFyiLabel',
@@ -408,6 +409,7 @@ class _DartConfigParser {
       routingLabelPrefixes: stringList('routingLabelPrefixes') ?? defaultRoutingLabelPrefixes,
       packageLabelPrefix: nonNullString('packageLabelPrefix') ?? defaultPackageLabelPrefix,
       showAllLabels: boolean('showAllLabels') ?? false,
+      aiAnalysis: boolean('aiAnalysis') ?? false,
       waitingForResponseLabels:
           stringSet('waitingForResponseLabels') ?? defaultWaitingForResponseLabels,
       issueTeamLabel: identical(issueTeamArg, unset)
