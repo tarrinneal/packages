@@ -15,7 +15,7 @@ import 'types.dart';
 const TriageConfig defaultConfig = TriageConfig(
   repos: <String>['flutter/packages', 'flutter/core-packages'],
   flutterTeam: 'ecosystem',
-  refreshSchedule: '37 19 * * 2',
+  refreshSchedule: '57 * * * *',
   teamMembers: <String>[
     'adsonpleal',
     'bkonyi',
