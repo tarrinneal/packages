@@ -1405,27 +1405,34 @@ if (wrapped == nil) {
     indent.newln();
     indent.write('@objc class ${api.name}Registrar: NSObject ');
     indent.addScoped('{', '}', () {
-      indent.writeln('static var registered${api.name} = [String: ${api.name}]()');
+      indent.writeln('private static var registered${api.name} = [String: ${api.name}]()');
       indent.newln();
-      indent.write(
-        '@objc static func registerInstance(api: ${api.name}Bridge?, name: String = ${_classNamePrefix}PigeonInternal.defaultInstanceName) ',
+      indent.writeln(
+        '$_docCommentPrefix Registers `api` with `name`, or as the default instance when `name` is nil.',
       );
+      indent.writeln('$_docCommentPrefix Passing a nil `api` removes the registered instance.');
+      indent.write('@objc static func register(api: ${api.name}Bridge?, name: String? = nil) ');
       indent.addScoped('{', '}', () {
+        indent.writeln(
+          'let resolvedName = name ?? ${_classNamePrefix}PigeonInternal.defaultInstanceName',
+        );
         indent.writeScoped('if let api = api {', '}', () {
           indent.writeln(
-            '${api.name}Registrar.registered${api.name}[name] = ${api.name}(api: api)',
+            '${api.name}Registrar.registered${api.name}[resolvedName] = ${api.name}(api: api)',
           );
         }, addTrailingNewline: false);
         indent.addScoped(' else {', '}', () {
-          indent.writeln('${api.name}Registrar.registered${api.name}.removeValue(forKey: name)');
+          indent.writeln(
+            '${api.name}Registrar.registered${api.name}.removeValue(forKey: resolvedName)',
+          );
         });
       });
       indent.newln();
-      indent.write(
-        'static func getInstance(name: String = ${_classNamePrefix}PigeonInternal.defaultInstanceName) -> ${api.name}? ',
-      );
+      indent.write('static func getInstance(name: String? = nil) -> ${api.name}? ');
       indent.addScoped('{', '}', () {
-        indent.writeln('return ${api.name}Registrar.registered${api.name}[name]');
+        indent.writeln(
+          'return ${api.name}Registrar.registered${api.name}[name ?? ${_classNamePrefix}PigeonInternal.defaultInstanceName]',
+        );
       });
     });
 
@@ -1439,9 +1446,7 @@ if (wrapped == nil) {
         indent.writeln('self.api = api');
       });
       indent.newln();
-      indent.write(
-        'static func getInstance(name: String = ${_classNamePrefix}PigeonInternal.defaultInstanceName) -> ${api.name}? ',
-      );
+      indent.write('static func getInstance(name: String? = nil) -> ${api.name}? ');
       indent.addScoped('{', '}', () {
         indent.writeln('return ${api.name}Registrar.getInstance(name: name)');
       });
@@ -1521,27 +1526,37 @@ if (wrapped == nil) {
       if (generatorOptions.useFfi) {
         indent.writeln('private var api: ${api.name}?');
         indent.writeln('override init() {}');
-        indent.writeScoped(
-          'static func register(api: ${api.name}?, name: String = ${_classNamePrefix}PigeonInternal.defaultInstanceName) {',
-          '}',
-          () {
-            indent.writeScoped('if let api = api {', '}', () {
-              indent.writeln('let wrapper = ${api.name}Setup()');
-              indent.writeln('wrapper.api = api');
-              indent.writeln('${api.name}InstanceTracker.instancesOf${api.name}[name] = wrapper');
-            }, addTrailingNewline: false);
-            indent.addScoped(' else {', '}', () {
-              indent.writeln(
-                '${api.name}InstanceTracker.instancesOf${api.name}.removeValue(forKey: name)',
-              );
-            });
-          },
+        indent.writeln(
+          '$_docCommentPrefix Registers `api` with `name`, or as the default instance when `name` is nil.',
+        );
+        indent.writeln('$_docCommentPrefix Passing a nil `api` removes the registered instance.');
+        indent.writeScoped('static func register(api: ${api.name}?, name: String? = nil) {', '}', () {
+          indent.writeln(
+            'let resolvedName = name ?? ${_classNamePrefix}PigeonInternal.defaultInstanceName',
+          );
+          indent.writeScoped('if let api = api {', '}', () {
+            indent.writeln('let wrapper = ${api.name}Setup()');
+            indent.writeln('wrapper.api = api');
+            indent.writeln(
+              '${api.name}InstanceTracker.instancesOf${api.name}[resolvedName] = wrapper',
+            );
+          }, addTrailingNewline: false);
+          indent.addScoped(' else {', '}', () {
+            indent.writeln(
+              '${api.name}InstanceTracker.instancesOf${api.name}.removeValue(forKey: resolvedName)',
+            );
+          });
+        });
+        indent.writeln(
+          '$_docCommentPrefix Returns the instance registered with `name`, or the default instance when `name` is nil.',
         );
         indent.writeScoped(
-          '@objc static func getInstance(name: String) -> ${api.name}Setup? {',
+          '@objc static func getInstance(name: String? = nil) -> ${api.name}Setup? {',
           '}',
           () {
-            indent.writeln('return ${api.name}InstanceTracker.instancesOf${api.name}[name] ?? nil');
+            indent.writeln(
+              'return ${api.name}InstanceTracker.instancesOf${api.name}[name ?? ${_classNamePrefix}PigeonInternal.defaultInstanceName] ?? nil',
+            );
           },
         );
       }
@@ -1649,7 +1664,7 @@ if (wrapped == nil) {
     final String apiName = api.name;
     if (generatorOptions.useFfi) {
       indent.format('''
-        class ${apiName}InstanceTracker {
+        private class ${apiName}InstanceTracker {
           static var instancesOf$apiName = [String: ${apiName}Setup?]()
         }
         ''');
@@ -2569,7 +2584,9 @@ enum ${_classNamePrefix}PigeonInternalNumberType: Int {
     final String uniqueComponent = generatorOptions.fileSpecificClassNameComponent ?? '';
     indent.writeScoped('enum ${uniqueComponent}PigeonInternal {', '}', () {
       if (generatorOptions.useFfi) {
-        indent.writeln('static let defaultInstanceName = "$defaultNativeInteropInstanceName"');
+        indent.writeln(
+          'fileprivate static let defaultInstanceName = "$defaultNativeInteropInstanceName"',
+        );
       }
       _writeIsNullish(generatorOptions, indent);
       if (root.classes.isNotEmpty) {

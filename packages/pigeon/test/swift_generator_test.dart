@@ -1809,10 +1809,24 @@ void main() {
     const generator = SwiftGenerator();
     generator.generate(swiftOptions, root, sink, dartPackageName: DEFAULT_PACKAGE_NAME);
     final code = sink.toString();
-    expect(code, contains('static func register(api: HostApi?, name: String = '));
-    expect(code, contains('HostApiInstanceTracker.instancesOfHostApi.removeValue(forKey: name)'));
-    expect(code, contains('registerInstance(api: FlutterApiBridge?, name: String = '));
-    expect(code, contains('FlutterApiRegistrar.registeredFlutterApi.removeValue(forKey: name)'));
+    expect(code, contains('static func register(api: HostApi?, name: String? = nil) {'));
+    expect(code, contains('@objc static func getInstance(name: String? = nil) -> HostApiSetup? {'));
+    expect(
+      code,
+      contains('HostApiInstanceTracker.instancesOfHostApi.removeValue(forKey: resolvedName)'),
+    );
+    expect(code, contains('private class HostApiInstanceTracker'));
+    expect(
+      code,
+      contains('@objc static func register(api: FlutterApiBridge?, name: String? = nil)'),
+    );
+    expect(
+      code,
+      contains('FlutterApiRegistrar.registeredFlutterApi.removeValue(forKey: resolvedName)'),
+    );
+    expect(code, contains('private static var registeredFlutterApi'));
+    expect(code, contains('fileprivate static let defaultInstanceName'));
+    expect(code, isNot(contains('registerInstance')));
   });
 
   test('ffi bridges of sealed class subclasses extend the sealed bridge', () {

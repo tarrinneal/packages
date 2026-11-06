@@ -2095,7 +2095,7 @@ class NativeInteropTestsClass: NSObject, NativeInteropHostIntegrationCoreApi {
 
   func testDeregisterFlutterApi() throws -> Bool {
     let name = "testDeregisterFlutterInstance"
-    NativeInteropFlutterIntegrationCoreApiRegistrar.registerInstance(api: nil, name: name)
+    NativeInteropFlutterIntegrationCoreApiRegistrar.register(api: nil, name: name)
     return NativeInteropFlutterIntegrationCoreApiRegistrar.getInstance(name: name) == nil
   }
 
@@ -2105,7 +2105,7 @@ class NativeInteropTestsClass: NSObject, NativeInteropHostIntegrationCoreApi {
   }
 
   func testCallDeregisteredFlutterApi(name: String) throws -> Bool {
-    NativeInteropFlutterIntegrationCoreApiRegistrar.registerInstance(api: nil, name: name)
+    NativeInteropFlutterIntegrationCoreApiRegistrar.register(api: nil, name: name)
     return NativeInteropFlutterIntegrationCoreApi.getInstance(name: name) == nil
   }
 }

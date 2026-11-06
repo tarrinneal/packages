@@ -14956,18 +14956,19 @@ extension type NativeInteropFlutterIntegrationCoreApiRegistrar._(objc.ObjCObject
     );
   }
 
-  /// registerInstanceWithApi:name:
-  static void registerInstanceWithApi(
+  /// Registers <code>api</code> with <code>name</code>, or as the default instance when <code>name</code> is nil.
+  /// Passing a nil <code>api</code> removes the registered instance.
+  static void registerWithApi(
     NativeInteropFlutterIntegrationCoreApiBridge? api, {
-    required objc.NSString name,
+    objc.NSString? name,
   }) {
     final _$$ref = api?.ref;
-    final _$$ref$1 = name.ref;
+    final _$$ref$1 = name?.ref;
     _objc_msgSend_pfv6jd(
       _class_NativeInteropFlutterIntegrationCoreApiRegistrar,
-      _sel_registerInstanceWithApi_name_,
+      _sel_registerWithApi_name_,
       _$$ref?.pointer ?? ffi.nullptr,
-      _$$ref$1.pointer,
+      _$$ref$1?.pointer ?? ffi.nullptr,
     );
   }
 
@@ -15036,13 +15037,13 @@ extension type NativeInteropHostIntegrationCoreApiSetup._(objc.ObjCObject object
     return NativeInteropHostIntegrationCoreApiSetup.fromPointer($ret, retain: false, release: true);
   }
 
-  /// getInstanceWithName:
-  static NativeInteropHostIntegrationCoreApiSetup? getInstanceWithName(objc.NSString name) {
-    final _$$ref = name.ref;
+  /// Returns the instance registered with <code>name</code>, or the default instance when <code>name</code> is nil.
+  static NativeInteropHostIntegrationCoreApiSetup? getInstanceWithName(objc.NSString? name) {
+    final _$$ref = name?.ref;
     final $ret = _objc_msgSend_1sotr3r(
       _class_NativeInteropHostIntegrationCoreApiSetup,
       _sel_getInstanceWithName_,
-      _$$ref.pointer,
+      _$$ref?.pointer ?? ffi.nullptr,
     );
     return $ret.address == 0
         ? null
@@ -20015,18 +20016,19 @@ extension type NativeInteropReservedNamesFlutterApiRegistrar._(objc.ObjCObject o
     );
   }
 
-  /// registerInstanceWithApi:name:
-  static void registerInstanceWithApi(
+  /// Registers <code>api</code> with <code>name</code>, or as the default instance when <code>name</code> is nil.
+  /// Passing a nil <code>api</code> removes the registered instance.
+  static void registerWithApi(
     NativeInteropReservedNamesFlutterApiBridge? api, {
-    required objc.NSString name,
+    objc.NSString? name,
   }) {
     final _$$ref = api?.ref;
-    final _$$ref$1 = name.ref;
+    final _$$ref$1 = name?.ref;
     _objc_msgSend_pfv6jd(
       _class_NativeInteropReservedNamesFlutterApiRegistrar,
-      _sel_registerInstanceWithApi_name_,
+      _sel_registerWithApi_name_,
       _$$ref?.pointer ?? ffi.nullptr,
-      _$$ref$1.pointer,
+      _$$ref$1?.pointer ?? ffi.nullptr,
     );
   }
 
@@ -20095,13 +20097,13 @@ extension type NativeInteropReservedNamesHostApiSetup._(objc.ObjCObject object$)
     return NativeInteropReservedNamesHostApiSetup.fromPointer($ret, retain: false, release: true);
   }
 
-  /// getInstanceWithName:
-  static NativeInteropReservedNamesHostApiSetup? getInstanceWithName(objc.NSString name) {
-    final _$$ref = name.ref;
+  /// Returns the instance registered with <code>name</code>, or the default instance when <code>name</code> is nil.
+  static NativeInteropReservedNamesHostApiSetup? getInstanceWithName(objc.NSString? name) {
+    final _$$ref = name?.ref;
     final $ret = _objc_msgSend_1sotr3r(
       _class_NativeInteropReservedNamesHostApiSetup,
       _sel_getInstanceWithName_,
-      _$$ref.pointer,
+      _$$ref?.pointer ?? ffi.nullptr,
     );
     return $ret.address == 0
         ? null
@@ -32492,7 +32494,7 @@ late final _sel_reference = objc.registerName("reference");
 late final _sel_registerAndImmediatelyDeregisterHostApiWithName_wrappedError_ = objc.registerName(
   "registerAndImmediatelyDeregisterHostApiWithName:wrappedError:",
 );
-late final _sel_registerInstanceWithApi_name_ = objc.registerName("registerInstanceWithApi:name:");
+late final _sel_registerWithApi_name_ = objc.registerName("registerWithApi:name:");
 late final _sel_releaseWithValue_error_ = objc.registerName("releaseWithValue:error:");
 late final _sel_releaseWithValue_wrappedError_ = objc.registerName(
   "releaseWithValue:wrappedError:",

@@ -57,13 +57,13 @@ extension type NativeInteropExampleApiSetup._(objc.ObjCObject object$)
     return NativeInteropExampleApiSetup.fromPointer($ret, retain: false, release: true);
   }
 
-  /// getInstanceWithName:
-  static NativeInteropExampleApiSetup? getInstanceWithName(objc.NSString name) {
-    final _$$ref = name.ref;
+  /// Returns the instance registered with <code>name</code>, or the default instance when <code>name</code> is nil.
+  static NativeInteropExampleApiSetup? getInstanceWithName(objc.NSString? name) {
+    final _$$ref = name?.ref;
     final $ret = _objc_msgSend_1sotr3r(
       _class_NativeInteropExampleApiSetup,
       _sel_getInstanceWithName_,
-      _$$ref.pointer,
+      _$$ref?.pointer ?? ffi.nullptr,
     );
     return $ret.address == 0
         ? null

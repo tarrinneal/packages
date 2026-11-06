@@ -176,7 +176,8 @@ enum NativeInteropExamplePigeonInternalNumberType: Int {
 }
 
 enum NativeInteropExamplePigeonInternal {
-  static let defaultInstanceName = "PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u"
+  fileprivate static let defaultInstanceName =
+    "PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u"
   static func isNullish(_ value: Any?) -> Bool {
     guard let innerValue = value else {
       return true
@@ -318,7 +319,7 @@ private class _PigeonFfiCodec {
   }
 }
 
-class NativeInteropExampleApiInstanceTracker {
+private class NativeInteropExampleApiInstanceTracker {
   static var instancesOfNativeInteropExampleApi = [String: NativeInteropExampleApiSetup?]()
 }
 
@@ -331,21 +332,24 @@ protocol NativeInteropExampleApi {
 @objc class NativeInteropExampleApiSetup: NSObject {
   private var api: NativeInteropExampleApi?
   override init() {}
-  static func register(
-    api: NativeInteropExampleApi?,
-    name: String = NativeInteropExamplePigeonInternal.defaultInstanceName
-  ) {
+  /// Registers `api` with `name`, or as the default instance when `name` is nil.
+  /// Passing a nil `api` removes the registered instance.
+  static func register(api: NativeInteropExampleApi?, name: String? = nil) {
+    let resolvedName = name ?? NativeInteropExamplePigeonInternal.defaultInstanceName
     if let api = api {
       let wrapper = NativeInteropExampleApiSetup()
       wrapper.api = api
-      NativeInteropExampleApiInstanceTracker.instancesOfNativeInteropExampleApi[name] = wrapper
+      NativeInteropExampleApiInstanceTracker.instancesOfNativeInteropExampleApi[resolvedName] =
+        wrapper
     } else {
       NativeInteropExampleApiInstanceTracker.instancesOfNativeInteropExampleApi.removeValue(
-        forKey: name)
+        forKey: resolvedName)
     }
   }
-  @objc static func getInstance(name: String) -> NativeInteropExampleApiSetup? {
-    return NativeInteropExampleApiInstanceTracker.instancesOfNativeInteropExampleApi[name] ?? nil
+  /// Returns the instance registered with `name`, or the default instance when `name` is nil.
+  @objc static func getInstance(name: String? = nil) -> NativeInteropExampleApiSetup? {
+    return NativeInteropExampleApiInstanceTracker.instancesOfNativeInteropExampleApi[
+      name ?? NativeInteropExamplePigeonInternal.defaultInstanceName] ?? nil
   }
   @objc func doSomething(wrappedError: PigeonError) {
     do {

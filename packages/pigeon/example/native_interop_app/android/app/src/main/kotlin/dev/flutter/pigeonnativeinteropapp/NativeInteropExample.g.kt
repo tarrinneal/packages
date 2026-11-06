@@ -43,7 +43,7 @@ class FlutterError(
 ) : RuntimeException()
 
 private const val defaultInstanceName = "PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u"
-val NativeInteropExampleApiInstances: MutableMap<String, NativeInteropExampleApiRegistrar> =
+private val NativeInteropExampleApiInstances: MutableMap<String, NativeInteropExampleApiRegistrar> =
     mutableMapOf()
 
 @Keep
@@ -52,25 +52,31 @@ interface NativeInteropExampleApi {
 }
 
 @Keep
-class NativeInteropExampleApiRegistrar : NativeInteropExampleApi {
+class NativeInteropExampleApiRegistrar private constructor() : NativeInteropExampleApi {
   private var api: NativeInteropExampleApi? = null
 
-  fun register(
-      api: NativeInteropExampleApi?,
-      name: String = defaultInstanceName
-  ): NativeInteropExampleApiRegistrar {
-    if (api != null) {
-      this.api = api
-      NativeInteropExampleApiInstances[name] = this
-    } else {
-      NativeInteropExampleApiInstances.remove(name)
+  companion object {
+    /// Registers [api] with [name], or as the default instance when [name] is null.
+    /// Passing a null [api] removes the registered instance.
+    @JvmStatic
+    @Keep
+    fun register(api: NativeInteropExampleApi?, name: String? = null) {
+      val resolvedName = name ?: defaultInstanceName
+      if (api != null) {
+        val wrapper = NativeInteropExampleApiRegistrar()
+        wrapper.api = api
+        NativeInteropExampleApiInstances[resolvedName] = wrapper
+      } else {
+        NativeInteropExampleApiInstances.remove(resolvedName)
+      }
     }
-    return this
-  }
 
-  @Keep
-  fun getInstance(name: String): NativeInteropExampleApiRegistrar? {
-    return NativeInteropExampleApiInstances[name]
+    /// Gets the instance registered with [name], or the default instance when [name] is null.
+    @JvmStatic
+    @Keep
+    fun getInstance(name: String? = null): NativeInteropExampleApiRegistrar? {
+      return NativeInteropExampleApiInstances[name ?: defaultInstanceName]
+    }
   }
 
   override fun doSomething() {

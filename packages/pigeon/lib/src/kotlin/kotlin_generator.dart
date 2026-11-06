@@ -812,24 +812,32 @@ if (wrapped == null) {
   }) {
     indent.format('''
 /// Map that stores instances
-val registered${api.name}: MutableMap<String, ${api.name}> = mutableMapOf()
+private val registered${api.name}: MutableMap<String, ${api.name}> = mutableMapOf()
 
 /// Class that stores instances
 @Keep
-class ${api.name}Registrar() {
-
-  /// Registers an instance with the given name.
-  fun registerInstance(api: ${api.name}?, name: String = defaultInstanceName) {
-    if (api != null) {
-      registered${api.name}[name] = api
-    } else {
-      registered${api.name}.remove(name)
+class ${api.name}Registrar private constructor() {
+  companion object {
+    /// Registers an instance with the given name, or the default instance when
+    /// [name] is null. Passing a null [api] removes the registered instance.
+    @JvmStatic
+    @Keep
+    fun register(api: ${api.name}?, name: String? = null) {
+      val resolvedName = name ?: defaultInstanceName
+      if (api != null) {
+        registered${api.name}[resolvedName] = api
+      } else {
+        registered${api.name}.remove(resolvedName)
+      }
     }
-  }
 
-  /// Gets an instance with the given name.
-  fun getInstance(name: String = defaultInstanceName): ${api.name}? {
-    return registered${api.name}[name]
+    /// Gets an instance with the given name, or the default instance when
+    /// [name] is null.
+    @JvmStatic
+    @Keep
+    fun getInstance(name: String? = null): ${api.name}? {
+      return registered${api.name}[name ?: defaultInstanceName]
+    }
   }
 }
 ''');
@@ -936,7 +944,7 @@ class ${api.name}Registrar() {
     required String dartPackageName,
   }) {
     indent.writeln(
-      'val ${api.name}Instances: MutableMap<String, ${api.name}Registrar> = mutableMapOf()',
+      'private val ${api.name}Instances: MutableMap<String, ${api.name}Registrar> = mutableMapOf()',
     );
     indent.writeln('@Keep');
     indent.writeScoped('interface ${api.name} {', '}', () {
@@ -954,27 +962,40 @@ class ${api.name}Registrar() {
     });
 
     indent.writeln('@Keep');
-    indent.writeScoped('class ${api.name}Registrar : ${api.name} {', '}', () {
+    indent.writeScoped('class ${api.name}Registrar private constructor() : ${api.name} {', '}', () {
       indent.writeln('private var api: ${api.name}? = null');
-
-      indent.writeScoped('fun register(', '):', () {
-        indent.writeln('api: ${api.name}?,');
-        indent.writeln('name: String = defaultInstanceName');
-      }, addTrailingNewline: false);
-      indent.writeScoped(' ${api.name}Registrar {', '}', () {
-        indent.writeScoped('if (api != null) {', '}', () {
-          indent.writeln('this.api = api');
-          indent.writeln('${api.name}Instances[name] = this');
-        }, addTrailingNewline: false);
-        indent.addScoped(' else {', '}', () {
-          indent.writeln('${api.name}Instances.remove(name)');
+      indent.newln();
+      indent.writeScoped('companion object {', '}', () {
+        indent.writeln(
+          '/// Registers [api] with [name], or as the default instance when [name] is null.',
+        );
+        indent.writeln('/// Passing a null [api] removes the registered instance.');
+        indent.writeln('@JvmStatic');
+        indent.writeln('@Keep');
+        indent.writeScoped('fun register(api: ${api.name}?, name: String? = null) {', '}', () {
+          indent.writeln('val resolvedName = name ?: defaultInstanceName');
+          indent.writeScoped('if (api != null) {', '}', () {
+            indent.writeln('val wrapper = ${api.name}Registrar()');
+            indent.writeln('wrapper.api = api');
+            indent.writeln('${api.name}Instances[resolvedName] = wrapper');
+          }, addTrailingNewline: false);
+          indent.addScoped(' else {', '}', () {
+            indent.writeln('${api.name}Instances.remove(resolvedName)');
+          });
         });
-        indent.writeln('return this');
-      });
-
-      indent.writeln('@Keep');
-      indent.writeScoped('fun getInstance(name: String): ${api.name}Registrar? {', '}', () {
-        indent.writeln('return ${api.name}Instances[name]');
+        indent.newln();
+        indent.writeln(
+          '/// Gets the instance registered with [name], or the default instance when [name] is null.',
+        );
+        indent.writeln('@JvmStatic');
+        indent.writeln('@Keep');
+        indent.writeScoped(
+          'fun getInstance(name: String? = null): ${api.name}Registrar? {',
+          '}',
+          () {
+            indent.writeln('return ${api.name}Instances[name ?: defaultInstanceName]');
+          },
+        );
       });
 
       for (final Method method in api.methods) {

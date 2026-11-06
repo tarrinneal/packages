@@ -2850,8 +2850,10 @@ name: foobar
         ),
       );
       expect(code, contains("import 'package:flutter/foundation.dart' show kIsWeb;"));
-      expect(code, contains('if (!kIsWeb) {'));
+      expect(code, contains('if (kIsWeb) {'));
       expect(code, contains('if (!kIsWeb && api != null) {'));
+      expect(code, isNot(contains('static Callbacks implement(')));
+      expect(code, isNot(contains('defaultInstanceName')));
       expect(
         code,
         contains(
@@ -2859,9 +2861,13 @@ name: foobar
         ),
       );
       expect(code, contains('@internal\nApiForNativeInterop? pigeon_getInstance_Api({'));
-      expect(code, contains('pigeon_native.pigeon_getInstance_Api(channelName: channelName)'));
+      expect(code, contains('static ApiForNativeInterop? getInstance({String? name})'));
+      expect(code, contains('pigeon_native.pigeon_getInstance_Api(name: name)'));
       expect(code, contains('@internal\nCallbacks pigeon_register_Callbacks('));
       expect(code, contains('final class CallbacksRegistrar'));
+      expect(code, contains('static Callbacks register('));
+      expect(code, contains('CallbacksRegistrar.register(api'));
+      expect(code, isNot(contains('CallbacksRegistrar()')));
       expect(code, contains('pigeon_native.pigeon_register_Callbacks(api, name: name)'));
 
       final nativeInteropSink = StringBuffer();

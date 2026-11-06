@@ -983,16 +983,6 @@ ffi_bridge.NativeInteropTestsNumberWrapper _convertToFfiNumberWrapper(Object val
 
 bool _isType<T>(Type t) => T == t;
 bool _isTypeOrNullableType<T>(Type t) => _isType<T>(t) || _isType<T?>(t);
-
-void _throwNoInstanceError(String channelName) {
-  String nameString = 'named $channelName';
-  if (channelName == defaultInstanceName) {
-    nameString = 'with no name';
-  }
-  final String error = 'No instance $nameString has been registered.';
-  throw ArgumentError(error);
-}
-
 void _throwIfFfiError(ffi_bridge.NativeInteropTestsError error) {
   if (error.code != null) {
     throw _wrapFfiError(error);
@@ -2092,9 +2082,8 @@ extension _PigeonInternalNativeInteropReservedNamesNativeInterop on NativeIntero
 }
 
 NativeInteropHostIntegrationCoreApiForNativeInterop?
-pigeon_getInstance_NativeInteropHostIntegrationCoreApi({
-  String channelName = defaultInstanceName,
-}) => _NativeInteropHostIntegrationCoreApiForNativeInterop.getInstance(channelName: channelName);
+pigeon_getInstance_NativeInteropHostIntegrationCoreApi({String? name}) =>
+    _NativeInteropHostIntegrationCoreApiForNativeInterop.getInstance(name: name);
 
 class _NativeInteropHostIntegrationCoreApiForNativeInterop
     implements NativeInteropHostIntegrationCoreApiForNativeInterop {
@@ -2104,33 +2093,32 @@ class _NativeInteropHostIntegrationCoreApiForNativeInterop
   }) : _jniApi = jniApi,
        _ffiApi = ffiApi;
 
-  /// Returns instance of NativeInteropHostIntegrationCoreApiForNativeInterop with specified [channelName] if one has been registered.
-  static NativeInteropHostIntegrationCoreApiForNativeInterop? getInstance({
-    String channelName = defaultInstanceName,
-  }) {
-    final NativeInteropHostIntegrationCoreApiForNativeInterop res;
+  /// Returns the instance of NativeInteropHostIntegrationCoreApiForNativeInterop registered with [name] (or the default instance when [name] is null), or null if none is registered.
+  static NativeInteropHostIntegrationCoreApiForNativeInterop? getInstance({String? name}) {
     if (Platform.isAndroid) {
-      final jni_bridge.NativeInteropHostIntegrationCoreApiRegistrar? link =
-          jni_bridge.NativeInteropHostIntegrationCoreApiRegistrar().getInstance(
-            channelName.toJString(),
-          );
-      if (link == null) {
-        _throwNoInstanceError(channelName);
+      final JString? jName = name?.toJString();
+      final jni_bridge.NativeInteropHostIntegrationCoreApiRegistrar? link;
+      try {
+        link = jni_bridge.NativeInteropHostIntegrationCoreApiRegistrar.getInstance(jName);
+      } finally {
+        jName?.release();
       }
-      res = _NativeInteropHostIntegrationCoreApiForNativeInterop._withRegistrar(jniApi: link);
+      return link == null
+          ? null
+          : _NativeInteropHostIntegrationCoreApiForNativeInterop._withRegistrar(jniApi: link);
     } else if (Platform.isIOS || Platform.isMacOS) {
-      final ffi_bridge.NativeInteropHostIntegrationCoreApiSetup? link = ffi_bridge
-          .NativeInteropHostIntegrationCoreApiSetup.getInstanceWithName(NSString(channelName));
-      if (link == null) {
-        _throwNoInstanceError(channelName);
-      }
-      res = _NativeInteropHostIntegrationCoreApiForNativeInterop._withRegistrar(ffiApi: link);
+      final ffi_bridge.NativeInteropHostIntegrationCoreApiSetup? link =
+          ffi_bridge.NativeInteropHostIntegrationCoreApiSetup.getInstanceWithName(
+            name != null ? NSString(name) : null,
+          );
+      return link == null
+          ? null
+          : _NativeInteropHostIntegrationCoreApiForNativeInterop._withRegistrar(ffiApi: link);
     } else {
       throw UnsupportedError(
         'Native Interop is not supported on this platform. Use NativeInteropHostIntegrationCoreApi instead.',
       );
     }
-    return res;
   }
 
   late final jni_bridge.NativeInteropHostIntegrationCoreApiRegistrar? _jniApi;
@@ -9833,14 +9821,16 @@ final class _NativeInteropFlutterIntegrationCoreApiRegistrar
 
   final NativeInteropFlutterIntegrationCoreApi dartApi;
 
-  NativeInteropFlutterIntegrationCoreApi register({String name = defaultInstanceName}) {
+  NativeInteropFlutterIntegrationCoreApi register({String? name}) {
     if (Platform.isAndroid) {
       final jni_bridge.NativeInteropFlutterIntegrationCoreApi impl =
           jni_bridge.NativeInteropFlutterIntegrationCoreApi.implement(this);
-      jni_bridge.NativeInteropFlutterIntegrationCoreApiRegistrar().registerInstance(
-        impl,
-        name.toJString(),
-      );
+      final JString? jName = name?.toJString();
+      try {
+        jni_bridge.NativeInteropFlutterIntegrationCoreApiRegistrar.register(impl, jName);
+      } finally {
+        jName?.release();
+      }
     }
     if (Platform.isIOS || Platform.isMacOS) {
       final ObjCProtocolBuilder builder = ObjCProtocolBuilder(
@@ -12395,9 +12385,9 @@ final class _NativeInteropFlutterIntegrationCoreApiRegistrar
       );
       final ffi_bridge.NativeInteropFlutterIntegrationCoreApiBridge impl =
           ffi_bridge.NativeInteropFlutterIntegrationCoreApiBridge.as(builder.build());
-      ffi_bridge.NativeInteropFlutterIntegrationCoreApiRegistrar.registerInstanceWithApi(
+      ffi_bridge.NativeInteropFlutterIntegrationCoreApiRegistrar.registerWithApi(
         impl,
-        name: NSString(name),
+        name: name != null ? NSString(name) : null,
       );
     }
     return dartApi;
@@ -13469,12 +13459,12 @@ final class _NativeInteropFlutterIntegrationCoreApiRegistrar
 
 NativeInteropFlutterIntegrationCoreApi pigeon_register_NativeInteropFlutterIntegrationCoreApi(
   NativeInteropFlutterIntegrationCoreApi api, {
-  String name = defaultInstanceName,
+  String? name,
 }) => _NativeInteropFlutterIntegrationCoreApiRegistrar(api).register(name: name);
 
 NativeInteropReservedNamesHostApiForNativeInterop?
-pigeon_getInstance_NativeInteropReservedNamesHostApi({String channelName = defaultInstanceName}) =>
-    _NativeInteropReservedNamesHostApiForNativeInterop.getInstance(channelName: channelName);
+pigeon_getInstance_NativeInteropReservedNamesHostApi({String? name}) =>
+    _NativeInteropReservedNamesHostApiForNativeInterop.getInstance(name: name);
 
 class _NativeInteropReservedNamesHostApiForNativeInterop
     implements NativeInteropReservedNamesHostApiForNativeInterop {
@@ -13484,33 +13474,32 @@ class _NativeInteropReservedNamesHostApiForNativeInterop
   }) : _jniApi = jniApi,
        _ffiApi = ffiApi;
 
-  /// Returns instance of NativeInteropReservedNamesHostApiForNativeInterop with specified [channelName] if one has been registered.
-  static NativeInteropReservedNamesHostApiForNativeInterop? getInstance({
-    String channelName = defaultInstanceName,
-  }) {
-    final NativeInteropReservedNamesHostApiForNativeInterop res;
+  /// Returns the instance of NativeInteropReservedNamesHostApiForNativeInterop registered with [name] (or the default instance when [name] is null), or null if none is registered.
+  static NativeInteropReservedNamesHostApiForNativeInterop? getInstance({String? name}) {
     if (Platform.isAndroid) {
-      final jni_bridge.NativeInteropReservedNamesHostApiRegistrar? link =
-          jni_bridge.NativeInteropReservedNamesHostApiRegistrar().getInstance(
-            channelName.toJString(),
-          );
-      if (link == null) {
-        _throwNoInstanceError(channelName);
+      final JString? jName = name?.toJString();
+      final jni_bridge.NativeInteropReservedNamesHostApiRegistrar? link;
+      try {
+        link = jni_bridge.NativeInteropReservedNamesHostApiRegistrar.getInstance(jName);
+      } finally {
+        jName?.release();
       }
-      res = _NativeInteropReservedNamesHostApiForNativeInterop._withRegistrar(jniApi: link);
+      return link == null
+          ? null
+          : _NativeInteropReservedNamesHostApiForNativeInterop._withRegistrar(jniApi: link);
     } else if (Platform.isIOS || Platform.isMacOS) {
-      final ffi_bridge.NativeInteropReservedNamesHostApiSetup? link = ffi_bridge
-          .NativeInteropReservedNamesHostApiSetup.getInstanceWithName(NSString(channelName));
-      if (link == null) {
-        _throwNoInstanceError(channelName);
-      }
-      res = _NativeInteropReservedNamesHostApiForNativeInterop._withRegistrar(ffiApi: link);
+      final ffi_bridge.NativeInteropReservedNamesHostApiSetup? link =
+          ffi_bridge.NativeInteropReservedNamesHostApiSetup.getInstanceWithName(
+            name != null ? NSString(name) : null,
+          );
+      return link == null
+          ? null
+          : _NativeInteropReservedNamesHostApiForNativeInterop._withRegistrar(ffiApi: link);
     } else {
       throw UnsupportedError(
         'Native Interop is not supported on this platform. Use NativeInteropReservedNamesHostApi instead.',
       );
     }
-    return res;
   }
 
   late final jni_bridge.NativeInteropReservedNamesHostApiRegistrar? _jniApi;
@@ -13881,14 +13870,16 @@ final class _NativeInteropReservedNamesFlutterApiRegistrar
 
   final NativeInteropReservedNamesFlutterApi dartApi;
 
-  NativeInteropReservedNamesFlutterApi register({String name = defaultInstanceName}) {
+  NativeInteropReservedNamesFlutterApi register({String? name}) {
     if (Platform.isAndroid) {
       final jni_bridge.NativeInteropReservedNamesFlutterApi impl =
           jni_bridge.NativeInteropReservedNamesFlutterApi.implement(this);
-      jni_bridge.NativeInteropReservedNamesFlutterApiRegistrar().registerInstance(
-        impl,
-        name.toJString(),
-      );
+      final JString? jName = name?.toJString();
+      try {
+        jni_bridge.NativeInteropReservedNamesFlutterApiRegistrar.register(impl, jName);
+      } finally {
+        jName?.release();
+      }
     }
     if (Platform.isIOS || Platform.isMacOS) {
       final ObjCProtocolBuilder builder = ObjCProtocolBuilder(
@@ -13951,9 +13942,9 @@ final class _NativeInteropReservedNamesFlutterApiRegistrar
       builder.addProtocol(ffi_bridge.NativeInteropReservedNamesFlutterApiBridge$Builder.$protocol);
       final ffi_bridge.NativeInteropReservedNamesFlutterApiBridge impl =
           ffi_bridge.NativeInteropReservedNamesFlutterApiBridge.as(builder.build());
-      ffi_bridge.NativeInteropReservedNamesFlutterApiRegistrar.registerInstanceWithApi(
+      ffi_bridge.NativeInteropReservedNamesFlutterApiRegistrar.registerWithApi(
         impl,
-        name: NSString(name),
+        name: name != null ? NSString(name) : null,
       );
     }
     return dartApi;
@@ -13992,5 +13983,5 @@ final class _NativeInteropReservedNamesFlutterApiRegistrar
 
 NativeInteropReservedNamesFlutterApi pigeon_register_NativeInteropReservedNamesFlutterApi(
   NativeInteropReservedNamesFlutterApi api, {
-  String name = defaultInstanceName,
+  String? name,
 }) => _NativeInteropReservedNamesFlutterApiRegistrar(api).register(name: name);

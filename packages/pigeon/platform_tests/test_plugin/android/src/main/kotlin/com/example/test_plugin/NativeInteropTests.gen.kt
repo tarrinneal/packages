@@ -1292,7 +1292,7 @@ data class NativeInteropReservedNames(
   }
 }
 
-val NativeInteropHostIntegrationCoreApiInstances:
+private val NativeInteropHostIntegrationCoreApiInstances:
     MutableMap<String, NativeInteropHostIntegrationCoreApiRegistrar> =
     mutableMapOf()
 
@@ -1933,25 +1933,32 @@ interface NativeInteropHostIntegrationCoreApi {
 }
 
 @Keep
-class NativeInteropHostIntegrationCoreApiRegistrar : NativeInteropHostIntegrationCoreApi {
+class NativeInteropHostIntegrationCoreApiRegistrar private constructor() :
+    NativeInteropHostIntegrationCoreApi {
   private var api: NativeInteropHostIntegrationCoreApi? = null
 
-  fun register(
-      api: NativeInteropHostIntegrationCoreApi?,
-      name: String = defaultInstanceName
-  ): NativeInteropHostIntegrationCoreApiRegistrar {
-    if (api != null) {
-      this.api = api
-      NativeInteropHostIntegrationCoreApiInstances[name] = this
-    } else {
-      NativeInteropHostIntegrationCoreApiInstances.remove(name)
+  companion object {
+    /// Registers [api] with [name], or as the default instance when [name] is null.
+    /// Passing a null [api] removes the registered instance.
+    @JvmStatic
+    @Keep
+    fun register(api: NativeInteropHostIntegrationCoreApi?, name: String? = null) {
+      val resolvedName = name ?: defaultInstanceName
+      if (api != null) {
+        val wrapper = NativeInteropHostIntegrationCoreApiRegistrar()
+        wrapper.api = api
+        NativeInteropHostIntegrationCoreApiInstances[resolvedName] = wrapper
+      } else {
+        NativeInteropHostIntegrationCoreApiInstances.remove(resolvedName)
+      }
     }
-    return this
-  }
 
-  @Keep
-  fun getInstance(name: String): NativeInteropHostIntegrationCoreApiRegistrar? {
-    return NativeInteropHostIntegrationCoreApiInstances[name]
+    /// Gets the instance registered with [name], or the default instance when [name] is null.
+    @JvmStatic
+    @Keep
+    fun getInstance(name: String? = null): NativeInteropHostIntegrationCoreApiRegistrar? {
+      return NativeInteropHostIntegrationCoreApiInstances[name ?: defaultInstanceName]
+    }
   }
   /** A no-op function taking no arguments and returning no value, to sanity test basic calling. */
   override fun noop() {
@@ -4749,29 +4756,34 @@ class NativeInteropHostIntegrationCoreApiRegistrar : NativeInteropHostIntegratio
  * Generated class from Pigeon that represents Flutter messages that can be called from Kotlin.
  */
 /// Map that stores instances
-val registeredNativeInteropFlutterIntegrationCoreApi:
+private val registeredNativeInteropFlutterIntegrationCoreApi:
     MutableMap<String, NativeInteropFlutterIntegrationCoreApi> =
     mutableMapOf()
 
 /// Class that stores instances
 @Keep
-class NativeInteropFlutterIntegrationCoreApiRegistrar() {
-
-  /// Registers an instance with the given name.
-  fun registerInstance(
-      api: NativeInteropFlutterIntegrationCoreApi?,
-      name: String = defaultInstanceName
-  ) {
-    if (api != null) {
-      registeredNativeInteropFlutterIntegrationCoreApi[name] = api
-    } else {
-      registeredNativeInteropFlutterIntegrationCoreApi.remove(name)
+class NativeInteropFlutterIntegrationCoreApiRegistrar private constructor() {
+  companion object {
+    /// Registers an instance with the given name, or the default instance when
+    /// [name] is null. Passing a null [api] removes the registered instance.
+    @JvmStatic
+    @Keep
+    fun register(api: NativeInteropFlutterIntegrationCoreApi?, name: String? = null) {
+      val resolvedName = name ?: defaultInstanceName
+      if (api != null) {
+        registeredNativeInteropFlutterIntegrationCoreApi[resolvedName] = api
+      } else {
+        registeredNativeInteropFlutterIntegrationCoreApi.remove(resolvedName)
+      }
     }
-  }
 
-  /// Gets an instance with the given name.
-  fun getInstance(name: String = defaultInstanceName): NativeInteropFlutterIntegrationCoreApi? {
-    return registeredNativeInteropFlutterIntegrationCoreApi[name]
+    /// Gets an instance with the given name, or the default instance when
+    /// [name] is null.
+    @JvmStatic
+    @Keep
+    fun getInstance(name: String? = null): NativeInteropFlutterIntegrationCoreApi? {
+      return registeredNativeInteropFlutterIntegrationCoreApi[name ?: defaultInstanceName]
+    }
   }
 }
 
@@ -5066,7 +5078,7 @@ interface NativeInteropFlutterIntegrationCoreApi {
   ): NativeInteropAnotherEnum?
 }
 
-val NativeInteropReservedNamesHostApiInstances:
+private val NativeInteropReservedNamesHostApiInstances:
     MutableMap<String, NativeInteropReservedNamesHostApiRegistrar> =
     mutableMapOf()
 
@@ -5110,25 +5122,32 @@ interface NativeInteropReservedNamesHostApi {
 }
 
 @Keep
-class NativeInteropReservedNamesHostApiRegistrar : NativeInteropReservedNamesHostApi {
+class NativeInteropReservedNamesHostApiRegistrar private constructor() :
+    NativeInteropReservedNamesHostApi {
   private var api: NativeInteropReservedNamesHostApi? = null
 
-  fun register(
-      api: NativeInteropReservedNamesHostApi?,
-      name: String = defaultInstanceName
-  ): NativeInteropReservedNamesHostApiRegistrar {
-    if (api != null) {
-      this.api = api
-      NativeInteropReservedNamesHostApiInstances[name] = this
-    } else {
-      NativeInteropReservedNamesHostApiInstances.remove(name)
+  companion object {
+    /// Registers [api] with [name], or as the default instance when [name] is null.
+    /// Passing a null [api] removes the registered instance.
+    @JvmStatic
+    @Keep
+    fun register(api: NativeInteropReservedNamesHostApi?, name: String? = null) {
+      val resolvedName = name ?: defaultInstanceName
+      if (api != null) {
+        val wrapper = NativeInteropReservedNamesHostApiRegistrar()
+        wrapper.api = api
+        NativeInteropReservedNamesHostApiInstances[resolvedName] = wrapper
+      } else {
+        NativeInteropReservedNamesHostApiInstances.remove(resolvedName)
+      }
     }
-    return this
-  }
 
-  @Keep
-  fun getInstance(name: String): NativeInteropReservedNamesHostApiRegistrar? {
-    return NativeInteropReservedNamesHostApiInstances[name]
+    /// Gets the instance registered with [name], or the default instance when [name] is null.
+    @JvmStatic
+    @Keep
+    fun getInstance(name: String? = null): NativeInteropReservedNamesHostApiRegistrar? {
+      return NativeInteropReservedNamesHostApiInstances[name ?: defaultInstanceName]
+    }
   }
   /** Collides with `JObject.release`. */
   override fun release(value: String): String {
@@ -5318,29 +5337,34 @@ class NativeInteropReservedNamesHostApiRegistrar : NativeInteropReservedNamesHos
  * Generated class from Pigeon that represents Flutter messages that can be called from Kotlin.
  */
 /// Map that stores instances
-val registeredNativeInteropReservedNamesFlutterApi:
+private val registeredNativeInteropReservedNamesFlutterApi:
     MutableMap<String, NativeInteropReservedNamesFlutterApi> =
     mutableMapOf()
 
 /// Class that stores instances
 @Keep
-class NativeInteropReservedNamesFlutterApiRegistrar() {
-
-  /// Registers an instance with the given name.
-  fun registerInstance(
-      api: NativeInteropReservedNamesFlutterApi?,
-      name: String = defaultInstanceName
-  ) {
-    if (api != null) {
-      registeredNativeInteropReservedNamesFlutterApi[name] = api
-    } else {
-      registeredNativeInteropReservedNamesFlutterApi.remove(name)
+class NativeInteropReservedNamesFlutterApiRegistrar private constructor() {
+  companion object {
+    /// Registers an instance with the given name, or the default instance when
+    /// [name] is null. Passing a null [api] removes the registered instance.
+    @JvmStatic
+    @Keep
+    fun register(api: NativeInteropReservedNamesFlutterApi?, name: String? = null) {
+      val resolvedName = name ?: defaultInstanceName
+      if (api != null) {
+        registeredNativeInteropReservedNamesFlutterApi[resolvedName] = api
+      } else {
+        registeredNativeInteropReservedNamesFlutterApi.remove(resolvedName)
+      }
     }
-  }
 
-  /// Gets an instance with the given name.
-  fun getInstance(name: String = defaultInstanceName): NativeInteropReservedNamesFlutterApi? {
-    return registeredNativeInteropReservedNamesFlutterApi[name]
+    /// Gets an instance with the given name, or the default instance when
+    /// [name] is null.
+    @JvmStatic
+    @Keep
+    fun getInstance(name: String? = null): NativeInteropReservedNamesFlutterApi? {
+      return registeredNativeInteropReservedNamesFlutterApi[name ?: defaultInstanceName]
+    }
   }
 }
 

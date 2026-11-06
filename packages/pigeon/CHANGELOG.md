@@ -1,3 +1,21 @@
+## 30.0.0
+
+* **BREAKING CHANGE**: [dart,kotlin,swift] Simplifies the Native Interop registration APIs.
+  * Makes Dart, Kotlin, and Swift registrars static (`MyApiRegistrar.register(api)`
+    instead of `MyApiRegistrar().register(api)`), and renames the native
+    `@FlutterApi` registrar method `registerInstance` to `register`.
+  * Removes `<FlutterApi>.implement` in Dart. Use `<FlutterApi>.setUp` or
+    `<FlutterApi>Registrar.register` instead.
+  * Makes Native Interop `name` parameters nullable, using the default instance
+    when `null`, and makes `defaultInstanceName` and the backing registration
+    maps private.
+  * Renames the `channelName` parameter of Dart
+    `<HostApi>ForNativeInterop.getInstance` to `name`, and returns `null` instead
+    of throwing when no instance is registered.
+    `<HostApi>.createWithNativeInteropApi` still throws an `ArgumentError` when no
+    instance is registered for its `messageChannelSuffix`.
+* Expands Native Interop migration guidance.
+
 ## 29.1.1
 
 * Updates README to label Native Interop as Preview and warn about multi-engine `@HostApi` registrations.

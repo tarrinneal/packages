@@ -1743,9 +1743,9 @@ void main() {
       expect(code, contains('@Keep\n  companion object {\n    fun ofRaw(raw: Int): AnEnum?'));
       expect(code, contains('@Keep\ndata class DataClass ('));
       expect(code, contains('@Keep\ninterface HostApi {'));
-      expect(code, contains('@Keep\nclass HostApiRegistrar : HostApi {'));
+      expect(code, contains('@Keep\nclass HostApiRegistrar private constructor() : HostApi {'));
       expect(code, contains('@Keep\ninterface FlutterApi {'));
-      expect(code, contains('@Keep\nclass FlutterApiRegistrar() {'));
+      expect(code, contains('@Keep\nclass FlutterApiRegistrar private constructor() {'));
     });
 
     test('is not added when not using JNI', () {
@@ -2009,14 +2009,18 @@ void main() {
     generator.generate(kotlinOptions, root, sink, dartPackageName: DEFAULT_PACKAGE_NAME);
     final code = sink.toString();
     expect(code, contains('interface HostApi {'));
-    expect(code, contains('class HostApiRegistrar : HostApi {'));
-    expect(code, contains('api: HostApi?,'));
-    expect(code, contains('HostApiInstances.remove(name)'));
-    expect(
-      code,
-      contains('fun registerInstance(api: FlutterApi?, name: String = defaultInstanceName)'),
-    );
-    expect(code, contains('registeredFlutterApi.remove(name)'));
+    expect(code, contains('class HostApiRegistrar private constructor() : HostApi {'));
+    expect(code, contains('companion object {'));
+    expect(code, contains('@JvmStatic'));
+    expect(code, contains('fun register(api: HostApi?, name: String? = null) {'));
+    expect(code, contains('fun getInstance(name: String? = null): HostApiRegistrar? {'));
+    expect(code, contains('HostApiInstances.remove(resolvedName)'));
+    expect(code, contains('private val HostApiInstances'));
+    expect(code, contains('fun register(api: FlutterApi?, name: String? = null) {'));
+    expect(code, contains('fun getInstance(name: String? = null): FlutterApi? {'));
+    expect(code, contains('registeredFlutterApi.remove(resolvedName)'));
+    expect(code, contains('private val registeredFlutterApi'));
+    expect(code, isNot(contains('registerInstance')));
   });
 
   test('asyncCallback emits callback-based host api method', () {

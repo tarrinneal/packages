@@ -173,7 +173,7 @@ When implementing Native Interop host APIs directly in an application target (su
 1. **Registration Calls**: Replace platform channel setup with JNI registrars:
    ```kotlin
    // BEFORE: MyApi.setUp(messenger, this)
-   // AFTER:  MyApiRegistrar().register(this)
+   // AFTER:  MyApiRegistrar.register(this)
    ```
 2. **Async Method Signatures**: Replace callback interfaces with Kotlin Coroutine `suspend` functions:
    ```kotlin

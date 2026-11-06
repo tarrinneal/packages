@@ -194,7 +194,8 @@ enum NativeInteropTestsPigeonInternalNumberType: Int {
 }
 
 enum NativeInteropTestsPigeonInternal {
-  static let defaultInstanceName = "PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u"
+  fileprivate static let defaultInstanceName =
+    "PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u"
   static func isNullish(_ value: Any?) -> Bool {
     guard let innerValue = value else {
       return true
@@ -2563,7 +2564,7 @@ private class _PigeonFfiCodec {
   }
 }
 
-class NativeInteropHostIntegrationCoreApiInstanceTracker {
+private class NativeInteropHostIntegrationCoreApiInstanceTracker {
   static var instancesOfNativeInteropHostIntegrationCoreApi = [
     String: NativeInteropHostIntegrationCoreApiSetup?
   ]()
@@ -3023,24 +3024,26 @@ protocol NativeInteropHostIntegrationCoreApi {
 @objc class NativeInteropHostIntegrationCoreApiSetup: NSObject {
   private var api: NativeInteropHostIntegrationCoreApi?
   override init() {}
-  static func register(
-    api: NativeInteropHostIntegrationCoreApi?,
-    name: String = NativeInteropTestsPigeonInternal.defaultInstanceName
-  ) {
+  /// Registers `api` with `name`, or as the default instance when `name` is nil.
+  /// Passing a nil `api` removes the registered instance.
+  static func register(api: NativeInteropHostIntegrationCoreApi?, name: String? = nil) {
+    let resolvedName = name ?? NativeInteropTestsPigeonInternal.defaultInstanceName
     if let api = api {
       let wrapper = NativeInteropHostIntegrationCoreApiSetup()
       wrapper.api = api
       NativeInteropHostIntegrationCoreApiInstanceTracker
-        .instancesOfNativeInteropHostIntegrationCoreApi[name] = wrapper
+        .instancesOfNativeInteropHostIntegrationCoreApi[resolvedName] = wrapper
     } else {
       NativeInteropHostIntegrationCoreApiInstanceTracker
-        .instancesOfNativeInteropHostIntegrationCoreApi.removeValue(forKey: name)
+        .instancesOfNativeInteropHostIntegrationCoreApi.removeValue(forKey: resolvedName)
     }
   }
-  @objc static func getInstance(name: String) -> NativeInteropHostIntegrationCoreApiSetup? {
+  /// Returns the instance registered with `name`, or the default instance when `name` is nil.
+  @objc static func getInstance(name: String? = nil) -> NativeInteropHostIntegrationCoreApiSetup? {
     return
       NativeInteropHostIntegrationCoreApiInstanceTracker
-      .instancesOfNativeInteropHostIntegrationCoreApi[name] ?? nil
+      .instancesOfNativeInteropHostIntegrationCoreApi[
+        name ?? NativeInteropTestsPigeonInternal.defaultInstanceName] ?? nil
   }
   /// A no-op function taking no arguments and returning no value, to sanity
   /// test basic calling.
@@ -7867,30 +7870,31 @@ protocol NativeInteropHostIntegrationCoreApi {
 }
 
 @objc class NativeInteropFlutterIntegrationCoreApiRegistrar: NSObject {
-  static var registeredNativeInteropFlutterIntegrationCoreApi = [
+  private static var registeredNativeInteropFlutterIntegrationCoreApi = [
     String: NativeInteropFlutterIntegrationCoreApi
   ]()
 
-  @objc static func registerInstance(
-    api: NativeInteropFlutterIntegrationCoreApiBridge?,
-    name: String = NativeInteropTestsPigeonInternal.defaultInstanceName
+  /// Registers `api` with `name`, or as the default instance when `name` is nil.
+  /// Passing a nil `api` removes the registered instance.
+  @objc static func register(
+    api: NativeInteropFlutterIntegrationCoreApiBridge?, name: String? = nil
   ) {
+    let resolvedName = name ?? NativeInteropTestsPigeonInternal.defaultInstanceName
     if let api = api {
       NativeInteropFlutterIntegrationCoreApiRegistrar
-        .registeredNativeInteropFlutterIntegrationCoreApi[name] =
+        .registeredNativeInteropFlutterIntegrationCoreApi[resolvedName] =
         NativeInteropFlutterIntegrationCoreApi(api: api)
     } else {
       NativeInteropFlutterIntegrationCoreApiRegistrar
-        .registeredNativeInteropFlutterIntegrationCoreApi.removeValue(forKey: name)
+        .registeredNativeInteropFlutterIntegrationCoreApi.removeValue(forKey: resolvedName)
     }
   }
 
-  static func getInstance(name: String = NativeInteropTestsPigeonInternal.defaultInstanceName)
-    -> NativeInteropFlutterIntegrationCoreApi?
-  {
+  static func getInstance(name: String? = nil) -> NativeInteropFlutterIntegrationCoreApi? {
     return
       NativeInteropFlutterIntegrationCoreApiRegistrar
-      .registeredNativeInteropFlutterIntegrationCoreApi[name]
+      .registeredNativeInteropFlutterIntegrationCoreApi[
+        name ?? NativeInteropTestsPigeonInternal.defaultInstanceName]
   }
 }
 
@@ -7901,9 +7905,7 @@ class NativeInteropFlutterIntegrationCoreApi {
     self.api = api
   }
 
-  static func getInstance(name: String = NativeInteropTestsPigeonInternal.defaultInstanceName)
-    -> NativeInteropFlutterIntegrationCoreApi?
-  {
+  static func getInstance(name: String? = nil) -> NativeInteropFlutterIntegrationCoreApi? {
     return NativeInteropFlutterIntegrationCoreApiRegistrar.getInstance(name: name)
   }
 
@@ -9198,7 +9200,7 @@ class NativeInteropFlutterIntegrationCoreApi {
       as! NativeInteropAnotherEnum?
   }
 }
-class NativeInteropReservedNamesHostApiInstanceTracker {
+private class NativeInteropReservedNamesHostApiInstanceTracker {
   static var instancesOfNativeInteropReservedNamesHostApi = [
     String: NativeInteropReservedNamesHostApiSetup?
   ]()
@@ -9248,24 +9250,25 @@ protocol NativeInteropReservedNamesHostApi {
 @objc class NativeInteropReservedNamesHostApiSetup: NSObject {
   private var api: NativeInteropReservedNamesHostApi?
   override init() {}
-  static func register(
-    api: NativeInteropReservedNamesHostApi?,
-    name: String = NativeInteropTestsPigeonInternal.defaultInstanceName
-  ) {
+  /// Registers `api` with `name`, or as the default instance when `name` is nil.
+  /// Passing a nil `api` removes the registered instance.
+  static func register(api: NativeInteropReservedNamesHostApi?, name: String? = nil) {
+    let resolvedName = name ?? NativeInteropTestsPigeonInternal.defaultInstanceName
     if let api = api {
       let wrapper = NativeInteropReservedNamesHostApiSetup()
       wrapper.api = api
       NativeInteropReservedNamesHostApiInstanceTracker.instancesOfNativeInteropReservedNamesHostApi[
-        name] = wrapper
+        resolvedName] = wrapper
     } else {
       NativeInteropReservedNamesHostApiInstanceTracker.instancesOfNativeInteropReservedNamesHostApi
-        .removeValue(forKey: name)
+        .removeValue(forKey: resolvedName)
     }
   }
-  @objc static func getInstance(name: String) -> NativeInteropReservedNamesHostApiSetup? {
+  /// Returns the instance registered with `name`, or the default instance when `name` is nil.
+  @objc static func getInstance(name: String? = nil) -> NativeInteropReservedNamesHostApiSetup? {
     return
       NativeInteropReservedNamesHostApiInstanceTracker.instancesOfNativeInteropReservedNamesHostApi[
-        name] ?? nil
+        name ?? NativeInteropTestsPigeonInternal.defaultInstanceName] ?? nil
   }
   /// Collides with `JObject.release`.
   @objc func release(value valueArg: NSString, wrappedError: NativeInteropTestsError) -> NSString? {
@@ -9552,29 +9555,28 @@ protocol NativeInteropReservedNamesHostApi {
 }
 
 @objc class NativeInteropReservedNamesFlutterApiRegistrar: NSObject {
-  static var registeredNativeInteropReservedNamesFlutterApi = [
+  private static var registeredNativeInteropReservedNamesFlutterApi = [
     String: NativeInteropReservedNamesFlutterApi
   ]()
 
-  @objc static func registerInstance(
-    api: NativeInteropReservedNamesFlutterApiBridge?,
-    name: String = NativeInteropTestsPigeonInternal.defaultInstanceName
-  ) {
+  /// Registers `api` with `name`, or as the default instance when `name` is nil.
+  /// Passing a nil `api` removes the registered instance.
+  @objc static func register(api: NativeInteropReservedNamesFlutterApiBridge?, name: String? = nil)
+  {
+    let resolvedName = name ?? NativeInteropTestsPigeonInternal.defaultInstanceName
     if let api = api {
       NativeInteropReservedNamesFlutterApiRegistrar.registeredNativeInteropReservedNamesFlutterApi[
-        name] = NativeInteropReservedNamesFlutterApi(api: api)
+        resolvedName] = NativeInteropReservedNamesFlutterApi(api: api)
     } else {
       NativeInteropReservedNamesFlutterApiRegistrar.registeredNativeInteropReservedNamesFlutterApi
-        .removeValue(forKey: name)
+        .removeValue(forKey: resolvedName)
     }
   }
 
-  static func getInstance(name: String = NativeInteropTestsPigeonInternal.defaultInstanceName)
-    -> NativeInteropReservedNamesFlutterApi?
-  {
+  static func getInstance(name: String? = nil) -> NativeInteropReservedNamesFlutterApi? {
     return
       NativeInteropReservedNamesFlutterApiRegistrar.registeredNativeInteropReservedNamesFlutterApi[
-        name]
+        name ?? NativeInteropTestsPigeonInternal.defaultInstanceName]
   }
 }
 
@@ -9585,9 +9587,7 @@ class NativeInteropReservedNamesFlutterApi {
     self.api = api
   }
 
-  static func getInstance(name: String = NativeInteropTestsPigeonInternal.defaultInstanceName)
-    -> NativeInteropReservedNamesFlutterApi?
-  {
+  static func getInstance(name: String? = nil) -> NativeInteropReservedNamesFlutterApi? {
     return NativeInteropReservedNamesFlutterApiRegistrar.getInstance(name: name)
   }
 

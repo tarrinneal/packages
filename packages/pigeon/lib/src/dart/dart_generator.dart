@@ -1348,16 +1348,19 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
       indent.newln();
       indent.writeln('final ${api.name} dartApi;');
       indent.newln();
-      indent.writeScoped('${api.name} register({String name = defaultInstanceName}) {', '}', () {
+      indent.writeScoped('${api.name} register({String? name}) {', '}', () {
         if (generatorOptions.useJni) {
           indent.writeScoped('if (Platform.isAndroid) {', '}', () {
             indent.writeln(
               'final $_jniBridgePrefix.${api.name} impl = $_jniBridgePrefix.${api.name}.implement(this);',
             );
-            indent.writeln('$_jniBridgePrefix.${api.name}Registrar().registerInstance(');
-            indent.writeln('  impl,');
-            indent.writeln('  name.toJString(),');
-            indent.writeln(');');
+            indent.writeln('final JString? jName = name?.toJString();');
+            indent.writeScoped('try {', '}', () {
+              indent.writeln('$_jniBridgePrefix.${api.name}Registrar.register(impl, jName);');
+            }, addTrailingNewline: false);
+            indent.addScoped(' finally {', '}', () {
+              indent.writeln('jName?.release();');
+            });
           });
         }
         if (generatorOptions.useFfi) {
@@ -1467,10 +1470,10 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
             indent.writeln(
               'final $_ffiBridgePrefix.${api.name}Bridge impl = $_ffiBridgePrefix.${api.name}Bridge.as(builder.build());',
             );
-            indent.writeln('$_ffiBridgePrefix.${api.name}Registrar.registerInstanceWithApi(');
-            indent.writeln('  impl,');
-            indent.writeln('  name: NSString(name),');
-            indent.writeln(');');
+            indent.writeScoped('$_ffiBridgePrefix.${api.name}Registrar.registerWithApi(', ');', () {
+              indent.writeln('impl,');
+              indent.writeln('name: name != null ? NSString(name) : null,');
+            });
           });
         }
         indent.writeln('return dartApi;');
@@ -1540,7 +1543,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
     indent.format('''
 ${api.name} ${classMemberNamePrefix}register_${api.name}(
   ${api.name} api, {
-  String name = defaultInstanceName,
+  String? name,
 }) => _${api.name}Registrar(api).register(name: name);
 ''');
   }
@@ -1572,17 +1575,22 @@ ${api.name} ${classMemberNamePrefix}register_${api.name}(
 @internal
 ${api.name} ${classMemberNamePrefix}register_${api.name}(
   ${api.name} api, {
-  String name = defaultInstanceName,
+  String? name,
 }) {
   throw UnsupportedError(
     'Native Interop is not supported on this platform. Use ${api.name}.setUp instead.',
   );
 }
 
+/// Registers [${api.name}] implementations with the host platform via Native Interop.
 final class ${api.name}Registrar {
-  ${api.name} register(
+  const ${api.name}Registrar._();
+
+  /// Registers [api] with the host platform under [name], or as the default
+  /// instance when [name] is null.
+  static ${api.name} register(
     ${api.name} api, {
-    String name = defaultInstanceName,
+    String? name,
   }) => pigeon_native.${classMemberNamePrefix}register_${api.name}(api, name: name);
 }
 ''');
@@ -1622,8 +1630,8 @@ final class ${api.name}Registrar {
         if (usesNativeInterop(generatorOptions)) {
           indent.format('''
             if (!kIsWeb && api != null) {
-              ${api.name}Registrar().register(api, name: messageChannelSuffix.isEmpty
-                  ? defaultInstanceName
+              ${api.name}Registrar.register(api, name: messageChannelSuffix.isEmpty
+                  ? null
                   : messageChannelSuffix);
             }
             ''');
@@ -1647,29 +1655,7 @@ final class ${api.name}Registrar {
           );
         }
       });
-      if (usesNativeInterop(generatorOptions)) {
-        indent.format('''
-              static ${api.name} implement(${api.name} api, {
-                String name = '',
-              }) {
-                return ${api.name}Registrar().register(api, name: name);
-              }
-              ''');
-      }
     });
-  }
-
-  @override
-  void writeApis(
-    InternalDartOptions generatorOptions,
-    Root root,
-    Indent indent, {
-    required String dartPackageName,
-  }) {
-    if (usesNativeInterop(generatorOptions)) {
-      indent.writeln("const String defaultInstanceName = '$defaultNativeInteropInstanceName';");
-    }
-    super.writeApis(generatorOptions, root, indent, dartPackageName: dartPackageName);
   }
 
   void _writeNativeInteropHostApi(
@@ -1686,8 +1672,8 @@ final class ${api.name}Registrar {
     indent.newln();
     indent.format('''
 $dartApiName? ${classMemberNamePrefix}getInstance_${api.name}({
-  String channelName = defaultInstanceName,
-}) => $implClassName.getInstance(channelName: channelName);
+  String? name,
+}) => $implClassName.getInstance(name: name);
 ''');
     indent.newln();
     indent.writeScoped('class $implClassName implements $dartApiName {', '}', () {
@@ -1718,63 +1704,64 @@ $dartApiName? ${classMemberNamePrefix}getInstance_${api.name}({
       indent.newln();
 
       indent.writeln(
-        '/// Returns instance of $dartApiName with specified [channelName] if one has been registered.',
+        '/// Returns the instance of $dartApiName registered with [name] (or the default instance when [name] is null), or null if none is registered.',
       );
-      indent.writeScoped(
-        'static $dartApiName? getInstance({String channelName = defaultInstanceName}) {',
-        '}',
-        () {
-          indent.writeln('final $dartApiName res;');
-          var isFirst = true;
-          if (generatorOptions.useJni) {
-            indent.writeScoped('if (Platform.isAndroid) {', '}', () {
-              indent.writeln('final $jniApiRegistrarName? link =');
-              indent.writeln('    $jniApiRegistrarName().getInstance(channelName.toJString());');
-              indent.writeScoped('if (link == null) {', '}', () {
-                indent.writeln('_throwNoInstanceError(channelName);');
-              });
-              indent.writeln('res = $implClassName._withRegistrar(jniApi: link);');
+      indent.writeScoped('static $dartApiName? getInstance({String? name}) {', '}', () {
+        var isFirst = true;
+        if (generatorOptions.useJni) {
+          indent.writeScoped('if (Platform.isAndroid) {', '}', () {
+            indent.writeln('final JString? jName = name?.toJString();');
+            indent.writeln('final $jniApiRegistrarName? link;');
+            indent.writeScoped('try {', '}', () {
+              indent.writeln('link = $jniApiRegistrarName.getInstance(jName);');
             }, addTrailingNewline: false);
-            isFirst = false;
-          }
-          if (generatorOptions.useFfi) {
-            final elseStr = isFirst ? '' : ' else';
-            indent.addScoped('$elseStr if (Platform.isIOS || Platform.isMacOS) {', '}', () {
-              indent.writeln('final $ffiApiRegistrarName? link =');
+            indent.addScoped(' finally {', '}', () {
+              indent.writeln('jName?.release();');
+            });
+            indent.writeln(
+              'return link == null ? null : $implClassName._withRegistrar(jniApi: link);',
+            );
+          }, addTrailingNewline: false);
+          isFirst = false;
+        }
+        if (generatorOptions.useFfi) {
+          final elseStr = isFirst ? '' : ' else';
+          indent.addScoped('$elseStr if (Platform.isIOS || Platform.isMacOS) {', '}', () {
+            indent.writeln('final $ffiApiRegistrarName? link =');
+            indent.nest(2, () {
               indent.writeln(
-                '    $ffiApiRegistrarName.getInstanceWithName(NSString(channelName));',
-              );
-              indent.writeScoped('if (link == null) {', '}', () {
-                indent.writeln('_throwNoInstanceError(channelName);');
-              });
-              indent.writeln('res = $implClassName._withRegistrar(ffiApi: link);');
-            }, addTrailingNewline: false);
-            isFirst = false;
-          }
-          if (!isFirst) {
-            indent.addScoped(' else {', '}', () {
-              indent.writeln(
-                "throw UnsupportedError('Native Interop is not supported on this platform. Use ${api.name} instead.');",
+                '$ffiApiRegistrarName.getInstanceWithName(name != null ? NSString(name) : null);',
               );
             });
-          } else {
+            indent.writeln(
+              'return link == null ? null : $implClassName._withRegistrar(ffiApi: link);',
+            );
+          }, addTrailingNewline: false);
+          isFirst = false;
+        }
+        if (!isFirst) {
+          indent.addScoped(' else {', '}', () {
             indent.writeln(
               "throw UnsupportedError('Native Interop is not supported on this platform. Use ${api.name} instead.');",
             );
-          }
-          indent.writeln('return res;');
-        },
-      );
+          });
+        } else {
+          indent.writeln(
+            "throw UnsupportedError('Native Interop is not supported on this platform. Use ${api.name} instead.');",
+          );
+        }
+      });
       indent.newln();
 
       fields.forEach(indent.writeln);
 
       indent.newln();
 
-      // The Kotlin registrar declares these before the API methods.
+      // The Kotlin registrar's companion object declares these before the API
+      // methods.
       final jniNamer = _JniBindingNamer(
         isInterface: false,
-        declaredFirst: const <String>['register', 'getInstance'],
+        declaredFirst: const <String>['Companion', 'register', 'getInstance'],
       );
       for (final Method method in api.methods) {
         final _JniMember jniMember = jniNamer.nextApiMethod(method);
@@ -2033,27 +2020,31 @@ return ${generatorOptions.useJni ? 'await ' : ''}$completerVar.future;
     indent.format('''
 @internal
 $dartApiName? ${classMemberNamePrefix}getInstance_${api.name}({
-  String channelName = defaultInstanceName,
+  String? name,
 }) {
   throw UnsupportedError(
     'Native Interop is not supported on this platform. Use ${api.name} instead.',
   );
 }
-
-abstract class $dartApiName {
-  /// Returns instance of $dartApiName with specified [channelName] if one has been registered.
-  static $dartApiName? getInstance({String channelName = defaultInstanceName}) =>
-      pigeon_native.${classMemberNamePrefix}getInstance_${api.name}(channelName: channelName);
 ''');
-    indent.inc();
-    for (final Method method in api.methods) {
-      indent.newln();
+    indent.newln();
+    indent.writeScoped('abstract class $dartApiName {', '}', () {
       indent.writeln(
-        '${method.isAsynchronous ? 'Future<' : ''}${addGenericTypes(method.returnType)}${method.isAsynchronous ? '>' : ''} ${method.name}(${_getMethodParameterSignature(method.parameters)});',
+        '/// Returns the instance of [$dartApiName] registered with [name] (or the default instance when [name] is null), or null if none is registered.',
       );
-    }
-    indent.dec();
-    indent.writeln('}');
+      indent.writeln('static $dartApiName? getInstance({String? name}) =>');
+      indent.nest(2, () {
+        indent.writeln(
+          'pigeon_native.${classMemberNamePrefix}getInstance_${api.name}(name: name);',
+        );
+      });
+      for (final Method method in api.methods) {
+        indent.newln();
+        indent.writeln(
+          '${method.isAsynchronous ? 'Future<' : ''}${addGenericTypes(method.returnType)}${method.isAsynchronous ? '>' : ''} ${method.name}(${_getMethodParameterSignature(method.parameters)});',
+        );
+      }
+    });
   }
 
   /// Writes the code for host [Api], [api].
@@ -2113,23 +2104,16 @@ ${api.name}({
     BinaryMessenger? binaryMessenger,
     String messageChannelSuffix = '',
   }) {
-    ${api.name}ForNativeInterop? nativeInteropApi;
-    String nativeInteropApiInstanceName = '';
-    if (!kIsWeb) {
-      if (messageChannelSuffix.isEmpty) {
-        nativeInteropApi = ${api.name}ForNativeInterop.getInstance();
-      } else {
-        nativeInteropApiInstanceName = messageChannelSuffix;
-        nativeInteropApi = ${api.name}ForNativeInterop.getInstance(
-            channelName: messageChannelSuffix);
-      }
-    } else {
+    if (kIsWeb) {
       throw UnsupportedError(
           'Native Interop is not supported on this platform. Use the default constructor of ${api.name} instead.');
     }
+    final ${api.name}ForNativeInterop? nativeInteropApi =
+        ${api.name}ForNativeInterop.getInstance(
+            name: messageChannelSuffix.isEmpty ? null : messageChannelSuffix);
     if (nativeInteropApi == null) {
       throw ArgumentError(
-          'No ${api.name} instance with \${nativeInteropApiInstanceName.isEmpty ? 'no ' : ''} instance name \${nativeInteropApiInstanceName.isNotEmpty ? '"\$nativeInteropApiInstanceName" ' : ''}found.');
+          'No ${api.name} instance with \${messageChannelSuffix.isEmpty ? 'no ' : ''}instance name \${messageChannelSuffix.isNotEmpty ? '"\$messageChannelSuffix" ' : ''}found.');
     }
     return ${api.name}(
       binaryMessenger: binaryMessenger,
@@ -2668,17 +2652,6 @@ ${api.name}({
     indent.writeln('bool _isType<T>(Type t) => T == t;');
 
     indent.writeln('bool _isTypeOrNullableType<T>(Type t) => _isType<T>(t) || _isType<T?>(t);');
-    indent.newln();
-    indent.format(r'''
-  void _throwNoInstanceError(String channelName) {
-    String nameString = 'named $channelName';
-    if (channelName == defaultInstanceName) {
-      nameString = 'with no name';
-    }
-    final String error = 'No instance $nameString has been registered.';
-    throw ArgumentError(error);
-  }
-''');
     _writeErrorHelpers(indent, generatorOptions);
     indent.newln();
   }

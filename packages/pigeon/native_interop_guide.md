@@ -201,6 +201,15 @@ When implementing Native Interop host APIs directly in an application target rat
   ```
   Calling `register(api:)` in native code also prevents the Xcode linker (`-dead_strip`) from stripping the setup class from the compiled binary.
 
+### Registering and Looking Up Implementations
+
+Native Interop registration APIs are static and identify instances by an optional `name`. Omitting `name` (or passing `null`/`nil`) uses the default instance; a non-null `name` corresponds to the Dart `messageChannelSuffix`.
+
+* **`@HostApi` (native implementation)**: Register with `MyApiRegistrar.register(api)` in Kotlin or `MyApiSetup.register(api: api)` in Swift, passing `name` to register a named instance. Passing `null`/`nil` as `api` removes the instance registered under that name.
+* **`@HostApi` (Dart caller)**: Use `MyApi.createWithNativeInteropApi(messageChannelSuffix: ...)`, which throws an `ArgumentError` if no native instance is registered for that suffix. Alternatively, `MyApiForNativeInterop.getInstance(name: ...)` returns `null` when no instance is registered.
+* **`@FlutterApi` (Dart implementation)**: Register with `MyFlutterApi.setUp(api, messageChannelSuffix: ...)` (or `MyFlutterApiRegistrar.register(api, name: ...)`).
+* **`@FlutterApi` (native caller)**: Look up the Dart implementation with `MyFlutterApiRegistrar.getInstance(name)` in Kotlin or `MyFlutterApi.getInstance(name:)` in Swift.
+
 ---
 
 ## 5. Troubleshooting Automated Generation

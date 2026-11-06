@@ -1814,21 +1814,13 @@ void runPigeonNativeInteropIntegrationTests(TargetGenerator targetGenerator) {
   group('Host API with suffix', () {
     testWidgets('multiple instances will have different instance names', (WidgetTester _) async {
       expect(
-        () => NativeInteropHostIntegrationCoreApiForNativeInterop.getInstance(
-          channelName: 'suffixWithNoHost',
-        ),
-        throwsA(
-          isA<ArgumentError>().having(
-            (ArgumentError e) => e.message,
-            'message',
-            contains('suffixWithNoHost'),
-          ),
-        ),
+        NativeInteropHostIntegrationCoreApiForNativeInterop.getInstance(name: 'suffixWithNoHost'),
+        isNull,
       );
 
       expect(
-        () => NativeInteropHostIntegrationCoreApiForNativeInterop.getInstance(
-          channelName: 'suffixWithoutHost',
+        () => NativeInteropHostIntegrationCoreApi.createWithNativeInteropApi(
+          messageChannelSuffix: 'suffixWithoutHost',
         ),
         throwsA(
           isA<ArgumentError>().having(
@@ -1842,11 +1834,10 @@ void runPigeonNativeInteropIntegrationTests(TargetGenerator targetGenerator) {
   });
 
   group('Flutter Api', () {
-    final registrar = NativeInteropFlutterIntegrationCoreApiRegistrar();
-
-    final NativeInteropFlutterIntegrationCoreApi flutterApi = registrar.register(
-      NativeInteropFlutterIntegrationCoreApiImpl(),
-    );
+    final NativeInteropFlutterIntegrationCoreApi flutterApi =
+        NativeInteropFlutterIntegrationCoreApiRegistrar.register(
+          NativeInteropFlutterIntegrationCoreApiImpl(),
+        );
     final NativeInteropHostIntegrationCoreApiForNativeInterop? api =
         NativeInteropHostIntegrationCoreApiForNativeInterop.getInstance();
     api!;
@@ -2859,10 +2850,8 @@ void runPigeonNativeInteropIntegrationTests(TargetGenerator targetGenerator) {
       api!.registerAndImmediatelyDeregisterHostApi(instanceName);
 
       expect(
-        () => NativeInteropHostIntegrationCoreApiForNativeInterop.getInstance(
-          channelName: instanceName,
-        ),
-        throwsA(isA<ArgumentError>()),
+        NativeInteropHostIntegrationCoreApiForNativeInterop.getInstance(name: instanceName),
+        isNull,
       );
     });
 
@@ -2890,7 +2879,7 @@ void runPigeonNativeInteropIntegrationTests(TargetGenerator targetGenerator) {
   });
 
   group('Reserved name tests', () {
-    NativeInteropReservedNamesFlutterApiRegistrar().register(
+    NativeInteropReservedNamesFlutterApiRegistrar.register(
       _NativeInteropReservedNamesFlutterApiImpl(),
     );
     final NativeInteropReservedNamesHostApiForNativeInterop? api =

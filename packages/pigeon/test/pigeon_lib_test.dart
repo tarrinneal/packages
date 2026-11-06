@@ -3055,7 +3055,6 @@ abstract class Callbacks {
       );
       expect(errors.map((Error e) => e.message), <Matcher>[
         contains('Method name "getInstance" in API "Api"'),
-        contains('Method name "implement" in API "Callbacks"'),
         contains('Method name "register" in API "Callbacks"'),
         contains('Method name "dartApi" in API "Callbacks"'),
       ]);
@@ -3069,7 +3068,6 @@ abstract class Callbacks {
       );
       expect(errors.map((Error e) => e.message), <Matcher>[
         contains('Method name "getInstance" in API "Api"'),
-        contains('Method name "implement" in API "Callbacks"'),
       ]);
     });
 

@@ -335,8 +335,10 @@ typedef unsigned int swift_uint4 __attribute__((__ext_vector_type__(4)));
 SWIFT_CLASS("_TtC6Runner28NativeInteropExampleApiSetup")
 @interface NativeInteropExampleApiSetup : NSObject
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+/// Returns the instance registered with <code>name</code>, or the default
+/// instance when <code>name</code> is nil.
 + (NativeInteropExampleApiSetup* _Nullable)getInstanceWithName:
-    (NSString* _Nonnull)name SWIFT_WARN_UNUSED_RESULT;
+    (NSString* _Nullable)name SWIFT_WARN_UNUSED_RESULT;
 - (void)doSomethingWithWrappedError:(PigeonError* _Nonnull)wrappedError;
 @end
 
