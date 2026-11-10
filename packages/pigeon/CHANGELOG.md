@@ -16,6 +16,11 @@
     instance is registered for its `messageChannelSuffix`.
 * Expands Native Interop migration guidance.
 
+## 29.1.2
+
+* [dart] Fixes `@FlutterApi` methods named `register` or `dartApi` failing with `useJni`.
+* [dart] Fixes `@FlutterApi` `implement` registering under an empty name instead of the default instance.
+
 ## 29.1.1
 
 * Updates README to label Native Interop as Preview and warn about multi-engine `@HostApi` registrations.

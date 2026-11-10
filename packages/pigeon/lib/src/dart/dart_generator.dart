@@ -1344,11 +1344,11 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
   }) {
     final mixin = generatorOptions.useJni ? ' with $_jniBridgePrefix.\$${api.name}' : '';
     indent.writeScoped('final class _${api.name}Registrar$mixin {', '}', () {
-      indent.writeln('_${api.name}Registrar(this.dartApi);');
+      indent.writeln('_${api.name}Registrar(this.${varNamePrefix}dartApi);');
       indent.newln();
-      indent.writeln('final ${api.name} dartApi;');
+      indent.writeln('final ${api.name} ${varNamePrefix}dartApi;');
       indent.newln();
-      indent.writeScoped('${api.name} register({String? name}) {', '}', () {
+      indent.writeScoped('${api.name} ${varNamePrefix}register({String? name}) {', '}', () {
         if (generatorOptions.useJni) {
           indent.writeScoped('if (Platform.isAndroid) {', '}', () {
             indent.writeln(
@@ -1379,7 +1379,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
                 () {
                   indent.writeScoped('try {', '}', () {
                     final methodCall =
-                        'dartApi.${method.name}(${indexMap(method.parameters, (int index, Parameter p) {
+                        '${varNamePrefix}dartApi.${method.name}(${indexMap(method.parameters, (int index, Parameter p) {
                           final _FfiType ffiType = _FfiType.fromTypeDeclaration(p.type);
                           return ffiType.getToDartCall(p.type, varName: _getSafeArgumentName(index, p), forceNullable: true);
                         }).join(', ')})';
@@ -1476,7 +1476,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
             });
           });
         }
-        indent.writeln('return dartApi;');
+        indent.writeln('return ${varNamePrefix}dartApi;');
       });
 
       if (generatorOptions.useJni) {
@@ -1500,7 +1500,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
           final String jniMethodName = jniNamer.nextApiMethod(method).name;
           indent.writeScoped('$returnType $jniMethodName($params) {', '}', () {
             final methodCall =
-                'dartApi.${method.name}(${indexMap(method.parameters, (int index, Parameter p) {
+                '${varNamePrefix}dartApi.${method.name}(${indexMap(method.parameters, (int index, Parameter p) {
                   final _JniType jniType = _JniType.fromTypeDeclaration(p.type);
                   return jniType.getToDartCall(p.type, varName: _getSafeArgumentName(index, p));
                 }).join(', ')})';
@@ -1544,7 +1544,7 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
 ${api.name} ${classMemberNamePrefix}register_${api.name}(
   ${api.name} api, {
   String? name,
-}) => _${api.name}Registrar(api).register(name: name);
+}) => _${api.name}Registrar(api).${varNamePrefix}register(name: name);
 ''');
   }
 
