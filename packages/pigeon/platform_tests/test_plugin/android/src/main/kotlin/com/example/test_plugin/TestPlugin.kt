@@ -48,6 +48,13 @@ class TestPlugin : FlutterPlugin, HostIntegrationCoreApi, HostCallbackCoreApi {
   internal var niMessageApiImpl: NativeInteropIntegrationTests? = null
   private var niReservedNamesImpl: NativeInteropReservedNamesHostApiImpl? = null
   private var niSealedClassImpl: NativeInteropSealedClassHostApiImpl? = null
+  private var niStreamEventsHandler: SendNativeInteropClass? = null
+  private var niStreamIntsHandler: SendNativeInteropInts? = null
+  private var niStreamConsistentOneHandler: SendNativeInteropConsistentNumbers? = null
+  private var niStreamConsistentTwoHandler: SendNativeInteropConsistentNumbers? = null
+  private var niStreamErrorHandler: SendNativeInteropError? = null
+  private var niStreamNullableIntsHandler: SendNativeInteropNullableInts? = null
+  private var niStreamIntListsHandler: SendNativeInteropIntLists? = null
   private var eventChannelOne: StreamConsistentNumbersEventChannel? = null
 
   override fun onAttachedToEngine(binding: FlutterPluginBinding) {
@@ -85,23 +92,56 @@ class TestPlugin : FlutterPlugin, HostIntegrationCoreApi, HostCallbackCoreApi {
     streamHandlerOne.onCancelled = { eventChannelOne?.setStreamHandler(null) }
     StreamConsistentNumbersStreamHandler.register(
         binding.binaryMessenger, SendConsistentNumbers(2), "2")
-    NativeInteropStreamEventsStreamHandler.register(SendNativeInteropClass)
-    NativeInteropStreamIntsStreamHandler.register(SendNativeInteropInts)
-    NativeInteropStreamConsistentNumbersStreamHandler.register(
-        SendNativeInteropConsistentNumbers(1), "1")
-    NativeInteropStreamConsistentNumbersStreamHandler.register(
-        SendNativeInteropConsistentNumbers(2), "2")
-    NativeInteropStreamConsistentNumbersStreamHandler.register(SendNativeInteropError, "error")
+    val streamEvents = SendNativeInteropClass()
+    niStreamEventsHandler = streamEvents
+    NativeInteropStreamEventsStreamHandler.register(streamEvents, binding)
+    val streamInts = SendNativeInteropInts()
+    niStreamIntsHandler = streamInts
+    NativeInteropStreamIntsStreamHandler.register(streamInts, binding)
+    val streamConsistentOne = SendNativeInteropConsistentNumbers(1)
+    niStreamConsistentOneHandler = streamConsistentOne
+    NativeInteropStreamConsistentNumbersStreamHandler.register(streamConsistentOne, binding, "1")
+    val streamConsistentTwo = SendNativeInteropConsistentNumbers(2)
+    niStreamConsistentTwoHandler = streamConsistentTwo
+    NativeInteropStreamConsistentNumbersStreamHandler.register(streamConsistentTwo, binding, "2")
+    val streamError = SendNativeInteropError()
+    niStreamErrorHandler = streamError
+    NativeInteropStreamConsistentNumbersStreamHandler.register(streamError, binding, "error")
+    val streamNullableInts = SendNativeInteropNullableInts()
+    niStreamNullableIntsHandler = streamNullableInts
+    NativeInteropStreamNullableIntsStreamHandler.register(streamNullableInts, binding)
+    val streamIntLists = SendNativeInteropIntLists()
+    niStreamIntListsHandler = streamIntLists
+    NativeInteropStreamIntListsStreamHandler.register(streamIntLists, binding)
   }
 
   override fun onDetachedFromEngine(binding: FlutterPluginBinding) {
     HostIntegrationCoreApi.setUp(binding.binaryMessenger, null)
     HostCallbackCoreApi.setUp(binding.binaryMessenger, null)
-    NativeInteropStreamEventsStreamHandler.register(null)
-    NativeInteropStreamIntsStreamHandler.register(null)
-    NativeInteropStreamConsistentNumbersStreamHandler.register(null, "1")
-    NativeInteropStreamConsistentNumbersStreamHandler.register(null, "2")
-    NativeInteropStreamConsistentNumbersStreamHandler.register(null, "error")
+    niStreamEventsHandler?.let { NativeInteropStreamEventsStreamHandler.unregister(it, binding) }
+    niStreamEventsHandler = null
+    niStreamIntsHandler?.let { NativeInteropStreamIntsStreamHandler.unregister(it, binding) }
+    niStreamIntsHandler = null
+    niStreamConsistentOneHandler?.let {
+      NativeInteropStreamConsistentNumbersStreamHandler.unregister(it, binding, "1")
+    }
+    niStreamConsistentOneHandler = null
+    niStreamConsistentTwoHandler?.let {
+      NativeInteropStreamConsistentNumbersStreamHandler.unregister(it, binding, "2")
+    }
+    niStreamConsistentTwoHandler = null
+    niStreamErrorHandler?.let {
+      NativeInteropStreamConsistentNumbersStreamHandler.unregister(it, binding, "error")
+    }
+    niStreamErrorHandler = null
+    niStreamNullableIntsHandler?.let {
+      NativeInteropStreamNullableIntsStreamHandler.unregister(it, binding)
+    }
+    niStreamNullableIntsHandler = null
+    niStreamIntListsHandler?.let {
+      NativeInteropStreamIntListsStreamHandler.unregister(it, binding)
+    }
+    niStreamIntListsHandler = null
     niMessageApiImpl?.let { NativeInteropHostIntegrationCoreApiRegistrar().unregister(it, binding) }
     niMessageApiImpl = null
     niReservedNamesImpl?.let {
@@ -2654,32 +2694,44 @@ class NativeInteropSealedClassHostApiImpl(private val binding: FlutterPluginBind
   }
 }
 
-object SendNativeInteropInts : NativeInteropStreamIntsStreamHandler() {
-  val handler = Handler(Looper.getMainLooper())
+class SendNativeInteropInts : NativeInteropStreamIntsStreamHandler() {
+  private val handler = Handler(Looper.getMainLooper())
+  @Volatile private var activeRunnable: Runnable? = null
 
   override fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<Long>) {
+    activeRunnable?.let { handler.removeCallbacks(it) }
     var count: Long = 0
     val r: Runnable =
         object : Runnable {
           override fun run() {
-            handler.post {
-              if (count >= 5) {
-                sink.endOfStream()
-              } else {
-                sink.success(count)
-                count++
-                handler.postDelayed(this, 10)
-              }
+            if (activeRunnable !== this) {
+              return
+            }
+            if (count >= 5) {
+              activeRunnable = null
+              sink.endOfStream()
+            } else {
+              sink.success(count)
+              count++
+              handler.postDelayed(this, 10)
             }
           }
         }
+    activeRunnable = r
     handler.postDelayed(r, 10)
+  }
+
+  override fun onCancel(p0: Any?) {
+    val current = activeRunnable
+    activeRunnable = null
+    current?.let { handler.removeCallbacks(it) }
   }
 }
 
-object SendNativeInteropClass : NativeInteropStreamEventsStreamHandler() {
-  val handler = Handler(Looper.getMainLooper())
-  val eventList =
+class SendNativeInteropClass : NativeInteropStreamEventsStreamHandler() {
+  private val handler = Handler(Looper.getMainLooper())
+  @Volatile private var activeRunnable: Runnable? = null
+  private val eventList =
       listOf(
           NativeInteropIntEvent(1),
           NativeInteropStringEvent("string"),
@@ -2694,11 +2746,16 @@ object SendNativeInteropClass : NativeInteropStreamEventsStreamHandler() {
       p0: Any?,
       sink: NativeInteropTestsPigeonEventSink<NativeInteropPlatformEvent>
   ) {
+    activeRunnable?.let { handler.removeCallbacks(it) }
     var count = 0
     val r: Runnable =
         object : Runnable {
           override fun run() {
+            if (activeRunnable !== this) {
+              return
+            }
             if (count >= eventList.size) {
+              activeRunnable = null
               sink.endOfStream()
             } else {
               sink.success(eventList[count])
@@ -2707,21 +2764,33 @@ object SendNativeInteropClass : NativeInteropStreamEventsStreamHandler() {
             }
           }
         }
+    activeRunnable = r
     handler.postDelayed(r, 10)
+  }
+
+  override fun onCancel(p0: Any?) {
+    val current = activeRunnable
+    activeRunnable = null
+    current?.let { handler.removeCallbacks(it) }
   }
 }
 
 class SendNativeInteropConsistentNumbers(private val numberToSend: Long) :
     NativeInteropStreamConsistentNumbersStreamHandler() {
   private val handler = Handler(Looper.getMainLooper())
-  private var activeRunnable: Runnable? = null
+  @Volatile private var activeRunnable: Runnable? = null
 
   override fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<Long>) {
+    activeRunnable?.let { handler.removeCallbacks(it) }
     var count = 0
     val r: Runnable =
         object : Runnable {
           override fun run() {
+            if (activeRunnable !== this) {
+              return
+            }
             if (count >= 10) {
+              activeRunnable = null
               sink.endOfStream()
             } else {
               sink.success(numberToSend)
@@ -2735,17 +2804,43 @@ class SendNativeInteropConsistentNumbers(private val numberToSend: Long) :
   }
 
   override fun onCancel(p0: Any?) {
-    activeRunnable?.let { handler.removeCallbacks(it) }
+    val current = activeRunnable
     activeRunnable = null
+    current?.let { handler.removeCallbacks(it) }
   }
 }
 
-object SendNativeInteropError : NativeInteropStreamConsistentNumbersStreamHandler() {
+class SendNativeInteropError : NativeInteropStreamConsistentNumbersStreamHandler() {
   private val handler = Handler(Looper.getMainLooper())
 
   override fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<Long>) {
     handler.post {
       sink.error("error_code", "error_message", "error_details")
+      sink.endOfStream()
+    }
+  }
+}
+
+class SendNativeInteropNullableInts : NativeInteropStreamNullableIntsStreamHandler() {
+  private val handler = Handler(Looper.getMainLooper())
+
+  override fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<Long?>) {
+    handler.post {
+      sink.success(1L)
+      sink.success(null)
+      sink.success(2L)
+      sink.endOfStream()
+    }
+  }
+}
+
+class SendNativeInteropIntLists : NativeInteropStreamIntListsStreamHandler() {
+  private val handler = Handler(Looper.getMainLooper())
+
+  override fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<List<Long>>) {
+    handler.post {
+      sink.success(listOf(1L, 2L))
+      sink.success(listOf(3L, 4L))
       sink.endOfStream()
     }
   }

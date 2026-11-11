@@ -749,33 +749,93 @@ SWIFT_CLASS("_TtC11test_plugin28NativeInteropEnumEventBridge")
 @end
 
 @protocol NativeInteropTestsPigeonEventSinkBridge;
+/// Bridge and dispatcher for Native Interop <code>@EventChannelApi</code>
+/// handlers in <code>NativeInteropEventChannelMethods</code>. This is called by
+/// the generated Dart code and is not intended for direct use.
 SWIFT_CLASS("_TtC11test_plugin37NativeInteropEventChannelMethodsSetup")
 @interface NativeInteropEventChannelMethodsSetup : NSObject
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 + (void)
     pigeon_listen_nativeInteropStreamIntsWithInstanceName:
         (NSString* _Nonnull)instanceName
+                                                 engineId:(int64_t)engineId
+                                              affinityKey:(int64_t)affinityKey
                                                      sink:
                                                          (id<NativeInteropTestsPigeonEventSinkBridge> _Nonnull)
                                                              sink;
 + (void)pigeon_cancel_nativeInteropStreamIntsWithInstanceName:
-    (NSString* _Nonnull)instanceName;
+            (NSString* _Nonnull)instanceName
+                                                     engineId:(int64_t)engineId
+                                                  affinityKey:
+                                                      (int64_t)affinityKey;
 + (void)
     pigeon_listen_nativeInteropStreamEventsWithInstanceName:
         (NSString* _Nonnull)instanceName
+                                                   engineId:(int64_t)engineId
+                                                affinityKey:(int64_t)affinityKey
                                                        sink:
                                                            (id<NativeInteropTestsPigeonEventSinkBridge> _Nonnull)
                                                                sink;
 + (void)pigeon_cancel_nativeInteropStreamEventsWithInstanceName:
-    (NSString* _Nonnull)instanceName;
+            (NSString* _Nonnull)instanceName
+                                                       engineId:
+                                                           (int64_t)engineId
+                                                    affinityKey:
+                                                        (int64_t)affinityKey;
 + (void)
     pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName:
         (NSString* _Nonnull)instanceName
+                                                              engineId:
+                                                                  (int64_t)
+                                                                      engineId
+                                                           affinityKey:
+                                                               (int64_t)
+                                                                   affinityKey
                                                                   sink:
                                                                       (id<NativeInteropTestsPigeonEventSinkBridge> _Nonnull)
                                                                           sink;
-+ (void)pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName:
-    (NSString* _Nonnull)instanceName;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
++ (void)
+    pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName:
+        (NSString* _Nonnull)instanceName
+                                                              engineId:
+                                                                  (int64_t)
+                                                                      engineId
+                                                           affinityKey:
+                                                               (int64_t)
+                                                                   affinityKey;
++ (void)
+    pigeon_listen_nativeInteropStreamNullableIntsWithInstanceName:
+        (NSString* _Nonnull)instanceName
+                                                         engineId:
+                                                             (int64_t)engineId
+                                                      affinityKey:
+                                                          (int64_t)affinityKey
+                                                             sink:
+                                                                 (id<NativeInteropTestsPigeonEventSinkBridge> _Nonnull)
+                                                                     sink;
++ (void)
+    pigeon_cancel_nativeInteropStreamNullableIntsWithInstanceName:
+        (NSString* _Nonnull)instanceName
+                                                         engineId:
+                                                             (int64_t)engineId
+                                                      affinityKey:
+                                                          (int64_t)affinityKey;
++ (void)
+    pigeon_listen_nativeInteropStreamIntListsWithInstanceName:
+        (NSString* _Nonnull)instanceName
+                                                     engineId:(int64_t)engineId
+                                                  affinityKey:
+                                                      (int64_t)affinityKey
+                                                         sink:
+                                                             (id<NativeInteropTestsPigeonEventSinkBridge> _Nonnull)
+                                                                 sink;
++ (void)pigeon_cancel_nativeInteropStreamIntListsWithInstanceName:
+            (NSString* _Nonnull)instanceName
+                                                         engineId:
+                                                             (int64_t)engineId
+                                                      affinityKey:
+                                                          (int64_t)affinityKey;
 @end
 
 @class NativeInteropTestsError;
@@ -3486,6 +3546,9 @@ SWIFT_CLASS("_TtC11test_plugin31NativeInteropTestsNumberWrapper")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+/// Objective-C protocol used by Dart FFI to receive events from native
+/// [NativeInteropTestsPigeonEventSink]s. This is implemented by the generated
+/// Dart code and is not intended for direct use.
 SWIFT_PROTOCOL("_TtP11test_plugin39NativeInteropTestsPigeonEventSinkBridge_")
 @protocol NativeInteropTestsPigeonEventSinkBridge
 - (void)onSuccessWithEvent:(NSData* _Nullable)event;

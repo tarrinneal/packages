@@ -539,6 +539,90 @@ struct BasicCompileTest {
       NativeInteropHostIntegrationCoreApiSetup.pigeonResolveInstance(
         engineId: originalId, affinityKey: Int64.min, name: name) == nil)
   }
+
+  @Test
+  func eventChannelRegisterAndUnregisterAreEngineScoped() {
+    let name = "macosEventChannelUnitTest"
+    let registrar1 = StubPluginRegistrar()
+    let registrar2 = StubPluginRegistrar()
+    let handler1 = RecordingIntStreamHandler()
+    let handler2 = RecordingIntStreamHandler()
+    let sink1 = RecordingEventSinkBridge()
+    let sink2 = RecordingEventSinkBridge()
+    let sink3 = RecordingEventSinkBridge()
+
+    NativeInteropStreamIntsStreamHandler.register(
+      streamHandler: handler1, registrar: registrar1, instanceName: name)
+    NativeInteropStreamIntsStreamHandler.register(
+      streamHandler: handler2, registrar: registrar2, instanceName: name)
+
+    NativeInteropEventChannelMethodsSetup.pigeon_listen_nativeInteropStreamInts(
+      instanceName: name, engineId: registrar1.engineIdentifier, affinityKey: Int64.min, sink: sink1
+    )
+    #expect(handler1.listenCount == 1)
+    #expect(handler2.listenCount == 0)
+
+    NativeInteropEventChannelMethodsSetup.pigeon_listen_nativeInteropStreamInts(
+      instanceName: name, engineId: registrar2.engineIdentifier, affinityKey: Int64.min, sink: sink2
+    )
+    #expect(handler2.listenCount == 1)
+
+    NativeInteropStreamIntsStreamHandler.unregister(
+      streamHandler: handler1, registrar: registrar1, instanceName: name)
+    NativeInteropEventChannelMethodsSetup.pigeon_cancel_nativeInteropStreamInts(
+      instanceName: name, engineId: registrar2.engineIdentifier, affinityKey: Int64.min)
+    #expect(handler2.cancelCount == 1)
+    #expect(handler1.cancelCount == 0)
+
+    let replacement = RecordingIntStreamHandler()
+    NativeInteropStreamIntsStreamHandler.register(
+      streamHandler: replacement, registrar: registrar2, instanceName: name)
+    NativeInteropStreamIntsStreamHandler.unregister(
+      streamHandler: handler2, registrar: registrar2, instanceName: name)
+    NativeInteropEventChannelMethodsSetup.pigeon_listen_nativeInteropStreamInts(
+      instanceName: name, engineId: registrar2.engineIdentifier, affinityKey: Int64.min, sink: sink2
+    )
+    #expect(replacement.listenCount == 1)
+
+    NativeInteropStreamIntsStreamHandler.unregister(
+      streamHandler: replacement, registrar: registrar2, instanceName: name)
+    NativeInteropEventChannelMethodsSetup.pigeon_listen_nativeInteropStreamInts(
+      instanceName: name, engineId: registrar2.engineIdentifier, affinityKey: Int64.min, sink: sink3
+    )
+    #expect(sink3.errorCodes == ["unregistered-instance"])
+    #expect(sink3.ended)
+  }
+}
+
+private final class RecordingIntStreamHandler: NativeInteropStreamIntsStreamHandler {
+  var listenCount = 0
+  var cancelCount = 0
+
+  override func onListen(
+    withArguments arguments: Any?, sink: NativeInteropTestsPigeonEventSink<Int64>
+  ) {
+    listenCount += 1
+  }
+
+  override func onCancel(withArguments arguments: Any?) {
+    cancelCount += 1
+  }
+}
+
+@objc
+private final class RecordingEventSinkBridge: NSObject, NativeInteropTestsPigeonEventSinkBridge {
+  var errorCodes: [String] = []
+  var ended = false
+
+  func onSuccess(event: NSData?) {}
+
+  func onError(code: String, message: String?, details: NSData?) {
+    errorCodes.append(code)
+  }
+
+  func onEndOfStream() {
+    ended = true
+  }
 }
 
 @objc

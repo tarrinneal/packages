@@ -718,7 +718,7 @@ Stream<int> streamInts({String instanceName = ''}) {
     pigeonMethodCodec,
   );
   return streamIntsChannel.receiveBroadcastStream().map((dynamic event) {
-    return event as int;
+    return event! as int;
   });
 }
 
@@ -737,7 +737,7 @@ Stream<PlatformEvent> streamEvents({String instanceName = ''}) {
     pigeonMethodCodec,
   );
   return streamEventsChannel.receiveBroadcastStream().map((dynamic event) {
-    return event as PlatformEvent;
+    return event! as PlatformEvent;
   });
 }
 
@@ -756,6 +756,6 @@ Stream<int> streamConsistentNumbers({String instanceName = ''}) {
     pigeonMethodCodec,
   );
   return streamConsistentNumbersChannel.receiveBroadcastStream().map((dynamic event) {
-    return event as int;
+    return event! as int;
   });
 }

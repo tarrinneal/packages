@@ -144,25 +144,34 @@ final String result = await Isolate.run(() => api.doSomething(value));
 
 ### 3.4 Migrating `@EventChannelApi` Stream Handlers
 
-In Native Interop mode, generated `<MethodName>StreamHandler` classes keep the same `onListen` / `onCancel` and `PigeonEventSink<T>` (`success`, `error`, `endOfStream`) API, but `register` no longer takes a `BinaryMessenger`:
+In Native Interop mode, generated `<MethodName>StreamHandler` classes keep `onListen` / `onCancel` and `success` / `error` / `endOfStream` on the sink, with the following differences from platform channels:
+
+- **Prefixed sink type**: The sink passed to `onListen` is named `<Prefix>PigeonEventSink<T>` (prefixed with `fileSpecificClassNameComponent`, derived from the output filename when omitted) instead of `PigeonEventSink<T>`.
+- **Engine-scoped `register` & `unregister`**: `<MethodName>EventChannel` and `setStreamHandler` are not generated. Instead, pass your plugin's `FlutterPluginRegistrar` (Swift) or `FlutterPluginBinding` / `FlutterEngine` (Kotlin) to `register`, and call `unregister` with the same handler instance on detach so detaching one engine preserves other engines' registrations:
 
 - **Swift (FFI)**:
   ```swift
   // BEFORE (platform channels):
-  // StreamEventsStreamHandler.register(with: messenger, streamHandler: handler)
+  // let channel = StreamEventsStreamHandler.register(with: messenger, streamHandler: handler)
+  // channel.setStreamHandler(nil)
 
   // AFTER (Native Interop FFI):
-  StreamEventsStreamHandler.register(streamHandler: handler)
+  StreamEventsStreamHandler.register(streamHandler: handler, registrar: registrar)
+  // On detachFromEngine(for: registrar):
+  StreamEventsStreamHandler.unregister(streamHandler: handler, registrar: registrar)
   ```
 - **Kotlin (JNI)**:
   ```kotlin
   // BEFORE (platform channels):
-  // StreamEventsStreamHandler.register(messenger, handler)
+  // val channel = StreamEventsStreamHandler.register(messenger, handler)
+  // channel.setStreamHandler(null)
 
   // AFTER (Native Interop JNI):
-  StreamEventsStreamHandler.register(handler)
+  StreamEventsStreamHandler.register(handler, binding)
+  // On onDetachedFromEngine(binding):
+  StreamEventsStreamHandler.unregister(handler, binding)
   ```
-- **Dart**: Top-level stream functions (`<methodName>({String instanceName = ''})`) automatically use JNI on Android (when `useJni: true`) and FFI on iOS/macOS (when `useFfi: true`), falling back to `EventChannel` on other platforms.
+- **Dart**: Top-level stream functions (`<methodName>({String instanceName = ''})`) automatically use JNI on Android (when `useJni: true`) and FFI on iOS/macOS (when `useFfi: true`), falling back to `EventChannel` on platforms without Native Interop enabled.
 
 ---
 

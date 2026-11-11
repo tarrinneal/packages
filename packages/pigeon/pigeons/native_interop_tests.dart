@@ -2253,4 +2253,6 @@ abstract class NativeInteropEventChannelMethods {
   int nativeInteropStreamInts();
   NativeInteropPlatformEvent nativeInteropStreamEvents();
   int nativeInteropStreamConsistentNumbers();
+  int? nativeInteropStreamNullableInts();
+  List<int> nativeInteropStreamIntLists();
 }

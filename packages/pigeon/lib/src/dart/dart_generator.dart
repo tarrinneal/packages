@@ -745,6 +745,8 @@ class InternalDartOptions extends InternalOptions {
     this.dartOut,
     this.testOut,
     this.fileSpecificClassNameComponent,
+    this.ffiFileSpecificClassNameComponent,
+    this.jniFileSpecificClassNameComponent,
     this.useJni = false,
     this.useFfi = false,
     this.ffiErrorClassName,
@@ -764,6 +766,8 @@ class InternalDartOptions extends InternalOptions {
     this.ffiErrorClassName,
     this.jniErrorClassName,
     this.fileSpecificClassNameComponent,
+    this.ffiFileSpecificClassNameComponent,
+    this.jniFileSpecificClassNameComponent,
     this.nativeInteropTransport = NativeInteropTransport.hybrid,
   }) : copyrightHeader = copyrightHeader ?? options.copyrightHeader,
        dartOut = (dartOut ?? options.sourceOutPath)!,
@@ -775,6 +779,12 @@ class InternalDartOptions extends InternalOptions {
 
   /// A String to augment class names to avoid cross file collisions.
   final String? fileSpecificClassNameComponent;
+
+  /// The Swift FFI file-specific class name prefix, when FFI is enabled.
+  final String? ffiFileSpecificClassNameComponent;
+
+  /// The Kotlin JNI file-specific class name prefix, when JNI is enabled.
+  final String? jniFileSpecificClassNameComponent;
 
   /// Path to output generated Dart file.
   final String? dartOut;
@@ -809,6 +819,8 @@ class InternalDartOptions extends InternalOptions {
 
 // Prefix used mapping prefixed class names for language outputs.
 String _classNamePrefix = '';
+String _ffiClassNamePrefix = '';
+String _jniClassNamePrefix = '';
 
 /// Class that manages all Dart code generation.
 class DartGenerator extends StructuredGenerator<InternalDartOptions> {
@@ -829,6 +841,8 @@ class DartGenerator extends StructuredGenerator<InternalDartOptions> {
   }) {
     // TODO(tarrinneal): Add file constant initialization method in all generators
     _classNamePrefix = generatorOptions.fileSpecificClassNameComponent ?? '';
+    _ffiClassNamePrefix = generatorOptions.ffiFileSpecificClassNameComponent ?? _classNamePrefix;
+    _jniClassNamePrefix = generatorOptions.jniFileSpecificClassNameComponent ?? _classNamePrefix;
     if (generatorOptions.copyrightHeader != null) {
       addLines(indent, generatorOptions.copyrightHeader!, linePrefix: '// ');
     }
@@ -3094,20 +3108,18 @@ ${api.name}({
     indent.newln();
     addDocumentationComments(indent, api.documentationComments, docCommentSpec);
     for (final Method func in api.methods) {
-      final String returnType = func.returnType.baseName;
+      final String returnType = addGenericTypes(func.returnType);
+      final String eventCast = _castValue('event', func.returnType);
       if (usesNativeInterop(generatorOptions)) {
         indent.format('''
 @internal
-Stream<$returnType> ${classMemberNamePrefix}event_stream_${func.name}({
+Stream<$returnType>? ${classMemberNamePrefix}event_stream_${func.name}({
 \tString instanceName = '',
-}) {
-\tthrow UnsupportedError(
-\t\t'Native Interop is not supported on this platform.',
-\t);
-}
+}) => null;
 ''');
         indent.newln();
       }
+      final streamKind = usesNativeInterop(generatorOptions) ? 'stream' : '[EventChannel]';
       addDocumentationComments(
         indent,
         func.documentationComments,
@@ -3115,7 +3127,7 @@ Stream<$returnType> ${classMemberNamePrefix}event_stream_${func.name}({
         generatorComments: <String>[
           'Returns a broadcast [Stream] of events from the `${func.name}` event channel.',
           '',
-          'Each call to this method creates a new [EventChannel], so it should',
+          'Each call to this method creates a new $streamKind, so it should',
           'not be called multiple times for the same `instanceName`. To deliver',
           'events to multiple listeners, call this method once and listen to the',
           'returned broadcast stream multiple times instead.',
@@ -3128,7 +3140,12 @@ Stream<$returnType> ${classMemberNamePrefix}event_stream_${func.name}({
           if (usesNativeInterop(generatorOptions)) {
             indent.format('''
 if (!kIsWeb) {
-\treturn pigeon_native.${classMemberNamePrefix}event_stream_${func.name}(instanceName: instanceName);
+\tfinal Stream<$returnType>? nativeStream = pigeon_native.${classMemberNamePrefix}event_stream_${func.name}(
+\t\tinstanceName: instanceName,
+\t);
+\tif (nativeStream != null) {
+\t\treturn nativeStream;
+\t}
 }''');
           }
           indent.format('''
@@ -3138,7 +3155,7 @@ if (instanceName.isNotEmpty) {
 final EventChannel ${func.name}Channel =
 \t\tEventChannel('${makeChannelName(api, func, dartPackageName)}\$instanceName', $_pigeonMethodCodec);
 return ${func.name}Channel.receiveBroadcastStream().map((dynamic event) {
-\treturn event as $returnType;
+\treturn $eventCast;
 });''');
         },
       );
@@ -3481,7 +3498,7 @@ return ${func.name}Channel.receiveBroadcastStream().map((dynamic event) {
           dartPackageName: dartPackageName,
         );
       } else if (api is AstEventChannelApi) {
-        _writeNativeInteropEventChannelApi(generatorOptions, indent, api);
+        _writeNativeInteropEventChannelApi(generatorOptions, root, indent, api);
       }
     }
     sink.write(indent.toString());
@@ -3489,43 +3506,54 @@ return ${func.name}Channel.receiveBroadcastStream().map((dynamic event) {
 
   void _writeNativeInteropEventChannelApi(
     InternalDartOptions generatorOptions,
+    Root root,
     Indent indent,
     AstEventChannelApi api,
   ) {
+    final bool hasHostApi = root.apis.any((Api api) => api is AstHostApi);
+    final affinityExpr = hasHostApi
+        ? '_pigeonEngineAffinity ?? _pigeonNoEngineKey'
+        : '_pigeonNoEngineKey';
     indent.newln();
     for (final Method func in api.methods) {
-      final String returnType = func.returnType.baseName;
+      final String returnType = addGenericTypes(func.returnType);
+      final String eventCast = _castValue('event', func.returnType);
       indent.writeScoped(
-        "Stream<$returnType> ${classMemberNamePrefix}event_stream_${func.name}({String instanceName = ''}) {",
+        "Stream<$returnType>? ${classMemberNamePrefix}event_stream_${func.name}({String instanceName = ''}) {",
         '}',
         () {
           if (generatorOptions.useJni) {
             final jniRegistrar = '$_jniBridgePrefix.${api.name}Registrar';
-            final jniSinkBridge = '$_jniBridgePrefix.${_classNamePrefix}PigeonEventSinkBridge';
+            final jniSinkBridge = '$_jniBridgePrefix.${_jniClassNamePrefix}PigeonEventSinkBridge';
             final jniListenName = 'pigeon_listen_${func.name}';
             final jniCancelName = 'pigeon_cancel_${func.name}';
             indent.format('''
 if (Platform.isAndroid) {
 \tfinal String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
 \treturn _pigeonJniEventStream<$returnType>(
+\t\tdecodeEvent: (Object? event) => $eventCast,
 \t\tonListen: ($jniSinkBridge sink) {
-\t\t\tfinal $jniRegistrar registrar = $jniRegistrar();
+\t\t\tfinal int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+\t\t\tfinal int affinityKey = $affinityExpr;
 \t\t\tfinal JString jName = resolvedName.toJString();
 \t\t\ttry {
-\t\t\t\tregistrar.$jniListenName(jName, sink);
+\t\t\t\t$jniRegistrar.$jniListenName(jName, engineId, affinityKey, sink);
+\t\t\t} on JThrowable catch (e) {
+\t\t\t\tthrow _wrapJniException(e);
 \t\t\t} finally {
 \t\t\t\tjName.release();
-\t\t\t\tregistrar.release();
 \t\t\t}
 \t\t},
 \t\tonCancel: () {
-\t\t\tfinal $jniRegistrar registrar = $jniRegistrar();
+\t\t\tfinal int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+\t\t\tfinal int affinityKey = $affinityExpr;
 \t\t\tfinal JString jName = resolvedName.toJString();
 \t\t\ttry {
-\t\t\t\tregistrar.$jniCancelName(jName);
+\t\t\t\t$jniRegistrar.$jniCancelName(jName, engineId, affinityKey);
+\t\t\t} on JThrowable catch (e) {
+\t\t\t\tthrow _wrapJniException(e);
 \t\t\t} finally {
 \t\t\t\tjName.release();
-\t\t\t\tregistrar.release();
 \t\t\t}
 \t\t},
 \t);
@@ -3533,7 +3561,7 @@ if (Platform.isAndroid) {
           }
           if (generatorOptions.useFfi) {
             final ffiSetup = '$_ffiBridgePrefix.${api.name}Setup';
-            final ffiSinkBridge = '$_ffiBridgePrefix.${_classNamePrefix}PigeonEventSinkBridge';
+            final ffiSinkBridge = '$_ffiBridgePrefix.${_ffiClassNamePrefix}PigeonEventSinkBridge';
             final String ffiListenName = _swiftObjcSelectorFirstPiece(
               'pigeon_listen_${func.name}',
               'instanceName',
@@ -3546,23 +3574,30 @@ if (Platform.isAndroid) {
 if (Platform.isIOS || Platform.isMacOS) {
 \tfinal String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
 \treturn _pigeonFfiEventStream<$returnType>(
+\t\tdecodeEvent: (Object? event) => $eventCast,
 \t\tonListen: ($ffiSinkBridge sink) {
+\t\t\tfinal int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+\t\t\tfinal int affinityKey = $affinityExpr;
 \t\t\t$ffiSetup.$ffiListenName(
 \t\t\t\tNSString(resolvedName),
+\t\t\t\tengineId: engineId,
+\t\t\t\taffinityKey: affinityKey,
 \t\t\t\tsink: sink,
 \t\t\t);
 \t\t},
 \t\tonCancel: () {
+\t\t\tfinal int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+\t\t\tfinal int affinityKey = $affinityExpr;
 \t\t\t$ffiSetup.$ffiCancelName(
 \t\t\t\tNSString(resolvedName),
+\t\t\t\tengineId: engineId,
+\t\t\t\taffinityKey: affinityKey,
 \t\t\t);
 \t\t},
 \t);
 }''');
           }
-          indent.writeln(
-            "throw UnsupportedError('Native Interop is not supported on this platform.');",
-          );
+          indent.writeln('return null;');
         },
       );
     }
@@ -3751,11 +3786,12 @@ int? _pigeonEngineAffinity;''');
   }
 
   void _writeJniEventStreamHelper(Indent indent) {
-    final jniSinkBridge = '$_jniBridgePrefix.${_classNamePrefix}PigeonEventSinkBridge';
-    final jniSinkMixin = '$_jniBridgePrefix.\$${_classNamePrefix}PigeonEventSinkBridge';
+    final jniSinkBridge = '$_jniBridgePrefix.${_jniClassNamePrefix}PigeonEventSinkBridge';
+    final jniSinkMixin = '$_jniBridgePrefix.\$${_jniClassNamePrefix}PigeonEventSinkBridge';
     indent.newln();
     indent.format('''
 Stream<T> _pigeonJniEventStream<T>({
+  required T Function(Object? event) decodeEvent,
   required void Function($jniSinkBridge sink) onListen,
   required void Function() onCancel,
 }) {
@@ -3767,13 +3803,27 @@ Stream<T> _pigeonJniEventStream<T>({
       currentSink = $jniSinkBridge.implement(
         $jniSinkMixin(
           onSuccess: (JByteArray? event) {
-            final Object? decoded = _PigeonJniBuffers.decode(event);
-            if (identical(jniSink, currentSink) && !controller.isClosed) {
-              controller.add(decoded as T);
+            if (!identical(jniSink, currentSink) || controller.isClosed) {
+              event?.release();
+              return;
+            }
+            try {
+              final Object? decoded = _PigeonJniBuffers.decode(event);
+              controller.add(decodeEvent(decoded));
+            } catch (e, st) {
+              if (identical(jniSink, currentSink) && !controller.isClosed) {
+                controller.addError(e, st);
+              }
             }
           },
           onSuccess\$async: true,
           onError: (JString code, JString? message, JByteArray? details) {
+            if (!identical(jniSink, currentSink) || controller.isClosed) {
+              code.release();
+              message?.release();
+              details?.release();
+              return;
+            }
             final String dartCode;
             final String? dartMessage;
             final Object? dartDetails;
@@ -3783,6 +3833,11 @@ Stream<T> _pigeonJniEventStream<T>({
               dartMessage = message?.toDartString();
               detailsReleased = true;
               dartDetails = _PigeonJniBuffers.decode(details);
+            } catch (e, st) {
+              if (identical(jniSink, currentSink) && !controller.isClosed) {
+                controller.addError(e, st);
+              }
+              return;
             } finally {
               code.release();
               message?.release();
@@ -3833,10 +3888,11 @@ Stream<T> _pigeonJniEventStream<T>({
   }
 
   void _writeFfiEventStreamHelper(Indent indent) {
-    final ffiSinkBridge = '$_ffiBridgePrefix.${_classNamePrefix}PigeonEventSinkBridge';
+    final ffiSinkBridge = '$_ffiBridgePrefix.${_ffiClassNamePrefix}PigeonEventSinkBridge';
     indent.newln();
     indent.format('''
 Stream<T> _pigeonFfiEventStream<T>({
+  required T Function(Object? event) decodeEvent,
   required void Function($ffiSinkBridge sink) onListen,
   required void Function() onCancel,
 }) {
@@ -3847,14 +3903,24 @@ Stream<T> _pigeonFfiEventStream<T>({
       late final $ffiSinkBridge currentSink;
       currentSink = $ffiSinkBridge\$Builder.implementAsListener(
         onSuccessWithEvent_: (NSData? event) {
-          final Object? decoded = _PigeonFfiBuffers.decode(event);
-          if (identical(ffiSink, currentSink) && !controller.isClosed) {
-            controller.add(decoded as T);
+          if (!identical(ffiSink, currentSink) || controller.isClosed) {
+            return;
+          }
+          try {
+            final Object? decoded = _PigeonFfiBuffers.decode(event);
+            controller.add(decodeEvent(decoded));
+          } catch (e, st) {
+            if (identical(ffiSink, currentSink) && !controller.isClosed) {
+              controller.addError(e, st);
+            }
           }
         },
         onErrorWithCode_message_details_: (NSString code, NSString? message, NSData? details) {
-          final Object? dartDetails = _PigeonFfiBuffers.decode(details);
-          if (identical(ffiSink, currentSink) && !controller.isClosed) {
+          if (!identical(ffiSink, currentSink) || controller.isClosed) {
+            return;
+          }
+          try {
+            final Object? dartDetails = _PigeonFfiBuffers.decode(details);
             controller.addError(
               PlatformException(
                 code: code.toDartString(),
@@ -3862,6 +3928,10 @@ Stream<T> _pigeonFfiEventStream<T>({
                 details: dartDetails,
               ),
             );
+          } catch (e, st) {
+            if (identical(ffiSink, currentSink) && !controller.isClosed) {
+              controller.addError(e, st);
+            }
           }
         },
         onEndOfStream: () {
@@ -3874,6 +3944,7 @@ Stream<T> _pigeonFfiEventStream<T>({
       try {
         onListen(currentSink);
       } catch (_) {
+        ffiSink?.ref.release();
         ffiSink = null;
         rethrow;
       }
@@ -3882,6 +3953,7 @@ Stream<T> _pigeonFfiEventStream<T>({
       try {
         onCancel();
       } finally {
+        ffiSink?.ref.release();
         ffiSink = null;
       }
     },
@@ -5020,9 +5092,10 @@ class _JniMember {
 }
 
 /// Whether the native interop file for [root] routes registrations by engine,
-/// which is the case whenever it has a HostApi or FlutterApi.
-bool _hasNativeInteropEngineKeyedApis(Root root) =>
-    root.apis.any((Api api) => api is AstHostApi || api is AstFlutterApi);
+/// which is the case whenever it has a HostApi, FlutterApi, or EventChannelApi.
+bool _hasNativeInteropEngineKeyedApis(Root root) => root.apis.any(
+  (Api api) => api is AstHostApi || api is AstFlutterApi || api is AstEventChannelApi,
+);
 
 /// Predicts the names JNIgen gives the Dart members of one binding class.
 ///

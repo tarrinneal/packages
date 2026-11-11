@@ -138,6 +138,8 @@ class InternalPigeonOptions {
               ffiErrorClassName: options.swiftOptions?.errorClassName ?? 'PigeonError',
               jniErrorClassName: options.kotlinOptions?.errorClassName ?? 'FlutterError',
               fileSpecificClassNameComponent: _dartNativeInteropClassNameComponent(options),
+              ffiFileSpecificClassNameComponent: _dartNativeInteropFfiClassNameComponent(options),
+              jniFileSpecificClassNameComponent: _dartNativeInteropJniClassNameComponent(options),
               nativeInteropTransport:
                   // ignore: invalid_use_of_visible_for_testing_member
                   options.nativeInteropTransport ?? NativeInteropTransport.hybrid,
@@ -220,22 +222,34 @@ Iterable<String> _lineReader(String path) sync* {
 /// This must match the derivation in `InternalSwiftOptions.fromSwiftOptions`
 /// and `InternalKotlinOptions.fromKotlinOptions`, including the precedence of
 /// the language-specific option and the conversion to UpperCamelCase.
-String? _dartNativeInteropClassNameComponent(PigeonOptions options) {
-  final String? component;
-  if (options.swiftOptions?.useFfi ?? false) {
-    component =
-        options.swiftOptions?.fileSpecificClassNameComponent ??
-        options.fileSpecificClassNameComponent ??
-        deduceClassNameComponent(options.swiftOutPaths?.firstOrNull);
-  } else if (options.kotlinOptions?.useJni ?? false) {
-    component =
-        options.kotlinOptions?.fileSpecificClassNameComponent ??
-        options.fileSpecificClassNameComponent ??
-        deduceClassNameComponent(options.kotlinOut);
-  } else {
-    component = options.fileSpecificClassNameComponent;
+String? _dartNativeInteropFfiClassNameComponent(PigeonOptions options) {
+  if (!(options.swiftOptions?.useFfi ?? false)) {
+    return null;
   }
-  return component == null ? null : toUpperCamelCase(component);
+  final String component =
+      options.swiftOptions?.fileSpecificClassNameComponent ??
+      options.fileSpecificClassNameComponent ??
+      deduceClassNameComponent(options.swiftOutPaths?.firstOrNull);
+  return toUpperCamelCase(component);
+}
+
+String? _dartNativeInteropJniClassNameComponent(PigeonOptions options) {
+  if (!(options.kotlinOptions?.useJni ?? false)) {
+    return null;
+  }
+  final String component =
+      options.kotlinOptions?.fileSpecificClassNameComponent ??
+      options.fileSpecificClassNameComponent ??
+      deduceClassNameComponent(options.kotlinOut);
+  return toUpperCamelCase(component);
+}
+
+String? _dartNativeInteropClassNameComponent(PigeonOptions options) {
+  return _dartNativeInteropFfiClassNameComponent(options) ??
+      _dartNativeInteropJniClassNameComponent(options) ??
+      (options.fileSpecificClassNameComponent == null
+          ? null
+          : toUpperCamelCase(options.fileSpecificClassNameComponent!));
 }
 
 File _getFile(String output, {String basePath = ''}) {

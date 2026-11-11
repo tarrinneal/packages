@@ -1,3 +1,7 @@
+## 30.1.0
+
+* [dart,kotlin,swift] Adds Native Interop (JNI and FFI) support for `@EventChannelApi()`.
+
 ## 30.0.2
 
 * Fixes `basePath` resolution when an output or directory path shares a string prefix with `basePath`.

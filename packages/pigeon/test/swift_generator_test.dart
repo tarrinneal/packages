@@ -2492,7 +2492,7 @@ void main() {
       );
     });
 
-    test('generates Foundation-only EventChannelApi in FFI mode', () {
+    test('generates FFI EventChannelApi with conditional Flutter import and objects transport', () {
       final root = Root(
         apis: <Api>[
           AstEventChannelApi(
@@ -2502,6 +2502,18 @@ void main() {
                 name: 'streamInts',
                 location: ApiLocation.host,
                 returnType: intType,
+                parameters: <Parameter>[],
+              ),
+              Method(
+                name: 'streamNullableIntLists',
+                location: ApiLocation.host,
+                returnType: const TypeDeclaration(
+                  baseName: 'List',
+                  isNullable: true,
+                  typeArguments: <TypeDeclaration>[
+                    TypeDeclaration(baseName: 'int', isNullable: false),
+                  ],
+                ),
                 parameters: <Parameter>[],
               ),
             ],
@@ -2516,6 +2528,7 @@ void main() {
         const InternalSwiftOptions(
           swiftOut: '',
           useFfi: true,
+          nativeInteropTransport: NativeInteropTransport.objects,
           fileSpecificClassNameComponent: 'Foo',
         ),
         root,
@@ -2523,21 +2536,55 @@ void main() {
         dartPackageName: DEFAULT_PACKAGE_NAME,
       );
       final code = sink.toString();
-      expect(code, isNot(contains('import Flutter')));
+      expect(code, contains('#if canImport(Flutter)'));
+      expect(code, contains('#if canImport(Flutter) || canImport(FlutterMacOS)'));
       expect(code, isNot(contains('FlutterEventChannel')));
+      expect(code, contains('private enum FooPigeonInteropCodec {'));
       expect(code, contains('@objc protocol FooPigeonEventSinkBridge {'));
       expect(code, contains('class FooPigeonEventChannelWrapper<ReturnType> {'));
-      expect(code, contains('class FooPigeonEventSink<ReturnType> {'));
-      expect(code, contains('@objc class EventApiSetup: NSObject {'));
+      expect(code, contains('class FooPigeonEventSink<ReturnType>: @unchecked Sendable {'));
       expect(
         code,
         contains(
-          '@objc static func pigeon_listen_streamInts(instanceName: String, sink: FooPigeonEventSinkBridge)',
+          'private final class FooPigeonEventHandlerRegistry<Handler: AnyObject>: @unchecked Sendable {',
         ),
       );
-      expect(code, contains('@objc static func pigeon_cancel_streamInts(instanceName: String)'));
-      expect(code, contains('class StreamIntsStreamHandler: FooPigeonEventChannelWrapper<Int64>'));
-      expect(code, contains('streamHandler: StreamIntsStreamHandler?'));
+      expect(code, contains('@objc class EventApiSetup: NSObject {'));
+      expect(code, contains('private override init() {}'));
+      expect(
+        code,
+        contains(
+          '@objc static func pigeon_listen_streamInts(instanceName: String, engineId: Int64, affinityKey: Int64, sink: FooPigeonEventSinkBridge)',
+        ),
+      );
+      expect(
+        code,
+        contains(
+          '@objc static func pigeon_cancel_streamInts(instanceName: String, engineId: Int64, affinityKey: Int64)',
+        ),
+      );
+      expect(code, contains(r'FooPigeonInteropCodec.encode { $0.writeList(value) }'));
+      expect(
+        code,
+        contains('class StreamIntsStreamHandler: FooPigeonEventChannelWrapper<Int64> {'),
+      );
+      expect(
+        code,
+        contains(
+          'class StreamNullableIntListsStreamHandler: FooPigeonEventChannelWrapper<[Int64]?> {',
+        ),
+      );
+      expect(
+        code,
+        contains('streamHandler: StreamIntsStreamHandler, registrar: FlutterPluginRegistrar'),
+      );
+      expect(
+        code,
+        contains(
+          'static func unregister(streamHandler: StreamIntsStreamHandler, registrar: FlutterPluginRegistrar',
+        ),
+      );
+      expect(code, contains('"unregistered-instance"'));
     });
   });
 }

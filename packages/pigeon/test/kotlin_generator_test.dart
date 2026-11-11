@@ -2694,6 +2694,18 @@ void main() {
                 returnType: const TypeDeclaration(baseName: 'int', isNullable: false),
                 location: ApiLocation.host,
               ),
+              Method(
+                name: 'streamNullableIntLists',
+                parameters: <Parameter>[],
+                returnType: const TypeDeclaration(
+                  baseName: 'List',
+                  isNullable: true,
+                  typeArguments: <TypeDeclaration>[
+                    TypeDeclaration(baseName: 'int', isNullable: false),
+                  ],
+                ),
+                location: ApiLocation.host,
+              ),
             ],
           ),
         ],
@@ -2717,20 +2729,45 @@ void main() {
       final code = sink.toString();
       expect(code, isNot(contains('import io.flutter.plugin.common.EventChannel')));
       expect(code, contains('import io.flutter.plugin.common.StandardMessageCodec'));
+      expect(code, contains('import io.flutter.embedding.engine.FlutterEngine'));
       expect(code, contains('private object FooPigeonInteropCodec : FooPigeonCodec()'));
-      expect(code, contains('@Keep\ninterface FooPigeonEventSinkBridge {'));
+      expect(code, contains('interface FooPigeonEventSinkBridge {'));
       expect(code, contains('fun onSuccess(event: ByteArray?)'));
       expect(
         code,
         contains('class FooPigeonEventSink<T>(private val bridge: FooPigeonEventSinkBridge)'),
       );
       expect(code, contains('@Keep\nclass EventApiRegistrar {'));
-      expect(code, contains('fun pigeon_listen_streamInts('));
-      expect(code, contains('fun pigeon_cancel_streamInts('));
+      expect(code, contains('kotlin.synchronized(streamIntsHandlers)'));
       expect(
         code,
         contains(
-          'fun register(streamHandler: StreamIntsStreamHandler?, instanceName: String = defaultInstanceName)',
+          'fun pigeon_listen_streamInts(instanceName: String, engineId: Long, affinityKey: Long, sink: FooPigeonEventSinkBridge)',
+        ),
+      );
+      expect(
+        code,
+        contains(
+          'fun pigeon_cancel_streamInts(instanceName: String, engineId: Long, affinityKey: Long)',
+        ),
+      );
+      expect(
+        code,
+        contains(
+          'fun register(streamHandler: StreamIntsStreamHandler, binding: FlutterPlugin.FlutterPluginBinding, instanceName: String = defaultInstanceName)',
+        ),
+      );
+      expect(
+        code,
+        contains(
+          'fun unregister(streamHandler: StreamIntsStreamHandler, binding: FlutterPlugin.FlutterPluginBinding, instanceName: String = defaultInstanceName)',
+        ),
+      );
+      expect(code, contains('"unregistered-instance"'));
+      expect(
+        code,
+        contains(
+          'class StreamNullableIntListsStreamHandler : FooPigeonEventChannelWrapper<List<Long>?>',
         ),
       );
     });

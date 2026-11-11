@@ -146,6 +146,9 @@ import 'package:swiftgen/swiftgen.dart';
         if (hasAsyncFlutterApi) {
           indent.writeln("'NSURLCredential',");
         }
+        if (root.containsEventChannel) {
+          indent.writeln("'${prefix}PigeonEventSinkBridge',");
+        }
         for (final Api api in root.apis) {
           if (api is AstHostApi) {
             indent.writeln("'${api.name}Setup',");
@@ -155,7 +158,6 @@ import 'package:swiftgen/swiftgen.dart';
             indent.writeln("'${api.name}Registrar',");
           }
           if (api is AstEventChannelApi) {
-            indent.writeln("'${prefix}PigeonEventSinkBridge',");
             indent.writeln("'${api.name}Setup',");
           }
         }

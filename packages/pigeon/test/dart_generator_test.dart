@@ -129,6 +129,22 @@ void main() {
           returnType: const TypeDeclaration(baseName: 'int', isNullable: false),
           parameters: <Parameter>[],
         ),
+        Method(
+          name: 'streamNullableInts',
+          location: ApiLocation.host,
+          returnType: const TypeDeclaration(baseName: 'int', isNullable: true),
+          parameters: <Parameter>[],
+        ),
+        Method(
+          name: 'streamIntLists',
+          location: ApiLocation.host,
+          returnType: const TypeDeclaration(
+            baseName: 'List',
+            isNullable: false,
+            typeArguments: <TypeDeclaration>[TypeDeclaration(baseName: 'int', isNullable: false)],
+          ),
+          parameters: <Parameter>[],
+        ),
       ],
     );
     final root = Root(
@@ -142,6 +158,9 @@ void main() {
       dartOut: 'lib/messages.g.dart',
       useJni: true,
       useFfi: true,
+      fileSpecificClassNameComponent: 'Common',
+      ffiFileSpecificClassNameComponent: 'SwiftPrefix',
+      jniFileSpecificClassNameComponent: 'KotlinPrefix',
       ignoreLints: false,
     );
 
@@ -149,12 +168,12 @@ void main() {
     generator.generate(options, root, mainSink, dartPackageName: DEFAULT_PACKAGE_NAME);
     final mainCode = mainSink.toString();
     expect(mainCode, contains('if (!kIsWeb) {'));
-    expect(
-      mainCode,
-      contains(
-        'return pigeon_native.pigeon_event_stream_streamEvents(instanceName: instanceName);',
-      ),
-    );
+    expect(mainCode, contains('pigeon_native.pigeon_event_stream_streamEvents('));
+    expect(mainCode, contains('if (nativeStream != null) {'));
+    expect(mainCode, contains('EventChannel('));
+    expect(mainCode, contains('pigeonMethodCodec'));
+    expect(mainCode, contains('Stream<int?> streamNullableInts('));
+    expect(mainCode, contains('Stream<List<int>> streamIntLists('));
     expect(mainCode, isNot(contains("import 'dart:io'")));
     expect(mainCode, isNot(contains('ffi_bridge')));
     expect(mainCode, isNot(contains('jni_bridge')));
@@ -162,16 +181,26 @@ void main() {
     final sink = StringBuffer();
     generator.generateNativeInterop(options, root, sink, dartPackageName: DEFAULT_PACKAGE_NAME);
     final code = sink.toString();
+    expect(code, contains("import 'dart:ui' show PlatformDispatcher;"));
     expect(code, contains('Stream<T> _pigeonJniEventStream<T>({'));
     expect(code, contains('Stream<T> _pigeonFfiEventStream<T>({'));
+    expect(code, contains('jni_bridge.KotlinPrefixPigeonEventSinkBridge'));
+    expect(code, contains('ffi_bridge.SwiftPrefixPigeonEventSinkBridge'));
     expect(code, contains('identical(jniSink, currentSink)'));
     expect(code, contains('identical(ffiSink, currentSink)'));
+    expect(code, contains('ffiSink?.ref.release();'));
+    expect(code, contains('on JThrowable catch (e) {'));
+    expect(code, contains('throw _wrapJniException(e);'));
     expect(code, contains(r'onSuccess$async: true,'));
-    expect(code, contains(r'PigeonEventSinkBridge$Builder.implementAsListener('));
-    expect(code, contains('registrar.pigeon_listen_streamEvents(jName, sink);'));
-    expect(code, contains('registrar.pigeon_cancel_streamEvents(jName);'));
+    expect(code, contains(r'SwiftPrefixPigeonEventSinkBridge$Builder.implementAsListener('));
+    expect(code, contains('jni_bridge.EventApiRegistrar.pigeon_listen_streamEvents('));
+    expect(code, contains('jni_bridge.EventApiRegistrar.pigeon_cancel_streamEvents('));
     expect(code, contains('ffi_bridge.EventApiSetup.pigeon_listen_streamEventsWithInstanceName('));
     expect(code, contains('ffi_bridge.EventApiSetup.pigeon_cancel_streamEventsWithInstanceName('));
+    expect(code, contains('Stream<int?>? pigeon_event_stream_streamNullableInts('));
+    expect(code, contains('Stream<List<int>>? pigeon_event_stream_streamIntLists('));
+    expect(code, contains('(event! as List<Object?>).cast<int>()'));
+    expect(code, contains('return null;'));
 
     final jniOnlySink = StringBuffer();
     generator.generateNativeInterop(
@@ -186,8 +215,13 @@ void main() {
       dartPackageName: DEFAULT_PACKAGE_NAME,
     );
     final jniOnlyCode = jniOnlySink.toString();
+    expect(jniOnlyCode, contains("import 'package:jni/jni.dart';"));
     expect(jniOnlyCode, contains('Stream<T> _pigeonJniEventStream<T>({'));
     expect(jniOnlyCode, contains('class _PigeonJniBuffers {'));
+    expect(jniOnlyCode, isNot(contains("import 'dart:ffi';")));
+    expect(jniOnlyCode, isNot(contains("import 'package:ffi/ffi.dart';")));
+    expect(jniOnlyCode, isNot(contains("import 'package:objective_c/objective_c.dart';")));
+    expect(jniOnlyCode, isNot(contains('ffi_bridge')));
     expect(jniOnlyCode, isNot(contains('Stream<T> _pigeonFfiEventStream<T>({')));
 
     final ffiOnlySink = StringBuffer();
@@ -203,8 +237,12 @@ void main() {
       dartPackageName: DEFAULT_PACKAGE_NAME,
     );
     final ffiOnlyCode = ffiOnlySink.toString();
+    expect(ffiOnlyCode, contains("import 'dart:ffi';"));
+    expect(ffiOnlyCode, contains("import 'package:objective_c/objective_c.dart';"));
     expect(ffiOnlyCode, contains('Stream<T> _pigeonFfiEventStream<T>({'));
     expect(ffiOnlyCode, contains('class _PigeonFfiBuffers {'));
+    expect(ffiOnlyCode, isNot(contains("import 'package:jni/jni.dart';")));
+    expect(ffiOnlyCode, isNot(contains('jni_bridge')));
     expect(ffiOnlyCode, isNot(contains('Stream<T> _pigeonJniEventStream<T>({')));
   });
 

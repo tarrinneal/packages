@@ -226,6 +226,259 @@ final class $NativeInteropTestsError$Type$ extends jni$_.JType<NativeInteropTest
   String get signature => r'Lcom/example/test_plugin/NativeInteropTestsError;';
 }
 
+/// from: `com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge`
+extension type NativeInteropTestsPigeonEventSinkBridge._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(
+    r'com/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge',
+  );
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<NativeInteropTestsPigeonEventSinkBridge> type =
+      $NativeInteropTestsPigeonEventSinkBridge$Type$();
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<core$_.int, $NativeInteropTestsPigeonEventSinkBridge> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    core$_.int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
+    );
+  }
+
+  static final jni$_.Pointer<
+    jni$_.NativeFunction<jni$_.JObjectPtr Function(jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>
+  >
+  _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(core$_.int $p, jni$_.MethodInvocation $i) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'onSuccess([B)V') {
+        _$impls[$p]!.onSuccess(($a![0] as jni$_.JByteArray?));
+        return jni$_.nullptr;
+      }
+      if ($d == r'onError(Ljava/lang/String;Ljava/lang/String;[B)V') {
+        _$impls[$p]!.onError(
+          ($a![0] as jni$_.JString),
+          ($a![1] as jni$_.JString?),
+          ($a![2] as jni$_.JByteArray?),
+        );
+        return jni$_.nullptr;
+      }
+      if ($d == r'onEndOfStream()V') {
+        _$impls[$p]!.onEndOfStream();
+        return jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $NativeInteropTestsPigeonEventSinkBridge $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      $i.args?.release();
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge',
+      $p,
+      _$invokePointer,
+      [
+        if ($impl.onSuccess$async) r'onSuccess([B)V',
+        if ($impl.onError$async) r'onError(Ljava/lang/String;Ljava/lang/String;[B)V',
+        if ($impl.onEndOfStream$async) r'onEndOfStream()V',
+      ],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory NativeInteropTestsPigeonEventSinkBridge.implement(
+    $NativeInteropTestsPigeonEventSinkBridge $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return $i.implement<NativeInteropTestsPigeonEventSinkBridge>();
+  }
+}
+
+extension NativeInteropTestsPigeonEventSinkBridge$$Methods
+    on NativeInteropTestsPigeonEventSinkBridge {
+  static final _id_onSuccess = NativeInteropTestsPigeonEventSinkBridge._class.instanceMethodId(
+    r'onSuccess',
+    r'([B)V',
+  );
+
+  static final _onSuccess =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun onSuccess(event: kotlin.ByteArray?): kotlin.Unit`
+  void onSuccess(jni$_.JByteArray? bs) {
+    final _$$selfRef = reference;
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    _onSuccess(_$$selfRef.pointer, _id_onSuccess.pointer, _$bs.pointer).check();
+  }
+
+  static final _id_onError = NativeInteropTestsPigeonEventSinkBridge._class.instanceMethodId(
+    r'onError',
+    r'(Ljava/lang/String;Ljava/lang/String;[B)V',
+  );
+
+  static final _onError =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun onError(code: kotlin.String, message: kotlin.String?, details: kotlin.ByteArray?): kotlin.Unit`
+  void onError(jni$_.JString string, jni$_.JString? string1, jni$_.JByteArray? bs) {
+    final _$$selfRef = reference;
+    final _$string = string.reference;
+    final _$string1 = string1?.reference ?? jni$_.jNullReference;
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    _onError(
+      _$$selfRef.pointer,
+      _id_onError.pointer,
+      _$string.pointer,
+      _$string1.pointer,
+      _$bs.pointer,
+    ).check();
+  }
+
+  static final _id_onEndOfStream = NativeInteropTestsPigeonEventSinkBridge._class.instanceMethodId(
+    r'onEndOfStream',
+    r'()V',
+  );
+
+  static final _onEndOfStream =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr)
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr)
+          >();
+
+  /// from: `public fun onEndOfStream(): kotlin.Unit`
+  void onEndOfStream() {
+    final _$$selfRef = reference;
+    _onEndOfStream(_$$selfRef.pointer, _id_onEndOfStream.pointer).check();
+  }
+}
+
+abstract base mixin class $NativeInteropTestsPigeonEventSinkBridge {
+  factory $NativeInteropTestsPigeonEventSinkBridge({
+    required void Function(jni$_.JByteArray? bs) onSuccess,
+    core$_.bool onSuccess$async,
+    required void Function(jni$_.JString string, jni$_.JString? string1, jni$_.JByteArray? bs)
+    onError,
+    core$_.bool onError$async,
+    required void Function() onEndOfStream,
+    core$_.bool onEndOfStream$async,
+  }) = _$NativeInteropTestsPigeonEventSinkBridge;
+
+  void onSuccess(jni$_.JByteArray? bs);
+  core$_.bool get onSuccess$async => false;
+  void onError(jni$_.JString string, jni$_.JString? string1, jni$_.JByteArray? bs);
+  core$_.bool get onError$async => false;
+  void onEndOfStream();
+  core$_.bool get onEndOfStream$async => false;
+}
+
+final class _$NativeInteropTestsPigeonEventSinkBridge
+    with $NativeInteropTestsPigeonEventSinkBridge {
+  _$NativeInteropTestsPigeonEventSinkBridge({
+    required void Function(jni$_.JByteArray? bs) onSuccess,
+    this.onSuccess$async = false,
+    required void Function(jni$_.JString string, jni$_.JString? string1, jni$_.JByteArray? bs)
+    onError,
+    this.onError$async = false,
+    required void Function() onEndOfStream,
+    this.onEndOfStream$async = false,
+  }) : _onSuccess = onSuccess,
+       _onError = onError,
+       _onEndOfStream = onEndOfStream;
+
+  final void Function(jni$_.JByteArray? bs) _onSuccess;
+  final core$_.bool onSuccess$async;
+  final void Function(jni$_.JString string, jni$_.JString? string1, jni$_.JByteArray? bs) _onError;
+  final core$_.bool onError$async;
+  final void Function() _onEndOfStream;
+  final core$_.bool onEndOfStream$async;
+
+  void onSuccess(jni$_.JByteArray? bs) {
+    return _onSuccess(bs);
+  }
+
+  void onError(jni$_.JString string, jni$_.JString? string1, jni$_.JByteArray? bs) {
+    return _onError(string, string1, bs);
+  }
+
+  void onEndOfStream() {
+    return _onEndOfStream();
+  }
+}
+
+final class $NativeInteropTestsPigeonEventSinkBridge$Type$
+    extends jni$_.JType<NativeInteropTestsPigeonEventSinkBridge> {
+  @jni$_.internal
+  const $NativeInteropTestsPigeonEventSinkBridge$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge;';
+}
+
 /// from: `com.example.test_plugin.NativeInteropHostIntegrationCoreApiRegistrar$Companion`
 extension type NativeInteropHostIntegrationCoreApiRegistrar$Companion._(jni$_.JObject _$this)
     implements jni$_.JObject {
@@ -20264,259 +20517,6 @@ final class $NativeInteropSealedClassFlutterApiRegistrar$Type$
   String get signature => r'Lcom/example/test_plugin/NativeInteropSealedClassFlutterApiRegistrar;';
 }
 
-/// from: `com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge`
-extension type NativeInteropTestsPigeonEventSinkBridge._(jni$_.JObject _$this)
-    implements jni$_.JObject {
-  static final _class = jni$_.JClass.forName(
-    r'com/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge',
-  );
-
-  /// The type which includes information such as the signature of this class.
-  static const jni$_.JType<NativeInteropTestsPigeonEventSinkBridge> type =
-      $NativeInteropTestsPigeonEventSinkBridge$Type$();
-
-  /// Maps a specific port to the implemented interface.
-  static final core$_.Map<core$_.int, $NativeInteropTestsPigeonEventSinkBridge> _$impls = {};
-  static jni$_.JObjectPtr _$invoke(
-    core$_.int port,
-    jni$_.JObjectPtr descriptor,
-    jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(0, descriptor.address, args.address),
-    );
-  }
-
-  static final jni$_.Pointer<
-    jni$_.NativeFunction<jni$_.JObjectPtr Function(jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>
-  >
-  _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
-
-  static jni$_.Pointer<jni$_.Void> _$invokeMethod(core$_.int $p, jni$_.MethodInvocation $i) {
-    try {
-      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
-      final $a = $i.args;
-      if ($d == r'onSuccess([B)V') {
-        _$impls[$p]!.onSuccess(($a![0] as jni$_.JByteArray?));
-        return jni$_.nullptr;
-      }
-      if ($d == r'onError(Ljava/lang/String;Ljava/lang/String;[B)V') {
-        _$impls[$p]!.onError(
-          ($a![0] as jni$_.JString),
-          ($a![1] as jni$_.JString?),
-          ($a![2] as jni$_.JByteArray?),
-        );
-        return jni$_.nullptr;
-      }
-      if ($d == r'onEndOfStream()V') {
-        _$impls[$p]!.onEndOfStream();
-        return jni$_.nullptr;
-      }
-    } catch (e) {
-      return jni$_.ProtectedJniExtensions.newDartException(e);
-    }
-    return jni$_.nullptr;
-  }
-
-  static void implementIn(
-    jni$_.JImplementer implementer,
-    $NativeInteropTestsPigeonEventSinkBridge $impl,
-  ) {
-    late final jni$_.RawReceivePort $p;
-    $p = jni$_.RawReceivePort(($m) {
-      if ($m == null) {
-        _$impls.remove($p.sendPort.nativePort);
-        $p.close();
-        return;
-      }
-      final $i = jni$_.MethodInvocation.fromMessage($m);
-      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
-      $i.args?.release();
-      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
-    });
-    implementer.add(
-      r'com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge',
-      $p,
-      _$invokePointer,
-      [
-        if ($impl.onSuccess$async) r'onSuccess([B)V',
-        if ($impl.onError$async) r'onError(Ljava/lang/String;Ljava/lang/String;[B)V',
-        if ($impl.onEndOfStream$async) r'onEndOfStream()V',
-      ],
-    );
-    final $a = $p.sendPort.nativePort;
-    _$impls[$a] = $impl;
-  }
-
-  factory NativeInteropTestsPigeonEventSinkBridge.implement(
-    $NativeInteropTestsPigeonEventSinkBridge $impl,
-  ) {
-    final $i = jni$_.JImplementer();
-    implementIn($i, $impl);
-    return $i.implement<NativeInteropTestsPigeonEventSinkBridge>();
-  }
-}
-
-extension NativeInteropTestsPigeonEventSinkBridge$$Methods
-    on NativeInteropTestsPigeonEventSinkBridge {
-  static final _id_onSuccess = NativeInteropTestsPigeonEventSinkBridge._class.instanceMethodId(
-    r'onSuccess',
-    r'([B)V',
-  );
-
-  static final _onSuccess =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
-              )
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-            )
-          >();
-
-  /// from: `public fun onSuccess(event: kotlin.ByteArray?): kotlin.Unit`
-  void onSuccess(jni$_.JByteArray? bs) {
-    final _$$selfRef = reference;
-    final _$bs = bs?.reference ?? jni$_.jNullReference;
-    _onSuccess(_$$selfRef.pointer, _id_onSuccess.pointer, _$bs.pointer).check();
-  }
-
-  static final _id_onError = NativeInteropTestsPigeonEventSinkBridge._class.instanceMethodId(
-    r'onError',
-    r'(Ljava/lang/String;Ljava/lang/String;[B)V',
-  );
-
-  static final _onError =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-                jni$_.VarArgs<
-                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
-                >,
-              )
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>,
-            )
-          >();
-
-  /// from: `public fun onError(code: kotlin.String, message: kotlin.String?, details: kotlin.ByteArray?): kotlin.Unit`
-  void onError(jni$_.JString string, jni$_.JString? string1, jni$_.JByteArray? bs) {
-    final _$$selfRef = reference;
-    final _$string = string.reference;
-    final _$string1 = string1?.reference ?? jni$_.jNullReference;
-    final _$bs = bs?.reference ?? jni$_.jNullReference;
-    _onError(
-      _$$selfRef.pointer,
-      _id_onError.pointer,
-      _$string.pointer,
-      _$string1.pointer,
-      _$bs.pointer,
-    ).check();
-  }
-
-  static final _id_onEndOfStream = NativeInteropTestsPigeonEventSinkBridge._class.instanceMethodId(
-    r'onEndOfStream',
-    r'()V',
-  );
-
-  static final _onEndOfStream =
-      jni$_.ProtectedJniExtensions.lookup<
-            jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr)
-            >
-          >('globalEnv_CallVoidMethod')
-          .asFunction<
-            jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr)
-          >();
-
-  /// from: `public fun onEndOfStream(): kotlin.Unit`
-  void onEndOfStream() {
-    final _$$selfRef = reference;
-    _onEndOfStream(_$$selfRef.pointer, _id_onEndOfStream.pointer).check();
-  }
-}
-
-abstract base mixin class $NativeInteropTestsPigeonEventSinkBridge {
-  factory $NativeInteropTestsPigeonEventSinkBridge({
-    required void Function(jni$_.JByteArray? bs) onSuccess,
-    core$_.bool onSuccess$async,
-    required void Function(jni$_.JString string, jni$_.JString? string1, jni$_.JByteArray? bs)
-    onError,
-    core$_.bool onError$async,
-    required void Function() onEndOfStream,
-    core$_.bool onEndOfStream$async,
-  }) = _$NativeInteropTestsPigeonEventSinkBridge;
-
-  void onSuccess(jni$_.JByteArray? bs);
-  core$_.bool get onSuccess$async => false;
-  void onError(jni$_.JString string, jni$_.JString? string1, jni$_.JByteArray? bs);
-  core$_.bool get onError$async => false;
-  void onEndOfStream();
-  core$_.bool get onEndOfStream$async => false;
-}
-
-final class _$NativeInteropTestsPigeonEventSinkBridge
-    with $NativeInteropTestsPigeonEventSinkBridge {
-  _$NativeInteropTestsPigeonEventSinkBridge({
-    required void Function(jni$_.JByteArray? bs) onSuccess,
-    this.onSuccess$async = false,
-    required void Function(jni$_.JString string, jni$_.JString? string1, jni$_.JByteArray? bs)
-    onError,
-    this.onError$async = false,
-    required void Function() onEndOfStream,
-    this.onEndOfStream$async = false,
-  }) : _onSuccess = onSuccess,
-       _onError = onError,
-       _onEndOfStream = onEndOfStream;
-
-  final void Function(jni$_.JByteArray? bs) _onSuccess;
-  final core$_.bool onSuccess$async;
-  final void Function(jni$_.JString string, jni$_.JString? string1, jni$_.JByteArray? bs) _onError;
-  final core$_.bool onError$async;
-  final void Function() _onEndOfStream;
-  final core$_.bool onEndOfStream$async;
-
-  void onSuccess(jni$_.JByteArray? bs) {
-    return _onSuccess(bs);
-  }
-
-  void onError(jni$_.JString string, jni$_.JString? string1, jni$_.JByteArray? bs) {
-    return _onError(string, string1, bs);
-  }
-
-  void onEndOfStream() {
-    return _onEndOfStream();
-  }
-}
-
-final class $NativeInteropTestsPigeonEventSinkBridge$Type$
-    extends jni$_.JType<NativeInteropTestsPigeonEventSinkBridge> {
-  @jni$_.internal
-  const $NativeInteropTestsPigeonEventSinkBridge$Type$();
-
-  @jni$_.internal
-  @core$_.override
-  String get signature => r'Lcom/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge;';
-}
-
 /// from: `com.example.test_plugin.NativeInteropEventChannelMethodsRegistrar$Companion`
 extension type NativeInteropEventChannelMethodsRegistrar$Companion._(jni$_.JObject _$this)
     implements jni$_.JObject {
@@ -20561,6 +20561,466 @@ extension type NativeInteropEventChannelMethodsRegistrar$Companion._(jni$_.JObje
       _id_new$.pointer,
       _$defaultConstructorMarker.pointer,
     ).object<NativeInteropEventChannelMethodsRegistrar$Companion>();
+  }
+}
+
+extension NativeInteropEventChannelMethodsRegistrar$Companion$$Methods
+    on NativeInteropEventChannelMethodsRegistrar$Companion {
+  static final _id_pigeon_listen_nativeInteropStreamInts =
+      NativeInteropEventChannelMethodsRegistrar$Companion._class.instanceMethodId(
+        r'pigeon_listen_nativeInteropStreamInts',
+        r'(Ljava/lang/String;JJLcom/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge;)V',
+      );
+
+  static final _pigeon_listen_nativeInteropStreamInts =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun pigeon_listen_nativeInteropStreamInts(instanceName: kotlin.String, engineId: kotlin.Long, affinityKey: kotlin.Long, sink: com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge): kotlin.Unit`
+  void pigeon_listen_nativeInteropStreamInts(
+    jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
+    NativeInteropTestsPigeonEventSinkBridge nativeInteropTestsPigeonEventSinkBridge,
+  ) {
+    final _$$selfRef = reference;
+    final _$string = string.reference;
+    final _$nativeInteropTestsPigeonEventSinkBridge =
+        nativeInteropTestsPigeonEventSinkBridge.reference;
+    _pigeon_listen_nativeInteropStreamInts(
+      _$$selfRef.pointer,
+      _id_pigeon_listen_nativeInteropStreamInts.pointer,
+      _$string.pointer,
+      j,
+      j1,
+      _$nativeInteropTestsPigeonEventSinkBridge.pointer,
+    ).check();
+  }
+
+  static final _id_pigeon_cancel_nativeInteropStreamInts =
+      NativeInteropEventChannelMethodsRegistrar$Companion._class.instanceMethodId(
+        r'pigeon_cancel_nativeInteropStreamInts',
+        r'(Ljava/lang/String;JJ)V',
+      );
+
+  static final _pigeon_cancel_nativeInteropStreamInts =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+            )
+          >();
+
+  /// from: `public fun pigeon_cancel_nativeInteropStreamInts(instanceName: kotlin.String, engineId: kotlin.Long, affinityKey: kotlin.Long): kotlin.Unit`
+  void pigeon_cancel_nativeInteropStreamInts(jni$_.JString string, core$_.int j, core$_.int j1) {
+    final _$$selfRef = reference;
+    final _$string = string.reference;
+    _pigeon_cancel_nativeInteropStreamInts(
+      _$$selfRef.pointer,
+      _id_pigeon_cancel_nativeInteropStreamInts.pointer,
+      _$string.pointer,
+      j,
+      j1,
+    ).check();
+  }
+
+  static final _id_pigeon_listen_nativeInteropStreamEvents =
+      NativeInteropEventChannelMethodsRegistrar$Companion._class.instanceMethodId(
+        r'pigeon_listen_nativeInteropStreamEvents',
+        r'(Ljava/lang/String;JJLcom/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge;)V',
+      );
+
+  static final _pigeon_listen_nativeInteropStreamEvents =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun pigeon_listen_nativeInteropStreamEvents(instanceName: kotlin.String, engineId: kotlin.Long, affinityKey: kotlin.Long, sink: com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge): kotlin.Unit`
+  void pigeon_listen_nativeInteropStreamEvents(
+    jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
+    NativeInteropTestsPigeonEventSinkBridge nativeInteropTestsPigeonEventSinkBridge,
+  ) {
+    final _$$selfRef = reference;
+    final _$string = string.reference;
+    final _$nativeInteropTestsPigeonEventSinkBridge =
+        nativeInteropTestsPigeonEventSinkBridge.reference;
+    _pigeon_listen_nativeInteropStreamEvents(
+      _$$selfRef.pointer,
+      _id_pigeon_listen_nativeInteropStreamEvents.pointer,
+      _$string.pointer,
+      j,
+      j1,
+      _$nativeInteropTestsPigeonEventSinkBridge.pointer,
+    ).check();
+  }
+
+  static final _id_pigeon_cancel_nativeInteropStreamEvents =
+      NativeInteropEventChannelMethodsRegistrar$Companion._class.instanceMethodId(
+        r'pigeon_cancel_nativeInteropStreamEvents',
+        r'(Ljava/lang/String;JJ)V',
+      );
+
+  static final _pigeon_cancel_nativeInteropStreamEvents =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+            )
+          >();
+
+  /// from: `public fun pigeon_cancel_nativeInteropStreamEvents(instanceName: kotlin.String, engineId: kotlin.Long, affinityKey: kotlin.Long): kotlin.Unit`
+  void pigeon_cancel_nativeInteropStreamEvents(jni$_.JString string, core$_.int j, core$_.int j1) {
+    final _$$selfRef = reference;
+    final _$string = string.reference;
+    _pigeon_cancel_nativeInteropStreamEvents(
+      _$$selfRef.pointer,
+      _id_pigeon_cancel_nativeInteropStreamEvents.pointer,
+      _$string.pointer,
+      j,
+      j1,
+    ).check();
+  }
+
+  static final _id_pigeon_listen_nativeInteropStreamConsistentNumbers =
+      NativeInteropEventChannelMethodsRegistrar$Companion._class.instanceMethodId(
+        r'pigeon_listen_nativeInteropStreamConsistentNumbers',
+        r'(Ljava/lang/String;JJLcom/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge;)V',
+      );
+
+  static final _pigeon_listen_nativeInteropStreamConsistentNumbers =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun pigeon_listen_nativeInteropStreamConsistentNumbers(instanceName: kotlin.String, engineId: kotlin.Long, affinityKey: kotlin.Long, sink: com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge): kotlin.Unit`
+  void pigeon_listen_nativeInteropStreamConsistentNumbers(
+    jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
+    NativeInteropTestsPigeonEventSinkBridge nativeInteropTestsPigeonEventSinkBridge,
+  ) {
+    final _$$selfRef = reference;
+    final _$string = string.reference;
+    final _$nativeInteropTestsPigeonEventSinkBridge =
+        nativeInteropTestsPigeonEventSinkBridge.reference;
+    _pigeon_listen_nativeInteropStreamConsistentNumbers(
+      _$$selfRef.pointer,
+      _id_pigeon_listen_nativeInteropStreamConsistentNumbers.pointer,
+      _$string.pointer,
+      j,
+      j1,
+      _$nativeInteropTestsPigeonEventSinkBridge.pointer,
+    ).check();
+  }
+
+  static final _id_pigeon_cancel_nativeInteropStreamConsistentNumbers =
+      NativeInteropEventChannelMethodsRegistrar$Companion._class.instanceMethodId(
+        r'pigeon_cancel_nativeInteropStreamConsistentNumbers',
+        r'(Ljava/lang/String;JJ)V',
+      );
+
+  static final _pigeon_cancel_nativeInteropStreamConsistentNumbers =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+            )
+          >();
+
+  /// from: `public fun pigeon_cancel_nativeInteropStreamConsistentNumbers(instanceName: kotlin.String, engineId: kotlin.Long, affinityKey: kotlin.Long): kotlin.Unit`
+  void pigeon_cancel_nativeInteropStreamConsistentNumbers(
+    jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
+  ) {
+    final _$$selfRef = reference;
+    final _$string = string.reference;
+    _pigeon_cancel_nativeInteropStreamConsistentNumbers(
+      _$$selfRef.pointer,
+      _id_pigeon_cancel_nativeInteropStreamConsistentNumbers.pointer,
+      _$string.pointer,
+      j,
+      j1,
+    ).check();
+  }
+
+  static final _id_pigeon_listen_nativeInteropStreamNullableInts =
+      NativeInteropEventChannelMethodsRegistrar$Companion._class.instanceMethodId(
+        r'pigeon_listen_nativeInteropStreamNullableInts',
+        r'(Ljava/lang/String;JJLcom/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge;)V',
+      );
+
+  static final _pigeon_listen_nativeInteropStreamNullableInts =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun pigeon_listen_nativeInteropStreamNullableInts(instanceName: kotlin.String, engineId: kotlin.Long, affinityKey: kotlin.Long, sink: com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge): kotlin.Unit`
+  void pigeon_listen_nativeInteropStreamNullableInts(
+    jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
+    NativeInteropTestsPigeonEventSinkBridge nativeInteropTestsPigeonEventSinkBridge,
+  ) {
+    final _$$selfRef = reference;
+    final _$string = string.reference;
+    final _$nativeInteropTestsPigeonEventSinkBridge =
+        nativeInteropTestsPigeonEventSinkBridge.reference;
+    _pigeon_listen_nativeInteropStreamNullableInts(
+      _$$selfRef.pointer,
+      _id_pigeon_listen_nativeInteropStreamNullableInts.pointer,
+      _$string.pointer,
+      j,
+      j1,
+      _$nativeInteropTestsPigeonEventSinkBridge.pointer,
+    ).check();
+  }
+
+  static final _id_pigeon_cancel_nativeInteropStreamNullableInts =
+      NativeInteropEventChannelMethodsRegistrar$Companion._class.instanceMethodId(
+        r'pigeon_cancel_nativeInteropStreamNullableInts',
+        r'(Ljava/lang/String;JJ)V',
+      );
+
+  static final _pigeon_cancel_nativeInteropStreamNullableInts =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+            )
+          >();
+
+  /// from: `public fun pigeon_cancel_nativeInteropStreamNullableInts(instanceName: kotlin.String, engineId: kotlin.Long, affinityKey: kotlin.Long): kotlin.Unit`
+  void pigeon_cancel_nativeInteropStreamNullableInts(
+    jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
+  ) {
+    final _$$selfRef = reference;
+    final _$string = string.reference;
+    _pigeon_cancel_nativeInteropStreamNullableInts(
+      _$$selfRef.pointer,
+      _id_pigeon_cancel_nativeInteropStreamNullableInts.pointer,
+      _$string.pointer,
+      j,
+      j1,
+    ).check();
+  }
+
+  static final _id_pigeon_listen_nativeInteropStreamIntLists =
+      NativeInteropEventChannelMethodsRegistrar$Companion._class.instanceMethodId(
+        r'pigeon_listen_nativeInteropStreamIntLists',
+        r'(Ljava/lang/String;JJLcom/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge;)V',
+      );
+
+  static final _pigeon_listen_nativeInteropStreamIntLists =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public fun pigeon_listen_nativeInteropStreamIntLists(instanceName: kotlin.String, engineId: kotlin.Long, affinityKey: kotlin.Long, sink: com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge): kotlin.Unit`
+  void pigeon_listen_nativeInteropStreamIntLists(
+    jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
+    NativeInteropTestsPigeonEventSinkBridge nativeInteropTestsPigeonEventSinkBridge,
+  ) {
+    final _$$selfRef = reference;
+    final _$string = string.reference;
+    final _$nativeInteropTestsPigeonEventSinkBridge =
+        nativeInteropTestsPigeonEventSinkBridge.reference;
+    _pigeon_listen_nativeInteropStreamIntLists(
+      _$$selfRef.pointer,
+      _id_pigeon_listen_nativeInteropStreamIntLists.pointer,
+      _$string.pointer,
+      j,
+      j1,
+      _$nativeInteropTestsPigeonEventSinkBridge.pointer,
+    ).check();
+  }
+
+  static final _id_pigeon_cancel_nativeInteropStreamIntLists =
+      NativeInteropEventChannelMethodsRegistrar$Companion._class.instanceMethodId(
+        r'pigeon_cancel_nativeInteropStreamIntLists',
+        r'(Ljava/lang/String;JJ)V',
+      );
+
+  static final _pigeon_cancel_nativeInteropStreamIntLists =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+            )
+          >();
+
+  /// from: `public fun pigeon_cancel_nativeInteropStreamIntLists(instanceName: kotlin.String, engineId: kotlin.Long, affinityKey: kotlin.Long): kotlin.Unit`
+  void pigeon_cancel_nativeInteropStreamIntLists(
+    jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
+  ) {
+    final _$$selfRef = reference;
+    final _$string = string.reference;
+    _pigeon_cancel_nativeInteropStreamIntLists(
+      _$$selfRef.pointer,
+      _id_pigeon_cancel_nativeInteropStreamIntLists.pointer,
+      _$string.pointer,
+      j,
+      j1,
+    ).check();
   }
 }
 
@@ -20615,16 +21075,11 @@ extension type NativeInteropEventChannelMethodsRegistrar._(jni$_.JObject _$this)
       _id_new$.pointer,
     ).object<NativeInteropEventChannelMethodsRegistrar>();
   }
-}
 
-extension NativeInteropEventChannelMethodsRegistrar$$Methods
-    on NativeInteropEventChannelMethodsRegistrar {
-  static final _id_pigeon_listen_nativeInteropStreamInts = NativeInteropEventChannelMethodsRegistrar
-      ._class
-      .instanceMethodId(
-        r'pigeon_listen_nativeInteropStreamInts',
-        r'(Ljava/lang/String;Lcom/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge;)V',
-      );
+  static final _id_pigeon_listen_nativeInteropStreamInts = _class.staticMethodId(
+    r'pigeon_listen_nativeInteropStreamInts',
+    r'(Ljava/lang/String;JJLcom/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge;)V',
+  );
 
   static final _pigeon_listen_nativeInteropStreamInts =
       jni$_.ProtectedJniExtensions.lookup<
@@ -20632,39 +21087,48 @@ extension NativeInteropEventChannelMethodsRegistrar$$Methods
               jni$_.JThrowablePtr Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)>,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64, jni$_.Pointer<jni$_.Void>)
+                >,
               )
             >
-          >('globalEnv_CallVoidMethod')
+          >('globalEnv_CallStaticVoidMethod')
           .asFunction<
             jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
               jni$_.Pointer<jni$_.Void>,
             )
           >();
 
-  /// from: `public fun pigeon_listen_nativeInteropStreamInts(instanceName: kotlin.String, sink: com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge): kotlin.Unit`
-  void pigeon_listen_nativeInteropStreamInts(
+  /// from: `static public final void pigeon_listen_nativeInteropStreamInts(java.lang.String string, long j, long j1, com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge nativeInteropTestsPigeonEventSinkBridge)`
+  static void pigeon_listen_nativeInteropStreamInts(
     jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
     NativeInteropTestsPigeonEventSinkBridge nativeInteropTestsPigeonEventSinkBridge,
   ) {
-    final _$$selfRef = reference;
+    final _$$classRef = _class.reference;
     final _$string = string.reference;
     final _$nativeInteropTestsPigeonEventSinkBridge =
         nativeInteropTestsPigeonEventSinkBridge.reference;
     _pigeon_listen_nativeInteropStreamInts(
-      _$$selfRef.pointer,
+      _$$classRef.pointer,
       _id_pigeon_listen_nativeInteropStreamInts.pointer,
       _$string.pointer,
+      j,
+      j1,
       _$nativeInteropTestsPigeonEventSinkBridge.pointer,
     ).check();
   }
 
-  static final _id_pigeon_cancel_nativeInteropStreamInts = NativeInteropEventChannelMethodsRegistrar
-      ._class
-      .instanceMethodId(r'pigeon_cancel_nativeInteropStreamInts', r'(Ljava/lang/String;)V');
+  static final _id_pigeon_cancel_nativeInteropStreamInts = _class.staticMethodId(
+    r'pigeon_cancel_nativeInteropStreamInts',
+    r'(Ljava/lang/String;JJ)V',
+  );
 
   static final _pigeon_cancel_nativeInteropStreamInts =
       jni$_.ProtectedJniExtensions.lookup<
@@ -20672,34 +21136,41 @@ extension NativeInteropEventChannelMethodsRegistrar$$Methods
               jni$_.JThrowablePtr Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64)>,
               )
             >
-          >('globalEnv_CallVoidMethod')
+          >('globalEnv_CallStaticVoidMethod')
           .asFunction<
             jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
             )
           >();
 
-  /// from: `public fun pigeon_cancel_nativeInteropStreamInts(instanceName: kotlin.String): kotlin.Unit`
-  void pigeon_cancel_nativeInteropStreamInts(jni$_.JString string) {
-    final _$$selfRef = reference;
+  /// from: `static public final void pigeon_cancel_nativeInteropStreamInts(java.lang.String string, long j, long j1)`
+  static void pigeon_cancel_nativeInteropStreamInts(
+    jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
+  ) {
+    final _$$classRef = _class.reference;
     final _$string = string.reference;
     _pigeon_cancel_nativeInteropStreamInts(
-      _$$selfRef.pointer,
+      _$$classRef.pointer,
       _id_pigeon_cancel_nativeInteropStreamInts.pointer,
       _$string.pointer,
+      j,
+      j1,
     ).check();
   }
 
-  static final _id_pigeon_listen_nativeInteropStreamEvents =
-      NativeInteropEventChannelMethodsRegistrar._class.instanceMethodId(
-        r'pigeon_listen_nativeInteropStreamEvents',
-        r'(Ljava/lang/String;Lcom/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge;)V',
-      );
+  static final _id_pigeon_listen_nativeInteropStreamEvents = _class.staticMethodId(
+    r'pigeon_listen_nativeInteropStreamEvents',
+    r'(Ljava/lang/String;JJLcom/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge;)V',
+  );
 
   static final _pigeon_listen_nativeInteropStreamEvents =
       jni$_.ProtectedJniExtensions.lookup<
@@ -20707,41 +21178,48 @@ extension NativeInteropEventChannelMethodsRegistrar$$Methods
               jni$_.JThrowablePtr Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)>,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64, jni$_.Pointer<jni$_.Void>)
+                >,
               )
             >
-          >('globalEnv_CallVoidMethod')
+          >('globalEnv_CallStaticVoidMethod')
           .asFunction<
             jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
               jni$_.Pointer<jni$_.Void>,
             )
           >();
 
-  /// from: `public fun pigeon_listen_nativeInteropStreamEvents(instanceName: kotlin.String, sink: com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge): kotlin.Unit`
-  void pigeon_listen_nativeInteropStreamEvents(
+  /// from: `static public final void pigeon_listen_nativeInteropStreamEvents(java.lang.String string, long j, long j1, com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge nativeInteropTestsPigeonEventSinkBridge)`
+  static void pigeon_listen_nativeInteropStreamEvents(
     jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
     NativeInteropTestsPigeonEventSinkBridge nativeInteropTestsPigeonEventSinkBridge,
   ) {
-    final _$$selfRef = reference;
+    final _$$classRef = _class.reference;
     final _$string = string.reference;
     final _$nativeInteropTestsPigeonEventSinkBridge =
         nativeInteropTestsPigeonEventSinkBridge.reference;
     _pigeon_listen_nativeInteropStreamEvents(
-      _$$selfRef.pointer,
+      _$$classRef.pointer,
       _id_pigeon_listen_nativeInteropStreamEvents.pointer,
       _$string.pointer,
+      j,
+      j1,
       _$nativeInteropTestsPigeonEventSinkBridge.pointer,
     ).check();
   }
 
-  static final _id_pigeon_cancel_nativeInteropStreamEvents =
-      NativeInteropEventChannelMethodsRegistrar._class.instanceMethodId(
-        r'pigeon_cancel_nativeInteropStreamEvents',
-        r'(Ljava/lang/String;)V',
-      );
+  static final _id_pigeon_cancel_nativeInteropStreamEvents = _class.staticMethodId(
+    r'pigeon_cancel_nativeInteropStreamEvents',
+    r'(Ljava/lang/String;JJ)V',
+  );
 
   static final _pigeon_cancel_nativeInteropStreamEvents =
       jni$_.ProtectedJniExtensions.lookup<
@@ -20749,34 +21227,41 @@ extension NativeInteropEventChannelMethodsRegistrar$$Methods
               jni$_.JThrowablePtr Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64)>,
               )
             >
-          >('globalEnv_CallVoidMethod')
+          >('globalEnv_CallStaticVoidMethod')
           .asFunction<
             jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
             )
           >();
 
-  /// from: `public fun pigeon_cancel_nativeInteropStreamEvents(instanceName: kotlin.String): kotlin.Unit`
-  void pigeon_cancel_nativeInteropStreamEvents(jni$_.JString string) {
-    final _$$selfRef = reference;
+  /// from: `static public final void pigeon_cancel_nativeInteropStreamEvents(java.lang.String string, long j, long j1)`
+  static void pigeon_cancel_nativeInteropStreamEvents(
+    jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
+  ) {
+    final _$$classRef = _class.reference;
     final _$string = string.reference;
     _pigeon_cancel_nativeInteropStreamEvents(
-      _$$selfRef.pointer,
+      _$$classRef.pointer,
       _id_pigeon_cancel_nativeInteropStreamEvents.pointer,
       _$string.pointer,
+      j,
+      j1,
     ).check();
   }
 
-  static final _id_pigeon_listen_nativeInteropStreamConsistentNumbers =
-      NativeInteropEventChannelMethodsRegistrar._class.instanceMethodId(
-        r'pigeon_listen_nativeInteropStreamConsistentNumbers',
-        r'(Ljava/lang/String;Lcom/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge;)V',
-      );
+  static final _id_pigeon_listen_nativeInteropStreamConsistentNumbers = _class.staticMethodId(
+    r'pigeon_listen_nativeInteropStreamConsistentNumbers',
+    r'(Ljava/lang/String;JJLcom/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge;)V',
+  );
 
   static final _pigeon_listen_nativeInteropStreamConsistentNumbers =
       jni$_.ProtectedJniExtensions.lookup<
@@ -20784,41 +21269,48 @@ extension NativeInteropEventChannelMethodsRegistrar$$Methods
               jni$_.JThrowablePtr Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)>,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64, jni$_.Pointer<jni$_.Void>)
+                >,
               )
             >
-          >('globalEnv_CallVoidMethod')
+          >('globalEnv_CallStaticVoidMethod')
           .asFunction<
             jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
               jni$_.Pointer<jni$_.Void>,
             )
           >();
 
-  /// from: `public fun pigeon_listen_nativeInteropStreamConsistentNumbers(instanceName: kotlin.String, sink: com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge): kotlin.Unit`
-  void pigeon_listen_nativeInteropStreamConsistentNumbers(
+  /// from: `static public final void pigeon_listen_nativeInteropStreamConsistentNumbers(java.lang.String string, long j, long j1, com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge nativeInteropTestsPigeonEventSinkBridge)`
+  static void pigeon_listen_nativeInteropStreamConsistentNumbers(
     jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
     NativeInteropTestsPigeonEventSinkBridge nativeInteropTestsPigeonEventSinkBridge,
   ) {
-    final _$$selfRef = reference;
+    final _$$classRef = _class.reference;
     final _$string = string.reference;
     final _$nativeInteropTestsPigeonEventSinkBridge =
         nativeInteropTestsPigeonEventSinkBridge.reference;
     _pigeon_listen_nativeInteropStreamConsistentNumbers(
-      _$$selfRef.pointer,
+      _$$classRef.pointer,
       _id_pigeon_listen_nativeInteropStreamConsistentNumbers.pointer,
       _$string.pointer,
+      j,
+      j1,
       _$nativeInteropTestsPigeonEventSinkBridge.pointer,
     ).check();
   }
 
-  static final _id_pigeon_cancel_nativeInteropStreamConsistentNumbers =
-      NativeInteropEventChannelMethodsRegistrar._class.instanceMethodId(
-        r'pigeon_cancel_nativeInteropStreamConsistentNumbers',
-        r'(Ljava/lang/String;)V',
-      );
+  static final _id_pigeon_cancel_nativeInteropStreamConsistentNumbers = _class.staticMethodId(
+    r'pigeon_cancel_nativeInteropStreamConsistentNumbers',
+    r'(Ljava/lang/String;JJ)V',
+  );
 
   static final _pigeon_cancel_nativeInteropStreamConsistentNumbers =
       jni$_.ProtectedJniExtensions.lookup<
@@ -20826,26 +21318,216 @@ extension NativeInteropEventChannelMethodsRegistrar$$Methods
               jni$_.JThrowablePtr Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64)>,
               )
             >
-          >('globalEnv_CallVoidMethod')
+          >('globalEnv_CallStaticVoidMethod')
           .asFunction<
             jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
             )
           >();
 
-  /// from: `public fun pigeon_cancel_nativeInteropStreamConsistentNumbers(instanceName: kotlin.String): kotlin.Unit`
-  void pigeon_cancel_nativeInteropStreamConsistentNumbers(jni$_.JString string) {
-    final _$$selfRef = reference;
+  /// from: `static public final void pigeon_cancel_nativeInteropStreamConsistentNumbers(java.lang.String string, long j, long j1)`
+  static void pigeon_cancel_nativeInteropStreamConsistentNumbers(
+    jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
+  ) {
+    final _$$classRef = _class.reference;
     final _$string = string.reference;
     _pigeon_cancel_nativeInteropStreamConsistentNumbers(
-      _$$selfRef.pointer,
+      _$$classRef.pointer,
       _id_pigeon_cancel_nativeInteropStreamConsistentNumbers.pointer,
       _$string.pointer,
+      j,
+      j1,
+    ).check();
+  }
+
+  static final _id_pigeon_listen_nativeInteropStreamNullableInts = _class.staticMethodId(
+    r'pigeon_listen_nativeInteropStreamNullableInts',
+    r'(Ljava/lang/String;JJLcom/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge;)V',
+  );
+
+  static final _pigeon_listen_nativeInteropStreamNullableInts =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallStaticVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `static public final void pigeon_listen_nativeInteropStreamNullableInts(java.lang.String string, long j, long j1, com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge nativeInteropTestsPigeonEventSinkBridge)`
+  static void pigeon_listen_nativeInteropStreamNullableInts(
+    jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
+    NativeInteropTestsPigeonEventSinkBridge nativeInteropTestsPigeonEventSinkBridge,
+  ) {
+    final _$$classRef = _class.reference;
+    final _$string = string.reference;
+    final _$nativeInteropTestsPigeonEventSinkBridge =
+        nativeInteropTestsPigeonEventSinkBridge.reference;
+    _pigeon_listen_nativeInteropStreamNullableInts(
+      _$$classRef.pointer,
+      _id_pigeon_listen_nativeInteropStreamNullableInts.pointer,
+      _$string.pointer,
+      j,
+      j1,
+      _$nativeInteropTestsPigeonEventSinkBridge.pointer,
+    ).check();
+  }
+
+  static final _id_pigeon_cancel_nativeInteropStreamNullableInts = _class.staticMethodId(
+    r'pigeon_cancel_nativeInteropStreamNullableInts',
+    r'(Ljava/lang/String;JJ)V',
+  );
+
+  static final _pigeon_cancel_nativeInteropStreamNullableInts =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64)>,
+              )
+            >
+          >('globalEnv_CallStaticVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+            )
+          >();
+
+  /// from: `static public final void pigeon_cancel_nativeInteropStreamNullableInts(java.lang.String string, long j, long j1)`
+  static void pigeon_cancel_nativeInteropStreamNullableInts(
+    jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
+  ) {
+    final _$$classRef = _class.reference;
+    final _$string = string.reference;
+    _pigeon_cancel_nativeInteropStreamNullableInts(
+      _$$classRef.pointer,
+      _id_pigeon_cancel_nativeInteropStreamNullableInts.pointer,
+      _$string.pointer,
+      j,
+      j1,
+    ).check();
+  }
+
+  static final _id_pigeon_listen_nativeInteropStreamIntLists = _class.staticMethodId(
+    r'pigeon_listen_nativeInteropStreamIntLists',
+    r'(Ljava/lang/String;JJLcom/example/test_plugin/NativeInteropTestsPigeonEventSinkBridge;)V',
+  );
+
+  static final _pigeon_listen_nativeInteropStreamIntLists =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallStaticVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `static public final void pigeon_listen_nativeInteropStreamIntLists(java.lang.String string, long j, long j1, com.example.test_plugin.NativeInteropTestsPigeonEventSinkBridge nativeInteropTestsPigeonEventSinkBridge)`
+  static void pigeon_listen_nativeInteropStreamIntLists(
+    jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
+    NativeInteropTestsPigeonEventSinkBridge nativeInteropTestsPigeonEventSinkBridge,
+  ) {
+    final _$$classRef = _class.reference;
+    final _$string = string.reference;
+    final _$nativeInteropTestsPigeonEventSinkBridge =
+        nativeInteropTestsPigeonEventSinkBridge.reference;
+    _pigeon_listen_nativeInteropStreamIntLists(
+      _$$classRef.pointer,
+      _id_pigeon_listen_nativeInteropStreamIntLists.pointer,
+      _$string.pointer,
+      j,
+      j1,
+      _$nativeInteropTestsPigeonEventSinkBridge.pointer,
+    ).check();
+  }
+
+  static final _id_pigeon_cancel_nativeInteropStreamIntLists = _class.staticMethodId(
+    r'pigeon_cancel_nativeInteropStreamIntLists',
+    r'(Ljava/lang/String;JJ)V',
+  );
+
+  static final _pigeon_cancel_nativeInteropStreamIntLists =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int64, jni$_.Int64)>,
+              )
+            >
+          >('globalEnv_CallStaticVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+            )
+          >();
+
+  /// from: `static public final void pigeon_cancel_nativeInteropStreamIntLists(java.lang.String string, long j, long j1)`
+  static void pigeon_cancel_nativeInteropStreamIntLists(
+    jni$_.JString string,
+    core$_.int j,
+    core$_.int j1,
+  ) {
+    final _$$classRef = _class.reference;
+    final _$string = string.reference;
+    _pigeon_cancel_nativeInteropStreamIntLists(
+      _$$classRef.pointer,
+      _id_pigeon_cancel_nativeInteropStreamIntLists.pointer,
+      _$string.pointer,
+      j,
+      j1,
     ).check();
   }
 }

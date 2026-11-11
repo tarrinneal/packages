@@ -12187,19 +12187,22 @@ abstract class NativeInteropSealedClassFlutterApi {
 }
 
 @internal
-Stream<int> pigeon_event_stream_nativeInteropStreamInts({String instanceName = ''}) {
-  throw UnsupportedError('Native Interop is not supported on this platform.');
-}
+Stream<int>? pigeon_event_stream_nativeInteropStreamInts({String instanceName = ''}) => null;
 
 /// Returns a broadcast [Stream] of events from the `nativeInteropStreamInts` event channel.
 ///
-/// Each call to this method creates a new [EventChannel], so it should
+/// Each call to this method creates a new stream, so it should
 /// not be called multiple times for the same `instanceName`. To deliver
 /// events to multiple listeners, call this method once and listen to the
 /// returned broadcast stream multiple times instead.
 Stream<int> nativeInteropStreamInts({String instanceName = ''}) {
   if (!kIsWeb) {
-    return pigeon_native.pigeon_event_stream_nativeInteropStreamInts(instanceName: instanceName);
+    final Stream<int>? nativeStream = pigeon_native.pigeon_event_stream_nativeInteropStreamInts(
+      instanceName: instanceName,
+    );
+    if (nativeStream != null) {
+      return nativeStream;
+    }
   }
   if (instanceName.isNotEmpty) {
     instanceName = '.$instanceName';
@@ -12209,26 +12212,28 @@ Stream<int> nativeInteropStreamInts({String instanceName = ''}) {
     pigeonMethodCodec,
   );
   return nativeInteropStreamIntsChannel.receiveBroadcastStream().map((dynamic event) {
-    return event as int;
+    return event! as int;
   });
 }
 
 @internal
-Stream<NativeInteropPlatformEvent> pigeon_event_stream_nativeInteropStreamEvents({
+Stream<NativeInteropPlatformEvent>? pigeon_event_stream_nativeInteropStreamEvents({
   String instanceName = '',
-}) {
-  throw UnsupportedError('Native Interop is not supported on this platform.');
-}
+}) => null;
 
 /// Returns a broadcast [Stream] of events from the `nativeInteropStreamEvents` event channel.
 ///
-/// Each call to this method creates a new [EventChannel], so it should
+/// Each call to this method creates a new stream, so it should
 /// not be called multiple times for the same `instanceName`. To deliver
 /// events to multiple listeners, call this method once and listen to the
 /// returned broadcast stream multiple times instead.
 Stream<NativeInteropPlatformEvent> nativeInteropStreamEvents({String instanceName = ''}) {
   if (!kIsWeb) {
-    return pigeon_native.pigeon_event_stream_nativeInteropStreamEvents(instanceName: instanceName);
+    final Stream<NativeInteropPlatformEvent>? nativeStream = pigeon_native
+        .pigeon_event_stream_nativeInteropStreamEvents(instanceName: instanceName);
+    if (nativeStream != null) {
+      return nativeStream;
+    }
   }
   if (instanceName.isNotEmpty) {
     instanceName = '.$instanceName';
@@ -12238,26 +12243,27 @@ Stream<NativeInteropPlatformEvent> nativeInteropStreamEvents({String instanceNam
     pigeonMethodCodec,
   );
   return nativeInteropStreamEventsChannel.receiveBroadcastStream().map((dynamic event) {
-    return event as NativeInteropPlatformEvent;
+    return event! as NativeInteropPlatformEvent;
   });
 }
 
 @internal
-Stream<int> pigeon_event_stream_nativeInteropStreamConsistentNumbers({String instanceName = ''}) {
-  throw UnsupportedError('Native Interop is not supported on this platform.');
-}
+Stream<int>? pigeon_event_stream_nativeInteropStreamConsistentNumbers({String instanceName = ''}) =>
+    null;
 
 /// Returns a broadcast [Stream] of events from the `nativeInteropStreamConsistentNumbers` event channel.
 ///
-/// Each call to this method creates a new [EventChannel], so it should
+/// Each call to this method creates a new stream, so it should
 /// not be called multiple times for the same `instanceName`. To deliver
 /// events to multiple listeners, call this method once and listen to the
 /// returned broadcast stream multiple times instead.
 Stream<int> nativeInteropStreamConsistentNumbers({String instanceName = ''}) {
   if (!kIsWeb) {
-    return pigeon_native.pigeon_event_stream_nativeInteropStreamConsistentNumbers(
-      instanceName: instanceName,
-    );
+    final Stream<int>? nativeStream = pigeon_native
+        .pigeon_event_stream_nativeInteropStreamConsistentNumbers(instanceName: instanceName);
+    if (nativeStream != null) {
+      return nativeStream;
+    }
   }
   if (instanceName.isNotEmpty) {
     instanceName = '.$instanceName';
@@ -12267,6 +12273,66 @@ Stream<int> nativeInteropStreamConsistentNumbers({String instanceName = ''}) {
     pigeonMethodCodec,
   );
   return nativeInteropStreamConsistentNumbersChannel.receiveBroadcastStream().map((dynamic event) {
-    return event as int;
+    return event! as int;
+  });
+}
+
+@internal
+Stream<int?>? pigeon_event_stream_nativeInteropStreamNullableInts({String instanceName = ''}) =>
+    null;
+
+/// Returns a broadcast [Stream] of events from the `nativeInteropStreamNullableInts` event channel.
+///
+/// Each call to this method creates a new stream, so it should
+/// not be called multiple times for the same `instanceName`. To deliver
+/// events to multiple listeners, call this method once and listen to the
+/// returned broadcast stream multiple times instead.
+Stream<int?> nativeInteropStreamNullableInts({String instanceName = ''}) {
+  if (!kIsWeb) {
+    final Stream<int?>? nativeStream = pigeon_native
+        .pigeon_event_stream_nativeInteropStreamNullableInts(instanceName: instanceName);
+    if (nativeStream != null) {
+      return nativeStream;
+    }
+  }
+  if (instanceName.isNotEmpty) {
+    instanceName = '.$instanceName';
+  }
+  final EventChannel nativeInteropStreamNullableIntsChannel = EventChannel(
+    'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropEventChannelMethods.nativeInteropStreamNullableInts$instanceName',
+    pigeonMethodCodec,
+  );
+  return nativeInteropStreamNullableIntsChannel.receiveBroadcastStream().map((dynamic event) {
+    return event as int?;
+  });
+}
+
+@internal
+Stream<List<int>>? pigeon_event_stream_nativeInteropStreamIntLists({String instanceName = ''}) =>
+    null;
+
+/// Returns a broadcast [Stream] of events from the `nativeInteropStreamIntLists` event channel.
+///
+/// Each call to this method creates a new stream, so it should
+/// not be called multiple times for the same `instanceName`. To deliver
+/// events to multiple listeners, call this method once and listen to the
+/// returned broadcast stream multiple times instead.
+Stream<List<int>> nativeInteropStreamIntLists({String instanceName = ''}) {
+  if (!kIsWeb) {
+    final Stream<List<int>>? nativeStream = pigeon_native
+        .pigeon_event_stream_nativeInteropStreamIntLists(instanceName: instanceName);
+    if (nativeStream != null) {
+      return nativeStream;
+    }
+  }
+  if (instanceName.isNotEmpty) {
+    instanceName = '.$instanceName';
+  }
+  final EventChannel nativeInteropStreamIntListsChannel = EventChannel(
+    'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropEventChannelMethods.nativeInteropStreamIntLists$instanceName',
+    pigeonMethodCodec,
+  );
+  return nativeInteropStreamIntListsChannel.receiveBroadcastStream().map((dynamic event) {
+    return (event! as List<Object?>).cast<int>();
   });
 }

@@ -6,6 +6,7 @@
 
 import 'dart:async';
 import 'dart:isolate';
+import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -3452,9 +3453,7 @@ void runPigeonNativeInteropIntegrationTests(TargetGenerator targetGenerator) {
     testWidgets('event channel sends continuous ints', (WidgetTester _) async {
       final Stream<int> events = nativeInteropStreamInts();
       final List<int> listEvents = await events.toList();
-      for (final value in listEvents) {
-        expect(listEvents[value], value);
-      }
+      expect(listEvents, <int>[0, 1, 2, 3, 4]);
     });
 
     testWidgets('event channel handles extended sealed classes', (WidgetTester _) async {
@@ -3505,26 +3504,34 @@ void runPigeonNativeInteropIntegrationTests(TargetGenerator targetGenerator) {
     testWidgets('event channels handle multiple instances', (WidgetTester _) async {
       final completer1 = Completer<void>();
       final completer2 = Completer<void>();
+      var count1 = 0;
+      var count2 = 0;
       final Stream<int> events1 = nativeInteropStreamConsistentNumbers(instanceName: '1');
       final Stream<int> events2 = nativeInteropStreamConsistentNumbers(instanceName: '2');
 
       events1
           .listen((int event) {
             expect(event, 1);
+            count1++;
           })
           .onDone(() => completer1.complete());
 
       events2
           .listen((int event) {
             expect(event, 2);
+            count2++;
           })
           .onDone(() => completer2.complete());
 
       await completer1.future;
       await completer2.future;
+      expect(count1, 10);
+      expect(count2, 10);
     });
 
-    testWidgets('event channels handle error events and mid-stream cancel', (WidgetTester _) async {
+    testWidgets('event channels handle error events, unregistered streams, and mid-stream cancel', (
+      WidgetTester _,
+    ) async {
       final errorCompleter = Completer<Object>();
       final doneCompleter = Completer<void>();
       nativeInteropStreamConsistentNumbers(instanceName: 'error').listen(
@@ -3550,6 +3557,32 @@ void runPigeonNativeInteropIntegrationTests(TargetGenerator targetGenerator) {
             .having((PlatformException e) => e.details, 'details', 'error_details'),
       );
 
+      final unregisteredErrorCompleter = Completer<Object>();
+      final unregisteredDoneCompleter = Completer<void>();
+      nativeInteropStreamConsistentNumbers(instanceName: 'unregistered').listen(
+        (_) {},
+        onError: (Object error) {
+          if (!unregisteredErrorCompleter.isCompleted) {
+            unregisteredErrorCompleter.complete(error);
+          }
+        },
+        onDone: () {
+          if (!unregisteredDoneCompleter.isCompleted) {
+            unregisteredDoneCompleter.complete();
+          }
+        },
+      );
+      final Object unregisteredError = await unregisteredErrorCompleter.future;
+      await unregisteredDoneCompleter.future;
+      expect(
+        unregisteredError,
+        isA<PlatformException>().having(
+          (PlatformException e) => e.code,
+          'code',
+          'unregistered-instance',
+        ),
+      );
+
       final firstEventCompleter = Completer<void>();
       var receivedCount = 0;
       late final StreamSubscription<int> subscription;
@@ -3562,6 +3595,27 @@ void runPigeonNativeInteropIntegrationTests(TargetGenerator targetGenerator) {
       });
       await firstEventCompleter.future;
       expect(receivedCount, 1);
+
+      // Re-listening after mid-stream cancel verifies native onCancel stopped the prior run and
+      // permits subsequent subscriptions to complete normally.
+      final List<int> restarted = await nativeInteropStreamConsistentNumbers(
+        instanceName: '1',
+      ).toList();
+      expect(restarted, List<int>.filled(10, 1));
+    });
+
+    testWidgets('event channels handle nullable and generic return types', (WidgetTester _) async {
+      final List<int?> nullableInts = await nativeInteropStreamNullableInts().toList();
+      expect(nullableInts, <int?>[1, null, 2]);
+
+      final List<List<int>> intLists = await nativeInteropStreamIntLists().toList();
+      expect(intLists, <List<int>>[
+        <int>[1, 2],
+        <int>[3, 4],
+      ]);
+      for (final list in intLists) {
+        expect(list, isNot(isA<TypedData>()));
+      }
     });
   });
 }

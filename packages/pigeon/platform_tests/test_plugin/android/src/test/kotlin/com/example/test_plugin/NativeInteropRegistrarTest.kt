@@ -605,6 +605,80 @@ class NativeInteropRegistrarTest {
     NativeInteropReservedNamesFlutterApiRegistrar().unregisterInstance(defaultApi)
     assertNull(NativeInteropReservedNamesFlutterApiRegistrar().getInstance(engine))
   }
+
+  @Test
+  fun eventChannelRegisterAndUnregisterAreEngineScoped() {
+    val name = "unitTestEventChannel"
+    val engine1 = mockEngine(701L)
+    val engine2 = mockEngine(702L)
+    val handler1 = RecordingIntStreamHandler()
+    val handler2 = RecordingIntStreamHandler()
+    val sink1 = RecordingEventSinkBridge()
+    val sink2 = RecordingEventSinkBridge()
+    val sink3 = RecordingEventSinkBridge()
+
+    NativeInteropStreamIntsStreamHandler.register(handler1, engine1, name)
+    NativeInteropStreamIntsStreamHandler.register(handler2, engine2, name)
+
+    NativeInteropEventChannelMethodsRegistrar.pigeon_listen_nativeInteropStreamInts(
+        name, 701L, NO_KEY, sink1)
+    assertEquals(1, handler1.listenCount)
+    assertEquals(0, handler2.listenCount)
+
+    NativeInteropEventChannelMethodsRegistrar.pigeon_listen_nativeInteropStreamInts(
+        name, 702L, NO_KEY, sink2)
+    assertEquals(1, handler2.listenCount)
+
+    // Unregistering engine1 leaves engine2 intact.
+    NativeInteropStreamIntsStreamHandler.unregister(handler1, engine1, name)
+    NativeInteropEventChannelMethodsRegistrar.pigeon_cancel_nativeInteropStreamInts(
+        name, 702L, NO_KEY)
+    assertEquals(1, handler2.cancelCount)
+    assertEquals(0, handler1.cancelCount)
+
+    // Replacing handler2 on engine2 keeps only one active entry for engine2.
+    val replacement = RecordingIntStreamHandler()
+    NativeInteropStreamIntsStreamHandler.register(replacement, engine2, name)
+    NativeInteropStreamIntsStreamHandler.unregister(handler2, engine2, name)
+    NativeInteropEventChannelMethodsRegistrar.pigeon_listen_nativeInteropStreamInts(
+        name, 702L, NO_KEY, sink2)
+    assertEquals(1, replacement.listenCount)
+
+    // Unregistering the final handler emits unregistered-instance + endOfStream.
+    NativeInteropStreamIntsStreamHandler.unregister(replacement, engine2, name)
+    NativeInteropEventChannelMethodsRegistrar.pigeon_listen_nativeInteropStreamInts(
+        name, 702L, NO_KEY, sink3)
+    assertEquals(listOf("unregistered-instance"), sink3.errorCodes)
+    assertTrue(sink3.ended)
+  }
+}
+
+private class RecordingIntStreamHandler : NativeInteropStreamIntsStreamHandler() {
+  var listenCount = 0
+  var cancelCount = 0
+
+  override fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<Long>) {
+    listenCount++
+  }
+
+  override fun onCancel(p0: Any?) {
+    cancelCount++
+  }
+}
+
+private class RecordingEventSinkBridge : NativeInteropTestsPigeonEventSinkBridge {
+  val errorCodes = mutableListOf<String>()
+  var ended = false
+
+  override fun onSuccess(event: ByteArray?) {}
+
+  override fun onError(code: String, message: String?, details: ByteArray?) {
+    errorCodes.add(code)
+  }
+
+  override fun onEndOfStream() {
+    ended = true
+  }
 }
 
 private class FakeReservedNamesFlutterApi(private val label: String) :

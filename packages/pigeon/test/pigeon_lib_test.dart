@@ -3542,6 +3542,28 @@ abstract class MyEventApi {
         final ffigenConfig = ffigenBuffer.toString();
         expect(ffigenConfig, contains("'MessagesPigeonEventSinkBridge',"));
         expect(ffigenConfig, contains("'MyEventApiSetup',"));
+
+        final InternalPigeonOptions mismatchedPrefixOptions =
+            InternalPigeonOptions.fromPigeonOptions(
+              const PigeonOptions(
+                input: 'pigeons/messages.dart',
+                dartOut: 'lib/messages.dart',
+                kotlinOut: 'android/src/main/kotlin/com/example/KotlinMessages.kt',
+                kotlinOptions: KotlinOptions(package: 'com.example', useJni: true),
+                swiftOut: 'ios/Classes/SwiftMessages.swift',
+                swiftOptions: SwiftOptions(useFfi: true),
+              ),
+            );
+        final nativeInteropDartBuffer = StringBuffer();
+        const DartGenerator().generateNativeInterop(
+          mismatchedPrefixOptions.dartOptions!,
+          parseResult.root,
+          nativeInteropDartBuffer,
+          dartPackageName: 'test_package',
+        );
+        final nativeInteropDart = nativeInteropDartBuffer.toString();
+        expect(nativeInteropDart, contains('jni_bridge.KotlinMessagesPigeonEventSinkBridge'));
+        expect(nativeInteropDart, contains('ffi_bridge.SwiftMessagesPigeonEventSinkBridge'));
       },
     );
 

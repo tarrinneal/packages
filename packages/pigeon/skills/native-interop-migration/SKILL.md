@@ -238,22 +238,29 @@ For `@FlutterApi()` interfaces (where host native code calls into Dart):
 ### 4.3.1 EventChannelApi (Host-to-Dart Event Streams)
 For `@EventChannelApi()` interfaces:
 
-- **Dart side**: Call the generated top-level `<methodName>({String instanceName = ''})` function directly—it returns a `Stream<T>` backed by JNI on Android (when `useJni: true`) and FFI on iOS/macOS (when `useFfi: true`), automatically falling back to `EventChannel` on other platforms.
-- **Swift (FFI)**: Register your `<MethodName>StreamHandler` subclass without a `BinaryMessenger`:
+- **Dart side**: Call the generated top-level `<methodName>({String instanceName = ''})` function directly—it returns a `Stream<T>` backed by JNI on Android (when `useJni: true`) and FFI on iOS/macOS (when `useFfi: true`), automatically falling back to `EventChannel` on platforms without Native Interop enabled.
+- **Prefixed sink & no `<MethodName>EventChannel`**: In Native Interop mode, the sink passed to `onListen` is named `<Prefix>PigeonEventSink<T>` (prefixed with `fileSpecificClassNameComponent`), `<MethodName>EventChannel` / `setStreamHandler` are not generated, and handlers are registered and unregistered per engine with `registrar` / `binding`:
+- **Swift (FFI)**:
   ```swift
   // BEFORE (platform channels):
-  // StreamEventsStreamHandler.register(with: messenger, streamHandler: handler)
+  // let channel = StreamEventsStreamHandler.register(with: messenger, streamHandler: handler)
+  // channel.setStreamHandler(nil)
 
   // AFTER (Native Interop FFI):
-  StreamEventsStreamHandler.register(streamHandler: handler)
+  StreamEventsStreamHandler.register(streamHandler: handler, registrar: registrar)
+  // On detachFromEngine(for: registrar):
+  StreamEventsStreamHandler.unregister(streamHandler: handler, registrar: registrar)
   ```
-- **Kotlin (JNI)**: Register your `<MethodName>StreamHandler` subclass without a `BinaryMessenger`:
+- **Kotlin (JNI)**:
   ```kotlin
   // BEFORE (platform channels):
-  // StreamEventsStreamHandler.register(messenger, handler)
+  // val channel = StreamEventsStreamHandler.register(messenger, handler)
+  // channel.setStreamHandler(null)
 
   // AFTER (Native Interop JNI):
-  StreamEventsStreamHandler.register(handler)
+  StreamEventsStreamHandler.register(handler, binding)
+  // On onDetachedFromEngine(binding):
+  StreamEventsStreamHandler.unregister(handler, binding)
   ```
 
 ### 4.4 Dart Plugin Client (`createWithNativeInteropApi` & `dartPluginClass`)

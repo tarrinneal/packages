@@ -51,6 +51,6 @@ Stream<int> streamIntsAgain({String instanceName = ''}) {
     pigeonMethodCodec,
   );
   return streamIntsAgainChannel.receiveBroadcastStream().map((dynamic event) {
-    return event as int;
+    return event! as int;
   });
 }

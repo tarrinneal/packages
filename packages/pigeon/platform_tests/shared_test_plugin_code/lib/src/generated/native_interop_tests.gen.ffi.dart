@@ -3210,7 +3210,8 @@ extension NativeInteropEnumEventBridge$Methods on NativeInteropEnumEventBridge {
   }
 }
 
-/// NativeInteropEventChannelMethodsSetup
+/// Bridge and dispatcher for Native Interop <code>@EventChannelApi</code> handlers in <code>NativeInteropEventChannelMethods</code>.
+/// This is called by the generated Dart code and is not intended for direct use.
 extension type NativeInteropEventChannelMethodsSetup._(objc.ObjCObject object$)
     implements objc.ObjCObject, objc.NSObject {
   /// Constructs a [NativeInteropEventChannelMethodsSetup] that points to the same underlying object as [other].
@@ -3252,106 +3253,183 @@ extension type NativeInteropEventChannelMethodsSetup._(objc.ObjCObject object$)
     return NativeInteropEventChannelMethodsSetup.fromPointer($ret, retain: false, release: true);
   }
 
-  /// new
-  static NativeInteropEventChannelMethodsSetup new$() {
-    final $ret = _objc_msgSend_151sglz(_class_NativeInteropEventChannelMethodsSetup, _sel_new);
-    return NativeInteropEventChannelMethodsSetup.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName:
+  /// pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName:engineId:affinityKey:
   static void pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName(
-    objc.NSString instanceName,
-  ) {
+    objc.NSString instanceName, {
+    required int engineId,
+    required int affinityKey,
+  }) {
     final _$$ref = instanceName.ref;
-    _objc_msgSend_xtuoz7(
+    _objc_msgSend_rtq1tj(
       _class_NativeInteropEventChannelMethodsSetup,
-      _sel_pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName_,
+      _sel_pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName_engineId_affinityKey_,
       _$$ref.pointer,
+      engineId,
+      affinityKey,
     );
   }
 
-  /// pigeon_cancel_nativeInteropStreamEventsWithInstanceName:
-  static void pigeon_cancel_nativeInteropStreamEventsWithInstanceName(objc.NSString instanceName) {
+  /// pigeon_cancel_nativeInteropStreamEventsWithInstanceName:engineId:affinityKey:
+  static void pigeon_cancel_nativeInteropStreamEventsWithInstanceName(
+    objc.NSString instanceName, {
+    required int engineId,
+    required int affinityKey,
+  }) {
     final _$$ref = instanceName.ref;
-    _objc_msgSend_xtuoz7(
+    _objc_msgSend_rtq1tj(
       _class_NativeInteropEventChannelMethodsSetup,
-      _sel_pigeon_cancel_nativeInteropStreamEventsWithInstanceName_,
+      _sel_pigeon_cancel_nativeInteropStreamEventsWithInstanceName_engineId_affinityKey_,
       _$$ref.pointer,
+      engineId,
+      affinityKey,
     );
   }
 
-  /// pigeon_cancel_nativeInteropStreamIntsWithInstanceName:
-  static void pigeon_cancel_nativeInteropStreamIntsWithInstanceName(objc.NSString instanceName) {
+  /// pigeon_cancel_nativeInteropStreamIntListsWithInstanceName:engineId:affinityKey:
+  static void pigeon_cancel_nativeInteropStreamIntListsWithInstanceName(
+    objc.NSString instanceName, {
+    required int engineId,
+    required int affinityKey,
+  }) {
     final _$$ref = instanceName.ref;
-    _objc_msgSend_xtuoz7(
+    _objc_msgSend_rtq1tj(
       _class_NativeInteropEventChannelMethodsSetup,
-      _sel_pigeon_cancel_nativeInteropStreamIntsWithInstanceName_,
+      _sel_pigeon_cancel_nativeInteropStreamIntListsWithInstanceName_engineId_affinityKey_,
       _$$ref.pointer,
+      engineId,
+      affinityKey,
     );
   }
 
-  /// pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName:sink:
+  /// pigeon_cancel_nativeInteropStreamIntsWithInstanceName:engineId:affinityKey:
+  static void pigeon_cancel_nativeInteropStreamIntsWithInstanceName(
+    objc.NSString instanceName, {
+    required int engineId,
+    required int affinityKey,
+  }) {
+    final _$$ref = instanceName.ref;
+    _objc_msgSend_rtq1tj(
+      _class_NativeInteropEventChannelMethodsSetup,
+      _sel_pigeon_cancel_nativeInteropStreamIntsWithInstanceName_engineId_affinityKey_,
+      _$$ref.pointer,
+      engineId,
+      affinityKey,
+    );
+  }
+
+  /// pigeon_cancel_nativeInteropStreamNullableIntsWithInstanceName:engineId:affinityKey:
+  static void pigeon_cancel_nativeInteropStreamNullableIntsWithInstanceName(
+    objc.NSString instanceName, {
+    required int engineId,
+    required int affinityKey,
+  }) {
+    final _$$ref = instanceName.ref;
+    _objc_msgSend_rtq1tj(
+      _class_NativeInteropEventChannelMethodsSetup,
+      _sel_pigeon_cancel_nativeInteropStreamNullableIntsWithInstanceName_engineId_affinityKey_,
+      _$$ref.pointer,
+      engineId,
+      affinityKey,
+    );
+  }
+
+  /// pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName:engineId:affinityKey:sink:
   static void pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName(
     objc.NSString instanceName, {
+    required int engineId,
+    required int affinityKey,
     required NativeInteropTestsPigeonEventSinkBridge sink,
   }) {
     final _$$ref = instanceName.ref;
     final _$$ref$1 = sink.ref;
-    _objc_msgSend_pfv6jd(
+    _objc_msgSend_1hz5td9(
       _class_NativeInteropEventChannelMethodsSetup,
-      _sel_pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName_sink_,
+      _sel_pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName_engineId_affinityKey_sink_,
       _$$ref.pointer,
+      engineId,
+      affinityKey,
       _$$ref$1.pointer,
     );
   }
 
-  /// pigeon_listen_nativeInteropStreamEventsWithInstanceName:sink:
+  /// pigeon_listen_nativeInteropStreamEventsWithInstanceName:engineId:affinityKey:sink:
   static void pigeon_listen_nativeInteropStreamEventsWithInstanceName(
     objc.NSString instanceName, {
+    required int engineId,
+    required int affinityKey,
     required NativeInteropTestsPigeonEventSinkBridge sink,
   }) {
     final _$$ref = instanceName.ref;
     final _$$ref$1 = sink.ref;
-    _objc_msgSend_pfv6jd(
+    _objc_msgSend_1hz5td9(
       _class_NativeInteropEventChannelMethodsSetup,
-      _sel_pigeon_listen_nativeInteropStreamEventsWithInstanceName_sink_,
+      _sel_pigeon_listen_nativeInteropStreamEventsWithInstanceName_engineId_affinityKey_sink_,
       _$$ref.pointer,
+      engineId,
+      affinityKey,
       _$$ref$1.pointer,
     );
   }
 
-  /// pigeon_listen_nativeInteropStreamIntsWithInstanceName:sink:
+  /// pigeon_listen_nativeInteropStreamIntListsWithInstanceName:engineId:affinityKey:sink:
+  static void pigeon_listen_nativeInteropStreamIntListsWithInstanceName(
+    objc.NSString instanceName, {
+    required int engineId,
+    required int affinityKey,
+    required NativeInteropTestsPigeonEventSinkBridge sink,
+  }) {
+    final _$$ref = instanceName.ref;
+    final _$$ref$1 = sink.ref;
+    _objc_msgSend_1hz5td9(
+      _class_NativeInteropEventChannelMethodsSetup,
+      _sel_pigeon_listen_nativeInteropStreamIntListsWithInstanceName_engineId_affinityKey_sink_,
+      _$$ref.pointer,
+      engineId,
+      affinityKey,
+      _$$ref$1.pointer,
+    );
+  }
+
+  /// pigeon_listen_nativeInteropStreamIntsWithInstanceName:engineId:affinityKey:sink:
   static void pigeon_listen_nativeInteropStreamIntsWithInstanceName(
     objc.NSString instanceName, {
+    required int engineId,
+    required int affinityKey,
     required NativeInteropTestsPigeonEventSinkBridge sink,
   }) {
     final _$$ref = instanceName.ref;
     final _$$ref$1 = sink.ref;
-    _objc_msgSend_pfv6jd(
+    _objc_msgSend_1hz5td9(
       _class_NativeInteropEventChannelMethodsSetup,
-      _sel_pigeon_listen_nativeInteropStreamIntsWithInstanceName_sink_,
+      _sel_pigeon_listen_nativeInteropStreamIntsWithInstanceName_engineId_affinityKey_sink_,
       _$$ref.pointer,
+      engineId,
+      affinityKey,
       _$$ref$1.pointer,
     );
   }
 
-  /// Returns a new instance of NativeInteropEventChannelMethodsSetup constructed with the default `new` method.
-  NativeInteropEventChannelMethodsSetup() : this.as(new$().object$);
-}
-
-extension NativeInteropEventChannelMethodsSetup$Methods on NativeInteropEventChannelMethodsSetup {
-  /// init
-  NativeInteropEventChannelMethodsSetup init() {
-    final _$$ref = object$.ref;
-    objc.checkOsVersionInternal(
-      'NativeInteropEventChannelMethodsSetup.init',
-      iOS: (false, (2, 0, 0)),
-      macOS: (false, (10, 0, 0)),
+  /// pigeon_listen_nativeInteropStreamNullableIntsWithInstanceName:engineId:affinityKey:sink:
+  static void pigeon_listen_nativeInteropStreamNullableIntsWithInstanceName(
+    objc.NSString instanceName, {
+    required int engineId,
+    required int affinityKey,
+    required NativeInteropTestsPigeonEventSinkBridge sink,
+  }) {
+    final _$$ref = instanceName.ref;
+    final _$$ref$1 = sink.ref;
+    _objc_msgSend_1hz5td9(
+      _class_NativeInteropEventChannelMethodsSetup,
+      _sel_pigeon_listen_nativeInteropStreamNullableIntsWithInstanceName_engineId_affinityKey_sink_,
+      _$$ref.pointer,
+      engineId,
+      affinityKey,
+      _$$ref$1.pointer,
     );
-    final $ret = _objc_msgSend_151sglz(_$$ref.retainAndReturnPointer(), _sel_init);
-    return NativeInteropEventChannelMethodsSetup.fromPointer($ret, retain: false, release: true);
   }
 }
+
+extension NativeInteropEventChannelMethodsSetup$Methods on NativeInteropEventChannelMethodsSetup {}
 
 /// The core interface that the Dart platform_test code implements for host
 /// integration tests to call into.
@@ -22193,7 +22271,8 @@ extension NativeInteropTestsNumberWrapper$Methods on NativeInteropTestsNumberWra
   }
 }
 
-/// NativeInteropTestsPigeonEventSinkBridge
+/// Objective-C protocol used by Dart FFI to receive events from native [NativeInteropTestsPigeonEventSink]s.
+/// This is implemented by the generated Dart code and is not intended for direct use.
 extension type NativeInteropTestsPigeonEventSinkBridge._(objc.ObjCProtocol object$)
     implements objc.ObjCProtocol {
   /// Constructs a [NativeInteropTestsPigeonEventSinkBridge] that points to the same underlying object as [other].
@@ -31493,6 +31572,27 @@ final _objc_msgSend_r8gdi7 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
+final _objc_msgSend_rtq1tj = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Int64,
+          ffi.Int64,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        int,
+        int,
+      )
+    >();
 final _objc_msgSend_s92gih = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -32721,22 +32821,42 @@ late final _sel_pigeonEngineKeyOf_ = objc.registerName("pigeonEngineKeyOf:");
 late final _sel_pigeonResolveInstanceWithEngineId_affinityKey_name_ = objc.registerName(
   "pigeonResolveInstanceWithEngineId:affinityKey:name:",
 );
-late final _sel_pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName_ = objc
-    .registerName("pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName:");
-late final _sel_pigeon_cancel_nativeInteropStreamEventsWithInstanceName_ = objc.registerName(
-  "pigeon_cancel_nativeInteropStreamEventsWithInstanceName:",
-);
-late final _sel_pigeon_cancel_nativeInteropStreamIntsWithInstanceName_ = objc.registerName(
-  "pigeon_cancel_nativeInteropStreamIntsWithInstanceName:",
-);
-late final _sel_pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName_sink_ = objc
-    .registerName("pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName:sink:");
-late final _sel_pigeon_listen_nativeInteropStreamEventsWithInstanceName_sink_ = objc.registerName(
-  "pigeon_listen_nativeInteropStreamEventsWithInstanceName:sink:",
-);
-late final _sel_pigeon_listen_nativeInteropStreamIntsWithInstanceName_sink_ = objc.registerName(
-  "pigeon_listen_nativeInteropStreamIntsWithInstanceName:sink:",
-);
+late final _sel_pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName_engineId_affinityKey_ =
+    objc.registerName(
+      "pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName:engineId:affinityKey:",
+    );
+late final _sel_pigeon_cancel_nativeInteropStreamEventsWithInstanceName_engineId_affinityKey_ = objc
+    .registerName("pigeon_cancel_nativeInteropStreamEventsWithInstanceName:engineId:affinityKey:");
+late final _sel_pigeon_cancel_nativeInteropStreamIntListsWithInstanceName_engineId_affinityKey_ =
+    objc.registerName(
+      "pigeon_cancel_nativeInteropStreamIntListsWithInstanceName:engineId:affinityKey:",
+    );
+late final _sel_pigeon_cancel_nativeInteropStreamIntsWithInstanceName_engineId_affinityKey_ = objc
+    .registerName("pigeon_cancel_nativeInteropStreamIntsWithInstanceName:engineId:affinityKey:");
+late final _sel_pigeon_cancel_nativeInteropStreamNullableIntsWithInstanceName_engineId_affinityKey_ =
+    objc.registerName(
+      "pigeon_cancel_nativeInteropStreamNullableIntsWithInstanceName:engineId:affinityKey:",
+    );
+late final _sel_pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName_engineId_affinityKey_sink_ =
+    objc.registerName(
+      "pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName:engineId:affinityKey:sink:",
+    );
+late final _sel_pigeon_listen_nativeInteropStreamEventsWithInstanceName_engineId_affinityKey_sink_ =
+    objc.registerName(
+      "pigeon_listen_nativeInteropStreamEventsWithInstanceName:engineId:affinityKey:sink:",
+    );
+late final _sel_pigeon_listen_nativeInteropStreamIntListsWithInstanceName_engineId_affinityKey_sink_ =
+    objc.registerName(
+      "pigeon_listen_nativeInteropStreamIntListsWithInstanceName:engineId:affinityKey:sink:",
+    );
+late final _sel_pigeon_listen_nativeInteropStreamIntsWithInstanceName_engineId_affinityKey_sink_ =
+    objc.registerName(
+      "pigeon_listen_nativeInteropStreamIntsWithInstanceName:engineId:affinityKey:sink:",
+    );
+late final _sel_pigeon_listen_nativeInteropStreamNullableIntsWithInstanceName_engineId_affinityKey_sink_ =
+    objc.registerName(
+      "pigeon_listen_nativeInteropStreamNullableIntsWithInstanceName:engineId:affinityKey:sink:",
+    );
 late final _sel_pluginEngineIdentifierIsAvailableWithWrappedError_ = objc.registerName(
   "pluginEngineIdentifierIsAvailableWithWrappedError:",
 );

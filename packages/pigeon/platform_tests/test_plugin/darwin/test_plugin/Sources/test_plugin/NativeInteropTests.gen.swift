@@ -328,6 +328,130 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
   return value as! T?
 }
 
+/// Objective-C protocol used by Dart FFI to receive events from native [NativeInteropTestsPigeonEventSink]s.
+///
+/// This is implemented by the generated Dart code and is not intended for direct use.
+@objc protocol NativeInteropTestsPigeonEventSinkBridge {
+  @objc func onSuccess(event: NSData?)
+  @objc func onError(code: String, message: String?, details: NSData?)
+  @objc func onEndOfStream()
+}
+
+/// Base class inherited by generated Native Interop event stream handlers.
+class NativeInteropTestsPigeonEventChannelWrapper<ReturnType> {
+  func onListen(withArguments arguments: Any?, sink: NativeInteropTestsPigeonEventSink<ReturnType>)
+  {}
+  func onCancel(withArguments arguments: Any?) {}
+}
+
+/// Sink passed to `onListen` to emit typed events, errors, or stream completion to Dart.
+class NativeInteropTestsPigeonEventSink<ReturnType>: @unchecked Sendable {
+  private let bridge: NativeInteropTestsPigeonEventSinkBridge
+  private let encodeSuccess: @Sendable (ReturnType) -> NSData?
+
+  fileprivate init(
+    _ bridge: NativeInteropTestsPigeonEventSinkBridge,
+    encodeSuccess: @escaping @Sendable (ReturnType) -> NSData? = {
+      NativeInteropTestsPigeonInteropCodec.encodeOrNil($0)
+    }
+  ) {
+    self.bridge = bridge
+    self.encodeSuccess = encodeSuccess
+  }
+
+  func success(_ value: ReturnType) {
+    bridge.onSuccess(event: encodeSuccess(value))
+  }
+
+  func error(code: String, message: String?, details: Any?) {
+    bridge.onError(
+      code: code, message: message,
+      details: NativeInteropTestsPigeonInteropCodec.encodeOrNil(details))
+  }
+
+  func endOfStream() {
+    bridge.onEndOfStream()
+  }
+}
+
+private final class NativeInteropTestsPigeonEventHandlerRegistry<Handler: AnyObject>: @unchecked
+  Sendable
+{
+  private struct Entry {
+    let handler: Handler
+    let engineKey: Int64
+  }
+
+  private let lock = NSLock()
+  private var entries = [String: [Entry]]()
+
+  func register(_ handler: Handler, engineKey: Int64, instanceName: String) {
+    let resolvedName =
+      instanceName.isEmpty ? NativeInteropTestsPigeonInternal.defaultInstanceName : instanceName
+    lock.lock()
+    defer { lock.unlock() }
+    var list = entries[resolvedName] ?? []
+    if let index = list.firstIndex(where: { $0.handler === handler && $0.engineKey == engineKey }) {
+      list.append(list.remove(at: index))
+    } else {
+      list.append(Entry(handler: handler, engineKey: engineKey))
+    }
+    entries[resolvedName] = list
+  }
+
+  func unregister(_ handler: Handler, engineKey: Int64, instanceName: String) {
+    let resolvedName =
+      instanceName.isEmpty ? NativeInteropTestsPigeonInternal.defaultInstanceName : instanceName
+    // Removed entries are kept alive until after unlocking so their deinit cannot run while the
+    // non-recursive lock is held.
+    var displaced: [Handler] = []
+    do {
+      lock.lock()
+      defer { lock.unlock() }
+      guard var list = entries[resolvedName] else {
+        return
+      }
+      let removeKey: Int64
+      if list.contains(where: { $0.handler === handler && $0.engineKey == engineKey }) {
+        removeKey = engineKey
+      } else {
+        let keys = Set(list.filter { $0.handler === handler }.map { $0.engineKey })
+        guard keys.count == 1, let onlyKey = keys.first else {
+          return
+        }
+        removeKey = onlyKey
+      }
+      list.removeAll { entry in
+        if entry.handler === handler && entry.engineKey == removeKey {
+          displaced.append(entry.handler)
+          return true
+        }
+        return false
+      }
+      if list.isEmpty {
+        entries.removeValue(forKey: resolvedName)
+      } else {
+        entries[resolvedName] = list
+      }
+    }
+    withExtendedLifetime(displaced) {}
+  }
+
+  func resolve(instanceName: String, engineId: Int64, affinityKey: Int64) -> Handler? {
+    let resolvedName =
+      instanceName.isEmpty ? NativeInteropTestsPigeonInternal.defaultInstanceName : instanceName
+    lock.lock()
+    defer { lock.unlock() }
+    guard let list = entries[resolvedName] else {
+      return nil
+    }
+    let exact = engineId == Int64.min ? nil : list.last(where: { $0.engineKey == engineId })
+    let affine =
+      affinityKey == Int64.min ? nil : list.last(where: { $0.engineKey == affinityKey })
+    return (exact ?? affine ?? list.last)?.handler
+  }
+}
+
 /// Computes the keys that associate Native Interop registrations with a Flutter engine.
 ///
 /// `Int64.min` means "no key". Exact keys match Dart's `PlatformDispatcher.instance.engineId`.
@@ -13711,142 +13835,317 @@ class NativeInteropSealedClassFlutterApi {
   }
 }
 
-@objc protocol NativeInteropTestsPigeonEventSinkBridge {
-  @objc func onSuccess(event: NSData?)
-  @objc func onError(code: String, message: String?, details: NSData?)
-  @objc func onEndOfStream()
-}
-
-class NativeInteropTestsPigeonEventChannelWrapper<ReturnType> {
-  func onListen(withArguments arguments: Any?, sink: NativeInteropTestsPigeonEventSink<ReturnType>)
-  {}
-  func onCancel(withArguments arguments: Any?) {}
-}
-
-class NativeInteropTestsPigeonEventSink<ReturnType> {
-  private let bridge: NativeInteropTestsPigeonEventSinkBridge
-
-  fileprivate init(_ bridge: NativeInteropTestsPigeonEventSinkBridge) {
-    self.bridge = bridge
-  }
-
-  func success(_ value: ReturnType) {
-    bridge.onSuccess(event: NativeInteropTestsPigeonInteropCodec.encodeOrNil(value))
-  }
-
-  func error(code: String, message: String?, details: Any?) {
-    bridge.onError(
-      code: code, message: message,
-      details: NativeInteropTestsPigeonInteropCodec.encodeOrNil(details))
-  }
-
-  func endOfStream() {
-    bridge.onEndOfStream()
-  }
-}
-
+/// Bridge and dispatcher for Native Interop `@EventChannelApi` handlers in `NativeInteropEventChannelMethods`.
+///
+/// This is called by the generated Dart code and is not intended for direct use.
 @objc class NativeInteropEventChannelMethodsSetup: NSObject {
-  fileprivate static var nativeInteropStreamIntsHandlers = [
-    String: NativeInteropStreamIntsStreamHandler
-  ]()
-  fileprivate static var nativeInteropStreamEventsHandlers = [
-    String: NativeInteropStreamEventsStreamHandler
-  ]()
-  fileprivate static var nativeInteropStreamConsistentNumbersHandlers = [
-    String: NativeInteropStreamConsistentNumbersStreamHandler
-  ]()
+  private override init() {}
+
+  fileprivate static let nativeInteropStreamIntsHandlers =
+    NativeInteropTestsPigeonEventHandlerRegistry<NativeInteropStreamIntsStreamHandler>()
+  fileprivate static let nativeInteropStreamEventsHandlers =
+    NativeInteropTestsPigeonEventHandlerRegistry<NativeInteropStreamEventsStreamHandler>()
+  fileprivate static let nativeInteropStreamConsistentNumbersHandlers =
+    NativeInteropTestsPigeonEventHandlerRegistry<
+      NativeInteropStreamConsistentNumbersStreamHandler
+    >()
+  fileprivate static let nativeInteropStreamNullableIntsHandlers =
+    NativeInteropTestsPigeonEventHandlerRegistry<NativeInteropStreamNullableIntsStreamHandler>()
+  fileprivate static let nativeInteropStreamIntListsHandlers =
+    NativeInteropTestsPigeonEventHandlerRegistry<NativeInteropStreamIntListsStreamHandler>()
 
   // swift-format-ignore: AlwaysUseLowerCamelCase
   @objc static func pigeon_listen_nativeInteropStreamInts(
-    instanceName: String, sink: NativeInteropTestsPigeonEventSinkBridge
+    instanceName: String, engineId: Int64, affinityKey: Int64,
+    sink: NativeInteropTestsPigeonEventSinkBridge
   ) {
-    nativeInteropStreamIntsHandlers[instanceName]?.onListen(
-      withArguments: nil, sink: NativeInteropTestsPigeonEventSink<Int64>(sink))
+    guard
+      let handler = nativeInteropStreamIntsHandlers.resolve(
+        instanceName: instanceName, engineId: engineId, affinityKey: affinityKey)
+    else {
+      let resolvedName =
+        instanceName.isEmpty ? NativeInteropTestsPigeonInternal.defaultInstanceName : instanceName
+      sink.onError(
+        code: "unregistered-instance",
+        message:
+          "No NativeInteropStreamIntsStreamHandler instance named \"\(resolvedName)\" has been registered.",
+        details: nil)
+      sink.onEndOfStream()
+      return
+    }
+    handler.onListen(withArguments: nil, sink: NativeInteropTestsPigeonEventSink<Int64>(sink))
   }
 
   // swift-format-ignore: AlwaysUseLowerCamelCase
-  @objc static func pigeon_cancel_nativeInteropStreamInts(instanceName: String) {
-    nativeInteropStreamIntsHandlers[instanceName]?.onCancel(withArguments: nil)
+  @objc static func pigeon_cancel_nativeInteropStreamInts(
+    instanceName: String, engineId: Int64, affinityKey: Int64
+  ) {
+    nativeInteropStreamIntsHandlers.resolve(
+      instanceName: instanceName, engineId: engineId, affinityKey: affinityKey)?.onCancel(
+        withArguments: nil)
   }
 
   // swift-format-ignore: AlwaysUseLowerCamelCase
   @objc static func pigeon_listen_nativeInteropStreamEvents(
-    instanceName: String, sink: NativeInteropTestsPigeonEventSinkBridge
+    instanceName: String, engineId: Int64, affinityKey: Int64,
+    sink: NativeInteropTestsPigeonEventSinkBridge
   ) {
-    nativeInteropStreamEventsHandlers[instanceName]?.onListen(
+    guard
+      let handler = nativeInteropStreamEventsHandlers.resolve(
+        instanceName: instanceName, engineId: engineId, affinityKey: affinityKey)
+    else {
+      let resolvedName =
+        instanceName.isEmpty ? NativeInteropTestsPigeonInternal.defaultInstanceName : instanceName
+      sink.onError(
+        code: "unregistered-instance",
+        message:
+          "No NativeInteropStreamEventsStreamHandler instance named \"\(resolvedName)\" has been registered.",
+        details: nil)
+      sink.onEndOfStream()
+      return
+    }
+    handler.onListen(
       withArguments: nil, sink: NativeInteropTestsPigeonEventSink<NativeInteropPlatformEvent>(sink))
   }
 
   // swift-format-ignore: AlwaysUseLowerCamelCase
-  @objc static func pigeon_cancel_nativeInteropStreamEvents(instanceName: String) {
-    nativeInteropStreamEventsHandlers[instanceName]?.onCancel(withArguments: nil)
+  @objc static func pigeon_cancel_nativeInteropStreamEvents(
+    instanceName: String, engineId: Int64, affinityKey: Int64
+  ) {
+    nativeInteropStreamEventsHandlers.resolve(
+      instanceName: instanceName, engineId: engineId, affinityKey: affinityKey)?.onCancel(
+        withArguments: nil)
   }
 
   // swift-format-ignore: AlwaysUseLowerCamelCase
   @objc static func pigeon_listen_nativeInteropStreamConsistentNumbers(
-    instanceName: String, sink: NativeInteropTestsPigeonEventSinkBridge
+    instanceName: String, engineId: Int64, affinityKey: Int64,
+    sink: NativeInteropTestsPigeonEventSinkBridge
   ) {
-    nativeInteropStreamConsistentNumbersHandlers[instanceName]?.onListen(
-      withArguments: nil, sink: NativeInteropTestsPigeonEventSink<Int64>(sink))
+    guard
+      let handler = nativeInteropStreamConsistentNumbersHandlers.resolve(
+        instanceName: instanceName, engineId: engineId, affinityKey: affinityKey)
+    else {
+      let resolvedName =
+        instanceName.isEmpty ? NativeInteropTestsPigeonInternal.defaultInstanceName : instanceName
+      sink.onError(
+        code: "unregistered-instance",
+        message:
+          "No NativeInteropStreamConsistentNumbersStreamHandler instance named \"\(resolvedName)\" has been registered.",
+        details: nil)
+      sink.onEndOfStream()
+      return
+    }
+    handler.onListen(withArguments: nil, sink: NativeInteropTestsPigeonEventSink<Int64>(sink))
   }
 
   // swift-format-ignore: AlwaysUseLowerCamelCase
-  @objc static func pigeon_cancel_nativeInteropStreamConsistentNumbers(instanceName: String) {
-    nativeInteropStreamConsistentNumbersHandlers[instanceName]?.onCancel(withArguments: nil)
+  @objc static func pigeon_cancel_nativeInteropStreamConsistentNumbers(
+    instanceName: String, engineId: Int64, affinityKey: Int64
+  ) {
+    nativeInteropStreamConsistentNumbersHandlers.resolve(
+      instanceName: instanceName, engineId: engineId, affinityKey: affinityKey)?.onCancel(
+        withArguments: nil)
+  }
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  @objc static func pigeon_listen_nativeInteropStreamNullableInts(
+    instanceName: String, engineId: Int64, affinityKey: Int64,
+    sink: NativeInteropTestsPigeonEventSinkBridge
+  ) {
+    guard
+      let handler = nativeInteropStreamNullableIntsHandlers.resolve(
+        instanceName: instanceName, engineId: engineId, affinityKey: affinityKey)
+    else {
+      let resolvedName =
+        instanceName.isEmpty ? NativeInteropTestsPigeonInternal.defaultInstanceName : instanceName
+      sink.onError(
+        code: "unregistered-instance",
+        message:
+          "No NativeInteropStreamNullableIntsStreamHandler instance named \"\(resolvedName)\" has been registered.",
+        details: nil)
+      sink.onEndOfStream()
+      return
+    }
+    handler.onListen(withArguments: nil, sink: NativeInteropTestsPigeonEventSink<Int64?>(sink))
+  }
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  @objc static func pigeon_cancel_nativeInteropStreamNullableInts(
+    instanceName: String, engineId: Int64, affinityKey: Int64
+  ) {
+    nativeInteropStreamNullableIntsHandlers.resolve(
+      instanceName: instanceName, engineId: engineId, affinityKey: affinityKey)?.onCancel(
+        withArguments: nil)
+  }
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  @objc static func pigeon_listen_nativeInteropStreamIntLists(
+    instanceName: String, engineId: Int64, affinityKey: Int64,
+    sink: NativeInteropTestsPigeonEventSinkBridge
+  ) {
+    guard
+      let handler = nativeInteropStreamIntListsHandlers.resolve(
+        instanceName: instanceName, engineId: engineId, affinityKey: affinityKey)
+    else {
+      let resolvedName =
+        instanceName.isEmpty ? NativeInteropTestsPigeonInternal.defaultInstanceName : instanceName
+      sink.onError(
+        code: "unregistered-instance",
+        message:
+          "No NativeInteropStreamIntListsStreamHandler instance named \"\(resolvedName)\" has been registered.",
+        details: nil)
+      sink.onEndOfStream()
+      return
+    }
+    handler.onListen(
+      withArguments: nil,
+      sink: NativeInteropTestsPigeonEventSink<[Int64]>(
+        sink,
+        encodeSuccess: { value in
+          NativeInteropTestsPigeonInteropCodec.encode { $0.writeList(value) }
+        }))
+  }
+
+  // swift-format-ignore: AlwaysUseLowerCamelCase
+  @objc static func pigeon_cancel_nativeInteropStreamIntLists(
+    instanceName: String, engineId: Int64, affinityKey: Int64
+  ) {
+    nativeInteropStreamIntListsHandlers.resolve(
+      instanceName: instanceName, engineId: engineId, affinityKey: affinityKey)?.onCancel(
+        withArguments: nil)
   }
 }
+
 class NativeInteropStreamIntsStreamHandler: NativeInteropTestsPigeonEventChannelWrapper<Int64> {
-  static func register(
-    instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName,
-    streamHandler: NativeInteropStreamIntsStreamHandler?
-  ) {
-    let resolvedName =
-      instanceName.isEmpty ? NativeInteropTestsPigeonInternal.defaultInstanceName : instanceName
-    if let streamHandler = streamHandler {
-      NativeInteropEventChannelMethodsSetup.nativeInteropStreamIntsHandlers[resolvedName] =
-        streamHandler
-    } else {
-      NativeInteropEventChannelMethodsSetup.nativeInteropStreamIntsHandlers.removeValue(
-        forKey: resolvedName)
+  #if canImport(Flutter) || canImport(FlutterMacOS)
+    /// Registers `streamHandler` for events under `instanceName` (or the default instance when
+    /// omitted) for the engine that owns `registrar`.
+    static func register(
+      streamHandler: NativeInteropStreamIntsStreamHandler, registrar: FlutterPluginRegistrar,
+      instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamIntsHandlers.register(
+        streamHandler, engineKey: PigeonEngineKeys.key(for: registrar), instanceName: instanceName)
     }
-  }
+
+    /// Removes `streamHandler` from the registrations under `instanceName` for the engine
+    /// that owns `registrar`, leaving other engines' registrations intact.
+    static func unregister(
+      streamHandler: NativeInteropStreamIntsStreamHandler, registrar: FlutterPluginRegistrar,
+      instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamIntsHandlers.unregister(
+        streamHandler, engineKey: PigeonEngineKeys.key(for: registrar), instanceName: instanceName)
+    }
+  #endif
 }
 
 class NativeInteropStreamEventsStreamHandler: NativeInteropTestsPigeonEventChannelWrapper<
   NativeInteropPlatformEvent
 >
 {
-  static func register(
-    instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName,
-    streamHandler: NativeInteropStreamEventsStreamHandler?
-  ) {
-    let resolvedName =
-      instanceName.isEmpty ? NativeInteropTestsPigeonInternal.defaultInstanceName : instanceName
-    if let streamHandler = streamHandler {
-      NativeInteropEventChannelMethodsSetup.nativeInteropStreamEventsHandlers[resolvedName] =
-        streamHandler
-    } else {
-      NativeInteropEventChannelMethodsSetup.nativeInteropStreamEventsHandlers.removeValue(
-        forKey: resolvedName)
+  #if canImport(Flutter) || canImport(FlutterMacOS)
+    /// Registers `streamHandler` for events under `instanceName` (or the default instance when
+    /// omitted) for the engine that owns `registrar`.
+    static func register(
+      streamHandler: NativeInteropStreamEventsStreamHandler, registrar: FlutterPluginRegistrar,
+      instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamEventsHandlers.register(
+        streamHandler, engineKey: PigeonEngineKeys.key(for: registrar), instanceName: instanceName)
     }
-  }
+
+    /// Removes `streamHandler` from the registrations under `instanceName` for the engine
+    /// that owns `registrar`, leaving other engines' registrations intact.
+    static func unregister(
+      streamHandler: NativeInteropStreamEventsStreamHandler, registrar: FlutterPluginRegistrar,
+      instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamEventsHandlers.unregister(
+        streamHandler, engineKey: PigeonEngineKeys.key(for: registrar), instanceName: instanceName)
+    }
+  #endif
 }
 
 class NativeInteropStreamConsistentNumbersStreamHandler:
   NativeInteropTestsPigeonEventChannelWrapper<Int64>
 {
-  static func register(
-    instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName,
-    streamHandler: NativeInteropStreamConsistentNumbersStreamHandler?
-  ) {
-    let resolvedName =
-      instanceName.isEmpty ? NativeInteropTestsPigeonInternal.defaultInstanceName : instanceName
-    if let streamHandler = streamHandler {
-      NativeInteropEventChannelMethodsSetup.nativeInteropStreamConsistentNumbersHandlers[
-        resolvedName] = streamHandler
-    } else {
-      NativeInteropEventChannelMethodsSetup.nativeInteropStreamConsistentNumbersHandlers
-        .removeValue(forKey: resolvedName)
+  #if canImport(Flutter) || canImport(FlutterMacOS)
+    /// Registers `streamHandler` for events under `instanceName` (or the default instance when
+    /// omitted) for the engine that owns `registrar`.
+    static func register(
+      streamHandler: NativeInteropStreamConsistentNumbersStreamHandler,
+      registrar: FlutterPluginRegistrar,
+      instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamConsistentNumbersHandlers.register(
+        streamHandler, engineKey: PigeonEngineKeys.key(for: registrar), instanceName: instanceName)
     }
-  }
+
+    /// Removes `streamHandler` from the registrations under `instanceName` for the engine
+    /// that owns `registrar`, leaving other engines' registrations intact.
+    static func unregister(
+      streamHandler: NativeInteropStreamConsistentNumbersStreamHandler,
+      registrar: FlutterPluginRegistrar,
+      instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamConsistentNumbersHandlers.unregister(
+        streamHandler, engineKey: PigeonEngineKeys.key(for: registrar), instanceName: instanceName)
+    }
+  #endif
+}
+
+class NativeInteropStreamNullableIntsStreamHandler: NativeInteropTestsPigeonEventChannelWrapper<
+  Int64?
+>
+{
+  #if canImport(Flutter) || canImport(FlutterMacOS)
+    /// Registers `streamHandler` for events under `instanceName` (or the default instance when
+    /// omitted) for the engine that owns `registrar`.
+    static func register(
+      streamHandler: NativeInteropStreamNullableIntsStreamHandler,
+      registrar: FlutterPluginRegistrar,
+      instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamNullableIntsHandlers.register(
+        streamHandler, engineKey: PigeonEngineKeys.key(for: registrar), instanceName: instanceName)
+    }
+
+    /// Removes `streamHandler` from the registrations under `instanceName` for the engine
+    /// that owns `registrar`, leaving other engines' registrations intact.
+    static func unregister(
+      streamHandler: NativeInteropStreamNullableIntsStreamHandler,
+      registrar: FlutterPluginRegistrar,
+      instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamNullableIntsHandlers.unregister(
+        streamHandler, engineKey: PigeonEngineKeys.key(for: registrar), instanceName: instanceName)
+    }
+  #endif
+}
+
+class NativeInteropStreamIntListsStreamHandler: NativeInteropTestsPigeonEventChannelWrapper<[Int64]>
+{
+  #if canImport(Flutter) || canImport(FlutterMacOS)
+    /// Registers `streamHandler` for events under `instanceName` (or the default instance when
+    /// omitted) for the engine that owns `registrar`.
+    static func register(
+      streamHandler: NativeInteropStreamIntListsStreamHandler, registrar: FlutterPluginRegistrar,
+      instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamIntListsHandlers.register(
+        streamHandler, engineKey: PigeonEngineKeys.key(for: registrar), instanceName: instanceName)
+    }
+
+    /// Removes `streamHandler` from the registrations under `instanceName` for the engine
+    /// that owns `registrar`, leaving other engines' registrations intact.
+    static func unregister(
+      streamHandler: NativeInteropStreamIntListsStreamHandler, registrar: FlutterPluginRegistrar,
+      instanceName: String = NativeInteropTestsPigeonInternal.defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsSetup.nativeInteropStreamIntListsHandlers.unregister(
+        streamHandler, engineKey: PigeonEngineKeys.key(for: registrar), instanceName: instanceName)
+    }
+  #endif
 }

@@ -126,6 +126,9 @@ class JnigenConfigGenerator extends Generator<InternalJnigenConfigOptions> {
             final bool hybrid = generatorOptions.kotlinOptions.useJniHybrid;
             final String prefix =
                 generatorOptions.kotlinOptions.fileSpecificClassNameComponent ?? '';
+            if (root.containsEventChannel) {
+              indent.writeln("'$packagePrefix${prefix}PigeonEventSinkBridge',");
+            }
             for (final Api api in root.apis) {
               if (hybrid && api is AstFlutterApi) {
                 indent.writeln("'$packagePrefix${api.name}Bridge',");
@@ -136,7 +139,6 @@ class JnigenConfigGenerator extends Generator<InternalJnigenConfigOptions> {
               } else if (api is AstHostApi) {
                 indent.writeln("'$packagePrefix${api.name}Registrar',");
               } else if (api is AstEventChannelApi) {
-                indent.writeln("'$packagePrefix${prefix}PigeonEventSinkBridge',");
                 indent.writeln("'$packagePrefix${api.name}Registrar',");
               }
             }

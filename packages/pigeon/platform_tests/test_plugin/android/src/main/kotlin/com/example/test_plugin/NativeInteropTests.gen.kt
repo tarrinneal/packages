@@ -199,6 +199,48 @@ class NativeInteropTestsError(
 
 private const val defaultInstanceName = "PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u"
 
+private class NativeInteropTestsPigeonEventHandlerEntry<T>(val handler: T, val engineKey: Long)
+
+/**
+ * JNI callback bridge used by Dart to receive events from native
+ * [NativeInteropTestsPigeonEventSink]s.
+ *
+ * This is implemented by the generated Dart code and is not intended for direct use.
+ */
+@Keep
+interface NativeInteropTestsPigeonEventSinkBridge {
+  fun onSuccess(event: ByteArray?)
+
+  fun onError(code: String, message: String?, details: ByteArray?)
+
+  fun onEndOfStream()
+}
+
+/** Base interface implemented by generated Native Interop event stream handlers. */
+interface NativeInteropTestsPigeonEventChannelWrapper<T> {
+  open fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<T>) {}
+
+  open fun onCancel(p0: Any?) {}
+}
+
+/** Sink passed to `onListen` to emit typed events, errors, or stream completion to Dart. */
+class NativeInteropTestsPigeonEventSink<T>(
+    private val bridge: NativeInteropTestsPigeonEventSinkBridge
+) {
+  fun success(value: T) {
+    bridge.onSuccess(NativeInteropTestsPigeonInteropCodec.encodeOrNull(value))
+  }
+
+  fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
+    bridge.onError(
+        errorCode, errorMessage, NativeInteropTestsPigeonInteropCodec.encodeOrNull(errorDetails))
+  }
+
+  fun endOfStream() {
+    bridge.onEndOfStream()
+  }
+}
+
 /** Computes keys that identify the Flutter engine a registration belongs to. */
 private object NativeInteropTestsPigeonEngineKeys {
   /** Sentinel meaning that no engine key is known. */
@@ -9811,103 +9853,711 @@ private class NativeInteropSealedClassFlutterApiBridgeAdapter(
   }
 }
 
-@Keep
-interface NativeInteropTestsPigeonEventSinkBridge {
-  fun onSuccess(event: ByteArray?)
-
-  fun onError(code: String, message: String?, details: ByteArray?)
-
-  fun onEndOfStream()
-}
-
-interface NativeInteropTestsPigeonEventChannelWrapper<T> {
-  open fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<T>) {}
-
-  open fun onCancel(p0: Any?) {}
-}
-
-class NativeInteropTestsPigeonEventSink<T>(
-    private val bridge: NativeInteropTestsPigeonEventSinkBridge
-) {
-  fun success(value: T) {
-    bridge.onSuccess(NativeInteropTestsPigeonInteropCodec.encodeOrNull(value))
-  }
-
-  fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
-    bridge.onError(
-        errorCode, errorMessage, NativeInteropTestsPigeonInteropCodec.encodeOrNull(errorDetails))
-  }
-
-  fun endOfStream() {
-    bridge.onEndOfStream()
-  }
-}
-
+/**
+ * Bridge and dispatcher for Native Interop [@EventChannelApi] handlers in
+ * [NativeInteropEventChannelMethods].
+ *
+ * This is called by the generated Dart code and is not intended for direct use.
+ */
 @Keep
 class NativeInteropEventChannelMethodsRegistrar {
   companion object {
-    internal val nativeInteropStreamIntsHandlers =
-        mutableMapOf<String, NativeInteropStreamIntsStreamHandler>()
-    internal val nativeInteropStreamEventsHandlers =
-        mutableMapOf<String, NativeInteropStreamEventsStreamHandler>()
-    internal val nativeInteropStreamConsistentNumbersHandlers =
-        mutableMapOf<String, NativeInteropStreamConsistentNumbersStreamHandler>()
-  }
+    private val nativeInteropStreamIntsHandlers =
+        mutableMapOf<
+            String,
+            MutableList<
+                NativeInteropTestsPigeonEventHandlerEntry<NativeInteropStreamIntsStreamHandler>>>()
+    private val nativeInteropStreamEventsHandlers =
+        mutableMapOf<
+            String,
+            MutableList<
+                NativeInteropTestsPigeonEventHandlerEntry<
+                    NativeInteropStreamEventsStreamHandler>>>()
+    private val nativeInteropStreamConsistentNumbersHandlers =
+        mutableMapOf<
+            String,
+            MutableList<
+                NativeInteropTestsPigeonEventHandlerEntry<
+                    NativeInteropStreamConsistentNumbersStreamHandler>>>()
+    private val nativeInteropStreamNullableIntsHandlers =
+        mutableMapOf<
+            String,
+            MutableList<
+                NativeInteropTestsPigeonEventHandlerEntry<
+                    NativeInteropStreamNullableIntsStreamHandler>>>()
+    private val nativeInteropStreamIntListsHandlers =
+        mutableMapOf<
+            String,
+            MutableList<
+                NativeInteropTestsPigeonEventHandlerEntry<
+                    NativeInteropStreamIntListsStreamHandler>>>()
 
-  fun pigeon_listen_nativeInteropStreamInts(
-      instanceName: String,
-      sink: NativeInteropTestsPigeonEventSinkBridge
-  ) {
-    nativeInteropStreamIntsHandlers[instanceName]?.onListen(
-        null, NativeInteropTestsPigeonEventSink<Long>(sink))
-  }
+    internal fun registerNativeInteropStreamInts(
+        streamHandler: NativeInteropStreamIntsStreamHandler,
+        engineKey: Long,
+        instanceName: String
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      kotlin.synchronized(nativeInteropStreamIntsHandlers) {
+        val list = nativeInteropStreamIntsHandlers.getOrPut(resolvedName) { mutableListOf() }
+        val index = list.indexOfFirst { it.handler === streamHandler && it.engineKey == engineKey }
+        if (index >= 0) {
+          list.add(list.removeAt(index))
+        } else {
+          list.add(NativeInteropTestsPigeonEventHandlerEntry(streamHandler, engineKey))
+        }
+      }
+    }
 
-  fun pigeon_cancel_nativeInteropStreamInts(instanceName: String) {
-    nativeInteropStreamIntsHandlers[instanceName]?.onCancel(null)
-  }
+    internal fun unregisterNativeInteropStreamInts(
+        streamHandler: NativeInteropStreamIntsStreamHandler,
+        engineKey: Long,
+        instanceName: String
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      kotlin.synchronized(nativeInteropStreamIntsHandlers) {
+        val list = nativeInteropStreamIntsHandlers[resolvedName] ?: return
+        val removeKey =
+            if (list.any { it.handler === streamHandler && it.engineKey == engineKey }) {
+              engineKey
+            } else {
+              list
+                  .filter { it.handler === streamHandler }
+                  .map { it.engineKey }
+                  .distinct()
+                  .singleOrNull() ?: return
+            }
+        list.removeAll { it.handler === streamHandler && it.engineKey == removeKey }
+        if (list.isEmpty()) {
+          nativeInteropStreamIntsHandlers.remove(resolvedName)
+        }
+      }
+    }
 
-  fun pigeon_listen_nativeInteropStreamEvents(
-      instanceName: String,
-      sink: NativeInteropTestsPigeonEventSinkBridge
-  ) {
-    nativeInteropStreamEventsHandlers[instanceName]?.onListen(
-        null, NativeInteropTestsPigeonEventSink<NativeInteropPlatformEvent>(sink))
-  }
+    private fun resolveNativeInteropStreamInts(
+        instanceName: String,
+        engineId: Long,
+        affinityKey: Long
+    ): NativeInteropStreamIntsStreamHandler? {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      return kotlin.synchronized(nativeInteropStreamIntsHandlers) {
+        val list = nativeInteropStreamIntsHandlers[resolvedName] ?: return@synchronized null
+        val exact =
+            if (engineId != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == engineId }
+            else null
+        val affine =
+            if (affinityKey != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == affinityKey }
+            else null
+        (exact ?: affine ?: list.lastOrNull())?.handler
+      }
+    }
 
-  fun pigeon_cancel_nativeInteropStreamEvents(instanceName: String) {
-    nativeInteropStreamEventsHandlers[instanceName]?.onCancel(null)
-  }
+    /**
+     * Starts listening to [NativeInteropStreamIntsStreamHandler] for [instanceName] and the engine
+     * identified by [engineId] and [affinityKey].
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeon_listen_nativeInteropStreamInts(
+        instanceName: String,
+        engineId: Long,
+        affinityKey: Long,
+        sink: NativeInteropTestsPigeonEventSinkBridge
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      val handler = resolveNativeInteropStreamInts(resolvedName, engineId, affinityKey)
+      if (handler == null) {
+        sink.onError(
+            "unregistered-instance",
+            "No NativeInteropStreamIntsStreamHandler instance named \"$resolvedName\" has been registered.",
+            null)
+        sink.onEndOfStream()
+        return
+      }
+      val typedSink = NativeInteropTestsPigeonEventSink<Long>(sink)
+      try {
+        handler.onListen(null, typedSink)
+      } catch (e: NativeInteropTestsError) {
+        typedSink.error(e.code, e.message, e.details)
+        typedSink.endOfStream()
+      } catch (e: Throwable) {
+        typedSink.error(e.javaClass.simpleName, e.toString(), null)
+        typedSink.endOfStream()
+      }
+    }
 
-  fun pigeon_listen_nativeInteropStreamConsistentNumbers(
-      instanceName: String,
-      sink: NativeInteropTestsPigeonEventSinkBridge
-  ) {
-    nativeInteropStreamConsistentNumbersHandlers[instanceName]?.onListen(
-        null, NativeInteropTestsPigeonEventSink<Long>(sink))
-  }
+    /**
+     * Cancels listening to [NativeInteropStreamIntsStreamHandler] for [instanceName] and the engine
+     * identified by [engineId] and [affinityKey].
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeon_cancel_nativeInteropStreamInts(
+        instanceName: String,
+        engineId: Long,
+        affinityKey: Long
+    ) {
+      try {
+        resolveNativeInteropStreamInts(instanceName, engineId, affinityKey)?.onCancel(null)
+      } catch (e: NativeInteropTestsError) {
+        throw NativeInteropTestsError(
+                e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+            .apply { stackTrace = e.stackTrace }
+      }
+    }
 
-  fun pigeon_cancel_nativeInteropStreamConsistentNumbers(instanceName: String) {
-    nativeInteropStreamConsistentNumbersHandlers[instanceName]?.onCancel(null)
+    internal fun registerNativeInteropStreamEvents(
+        streamHandler: NativeInteropStreamEventsStreamHandler,
+        engineKey: Long,
+        instanceName: String
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      kotlin.synchronized(nativeInteropStreamEventsHandlers) {
+        val list = nativeInteropStreamEventsHandlers.getOrPut(resolvedName) { mutableListOf() }
+        val index = list.indexOfFirst { it.handler === streamHandler && it.engineKey == engineKey }
+        if (index >= 0) {
+          list.add(list.removeAt(index))
+        } else {
+          list.add(NativeInteropTestsPigeonEventHandlerEntry(streamHandler, engineKey))
+        }
+      }
+    }
+
+    internal fun unregisterNativeInteropStreamEvents(
+        streamHandler: NativeInteropStreamEventsStreamHandler,
+        engineKey: Long,
+        instanceName: String
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      kotlin.synchronized(nativeInteropStreamEventsHandlers) {
+        val list = nativeInteropStreamEventsHandlers[resolvedName] ?: return
+        val removeKey =
+            if (list.any { it.handler === streamHandler && it.engineKey == engineKey }) {
+              engineKey
+            } else {
+              list
+                  .filter { it.handler === streamHandler }
+                  .map { it.engineKey }
+                  .distinct()
+                  .singleOrNull() ?: return
+            }
+        list.removeAll { it.handler === streamHandler && it.engineKey == removeKey }
+        if (list.isEmpty()) {
+          nativeInteropStreamEventsHandlers.remove(resolvedName)
+        }
+      }
+    }
+
+    private fun resolveNativeInteropStreamEvents(
+        instanceName: String,
+        engineId: Long,
+        affinityKey: Long
+    ): NativeInteropStreamEventsStreamHandler? {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      return kotlin.synchronized(nativeInteropStreamEventsHandlers) {
+        val list = nativeInteropStreamEventsHandlers[resolvedName] ?: return@synchronized null
+        val exact =
+            if (engineId != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == engineId }
+            else null
+        val affine =
+            if (affinityKey != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == affinityKey }
+            else null
+        (exact ?: affine ?: list.lastOrNull())?.handler
+      }
+    }
+
+    /**
+     * Starts listening to [NativeInteropStreamEventsStreamHandler] for [instanceName] and the
+     * engine identified by [engineId] and [affinityKey].
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeon_listen_nativeInteropStreamEvents(
+        instanceName: String,
+        engineId: Long,
+        affinityKey: Long,
+        sink: NativeInteropTestsPigeonEventSinkBridge
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      val handler = resolveNativeInteropStreamEvents(resolvedName, engineId, affinityKey)
+      if (handler == null) {
+        sink.onError(
+            "unregistered-instance",
+            "No NativeInteropStreamEventsStreamHandler instance named \"$resolvedName\" has been registered.",
+            null)
+        sink.onEndOfStream()
+        return
+      }
+      val typedSink = NativeInteropTestsPigeonEventSink<NativeInteropPlatformEvent>(sink)
+      try {
+        handler.onListen(null, typedSink)
+      } catch (e: NativeInteropTestsError) {
+        typedSink.error(e.code, e.message, e.details)
+        typedSink.endOfStream()
+      } catch (e: Throwable) {
+        typedSink.error(e.javaClass.simpleName, e.toString(), null)
+        typedSink.endOfStream()
+      }
+    }
+
+    /**
+     * Cancels listening to [NativeInteropStreamEventsStreamHandler] for [instanceName] and the
+     * engine identified by [engineId] and [affinityKey].
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeon_cancel_nativeInteropStreamEvents(
+        instanceName: String,
+        engineId: Long,
+        affinityKey: Long
+    ) {
+      try {
+        resolveNativeInteropStreamEvents(instanceName, engineId, affinityKey)?.onCancel(null)
+      } catch (e: NativeInteropTestsError) {
+        throw NativeInteropTestsError(
+                e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+            .apply { stackTrace = e.stackTrace }
+      }
+    }
+
+    internal fun registerNativeInteropStreamConsistentNumbers(
+        streamHandler: NativeInteropStreamConsistentNumbersStreamHandler,
+        engineKey: Long,
+        instanceName: String
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      kotlin.synchronized(nativeInteropStreamConsistentNumbersHandlers) {
+        val list =
+            nativeInteropStreamConsistentNumbersHandlers.getOrPut(resolvedName) { mutableListOf() }
+        val index = list.indexOfFirst { it.handler === streamHandler && it.engineKey == engineKey }
+        if (index >= 0) {
+          list.add(list.removeAt(index))
+        } else {
+          list.add(NativeInteropTestsPigeonEventHandlerEntry(streamHandler, engineKey))
+        }
+      }
+    }
+
+    internal fun unregisterNativeInteropStreamConsistentNumbers(
+        streamHandler: NativeInteropStreamConsistentNumbersStreamHandler,
+        engineKey: Long,
+        instanceName: String
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      kotlin.synchronized(nativeInteropStreamConsistentNumbersHandlers) {
+        val list = nativeInteropStreamConsistentNumbersHandlers[resolvedName] ?: return
+        val removeKey =
+            if (list.any { it.handler === streamHandler && it.engineKey == engineKey }) {
+              engineKey
+            } else {
+              list
+                  .filter { it.handler === streamHandler }
+                  .map { it.engineKey }
+                  .distinct()
+                  .singleOrNull() ?: return
+            }
+        list.removeAll { it.handler === streamHandler && it.engineKey == removeKey }
+        if (list.isEmpty()) {
+          nativeInteropStreamConsistentNumbersHandlers.remove(resolvedName)
+        }
+      }
+    }
+
+    private fun resolveNativeInteropStreamConsistentNumbers(
+        instanceName: String,
+        engineId: Long,
+        affinityKey: Long
+    ): NativeInteropStreamConsistentNumbersStreamHandler? {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      return kotlin.synchronized(nativeInteropStreamConsistentNumbersHandlers) {
+        val list =
+            nativeInteropStreamConsistentNumbersHandlers[resolvedName] ?: return@synchronized null
+        val exact =
+            if (engineId != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == engineId }
+            else null
+        val affine =
+            if (affinityKey != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == affinityKey }
+            else null
+        (exact ?: affine ?: list.lastOrNull())?.handler
+      }
+    }
+
+    /**
+     * Starts listening to [NativeInteropStreamConsistentNumbersStreamHandler] for [instanceName]
+     * and the engine identified by [engineId] and [affinityKey].
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeon_listen_nativeInteropStreamConsistentNumbers(
+        instanceName: String,
+        engineId: Long,
+        affinityKey: Long,
+        sink: NativeInteropTestsPigeonEventSinkBridge
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      val handler = resolveNativeInteropStreamConsistentNumbers(resolvedName, engineId, affinityKey)
+      if (handler == null) {
+        sink.onError(
+            "unregistered-instance",
+            "No NativeInteropStreamConsistentNumbersStreamHandler instance named \"$resolvedName\" has been registered.",
+            null)
+        sink.onEndOfStream()
+        return
+      }
+      val typedSink = NativeInteropTestsPigeonEventSink<Long>(sink)
+      try {
+        handler.onListen(null, typedSink)
+      } catch (e: NativeInteropTestsError) {
+        typedSink.error(e.code, e.message, e.details)
+        typedSink.endOfStream()
+      } catch (e: Throwable) {
+        typedSink.error(e.javaClass.simpleName, e.toString(), null)
+        typedSink.endOfStream()
+      }
+    }
+
+    /**
+     * Cancels listening to [NativeInteropStreamConsistentNumbersStreamHandler] for [instanceName]
+     * and the engine identified by [engineId] and [affinityKey].
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeon_cancel_nativeInteropStreamConsistentNumbers(
+        instanceName: String,
+        engineId: Long,
+        affinityKey: Long
+    ) {
+      try {
+        resolveNativeInteropStreamConsistentNumbers(instanceName, engineId, affinityKey)
+            ?.onCancel(null)
+      } catch (e: NativeInteropTestsError) {
+        throw NativeInteropTestsError(
+                e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+            .apply { stackTrace = e.stackTrace }
+      }
+    }
+
+    internal fun registerNativeInteropStreamNullableInts(
+        streamHandler: NativeInteropStreamNullableIntsStreamHandler,
+        engineKey: Long,
+        instanceName: String
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      kotlin.synchronized(nativeInteropStreamNullableIntsHandlers) {
+        val list =
+            nativeInteropStreamNullableIntsHandlers.getOrPut(resolvedName) { mutableListOf() }
+        val index = list.indexOfFirst { it.handler === streamHandler && it.engineKey == engineKey }
+        if (index >= 0) {
+          list.add(list.removeAt(index))
+        } else {
+          list.add(NativeInteropTestsPigeonEventHandlerEntry(streamHandler, engineKey))
+        }
+      }
+    }
+
+    internal fun unregisterNativeInteropStreamNullableInts(
+        streamHandler: NativeInteropStreamNullableIntsStreamHandler,
+        engineKey: Long,
+        instanceName: String
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      kotlin.synchronized(nativeInteropStreamNullableIntsHandlers) {
+        val list = nativeInteropStreamNullableIntsHandlers[resolvedName] ?: return
+        val removeKey =
+            if (list.any { it.handler === streamHandler && it.engineKey == engineKey }) {
+              engineKey
+            } else {
+              list
+                  .filter { it.handler === streamHandler }
+                  .map { it.engineKey }
+                  .distinct()
+                  .singleOrNull() ?: return
+            }
+        list.removeAll { it.handler === streamHandler && it.engineKey == removeKey }
+        if (list.isEmpty()) {
+          nativeInteropStreamNullableIntsHandlers.remove(resolvedName)
+        }
+      }
+    }
+
+    private fun resolveNativeInteropStreamNullableInts(
+        instanceName: String,
+        engineId: Long,
+        affinityKey: Long
+    ): NativeInteropStreamNullableIntsStreamHandler? {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      return kotlin.synchronized(nativeInteropStreamNullableIntsHandlers) {
+        val list = nativeInteropStreamNullableIntsHandlers[resolvedName] ?: return@synchronized null
+        val exact =
+            if (engineId != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == engineId }
+            else null
+        val affine =
+            if (affinityKey != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == affinityKey }
+            else null
+        (exact ?: affine ?: list.lastOrNull())?.handler
+      }
+    }
+
+    /**
+     * Starts listening to [NativeInteropStreamNullableIntsStreamHandler] for [instanceName] and the
+     * engine identified by [engineId] and [affinityKey].
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeon_listen_nativeInteropStreamNullableInts(
+        instanceName: String,
+        engineId: Long,
+        affinityKey: Long,
+        sink: NativeInteropTestsPigeonEventSinkBridge
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      val handler = resolveNativeInteropStreamNullableInts(resolvedName, engineId, affinityKey)
+      if (handler == null) {
+        sink.onError(
+            "unregistered-instance",
+            "No NativeInteropStreamNullableIntsStreamHandler instance named \"$resolvedName\" has been registered.",
+            null)
+        sink.onEndOfStream()
+        return
+      }
+      val typedSink = NativeInteropTestsPigeonEventSink<Long?>(sink)
+      try {
+        handler.onListen(null, typedSink)
+      } catch (e: NativeInteropTestsError) {
+        typedSink.error(e.code, e.message, e.details)
+        typedSink.endOfStream()
+      } catch (e: Throwable) {
+        typedSink.error(e.javaClass.simpleName, e.toString(), null)
+        typedSink.endOfStream()
+      }
+    }
+
+    /**
+     * Cancels listening to [NativeInteropStreamNullableIntsStreamHandler] for [instanceName] and
+     * the engine identified by [engineId] and [affinityKey].
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeon_cancel_nativeInteropStreamNullableInts(
+        instanceName: String,
+        engineId: Long,
+        affinityKey: Long
+    ) {
+      try {
+        resolveNativeInteropStreamNullableInts(instanceName, engineId, affinityKey)?.onCancel(null)
+      } catch (e: NativeInteropTestsError) {
+        throw NativeInteropTestsError(
+                e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+            .apply { stackTrace = e.stackTrace }
+      }
+    }
+
+    internal fun registerNativeInteropStreamIntLists(
+        streamHandler: NativeInteropStreamIntListsStreamHandler,
+        engineKey: Long,
+        instanceName: String
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      kotlin.synchronized(nativeInteropStreamIntListsHandlers) {
+        val list = nativeInteropStreamIntListsHandlers.getOrPut(resolvedName) { mutableListOf() }
+        val index = list.indexOfFirst { it.handler === streamHandler && it.engineKey == engineKey }
+        if (index >= 0) {
+          list.add(list.removeAt(index))
+        } else {
+          list.add(NativeInteropTestsPigeonEventHandlerEntry(streamHandler, engineKey))
+        }
+      }
+    }
+
+    internal fun unregisterNativeInteropStreamIntLists(
+        streamHandler: NativeInteropStreamIntListsStreamHandler,
+        engineKey: Long,
+        instanceName: String
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      kotlin.synchronized(nativeInteropStreamIntListsHandlers) {
+        val list = nativeInteropStreamIntListsHandlers[resolvedName] ?: return
+        val removeKey =
+            if (list.any { it.handler === streamHandler && it.engineKey == engineKey }) {
+              engineKey
+            } else {
+              list
+                  .filter { it.handler === streamHandler }
+                  .map { it.engineKey }
+                  .distinct()
+                  .singleOrNull() ?: return
+            }
+        list.removeAll { it.handler === streamHandler && it.engineKey == removeKey }
+        if (list.isEmpty()) {
+          nativeInteropStreamIntListsHandlers.remove(resolvedName)
+        }
+      }
+    }
+
+    private fun resolveNativeInteropStreamIntLists(
+        instanceName: String,
+        engineId: Long,
+        affinityKey: Long
+    ): NativeInteropStreamIntListsStreamHandler? {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      return kotlin.synchronized(nativeInteropStreamIntListsHandlers) {
+        val list = nativeInteropStreamIntListsHandlers[resolvedName] ?: return@synchronized null
+        val exact =
+            if (engineId != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == engineId }
+            else null
+        val affine =
+            if (affinityKey != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == affinityKey }
+            else null
+        (exact ?: affine ?: list.lastOrNull())?.handler
+      }
+    }
+
+    /**
+     * Starts listening to [NativeInteropStreamIntListsStreamHandler] for [instanceName] and the
+     * engine identified by [engineId] and [affinityKey].
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeon_listen_nativeInteropStreamIntLists(
+        instanceName: String,
+        engineId: Long,
+        affinityKey: Long,
+        sink: NativeInteropTestsPigeonEventSinkBridge
+    ) {
+      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
+      val handler = resolveNativeInteropStreamIntLists(resolvedName, engineId, affinityKey)
+      if (handler == null) {
+        sink.onError(
+            "unregistered-instance",
+            "No NativeInteropStreamIntListsStreamHandler instance named \"$resolvedName\" has been registered.",
+            null)
+        sink.onEndOfStream()
+        return
+      }
+      val typedSink = NativeInteropTestsPigeonEventSink<List<Long>>(sink)
+      try {
+        handler.onListen(null, typedSink)
+      } catch (e: NativeInteropTestsError) {
+        typedSink.error(e.code, e.message, e.details)
+        typedSink.endOfStream()
+      } catch (e: Throwable) {
+        typedSink.error(e.javaClass.simpleName, e.toString(), null)
+        typedSink.endOfStream()
+      }
+    }
+
+    /**
+     * Cancels listening to [NativeInteropStreamIntListsStreamHandler] for [instanceName] and the
+     * engine identified by [engineId] and [affinityKey].
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeon_cancel_nativeInteropStreamIntLists(
+        instanceName: String,
+        engineId: Long,
+        affinityKey: Long
+    ) {
+      try {
+        resolveNativeInteropStreamIntLists(instanceName, engineId, affinityKey)?.onCancel(null)
+      } catch (e: NativeInteropTestsError) {
+        throw NativeInteropTestsError(
+                e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+            .apply { stackTrace = e.stackTrace }
+      }
+    }
   }
 }
 
 abstract class NativeInteropStreamIntsStreamHandler :
     NativeInteropTestsPigeonEventChannelWrapper<Long> {
   companion object {
+    /**
+     * Registers [streamHandler] under [instanceName] (or the default instance when [instanceName]
+     * is omitted) for the engine of the plugin binding [binding].
+     */
+    @JvmStatic
     fun register(
-        streamHandler: NativeInteropStreamIntsStreamHandler?,
+        streamHandler: NativeInteropStreamIntsStreamHandler,
+        binding: FlutterPlugin.FlutterPluginBinding,
         instanceName: String = defaultInstanceName
     ) {
-      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
-      if (streamHandler != null) {
-        NativeInteropEventChannelMethodsRegistrar.nativeInteropStreamIntsHandlers[resolvedName] =
-            streamHandler
-      } else {
-        NativeInteropEventChannelMethodsRegistrar.nativeInteropStreamIntsHandlers.remove(
-            resolvedName)
-      }
+      NativeInteropEventChannelMethodsRegistrar.registerNativeInteropStreamInts(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(binding), instanceName)
+    }
+
+    /**
+     * Removes [streamHandler] from the registrations under [instanceName] for the engine of the
+     * plugin binding [binding], leaving other engines' registrations intact.
+     */
+    @JvmStatic
+    fun unregister(
+        streamHandler: NativeInteropStreamIntsStreamHandler,
+        binding: FlutterPlugin.FlutterPluginBinding,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.unregisterNativeInteropStreamInts(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(binding), instanceName)
+    }
+
+    /**
+     * Registers [streamHandler] under [instanceName] (or the default instance when [instanceName]
+     * is omitted) for the engine of [engine].
+     */
+    @JvmStatic
+    fun register(
+        streamHandler: NativeInteropStreamIntsStreamHandler,
+        engine: FlutterEngine,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.registerNativeInteropStreamInts(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(engine), instanceName)
+    }
+
+    /**
+     * Removes [streamHandler] from the registrations under [instanceName] for the engine of
+     * [engine], leaving other engines' registrations intact.
+     */
+    @JvmStatic
+    fun unregister(
+        streamHandler: NativeInteropStreamIntsStreamHandler,
+        engine: FlutterEngine,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.unregisterNativeInteropStreamInts(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(engine), instanceName)
     }
   }
+
   // Implement methods from NativeInteropTestsPigeonEventChannelWrapper
   override fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<Long>) {}
 
@@ -9917,20 +10567,63 @@ abstract class NativeInteropStreamIntsStreamHandler :
 abstract class NativeInteropStreamEventsStreamHandler :
     NativeInteropTestsPigeonEventChannelWrapper<NativeInteropPlatformEvent> {
   companion object {
+    /**
+     * Registers [streamHandler] under [instanceName] (or the default instance when [instanceName]
+     * is omitted) for the engine of the plugin binding [binding].
+     */
+    @JvmStatic
     fun register(
-        streamHandler: NativeInteropStreamEventsStreamHandler?,
+        streamHandler: NativeInteropStreamEventsStreamHandler,
+        binding: FlutterPlugin.FlutterPluginBinding,
         instanceName: String = defaultInstanceName
     ) {
-      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
-      if (streamHandler != null) {
-        NativeInteropEventChannelMethodsRegistrar.nativeInteropStreamEventsHandlers[resolvedName] =
-            streamHandler
-      } else {
-        NativeInteropEventChannelMethodsRegistrar.nativeInteropStreamEventsHandlers.remove(
-            resolvedName)
-      }
+      NativeInteropEventChannelMethodsRegistrar.registerNativeInteropStreamEvents(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(binding), instanceName)
+    }
+
+    /**
+     * Removes [streamHandler] from the registrations under [instanceName] for the engine of the
+     * plugin binding [binding], leaving other engines' registrations intact.
+     */
+    @JvmStatic
+    fun unregister(
+        streamHandler: NativeInteropStreamEventsStreamHandler,
+        binding: FlutterPlugin.FlutterPluginBinding,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.unregisterNativeInteropStreamEvents(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(binding), instanceName)
+    }
+
+    /**
+     * Registers [streamHandler] under [instanceName] (or the default instance when [instanceName]
+     * is omitted) for the engine of [engine].
+     */
+    @JvmStatic
+    fun register(
+        streamHandler: NativeInteropStreamEventsStreamHandler,
+        engine: FlutterEngine,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.registerNativeInteropStreamEvents(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(engine), instanceName)
+    }
+
+    /**
+     * Removes [streamHandler] from the registrations under [instanceName] for the engine of
+     * [engine], leaving other engines' registrations intact.
+     */
+    @JvmStatic
+    fun unregister(
+        streamHandler: NativeInteropStreamEventsStreamHandler,
+        engine: FlutterEngine,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.unregisterNativeInteropStreamEvents(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(engine), instanceName)
     }
   }
+
   // Implement methods from NativeInteropTestsPigeonEventChannelWrapper
   override fun onListen(
       p0: Any?,
@@ -9943,22 +10636,197 @@ abstract class NativeInteropStreamEventsStreamHandler :
 abstract class NativeInteropStreamConsistentNumbersStreamHandler :
     NativeInteropTestsPigeonEventChannelWrapper<Long> {
   companion object {
+    /**
+     * Registers [streamHandler] under [instanceName] (or the default instance when [instanceName]
+     * is omitted) for the engine of the plugin binding [binding].
+     */
+    @JvmStatic
     fun register(
-        streamHandler: NativeInteropStreamConsistentNumbersStreamHandler?,
+        streamHandler: NativeInteropStreamConsistentNumbersStreamHandler,
+        binding: FlutterPlugin.FlutterPluginBinding,
         instanceName: String = defaultInstanceName
     ) {
-      val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
-      if (streamHandler != null) {
-        NativeInteropEventChannelMethodsRegistrar.nativeInteropStreamConsistentNumbersHandlers[
-                resolvedName] = streamHandler
-      } else {
-        NativeInteropEventChannelMethodsRegistrar.nativeInteropStreamConsistentNumbersHandlers
-            .remove(resolvedName)
-      }
+      NativeInteropEventChannelMethodsRegistrar.registerNativeInteropStreamConsistentNumbers(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(binding), instanceName)
+    }
+
+    /**
+     * Removes [streamHandler] from the registrations under [instanceName] for the engine of the
+     * plugin binding [binding], leaving other engines' registrations intact.
+     */
+    @JvmStatic
+    fun unregister(
+        streamHandler: NativeInteropStreamConsistentNumbersStreamHandler,
+        binding: FlutterPlugin.FlutterPluginBinding,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.unregisterNativeInteropStreamConsistentNumbers(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(binding), instanceName)
+    }
+
+    /**
+     * Registers [streamHandler] under [instanceName] (or the default instance when [instanceName]
+     * is omitted) for the engine of [engine].
+     */
+    @JvmStatic
+    fun register(
+        streamHandler: NativeInteropStreamConsistentNumbersStreamHandler,
+        engine: FlutterEngine,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.registerNativeInteropStreamConsistentNumbers(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(engine), instanceName)
+    }
+
+    /**
+     * Removes [streamHandler] from the registrations under [instanceName] for the engine of
+     * [engine], leaving other engines' registrations intact.
+     */
+    @JvmStatic
+    fun unregister(
+        streamHandler: NativeInteropStreamConsistentNumbersStreamHandler,
+        engine: FlutterEngine,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.unregisterNativeInteropStreamConsistentNumbers(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(engine), instanceName)
     }
   }
+
   // Implement methods from NativeInteropTestsPigeonEventChannelWrapper
   override fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<Long>) {}
+
+  override fun onCancel(p0: Any?) {}
+}
+
+abstract class NativeInteropStreamNullableIntsStreamHandler :
+    NativeInteropTestsPigeonEventChannelWrapper<Long?> {
+  companion object {
+    /**
+     * Registers [streamHandler] under [instanceName] (or the default instance when [instanceName]
+     * is omitted) for the engine of the plugin binding [binding].
+     */
+    @JvmStatic
+    fun register(
+        streamHandler: NativeInteropStreamNullableIntsStreamHandler,
+        binding: FlutterPlugin.FlutterPluginBinding,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.registerNativeInteropStreamNullableInts(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(binding), instanceName)
+    }
+
+    /**
+     * Removes [streamHandler] from the registrations under [instanceName] for the engine of the
+     * plugin binding [binding], leaving other engines' registrations intact.
+     */
+    @JvmStatic
+    fun unregister(
+        streamHandler: NativeInteropStreamNullableIntsStreamHandler,
+        binding: FlutterPlugin.FlutterPluginBinding,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.unregisterNativeInteropStreamNullableInts(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(binding), instanceName)
+    }
+
+    /**
+     * Registers [streamHandler] under [instanceName] (or the default instance when [instanceName]
+     * is omitted) for the engine of [engine].
+     */
+    @JvmStatic
+    fun register(
+        streamHandler: NativeInteropStreamNullableIntsStreamHandler,
+        engine: FlutterEngine,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.registerNativeInteropStreamNullableInts(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(engine), instanceName)
+    }
+
+    /**
+     * Removes [streamHandler] from the registrations under [instanceName] for the engine of
+     * [engine], leaving other engines' registrations intact.
+     */
+    @JvmStatic
+    fun unregister(
+        streamHandler: NativeInteropStreamNullableIntsStreamHandler,
+        engine: FlutterEngine,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.unregisterNativeInteropStreamNullableInts(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(engine), instanceName)
+    }
+  }
+
+  // Implement methods from NativeInteropTestsPigeonEventChannelWrapper
+  override fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<Long?>) {}
+
+  override fun onCancel(p0: Any?) {}
+}
+
+abstract class NativeInteropStreamIntListsStreamHandler :
+    NativeInteropTestsPigeonEventChannelWrapper<List<Long>> {
+  companion object {
+    /**
+     * Registers [streamHandler] under [instanceName] (or the default instance when [instanceName]
+     * is omitted) for the engine of the plugin binding [binding].
+     */
+    @JvmStatic
+    fun register(
+        streamHandler: NativeInteropStreamIntListsStreamHandler,
+        binding: FlutterPlugin.FlutterPluginBinding,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.registerNativeInteropStreamIntLists(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(binding), instanceName)
+    }
+
+    /**
+     * Removes [streamHandler] from the registrations under [instanceName] for the engine of the
+     * plugin binding [binding], leaving other engines' registrations intact.
+     */
+    @JvmStatic
+    fun unregister(
+        streamHandler: NativeInteropStreamIntListsStreamHandler,
+        binding: FlutterPlugin.FlutterPluginBinding,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.unregisterNativeInteropStreamIntLists(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(binding), instanceName)
+    }
+
+    /**
+     * Registers [streamHandler] under [instanceName] (or the default instance when [instanceName]
+     * is omitted) for the engine of [engine].
+     */
+    @JvmStatic
+    fun register(
+        streamHandler: NativeInteropStreamIntListsStreamHandler,
+        engine: FlutterEngine,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.registerNativeInteropStreamIntLists(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(engine), instanceName)
+    }
+
+    /**
+     * Removes [streamHandler] from the registrations under [instanceName] for the engine of
+     * [engine], leaving other engines' registrations intact.
+     */
+    @JvmStatic
+    fun unregister(
+        streamHandler: NativeInteropStreamIntListsStreamHandler,
+        engine: FlutterEngine,
+        instanceName: String = defaultInstanceName
+    ) {
+      NativeInteropEventChannelMethodsRegistrar.unregisterNativeInteropStreamIntLists(
+          streamHandler, NativeInteropTestsPigeonEngineKeys.keyOf(engine), instanceName)
+    }
+  }
+
+  // Implement methods from NativeInteropTestsPigeonEventChannelWrapper
+  override fun onListen(p0: Any?, sink: NativeInteropTestsPigeonEventSink<List<Long>>) {}
 
   override fun onCancel(p0: Any?) {}
 }

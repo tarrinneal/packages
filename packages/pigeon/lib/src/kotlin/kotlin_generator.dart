@@ -1952,12 +1952,12 @@ This is called by the generated Dart code and is not intended for direct use.'''
            * Pass `null` to remove the event channel registration.
            */
           fun setStreamHandler(streamHandler: $streamHandlerClassName?) {
-            val internalHandler = streamHandler?.let { ${generatorOptions.fileSpecificClassNameComponent}PigeonStreamHandler<${_kotlinTypeForDartType(func.returnType)}>(it) }
+            val internalHandler = streamHandler?.let { ${generatorOptions.fileSpecificClassNameComponent}PigeonStreamHandler<${_nullSafeKotlinTypeForDartType(func.returnType)}>(it) }
             channel.setStreamHandler(internalHandler)
           }
         }
 
-        abstract class $streamHandlerClassName : ${generatorOptions.fileSpecificClassNameComponent}PigeonEventChannelWrapper<${_kotlinTypeForDartType(func.returnType)}> {
+        abstract class $streamHandlerClassName : ${generatorOptions.fileSpecificClassNameComponent}PigeonEventChannelWrapper<${_nullSafeKotlinTypeForDartType(func.returnType)}> {
           companion object {
             /**
              * Creates and returns a new event channel that calls the provided stream handler.
@@ -1974,7 +1974,7 @@ This is called by the generated Dart code and is not intended for direct use.'''
           }
 
           // Implement methods from ${generatorOptions.fileSpecificClassNameComponent}PigeonEventChannelWrapper
-          override fun onListen(p0: Any?, sink: PigeonEventSink<${_kotlinTypeForDartType(func.returnType)}>) {}
+          override fun onListen(p0: Any?, sink: PigeonEventSink<${_nullSafeKotlinTypeForDartType(func.returnType)}>) {}
 
           override fun onCancel(p0: Any?) {}
         }
@@ -1991,91 +1991,234 @@ This is called by the generated Dart code and is not intended for direct use.'''
   }) {
     final String prefix = generatorOptions.fileSpecificClassNameComponent ?? '';
     final String codec = _interopCodecName(generatorOptions);
+    final String engineKeys = _getEngineKeysClassName(generatorOptions);
+    final String errorClassName = _getErrorClassName(generatorOptions);
     final sinkClassName = '${prefix}PigeonEventSink';
-    indent.newln();
-    indent.format('''
-        @Keep
-        interface ${prefix}PigeonEventSinkBridge {
-          fun onSuccess(event: ByteArray?)
-
-          fun onError(code: String, message: String?, details: ByteArray?)
-
-          fun onEndOfStream()
-        }
-
-        interface ${prefix}PigeonEventChannelWrapper<T> {
-          open fun onListen(p0: Any?, sink: $sinkClassName<T>) {}
-
-          open fun onCancel(p0: Any?) {}
-        }
-
-        class $sinkClassName<T>(private val bridge: ${prefix}PigeonEventSinkBridge) {
-          fun success(value: T) {
-            bridge.onSuccess($codec.encodeOrNull(value))
-          }
-
-          fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
-            bridge.onError(errorCode, errorMessage, $codec.encodeOrNull(errorDetails))
-          }
-
-          fun endOfStream() {
-            bridge.onEndOfStream()
-          }
-        }
-      ''');
+    final entryClassName = '${prefix}PigeonEventHandlerEntry';
 
     indent.newln();
+    _writeKDoc(indent, '''
+Bridge and dispatcher for Native Interop [@EventChannelApi] handlers in [${api.name}].
+
+This is called by the generated Dart code and is not intended for direct use.''');
     indent.writeln('@Keep');
     indent.writeScoped('class ${api.name}Registrar {', '}', () {
       indent.writeScoped('companion object {', '}', () {
         for (final Method func in api.methods) {
           final handlerClass = '${toUpperCamelCase(func.name)}StreamHandler';
           indent.writeln(
-            'internal val ${func.name}Handlers = mutableMapOf<String, $handlerClass>()',
+            'private val ${func.name}Handlers = mutableMapOf<String, MutableList<$entryClassName<$handlerClass>>>()',
+          );
+        }
+        for (final Method func in api.methods) {
+          final handlerClass = '${toUpperCamelCase(func.name)}StreamHandler';
+          final String methodUpper = toUpperCamelCase(func.name);
+          final String returnType = _nullSafeKotlinTypeForDartType(func.returnType);
+          indent.newln();
+          indent.writeScoped(
+            'internal fun register$methodUpper(streamHandler: $handlerClass, engineKey: Long, instanceName: String) {',
+            '}',
+            () {
+              indent.writeln(
+                'val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName',
+              );
+              indent.writeScoped('kotlin.synchronized(${func.name}Handlers) {', '}', () {
+                indent.writeln(
+                  'val list = ${func.name}Handlers.getOrPut(resolvedName) { mutableListOf() }',
+                );
+                indent.writeln(
+                  'val index = list.indexOfFirst { it.handler === streamHandler && it.engineKey == engineKey }',
+                );
+                indent.writeScoped('if (index >= 0) {', '}', () {
+                  indent.writeln('list.add(list.removeAt(index))');
+                }, addTrailingNewline: false);
+                indent.addScoped(' else {', '}', () {
+                  indent.writeln('list.add($entryClassName(streamHandler, engineKey))');
+                });
+              });
+            },
+          );
+          indent.newln();
+          indent.writeScoped(
+            'internal fun unregister$methodUpper(streamHandler: $handlerClass, engineKey: Long, instanceName: String) {',
+            '}',
+            () {
+              indent.writeln(
+                'val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName',
+              );
+              indent.writeScoped('kotlin.synchronized(${func.name}Handlers) {', '}', () {
+                indent.writeln('val list = ${func.name}Handlers[resolvedName] ?: return');
+                indent.format('''
+val removeKey =
+\tif (list.any { it.handler === streamHandler && it.engineKey == engineKey }) {
+\t\tengineKey
+\t} else {
+\t\tlist.filter { it.handler === streamHandler }.map { it.engineKey }.distinct().singleOrNull()
+\t\t\t?: return
+\t}''');
+                indent.writeln(
+                  'list.removeAll { it.handler === streamHandler && it.engineKey == removeKey }',
+                );
+                indent.writeScoped('if (list.isEmpty()) {', '}', () {
+                  indent.writeln('${func.name}Handlers.remove(resolvedName)');
+                });
+              });
+            },
+          );
+          indent.newln();
+          indent.writeScoped(
+            'private fun resolve$methodUpper(instanceName: String, engineId: Long, affinityKey: Long): $handlerClass? {',
+            '}',
+            () {
+              indent.writeln(
+                'val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName',
+              );
+              indent.writeScoped('return kotlin.synchronized(${func.name}Handlers) {', '}', () {
+                indent.writeln(
+                  'val list = ${func.name}Handlers[resolvedName] ?: return@synchronized null',
+                );
+                indent.writeln(
+                  'val exact = if (engineId != $engineKeys.NO_KEY) list.lastOrNull { it.engineKey == engineId } else null',
+                );
+                indent.writeln(
+                  'val affine = if (affinityKey != $engineKeys.NO_KEY) list.lastOrNull { it.engineKey == affinityKey } else null',
+                );
+                indent.writeln('(exact ?: affine ?: list.lastOrNull())?.handler');
+              });
+            },
+          );
+          indent.newln();
+          _writeKDoc(indent, '''
+Starts listening to [$handlerClass] for [instanceName] and the engine
+identified by [engineId] and [affinityKey].
+
+This is called by the generated Dart code and is not intended for direct use.''');
+          indent.writeln('@JvmStatic');
+          indent.writeln('@Keep');
+          indent.writeScoped(
+            'fun pigeon_listen_${func.name}(instanceName: String, engineId: Long, affinityKey: Long, sink: ${prefix}PigeonEventSinkBridge) {',
+            '}',
+            () {
+              indent.writeln(
+                'val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName',
+              );
+              indent.writeln(
+                'val handler = resolve$methodUpper(resolvedName, engineId, affinityKey)',
+              );
+              indent.writeScoped('if (handler == null) {', '}', () {
+                indent.writeln(
+                  'sink.onError("unregistered-instance", "No $handlerClass instance named \\"\$resolvedName\\" has been registered.", null)',
+                );
+                indent.writeln('sink.onEndOfStream()');
+                indent.writeln('return');
+              });
+              indent.writeln('val typedSink = $sinkClassName<$returnType>(sink)');
+              indent.writeScoped('try {', '}', () {
+                indent.writeln('handler.onListen(null, typedSink)');
+              }, addTrailingNewline: false);
+              indent.addScoped(' catch (e: $errorClassName) {', '}', () {
+                indent.writeln('typedSink.error(e.code, e.message, e.details)');
+                indent.writeln('typedSink.endOfStream()');
+              }, addTrailingNewline: false);
+              indent.addScoped(' catch (e: Throwable) {', '}', () {
+                indent.writeln('typedSink.error(e.javaClass.simpleName, e.toString(), null)');
+                indent.writeln('typedSink.endOfStream()');
+              });
+            },
+          );
+          indent.newln();
+          _writeKDoc(indent, '''
+Cancels listening to [$handlerClass] for [instanceName] and the engine
+identified by [engineId] and [affinityKey].
+
+This is called by the generated Dart code and is not intended for direct use.''');
+          indent.writeln('@JvmStatic');
+          indent.writeln('@Keep');
+          indent.writeScoped(
+            'fun pigeon_cancel_${func.name}(instanceName: String, engineId: Long, affinityKey: Long) {',
+            '}',
+            () {
+              if (generatorOptions.useJniHybrid) {
+                indent.writeScoped('try {', '}', () {
+                  indent.writeln(
+                    'resolve$methodUpper(instanceName, engineId, affinityKey)?.onCancel(null)',
+                  );
+                }, addTrailingNewline: false);
+                indent.addScoped(' catch (e: $errorClassName) {', '}', () {
+                  indent.writeScoped(
+                    'throw $errorClassName(e.code, e.message, $codec.encodeOrNull(e.details)).apply {',
+                    '}',
+                    () {
+                      indent.writeln('stackTrace = e.stackTrace');
+                    },
+                  );
+                });
+              } else {
+                indent.writeln(
+                  'resolve$methodUpper(instanceName, engineId, affinityKey)?.onCancel(null)',
+                );
+              }
+            },
           );
         }
       });
-      for (final Method func in api.methods) {
-        final String returnType = _kotlinTypeForDartType(func.returnType);
-        indent.newln();
-        indent.writeScoped(
-          'fun pigeon_listen_${func.name}(instanceName: String, sink: ${prefix}PigeonEventSinkBridge) {',
-          '}',
-          () {
-            indent.writeln(
-              '${func.name}Handlers[instanceName]?.onListen(null, $sinkClassName<$returnType>(sink))',
-            );
-          },
-        );
-        indent.newln();
-        indent.writeScoped('fun pigeon_cancel_${func.name}(instanceName: String) {', '}', () {
-          indent.writeln('${func.name}Handlers[instanceName]?.onCancel(null)');
-        });
-      }
     });
 
-    addDocumentationComments(indent, api.documentationComments, _docCommentSpec);
     for (final Method func in api.methods) {
       final handlerClass = '${toUpperCamelCase(func.name)}StreamHandler';
-      final String returnType = _kotlinTypeForDartType(func.returnType);
-      indent.format('''
-        abstract class $handlerClass : ${prefix}PigeonEventChannelWrapper<$returnType> {
-          companion object {
-            fun register(streamHandler: $handlerClass?, instanceName: String = defaultInstanceName) {
-              val resolvedName = if (instanceName.isEmpty()) defaultInstanceName else instanceName
-              if (streamHandler != null) {
-                ${api.name}Registrar.${func.name}Handlers[resolvedName] = streamHandler
-              } else {
-                ${api.name}Registrar.${func.name}Handlers.remove(resolvedName)
+      final String methodUpper = toUpperCamelCase(func.name);
+      final String returnType = _nullSafeKotlinTypeForDartType(func.returnType);
+      indent.newln();
+      addDocumentationComments(indent, api.documentationComments, _docCommentSpec);
+      indent.writeScoped(
+        'abstract class $handlerClass : ${prefix}PigeonEventChannelWrapper<$returnType> {',
+        '}',
+        () {
+          indent.writeScoped('companion object {', '}', () {
+            for (final (String paramName, String paramType, String source)
+                in <(String, String, String)>[
+                  ('binding', 'FlutterPlugin.FlutterPluginBinding', 'the plugin binding [binding]'),
+                  ('engine', 'FlutterEngine', '[engine]'),
+                ]) {
+              _writeKDoc(indent, '''
+Registers [streamHandler] under [instanceName] (or the default instance when
+[instanceName] is omitted) for the engine of $source.''');
+              indent.writeln('@JvmStatic');
+              indent.writeScoped(
+                'fun register(streamHandler: $handlerClass, $paramName: $paramType, instanceName: String = defaultInstanceName) {',
+                '}',
+                () {
+                  indent.writeln(
+                    '${api.name}Registrar.register$methodUpper(streamHandler, $engineKeys.keyOf($paramName), instanceName)',
+                  );
+                },
+              );
+              indent.newln();
+              _writeKDoc(indent, '''
+Removes [streamHandler] from the registrations under [instanceName] for the
+engine of $source, leaving other engines' registrations intact.''');
+              indent.writeln('@JvmStatic');
+              indent.writeScoped(
+                'fun unregister(streamHandler: $handlerClass, $paramName: $paramType, instanceName: String = defaultInstanceName) {',
+                '}',
+                () {
+                  indent.writeln(
+                    '${api.name}Registrar.unregister$methodUpper(streamHandler, $engineKeys.keyOf($paramName), instanceName)',
+                  );
+                },
+              );
+              if (paramName == 'binding') {
+                indent.newln();
               }
             }
-          }
-        // Implement methods from ${prefix}PigeonEventChannelWrapper
-        override fun onListen(p0: Any?, sink: $sinkClassName<$returnType>) {}
-
-        override fun onCancel(p0: Any?) {}
-        }
-      ''');
+          });
+          indent.newln();
+          indent.writeln('// Implement methods from ${prefix}PigeonEventChannelWrapper');
+          indent.writeln('override fun onListen(p0: Any?, sink: $sinkClassName<$returnType>) {}');
+          indent.newln();
+          indent.writeln('override fun onCancel(p0: Any?) {}');
+        },
+      );
     }
   }
 
@@ -2327,17 +2470,68 @@ fun floatHash(f: Float): Int {
     }
     if (generatorOptions.useJni) {
       indent.writeln('private const val defaultInstanceName = "$defaultNativeInteropInstanceName"');
+      if (root.containsEventChannel) {
+        _writeJniEventChannelSharedTypes(generatorOptions, indent);
+      }
       if (_needsEngineKeys(generatorOptions, root)) {
         _writeEngineKeys(generatorOptions, indent);
       }
     }
   }
 
+  void _writeJniEventChannelSharedTypes(InternalKotlinOptions generatorOptions, Indent indent) {
+    final String prefix = generatorOptions.fileSpecificClassNameComponent ?? '';
+    final String codec = _interopCodecName(generatorOptions);
+    final sinkClassName = '${prefix}PigeonEventSink';
+    final entryClassName = '${prefix}PigeonEventHandlerEntry';
+    indent.newln();
+    indent.format('''
+private class $entryClassName<T>(val handler: T, val engineKey: Long)
+
+/**
+ * JNI callback bridge used by Dart to receive events from native [$sinkClassName]s.
+ *
+ * This is implemented by the generated Dart code and is not intended for direct use.
+ */
+@Keep
+interface ${prefix}PigeonEventSinkBridge {
+\tfun onSuccess(event: ByteArray?)
+
+\tfun onError(code: String, message: String?, details: ByteArray?)
+
+\tfun onEndOfStream()
+}
+
+/** Base interface implemented by generated Native Interop event stream handlers. */
+interface ${prefix}PigeonEventChannelWrapper<T> {
+\topen fun onListen(p0: Any?, sink: $sinkClassName<T>) {}
+
+\topen fun onCancel(p0: Any?) {}
+}
+
+/** Sink passed to `onListen` to emit typed events, errors, or stream completion to Dart. */
+class $sinkClassName<T>(private val bridge: ${prefix}PigeonEventSinkBridge) {
+\tfun success(value: T) {
+\t\tbridge.onSuccess($codec.encodeOrNull(value))
+\t}
+
+\tfun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
+\t\tbridge.onError(errorCode, errorMessage, $codec.encodeOrNull(errorDetails))
+\t}
+
+\tfun endOfStream() {
+\t\tbridge.onEndOfStream()
+\t}
+}''');
+  }
+
   /// Whether the file needs the engine key helper used to route native interop
   /// registrations to the Flutter engine they belong to.
   static bool _needsEngineKeys(InternalKotlinOptions generatorOptions, Root root) {
     return generatorOptions.useJni &&
-        root.apis.any((Api api) => api is AstHostApi || api is AstFlutterApi);
+        root.apis.any(
+          (Api api) => api is AstHostApi || api is AstFlutterApi || api is AstEventChannelApi,
+        );
   }
 
   /// Writes the file-private helper that computes engine keys.

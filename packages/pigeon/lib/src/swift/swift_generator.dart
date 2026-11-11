@@ -3878,16 +3878,147 @@ enum ${_classNamePrefix}PigeonInternalNumberType: Int {
 
     _writePigeonInternal(generatorOptions, root, indent);
     _writeNilOrValue(indent);
+    if (generatorOptions.useFfi && root.containsEventChannel) {
+      _writeFfiEventChannelSharedTypes(indent);
+    }
     if (_needsEngineKeys(generatorOptions, root)) {
       _writePigeonEngineKeys(indent);
     }
+  }
+
+  void _writeFfiEventChannelSharedTypes(Indent indent) {
+    final String prefix = _classNamePrefix;
+    final codec = '${prefix}PigeonInteropCodec';
+    final wrapperClassName = '${prefix}PigeonEventChannelWrapper';
+    final sinkClassName = '${prefix}PigeonEventSink';
+    final registryClassName = '${prefix}PigeonEventHandlerRegistry';
+    indent.newln();
+    indent.format('''
+/// Objective-C protocol used by Dart FFI to receive events from native [$sinkClassName]s.
+///
+/// This is implemented by the generated Dart code and is not intended for direct use.
+@objc protocol ${prefix}PigeonEventSinkBridge {
+\t@objc func onSuccess(event: NSData?)
+\t@objc func onError(code: String, message: String?, details: NSData?)
+\t@objc func onEndOfStream()
+}
+
+/// Base class inherited by generated Native Interop event stream handlers.
+class $wrapperClassName<ReturnType> {
+\tfunc onListen(withArguments arguments: Any?, sink: $sinkClassName<ReturnType>) {}
+\tfunc onCancel(withArguments arguments: Any?) {}
+}
+
+/// Sink passed to `onListen` to emit typed events, errors, or stream completion to Dart.
+class $sinkClassName<ReturnType>: @unchecked Sendable {
+\tprivate let bridge: ${prefix}PigeonEventSinkBridge
+\tprivate let encodeSuccess: @Sendable (ReturnType) -> NSData?
+
+\tfileprivate init(
+\t\t_ bridge: ${prefix}PigeonEventSinkBridge,
+\t\tencodeSuccess: @escaping @Sendable (ReturnType) -> NSData? = { $codec.encodeOrNil(\$0) }
+\t) {
+\t\tself.bridge = bridge
+\t\tself.encodeSuccess = encodeSuccess
+\t}
+
+\tfunc success(_ value: ReturnType) {
+\t\tbridge.onSuccess(event: encodeSuccess(value))
+\t}
+
+\tfunc error(code: String, message: String?, details: Any?) {
+\t\tbridge.onError(code: code, message: message, details: $codec.encodeOrNil(details))
+\t}
+
+\tfunc endOfStream() {
+\t\tbridge.onEndOfStream()
+\t}
+}
+
+private final class $registryClassName<Handler: AnyObject>: @unchecked Sendable {
+\tprivate struct Entry {
+\t\tlet handler: Handler
+\t\tlet engineKey: Int64
+\t}
+
+\tprivate let lock = NSLock()
+\tprivate var entries = [String: [Entry]]()
+
+\tfunc register(_ handler: Handler, engineKey: Int64, instanceName: String) {
+\t\tlet resolvedName =
+\t\t\tinstanceName.isEmpty ? ${prefix}PigeonInternal.defaultInstanceName : instanceName
+\t\tlock.lock()
+\t\tdefer { lock.unlock() }
+\t\tvar list = entries[resolvedName] ?? []
+\t\tif let index = list.firstIndex(where: { \$0.handler === handler && \$0.engineKey == engineKey }) {
+\t\t\tlist.append(list.remove(at: index))
+\t\t} else {
+\t\t\tlist.append(Entry(handler: handler, engineKey: engineKey))
+\t\t}
+\t\tentries[resolvedName] = list
+\t}
+
+\tfunc unregister(_ handler: Handler, engineKey: Int64, instanceName: String) {
+\t\tlet resolvedName =
+\t\t\tinstanceName.isEmpty ? ${prefix}PigeonInternal.defaultInstanceName : instanceName
+\t\t// Removed entries are kept alive until after unlocking so their deinit cannot run while the
+\t\t// non-recursive lock is held.
+\t\tvar displaced: [Handler] = []
+\t\tdo {
+\t\t\tlock.lock()
+\t\t\tdefer { lock.unlock() }
+\t\t\tguard var list = entries[resolvedName] else {
+\t\t\t\treturn
+\t\t\t}
+\t\t\tlet removeKey: Int64
+\t\t\tif list.contains(where: { \$0.handler === handler && \$0.engineKey == engineKey }) {
+\t\t\t\tremoveKey = engineKey
+\t\t\t} else {
+\t\t\t\tlet keys = Set(list.filter { \$0.handler === handler }.map { \$0.engineKey })
+\t\t\t\tguard keys.count == 1, let onlyKey = keys.first else {
+\t\t\t\t\treturn
+\t\t\t\t}
+\t\t\t\tremoveKey = onlyKey
+\t\t\t}
+\t\t\tlist.removeAll { entry in
+\t\t\t\tif entry.handler === handler && entry.engineKey == removeKey {
+\t\t\t\t\tdisplaced.append(entry.handler)
+\t\t\t\t\treturn true
+\t\t\t\t}
+\t\t\t\treturn false
+\t\t\t}
+\t\t\tif list.isEmpty {
+\t\t\t\tentries.removeValue(forKey: resolvedName)
+\t\t\t} else {
+\t\t\t\tentries[resolvedName] = list
+\t\t\t}
+\t\t}
+\t\twithExtendedLifetime(displaced) {}
+\t}
+
+\tfunc resolve(instanceName: String, engineId: Int64, affinityKey: Int64) -> Handler? {
+\t\tlet resolvedName =
+\t\t\tinstanceName.isEmpty ? ${prefix}PigeonInternal.defaultInstanceName : instanceName
+\t\tlock.lock()
+\t\tdefer { lock.unlock() }
+\t\tguard let list = entries[resolvedName] else {
+\t\t\treturn nil
+\t\t}
+\t\tlet exact = engineId == Int64.min ? nil : list.last(where: { \$0.engineKey == engineId })
+\t\tlet affine =
+\t\t\taffinityKey == Int64.min ? nil : list.last(where: { \$0.engineKey == affinityKey })
+\t\treturn (exact ?? affine ?? list.last)?.handler
+\t}
+}''');
   }
 
   /// Whether the file needs the engine-key helper and the Flutter import used
   /// by the registrar-based Native Interop registration APIs.
   bool _needsEngineKeys(InternalSwiftOptions generatorOptions, Root root) {
     return generatorOptions.useFfi &&
-        root.apis.any((Api api) => api is AstHostApi || api is AstFlutterApi);
+        root.apis.any(
+          (Api api) => api is AstHostApi || api is AstFlutterApi || api is AstEventChannelApi,
+        );
   }
 
   /// Writes the file-private helper that maps a Flutter engine to the key
@@ -4059,12 +4190,12 @@ fileprivate enum PigeonEngineKeys {
           /// 
           /// Pass `nil` to remove the event channel registration.
           func setStreamHandler(_ streamHandler: $streamHandlerClassName?) {
-            let internalHandler = streamHandler.map({ PigeonStreamHandler<${_swiftTypeForDartType(func.returnType)}>(wrapper: \$0) })
+            let internalHandler = streamHandler.map({ PigeonStreamHandler<${_nullSafeSwiftTypeForDartType(func.returnType)}>(wrapper: \$0) })
             channel.setStreamHandler(internalHandler)
           }
         }
 
-        class $streamHandlerClassName: PigeonEventChannelWrapper<${_swiftTypeForDartType(func.returnType)}> {
+        class $streamHandlerClassName: PigeonEventChannelWrapper<${_nullSafeSwiftTypeForDartType(func.returnType)}> {
           /// Creates and returns a new event channel that calls the provided stream handler.
           /// 
           /// The returned channel can be stored to allow changing or removing the stream handler.
@@ -4095,90 +4226,130 @@ fileprivate enum PigeonEngineKeys {
     final codec = '${prefix}PigeonInteropCodec';
     final wrapperClassName = '${prefix}PigeonEventChannelWrapper';
     final sinkClassName = '${prefix}PigeonEventSink';
-    indent.newln();
-    indent.format('''
-      @objc protocol ${prefix}PigeonEventSinkBridge {
-        @objc func onSuccess(event: NSData?)
-        @objc func onError(code: String, message: String?, details: NSData?)
-        @objc func onEndOfStream()
-      }
-
-      class $wrapperClassName<ReturnType> {
-        func onListen(withArguments arguments: Any?, sink: $sinkClassName<ReturnType>) {}
-        func onCancel(withArguments arguments: Any?) {}
-      }
-
-      class $sinkClassName<ReturnType> {
-        private let bridge: ${prefix}PigeonEventSinkBridge
-
-        fileprivate init(_ bridge: ${prefix}PigeonEventSinkBridge) {
-          self.bridge = bridge
-        }
-
-        func success(_ value: ReturnType) {
-          bridge.onSuccess(event: $codec.encodeOrNil(value))
-        }
-
-        func error(code: String, message: String?, details: Any?) {
-          bridge.onError(code: code, message: message, details: $codec.encodeOrNil(details))
-        }
-
-        func endOfStream() {
-          bridge.onEndOfStream()
-        }
-      }
-      ''');
+    final registryClassName = '${prefix}PigeonEventHandlerRegistry';
 
     indent.newln();
+    indent.writeln(
+      '$_docCommentPrefix Bridge and dispatcher for Native Interop `@EventChannelApi` handlers in `${api.name}`.',
+    );
+    indent.writeln(_docCommentPrefix);
+    indent.writeln(
+      '$_docCommentPrefix This is called by the generated Dart code and is not intended for direct use.',
+    );
     indent.writeScoped('@objc class ${api.name}Setup: NSObject {', '}', () {
+      indent.writeln('private override init() {}');
+      indent.newln();
       for (final Method func in api.methods) {
         final handlerClass = '${toUpperCamelCase(func.name)}StreamHandler';
-        indent.writeln('fileprivate static var ${func.name}Handlers = [String: $handlerClass]()');
+        indent.writeln(
+          'fileprivate static let ${func.name}Handlers = $registryClassName<$handlerClass>()',
+        );
       }
       for (final Method func in api.methods) {
-        final String returnType = _swiftTypeForDartType(func.returnType, ffiTypedData: true);
+        final handlerClass = '${toUpperCamelCase(func.name)}StreamHandler';
+        final String returnType = _nullSafeSwiftTypeForDartType(
+          func.returnType,
+          ffiTypedData: true,
+        );
+        final String encodeArg;
+        if (func.returnType.baseName == 'List' || func.returnType.baseName == 'Map') {
+          if (func.returnType.isNullable) {
+            final nonNullableType = TypeDeclaration(
+              baseName: func.returnType.baseName,
+              isNullable: false,
+              typeArguments: func.returnType.typeArguments,
+              associatedClass: func.returnType.associatedClass,
+              associatedEnum: func.returnType.associatedEnum,
+              associatedProxyApi: func.returnType.associatedProxyApi,
+            );
+            encodeArg =
+                ', encodeSuccess: { value in guard let value else { return nil }; return ${_swiftInteropEncode('value', nonNullableType, codec)} }';
+          } else {
+            encodeArg =
+                ', encodeSuccess: { value in ${_swiftInteropEncode('value', func.returnType, codec)} }';
+          }
+        } else {
+          encodeArg = '';
+        }
         indent.newln();
         indent.writeln('// swift-format-ignore: AlwaysUseLowerCamelCase');
         indent.writeScoped(
-          '@objc static func pigeon_listen_${func.name}(instanceName: String, sink: ${prefix}PigeonEventSinkBridge) {',
+          '@objc static func pigeon_listen_${func.name}(instanceName: String, engineId: Int64, affinityKey: Int64, sink: ${prefix}PigeonEventSinkBridge) {',
           '}',
           () {
+            indent.writeScoped(
+              'guard let handler = ${func.name}Handlers.resolve(instanceName: instanceName, engineId: engineId, affinityKey: affinityKey) else {',
+              '}',
+              () {
+                indent.writeln(
+                  'let resolvedName = instanceName.isEmpty ? ${prefix}PigeonInternal.defaultInstanceName : instanceName',
+                );
+                indent.writeln(
+                  'sink.onError(code: "unregistered-instance", message: "No $handlerClass instance named \\"\\(resolvedName)\\" has been registered.", details: nil)',
+                );
+                indent.writeln('sink.onEndOfStream()');
+                indent.writeln('return');
+              },
+            );
             indent.writeln(
-              '${func.name}Handlers[instanceName]?.onListen(withArguments: nil, sink: $sinkClassName<$returnType>(sink))',
+              'handler.onListen(withArguments: nil, sink: $sinkClassName<$returnType>(sink$encodeArg))',
             );
           },
         );
         indent.newln();
         indent.writeln('// swift-format-ignore: AlwaysUseLowerCamelCase');
         indent.writeScoped(
-          '@objc static func pigeon_cancel_${func.name}(instanceName: String) {',
+          '@objc static func pigeon_cancel_${func.name}(instanceName: String, engineId: Int64, affinityKey: Int64) {',
           '}',
           () {
-            indent.writeln('${func.name}Handlers[instanceName]?.onCancel(withArguments: nil)');
+            indent.writeln(
+              '${func.name}Handlers.resolve(instanceName: instanceName, engineId: engineId, affinityKey: affinityKey)?.onCancel(withArguments: nil)',
+            );
           },
         );
       }
     });
 
-    addDocumentationComments(indent, api.documentationComments, _docCommentSpec);
     for (final Method func in api.methods) {
       final handlerClass = '${toUpperCamelCase(func.name)}StreamHandler';
-      final String returnType = _swiftTypeForDartType(func.returnType, ffiTypedData: true);
-      indent.format('''
-        class $handlerClass: $wrapperClassName<$returnType> {
-          static func register(
-            instanceName: String = ${prefix}PigeonInternal.defaultInstanceName,
-            streamHandler: $handlerClass?
-          ) {
-            let resolvedName = instanceName.isEmpty ? ${prefix}PigeonInternal.defaultInstanceName : instanceName
-            if let streamHandler = streamHandler {
-              ${api.name}Setup.${func.name}Handlers[resolvedName] = streamHandler
-            } else {
-              ${api.name}Setup.${func.name}Handlers.removeValue(forKey: resolvedName)
-            }
-          }
-        }
-      ''');
+      final String returnType = _nullSafeSwiftTypeForDartType(func.returnType, ffiTypedData: true);
+      indent.newln();
+      addDocumentationComments(indent, api.documentationComments, _docCommentSpec);
+      indent.writeScoped('class $handlerClass: $wrapperClassName<$returnType> {', '}', () {
+        indent.writeln('#if canImport(Flutter) || canImport(FlutterMacOS)');
+        indent.nest(1, () {
+          indent.writeln(
+            '$_docCommentPrefix Registers `streamHandler` for events under `instanceName` (or the default instance when',
+          );
+          indent.writeln('$_docCommentPrefix omitted) for the engine that owns `registrar`.');
+          indent.writeScoped(
+            'static func register(streamHandler: $handlerClass, registrar: FlutterPluginRegistrar, instanceName: String = ${prefix}PigeonInternal.defaultInstanceName) {',
+            '}',
+            () {
+              indent.writeln(
+                '${api.name}Setup.${func.name}Handlers.register(streamHandler, engineKey: PigeonEngineKeys.key(for: registrar), instanceName: instanceName)',
+              );
+            },
+          );
+          indent.newln();
+          indent.writeln(
+            '$_docCommentPrefix Removes `streamHandler` from the registrations under `instanceName` for the engine',
+          );
+          indent.writeln(
+            "$_docCommentPrefix that owns `registrar`, leaving other engines' registrations intact.",
+          );
+          indent.writeScoped(
+            'static func unregister(streamHandler: $handlerClass, registrar: FlutterPluginRegistrar, instanceName: String = ${prefix}PigeonInternal.defaultInstanceName) {',
+            '}',
+            () {
+              indent.writeln(
+                '${api.name}Setup.${func.name}Handlers.unregister(streamHandler, engineKey: PigeonEngineKeys.key(for: registrar), instanceName: instanceName)',
+              );
+            },
+          );
+        });
+        indent.writeln('#endif');
+      });
     }
   }
 

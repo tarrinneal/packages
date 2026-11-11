@@ -203,6 +203,6 @@ Stream<PlatformEvent> streamEvents({String instanceName = ''}) {
     pigeonMethodCodec,
   );
   return streamEventsChannel.receiveBroadcastStream().map((dynamic event) {
-    return event as PlatformEvent;
+    return event! as PlatformEvent;
   });
 }

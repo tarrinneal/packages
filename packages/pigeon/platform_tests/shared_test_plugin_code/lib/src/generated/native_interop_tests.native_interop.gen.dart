@@ -321,10 +321,10 @@ class _PigeonJniCodec {
               )
               .toJList()
           as T;
-    } else if (value is List<String>) {
-      return value.map<JString>((e) => writeValue<JString>(e)).toJList() as T;
     } else if (value is List<int>) {
       return value.map<JLong>((e) => writeValue<JLong>(e)).toJList() as T;
+    } else if (value is List<String>) {
+      return value.map<JString>((e) => writeValue<JString>(e)).toJList() as T;
     } else if (value is List<double>) {
       return value.map<JDouble>((e) => writeValue<JDouble>(e)).toJList() as T;
     } else if (value is List<bool>) {
@@ -612,6 +612,7 @@ class _PigeonJniBuffers {
 }
 
 Stream<T> _pigeonJniEventStream<T>({
+  required T Function(Object? event) decodeEvent,
   required void Function(jni_bridge.NativeInteropTestsPigeonEventSinkBridge sink) onListen,
   required void Function() onCancel,
 }) {
@@ -623,13 +624,27 @@ Stream<T> _pigeonJniEventStream<T>({
       currentSink = jni_bridge.NativeInteropTestsPigeonEventSinkBridge.implement(
         jni_bridge.$NativeInteropTestsPigeonEventSinkBridge(
           onSuccess: (JByteArray? event) {
-            final Object? decoded = _PigeonJniBuffers.decode(event);
-            if (identical(jniSink, currentSink) && !controller.isClosed) {
-              controller.add(decoded as T);
+            if (!identical(jniSink, currentSink) || controller.isClosed) {
+              event?.release();
+              return;
+            }
+            try {
+              final Object? decoded = _PigeonJniBuffers.decode(event);
+              controller.add(decodeEvent(decoded));
+            } catch (e, st) {
+              if (identical(jniSink, currentSink) && !controller.isClosed) {
+                controller.addError(e, st);
+              }
             }
           },
           onSuccess$async: true,
           onError: (JString code, JString? message, JByteArray? details) {
+            if (!identical(jniSink, currentSink) || controller.isClosed) {
+              code.release();
+              message?.release();
+              details?.release();
+              return;
+            }
             final String dartCode;
             final String? dartMessage;
             final Object? dartDetails;
@@ -639,6 +654,11 @@ Stream<T> _pigeonJniEventStream<T>({
               dartMessage = message?.toDartString();
               detailsReleased = true;
               dartDetails = _PigeonJniBuffers.decode(details);
+            } catch (e, st) {
+              if (identical(jniSink, currentSink) && !controller.isClosed) {
+                controller.addError(e, st);
+              }
+              return;
             } finally {
               code.release();
               message?.release();
@@ -848,16 +868,16 @@ class _PigeonFfiCodec {
         res.addObject(writeValue<ffi_bridge.NativeInteropShapeBridge>(entry, generic: true));
       }
       return res as T;
-    } else if (value is List<String> && _isTypeOrNullableType<NSMutableArray>(T)) {
-      final NSMutableArray res = NSMutableArray();
-      for (final String entry in value) {
-        res.addObject(writeValue<NSString>(entry, generic: true));
-      }
-      return res as T;
     } else if (value is List<int> && _isTypeOrNullableType<NSMutableArray>(T)) {
       final NSMutableArray res = NSMutableArray();
       for (final int entry in value) {
         res.addObject(writeValue<NSNumber>(entry, generic: true));
+      }
+      return res as T;
+    } else if (value is List<String> && _isTypeOrNullableType<NSMutableArray>(T)) {
+      final NSMutableArray res = NSMutableArray();
+      for (final String entry in value) {
+        res.addObject(writeValue<NSString>(entry, generic: true));
       }
       return res as T;
     } else if (value is List<double> && _isTypeOrNullableType<NSMutableArray>(T)) {
@@ -1305,6 +1325,7 @@ class _PigeonFfiBuffers {
 }
 
 Stream<T> _pigeonFfiEventStream<T>({
+  required T Function(Object? event) decodeEvent,
   required void Function(ffi_bridge.NativeInteropTestsPigeonEventSinkBridge sink) onListen,
   required void Function() onCancel,
 }) {
@@ -1315,14 +1336,24 @@ Stream<T> _pigeonFfiEventStream<T>({
       late final ffi_bridge.NativeInteropTestsPigeonEventSinkBridge currentSink;
       currentSink = ffi_bridge.NativeInteropTestsPigeonEventSinkBridge$Builder.implementAsListener(
         onSuccessWithEvent_: (NSData? event) {
-          final Object? decoded = _PigeonFfiBuffers.decode(event);
-          if (identical(ffiSink, currentSink) && !controller.isClosed) {
-            controller.add(decoded as T);
+          if (!identical(ffiSink, currentSink) || controller.isClosed) {
+            return;
+          }
+          try {
+            final Object? decoded = _PigeonFfiBuffers.decode(event);
+            controller.add(decodeEvent(decoded));
+          } catch (e, st) {
+            if (identical(ffiSink, currentSink) && !controller.isClosed) {
+              controller.addError(e, st);
+            }
           }
         },
         onErrorWithCode_message_details_: (NSString code, NSString? message, NSData? details) {
-          final Object? dartDetails = _PigeonFfiBuffers.decode(details);
-          if (identical(ffiSink, currentSink) && !controller.isClosed) {
+          if (!identical(ffiSink, currentSink) || controller.isClosed) {
+            return;
+          }
+          try {
+            final Object? dartDetails = _PigeonFfiBuffers.decode(details);
             controller.addError(
               PlatformException(
                 code: code.toDartString(),
@@ -1330,6 +1361,10 @@ Stream<T> _pigeonFfiEventStream<T>({
                 details: dartDetails,
               ),
             );
+          } catch (e, st) {
+            if (identical(ffiSink, currentSink) && !controller.isClosed) {
+              controller.addError(e, st);
+            }
           }
         },
         onEndOfStream: () {
@@ -1342,6 +1377,7 @@ Stream<T> _pigeonFfiEventStream<T>({
       try {
         onListen(currentSink);
       } catch (_) {
+        ffiSink?.ref.release();
         ffiSink = null;
         rethrow;
       }
@@ -1350,6 +1386,7 @@ Stream<T> _pigeonFfiEventStream<T>({
       try {
         onCancel();
       } finally {
+        ffiSink?.ref.release();
         ffiSink = null;
       }
     },
@@ -15764,30 +15801,44 @@ void pigeon_set_up_NativeInteropSealedClassFlutterApi(
   String name = defaultInstanceName,
 }) => _NativeInteropSealedClassFlutterApiRegistrar.pigeonVar_setUp(api, name: name);
 
-Stream<int> pigeon_event_stream_nativeInteropStreamInts({String instanceName = ''}) {
+Stream<int>? pigeon_event_stream_nativeInteropStreamInts({String instanceName = ''}) {
   if (Platform.isAndroid) {
     final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
     return _pigeonJniEventStream<int>(
+      decodeEvent: (Object? event) => event! as int,
       onListen: (jni_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
-        final jni_bridge.NativeInteropEventChannelMethodsRegistrar registrar =
-            jni_bridge.NativeInteropEventChannelMethodsRegistrar();
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
         final JString jName = resolvedName.toJString();
         try {
-          registrar.pigeon_listen_nativeInteropStreamInts(jName, sink);
+          jni_bridge
+              .NativeInteropEventChannelMethodsRegistrar.pigeon_listen_nativeInteropStreamInts(
+            jName,
+            engineId,
+            affinityKey,
+            sink,
+          );
+        } on JThrowable catch (e) {
+          throw _wrapJniException(e);
         } finally {
           jName.release();
-          registrar.release();
         }
       },
       onCancel: () {
-        final jni_bridge.NativeInteropEventChannelMethodsRegistrar registrar =
-            jni_bridge.NativeInteropEventChannelMethodsRegistrar();
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
         final JString jName = resolvedName.toJString();
         try {
-          registrar.pigeon_cancel_nativeInteropStreamInts(jName);
+          jni_bridge
+              .NativeInteropEventChannelMethodsRegistrar.pigeon_cancel_nativeInteropStreamInts(
+            jName,
+            engineId,
+            affinityKey,
+          );
+        } on JThrowable catch (e) {
+          throw _wrapJniException(e);
         } finally {
           jName.release();
-          registrar.release();
         }
       },
     );
@@ -15795,50 +15846,73 @@ Stream<int> pigeon_event_stream_nativeInteropStreamInts({String instanceName = '
   if (Platform.isIOS || Platform.isMacOS) {
     final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
     return _pigeonFfiEventStream<int>(
+      decodeEvent: (Object? event) => event! as int,
       onListen: (ffi_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
         ffi_bridge
             .NativeInteropEventChannelMethodsSetup.pigeon_listen_nativeInteropStreamIntsWithInstanceName(
           NSString(resolvedName),
+          engineId: engineId,
+          affinityKey: affinityKey,
           sink: sink,
         );
       },
       onCancel: () {
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
         ffi_bridge
             .NativeInteropEventChannelMethodsSetup.pigeon_cancel_nativeInteropStreamIntsWithInstanceName(
           NSString(resolvedName),
+          engineId: engineId,
+          affinityKey: affinityKey,
         );
       },
     );
   }
-  throw UnsupportedError('Native Interop is not supported on this platform.');
+  return null;
 }
 
-Stream<NativeInteropPlatformEvent> pigeon_event_stream_nativeInteropStreamEvents({
+Stream<NativeInteropPlatformEvent>? pigeon_event_stream_nativeInteropStreamEvents({
   String instanceName = '',
 }) {
   if (Platform.isAndroid) {
     final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
     return _pigeonJniEventStream<NativeInteropPlatformEvent>(
+      decodeEvent: (Object? event) => event! as NativeInteropPlatformEvent,
       onListen: (jni_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
-        final jni_bridge.NativeInteropEventChannelMethodsRegistrar registrar =
-            jni_bridge.NativeInteropEventChannelMethodsRegistrar();
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
         final JString jName = resolvedName.toJString();
         try {
-          registrar.pigeon_listen_nativeInteropStreamEvents(jName, sink);
+          jni_bridge
+              .NativeInteropEventChannelMethodsRegistrar.pigeon_listen_nativeInteropStreamEvents(
+            jName,
+            engineId,
+            affinityKey,
+            sink,
+          );
+        } on JThrowable catch (e) {
+          throw _wrapJniException(e);
         } finally {
           jName.release();
-          registrar.release();
         }
       },
       onCancel: () {
-        final jni_bridge.NativeInteropEventChannelMethodsRegistrar registrar =
-            jni_bridge.NativeInteropEventChannelMethodsRegistrar();
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
         final JString jName = resolvedName.toJString();
         try {
-          registrar.pigeon_cancel_nativeInteropStreamEvents(jName);
+          jni_bridge
+              .NativeInteropEventChannelMethodsRegistrar.pigeon_cancel_nativeInteropStreamEvents(
+            jName,
+            engineId,
+            affinityKey,
+          );
+        } on JThrowable catch (e) {
+          throw _wrapJniException(e);
         } finally {
           jName.release();
-          registrar.release();
         }
       },
     );
@@ -15846,48 +15920,71 @@ Stream<NativeInteropPlatformEvent> pigeon_event_stream_nativeInteropStreamEvents
   if (Platform.isIOS || Platform.isMacOS) {
     final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
     return _pigeonFfiEventStream<NativeInteropPlatformEvent>(
+      decodeEvent: (Object? event) => event! as NativeInteropPlatformEvent,
       onListen: (ffi_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
         ffi_bridge
             .NativeInteropEventChannelMethodsSetup.pigeon_listen_nativeInteropStreamEventsWithInstanceName(
           NSString(resolvedName),
+          engineId: engineId,
+          affinityKey: affinityKey,
           sink: sink,
         );
       },
       onCancel: () {
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
         ffi_bridge
             .NativeInteropEventChannelMethodsSetup.pigeon_cancel_nativeInteropStreamEventsWithInstanceName(
           NSString(resolvedName),
+          engineId: engineId,
+          affinityKey: affinityKey,
         );
       },
     );
   }
-  throw UnsupportedError('Native Interop is not supported on this platform.');
+  return null;
 }
 
-Stream<int> pigeon_event_stream_nativeInteropStreamConsistentNumbers({String instanceName = ''}) {
+Stream<int>? pigeon_event_stream_nativeInteropStreamConsistentNumbers({String instanceName = ''}) {
   if (Platform.isAndroid) {
     final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
     return _pigeonJniEventStream<int>(
+      decodeEvent: (Object? event) => event! as int,
       onListen: (jni_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
-        final jni_bridge.NativeInteropEventChannelMethodsRegistrar registrar =
-            jni_bridge.NativeInteropEventChannelMethodsRegistrar();
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
         final JString jName = resolvedName.toJString();
         try {
-          registrar.pigeon_listen_nativeInteropStreamConsistentNumbers(jName, sink);
+          jni_bridge
+              .NativeInteropEventChannelMethodsRegistrar.pigeon_listen_nativeInteropStreamConsistentNumbers(
+            jName,
+            engineId,
+            affinityKey,
+            sink,
+          );
+        } on JThrowable catch (e) {
+          throw _wrapJniException(e);
         } finally {
           jName.release();
-          registrar.release();
         }
       },
       onCancel: () {
-        final jni_bridge.NativeInteropEventChannelMethodsRegistrar registrar =
-            jni_bridge.NativeInteropEventChannelMethodsRegistrar();
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
         final JString jName = resolvedName.toJString();
         try {
-          registrar.pigeon_cancel_nativeInteropStreamConsistentNumbers(jName);
+          jni_bridge
+              .NativeInteropEventChannelMethodsRegistrar.pigeon_cancel_nativeInteropStreamConsistentNumbers(
+            jName,
+            engineId,
+            affinityKey,
+          );
+        } on JThrowable catch (e) {
+          throw _wrapJniException(e);
         } finally {
           jName.release();
-          registrar.release();
         }
       },
     );
@@ -15895,20 +15992,173 @@ Stream<int> pigeon_event_stream_nativeInteropStreamConsistentNumbers({String ins
   if (Platform.isIOS || Platform.isMacOS) {
     final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
     return _pigeonFfiEventStream<int>(
+      decodeEvent: (Object? event) => event! as int,
       onListen: (ffi_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
         ffi_bridge
             .NativeInteropEventChannelMethodsSetup.pigeon_listen_nativeInteropStreamConsistentNumbersWithInstanceName(
           NSString(resolvedName),
+          engineId: engineId,
+          affinityKey: affinityKey,
           sink: sink,
         );
       },
       onCancel: () {
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
         ffi_bridge
             .NativeInteropEventChannelMethodsSetup.pigeon_cancel_nativeInteropStreamConsistentNumbersWithInstanceName(
           NSString(resolvedName),
+          engineId: engineId,
+          affinityKey: affinityKey,
         );
       },
     );
   }
-  throw UnsupportedError('Native Interop is not supported on this platform.');
+  return null;
+}
+
+Stream<int?>? pigeon_event_stream_nativeInteropStreamNullableInts({String instanceName = ''}) {
+  if (Platform.isAndroid) {
+    final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
+    return _pigeonJniEventStream<int?>(
+      decodeEvent: (Object? event) => event as int?,
+      onListen: (jni_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
+        final JString jName = resolvedName.toJString();
+        try {
+          jni_bridge
+              .NativeInteropEventChannelMethodsRegistrar.pigeon_listen_nativeInteropStreamNullableInts(
+            jName,
+            engineId,
+            affinityKey,
+            sink,
+          );
+        } on JThrowable catch (e) {
+          throw _wrapJniException(e);
+        } finally {
+          jName.release();
+        }
+      },
+      onCancel: () {
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
+        final JString jName = resolvedName.toJString();
+        try {
+          jni_bridge
+              .NativeInteropEventChannelMethodsRegistrar.pigeon_cancel_nativeInteropStreamNullableInts(
+            jName,
+            engineId,
+            affinityKey,
+          );
+        } on JThrowable catch (e) {
+          throw _wrapJniException(e);
+        } finally {
+          jName.release();
+        }
+      },
+    );
+  }
+  if (Platform.isIOS || Platform.isMacOS) {
+    final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
+    return _pigeonFfiEventStream<int?>(
+      decodeEvent: (Object? event) => event as int?,
+      onListen: (ffi_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
+        ffi_bridge
+            .NativeInteropEventChannelMethodsSetup.pigeon_listen_nativeInteropStreamNullableIntsWithInstanceName(
+          NSString(resolvedName),
+          engineId: engineId,
+          affinityKey: affinityKey,
+          sink: sink,
+        );
+      },
+      onCancel: () {
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
+        ffi_bridge
+            .NativeInteropEventChannelMethodsSetup.pigeon_cancel_nativeInteropStreamNullableIntsWithInstanceName(
+          NSString(resolvedName),
+          engineId: engineId,
+          affinityKey: affinityKey,
+        );
+      },
+    );
+  }
+  return null;
+}
+
+Stream<List<int>>? pigeon_event_stream_nativeInteropStreamIntLists({String instanceName = ''}) {
+  if (Platform.isAndroid) {
+    final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
+    return _pigeonJniEventStream<List<int>>(
+      decodeEvent: (Object? event) => (event! as List<Object?>).cast<int>(),
+      onListen: (jni_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
+        final JString jName = resolvedName.toJString();
+        try {
+          jni_bridge
+              .NativeInteropEventChannelMethodsRegistrar.pigeon_listen_nativeInteropStreamIntLists(
+            jName,
+            engineId,
+            affinityKey,
+            sink,
+          );
+        } on JThrowable catch (e) {
+          throw _wrapJniException(e);
+        } finally {
+          jName.release();
+        }
+      },
+      onCancel: () {
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
+        final JString jName = resolvedName.toJString();
+        try {
+          jni_bridge
+              .NativeInteropEventChannelMethodsRegistrar.pigeon_cancel_nativeInteropStreamIntLists(
+            jName,
+            engineId,
+            affinityKey,
+          );
+        } on JThrowable catch (e) {
+          throw _wrapJniException(e);
+        } finally {
+          jName.release();
+        }
+      },
+    );
+  }
+  if (Platform.isIOS || Platform.isMacOS) {
+    final String resolvedName = instanceName.isEmpty ? defaultInstanceName : instanceName;
+    return _pigeonFfiEventStream<List<int>>(
+      decodeEvent: (Object? event) => (event! as List<Object?>).cast<int>(),
+      onListen: (ffi_bridge.NativeInteropTestsPigeonEventSinkBridge sink) {
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
+        ffi_bridge
+            .NativeInteropEventChannelMethodsSetup.pigeon_listen_nativeInteropStreamIntListsWithInstanceName(
+          NSString(resolvedName),
+          engineId: engineId,
+          affinityKey: affinityKey,
+          sink: sink,
+        );
+      },
+      onCancel: () {
+        final int engineId = PlatformDispatcher.instance.engineId ?? _pigeonNoEngineKey;
+        final int affinityKey = _pigeonEngineAffinity ?? _pigeonNoEngineKey;
+        ffi_bridge
+            .NativeInteropEventChannelMethodsSetup.pigeon_cancel_nativeInteropStreamIntListsWithInstanceName(
+          NSString(resolvedName),
+          engineId: engineId,
+          affinityKey: affinityKey,
+        );
+      },
+    );
+  }
+  return null;
 }
