@@ -10,6 +10,8 @@ package com.example.test_plugin
 
 import android.util.Log
 import androidx.annotation.Keep
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.StandardMessageCodec
 import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
@@ -196,6 +198,75 @@ class NativeInteropTestsError(
 ) : RuntimeException()
 
 private const val defaultInstanceName = "PigeonDefaultClassName32uh4ui3lh445uh4h3l2l455g4y34u"
+
+/** Computes keys that identify the Flutter engine a registration belongs to. */
+private object NativeInteropTestsPigeonEngineKeys {
+  /** Sentinel meaning that no engine key is known. */
+  const val NO_KEY: Long = Long.MIN_VALUE
+
+  /** `FlutterPluginBinding.getEngineId`, which is missing on older Flutter versions. */
+  private val getEngineIdMethod: java.lang.reflect.Method? by lazy {
+    try {
+      FlutterPlugin.FlutterPluginBinding::class.java.getMethod("getEngineId")
+    } catch (e: Exception) {
+      null
+    }
+  }
+
+  /** Keys for engine messengers, used when an exact engine id is unavailable. */
+  private val messengerKeys = java.util.WeakHashMap<Any, Long>()
+
+  /**
+   * Keys already computed for each binding, so `register` and `unregister` with the same binding
+   * always agree even if [keyOf] for its engine later records an exact key for the messenger.
+   */
+  private val bindingKeys = java.util.WeakHashMap<FlutterPlugin.FlutterPluginBinding, Long>()
+
+  private var nextSyntheticKey: Long = -1L
+
+  /** Returns the key for the engine that [binding] belongs to. */
+  @Synchronized
+  fun keyOf(binding: FlutterPlugin.FlutterPluginBinding): Long {
+    return bindingKeys.getOrPut(binding) { computeKey(binding) }
+  }
+
+  private fun computeKey(binding: FlutterPlugin.FlutterPluginBinding): Long {
+    val method = getEngineIdMethod
+    if (method != null) {
+      try {
+        // Real engine ids are never 0, but an engine without one, or a test
+        // double, reports 0, which must not be shared between engines.
+        val engineId = method.invoke(binding) as Long
+        if (engineId != 0L) {
+          return engineId
+        }
+      } catch (e: Exception) {
+        // Fall back to a messenger-based key.
+      }
+    }
+    return keyOfMessenger(binding.binaryMessenger)
+  }
+
+  /** Returns the key for [engine]. */
+  @Synchronized
+  fun keyOf(engine: FlutterEngine): Long {
+    val key = engine.engineId
+    if (key == 0L) {
+      // Real engine ids are never 0, but an engine without one, or a test
+      // double, reports 0, which must not be shared between engines.
+      return keyOfMessenger(engine.dartExecutor)
+    }
+    // Record the exact key so later lookups through a binding for this engine
+    // agree with it even when the binding cannot report the engine id.
+    messengerKeys[engine.dartExecutor] = key
+    return key
+  }
+
+  @Synchronized
+  private fun keyOfMessenger(messenger: Any): Long {
+    return messengerKeys.getOrPut(messenger) { nextSyntheticKey-- }
+  }
+}
 
 @Keep
 enum class NativeInteropAnEnum(val raw: Int) {
@@ -1695,79 +1766,69 @@ private open class NativeInteropTestsPigeonCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
     return when (type) {
       129.toByte() -> {
-        return (readValue(buffer) as Long?)?.let { NativeInteropAnEnum.ofRaw(it.toInt()) }
+        (readValue(buffer) as Long?)?.let { NativeInteropAnEnum.ofRaw(it.toInt()) }
       }
       130.toByte() -> {
-        return (readValue(buffer) as Long?)?.let { NativeInteropAnotherEnum.ofRaw(it.toInt()) }
+        (readValue(buffer) as Long?)?.let { NativeInteropAnotherEnum.ofRaw(it.toInt()) }
       }
       131.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropUnusedClass.fromList(it) }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropUnusedClass.fromList(it) }
       }
       132.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropAllTypes.fromList(it) }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropAllTypes.fromList(it) }
       }
       133.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let {
-          NativeInteropAllNullableTypes.fromList(it)
-        }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropAllNullableTypes.fromList(it) }
       }
       134.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let {
+        (readValue(buffer) as? List<Any?>)?.let {
           NativeInteropAllNullableTypesWithoutRecursion.fromList(it)
         }
       }
       135.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let {
-          NativeInteropAllClassesWrapper.fromList(it)
-        }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropAllClassesWrapper.fromList(it) }
       }
       136.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let {
-          NativeInteropSealedClassWithFields.fromList(it)
-        }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropSealedClassWithFields.fromList(it) }
       }
       137.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let {
-          NativeInteropEmptySealedClass.fromList(it)
-        }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropEmptySealedClass.fromList(it) }
       }
       138.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let {
-          NativeInteropSealedClassWrapper.fromList(it)
-        }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropSealedClassWrapper.fromList(it) }
       }
       139.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropReservedNames.fromList(it) }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropReservedNames.fromList(it) }
       }
       140.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropCircle.fromList(it) }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropCircle.fromList(it) }
       }
       141.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropSquare.fromList(it) }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropSquare.fromList(it) }
       }
       142.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropIntEvent.fromList(it) }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropIntEvent.fromList(it) }
       }
       143.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropStringEvent.fromList(it) }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropStringEvent.fromList(it) }
       }
       144.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropBoolEvent.fromList(it) }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropBoolEvent.fromList(it) }
       }
       145.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropDoubleEvent.fromList(it) }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropDoubleEvent.fromList(it) }
       }
       146.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropObjectsEvent.fromList(it) }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropObjectsEvent.fromList(it) }
       }
       147.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropEnumEvent.fromList(it) }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropEnumEvent.fromList(it) }
       }
       148.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropClassEvent.fromList(it) }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropClassEvent.fromList(it) }
       }
       149.toByte() -> {
-        return (readValue(buffer) as? List<Any?>)?.let { NativeInteropEmptyEvent.fromList(it) }
+        (readValue(buffer) as? List<Any?>)?.let { NativeInteropEmptyEvent.fromList(it) }
       }
       else -> super.readValueOfType(type, buffer)
     }
@@ -1889,7 +1950,7 @@ private object NativeInteropTestsPigeonInteropCodec : NativeInteropTestsPigeonCo
 }
 
 val NativeInteropHostIntegrationCoreApiInstances:
-    MutableMap<String, NativeInteropHostIntegrationCoreApiRegistrar> =
+    MutableMap<String, MutableList<NativeInteropHostIntegrationCoreApiRegistrar>> =
     mutableMapOf()
 
 @Keep
@@ -2524,35 +2585,219 @@ interface NativeInteropHostIntegrationCoreApi {
   fun testDeregisterFlutterApi(): Boolean
   /** Registers and immediately deregisters a Host API under [name]. */
   fun registerAndImmediatelyDeregisterHostApi(name: String)
+  /** Registers a separate Host API instance under [name] for detached-handle testing. */
+  fun registerNamedHostApi(name: String)
+  /**
+   * Deregisters the Host API instance previously registered by [registerNamedHostApi] under [name].
+   */
+  fun deregisterNamedHostApi(name: String)
   /** Tests that calling a deregistered Flutter API under [name] fails / returns null. */
   fun testCallDeregisteredFlutterApi(name: String): Boolean
+  /**
+   * Spawns secondary engines, destroys one out-of-order, executes a live Dart entrypoint on another
+   * (where supported by the embedder), and tears it down while keeping the primary engine
+   * registration intact.
+   */
+  suspend fun testSecondaryEngineDartExecution(): Boolean
+  /**
+   * Returns whether the secondary engine's Host API registration is ready for the secondary Dart
+   * isolate to invoke.
+   */
+  fun isSecondaryEngineRegistrationReady(): Boolean
+  /**
+   * Reports whether Native Interop Host API calls from a secondary engine's Dart isolate succeeded.
+   */
+  fun reportSecondaryEngineCheck(success: Boolean)
+  /**
+   * Signals that the concurrent background isolate resolved a fresh handle while the secondary
+   * engine was registered.
+   */
+  fun notifyConcurrentIsolateResolved()
+  /**
+   * Returns the engine key that native code stored for this plugin's default Host API registration.
+   */
+  fun registeredEngineKey(): Long
+  /**
+   * Returns a label unique to the Host API instance that handled the call, so tests can check which
+   * engine's registration a handle resolved to.
+   */
+  fun engineLabel(): String
+  /**
+   * Returns whether this platform's plugin binding / registrar exposes an engine identifier, so
+   * registrations should use exact engine keys.
+   */
+  fun pluginEngineIdentifierIsAvailable(): Boolean
 }
 
 @Keep
-class NativeInteropHostIntegrationCoreApiRegistrar {
-  private var api: NativeInteropHostIntegrationCoreApi? = null
+class NativeInteropHostIntegrationCoreApiRegistrar
+private constructor(private val engineKey: Long) {
+  @Volatile private var api: NativeInteropHostIntegrationCoreApi? = null
 
+  constructor() : this(NativeInteropTestsPigeonEngineKeys.NO_KEY)
+
+  /**
+   * Registers [api] under [name] (or the default instance when [name] is omitted) for the engine of
+   * the plugin binding [binding].
+   *
+   * The registration is tied to that engine: unregistering it for this engine leaves other engines'
+   * registrations in place, and Dart code running on an engine uses the instance registered for
+   * that engine when it is known.
+   */
+  @Keep
   fun register(
-      api: NativeInteropHostIntegrationCoreApi?,
+      api: NativeInteropHostIntegrationCoreApi,
+      binding: FlutterPlugin.FlutterPluginBinding,
       name: String = defaultInstanceName
-  ): NativeInteropHostIntegrationCoreApiRegistrar {
-    if (api != null) {
-      this.api = api
-      NativeInteropHostIntegrationCoreApiInstances[name] = this
-    } else {
-      NativeInteropHostIntegrationCoreApiInstances.remove(name)
-    }
-    return this
+  ) {
+    registerWithKey(api, NativeInteropTestsPigeonEngineKeys.keyOf(binding), name)
   }
 
+  /**
+   * Registers [api] under [name] (or the default instance when [name] is omitted) for the engine of
+   * [engine].
+   *
+   * The registration is tied to that engine: unregistering it for this engine leaves other engines'
+   * registrations in place, and Dart code running on an engine uses the instance registered for
+   * that engine when it is known.
+   */
   @Keep
-  fun getInstance(name: String): NativeInteropHostIntegrationCoreApiRegistrar? {
-    return NativeInteropHostIntegrationCoreApiInstances[name]
+  fun register(
+      api: NativeInteropHostIntegrationCoreApi,
+      engine: FlutterEngine,
+      name: String = defaultInstanceName
+  ) {
+    registerWithKey(api, NativeInteropTestsPigeonEngineKeys.keyOf(engine), name)
+  }
+
+  /**
+   * Removes [api] from the registrations under [name] (or the default instance when [name] is
+   * omitted) for the engine of the plugin binding [binding], leaving other registrations in place.
+   *
+   * Instances are matched by identity. If [api] is not registered for that engine but is registered
+   * for exactly one other engine, that registration is removed. Does nothing if [api] is not
+   * registered, or is only registered for several other engines.
+   */
+  @Keep
+  fun unregister(
+      api: NativeInteropHostIntegrationCoreApi,
+      binding: FlutterPlugin.FlutterPluginBinding,
+      name: String = defaultInstanceName
+  ) {
+    unregisterWithKey(api, NativeInteropTestsPigeonEngineKeys.keyOf(binding), name)
+  }
+
+  /**
+   * Removes [api] from the registrations under [name] (or the default instance when [name] is
+   * omitted) for the engine of [engine], leaving other registrations in place.
+   *
+   * Instances are matched by identity. If [api] is not registered for that engine but is registered
+   * for exactly one other engine, that registration is removed. Does nothing if [api] is not
+   * registered, or is only registered for several other engines.
+   */
+  @Keep
+  fun unregister(
+      api: NativeInteropHostIntegrationCoreApi,
+      engine: FlutterEngine,
+      name: String = defaultInstanceName
+  ) {
+    unregisterWithKey(api, NativeInteropTestsPigeonEngineKeys.keyOf(engine), name)
+  }
+
+  private fun registerWithKey(
+      api: NativeInteropHostIntegrationCoreApi,
+      engineKey: Long,
+      name: String
+  ) {
+    kotlin.synchronized(NativeInteropHostIntegrationCoreApiInstances) {
+      val list = NativeInteropHostIntegrationCoreApiInstances.getOrPut(name) { mutableListOf() }
+      val index = list.indexOfFirst { it.api === api && it.engineKey == engineKey }
+      if (index >= 0) {
+        list.add(list.removeAt(index))
+      } else {
+        val wrapper = NativeInteropHostIntegrationCoreApiRegistrar(engineKey)
+        wrapper.api = api
+        list.add(wrapper)
+      }
+    }
+  }
+
+  private fun unregisterWithKey(
+      api: NativeInteropHostIntegrationCoreApi,
+      engineKey: Long,
+      name: String
+  ) {
+    kotlin.synchronized(NativeInteropHostIntegrationCoreApiInstances) {
+      val list = NativeInteropHostIntegrationCoreApiInstances[name] ?: return
+      val removeKey =
+          if (list.any { it.api === api && it.engineKey == engineKey }) {
+            engineKey
+          } else {
+            list.filter { it.api === api }.map { it.engineKey }.distinct().singleOrNull() ?: return
+          }
+      val iterator = list.iterator()
+      while (iterator.hasNext()) {
+        val entry = iterator.next()
+        if (entry.api === api && entry.engineKey == removeKey) {
+          entry.api = null
+          iterator.remove()
+        }
+      }
+      if (list.isEmpty()) {
+        NativeInteropHostIntegrationCoreApiInstances.remove(name)
+      }
+    }
+  }
+
+  companion object {
+    /**
+     * Returns the instance registered under [name] for the engine identified by [engineId].
+     *
+     * Falls back to the most recent instance registered for [affinityKey], then to the most recent
+     * instance overall. Either key may be `Long.MIN_VALUE` when it is unknown.
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeonResolveInstance(
+        engineId: Long,
+        affinityKey: Long,
+        name: String = defaultInstanceName
+    ): NativeInteropHostIntegrationCoreApiRegistrar? {
+      return kotlin.synchronized(NativeInteropHostIntegrationCoreApiInstances) {
+        val list = NativeInteropHostIntegrationCoreApiInstances[name] ?: return null
+        val exact =
+            if (engineId != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == engineId }
+            else null
+        val affine =
+            if (affinityKey != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == affinityKey }
+            else null
+        exact ?: affine ?: list.lastOrNull()
+      }
+    }
+
+    /**
+     * Returns the engine key that [instance] was registered with, or `Long.MIN_VALUE` if it is
+     * unknown.
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeonEngineKeyOf(instance: NativeInteropHostIntegrationCoreApiRegistrar): Long {
+      return instance.engineKey
+    }
   }
 
   fun noop() {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       pigeonVar_api.noop()
     } catch (e: NativeInteropTestsError) {
@@ -2564,13 +2809,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoAllTypes(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val everythingArg = pigeonVar_decodedArgs[0] as NativeInteropAllTypes
+      val pigeonVar_arg_everything = pigeonVar_decodedArgs[0] as NativeInteropAllTypes
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAllTypes(everythingArg))
+          pigeonVar_api.echoAllTypes(pigeonVar_arg_everything))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2580,7 +2828,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun throwError(): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(pigeonVar_api.throwError())
     } catch (e: NativeInteropTestsError) {
@@ -2592,7 +2843,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun throwErrorFromVoid() {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       pigeonVar_api.throwErrorFromVoid()
     } catch (e: NativeInteropTestsError) {
@@ -2604,7 +2858,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun throwFlutterError(): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(pigeonVar_api.throwFlutterError())
     } catch (e: NativeInteropTestsError) {
@@ -2616,7 +2873,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoInt(anInt: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoInt(anInt)
     } catch (e: NativeInteropTestsError) {
@@ -2628,7 +2888,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoDouble(aDouble: Double): Double {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoDouble(aDouble)
     } catch (e: NativeInteropTestsError) {
@@ -2640,7 +2903,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoBool(aBool: Boolean): Boolean {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoBool(aBool)
     } catch (e: NativeInteropTestsError) {
@@ -2652,7 +2918,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoString(aString: String): String {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoString(aString)
     } catch (e: NativeInteropTestsError) {
@@ -2664,7 +2933,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoUint8List(aUint8List: ByteArray): ByteArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoUint8List(aUint8List)
     } catch (e: NativeInteropTestsError) {
@@ -2676,7 +2948,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoInt32List(aInt32List: IntArray): IntArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoInt32List(aInt32List)
     } catch (e: NativeInteropTestsError) {
@@ -2688,7 +2963,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoInt64List(aInt64List: LongArray): LongArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoInt64List(aInt64List)
     } catch (e: NativeInteropTestsError) {
@@ -2700,7 +2978,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoFloat64List(aFloat64List: DoubleArray): DoubleArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoFloat64List(aFloat64List)
     } catch (e: NativeInteropTestsError) {
@@ -2712,13 +2993,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoObject(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val anObjectArg = pigeonVar_decodedArgs[0] as Any
+      val pigeonVar_arg_anObject = pigeonVar_decodedArgs[0] as Any
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoObject(anObjectArg))
+          pigeonVar_api.echoObject(pigeonVar_arg_anObject))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2728,12 +3012,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val listArg = pigeonVar_decodedArgs[0] as List<Any?>
-      return NativeInteropTestsPigeonInteropCodec.encodeOrNull(pigeonVar_api.echoList(listArg))
+      val pigeonVar_arg_list = pigeonVar_decodedArgs[0] as List<Any?>
+      return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
+          pigeonVar_api.echoList(pigeonVar_arg_list))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2743,13 +3031,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoStringList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val stringListArg = pigeonVar_decodedArgs[0] as List<String?>
+      val pigeonVar_arg_stringList = pigeonVar_decodedArgs[0] as List<String?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoStringList(stringListArg))
+          pigeonVar_api.echoStringList(pigeonVar_arg_stringList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2759,13 +3050,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoIntList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val intListArg = pigeonVar_decodedArgs[0] as List<Long?>
+      val pigeonVar_arg_intList = pigeonVar_decodedArgs[0] as List<Long?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoIntList(intListArg))
+          pigeonVar_api.echoIntList(pigeonVar_arg_intList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2775,13 +3069,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoDoubleList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val doubleListArg = pigeonVar_decodedArgs[0] as List<Double?>
+      val pigeonVar_arg_doubleList = pigeonVar_decodedArgs[0] as List<Double?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoDoubleList(doubleListArg))
+          pigeonVar_api.echoDoubleList(pigeonVar_arg_doubleList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2791,13 +3088,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoBoolList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val boolListArg = pigeonVar_decodedArgs[0] as List<Boolean?>
+      val pigeonVar_arg_boolList = pigeonVar_decodedArgs[0] as List<Boolean?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoBoolList(boolListArg))
+          pigeonVar_api.echoBoolList(pigeonVar_arg_boolList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2807,13 +3107,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoEnumList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>
+      val pigeonVar_arg_enumList = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoEnumList(enumListArg))
+          pigeonVar_api.echoEnumList(pigeonVar_arg_enumList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2823,13 +3126,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoClassList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>
+      val pigeonVar_arg_classList = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoClassList(classListArg))
+          pigeonVar_api.echoClassList(pigeonVar_arg_classList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2839,13 +3145,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNonNullEnumList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum>
+      val pigeonVar_arg_enumList = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNonNullEnumList(enumListArg))
+          pigeonVar_api.echoNonNullEnumList(pigeonVar_arg_enumList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2855,13 +3164,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNonNullClassList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes>
+      val pigeonVar_arg_classList = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNonNullClassList(classListArg))
+          pigeonVar_api.echoNonNullClassList(pigeonVar_arg_classList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2871,12 +3183,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val mapArg = pigeonVar_decodedArgs[0] as Map<Any?, Any?>
-      return NativeInteropTestsPigeonInteropCodec.encodeOrNull(pigeonVar_api.echoMap(mapArg))
+      val pigeonVar_arg_map = pigeonVar_decodedArgs[0] as Map<Any?, Any?>
+      return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
+          pigeonVar_api.echoMap(pigeonVar_arg_map))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2886,13 +3202,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoStringMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val stringMapArg = pigeonVar_decodedArgs[0] as Map<String?, String?>
+      val pigeonVar_arg_stringMap = pigeonVar_decodedArgs[0] as Map<String?, String?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoStringMap(stringMapArg))
+          pigeonVar_api.echoStringMap(pigeonVar_arg_stringMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2902,12 +3221,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoIntMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val intMapArg = pigeonVar_decodedArgs[0] as Map<Long?, Long?>
-      return NativeInteropTestsPigeonInteropCodec.encodeOrNull(pigeonVar_api.echoIntMap(intMapArg))
+      val pigeonVar_arg_intMap = pigeonVar_decodedArgs[0] as Map<Long?, Long?>
+      return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
+          pigeonVar_api.echoIntMap(pigeonVar_arg_intMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2917,13 +3240,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoEnumMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumMapArg = pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>
+      val pigeonVar_arg_enumMap =
+          pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoEnumMap(enumMapArg))
+          pigeonVar_api.echoEnumMap(pigeonVar_arg_enumMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2933,13 +3260,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoClassMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classMapArg = pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>
+      val pigeonVar_arg_classMap =
+          pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoClassMap(classMapArg))
+          pigeonVar_api.echoClassMap(pigeonVar_arg_classMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2949,13 +3280,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNonNullStringMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val stringMapArg = pigeonVar_decodedArgs[0] as Map<String, String>
+      val pigeonVar_arg_stringMap = pigeonVar_decodedArgs[0] as Map<String, String>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNonNullStringMap(stringMapArg))
+          pigeonVar_api.echoNonNullStringMap(pigeonVar_arg_stringMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2965,13 +3299,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNonNullIntMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val intMapArg = pigeonVar_decodedArgs[0] as Map<Long, Long>
+      val pigeonVar_arg_intMap = pigeonVar_decodedArgs[0] as Map<Long, Long>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNonNullIntMap(intMapArg))
+          pigeonVar_api.echoNonNullIntMap(pigeonVar_arg_intMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2981,13 +3318,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNonNullEnumMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumMapArg = pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum, NativeInteropAnEnum>
+      val pigeonVar_arg_enumMap =
+          pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum, NativeInteropAnEnum>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNonNullEnumMap(enumMapArg))
+          pigeonVar_api.echoNonNullEnumMap(pigeonVar_arg_enumMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -2997,13 +3338,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNonNullClassMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classMapArg = pigeonVar_decodedArgs[0] as Map<Long, NativeInteropAllNullableTypes>
+      val pigeonVar_arg_classMap =
+          pigeonVar_decodedArgs[0] as Map<Long, NativeInteropAllNullableTypes>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNonNullClassMap(classMapArg))
+          pigeonVar_api.echoNonNullClassMap(pigeonVar_arg_classMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3013,13 +3358,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoClassWrapper(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val wrapperArg = pigeonVar_decodedArgs[0] as NativeInteropAllClassesWrapper
+      val pigeonVar_arg_wrapper = pigeonVar_decodedArgs[0] as NativeInteropAllClassesWrapper
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoClassWrapper(wrapperArg))
+          pigeonVar_api.echoClassWrapper(pigeonVar_arg_wrapper))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3029,13 +3377,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoSealedClass(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val sealedClassArg = pigeonVar_decodedArgs[0] as NativeInteropSealedClass
+      val pigeonVar_arg_sealedClass = pigeonVar_decodedArgs[0] as NativeInteropSealedClass
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoSealedClass(sealedClassArg))
+          pigeonVar_api.echoSealedClass(pigeonVar_arg_sealedClass))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3045,13 +3396,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableSealedClass(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val sealedClassArg = pigeonVar_decodedArgs[0] as NativeInteropSealedClass?
+      val pigeonVar_arg_sealedClass = pigeonVar_decodedArgs[0] as NativeInteropSealedClass?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableSealedClass(sealedClassArg))
+          pigeonVar_api.echoNullableSealedClass(pigeonVar_arg_sealedClass))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3061,13 +3415,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoSealedClassList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val sealedClassListArg = pigeonVar_decodedArgs[0] as List<NativeInteropSealedClass>
+      val pigeonVar_arg_sealedClassList = pigeonVar_decodedArgs[0] as List<NativeInteropSealedClass>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoSealedClassList(sealedClassListArg))
+          pigeonVar_api.echoSealedClassList(pigeonVar_arg_sealedClassList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3077,13 +3434,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoSealedClassWrapper(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val wrapperArg = pigeonVar_decodedArgs[0] as NativeInteropSealedClassWrapper
+      val pigeonVar_arg_wrapper = pigeonVar_decodedArgs[0] as NativeInteropSealedClassWrapper
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoSealedClassWrapper(wrapperArg))
+          pigeonVar_api.echoSealedClassWrapper(pigeonVar_arg_wrapper))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3093,7 +3453,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoEnum(anEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoEnum(NativeInteropAnEnum.ofRaw(anEnum.toInt())!!).raw.toLong()
     } catch (e: NativeInteropTestsError) {
@@ -3105,7 +3468,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoAnotherEnum(anotherEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api
           .echoAnotherEnum(NativeInteropAnotherEnum.ofRaw(anotherEnum.toInt())!!)
@@ -3120,7 +3486,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNamedDefaultString(aString: String): String {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoNamedDefaultString(aString)
     } catch (e: NativeInteropTestsError) {
@@ -3132,7 +3501,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoOptionalDefaultDouble(aDouble: Double): Double {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoOptionalDefaultDouble(aDouble)
     } catch (e: NativeInteropTestsError) {
@@ -3144,7 +3516,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoRequiredInt(anInt: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoRequiredInt(anInt)
     } catch (e: NativeInteropTestsError) {
@@ -3156,13 +3531,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoAllNullableTypes(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val everythingArg = pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypes?
+      val pigeonVar_arg_everything = pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypes?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAllNullableTypes(everythingArg))
+          pigeonVar_api.echoAllNullableTypes(pigeonVar_arg_everything))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3172,13 +3550,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoAllNullableTypesWithoutRecursion(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val everythingArg = pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypesWithoutRecursion?
+      val pigeonVar_arg_everything =
+          pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypesWithoutRecursion?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAllNullableTypesWithoutRecursion(everythingArg))
+          pigeonVar_api.echoAllNullableTypesWithoutRecursion(pigeonVar_arg_everything))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3188,12 +3570,15 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun extractNestedNullableString(pigeonVar_args: ByteArray): String? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val wrapperArg = pigeonVar_decodedArgs[0] as NativeInteropAllClassesWrapper
-      return pigeonVar_api.extractNestedNullableString(wrapperArg)
+      val pigeonVar_arg_wrapper = pigeonVar_decodedArgs[0] as NativeInteropAllClassesWrapper
+      return pigeonVar_api.extractNestedNullableString(pigeonVar_arg_wrapper)
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3203,7 +3588,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun createNestedNullableString(nullableString: String?): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
           pigeonVar_api.createNestedNullableString(nullableString))
@@ -3220,7 +3608,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
       aNullableString: String?
   ): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
           pigeonVar_api.sendMultipleNullableTypes(aNullableBool, aNullableInt, aNullableString))
@@ -3237,7 +3628,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
       aNullableString: String?
   ): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
           pigeonVar_api.sendMultipleNullableTypesWithoutRecursion(
@@ -3251,7 +3645,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableInt(aNullableInt: Long?): Long? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoNullableInt(aNullableInt)
     } catch (e: NativeInteropTestsError) {
@@ -3263,7 +3660,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableDouble(aNullableDouble: Double?): Double? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoNullableDouble(aNullableDouble)
     } catch (e: NativeInteropTestsError) {
@@ -3275,7 +3675,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableBool(aNullableBool: Boolean?): Boolean? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoNullableBool(aNullableBool)
     } catch (e: NativeInteropTestsError) {
@@ -3287,7 +3690,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableString(aNullableString: String?): String? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoNullableString(aNullableString)
     } catch (e: NativeInteropTestsError) {
@@ -3299,7 +3705,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableUint8List(aNullableUint8List: ByteArray?): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoNullableUint8List(aNullableUint8List)
     } catch (e: NativeInteropTestsError) {
@@ -3311,7 +3720,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableInt32List(aNullableInt32List: IntArray?): IntArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoNullableInt32List(aNullableInt32List)
     } catch (e: NativeInteropTestsError) {
@@ -3323,7 +3735,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableInt64List(aNullableInt64List: LongArray?): LongArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoNullableInt64List(aNullableInt64List)
     } catch (e: NativeInteropTestsError) {
@@ -3335,7 +3750,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableFloat64List(aNullableFloat64List: DoubleArray?): DoubleArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoNullableFloat64List(aNullableFloat64List)
     } catch (e: NativeInteropTestsError) {
@@ -3347,13 +3765,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableObject(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val aNullableObjectArg = pigeonVar_decodedArgs[0]
+      val pigeonVar_arg_aNullableObject = pigeonVar_decodedArgs[0]
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableObject(aNullableObjectArg))
+          pigeonVar_api.echoNullableObject(pigeonVar_arg_aNullableObject))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3363,13 +3784,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val aNullableListArg = pigeonVar_decodedArgs[0] as List<Any?>?
+      val pigeonVar_arg_aNullableList = pigeonVar_decodedArgs[0] as List<Any?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableList(aNullableListArg))
+          pigeonVar_api.echoNullableList(pigeonVar_arg_aNullableList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3379,13 +3803,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableEnumList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>?
+      val pigeonVar_arg_enumList = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableEnumList(enumListArg))
+          pigeonVar_api.echoNullableEnumList(pigeonVar_arg_enumList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3395,13 +3822,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableClassList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>?
+      val pigeonVar_arg_classList =
+          pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableClassList(classListArg))
+          pigeonVar_api.echoNullableClassList(pigeonVar_arg_classList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3411,13 +3842,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableNonNullEnumList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum>?
+      val pigeonVar_arg_enumList = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableNonNullEnumList(enumListArg))
+          pigeonVar_api.echoNullableNonNullEnumList(pigeonVar_arg_enumList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3427,13 +3861,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableNonNullClassList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes>?
+      val pigeonVar_arg_classList = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableNonNullClassList(classListArg))
+          pigeonVar_api.echoNullableNonNullClassList(pigeonVar_arg_classList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3443,13 +3880,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val mapArg = pigeonVar_decodedArgs[0] as Map<Any?, Any?>?
+      val pigeonVar_arg_map = pigeonVar_decodedArgs[0] as Map<Any?, Any?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableMap(mapArg))
+          pigeonVar_api.echoNullableMap(pigeonVar_arg_map))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3459,13 +3899,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableStringMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val stringMapArg = pigeonVar_decodedArgs[0] as Map<String?, String?>?
+      val pigeonVar_arg_stringMap = pigeonVar_decodedArgs[0] as Map<String?, String?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableStringMap(stringMapArg))
+          pigeonVar_api.echoNullableStringMap(pigeonVar_arg_stringMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3475,13 +3918,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableIntMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val intMapArg = pigeonVar_decodedArgs[0] as Map<Long?, Long?>?
+      val pigeonVar_arg_intMap = pigeonVar_decodedArgs[0] as Map<Long?, Long?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableIntMap(intMapArg))
+          pigeonVar_api.echoNullableIntMap(pigeonVar_arg_intMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3491,13 +3937,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableEnumMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumMapArg = pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?
+      val pigeonVar_arg_enumMap =
+          pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableEnumMap(enumMapArg))
+          pigeonVar_api.echoNullableEnumMap(pigeonVar_arg_enumMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3507,13 +3957,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableClassMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classMapArg = pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>?
+      val pigeonVar_arg_classMap =
+          pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableClassMap(classMapArg))
+          pigeonVar_api.echoNullableClassMap(pigeonVar_arg_classMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3523,13 +3977,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableNonNullStringMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val stringMapArg = pigeonVar_decodedArgs[0] as Map<String, String>?
+      val pigeonVar_arg_stringMap = pigeonVar_decodedArgs[0] as Map<String, String>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableNonNullStringMap(stringMapArg))
+          pigeonVar_api.echoNullableNonNullStringMap(pigeonVar_arg_stringMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3539,13 +3996,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableNonNullIntMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val intMapArg = pigeonVar_decodedArgs[0] as Map<Long, Long>?
+      val pigeonVar_arg_intMap = pigeonVar_decodedArgs[0] as Map<Long, Long>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableNonNullIntMap(intMapArg))
+          pigeonVar_api.echoNullableNonNullIntMap(pigeonVar_arg_intMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3555,13 +4015,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableNonNullEnumMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumMapArg = pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum, NativeInteropAnEnum>?
+      val pigeonVar_arg_enumMap =
+          pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum, NativeInteropAnEnum>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableNonNullEnumMap(enumMapArg))
+          pigeonVar_api.echoNullableNonNullEnumMap(pigeonVar_arg_enumMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3571,13 +4035,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableNonNullClassMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classMapArg = pigeonVar_decodedArgs[0] as Map<Long, NativeInteropAllNullableTypes>?
+      val pigeonVar_arg_classMap =
+          pigeonVar_decodedArgs[0] as Map<Long, NativeInteropAllNullableTypes>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableNonNullClassMap(classMapArg))
+          pigeonVar_api.echoNullableNonNullClassMap(pigeonVar_arg_classMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3587,7 +4055,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNullableEnum(anEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return (pigeonVar_api
           .echoNullableEnum(if (anEnum == -1L) null else NativeInteropAnEnum.ofRaw(anEnum.toInt()))
@@ -3602,7 +4073,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoAnotherNullableEnum(anotherEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return (pigeonVar_api
           .echoAnotherNullableEnum(
@@ -3618,7 +4092,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoOptionalNullableInt(aNullableInt: Long?): Long? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoOptionalNullableInt(aNullableInt)
     } catch (e: NativeInteropTestsError) {
@@ -3630,7 +4107,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun echoNamedNullableString(aNullableString: String?): String? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoNamedNullableString(aNullableString)
     } catch (e: NativeInteropTestsError) {
@@ -3642,7 +4122,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun noopAsync() {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       pigeonVar_api.noopAsync()
     } catch (e: NativeInteropTestsError) {
@@ -3654,7 +4137,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncInt(anInt: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncInt(anInt)
     } catch (e: NativeInteropTestsError) {
@@ -3666,7 +4152,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncDouble(aDouble: Double): Double {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncDouble(aDouble)
     } catch (e: NativeInteropTestsError) {
@@ -3678,7 +4167,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncBool(aBool: Boolean): Boolean {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncBool(aBool)
     } catch (e: NativeInteropTestsError) {
@@ -3690,7 +4182,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncString(aString: String): String {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncString(aString)
     } catch (e: NativeInteropTestsError) {
@@ -3702,7 +4197,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncUint8List(aUint8List: ByteArray): ByteArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncUint8List(aUint8List)
     } catch (e: NativeInteropTestsError) {
@@ -3714,7 +4212,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncInt32List(aInt32List: IntArray): IntArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncInt32List(aInt32List)
     } catch (e: NativeInteropTestsError) {
@@ -3726,7 +4227,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncInt64List(aInt64List: LongArray): LongArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncInt64List(aInt64List)
     } catch (e: NativeInteropTestsError) {
@@ -3738,7 +4242,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncFloat64List(aFloat64List: DoubleArray): DoubleArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncFloat64List(aFloat64List)
     } catch (e: NativeInteropTestsError) {
@@ -3750,13 +4257,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncObject(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val anObjectArg = pigeonVar_decodedArgs[0] as Any
+      val pigeonVar_arg_anObject = pigeonVar_decodedArgs[0] as Any
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncObject(anObjectArg))
+          pigeonVar_api.echoAsyncObject(pigeonVar_arg_anObject))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3766,12 +4276,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val listArg = pigeonVar_decodedArgs[0] as List<Any?>
-      return NativeInteropTestsPigeonInteropCodec.encodeOrNull(pigeonVar_api.echoAsyncList(listArg))
+      val pigeonVar_arg_list = pigeonVar_decodedArgs[0] as List<Any?>
+      return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
+          pigeonVar_api.echoAsyncList(pigeonVar_arg_list))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3781,13 +4295,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncEnumList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>
+      val pigeonVar_arg_enumList = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncEnumList(enumListArg))
+          pigeonVar_api.echoAsyncEnumList(pigeonVar_arg_enumList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3797,13 +4314,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncClassList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>
+      val pigeonVar_arg_classList = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncClassList(classListArg))
+          pigeonVar_api.echoAsyncClassList(pigeonVar_arg_classList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3813,12 +4333,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val mapArg = pigeonVar_decodedArgs[0] as Map<Any?, Any?>
-      return NativeInteropTestsPigeonInteropCodec.encodeOrNull(pigeonVar_api.echoAsyncMap(mapArg))
+      val pigeonVar_arg_map = pigeonVar_decodedArgs[0] as Map<Any?, Any?>
+      return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
+          pigeonVar_api.echoAsyncMap(pigeonVar_arg_map))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3828,13 +4352,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncStringMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val stringMapArg = pigeonVar_decodedArgs[0] as Map<String?, String?>
+      val pigeonVar_arg_stringMap = pigeonVar_decodedArgs[0] as Map<String?, String?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncStringMap(stringMapArg))
+          pigeonVar_api.echoAsyncStringMap(pigeonVar_arg_stringMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3844,13 +4371,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncIntMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val intMapArg = pigeonVar_decodedArgs[0] as Map<Long?, Long?>
+      val pigeonVar_arg_intMap = pigeonVar_decodedArgs[0] as Map<Long?, Long?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncIntMap(intMapArg))
+          pigeonVar_api.echoAsyncIntMap(pigeonVar_arg_intMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3860,13 +4390,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncEnumMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumMapArg = pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>
+      val pigeonVar_arg_enumMap =
+          pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncEnumMap(enumMapArg))
+          pigeonVar_api.echoAsyncEnumMap(pigeonVar_arg_enumMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3876,13 +4410,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncClassMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classMapArg = pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>
+      val pigeonVar_arg_classMap =
+          pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncClassMap(classMapArg))
+          pigeonVar_api.echoAsyncClassMap(pigeonVar_arg_classMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3892,7 +4430,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncEnum(anEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncEnum(NativeInteropAnEnum.ofRaw(anEnum.toInt())!!).raw.toLong()
     } catch (e: NativeInteropTestsError) {
@@ -3904,7 +4445,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAnotherAsyncEnum(anotherEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api
           .echoAnotherAsyncEnum(NativeInteropAnotherEnum.ofRaw(anotherEnum.toInt())!!)
@@ -3919,7 +4463,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun throwAsyncError(): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(pigeonVar_api.throwAsyncError())
     } catch (e: NativeInteropTestsError) {
@@ -3931,7 +4478,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun throwAsyncErrorFromVoid() {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       pigeonVar_api.throwAsyncErrorFromVoid()
     } catch (e: NativeInteropTestsError) {
@@ -3943,7 +4493,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun throwAsyncFlutterError(): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
           pigeonVar_api.throwAsyncFlutterError())
@@ -3956,13 +4509,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNativeInteropAllTypes(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val everythingArg = pigeonVar_decodedArgs[0] as NativeInteropAllTypes
+      val pigeonVar_arg_everything = pigeonVar_decodedArgs[0] as NativeInteropAllTypes
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncNativeInteropAllTypes(everythingArg))
+          pigeonVar_api.echoAsyncNativeInteropAllTypes(pigeonVar_arg_everything))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3972,13 +4528,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncSealedClass(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val sealedClassArg = pigeonVar_decodedArgs[0] as NativeInteropSealedClass
+      val pigeonVar_arg_sealedClass = pigeonVar_decodedArgs[0] as NativeInteropSealedClass
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncSealedClass(sealedClassArg))
+          pigeonVar_api.echoAsyncSealedClass(pigeonVar_arg_sealedClass))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -3990,13 +4549,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
       pigeonVar_args: ByteArray
   ): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val everythingArg = pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypes?
+      val pigeonVar_arg_everything = pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypes?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncNullableNativeInteropAllNullableTypes(everythingArg))
+          pigeonVar_api.echoAsyncNullableNativeInteropAllNullableTypes(pigeonVar_arg_everything))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4008,14 +4570,18 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
       pigeonVar_args: ByteArray
   ): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val everythingArg = pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypesWithoutRecursion?
+      val pigeonVar_arg_everything =
+          pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypesWithoutRecursion?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
           pigeonVar_api.echoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(
-              everythingArg))
+              pigeonVar_arg_everything))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4025,7 +4591,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableInt(anInt: Long?): Long? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncNullableInt(anInt)
     } catch (e: NativeInteropTestsError) {
@@ -4037,7 +4606,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableDouble(aDouble: Double?): Double? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncNullableDouble(aDouble)
     } catch (e: NativeInteropTestsError) {
@@ -4049,7 +4621,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableBool(aBool: Boolean?): Boolean? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncNullableBool(aBool)
     } catch (e: NativeInteropTestsError) {
@@ -4061,7 +4636,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableString(aString: String?): String? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncNullableString(aString)
     } catch (e: NativeInteropTestsError) {
@@ -4073,7 +4651,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableUint8List(aUint8List: ByteArray?): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncNullableUint8List(aUint8List)
     } catch (e: NativeInteropTestsError) {
@@ -4085,7 +4666,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableInt32List(aInt32List: IntArray?): IntArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncNullableInt32List(aInt32List)
     } catch (e: NativeInteropTestsError) {
@@ -4097,7 +4681,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableInt64List(aInt64List: LongArray?): LongArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncNullableInt64List(aInt64List)
     } catch (e: NativeInteropTestsError) {
@@ -4109,7 +4696,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableFloat64List(aFloat64List: DoubleArray?): DoubleArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.echoAsyncNullableFloat64List(aFloat64List)
     } catch (e: NativeInteropTestsError) {
@@ -4121,13 +4711,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableObject(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val anObjectArg = pigeonVar_decodedArgs[0]
+      val pigeonVar_arg_anObject = pigeonVar_decodedArgs[0]
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncNullableObject(anObjectArg))
+          pigeonVar_api.echoAsyncNullableObject(pigeonVar_arg_anObject))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4137,13 +4730,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val listArg = pigeonVar_decodedArgs[0] as List<Any?>?
+      val pigeonVar_arg_list = pigeonVar_decodedArgs[0] as List<Any?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncNullableList(listArg))
+          pigeonVar_api.echoAsyncNullableList(pigeonVar_arg_list))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4153,13 +4749,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableEnumList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>?
+      val pigeonVar_arg_enumList = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncNullableEnumList(enumListArg))
+          pigeonVar_api.echoAsyncNullableEnumList(pigeonVar_arg_enumList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4169,13 +4768,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableClassList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>?
+      val pigeonVar_arg_classList =
+          pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncNullableClassList(classListArg))
+          pigeonVar_api.echoAsyncNullableClassList(pigeonVar_arg_classList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4185,13 +4788,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val mapArg = pigeonVar_decodedArgs[0] as Map<Any?, Any?>?
+      val pigeonVar_arg_map = pigeonVar_decodedArgs[0] as Map<Any?, Any?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncNullableMap(mapArg))
+          pigeonVar_api.echoAsyncNullableMap(pigeonVar_arg_map))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4201,13 +4807,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableStringMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val stringMapArg = pigeonVar_decodedArgs[0] as Map<String?, String?>?
+      val pigeonVar_arg_stringMap = pigeonVar_decodedArgs[0] as Map<String?, String?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncNullableStringMap(stringMapArg))
+          pigeonVar_api.echoAsyncNullableStringMap(pigeonVar_arg_stringMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4217,13 +4826,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableIntMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val intMapArg = pigeonVar_decodedArgs[0] as Map<Long?, Long?>?
+      val pigeonVar_arg_intMap = pigeonVar_decodedArgs[0] as Map<Long?, Long?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncNullableIntMap(intMapArg))
+          pigeonVar_api.echoAsyncNullableIntMap(pigeonVar_arg_intMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4233,13 +4845,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableEnumMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumMapArg = pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?
+      val pigeonVar_arg_enumMap =
+          pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncNullableEnumMap(enumMapArg))
+          pigeonVar_api.echoAsyncNullableEnumMap(pigeonVar_arg_enumMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4249,13 +4865,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableClassMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classMapArg = pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>?
+      val pigeonVar_arg_classMap =
+          pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncNullableClassMap(classMapArg))
+          pigeonVar_api.echoAsyncNullableClassMap(pigeonVar_arg_classMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4265,7 +4885,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAsyncNullableEnum(anEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return (pigeonVar_api
           .echoAsyncNullableEnum(
@@ -4281,7 +4904,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun echoAnotherAsyncNullableEnum(anotherEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return (pigeonVar_api
           .echoAnotherAsyncNullableEnum(
@@ -4297,7 +4923,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterNoop() {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       pigeonVar_api.callFlutterNoop()
     } catch (e: NativeInteropTestsError) {
@@ -4309,7 +4938,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterThrowError(): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
           pigeonVar_api.callFlutterThrowError())
@@ -4322,7 +4954,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterThrowErrorFromVoid() {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       pigeonVar_api.callFlutterThrowErrorFromVoid()
     } catch (e: NativeInteropTestsError) {
@@ -4334,13 +4969,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNativeInteropAllTypes(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val everythingArg = pigeonVar_decodedArgs[0] as NativeInteropAllTypes
+      val pigeonVar_arg_everything = pigeonVar_decodedArgs[0] as NativeInteropAllTypes
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNativeInteropAllTypes(everythingArg))
+          pigeonVar_api.callFlutterEchoNativeInteropAllTypes(pigeonVar_arg_everything))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4350,13 +4988,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNativeInteropAllNullableTypes(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val everythingArg = pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypes?
+      val pigeonVar_arg_everything = pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypes?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNativeInteropAllNullableTypes(everythingArg))
+          pigeonVar_api.callFlutterEchoNativeInteropAllNullableTypes(pigeonVar_arg_everything))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4366,13 +5007,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoSealedClass(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val sealedClassArg = pigeonVar_decodedArgs[0] as NativeInteropSealedClass
+      val pigeonVar_arg_sealedClass = pigeonVar_decodedArgs[0] as NativeInteropSealedClass
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoSealedClass(sealedClassArg))
+          pigeonVar_api.callFlutterEchoSealedClass(pigeonVar_arg_sealedClass))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4386,7 +5030,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
       aNullableString: String?
   ): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
           pigeonVar_api.callFlutterSendMultipleNullableTypes(
@@ -4402,13 +5049,18 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
       pigeonVar_args: ByteArray
   ): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val everythingArg = pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypesWithoutRecursion?
+      val pigeonVar_arg_everything =
+          pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypesWithoutRecursion?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNativeInteropAllNullableTypesWithoutRecursion(everythingArg))
+          pigeonVar_api.callFlutterEchoNativeInteropAllNullableTypesWithoutRecursion(
+              pigeonVar_arg_everything))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4422,7 +5074,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
       aNullableString: String?
   ): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
           pigeonVar_api.callFlutterSendMultipleNullableTypesWithoutRecursion(
@@ -4436,7 +5091,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoBool(aBool: Boolean): Boolean {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoBool(aBool)
     } catch (e: NativeInteropTestsError) {
@@ -4448,7 +5106,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoInt(anInt: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoInt(anInt)
     } catch (e: NativeInteropTestsError) {
@@ -4460,7 +5121,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoDouble(aDouble: Double): Double {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoDouble(aDouble)
     } catch (e: NativeInteropTestsError) {
@@ -4472,7 +5136,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoString(aString: String): String {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoString(aString)
     } catch (e: NativeInteropTestsError) {
@@ -4484,7 +5151,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoUint8List(list: ByteArray): ByteArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoUint8List(list)
     } catch (e: NativeInteropTestsError) {
@@ -4496,7 +5166,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoInt32List(list: IntArray): IntArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoInt32List(list)
     } catch (e: NativeInteropTestsError) {
@@ -4508,7 +5181,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoInt64List(list: LongArray): LongArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoInt64List(list)
     } catch (e: NativeInteropTestsError) {
@@ -4520,7 +5196,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoFloat64List(list: DoubleArray): DoubleArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoFloat64List(list)
     } catch (e: NativeInteropTestsError) {
@@ -4532,13 +5211,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val listArg = pigeonVar_decodedArgs[0] as List<Any?>
+      val pigeonVar_arg_list = pigeonVar_decodedArgs[0] as List<Any?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoList(listArg))
+          pigeonVar_api.callFlutterEchoList(pigeonVar_arg_list))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4548,13 +5230,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoEnumList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>
+      val pigeonVar_arg_enumList = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoEnumList(enumListArg))
+          pigeonVar_api.callFlutterEchoEnumList(pigeonVar_arg_enumList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4564,13 +5249,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoClassList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>
+      val pigeonVar_arg_classList = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoClassList(classListArg))
+          pigeonVar_api.callFlutterEchoClassList(pigeonVar_arg_classList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4580,13 +5268,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNonNullEnumList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum>
+      val pigeonVar_arg_enumList = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNonNullEnumList(enumListArg))
+          pigeonVar_api.callFlutterEchoNonNullEnumList(pigeonVar_arg_enumList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4596,13 +5287,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNonNullClassList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes>
+      val pigeonVar_arg_classList = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNonNullClassList(classListArg))
+          pigeonVar_api.callFlutterEchoNonNullClassList(pigeonVar_arg_classList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4612,13 +5306,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val mapArg = pigeonVar_decodedArgs[0] as Map<Any?, Any?>
+      val pigeonVar_arg_map = pigeonVar_decodedArgs[0] as Map<Any?, Any?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoMap(mapArg))
+          pigeonVar_api.callFlutterEchoMap(pigeonVar_arg_map))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4628,13 +5325,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoStringMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val stringMapArg = pigeonVar_decodedArgs[0] as Map<String?, String?>
+      val pigeonVar_arg_stringMap = pigeonVar_decodedArgs[0] as Map<String?, String?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoStringMap(stringMapArg))
+          pigeonVar_api.callFlutterEchoStringMap(pigeonVar_arg_stringMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4644,13 +5344,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoIntMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val intMapArg = pigeonVar_decodedArgs[0] as Map<Long?, Long?>
+      val pigeonVar_arg_intMap = pigeonVar_decodedArgs[0] as Map<Long?, Long?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoIntMap(intMapArg))
+          pigeonVar_api.callFlutterEchoIntMap(pigeonVar_arg_intMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4660,13 +5363,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoEnumMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumMapArg = pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>
+      val pigeonVar_arg_enumMap =
+          pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoEnumMap(enumMapArg))
+          pigeonVar_api.callFlutterEchoEnumMap(pigeonVar_arg_enumMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4676,13 +5383,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoClassMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classMapArg = pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>
+      val pigeonVar_arg_classMap =
+          pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoClassMap(classMapArg))
+          pigeonVar_api.callFlutterEchoClassMap(pigeonVar_arg_classMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4692,13 +5403,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNonNullStringMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val stringMapArg = pigeonVar_decodedArgs[0] as Map<String, String>
+      val pigeonVar_arg_stringMap = pigeonVar_decodedArgs[0] as Map<String, String>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNonNullStringMap(stringMapArg))
+          pigeonVar_api.callFlutterEchoNonNullStringMap(pigeonVar_arg_stringMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4708,13 +5422,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNonNullIntMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val intMapArg = pigeonVar_decodedArgs[0] as Map<Long, Long>
+      val pigeonVar_arg_intMap = pigeonVar_decodedArgs[0] as Map<Long, Long>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNonNullIntMap(intMapArg))
+          pigeonVar_api.callFlutterEchoNonNullIntMap(pigeonVar_arg_intMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4724,13 +5441,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNonNullEnumMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumMapArg = pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum, NativeInteropAnEnum>
+      val pigeonVar_arg_enumMap =
+          pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum, NativeInteropAnEnum>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNonNullEnumMap(enumMapArg))
+          pigeonVar_api.callFlutterEchoNonNullEnumMap(pigeonVar_arg_enumMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4740,13 +5461,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNonNullClassMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classMapArg = pigeonVar_decodedArgs[0] as Map<Long, NativeInteropAllNullableTypes>
+      val pigeonVar_arg_classMap =
+          pigeonVar_decodedArgs[0] as Map<Long, NativeInteropAllNullableTypes>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNonNullClassMap(classMapArg))
+          pigeonVar_api.callFlutterEchoNonNullClassMap(pigeonVar_arg_classMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4756,7 +5481,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoEnum(anEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api
           .callFlutterEchoEnum(NativeInteropAnEnum.ofRaw(anEnum.toInt())!!)
@@ -4771,7 +5499,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNativeInteropAnotherEnum(anotherEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api
           .callFlutterEchoNativeInteropAnotherEnum(
@@ -4787,7 +5518,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableBool(aBool: Boolean?): Boolean? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoNullableBool(aBool)
     } catch (e: NativeInteropTestsError) {
@@ -4799,7 +5533,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableInt(anInt: Long?): Long? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoNullableInt(anInt)
     } catch (e: NativeInteropTestsError) {
@@ -4811,7 +5548,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableDouble(aDouble: Double?): Double? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoNullableDouble(aDouble)
     } catch (e: NativeInteropTestsError) {
@@ -4823,7 +5563,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableString(aString: String?): String? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoNullableString(aString)
     } catch (e: NativeInteropTestsError) {
@@ -4835,7 +5578,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableUint8List(list: ByteArray?): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoNullableUint8List(list)
     } catch (e: NativeInteropTestsError) {
@@ -4847,7 +5593,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableInt32List(list: IntArray?): IntArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoNullableInt32List(list)
     } catch (e: NativeInteropTestsError) {
@@ -4859,7 +5608,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableInt64List(list: LongArray?): LongArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoNullableInt64List(list)
     } catch (e: NativeInteropTestsError) {
@@ -4871,7 +5623,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableFloat64List(list: DoubleArray?): DoubleArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoNullableFloat64List(list)
     } catch (e: NativeInteropTestsError) {
@@ -4883,13 +5638,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val listArg = pigeonVar_decodedArgs[0] as List<Any?>?
+      val pigeonVar_arg_list = pigeonVar_decodedArgs[0] as List<Any?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNullableList(listArg))
+          pigeonVar_api.callFlutterEchoNullableList(pigeonVar_arg_list))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4899,13 +5657,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableEnumList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>?
+      val pigeonVar_arg_enumList = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNullableEnumList(enumListArg))
+          pigeonVar_api.callFlutterEchoNullableEnumList(pigeonVar_arg_enumList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4915,13 +5676,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableClassList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>?
+      val pigeonVar_arg_classList =
+          pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNullableClassList(classListArg))
+          pigeonVar_api.callFlutterEchoNullableClassList(pigeonVar_arg_classList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4931,13 +5696,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableNonNullEnumList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum>?
+      val pigeonVar_arg_enumList = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNullableNonNullEnumList(enumListArg))
+          pigeonVar_api.callFlutterEchoNullableNonNullEnumList(pigeonVar_arg_enumList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4947,13 +5715,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableNonNullClassList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes>?
+      val pigeonVar_arg_classList = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNullableNonNullClassList(classListArg))
+          pigeonVar_api.callFlutterEchoNullableNonNullClassList(pigeonVar_arg_classList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4963,13 +5734,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val mapArg = pigeonVar_decodedArgs[0] as Map<Any?, Any?>?
+      val pigeonVar_arg_map = pigeonVar_decodedArgs[0] as Map<Any?, Any?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNullableMap(mapArg))
+          pigeonVar_api.callFlutterEchoNullableMap(pigeonVar_arg_map))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4979,13 +5753,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableStringMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val stringMapArg = pigeonVar_decodedArgs[0] as Map<String?, String?>?
+      val pigeonVar_arg_stringMap = pigeonVar_decodedArgs[0] as Map<String?, String?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNullableStringMap(stringMapArg))
+          pigeonVar_api.callFlutterEchoNullableStringMap(pigeonVar_arg_stringMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -4995,13 +5772,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableIntMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val intMapArg = pigeonVar_decodedArgs[0] as Map<Long?, Long?>?
+      val pigeonVar_arg_intMap = pigeonVar_decodedArgs[0] as Map<Long?, Long?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNullableIntMap(intMapArg))
+          pigeonVar_api.callFlutterEchoNullableIntMap(pigeonVar_arg_intMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5011,13 +5791,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableEnumMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumMapArg = pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?
+      val pigeonVar_arg_enumMap =
+          pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNullableEnumMap(enumMapArg))
+          pigeonVar_api.callFlutterEchoNullableEnumMap(pigeonVar_arg_enumMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5027,13 +5811,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableClassMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classMapArg = pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>?
+      val pigeonVar_arg_classMap =
+          pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNullableClassMap(classMapArg))
+          pigeonVar_api.callFlutterEchoNullableClassMap(pigeonVar_arg_classMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5043,13 +5831,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableNonNullStringMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val stringMapArg = pigeonVar_decodedArgs[0] as Map<String, String>?
+      val pigeonVar_arg_stringMap = pigeonVar_decodedArgs[0] as Map<String, String>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNullableNonNullStringMap(stringMapArg))
+          pigeonVar_api.callFlutterEchoNullableNonNullStringMap(pigeonVar_arg_stringMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5059,13 +5850,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableNonNullIntMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val intMapArg = pigeonVar_decodedArgs[0] as Map<Long, Long>?
+      val pigeonVar_arg_intMap = pigeonVar_decodedArgs[0] as Map<Long, Long>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNullableNonNullIntMap(intMapArg))
+          pigeonVar_api.callFlutterEchoNullableNonNullIntMap(pigeonVar_arg_intMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5075,13 +5869,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableNonNullEnumMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumMapArg = pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum, NativeInteropAnEnum>?
+      val pigeonVar_arg_enumMap =
+          pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum, NativeInteropAnEnum>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNullableNonNullEnumMap(enumMapArg))
+          pigeonVar_api.callFlutterEchoNullableNonNullEnumMap(pigeonVar_arg_enumMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5091,13 +5889,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableNonNullClassMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classMapArg = pigeonVar_decodedArgs[0] as Map<Long, NativeInteropAllNullableTypes>?
+      val pigeonVar_arg_classMap =
+          pigeonVar_decodedArgs[0] as Map<Long, NativeInteropAllNullableTypes>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoNullableNonNullClassMap(classMapArg))
+          pigeonVar_api.callFlutterEchoNullableNonNullClassMap(pigeonVar_arg_classMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5107,7 +5909,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoNullableEnum(anEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return (pigeonVar_api
           .callFlutterEchoNullableEnum(
@@ -5123,7 +5928,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun callFlutterEchoAnotherNullableEnum(anotherEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return (pigeonVar_api
           .callFlutterEchoAnotherNullableEnum(
@@ -5139,7 +5947,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterNoopAsync() {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       pigeonVar_api.callFlutterNoopAsync()
     } catch (e: NativeInteropTestsError) {
@@ -5151,13 +5962,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNativeInteropAllTypes(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val everythingArg = pigeonVar_decodedArgs[0] as NativeInteropAllTypes
+      val pigeonVar_arg_everything = pigeonVar_decodedArgs[0] as NativeInteropAllTypes
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncNativeInteropAllTypes(everythingArg))
+          pigeonVar_api.callFlutterEchoAsyncNativeInteropAllTypes(pigeonVar_arg_everything))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5169,13 +5983,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
       pigeonVar_args: ByteArray
   ): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val everythingArg = pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypes?
+      val pigeonVar_arg_everything = pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypes?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncNullableNativeInteropAllNullableTypes(everythingArg))
+          pigeonVar_api.callFlutterEchoAsyncNullableNativeInteropAllNullableTypes(
+              pigeonVar_arg_everything))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5187,14 +6005,18 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
       pigeonVar_args: ByteArray
   ): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val everythingArg = pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypesWithoutRecursion?
+      val pigeonVar_arg_everything =
+          pigeonVar_decodedArgs[0] as NativeInteropAllNullableTypesWithoutRecursion?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
           pigeonVar_api.callFlutterEchoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(
-              everythingArg))
+              pigeonVar_arg_everything))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5204,7 +6026,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncBool(aBool: Boolean): Boolean {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncBool(aBool)
     } catch (e: NativeInteropTestsError) {
@@ -5216,7 +6041,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncInt(anInt: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncInt(anInt)
     } catch (e: NativeInteropTestsError) {
@@ -5228,7 +6056,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncDouble(aDouble: Double): Double {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncDouble(aDouble)
     } catch (e: NativeInteropTestsError) {
@@ -5240,7 +6071,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncString(aString: String): String {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncString(aString)
     } catch (e: NativeInteropTestsError) {
@@ -5252,7 +6086,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncUint8List(list: ByteArray): ByteArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncUint8List(list)
     } catch (e: NativeInteropTestsError) {
@@ -5264,7 +6101,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncInt32List(list: IntArray): IntArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncInt32List(list)
     } catch (e: NativeInteropTestsError) {
@@ -5276,7 +6116,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncInt64List(list: LongArray): LongArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncInt64List(list)
     } catch (e: NativeInteropTestsError) {
@@ -5288,7 +6131,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncFloat64List(list: DoubleArray): DoubleArray {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncFloat64List(list)
     } catch (e: NativeInteropTestsError) {
@@ -5300,13 +6146,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncObject(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val anObjectArg = pigeonVar_decodedArgs[0] as Any
+      val pigeonVar_arg_anObject = pigeonVar_decodedArgs[0] as Any
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncObject(anObjectArg))
+          pigeonVar_api.callFlutterEchoAsyncObject(pigeonVar_arg_anObject))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5316,13 +6165,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val listArg = pigeonVar_decodedArgs[0] as List<Any?>
+      val pigeonVar_arg_list = pigeonVar_decodedArgs[0] as List<Any?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncList(listArg))
+          pigeonVar_api.callFlutterEchoAsyncList(pigeonVar_arg_list))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5332,13 +6184,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncEnumList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>
+      val pigeonVar_arg_enumList = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncEnumList(enumListArg))
+          pigeonVar_api.callFlutterEchoAsyncEnumList(pigeonVar_arg_enumList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5348,13 +6203,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncClassList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>
+      val pigeonVar_arg_classList = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncClassList(classListArg))
+          pigeonVar_api.callFlutterEchoAsyncClassList(pigeonVar_arg_classList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5364,13 +6222,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNonNullEnumList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum>
+      val pigeonVar_arg_enumList = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncNonNullEnumList(enumListArg))
+          pigeonVar_api.callFlutterEchoAsyncNonNullEnumList(pigeonVar_arg_enumList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5380,13 +6241,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNonNullClassList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes>
+      val pigeonVar_arg_classList = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncNonNullClassList(classListArg))
+          pigeonVar_api.callFlutterEchoAsyncNonNullClassList(pigeonVar_arg_classList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5396,13 +6260,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val mapArg = pigeonVar_decodedArgs[0] as Map<Any?, Any?>
+      val pigeonVar_arg_map = pigeonVar_decodedArgs[0] as Map<Any?, Any?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncMap(mapArg))
+          pigeonVar_api.callFlutterEchoAsyncMap(pigeonVar_arg_map))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5412,13 +6279,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncStringMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val stringMapArg = pigeonVar_decodedArgs[0] as Map<String?, String?>
+      val pigeonVar_arg_stringMap = pigeonVar_decodedArgs[0] as Map<String?, String?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncStringMap(stringMapArg))
+          pigeonVar_api.callFlutterEchoAsyncStringMap(pigeonVar_arg_stringMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5428,13 +6298,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncIntMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val intMapArg = pigeonVar_decodedArgs[0] as Map<Long?, Long?>
+      val pigeonVar_arg_intMap = pigeonVar_decodedArgs[0] as Map<Long?, Long?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncIntMap(intMapArg))
+          pigeonVar_api.callFlutterEchoAsyncIntMap(pigeonVar_arg_intMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5444,13 +6317,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncEnumMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumMapArg = pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>
+      val pigeonVar_arg_enumMap =
+          pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncEnumMap(enumMapArg))
+          pigeonVar_api.callFlutterEchoAsyncEnumMap(pigeonVar_arg_enumMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5460,13 +6337,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncClassMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classMapArg = pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>
+      val pigeonVar_arg_classMap =
+          pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncClassMap(classMapArg))
+          pigeonVar_api.callFlutterEchoAsyncClassMap(pigeonVar_arg_classMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5476,7 +6357,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncEnum(anEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api
           .callFlutterEchoAsyncEnum(NativeInteropAnEnum.ofRaw(anEnum.toInt())!!)
@@ -5491,7 +6375,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAnotherAsyncEnum(anotherEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api
           .callFlutterEchoAnotherAsyncEnum(NativeInteropAnotherEnum.ofRaw(anotherEnum.toInt())!!)
@@ -5506,7 +6393,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableBool(aBool: Boolean?): Boolean? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncNullableBool(aBool)
     } catch (e: NativeInteropTestsError) {
@@ -5518,7 +6408,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableInt(anInt: Long?): Long? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncNullableInt(anInt)
     } catch (e: NativeInteropTestsError) {
@@ -5530,7 +6423,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableDouble(aDouble: Double?): Double? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncNullableDouble(aDouble)
     } catch (e: NativeInteropTestsError) {
@@ -5542,7 +6438,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableString(aString: String?): String? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncNullableString(aString)
     } catch (e: NativeInteropTestsError) {
@@ -5554,7 +6453,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableUint8List(list: ByteArray?): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncNullableUint8List(list)
     } catch (e: NativeInteropTestsError) {
@@ -5566,7 +6468,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableInt32List(list: IntArray?): IntArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncNullableInt32List(list)
     } catch (e: NativeInteropTestsError) {
@@ -5578,7 +6483,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableInt64List(list: LongArray?): LongArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncNullableInt64List(list)
     } catch (e: NativeInteropTestsError) {
@@ -5590,7 +6498,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableFloat64List(list: DoubleArray?): DoubleArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterEchoAsyncNullableFloat64List(list)
     } catch (e: NativeInteropTestsError) {
@@ -5602,7 +6513,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterThrowFlutterErrorAsync(): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
           pigeonVar_api.callFlutterThrowFlutterErrorAsync())
@@ -5615,13 +6529,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableObject(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val anObjectArg = pigeonVar_decodedArgs[0]
+      val pigeonVar_arg_anObject = pigeonVar_decodedArgs[0]
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncNullableObject(anObjectArg))
+          pigeonVar_api.callFlutterEchoAsyncNullableObject(pigeonVar_arg_anObject))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5631,13 +6548,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val listArg = pigeonVar_decodedArgs[0] as List<Any?>?
+      val pigeonVar_arg_list = pigeonVar_decodedArgs[0] as List<Any?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncNullableList(listArg))
+          pigeonVar_api.callFlutterEchoAsyncNullableList(pigeonVar_arg_list))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5647,13 +6567,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableEnumList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>?
+      val pigeonVar_arg_enumList = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncNullableEnumList(enumListArg))
+          pigeonVar_api.callFlutterEchoAsyncNullableEnumList(pigeonVar_arg_enumList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5663,13 +6586,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableClassList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>?
+      val pigeonVar_arg_classList =
+          pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncNullableClassList(classListArg))
+          pigeonVar_api.callFlutterEchoAsyncNullableClassList(pigeonVar_arg_classList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5679,13 +6606,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableNonNullEnumList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum>?
+      val pigeonVar_arg_enumList = pigeonVar_decodedArgs[0] as List<NativeInteropAnEnum>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncNullableNonNullEnumList(enumListArg))
+          pigeonVar_api.callFlutterEchoAsyncNullableNonNullEnumList(pigeonVar_arg_enumList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5695,13 +6625,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableNonNullClassList(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classListArg = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes>?
+      val pigeonVar_arg_classList = pigeonVar_decodedArgs[0] as List<NativeInteropAllNullableTypes>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncNullableNonNullClassList(classListArg))
+          pigeonVar_api.callFlutterEchoAsyncNullableNonNullClassList(pigeonVar_arg_classList))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5711,13 +6644,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val mapArg = pigeonVar_decodedArgs[0] as Map<Any?, Any?>?
+      val pigeonVar_arg_map = pigeonVar_decodedArgs[0] as Map<Any?, Any?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncNullableMap(mapArg))
+          pigeonVar_api.callFlutterEchoAsyncNullableMap(pigeonVar_arg_map))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5727,13 +6663,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableStringMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val stringMapArg = pigeonVar_decodedArgs[0] as Map<String?, String?>?
+      val pigeonVar_arg_stringMap = pigeonVar_decodedArgs[0] as Map<String?, String?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncNullableStringMap(stringMapArg))
+          pigeonVar_api.callFlutterEchoAsyncNullableStringMap(pigeonVar_arg_stringMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5743,13 +6682,16 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableIntMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val intMapArg = pigeonVar_decodedArgs[0] as Map<Long?, Long?>?
+      val pigeonVar_arg_intMap = pigeonVar_decodedArgs[0] as Map<Long?, Long?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncNullableIntMap(intMapArg))
+          pigeonVar_api.callFlutterEchoAsyncNullableIntMap(pigeonVar_arg_intMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5759,13 +6701,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableEnumMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val enumMapArg = pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?
+      val pigeonVar_arg_enumMap =
+          pigeonVar_decodedArgs[0] as Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncNullableEnumMap(enumMapArg))
+          pigeonVar_api.callFlutterEchoAsyncNullableEnumMap(pigeonVar_arg_enumMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5775,13 +6721,17 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableClassMap(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val classMapArg = pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>?
+      val pigeonVar_arg_classMap =
+          pigeonVar_decodedArgs[0] as Map<Long?, NativeInteropAllNullableTypes?>?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoAsyncNullableClassMap(classMapArg))
+          pigeonVar_api.callFlutterEchoAsyncNullableClassMap(pigeonVar_arg_classMap))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5791,7 +6741,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAsyncNullableEnum(anEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return (pigeonVar_api
           .callFlutterEchoAsyncNullableEnum(
@@ -5807,7 +6760,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterEchoAnotherAsyncNullableEnum(anotherEnum: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return (pigeonVar_api
           .callFlutterEchoAnotherAsyncNullableEnum(
@@ -5823,7 +6779,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun isMainThread(): Boolean {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.isMainThread()
     } catch (e: NativeInteropTestsError) {
@@ -5835,7 +6794,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun asyncIsBackgroundThread(): Boolean {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.asyncIsBackgroundThread()
     } catch (e: NativeInteropTestsError) {
@@ -5847,7 +6809,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun isGetter(): Boolean {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.isGetter()
     } catch (e: NativeInteropTestsError) {
@@ -5859,7 +6824,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun getGetter(): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.getGetter()
     } catch (e: NativeInteropTestsError) {
@@ -5871,7 +6839,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun setSetter(value: Long) {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       pigeonVar_api.setSetter(value)
     } catch (e: NativeInteropTestsError) {
@@ -5883,7 +6854,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   suspend fun callFlutterNoopOnBackgroundThread(): Boolean {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterNoopOnBackgroundThread()
     } catch (e: NativeInteropTestsError) {
@@ -5895,7 +6869,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun testDeregisterHostApi(): Boolean {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.testDeregisterHostApi()
     } catch (e: NativeInteropTestsError) {
@@ -5907,7 +6884,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun testDeregisterFlutterApi(): Boolean {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.testDeregisterFlutterApi()
     } catch (e: NativeInteropTestsError) {
@@ -5919,7 +6899,10 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
 
   fun registerAndImmediatelyDeregisterHostApi(name: String) {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       pigeonVar_api.registerAndImmediatelyDeregisterHostApi(name)
     } catch (e: NativeInteropTestsError) {
@@ -5929,11 +6912,149 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
     }
   }
 
+  fun registerNamedHostApi(name: String) {
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
+    try {
+      pigeonVar_api.registerNamedHostApi(name)
+    } catch (e: NativeInteropTestsError) {
+      throw NativeInteropTestsError(
+              e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+          .apply { stackTrace = e.stackTrace }
+    }
+  }
+
+  fun deregisterNamedHostApi(name: String) {
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
+    try {
+      pigeonVar_api.deregisterNamedHostApi(name)
+    } catch (e: NativeInteropTestsError) {
+      throw NativeInteropTestsError(
+              e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+          .apply { stackTrace = e.stackTrace }
+    }
+  }
+
   fun testCallDeregisteredFlutterApi(name: String): Boolean {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropHostIntegrationCoreApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
     try {
       return pigeonVar_api.testCallDeregisteredFlutterApi(name)
+    } catch (e: NativeInteropTestsError) {
+      throw NativeInteropTestsError(
+              e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+          .apply { stackTrace = e.stackTrace }
+    }
+  }
+
+  suspend fun testSecondaryEngineDartExecution(): Boolean {
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
+    try {
+      return pigeonVar_api.testSecondaryEngineDartExecution()
+    } catch (e: NativeInteropTestsError) {
+      throw NativeInteropTestsError(
+              e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+          .apply { stackTrace = e.stackTrace }
+    }
+  }
+
+  fun isSecondaryEngineRegistrationReady(): Boolean {
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
+    try {
+      return pigeonVar_api.isSecondaryEngineRegistrationReady()
+    } catch (e: NativeInteropTestsError) {
+      throw NativeInteropTestsError(
+              e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+          .apply { stackTrace = e.stackTrace }
+    }
+  }
+
+  fun reportSecondaryEngineCheck(success: Boolean) {
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
+    try {
+      pigeonVar_api.reportSecondaryEngineCheck(success)
+    } catch (e: NativeInteropTestsError) {
+      throw NativeInteropTestsError(
+              e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+          .apply { stackTrace = e.stackTrace }
+    }
+  }
+
+  fun notifyConcurrentIsolateResolved() {
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
+    try {
+      pigeonVar_api.notifyConcurrentIsolateResolved()
+    } catch (e: NativeInteropTestsError) {
+      throw NativeInteropTestsError(
+              e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+          .apply { stackTrace = e.stackTrace }
+    }
+  }
+
+  fun registeredEngineKey(): Long {
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
+    try {
+      return pigeonVar_api.registeredEngineKey()
+    } catch (e: NativeInteropTestsError) {
+      throw NativeInteropTestsError(
+              e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+          .apply { stackTrace = e.stackTrace }
+    }
+  }
+
+  fun engineLabel(): String {
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
+    try {
+      return pigeonVar_api.engineLabel()
+    } catch (e: NativeInteropTestsError) {
+      throw NativeInteropTestsError(
+              e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+          .apply { stackTrace = e.stackTrace }
+    }
+  }
+
+  fun pluginEngineIdentifierIsAvailable(): Boolean {
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropHostIntegrationCoreApi has not been registered.")
+    try {
+      return pigeonVar_api.pluginEngineIdentifierIsAvailable()
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -5947,31 +7068,128 @@ class NativeInteropHostIntegrationCoreApiRegistrar {
  *
  * Generated class from Pigeon that represents Flutter messages that can be called from Kotlin.
  */
+/**
+ * A registered [NativeInteropFlutterIntegrationCoreApi] and the keys of the engine it belongs to.
+ */
+class NativeInteropFlutterIntegrationCoreApiRegistration(
+    val api: NativeInteropFlutterIntegrationCoreApi,
+    val engineId: Long,
+    val affinityKey: Long
+)
+
 /// Map that stores instances
 val registeredNativeInteropFlutterIntegrationCoreApi:
-    MutableMap<String, NativeInteropFlutterIntegrationCoreApi> =
+    MutableMap<String, MutableList<NativeInteropFlutterIntegrationCoreApiRegistration>> =
     mutableMapOf()
 
 /// Class that stores instances
 @Keep
 class NativeInteropFlutterIntegrationCoreApiRegistrar() {
-
-  /// Registers an instance with the given name.
+  /**
+   * Registers [api] under [name] (or the default instance when [name] is omitted) for the engine
+   * identified by [engineId] and [affinityKey].
+   *
+   * Either key may be `Long.MIN_VALUE` when it is unknown. Registering an instance that is already
+   * registered under [name] updates its keys and keeps its position.
+   *
+   * This is called by the generated Dart code and is not intended for direct use.
+   */
+  @Keep
   fun registerInstance(
-      api: NativeInteropFlutterIntegrationCoreApiBridge?,
+      api: NativeInteropFlutterIntegrationCoreApiBridge,
+      engineId: Long,
+      affinityKey: Long,
       name: String = defaultInstanceName
   ) {
-    if (api != null) {
-      registeredNativeInteropFlutterIntegrationCoreApi[name] =
-          NativeInteropFlutterIntegrationCoreApiBridgeAdapter(api)
-    } else {
-      registeredNativeInteropFlutterIntegrationCoreApi.remove(name)
+    kotlin.synchronized(registeredNativeInteropFlutterIntegrationCoreApi) {
+      val list = registeredNativeInteropFlutterIntegrationCoreApi.getOrPut(name) { mutableListOf() }
+      val registration =
+          NativeInteropFlutterIntegrationCoreApiRegistration(
+              NativeInteropFlutterIntegrationCoreApiBridgeAdapter(api), engineId, affinityKey)
+      val index =
+          list.indexOfFirst {
+            (it.api as? NativeInteropFlutterIntegrationCoreApiBridgeAdapter)?.bridge === api
+          }
+      if (index >= 0) {
+        list[index] = registration
+      } else {
+        list.add(registration)
+      }
     }
   }
 
-  /// Gets an instance with the given name.
-  fun getInstance(name: String = defaultInstanceName): NativeInteropFlutterIntegrationCoreApi? {
-    return registeredNativeInteropFlutterIntegrationCoreApi[name]
+  /**
+   * Removes [api] from the registrations under [name] (or the default instance when [name] is
+   * omitted), leaving other registrations in place.
+   *
+   * Instances are matched by identity. Does nothing if [api] is not registered.
+   *
+   * This is called by the generated Dart code and is not intended for direct use.
+   */
+  @Keep
+  fun unregisterInstance(
+      api: NativeInteropFlutterIntegrationCoreApiBridge,
+      name: String = defaultInstanceName
+  ) {
+    kotlin.synchronized(registeredNativeInteropFlutterIntegrationCoreApi) {
+      val list = registeredNativeInteropFlutterIntegrationCoreApi[name] ?: return
+      list.removeAll {
+        (it.api as? NativeInteropFlutterIntegrationCoreApiBridgeAdapter)?.bridge === api
+      }
+      if (list.isEmpty()) {
+        registeredNativeInteropFlutterIntegrationCoreApi.remove(name)
+      }
+    }
+  }
+
+  /**
+   * Returns the instance registered under [name] (or the default instance when [name] is omitted)
+   * by the Dart code running on the engine of the plugin binding [binding].
+   *
+   * When no instance is known to belong to that engine, falls back to the most recent registration
+   * for [name]. Returns null if none is registered.
+   */
+  @Keep
+  fun getInstance(
+      binding: FlutterPlugin.FlutterPluginBinding,
+      name: String = defaultInstanceName
+  ): NativeInteropFlutterIntegrationCoreApi? {
+    return getInstanceWithKey(NativeInteropTestsPigeonEngineKeys.keyOf(binding), name)
+  }
+
+  /**
+   * Returns the instance registered under [name] (or the default instance when [name] is omitted)
+   * by the Dart code running on the engine of [engine].
+   *
+   * When no instance is known to belong to that engine, falls back to the most recent registration
+   * for [name]. Returns null if none is registered.
+   */
+  @Keep
+  fun getInstance(
+      engine: FlutterEngine,
+      name: String = defaultInstanceName
+  ): NativeInteropFlutterIntegrationCoreApi? {
+    return getInstanceWithKey(NativeInteropTestsPigeonEngineKeys.keyOf(engine), name)
+  }
+
+  private fun getInstanceWithKey(
+      engineKey: Long,
+      name: String
+  ): NativeInteropFlutterIntegrationCoreApi? {
+    kotlin.synchronized(registeredNativeInteropFlutterIntegrationCoreApi) {
+      val list = registeredNativeInteropFlutterIntegrationCoreApi[name] ?: return null
+      if (engineKey != NativeInteropTestsPigeonEngineKeys.NO_KEY) {
+        // Prefer the isolate running on the engine over isolates that only
+        // learned an affinity for it.
+        val match =
+            list.lastOrNull { it.engineId == engineKey }
+                ?: list.lastOrNull { it.affinityKey == engineKey }
+        if (match != null) {
+          return match.api
+        }
+      }
+      return list.lastOrNull()?.api
+    }
   }
 }
 
@@ -6496,7 +7714,7 @@ interface NativeInteropFlutterIntegrationCoreApiBridge {
 }
 
 private class NativeInteropFlutterIntegrationCoreApiBridgeAdapter(
-    private val bridge: NativeInteropFlutterIntegrationCoreApiBridge
+    val bridge: NativeInteropFlutterIntegrationCoreApiBridge
 ) : NativeInteropFlutterIntegrationCoreApi {
   override fun noop() {
     this.bridge.noop()
@@ -7405,7 +8623,7 @@ private class NativeInteropFlutterIntegrationCoreApiBridgeAdapter(
 }
 
 val NativeInteropReservedNamesHostApiInstances:
-    MutableMap<String, NativeInteropReservedNamesHostApiRegistrar> =
+    MutableMap<String, MutableList<NativeInteropReservedNamesHostApiRegistrar>> =
     mutableMapOf()
 
 @Keep
@@ -7433,6 +8651,15 @@ interface NativeInteropReservedNamesHostApi {
   fun getDefault(): String
   /** JNIgen keeps suspend functions as methods. */
   suspend fun getValueAsync(): String
+  /** Collides with `<Api>Registrar.register` in Kotlin bytecode. */
+  fun register(value: String): String
+  /** Collides with `<Api>Registrar.unregister` in Kotlin bytecode. */
+  fun unregister(value: String): String
+  /**
+   * JNIgen turns this into an instance getter `getInstance`, colliding with
+   * `<Api>Registrar.getInstance`.
+   */
+  fun getGetInstance(): String
   /** Returns the passed object, to test serialization and deserialization. */
   fun echoReservedNames(names: NativeInteropReservedNames): NativeInteropReservedNames
   /** Returns the result of calling [NativeInteropReservedNamesFlutterApi.release]. */
@@ -7445,33 +8672,180 @@ interface NativeInteropReservedNamesHostApi {
   fun callFlutterIsNull(): Boolean
   /** Returns the result of calling [NativeInteropReservedNamesFlutterApi.getReference]. */
   fun callFlutterGetReference(): String
+  /** Returns the result of calling [NativeInteropReservedNamesFlutterApi.register]. */
+  fun callFlutterRegister(value: String): String
+  /** Returns the result of calling [NativeInteropReservedNamesFlutterApi.dartApi]. */
+  fun callFlutterDartApi(): String
 }
 
 @Keep
-class NativeInteropReservedNamesHostApiRegistrar {
-  private var api: NativeInteropReservedNamesHostApi? = null
+class NativeInteropReservedNamesHostApiRegistrar private constructor(private val engineKey: Long) {
+  @Volatile private var api: NativeInteropReservedNamesHostApi? = null
 
+  constructor() : this(NativeInteropTestsPigeonEngineKeys.NO_KEY)
+
+  /**
+   * Registers [api] under [name] (or the default instance when [name] is omitted) for the engine of
+   * the plugin binding [binding].
+   *
+   * The registration is tied to that engine: unregistering it for this engine leaves other engines'
+   * registrations in place, and Dart code running on an engine uses the instance registered for
+   * that engine when it is known.
+   */
+  @Keep
   fun register(
-      api: NativeInteropReservedNamesHostApi?,
+      api: NativeInteropReservedNamesHostApi,
+      binding: FlutterPlugin.FlutterPluginBinding,
       name: String = defaultInstanceName
-  ): NativeInteropReservedNamesHostApiRegistrar {
-    if (api != null) {
-      this.api = api
-      NativeInteropReservedNamesHostApiInstances[name] = this
-    } else {
-      NativeInteropReservedNamesHostApiInstances.remove(name)
-    }
-    return this
+  ) {
+    registerWithKey(api, NativeInteropTestsPigeonEngineKeys.keyOf(binding), name)
   }
 
+  /**
+   * Registers [api] under [name] (or the default instance when [name] is omitted) for the engine of
+   * [engine].
+   *
+   * The registration is tied to that engine: unregistering it for this engine leaves other engines'
+   * registrations in place, and Dart code running on an engine uses the instance registered for
+   * that engine when it is known.
+   */
   @Keep
-  fun getInstance(name: String): NativeInteropReservedNamesHostApiRegistrar? {
-    return NativeInteropReservedNamesHostApiInstances[name]
+  fun register(
+      api: NativeInteropReservedNamesHostApi,
+      engine: FlutterEngine,
+      name: String = defaultInstanceName
+  ) {
+    registerWithKey(api, NativeInteropTestsPigeonEngineKeys.keyOf(engine), name)
+  }
+
+  /**
+   * Removes [api] from the registrations under [name] (or the default instance when [name] is
+   * omitted) for the engine of the plugin binding [binding], leaving other registrations in place.
+   *
+   * Instances are matched by identity. If [api] is not registered for that engine but is registered
+   * for exactly one other engine, that registration is removed. Does nothing if [api] is not
+   * registered, or is only registered for several other engines.
+   */
+  @Keep
+  fun unregister(
+      api: NativeInteropReservedNamesHostApi,
+      binding: FlutterPlugin.FlutterPluginBinding,
+      name: String = defaultInstanceName
+  ) {
+    unregisterWithKey(api, NativeInteropTestsPigeonEngineKeys.keyOf(binding), name)
+  }
+
+  /**
+   * Removes [api] from the registrations under [name] (or the default instance when [name] is
+   * omitted) for the engine of [engine], leaving other registrations in place.
+   *
+   * Instances are matched by identity. If [api] is not registered for that engine but is registered
+   * for exactly one other engine, that registration is removed. Does nothing if [api] is not
+   * registered, or is only registered for several other engines.
+   */
+  @Keep
+  fun unregister(
+      api: NativeInteropReservedNamesHostApi,
+      engine: FlutterEngine,
+      name: String = defaultInstanceName
+  ) {
+    unregisterWithKey(api, NativeInteropTestsPigeonEngineKeys.keyOf(engine), name)
+  }
+
+  private fun registerWithKey(
+      api: NativeInteropReservedNamesHostApi,
+      engineKey: Long,
+      name: String
+  ) {
+    kotlin.synchronized(NativeInteropReservedNamesHostApiInstances) {
+      val list = NativeInteropReservedNamesHostApiInstances.getOrPut(name) { mutableListOf() }
+      val index = list.indexOfFirst { it.api === api && it.engineKey == engineKey }
+      if (index >= 0) {
+        list.add(list.removeAt(index))
+      } else {
+        val wrapper = NativeInteropReservedNamesHostApiRegistrar(engineKey)
+        wrapper.api = api
+        list.add(wrapper)
+      }
+    }
+  }
+
+  private fun unregisterWithKey(
+      api: NativeInteropReservedNamesHostApi,
+      engineKey: Long,
+      name: String
+  ) {
+    kotlin.synchronized(NativeInteropReservedNamesHostApiInstances) {
+      val list = NativeInteropReservedNamesHostApiInstances[name] ?: return
+      val removeKey =
+          if (list.any { it.api === api && it.engineKey == engineKey }) {
+            engineKey
+          } else {
+            list.filter { it.api === api }.map { it.engineKey }.distinct().singleOrNull() ?: return
+          }
+      val iterator = list.iterator()
+      while (iterator.hasNext()) {
+        val entry = iterator.next()
+        if (entry.api === api && entry.engineKey == removeKey) {
+          entry.api = null
+          iterator.remove()
+        }
+      }
+      if (list.isEmpty()) {
+        NativeInteropReservedNamesHostApiInstances.remove(name)
+      }
+    }
+  }
+
+  companion object {
+    /**
+     * Returns the instance registered under [name] for the engine identified by [engineId].
+     *
+     * Falls back to the most recent instance registered for [affinityKey], then to the most recent
+     * instance overall. Either key may be `Long.MIN_VALUE` when it is unknown.
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeonResolveInstance(
+        engineId: Long,
+        affinityKey: Long,
+        name: String = defaultInstanceName
+    ): NativeInteropReservedNamesHostApiRegistrar? {
+      return kotlin.synchronized(NativeInteropReservedNamesHostApiInstances) {
+        val list = NativeInteropReservedNamesHostApiInstances[name] ?: return null
+        val exact =
+            if (engineId != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == engineId }
+            else null
+        val affine =
+            if (affinityKey != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == affinityKey }
+            else null
+        exact ?: affine ?: list.lastOrNull()
+      }
+    }
+
+    /**
+     * Returns the engine key that [instance] was registered with, or `Long.MIN_VALUE` if it is
+     * unknown.
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeonEngineKeyOf(instance: NativeInteropReservedNamesHostApiRegistrar): Long {
+      return instance.engineKey
+    }
   }
 
   fun release(value: String): String {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       return pigeonVar_api.release(value)
     } catch (e: NativeInteropTestsError) {
@@ -7483,7 +8857,10 @@ class NativeInteropReservedNamesHostApiRegistrar {
 
   fun use(value: Long): Long {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       return pigeonVar_api.use(value)
     } catch (e: NativeInteropTestsError) {
@@ -7495,7 +8872,10 @@ class NativeInteropReservedNamesHostApiRegistrar {
 
   fun type(): String {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       return pigeonVar_api.type()
     } catch (e: NativeInteropTestsError) {
@@ -7507,7 +8887,10 @@ class NativeInteropReservedNamesHostApiRegistrar {
 
   fun isNull(): Boolean {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       return pigeonVar_api.isNull()
     } catch (e: NativeInteropTestsError) {
@@ -7519,7 +8902,10 @@ class NativeInteropReservedNamesHostApiRegistrar {
 
   fun isNullable(): Boolean? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       return pigeonVar_api.isNullable()
     } catch (e: NativeInteropTestsError) {
@@ -7531,7 +8917,10 @@ class NativeInteropReservedNamesHostApiRegistrar {
 
   fun isOpen(): Boolean {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       return pigeonVar_api.isOpen()
     } catch (e: NativeInteropTestsError) {
@@ -7543,7 +8932,10 @@ class NativeInteropReservedNamesHostApiRegistrar {
 
   fun getReference(): String {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       return pigeonVar_api.getReference()
     } catch (e: NativeInteropTestsError) {
@@ -7555,7 +8947,10 @@ class NativeInteropReservedNamesHostApiRegistrar {
 
   fun setReference(value: String) {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       pigeonVar_api.setReference(value)
     } catch (e: NativeInteropTestsError) {
@@ -7567,7 +8962,10 @@ class NativeInteropReservedNamesHostApiRegistrar {
 
   fun getDefault(): String {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       return pigeonVar_api.getDefault()
     } catch (e: NativeInteropTestsError) {
@@ -7579,7 +8977,10 @@ class NativeInteropReservedNamesHostApiRegistrar {
 
   suspend fun getValueAsync(): String {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       return pigeonVar_api.getValueAsync()
     } catch (e: NativeInteropTestsError) {
@@ -7589,15 +8990,63 @@ class NativeInteropReservedNamesHostApiRegistrar {
     }
   }
 
+  fun register(value: String): String {
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
+    try {
+      return pigeonVar_api.register(value)
+    } catch (e: NativeInteropTestsError) {
+      throw NativeInteropTestsError(
+              e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+          .apply { stackTrace = e.stackTrace }
+    }
+  }
+
+  fun unregister(value: String): String {
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
+    try {
+      return pigeonVar_api.unregister(value)
+    } catch (e: NativeInteropTestsError) {
+      throw NativeInteropTestsError(
+              e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+          .apply { stackTrace = e.stackTrace }
+    }
+  }
+
+  fun getGetInstance(): String {
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
+    try {
+      return pigeonVar_api.getGetInstance()
+    } catch (e: NativeInteropTestsError) {
+      throw NativeInteropTestsError(
+              e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+          .apply { stackTrace = e.stackTrace }
+    }
+  }
+
   fun echoReservedNames(pigeonVar_args: ByteArray): ByteArray? {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val namesArg = pigeonVar_decodedArgs[0] as NativeInteropReservedNames
+      val pigeonVar_arg_names = pigeonVar_decodedArgs[0] as NativeInteropReservedNames
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoReservedNames(namesArg))
+          pigeonVar_api.echoReservedNames(pigeonVar_arg_names))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -7607,7 +9056,10 @@ class NativeInteropReservedNamesHostApiRegistrar {
 
   fun callFlutterRelease(value: String): String {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterRelease(value)
     } catch (e: NativeInteropTestsError) {
@@ -7619,7 +9071,10 @@ class NativeInteropReservedNamesHostApiRegistrar {
 
   fun callFlutterType(): String {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterType()
     } catch (e: NativeInteropTestsError) {
@@ -7631,7 +9086,10 @@ class NativeInteropReservedNamesHostApiRegistrar {
 
   fun callFlutterImplementIn(value: String): String {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterImplementIn(value)
     } catch (e: NativeInteropTestsError) {
@@ -7643,7 +9101,10 @@ class NativeInteropReservedNamesHostApiRegistrar {
 
   fun callFlutterIsNull(): Boolean {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterIsNull()
     } catch (e: NativeInteropTestsError) {
@@ -7655,9 +9116,42 @@ class NativeInteropReservedNamesHostApiRegistrar {
 
   fun callFlutterGetReference(): String {
     val pigeonVar_api =
-        this.api ?: error("NativeInteropReservedNamesHostApi has not been registered")
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
     try {
       return pigeonVar_api.callFlutterGetReference()
+    } catch (e: NativeInteropTestsError) {
+      throw NativeInteropTestsError(
+              e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+          .apply { stackTrace = e.stackTrace }
+    }
+  }
+
+  fun callFlutterRegister(value: String): String {
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
+    try {
+      return pigeonVar_api.callFlutterRegister(value)
+    } catch (e: NativeInteropTestsError) {
+      throw NativeInteropTestsError(
+              e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
+          .apply { stackTrace = e.stackTrace }
+    }
+  }
+
+  fun callFlutterDartApi(): String {
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance",
+                "NativeInteropReservedNamesHostApi has not been registered.")
+    try {
+      return pigeonVar_api.callFlutterDartApi()
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -7672,31 +9166,126 @@ class NativeInteropReservedNamesHostApiRegistrar {
  *
  * Generated class from Pigeon that represents Flutter messages that can be called from Kotlin.
  */
+/** A registered [NativeInteropReservedNamesFlutterApi] and the keys of the engine it belongs to. */
+class NativeInteropReservedNamesFlutterApiRegistration(
+    val api: NativeInteropReservedNamesFlutterApi,
+    val engineId: Long,
+    val affinityKey: Long
+)
+
 /// Map that stores instances
 val registeredNativeInteropReservedNamesFlutterApi:
-    MutableMap<String, NativeInteropReservedNamesFlutterApi> =
+    MutableMap<String, MutableList<NativeInteropReservedNamesFlutterApiRegistration>> =
     mutableMapOf()
 
 /// Class that stores instances
 @Keep
 class NativeInteropReservedNamesFlutterApiRegistrar() {
-
-  /// Registers an instance with the given name.
+  /**
+   * Registers [api] under [name] (or the default instance when [name] is omitted) for the engine
+   * identified by [engineId] and [affinityKey].
+   *
+   * Either key may be `Long.MIN_VALUE` when it is unknown. Registering an instance that is already
+   * registered under [name] updates its keys and keeps its position.
+   *
+   * This is called by the generated Dart code and is not intended for direct use.
+   */
+  @Keep
   fun registerInstance(
-      api: NativeInteropReservedNamesFlutterApiBridge?,
+      api: NativeInteropReservedNamesFlutterApiBridge,
+      engineId: Long,
+      affinityKey: Long,
       name: String = defaultInstanceName
   ) {
-    if (api != null) {
-      registeredNativeInteropReservedNamesFlutterApi[name] =
-          NativeInteropReservedNamesFlutterApiBridgeAdapter(api)
-    } else {
-      registeredNativeInteropReservedNamesFlutterApi.remove(name)
+    kotlin.synchronized(registeredNativeInteropReservedNamesFlutterApi) {
+      val list = registeredNativeInteropReservedNamesFlutterApi.getOrPut(name) { mutableListOf() }
+      val registration =
+          NativeInteropReservedNamesFlutterApiRegistration(
+              NativeInteropReservedNamesFlutterApiBridgeAdapter(api), engineId, affinityKey)
+      val index =
+          list.indexOfFirst {
+            (it.api as? NativeInteropReservedNamesFlutterApiBridgeAdapter)?.bridge === api
+          }
+      if (index >= 0) {
+        list[index] = registration
+      } else {
+        list.add(registration)
+      }
     }
   }
 
-  /// Gets an instance with the given name.
-  fun getInstance(name: String = defaultInstanceName): NativeInteropReservedNamesFlutterApi? {
-    return registeredNativeInteropReservedNamesFlutterApi[name]
+  /**
+   * Removes [api] from the registrations under [name] (or the default instance when [name] is
+   * omitted), leaving other registrations in place.
+   *
+   * Instances are matched by identity. Does nothing if [api] is not registered.
+   *
+   * This is called by the generated Dart code and is not intended for direct use.
+   */
+  @Keep
+  fun unregisterInstance(
+      api: NativeInteropReservedNamesFlutterApiBridge,
+      name: String = defaultInstanceName
+  ) {
+    kotlin.synchronized(registeredNativeInteropReservedNamesFlutterApi) {
+      val list = registeredNativeInteropReservedNamesFlutterApi[name] ?: return
+      list.removeAll {
+        (it.api as? NativeInteropReservedNamesFlutterApiBridgeAdapter)?.bridge === api
+      }
+      if (list.isEmpty()) {
+        registeredNativeInteropReservedNamesFlutterApi.remove(name)
+      }
+    }
+  }
+
+  /**
+   * Returns the instance registered under [name] (or the default instance when [name] is omitted)
+   * by the Dart code running on the engine of the plugin binding [binding].
+   *
+   * When no instance is known to belong to that engine, falls back to the most recent registration
+   * for [name]. Returns null if none is registered.
+   */
+  @Keep
+  fun getInstance(
+      binding: FlutterPlugin.FlutterPluginBinding,
+      name: String = defaultInstanceName
+  ): NativeInteropReservedNamesFlutterApi? {
+    return getInstanceWithKey(NativeInteropTestsPigeonEngineKeys.keyOf(binding), name)
+  }
+
+  /**
+   * Returns the instance registered under [name] (or the default instance when [name] is omitted)
+   * by the Dart code running on the engine of [engine].
+   *
+   * When no instance is known to belong to that engine, falls back to the most recent registration
+   * for [name]. Returns null if none is registered.
+   */
+  @Keep
+  fun getInstance(
+      engine: FlutterEngine,
+      name: String = defaultInstanceName
+  ): NativeInteropReservedNamesFlutterApi? {
+    return getInstanceWithKey(NativeInteropTestsPigeonEngineKeys.keyOf(engine), name)
+  }
+
+  private fun getInstanceWithKey(
+      engineKey: Long,
+      name: String
+  ): NativeInteropReservedNamesFlutterApi? {
+    kotlin.synchronized(registeredNativeInteropReservedNamesFlutterApi) {
+      val list = registeredNativeInteropReservedNamesFlutterApi[name] ?: return null
+      if (engineKey != NativeInteropTestsPigeonEngineKeys.NO_KEY) {
+        // Prefer the isolate running on the engine over isolates that only
+        // learned an affinity for it.
+        val match =
+            list.lastOrNull { it.engineId == engineKey }
+                ?: list.lastOrNull { it.affinityKey == engineKey }
+        if (match != null) {
+          return match.api
+        }
+      }
+      return list.lastOrNull()?.api
+    }
   }
 }
 
@@ -7711,6 +9300,10 @@ interface NativeInteropReservedNamesFlutterApi {
   fun isNull(): Boolean
   /** JNIgen doesn't turn interface methods into properties. */
   fun getReference(): String
+  /** Previously collided with internal Dart JNI registrar `register` member. */
+  fun register(value: String): String
+  /** Previously collided with internal Dart JNI registrar `dartApi` field. */
+  fun dartApi(): String
 }
 
 /**
@@ -7731,10 +9324,14 @@ interface NativeInteropReservedNamesFlutterApiBridge {
   fun isNull(): Boolean
 
   fun getReference(): String
+
+  fun register(value: String): String
+
+  fun dartApi(): String
 }
 
 private class NativeInteropReservedNamesFlutterApiBridgeAdapter(
-    private val bridge: NativeInteropReservedNamesFlutterApiBridge
+    val bridge: NativeInteropReservedNamesFlutterApiBridge
 ) : NativeInteropReservedNamesFlutterApi {
   override fun release(value: String): String {
     val pigeonVar_result = this.bridge.release(value)
@@ -7760,10 +9357,20 @@ private class NativeInteropReservedNamesFlutterApiBridgeAdapter(
     val pigeonVar_result = this.bridge.getReference()
     return pigeonVar_result
   }
+
+  override fun register(value: String): String {
+    val pigeonVar_result = this.bridge.register(value)
+    return pigeonVar_result
+  }
+
+  override fun dartApi(): String {
+    val pigeonVar_result = this.bridge.dartApi()
+    return pigeonVar_result
+  }
 }
 
 val NativeInteropSealedClassHostApiInstances:
-    MutableMap<String, NativeInteropSealedClassHostApiRegistrar> =
+    MutableMap<String, MutableList<NativeInteropSealedClassHostApiRegistrar>> =
     mutableMapOf()
 
 @Keep
@@ -7782,34 +9389,174 @@ interface NativeInteropSealedClassHostApi {
 }
 
 @Keep
-class NativeInteropSealedClassHostApiRegistrar {
-  private var api: NativeInteropSealedClassHostApi? = null
+class NativeInteropSealedClassHostApiRegistrar private constructor(private val engineKey: Long) {
+  @Volatile private var api: NativeInteropSealedClassHostApi? = null
 
+  constructor() : this(NativeInteropTestsPigeonEngineKeys.NO_KEY)
+
+  /**
+   * Registers [api] under [name] (or the default instance when [name] is omitted) for the engine of
+   * the plugin binding [binding].
+   *
+   * The registration is tied to that engine: unregistering it for this engine leaves other engines'
+   * registrations in place, and Dart code running on an engine uses the instance registered for
+   * that engine when it is known.
+   */
+  @Keep
   fun register(
-      api: NativeInteropSealedClassHostApi?,
+      api: NativeInteropSealedClassHostApi,
+      binding: FlutterPlugin.FlutterPluginBinding,
       name: String = defaultInstanceName
-  ): NativeInteropSealedClassHostApiRegistrar {
-    if (api != null) {
-      this.api = api
-      NativeInteropSealedClassHostApiInstances[name] = this
-    } else {
-      NativeInteropSealedClassHostApiInstances.remove(name)
-    }
-    return this
+  ) {
+    registerWithKey(api, NativeInteropTestsPigeonEngineKeys.keyOf(binding), name)
   }
 
+  /**
+   * Registers [api] under [name] (or the default instance when [name] is omitted) for the engine of
+   * [engine].
+   *
+   * The registration is tied to that engine: unregistering it for this engine leaves other engines'
+   * registrations in place, and Dart code running on an engine uses the instance registered for
+   * that engine when it is known.
+   */
   @Keep
-  fun getInstance(name: String): NativeInteropSealedClassHostApiRegistrar? {
-    return NativeInteropSealedClassHostApiInstances[name]
+  fun register(
+      api: NativeInteropSealedClassHostApi,
+      engine: FlutterEngine,
+      name: String = defaultInstanceName
+  ) {
+    registerWithKey(api, NativeInteropTestsPigeonEngineKeys.keyOf(engine), name)
+  }
+
+  /**
+   * Removes [api] from the registrations under [name] (or the default instance when [name] is
+   * omitted) for the engine of the plugin binding [binding], leaving other registrations in place.
+   *
+   * Instances are matched by identity. If [api] is not registered for that engine but is registered
+   * for exactly one other engine, that registration is removed. Does nothing if [api] is not
+   * registered, or is only registered for several other engines.
+   */
+  @Keep
+  fun unregister(
+      api: NativeInteropSealedClassHostApi,
+      binding: FlutterPlugin.FlutterPluginBinding,
+      name: String = defaultInstanceName
+  ) {
+    unregisterWithKey(api, NativeInteropTestsPigeonEngineKeys.keyOf(binding), name)
+  }
+
+  /**
+   * Removes [api] from the registrations under [name] (or the default instance when [name] is
+   * omitted) for the engine of [engine], leaving other registrations in place.
+   *
+   * Instances are matched by identity. If [api] is not registered for that engine but is registered
+   * for exactly one other engine, that registration is removed. Does nothing if [api] is not
+   * registered, or is only registered for several other engines.
+   */
+  @Keep
+  fun unregister(
+      api: NativeInteropSealedClassHostApi,
+      engine: FlutterEngine,
+      name: String = defaultInstanceName
+  ) {
+    unregisterWithKey(api, NativeInteropTestsPigeonEngineKeys.keyOf(engine), name)
+  }
+
+  private fun registerWithKey(api: NativeInteropSealedClassHostApi, engineKey: Long, name: String) {
+    kotlin.synchronized(NativeInteropSealedClassHostApiInstances) {
+      val list = NativeInteropSealedClassHostApiInstances.getOrPut(name) { mutableListOf() }
+      val index = list.indexOfFirst { it.api === api && it.engineKey == engineKey }
+      if (index >= 0) {
+        list.add(list.removeAt(index))
+      } else {
+        val wrapper = NativeInteropSealedClassHostApiRegistrar(engineKey)
+        wrapper.api = api
+        list.add(wrapper)
+      }
+    }
+  }
+
+  private fun unregisterWithKey(
+      api: NativeInteropSealedClassHostApi,
+      engineKey: Long,
+      name: String
+  ) {
+    kotlin.synchronized(NativeInteropSealedClassHostApiInstances) {
+      val list = NativeInteropSealedClassHostApiInstances[name] ?: return
+      val removeKey =
+          if (list.any { it.api === api && it.engineKey == engineKey }) {
+            engineKey
+          } else {
+            list.filter { it.api === api }.map { it.engineKey }.distinct().singleOrNull() ?: return
+          }
+      val iterator = list.iterator()
+      while (iterator.hasNext()) {
+        val entry = iterator.next()
+        if (entry.api === api && entry.engineKey == removeKey) {
+          entry.api = null
+          iterator.remove()
+        }
+      }
+      if (list.isEmpty()) {
+        NativeInteropSealedClassHostApiInstances.remove(name)
+      }
+    }
+  }
+
+  companion object {
+    /**
+     * Returns the instance registered under [name] for the engine identified by [engineId].
+     *
+     * Falls back to the most recent instance registered for [affinityKey], then to the most recent
+     * instance overall. Either key may be `Long.MIN_VALUE` when it is unknown.
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeonResolveInstance(
+        engineId: Long,
+        affinityKey: Long,
+        name: String = defaultInstanceName
+    ): NativeInteropSealedClassHostApiRegistrar? {
+      return kotlin.synchronized(NativeInteropSealedClassHostApiInstances) {
+        val list = NativeInteropSealedClassHostApiInstances[name] ?: return null
+        val exact =
+            if (engineId != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == engineId }
+            else null
+        val affine =
+            if (affinityKey != NativeInteropTestsPigeonEngineKeys.NO_KEY)
+                list.lastOrNull { it.engineKey == affinityKey }
+            else null
+        exact ?: affine ?: list.lastOrNull()
+      }
+    }
+
+    /**
+     * Returns the engine key that [instance] was registered with, or `Long.MIN_VALUE` if it is
+     * unknown.
+     *
+     * This is called by the generated Dart code and is not intended for direct use.
+     */
+    @JvmStatic
+    @Keep
+    fun pigeonEngineKeyOf(instance: NativeInteropSealedClassHostApiRegistrar): Long {
+      return instance.engineKey
+    }
   }
 
   fun echoShape(pigeonVar_args: ByteArray): ByteArray? {
-    val pigeonVar_api = this.api ?: error("NativeInteropSealedClassHostApi has not been registered")
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance", "NativeInteropSealedClassHostApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val shapeArg = pigeonVar_decodedArgs[0] as NativeInteropShape
-      return NativeInteropTestsPigeonInteropCodec.encodeOrNull(pigeonVar_api.echoShape(shapeArg))
+      val pigeonVar_arg_shape = pigeonVar_decodedArgs[0] as NativeInteropShape
+      return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
+          pigeonVar_api.echoShape(pigeonVar_arg_shape))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -7818,13 +9565,16 @@ class NativeInteropSealedClassHostApiRegistrar {
   }
 
   fun echoNullableShape(pigeonVar_args: ByteArray): ByteArray? {
-    val pigeonVar_api = this.api ?: error("NativeInteropSealedClassHostApi has not been registered")
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance", "NativeInteropSealedClassHostApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val shapeArg = pigeonVar_decodedArgs[0] as NativeInteropShape?
+      val pigeonVar_arg_shape = pigeonVar_decodedArgs[0] as NativeInteropShape?
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoNullableShape(shapeArg))
+          pigeonVar_api.echoNullableShape(pigeonVar_arg_shape))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -7833,13 +9583,16 @@ class NativeInteropSealedClassHostApiRegistrar {
   }
 
   fun echoShapeList(pigeonVar_args: ByteArray): ByteArray? {
-    val pigeonVar_api = this.api ?: error("NativeInteropSealedClassHostApi has not been registered")
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance", "NativeInteropSealedClassHostApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val shapesArg = pigeonVar_decodedArgs[0] as List<NativeInteropShape>
+      val pigeonVar_arg_shapes = pigeonVar_decodedArgs[0] as List<NativeInteropShape>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoShapeList(shapesArg))
+          pigeonVar_api.echoShapeList(pigeonVar_arg_shapes))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -7848,13 +9601,16 @@ class NativeInteropSealedClassHostApiRegistrar {
   }
 
   fun echoShapeMap(pigeonVar_args: ByteArray): ByteArray? {
-    val pigeonVar_api = this.api ?: error("NativeInteropSealedClassHostApi has not been registered")
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance", "NativeInteropSealedClassHostApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val shapesArg = pigeonVar_decodedArgs[0] as Map<String, NativeInteropShape>
+      val pigeonVar_arg_shapes = pigeonVar_decodedArgs[0] as Map<String, NativeInteropShape>
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoShapeMap(shapesArg))
+          pigeonVar_api.echoShapeMap(pigeonVar_arg_shapes))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -7863,13 +9619,16 @@ class NativeInteropSealedClassHostApiRegistrar {
   }
 
   suspend fun echoAsyncShape(pigeonVar_args: ByteArray): ByteArray? {
-    val pigeonVar_api = this.api ?: error("NativeInteropSealedClassHostApi has not been registered")
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance", "NativeInteropSealedClassHostApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val shapeArg = pigeonVar_decodedArgs[0] as NativeInteropShape
+      val pigeonVar_arg_shape = pigeonVar_decodedArgs[0] as NativeInteropShape
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.echoAsyncShape(shapeArg))
+          pigeonVar_api.echoAsyncShape(pigeonVar_arg_shape))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -7878,13 +9637,16 @@ class NativeInteropSealedClassHostApiRegistrar {
   }
 
   fun callFlutterEchoShape(pigeonVar_args: ByteArray): ByteArray? {
-    val pigeonVar_api = this.api ?: error("NativeInteropSealedClassHostApi has not been registered")
+    val pigeonVar_api =
+        this.api
+            ?: throw NativeInteropTestsError(
+                "unregistered-instance", "NativeInteropSealedClassHostApi has not been registered.")
     try {
       val pigeonVar_decodedArgs =
           NativeInteropTestsPigeonInteropCodec.decodeArguments(pigeonVar_args)
-      val shapeArg = pigeonVar_decodedArgs[0] as NativeInteropShape
+      val pigeonVar_arg_shape = pigeonVar_decodedArgs[0] as NativeInteropShape
       return NativeInteropTestsPigeonInteropCodec.encodeOrNull(
-          pigeonVar_api.callFlutterEchoShape(shapeArg))
+          pigeonVar_api.callFlutterEchoShape(pigeonVar_arg_shape))
     } catch (e: NativeInteropTestsError) {
       throw NativeInteropTestsError(
               e.code, e.message, NativeInteropTestsPigeonInteropCodec.encodeOrNull(e.details))
@@ -7897,31 +9659,126 @@ class NativeInteropSealedClassHostApiRegistrar {
  *
  * Generated class from Pigeon that represents Flutter messages that can be called from Kotlin.
  */
+/** A registered [NativeInteropSealedClassFlutterApi] and the keys of the engine it belongs to. */
+class NativeInteropSealedClassFlutterApiRegistration(
+    val api: NativeInteropSealedClassFlutterApi,
+    val engineId: Long,
+    val affinityKey: Long
+)
+
 /// Map that stores instances
 val registeredNativeInteropSealedClassFlutterApi:
-    MutableMap<String, NativeInteropSealedClassFlutterApi> =
+    MutableMap<String, MutableList<NativeInteropSealedClassFlutterApiRegistration>> =
     mutableMapOf()
 
 /// Class that stores instances
 @Keep
 class NativeInteropSealedClassFlutterApiRegistrar() {
-
-  /// Registers an instance with the given name.
+  /**
+   * Registers [api] under [name] (or the default instance when [name] is omitted) for the engine
+   * identified by [engineId] and [affinityKey].
+   *
+   * Either key may be `Long.MIN_VALUE` when it is unknown. Registering an instance that is already
+   * registered under [name] updates its keys and keeps its position.
+   *
+   * This is called by the generated Dart code and is not intended for direct use.
+   */
+  @Keep
   fun registerInstance(
-      api: NativeInteropSealedClassFlutterApiBridge?,
+      api: NativeInteropSealedClassFlutterApiBridge,
+      engineId: Long,
+      affinityKey: Long,
       name: String = defaultInstanceName
   ) {
-    if (api != null) {
-      registeredNativeInteropSealedClassFlutterApi[name] =
-          NativeInteropSealedClassFlutterApiBridgeAdapter(api)
-    } else {
-      registeredNativeInteropSealedClassFlutterApi.remove(name)
+    kotlin.synchronized(registeredNativeInteropSealedClassFlutterApi) {
+      val list = registeredNativeInteropSealedClassFlutterApi.getOrPut(name) { mutableListOf() }
+      val registration =
+          NativeInteropSealedClassFlutterApiRegistration(
+              NativeInteropSealedClassFlutterApiBridgeAdapter(api), engineId, affinityKey)
+      val index =
+          list.indexOfFirst {
+            (it.api as? NativeInteropSealedClassFlutterApiBridgeAdapter)?.bridge === api
+          }
+      if (index >= 0) {
+        list[index] = registration
+      } else {
+        list.add(registration)
+      }
     }
   }
 
-  /// Gets an instance with the given name.
-  fun getInstance(name: String = defaultInstanceName): NativeInteropSealedClassFlutterApi? {
-    return registeredNativeInteropSealedClassFlutterApi[name]
+  /**
+   * Removes [api] from the registrations under [name] (or the default instance when [name] is
+   * omitted), leaving other registrations in place.
+   *
+   * Instances are matched by identity. Does nothing if [api] is not registered.
+   *
+   * This is called by the generated Dart code and is not intended for direct use.
+   */
+  @Keep
+  fun unregisterInstance(
+      api: NativeInteropSealedClassFlutterApiBridge,
+      name: String = defaultInstanceName
+  ) {
+    kotlin.synchronized(registeredNativeInteropSealedClassFlutterApi) {
+      val list = registeredNativeInteropSealedClassFlutterApi[name] ?: return
+      list.removeAll {
+        (it.api as? NativeInteropSealedClassFlutterApiBridgeAdapter)?.bridge === api
+      }
+      if (list.isEmpty()) {
+        registeredNativeInteropSealedClassFlutterApi.remove(name)
+      }
+    }
+  }
+
+  /**
+   * Returns the instance registered under [name] (or the default instance when [name] is omitted)
+   * by the Dart code running on the engine of the plugin binding [binding].
+   *
+   * When no instance is known to belong to that engine, falls back to the most recent registration
+   * for [name]. Returns null if none is registered.
+   */
+  @Keep
+  fun getInstance(
+      binding: FlutterPlugin.FlutterPluginBinding,
+      name: String = defaultInstanceName
+  ): NativeInteropSealedClassFlutterApi? {
+    return getInstanceWithKey(NativeInteropTestsPigeonEngineKeys.keyOf(binding), name)
+  }
+
+  /**
+   * Returns the instance registered under [name] (or the default instance when [name] is omitted)
+   * by the Dart code running on the engine of [engine].
+   *
+   * When no instance is known to belong to that engine, falls back to the most recent registration
+   * for [name]. Returns null if none is registered.
+   */
+  @Keep
+  fun getInstance(
+      engine: FlutterEngine,
+      name: String = defaultInstanceName
+  ): NativeInteropSealedClassFlutterApi? {
+    return getInstanceWithKey(NativeInteropTestsPigeonEngineKeys.keyOf(engine), name)
+  }
+
+  private fun getInstanceWithKey(
+      engineKey: Long,
+      name: String
+  ): NativeInteropSealedClassFlutterApi? {
+    kotlin.synchronized(registeredNativeInteropSealedClassFlutterApi) {
+      val list = registeredNativeInteropSealedClassFlutterApi[name] ?: return null
+      if (engineKey != NativeInteropTestsPigeonEngineKeys.NO_KEY) {
+        // Prefer the isolate running on the engine over isolates that only
+        // learned an affinity for it.
+        val match =
+            list.lastOrNull { it.engineId == engineKey }
+                ?: list.lastOrNull { it.affinityKey == engineKey }
+        if (match != null) {
+          return match.api
+        }
+      }
+      return list.lastOrNull()?.api
+    }
   }
 }
 
@@ -7942,7 +9799,7 @@ interface NativeInteropSealedClassFlutterApiBridge {
 }
 
 private class NativeInteropSealedClassFlutterApiBridgeAdapter(
-    private val bridge: NativeInteropSealedClassFlutterApiBridge
+    val bridge: NativeInteropSealedClassFlutterApiBridge
 ) : NativeInteropSealedClassFlutterApi {
   override fun echoShape(shape: NativeInteropShape): NativeInteropShape {
     val pigeonVar_result =
@@ -8105,4 +9962,3 @@ abstract class NativeInteropStreamConsistentNumbersStreamHandler :
 
   override fun onCancel(p0: Any?) {}
 }
-

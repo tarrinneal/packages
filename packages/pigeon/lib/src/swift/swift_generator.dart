@@ -336,6 +336,15 @@ class SwiftGenerator extends StructuredGenerator<InternalSwiftOptions> {
 #else
   #error("Unsupported platform.")
 #endif''');
+    } else if (_needsEngineKeys(generatorOptions, root)) {
+      // swiftgen compiles FFI output without the Flutter module, so the
+      // import and every Flutter-typed member must be conditional.
+      indent.format('''
+#if canImport(Flutter)
+  import Flutter
+#elseif canImport(FlutterMacOS)
+  import FlutterMacOS
+#endif''');
     }
   }
 
@@ -540,7 +549,7 @@ private class _PigeonFfiCodec {
   ///
   /// It reads and writes the format of Flutter's standard message codec, but
   /// depends only on Foundation, because swiftgen compiles this file without
-  /// Flutter. All of its types are `fileprivate`, so they add no Objective-C
+  /// Flutter. All of its types are `private`, so they add no Objective-C
   /// symbols.
   void _writeFfiInteropCodec(InternalSwiftOptions generatorOptions, Root root, Indent indent) {
     final String prefix = _classNamePrefix;
@@ -550,111 +559,42 @@ private class _PigeonFfiCodec {
       excludeSealedClasses: true,
     ).toList();
 
-    // Exact type matches are checked first, because comparing metatypes is
-    // much cheaper than a failed dynamic cast for every value.
-    final writeCustom = StringBuffer();
-    final writeCustomFallback = StringBuffer();
-    final writeClasses = StringBuffer();
-    void writeCustomBody(StringBuffer buffer, EnumeratedType customType, String value) {
+    void writeCustomBody(EnumeratedType customType, String value) {
       final Class? dataClass = customType.associatedClass;
       final writePayload = dataClass != null
           ? 'write${customType.name}($value)'
           : 'writeValue(Int64($value.rawValue))';
       if (customType.enumeration < maximumCodecFieldKey) {
-        buffer.writeln('      writeByte(${customType.enumeration})');
-        buffer.writeln('      $writePayload');
+        indent.writeln('writeByte(${customType.enumeration})');
+        indent.writeln(writePayload);
       } else {
-        buffer.writeln('      writeByte($maximumCodecFieldKey)');
-        buffer.writeln('      writeByte(12)');
-        buffer.writeln('      writeSize(2)');
-        buffer.writeln('      writeValue(Int64(${customType.enumeration - maximumCodecFieldKey}))');
-        buffer.writeln('      $writePayload');
+        indent.writeln('writeByte($maximumCodecFieldKey)');
+        indent.writeln('writeByte($codec.typeList)');
+        indent.writeln('writeSize(2)');
+        indent.writeln('writeValue(Int64(${customType.enumeration - maximumCodecFieldKey}))');
+        indent.writeln(writePayload);
       }
-      buffer.writeln('      return true');
+      indent.writeln('return true');
     }
 
-    for (final customType in enumeratedTypes) {
-      final Class? dataClass = customType.associatedClass;
-      if (dataClass != null) {
-        // Fields are written by their declared types, so that a `List<int>`
-        // stays a list rather than becoming typed data, and optional fields
-        // aren't boxed.
-        final List<NamedType> fields = getFieldsInSerializationOrder(dataClass).toList();
-        writeClasses.writeln(
-          '  mutating func write${customType.name}(_ value: ${customType.name}) {',
-        );
-        writeClasses.writeln('    writeByte(12)');
-        writeClasses.writeln('    writeSize(${fields.length})');
-        for (final field in fields) {
-          writeClasses.writeln('    ${_swiftInteropWrite('value.${field.name}', field.type)}');
-        }
-        writeClasses.writeln('  }');
-        writeClasses.writeln();
-      }
-      writeCustom.writeln('    if valueType == ${customType.name}.self {');
-      writeCustomBody(writeCustom, customType, '(value as! ${customType.name})');
-      writeCustom.writeln('    }');
-      writeCustomFallback.writeln('    if let value = value as? ${customType.name} {');
-      writeCustomBody(writeCustomFallback, customType, 'value');
-      writeCustomFallback.writeln('    }');
-    }
-
-    String decodeCustom(EnumeratedType customType, String value) {
+    void writeDecodeCustom(EnumeratedType customType, String value) {
       if (customType.associatedClass != null) {
-        return 'return read${customType.name}()';
+        indent.writeln('return read${customType.name}()');
+      } else {
+        indent.writeln('guard let raw = $value as? Int64 else { return nil }');
+        indent.writeln('return ${customType.name}(rawValue: Int(raw))');
       }
-      return 'guard let raw = $value as? Int64 else { return nil }\n'
-          '      return ${customType.name}(rawValue: Int(raw))';
-    }
-
-    final readCustom = StringBuffer();
-    final readClasses = StringBuffer();
-    for (final customType in enumeratedTypes) {
-      final Class? dataClass = customType.associatedClass;
-      if (dataClass != null) {
-        // Fields are read by their declared types, which avoids converting
-        // untyped collections afterwards.
-        final List<NamedType> fields = getFieldsInSerializationOrder(dataClass).toList();
-        readClasses.writeln('  mutating func read${customType.name}() -> ${customType.name} {');
-        readClasses.writeln('    readListHeader()');
-        if (fields.isEmpty) {
-          readClasses.writeln('    return ${customType.name}()');
-        } else {
-          readClasses.writeln('    return ${customType.name}(');
-          readClasses.writeln(
-            fields
-                .map((NamedType field) => '      ${field.name}: ${_swiftInteropRead(field.type)}')
-                .join(',\n'),
-          );
-          readClasses.writeln('    )');
-        }
-        readClasses.writeln('  }');
-        readClasses.writeln();
-      }
-      if (customType.enumeration < maximumCodecFieldKey) {
-        readCustom.writeln('    case ${customType.enumeration}:');
-        readCustom.writeln('      ${decodeCustom(customType, 'readValue()')}');
-      }
-    }
-    if (root.requiresOverflowClass) {
-      readCustom.writeln('    case $maximumCodecFieldKey:');
-      readCustom.writeln('      readListHeader()');
-      readCustom.writeln('      switch read(Int64.self) {');
-      for (final customType in enumeratedTypes) {
-        if (customType.enumeration >= maximumCodecFieldKey) {
-          readCustom.writeln('      case ${customType.enumeration - maximumCodecFieldKey}:');
-          readCustom.writeln('        ${decodeCustom(customType, 'readValue()')}');
-        }
-      }
-      readCustom.writeln('      default:');
-      readCustom.writeln('        return nil');
-      readCustom.writeln('      }');
     }
 
     indent.newln();
-    indent.format('''
-/// Writes values in the format of Flutter's standard message codec.
-fileprivate struct ${prefix}PigeonInteropWriter {
+    indent.writeln("/// Writes values in the format of Flutter's standard message codec.");
+    indent.writeln('///');
+    indent.writeln(
+      '/// Implemented against Foundation rather than `FlutterStandardWriter` so that',
+    );
+    indent.writeln('/// swiftgen can compile this file without importing Flutter.');
+    indent.writeScoped('private struct ${prefix}PigeonInteropWriter {', '}', () {
+      indent.format('''
   private(set) var bytes: [UInt8] = []
 
   mutating func writeByte(_ byte: UInt8) {
@@ -666,13 +606,13 @@ fileprivate struct ${prefix}PigeonInteropWriter {
   }
 
   mutating func writeSize(_ size: Int) {
-    if size < 254 {
+    if size < Int($codec.sizeUInt16) {
       writeByte(UInt8(size))
-    } else if size <= 0xffff {
-      writeByte(254)
+    } else if size <= Int(UInt16.max) {
+      writeByte($codec.sizeUInt16)
       writeRaw(UInt16(size))
     } else {
-      writeByte(255)
+      writeByte($codec.sizeUInt32)
       writeRaw(UInt32(size))
     }
   }
@@ -693,14 +633,14 @@ fileprivate struct ${prefix}PigeonInteropWriter {
 
   mutating func writeTypedData<T>(_ type: UInt8, _ array: [T]?, alignment: Int) {
     guard let array = array else {
-      writeByte(0)
+      writeByte($codec.typeNull)
       return
     }
     writeTypedData(type, array, alignment: alignment)
   }
 
   mutating func writeString(_ string: String) {
-    writeByte(7)
+    writeByte($codec.typeString)
     var string = string
     string.withUTF8 { utf8 in
       writeSize(utf8.count)
@@ -708,9 +648,15 @@ fileprivate struct ${prefix}PigeonInteropWriter {
     }
   }
 
+  mutating func writeData(_ data: Foundation.Data) {
+    writeByte($codec.typeUint8List)
+    writeSize(data.count)
+    bytes.append(contentsOf: data)
+  }
+
   mutating func writeValue(_ value: Any?) {
     guard let value = value else {
-      writeByte(0)
+      writeByte($codec.typeNull)
       return
     }
     // The most common types are matched by exact type first, because
@@ -721,16 +667,16 @@ fileprivate struct ${prefix}PigeonInteropWriter {
       return
     }
     if valueType == Int64.self {
-      writeByte(4)
+      writeByte($codec.typeInt64)
       writeRaw(value as! Int64)
       return
     }
     if valueType == Bool.self {
-      writeByte((value as! Bool) ? 1 : 2)
+      writeByte((value as! Bool) ? $codec.typeTrue : $codec.typeFalse)
       return
     }
     if valueType == Double.self {
-      writeByte(6)
+      writeByte($codec.typeFloat64)
       writeAlignment(8)
       writeRaw((value as! Double).bitPattern)
       return
@@ -745,27 +691,31 @@ fileprivate struct ${prefix}PigeonInteropWriter {
     // Typed data is matched by exact type, because casting an empty array of
     // any element type to an array of numbers succeeds.
     if valueType == [UInt8].self {
-      writeTypedData(8, value as! [UInt8], alignment: 1)
+      writeTypedData($codec.typeUint8List, value as! [UInt8], alignment: 1)
       return
     }
     if valueType == [Int32].self {
-      writeTypedData(9, value as! [Int32], alignment: 4)
+      writeTypedData($codec.typeInt32List, value as! [Int32], alignment: 4)
       return
     }
     if valueType == [Int64].self {
-      writeTypedData(10, value as! [Int64], alignment: 8)
+      writeTypedData($codec.typeInt64List, value as! [Int64], alignment: 8)
       return
     }
     if valueType == [Float64].self {
-      writeTypedData(11, value as! [Float64], alignment: 8)
+      writeTypedData($codec.typeFloat64List, value as! [Float64], alignment: 8)
       return
     }
     if valueType == [Float32].self {
-      writeTypedData(14, value as! [Float32], alignment: 4)
+      writeTypedData($codec.typeFloat32List, value as! [Float32], alignment: 4)
       return
     }
     if valueType == AnyHashable.self {
       writeValue((value as! AnyHashable).base)
+      return
+    }
+    if valueType == Foundation.Data.self {
+      writeData(value as! Foundation.Data)
       return
     }
     // Collections are matched by protocol before any cast to a class, such as
@@ -784,24 +734,45 @@ fileprivate struct ${prefix}PigeonInteropWriter {
       return
     }
     if ${prefix}PigeonInternal.isNullish(value) {
-      writeByte(0)
+      writeByte($codec.typeNull)
       return
     }
     if let number = value as? NSNumber {
       if CFGetTypeID(number) == CFBooleanGetTypeID() {
-        writeByte(number.boolValue ? 1 : 2)
+        writeByte(number.boolValue ? $codec.typeTrue : $codec.typeFalse)
       } else if CFNumberIsFloatType(number) {
-        writeByte(6)
+        writeByte($codec.typeFloat64)
         writeAlignment(8)
         writeRaw(number.doubleValue.bitPattern)
       } else {
-        writeByte(4)
+        writeByte($codec.typeInt64)
         writeRaw(number.int64Value)
       }
       return
     }
     if let string = value as? String {
       writeString(string)
+      return
+    }
+    if let data = value as? Foundation.Data {
+      writeData(data)
+      return
+    }
+    if let array = value as? NSArray {
+      writeByte($codec.typeList)
+      writeSize(array.count)
+      for item in array {
+        writeValue(item)
+      }
+      return
+    }
+    if let dictionary = value as? NSDictionary {
+      writeByte($codec.typeMap)
+      writeSize(dictionary.count)
+      for (key, item) in dictionary {
+        writeValue(key)
+        writeValue(item)
+      }
       return
     }
     if writeCustomValueFallback(value) {
@@ -811,7 +782,7 @@ fileprivate struct ${prefix}PigeonInteropWriter {
   }
 
   mutating func writeList(_ list: [Any?]) {
-    writeByte(12)
+    writeByte($codec.typeList)
     writeSize(list.count)
     for item in list {
       writeValue(item)
@@ -820,10 +791,10 @@ fileprivate struct ${prefix}PigeonInteropWriter {
 
   mutating func writeList<T>(_ list: [T]?) {
     guard let list = list else {
-      writeByte(0)
+      writeByte($codec.typeNull)
       return
     }
-    writeByte(12)
+    writeByte($codec.typeList)
     writeSize(list.count)
     for item in list {
       writeValue(item)
@@ -832,10 +803,10 @@ fileprivate struct ${prefix}PigeonInteropWriter {
 
   mutating func writeList<T>(_ list: [T?]?) {
     guard let list = list else {
-      writeByte(0)
+      writeByte($codec.typeNull)
       return
     }
-    writeByte(12)
+    writeByte($codec.typeList)
     writeSize(list.count)
     for item in list {
       writeOptional(item)
@@ -844,10 +815,10 @@ fileprivate struct ${prefix}PigeonInteropWriter {
 
   mutating func writeList<T>(_ list: [T]?, _ writeElement: (inout Self, T) -> Void) {
     guard let list = list else {
-      writeByte(0)
+      writeByte($codec.typeNull)
       return
     }
-    writeByte(12)
+    writeByte($codec.typeList)
     writeSize(list.count)
     for item in list {
       writeElement(&self, item)
@@ -858,16 +829,16 @@ fileprivate struct ${prefix}PigeonInteropWriter {
     if let value = value {
       writeValue(value)
     } else {
-      writeByte(0)
+      writeByte($codec.typeNull)
     }
   }
 
   mutating func writeMap<K, V>(_ map: [K: V]?) {
     guard let map = map else {
-      writeByte(0)
+      writeByte($codec.typeNull)
       return
     }
-    writeByte(13)
+    writeByte($codec.typeMap)
     writeSize(map.count)
     for (key, item) in map {
       writeValue(key)
@@ -877,10 +848,10 @@ fileprivate struct ${prefix}PigeonInteropWriter {
 
   mutating func writeMap<K, V>(_ map: [K?: V]?) {
     guard let map = map else {
-      writeByte(0)
+      writeByte($codec.typeNull)
       return
     }
-    writeByte(13)
+    writeByte($codec.typeMap)
     writeSize(map.count)
     for (key, item) in map {
       writeOptional(key)
@@ -890,10 +861,10 @@ fileprivate struct ${prefix}PigeonInteropWriter {
 
   mutating func writeMap<K, V>(_ map: [K: V?]?) {
     guard let map = map else {
-      writeByte(0)
+      writeByte($codec.typeNull)
       return
     }
-    writeByte(13)
+    writeByte($codec.typeMap)
     writeSize(map.count)
     for (key, item) in map {
       writeValue(key)
@@ -903,10 +874,10 @@ fileprivate struct ${prefix}PigeonInteropWriter {
 
   mutating func writeMap<K, V>(_ map: [K?: V?]?) {
     guard let map = map else {
-      writeByte(0)
+      writeByte($codec.typeNull)
       return
     }
-    writeByte(13)
+    writeByte($codec.typeMap)
     writeSize(map.count)
     for (key, item) in map {
       writeOptional(key)
@@ -916,27 +887,67 @@ fileprivate struct ${prefix}PigeonInteropWriter {
 
   mutating func writeMap<K, V>(_ map: [K: V]?, _ writeEntry: (inout Self, K, V) -> Void) {
     guard let map = map else {
-      writeByte(0)
+      writeByte($codec.typeNull)
       return
     }
-    writeByte(13)
+    writeByte($codec.typeMap)
     writeSize(map.count)
     for (key, item) in map {
       writeEntry(&self, key, item)
     }
   }
+''');
+      for (final customType in enumeratedTypes) {
+        final Class? dataClass = customType.associatedClass;
+        if (dataClass != null) {
+          // Fields are written by their declared types, so that a `List<int>`
+          // stays a list rather than becoming typed data, and optional fields
+          // aren't boxed.
+          final List<NamedType> fields = getFieldsInSerializationOrder(dataClass).toList();
+          indent.newln();
+          indent.writeScoped(
+            'mutating func write${customType.name}(_ value: ${customType.name}) {',
+            '}',
+            () {
+              indent.writeln('writeByte($codec.typeList)');
+              indent.writeln('writeSize(${fields.length})');
+              for (final field in fields) {
+                indent.writeln(_swiftInteropWrite('value.${field.name}', field.type, codec));
+              }
+            },
+          );
+        }
+      }
+      indent.newln();
+      // Exact type matches are checked first, because comparing metatypes is
+      // much cheaper than a failed dynamic cast for every value.
+      indent.writeScoped(
+        'mutating func writeCustomValue(_ value: Any, type valueType: Any.Type) -> Bool {',
+        '}',
+        () {
+          for (final customType in enumeratedTypes) {
+            indent.writeScoped('if valueType == ${customType.name}.self {', '}', () {
+              writeCustomBody(customType, '(value as! ${customType.name})');
+            });
+          }
+          indent.writeln('return false');
+        },
+      );
+      indent.newln();
+      indent.writeScoped('mutating func writeCustomValueFallback(_ value: Any) -> Bool {', '}', () {
+        for (final customType in enumeratedTypes) {
+          indent.writeScoped('if let value = value as? ${customType.name} {', '}', () {
+            writeCustomBody(customType, 'value');
+          });
+        }
+        indent.writeln('return false');
+      });
+    });
 
-$writeClasses  mutating func writeCustomValue(_ value: Any, type valueType: Any.Type) -> Bool {
-$writeCustom    return false
-  }
-
-  mutating func writeCustomValueFallback(_ value: Any) -> Bool {
-$writeCustomFallback    return false
-  }
-}
-
+    indent.newln();
+    indent.format('''
 /// Unwraps optionals that a generic context boxed into `Any`.
-fileprivate protocol ${prefix}PigeonInteropOptional {
+private protocol ${prefix}PigeonInteropOptional {
   var pigeonWrapped: Any? { get }
 }
 
@@ -952,13 +963,13 @@ extension Optional: ${prefix}PigeonInteropOptional {
 }
 
 /// Writes typed lists without converting them to `[Any?]` first.
-fileprivate protocol ${prefix}PigeonInteropList {
+private protocol ${prefix}PigeonInteropList {
   func pigeonWrite(to writer: inout ${prefix}PigeonInteropWriter)
 }
 
 extension Array: ${prefix}PigeonInteropList {
   fileprivate func pigeonWrite(to writer: inout ${prefix}PigeonInteropWriter) {
-    writer.writeByte(12)
+    writer.writeByte($codec.typeList)
     writer.writeSize(count)
     for item in self {
       writer.writeValue(item)
@@ -967,13 +978,13 @@ extension Array: ${prefix}PigeonInteropList {
 }
 
 /// Writes typed maps without converting them to `[AnyHashable?: Any?]` first.
-fileprivate protocol ${prefix}PigeonInteropMap {
+private protocol ${prefix}PigeonInteropMap {
   func pigeonWrite(to writer: inout ${prefix}PigeonInteropWriter)
 }
 
 extension Dictionary: ${prefix}PigeonInteropMap {
   fileprivate func pigeonWrite(to writer: inout ${prefix}PigeonInteropWriter) {
-    writer.writeByte(13)
+    writer.writeByte($codec.typeMap)
     writer.writeSize(count)
     for (key, item) in self {
       writer.writeValue(key)
@@ -981,9 +992,12 @@ extension Dictionary: ${prefix}PigeonInteropMap {
     }
   }
 }
+''');
 
-/// Reads values in the format of Flutter's standard message codec.
-fileprivate struct ${prefix}PigeonInteropReader {
+    indent.newln();
+    indent.writeln("/// Reads values in the format of Flutter's standard message codec.");
+    indent.writeScoped('private struct ${prefix}PigeonInteropReader {', '}', () {
+      indent.format('''
   private let data: NSData
   private let bytes: UnsafeRawBufferPointer
   private var position = 0
@@ -1009,9 +1023,9 @@ fileprivate struct ${prefix}PigeonInteropReader {
 
   mutating func readSize() -> Int {
     let byte = readByte()
-    if byte < 254 {
+    if byte < $codec.sizeUInt16 {
       return Int(byte)
-    } else if byte == 254 {
+    } else if byte == $codec.sizeUInt16 {
       return Int(readRaw(UInt16.self))
     }
     return Int(readRaw(UInt32.self))
@@ -1045,35 +1059,35 @@ fileprivate struct ${prefix}PigeonInteropReader {
 
   mutating func readValue(ofType type: UInt8) -> Any? {
     switch type {
-    case 0:
+    case $codec.typeNull:
       return nil
-    case 1:
+    case $codec.typeTrue:
       return true
-    case 2:
+    case $codec.typeFalse:
       return false
-    case 3:
+    case $codec.typeInt32:
       return Int64(readRaw(Int32.self))
-    case 4:
+    case $codec.typeInt64:
       return readRaw(Int64.self)
-    case 5, 7:
+    case $codec.typeLargeInt, $codec.typeString:
       let count = readSize()
       let string = String(
         decoding: UnsafeRawBufferPointer(rebasing: bytes[position..<(position + count)]),
         as: UTF8.self)
       position += count
       return string
-    case 6:
+    case $codec.typeFloat64:
       readAlignment(8)
       return Double(bitPattern: readRaw(UInt64.self))
-    case 8:
+    case $codec.typeUint8List:
       return readTypedData(UInt8.self, alignment: 1)
-    case 9:
+    case $codec.typeInt32List:
       return readTypedData(Int32.self, alignment: 4)
-    case 10:
+    case $codec.typeInt64List:
       return readTypedData(Int64.self, alignment: 8)
-    case 11:
+    case $codec.typeFloat64List:
       return readTypedData(Float64.self, alignment: 8)
-    case 12:
+    case $codec.typeList:
       let count = readSize()
       var list: [Any?] = []
       list.reserveCapacity(count)
@@ -1081,7 +1095,7 @@ fileprivate struct ${prefix}PigeonInteropReader {
         list.append(readValue())
       }
       return list
-    case 13:
+    case $codec.typeMap:
       let count = readSize()
       var map: [AnyHashable?: Any?] = [:]
       map.reserveCapacity(count)
@@ -1090,7 +1104,7 @@ fileprivate struct ${prefix}PigeonInteropReader {
         map[key] = readValue()
       }
       return map
-    case 14:
+    case $codec.typeFloat32List:
       return readTypedData(Float32.self, alignment: 4)
     default:
       return readCustomValue(ofType: type)
@@ -1108,7 +1122,7 @@ fileprivate struct ${prefix}PigeonInteropReader {
 
   mutating func read<E>(_ type: [E].Type) -> [E] {
     let tag = readByte()
-    guard tag == 12 else {
+    guard tag == $codec.typeList else {
       return readValue(ofType: tag) as! [E]
     }
     let count = readSize()
@@ -1121,7 +1135,7 @@ fileprivate struct ${prefix}PigeonInteropReader {
   }
 
   mutating func read<E>(_ type: [E]?.Type) -> [E]? {
-    if bytes[position] == 0 {
+    if bytes[position] == $codec.typeNull {
       position += 1
       return nil
     }
@@ -1130,7 +1144,7 @@ fileprivate struct ${prefix}PigeonInteropReader {
 
   mutating func read<K: Hashable, V>(_ type: [K: V].Type) -> [K: V] {
     let tag = readByte()
-    guard tag == 13 else {
+    guard tag == $codec.typeMap else {
       return readValue(ofType: tag) as! [K: V]
     }
     let count = readSize()
@@ -1144,24 +1158,100 @@ fileprivate struct ${prefix}PigeonInteropReader {
   }
 
   mutating func read<K: Hashable, V>(_ type: [K: V]?.Type) -> [K: V]? {
-    if bytes[position] == 0 {
+    if bytes[position] == $codec.typeNull {
       position += 1
       return nil
     }
     return read([K: V].self)
   }
+''');
+      for (final customType in enumeratedTypes) {
+        final Class? dataClass = customType.associatedClass;
+        if (dataClass != null) {
+          // Fields are read by their declared types, which avoids converting
+          // untyped collections afterwards.
+          final List<NamedType> fields = getFieldsInSerializationOrder(dataClass).toList();
+          indent.newln();
+          indent.writeScoped(
+            'mutating func read${customType.name}() -> ${customType.name} {',
+            '}',
+            () {
+              indent.writeln('readListHeader()');
+              if (fields.isEmpty) {
+                indent.writeln('return ${customType.name}()');
+              } else {
+                indent.writeScoped('return ${customType.name}(', ')', () {
+                  for (final (int index, NamedType field) in fields.indexed) {
+                    final comma = index < fields.length - 1 ? ',' : '';
+                    indent.writeln('${field.name}: ${_swiftInteropRead(field.type)}$comma');
+                  }
+                });
+              }
+            },
+          );
+        }
+      }
+      indent.newln();
+      indent.writeScoped('mutating func readCustomValue(ofType type: UInt8) -> Any? {', '}', () {
+        indent.writeScoped('switch type {', '}', nestCount: 0, () {
+          for (final customType in enumeratedTypes) {
+            if (customType.enumeration < maximumCodecFieldKey) {
+              indent.writeScoped('case ${customType.enumeration}:', null, () {
+                writeDecodeCustom(customType, 'readValue()');
+              });
+            }
+          }
+          if (root.requiresOverflowClass) {
+            indent.writeScoped('case $maximumCodecFieldKey:', null, () {
+              indent.writeln('readListHeader()');
+              indent.writeScoped('switch read(Int64.self) {', '}', nestCount: 0, () {
+                for (final customType in enumeratedTypes) {
+                  if (customType.enumeration >= maximumCodecFieldKey) {
+                    indent.writeScoped(
+                      'case ${customType.enumeration - maximumCodecFieldKey}:',
+                      null,
+                      () {
+                        writeDecodeCustom(customType, 'readValue()');
+                      },
+                    );
+                  }
+                }
+                indent.writeScoped('default:', null, () {
+                  indent.writeln('return nil');
+                });
+              });
+            });
+          }
+          indent.writeScoped('default:', null, () {
+            indent.writeln(r'preconditionFailure("Unsupported type: \(type)")');
+          });
+        });
+      });
+    });
 
-$readClasses  mutating func readCustomValue(ofType type: UInt8) -> Any? {
-    switch type {
-$readCustom    default:
-      preconditionFailure("Unsupported type: \\(type)")
-    }
-  }
-}
-
+    indent.newln();
+    indent.format('''
 /// Encodes and decodes the buffers that native interop calls pass to and from
 /// Dart, in the same format as the message codec.
-fileprivate enum $codec {
+private enum $codec {
+  static let typeNull: UInt8 = 0
+  static let typeTrue: UInt8 = 1
+  static let typeFalse: UInt8 = 2
+  static let typeInt32: UInt8 = 3
+  static let typeInt64: UInt8 = 4
+  static let typeLargeInt: UInt8 = 5
+  static let typeFloat64: UInt8 = 6
+  static let typeString: UInt8 = 7
+  static let typeUint8List: UInt8 = 8
+  static let typeInt32List: UInt8 = 9
+  static let typeInt64List: UInt8 = 10
+  static let typeFloat64List: UInt8 = 11
+  static let typeList: UInt8 = 12
+  static let typeMap: UInt8 = 13
+  static let typeFloat32List: UInt8 = 14
+  static let sizeUInt16: UInt8 = 254
+  static let sizeUInt32: UInt8 = 255
+
   static func encode(_ value: Any?) -> NSData {
     var writer = ${prefix}PigeonInteropWriter()
     writer.writeValue(value)
@@ -1639,13 +1729,11 @@ if (wrapped == nil) {
       () {
         indent.writeScoped('switch ${varNamePrefix}Class {', '}', () {
           for (final Class child in classDefinition.children) {
-            indent.writeln('case let ${varNamePrefix}value as ${child.name}:');
-            indent.nest(1, () {
+            indent.writeScoped('case let ${varNamePrefix}value as ${child.name}:', null, () {
               indent.writeln('return ${child.name}Bridge.fromSwift(${varNamePrefix}value)');
             });
           }
-          indent.writeln('default:');
-          indent.nest(1, () {
+          indent.writeScoped('default:', null, () {
             indent.writeln('return nil');
           });
         });
@@ -1658,13 +1746,11 @@ if (wrapped == nil) {
       () {
         indent.writeScoped('switch ${varNamePrefix}bridge {', '}', () {
           for (final Class child in classDefinition.children) {
-            indent.writeln('case let ${varNamePrefix}value as ${child.name}Bridge:');
-            indent.nest(1, () {
+            indent.writeScoped('case let ${varNamePrefix}value as ${child.name}Bridge:', null, () {
               indent.writeln('return ${varNamePrefix}value.toSwift()');
             });
           }
-          indent.writeln('default:');
-          indent.nest(1, () {
+          indent.writeScoped('default:', null, () {
             indent.writeln('return nil');
           });
         });
@@ -2106,45 +2192,150 @@ if (wrapped == nil) {
     indent.newln();
     indent.write('@objc class ${api.name}Registrar: NSObject ');
     indent.addScoped('{', '}', () {
-      indent.writeln('static var registered${api.name} = [String: ${api.name}]()');
+      indent.writeln('static var registered${api.name} = [String: [${api.name}]]()');
+      _writeRegistrationLockDocs(indent);
+      indent.writeln('static let lock = NSLock()');
       indent.newln();
+      indent.writeln(
+        '$_docCommentPrefix Registers the Dart implementation `api` under `name` (or the default instance',
+      );
+      indent.writeln('$_docCommentPrefix when `name` is omitted).');
+      indent.writeln(_docCommentPrefix);
+      indent.writeln(
+        '$_docCommentPrefix Called by generated Dart code. `engineId` and `affinityKey` identify the engine',
+      );
+      indent.writeln('$_docCommentPrefix that registered `api`, or are `Int64.min` when unknown.');
+      indent.writeln(
+        '$_docCommentPrefix Registering an instance that is already registered under `name` updates its',
+      );
+      indent.writeln('$_docCommentPrefix keys and keeps its position.');
       indent.write(
-        '@objc static func registerInstance(api: ${api.name}Bridge?, name: String = ${_classNamePrefix}PigeonInternal.defaultInstanceName) ',
+        '@objc static func registerInstance(api: ${api.name}Bridge, engineId: Int64, affinityKey: Int64, name: String = ${_classNamePrefix}PigeonInternal.defaultInstanceName) ',
       );
       indent.addScoped('{', '}', () {
-        indent.writeScoped('if let api = api {', '}', () {
-          indent.writeln(
-            '${api.name}Registrar.registered${api.name}[name] = ${api.name}(api: api)',
-          );
-        }, addTrailingNewline: false);
+        indent.writeln('let apiObject = api as AnyObject');
+        indent.writeln('${api.name}Registrar.lock.lock()');
+        indent.writeln('defer { ${api.name}Registrar.lock.unlock() }');
+        indent.writeln('var list = ${api.name}Registrar.registered${api.name}[name] ?? []');
+        indent.writeln(
+          'let registration = ${api.name}(api: api, engineId: engineId, affinityKey: affinityKey)',
+        );
+        indent.writeScoped(
+          r'if let index = list.firstIndex(where: { ($0.api as AnyObject) === apiObject }) {',
+          '}',
+          () {
+            indent.writeln('list[index] = registration');
+          },
+          addTrailingNewline: false,
+        );
         indent.addScoped(' else {', '}', () {
-          indent.writeln('${api.name}Registrar.registered${api.name}.removeValue(forKey: name)');
+          indent.writeln('list.append(registration)');
         });
+        indent.writeln('${api.name}Registrar.registered${api.name}[name] = list');
       });
       indent.newln();
+      _writeNativeInteropUnregisterDocs(indent);
       indent.write(
-        'static func getInstance(name: String = ${_classNamePrefix}PigeonInternal.defaultInstanceName) -> ${api.name}? ',
+        '@objc static func unregisterInstance(api: ${api.name}Bridge, name: String = ${_classNamePrefix}PigeonInternal.defaultInstanceName) ',
       );
       indent.addScoped('{', '}', () {
-        indent.writeln('return ${api.name}Registrar.registered${api.name}[name]');
+        indent.writeln('let apiObject = api as AnyObject');
+        _writeDisplacedLifetimeComment(indent);
+        indent.writeln('var displaced: [${api.name}] = []');
+        indent.writeScoped('do {', '}', () {
+          indent.writeln('${api.name}Registrar.lock.lock()');
+          indent.writeln('defer { ${api.name}Registrar.lock.unlock() }');
+          indent.writeScoped(
+            'guard var list = ${api.name}Registrar.registered${api.name}[name] else {',
+            '}',
+            () {
+              indent.writeln('return');
+            },
+          );
+          indent.writeScoped('list.removeAll { entry in', '}', () {
+            indent.writeScoped('if (entry.api as AnyObject) === apiObject {', '}', () {
+              indent.writeln('displaced.append(entry)');
+              indent.writeln('return true');
+            });
+            indent.writeln('return false');
+          });
+          indent.writeScoped('if list.isEmpty {', '}', () {
+            indent.writeln('${api.name}Registrar.registered${api.name}.removeValue(forKey: name)');
+          }, addTrailingNewline: false);
+          indent.addScoped(' else {', '}', () {
+            indent.writeln('${api.name}Registrar.registered${api.name}[name] = list');
+          });
+        });
+        indent.writeln('withExtendedLifetime(displaced) {}');
+      });
+      indent.newln();
+      indent.writeln('#if canImport(Flutter) || canImport(FlutterMacOS)');
+      indent.nest(1, () {
+        indent.writeln(
+          '$_docCommentPrefix Returns the instance for `name` (or the default instance when `name` is omitted)',
+        );
+        indent.writeln(
+          '$_docCommentPrefix that was registered from the engine that owns `registrar`.',
+        );
+        indent.writeln(_docCommentPrefix);
+        indent.writeln(
+          '$_docCommentPrefix When no instance is known to belong to that engine, falls back to the most',
+        );
+        indent.writeln(
+          '$_docCommentPrefix recent registration for `name`. Returns nil if none is registered.',
+        );
+        indent.writeScoped(
+          'static func getInstance(registrar: FlutterPluginRegistrar, name: String = ${_classNamePrefix}PigeonInternal.defaultInstanceName) -> ${api.name}? {',
+          '}',
+          () {
+            indent.writeln(
+              'return getInstance(engineKey: PigeonEngineKeys.key(for: registrar), name: name)',
+            );
+          },
+        );
+      });
+      indent.writeln('#endif');
+      indent.newln();
+      indent.write(
+        'fileprivate static func getInstance(engineKey: Int64, name: String) -> ${api.name}? ',
+      );
+      indent.addScoped('{', '}', () {
+        indent.writeln('${api.name}Registrar.lock.lock()');
+        indent.writeln('defer { ${api.name}Registrar.lock.unlock() }');
+        indent.writeScoped(
+          'guard let list = ${api.name}Registrar.registered${api.name}[name] else {',
+          '}',
+          () {
+            indent.writeln('return nil');
+          },
+        );
+        // Prefer the isolate running on the engine over isolates that only
+        // learned an affinity for it.
+        indent.writeScoped(
+          r'if engineKey != Int64.min, let match = list.last(where: { $0.engineId == engineKey }) ?? list.last(where: { $0.affinityKey == engineKey }) {',
+          '}',
+          () {
+            indent.writeln('return match');
+          },
+        );
+        indent.writeln('return list.last');
       });
     });
 
     indent.newln();
     indent.write('class ${api.name} ');
     indent.addScoped('{', '}', () {
-      indent.writeln('private let api: ${api.name}Bridge');
-      indent.newln();
-      indent.write('fileprivate init(api: ${api.name}Bridge) ');
-      indent.addScoped('{', '}', () {
-        indent.writeln('self.api = api');
-      });
+      indent.writeln('fileprivate let api: ${api.name}Bridge');
+      indent.writeln('fileprivate let engineId: Int64');
+      indent.writeln('fileprivate let affinityKey: Int64');
       indent.newln();
       indent.write(
-        'static func getInstance(name: String = ${_classNamePrefix}PigeonInternal.defaultInstanceName) -> ${api.name}? ',
+        'fileprivate init(api: ${api.name}Bridge, engineId: Int64, affinityKey: Int64) ',
       );
       indent.addScoped('{', '}', () {
-        indent.writeln('return ${api.name}Registrar.getInstance(name: name)');
+        indent.writeln('self.api = api');
+        indent.writeln('self.engineId = engineId');
+        indent.writeln('self.affinityKey = affinityKey');
       });
 
       for (final Method method in api.methods) {
@@ -2213,6 +2404,237 @@ if (wrapped == nil) {
     });
   }
 
+  void _writeNativeInteropRegisterDocs(Indent indent) {
+    indent.writeln(
+      '$_docCommentPrefix Registers `api` under `name` (or the default instance when `name` is omitted).',
+    );
+    indent.writeln(_docCommentPrefix);
+    indent.writeln(
+      '$_docCommentPrefix The registration is tied to its engine: unregistering it for one engine leaves',
+    );
+    indent.writeln(
+      "$_docCommentPrefix other engines' registrations in place, and Dart code running on an engine uses",
+    );
+    indent.writeln('$_docCommentPrefix the instance registered for that engine when it is known.');
+  }
+
+  void _writeNativeInteropUnregisterDocs(Indent indent) {
+    indent.writeln(
+      '$_docCommentPrefix Removes `api` from the registrations under `name` (or the default instance',
+    );
+    indent.writeln(
+      '$_docCommentPrefix when `name` is omitted), leaving other registrations in place.',
+    );
+    indent.writeln(_docCommentPrefix);
+    indent.writeln(
+      '$_docCommentPrefix Instances are matched by identity. Does nothing if `api` is not registered.',
+    );
+  }
+
+  /// Emits the doc comment for a registration lock.
+  void _writeRegistrationLockDocs(Indent indent) {
+    indent.writeln(
+      '$_docCommentPrefix Guards the registrations, which Native Interop calls can read from any thread.',
+    );
+  }
+
+  /// Emits a comment explaining why removed registrations are collected in
+  /// `displaced` instead of being released inline.
+  void _writeDisplacedLifetimeComment(Indent indent) {
+    indent.writeln(
+      '// Removed entries are kept alive until after unlocking so their deinit cannot run while the',
+    );
+    indent.writeln('// non-recursive lock is held.');
+  }
+
+  /// Writes the engine-keyed registration statics of an FFI HostApi `Setup`
+  /// class.
+  ///
+  /// The registrar-based entry points are Swift-only and wrapped in
+  /// `canImport` guards because swiftgen compiles the file without Flutter.
+  void _writeFfiHostApiRegistration(Indent indent, AstHostApi api) {
+    final setupName = '${api.name}Setup';
+    final tracker = '${api.name}InstanceTracker';
+    final instances = '$tracker.instancesOf${api.name}';
+    final defaultName = '${_classNamePrefix}PigeonInternal.defaultInstanceName';
+
+    indent.writeln(
+      '$_docCommentPrefix The engine key this wrapper was registered with. Set before the wrapper is published.',
+    );
+    indent.writeln('private var engineKey: Int64 = Int64.min');
+    indent.newln();
+    indent.writeln('#if canImport(Flutter) || canImport(FlutterMacOS)');
+    indent.nest(1, () {
+      _writeNativeInteropRegisterDocs(indent);
+      indent.writeln(_docCommentPrefix);
+      indent.writeln(
+        '$_docCommentPrefix The registration is associated with the engine that owns `registrar`. The same',
+      );
+      indent.writeln(
+        '$_docCommentPrefix `api` registered from different engines is tracked as separate registrations.',
+      );
+      indent.writeScoped(
+        'static func register(api: ${api.name}, registrar: FlutterPluginRegistrar, name: String = $defaultName) {',
+        '}',
+        () {
+          indent.writeln(
+            'register(api: api, engineKey: PigeonEngineKeys.key(for: registrar), name: name)',
+          );
+        },
+      );
+      indent.newln();
+      _writeNativeInteropUnregisterDocs(indent);
+      indent.writeln(_docCommentPrefix);
+      indent.writeln(
+        '$_docCommentPrefix Prefers the registration made from the engine that owns `registrar`, and',
+      );
+      indent.writeln(
+        '$_docCommentPrefix otherwise removes the registration of `api` under `name` if exactly one engine',
+      );
+      indent.writeln('$_docCommentPrefix holds it.');
+      indent.writeScoped(
+        'static func unregister(api: ${api.name}, registrar: FlutterPluginRegistrar, name: String = $defaultName) {',
+        '}',
+        () {
+          indent.writeln(
+            'unregister(api: api, engineKey: PigeonEngineKeys.key(for: registrar), name: name)',
+          );
+        },
+      );
+    });
+    indent.writeln('#endif');
+    indent.newln();
+    indent.writeScoped(
+      'fileprivate static func register(api: ${api.name}, engineKey: Int64, name: String) {',
+      '}',
+      () {
+        indent.writeln('$tracker.lock.lock()');
+        indent.writeln('defer { $tracker.lock.unlock() }');
+        indent.writeln('var list = $instances[name] ?? []');
+        // Reuse the existing wrapper so Dart handles that already resolved
+        // it keep working after the instance moves back to the top.
+        indent.writeScoped(
+          r'if let index = list.firstIndex(where: { $0.api === api && $0.engineKey == engineKey }) {',
+          '}',
+          () {
+            indent.writeln('list.append(list.remove(at: index))');
+          },
+          addTrailingNewline: false,
+        );
+        indent.addScoped(' else {', '}', () {
+          indent.writeln('let wrapper = $setupName()');
+          indent.writeln('wrapper.engineKey = engineKey');
+          indent.writeln('wrapper.api = api');
+          indent.writeln('list.append(wrapper)');
+        });
+        indent.writeln('$instances[name] = list');
+      },
+    );
+    indent.newln();
+    indent.writeScoped(
+      'fileprivate static func unregister(api: ${api.name}, engineKey: Int64, name: String) {',
+      '}',
+      () {
+        _writeDisplacedLifetimeComment(indent);
+        indent.writeln('var displaced: [Any] = []');
+        indent.writeScoped('do {', '}', () {
+          indent.writeln('$tracker.lock.lock()');
+          indent.writeln('defer { $tracker.lock.unlock() }');
+          indent.writeScoped('guard var list = $instances[name] else {', '}', () {
+            indent.writeln('return');
+          });
+          // Fall back to identity when no entry has this engine key, but only
+          // when a single engine holds `api` so that other engines'
+          // registrations of a shared instance are never removed.
+          indent.writeln('let removeKey: Int64');
+          indent.writeScoped(
+            r'if list.contains(where: { $0.api === api && $0.engineKey == engineKey }) {',
+            '}',
+            () {
+              indent.writeln('removeKey = engineKey');
+            },
+            addTrailingNewline: false,
+          );
+          indent.addScoped(' else {', '}', () {
+            indent.writeln(r'let keys = Set(list.filter { $0.api === api }.map { $0.engineKey })');
+            indent.writeScoped('guard keys.count == 1, let onlyKey = keys.first else {', '}', () {
+              indent.writeln('return');
+            });
+            indent.writeln('removeKey = onlyKey');
+          });
+          indent.writeScoped('list.removeAll { entry in', '}', () {
+            indent.writeScoped('guard let existing = entry.api else {', '}', () {
+              indent.writeln('return false');
+            });
+            indent.writeScoped('if existing === api && entry.engineKey == removeKey {', '}', () {
+              indent.writeln('displaced.append(existing)');
+              indent.writeln('displaced.append(entry)');
+              indent.writeln('entry.api = nil');
+              indent.writeln('return true');
+            });
+            indent.writeln('return false');
+          });
+          indent.writeScoped('if list.isEmpty {', '}', () {
+            indent.writeln('$instances.removeValue(forKey: name)');
+          }, addTrailingNewline: false);
+          indent.addScoped(' else {', '}', () {
+            indent.writeln('$instances[name] = list');
+          });
+        });
+        indent.writeln('withExtendedLifetime(displaced) {}');
+      },
+    );
+    indent.newln();
+    indent.writeln(
+      '$_docCommentPrefix Returns the instance generated Dart code should use for `name` (or the default',
+    );
+    indent.writeln('$_docCommentPrefix instance).');
+    indent.writeln(_docCommentPrefix);
+    indent.writeln(
+      '$_docCommentPrefix Prefers the most recent registration whose engine key is `engineId`, then',
+    );
+    indent.writeln(
+      '$_docCommentPrefix `affinityKey`, then the most recent registration. `Int64.min` means unknown.',
+    );
+    indent.writeScoped(
+      '@objc static func pigeonResolveInstance(engineId: Int64, affinityKey: Int64, name: String = $defaultName) -> $setupName? {',
+      '}',
+      () {
+        indent.writeln('$tracker.lock.lock()');
+        indent.writeln('defer { $tracker.lock.unlock() }');
+        indent.writeScoped('guard let list = $instances[name] else {', '}', () {
+          indent.writeln('return nil');
+        });
+        indent.writeScoped(
+          r'if engineId != Int64.min, let match = list.last(where: { $0.engineKey == engineId }) {',
+          '}',
+          () {
+            indent.writeln('return match');
+          },
+        );
+        indent.writeScoped(
+          r'if affinityKey != Int64.min, let match = list.last(where: { $0.engineKey == affinityKey }) {',
+          '}',
+          () {
+            indent.writeln('return match');
+          },
+        );
+        indent.writeln('return list.last');
+      },
+    );
+    indent.newln();
+    indent.writeln(
+      '$_docCommentPrefix Returns the engine key `instance` was registered with, or `Int64.min` if unknown.',
+    );
+    indent.writeScoped(
+      '@objc static func pigeonEngineKey(of instance: $setupName) -> Int64 {',
+      '}',
+      () {
+        indent.writeln('return instance.engineKey');
+      },
+    );
+  }
+
   /// Writes the body of the user-facing method that calls the Flutter API
   /// [method] through the hybrid transport.
   void _writeFfiHybridFlutterMethodBody(
@@ -2225,7 +2647,7 @@ if (wrapped == nil) {
     final List<Parameter> encodedParameters = nativeInteropEncodedParameters(method.parameters);
     final String? encodedArgs = encodedParameters.isEmpty
         ? null
-        : '$codec.encode { \$0.writeByte(12); \$0.writeSize(${encodedParameters.length}); ${encodedParameters.map((Parameter p) => _swiftInteropWrite(_getSafeArgumentName(method.parameters.indexOf(p), p), p.type, writer: r'$0')).join('; ')} }';
+        : '$codec.encode { \$0.writeByte($codec.typeList); \$0.writeSize(${encodedParameters.length}); ${encodedParameters.map((Parameter p) => _swiftInteropWrite(_getSafeArgumentName(method.parameters.indexOf(p), p), p.type, codec, writer: r'$0')).join('; ')} }';
     final String arguments = _hybridSwiftEntryPointArguments(
       method.parameters,
       directValue: (int index, Parameter parameter) =>
@@ -2277,29 +2699,20 @@ if (wrapped == nil) {
       if (generatorOptions.useFfi) {
         indent.writeln('private var api: ${api.name}?');
         indent.writeln('override init() {}');
-        indent.writeScoped(
-          'static func register(api: ${api.name}?, name: String = ${_classNamePrefix}PigeonInternal.defaultInstanceName) {',
-          '}',
-          () {
-            indent.writeScoped('if let api = api {', '}', () {
-              indent.writeln('let wrapper = ${api.name}Setup()');
-              indent.writeln('wrapper.api = api');
-              indent.writeln('${api.name}InstanceTracker.instancesOf${api.name}[name] = wrapper');
-            }, addTrailingNewline: false);
-            indent.addScoped(' else {', '}', () {
-              indent.writeln(
-                '${api.name}InstanceTracker.instancesOf${api.name}.removeValue(forKey: name)',
-              );
+        indent.writeScoped('private func resolveApi() throws -> ${api.name} {', '}', () {
+          indent.writeln('${api.name}InstanceTracker.lock.lock()');
+          indent.writeln('let registeredApi = api');
+          indent.writeln('${api.name}InstanceTracker.lock.unlock()');
+          indent.writeScoped('guard let currentApi = registeredApi else {', '}', () {
+            indent.writeScoped('throw ${_getErrorClassName(generatorOptions)}(', ')', () {
+              indent.writeln('code: "unregistered-instance",');
+              indent.writeln('message: "${api.name} has not been registered.",');
+              indent.writeln('details: nil');
             });
-          },
-        );
-        indent.writeScoped(
-          '@objc static func getInstance(name: String) -> ${api.name}Setup? {',
-          '}',
-          () {
-            indent.writeln('return ${api.name}InstanceTracker.instancesOf${api.name}[name] ?? nil');
-          },
-        );
+          });
+          indent.writeln('return currentApi');
+        });
+        _writeFfiHostApiRegistration(indent, api);
       }
       for (final Method method in api.methods) {
         if (generatorOptions.useFfiHybrid) {
@@ -2342,6 +2755,7 @@ if (wrapped == nil) {
               : 'Void';
           final resultDeclaration = returnsValue ? 'let res: $swiftReturnType = ' : '';
           indent.writeScoped('do {', '}', () {
+            indent.writeln('let activeApi = try resolveApi()');
             if (method.isAsynchronousCallback) {
               final completion =
                   '${arguments.isEmpty ? '' : ', '}completion: { continuation.resume(with: \$0) }';
@@ -2349,12 +2763,12 @@ if (wrapped == nil) {
                 '${resultDeclaration}try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<$swiftReturnType, Error>) in',
                 '}',
                 () {
-                  indent.writeln('api!.${components.name}($arguments$completion)');
+                  indent.writeln('activeApi.${components.name}($arguments$completion)');
                 },
               );
             } else {
               indent.writeln(
-                '${resultDeclaration}try ${method.isAsynchronous ? 'await ' : ''}api!.${components.name}($arguments)',
+                '${resultDeclaration}try ${method.isAsynchronous ? 'await ' : ''}activeApi.${components.name}($arguments)',
               );
             }
             if (!returnsValue) {
@@ -2423,6 +2837,7 @@ if (wrapped == nil) {
       '}',
       () {
         indent.writeScoped('do {', '}', () {
+          indent.writeln('let activeApi = try resolveApi()');
           if (encodedParameters.isNotEmpty) {
             indent.writeln(
               'var reader = ${_classNamePrefix}PigeonInteropReader($nativeInteropArgsParameterName)',
@@ -2466,12 +2881,12 @@ if (wrapped == nil) {
               '${resultDeclaration}try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<$swiftReturnType, Error>) in',
               '}',
               () {
-                indent.writeln('api!.${components.name}($arguments$completion)');
+                indent.writeln('activeApi.${components.name}($arguments$completion)');
               },
             );
           } else {
             indent.writeln(
-              '${resultDeclaration}try ${method.isAsynchronous ? 'await ' : ''}api!.${components.name}($arguments)',
+              '${resultDeclaration}try ${method.isAsynchronous ? 'await ' : ''}activeApi.${components.name}($arguments)',
             );
           }
           if (!returnsValue) {
@@ -2512,11 +2927,11 @@ if (wrapped == nil) {
   }) {
     final String apiName = api.name;
     if (generatorOptions.useFfi) {
-      indent.format('''
-        class ${apiName}InstanceTracker {
-          static var instancesOf$apiName = [String: ${apiName}Setup?]()
-        }
-        ''');
+      indent.writeScoped('class ${apiName}InstanceTracker {', '}', () {
+        indent.writeln('static var instancesOf$apiName = [String: [${apiName}Setup]]()');
+        _writeRegistrationLockDocs(indent);
+        indent.writeln('static let lock = NSLock()');
+      });
     }
 
     const generatedComments = <String>[
@@ -2529,7 +2944,8 @@ if (wrapped == nil) {
       generatorComments: generatedComments,
     );
 
-    indent.write('protocol $apiName ');
+    final protocolConstraint = generatorOptions.useFfi ? ': AnyObject' : '';
+    indent.write('protocol $apiName$protocolConstraint ');
     indent.addScoped('{', '}', () {
       for (final Method method in api.methods) {
         addDocumentationComments(indent, method.documentationComments, _docCommentSpec);
@@ -3286,19 +3702,17 @@ static func deepHash(value: Any?, hasher: inout Hasher) {
           indent.writeScoped('switch number {', '}', () {
             var caseNum = 4;
             for (final Enum anEnum in root.enums) {
-              indent.writeln('case let value as ${anEnum.name}:');
-              indent.inc();
-              indent.writeln(
-                'return ${_classNamePrefix}NumberWrapper(number: NSNumber(value: value.rawValue), type: ${caseNum++})',
-              );
-              indent.dec();
+              indent.writeScoped('case let value as ${anEnum.name}:', null, () {
+                indent.writeln(
+                  'return ${_classNamePrefix}NumberWrapper(number: NSNumber(value: value.rawValue), type: ${caseNum++})',
+                );
+              });
             }
-            indent.writeln('default:');
-            indent.inc();
-            indent.writeln(
-              'return ${_classNamePrefix}NumberWrapper(number: NSNumber(value: 0), type: 0)',
-            );
-            indent.dec();
+            indent.writeScoped('default:', null, () {
+              indent.writeln(
+                'return ${_classNamePrefix}NumberWrapper(number: NSNumber(value: 0), type: 0)',
+              );
+            });
           });
         } else {
           indent.writeln(
@@ -3322,15 +3736,13 @@ static func deepHash(value: Any?, hasher: inout Hasher) {
     case 3:
       return wrappedNumber.number.boolValue''');
           for (final Enum anEnum in root.enums) {
-            indent.writeln('case ${caseNum++}:');
-            indent.inc();
-            indent.writeln('return ${anEnum.name}(rawValue: wrappedNumber.number.intValue)!');
-            indent.dec();
+            indent.writeScoped('case ${caseNum++}:', null, () {
+              indent.writeln('return ${anEnum.name}(rawValue: wrappedNumber.number.intValue)!');
+            });
           }
-          indent.writeln('default:');
-          indent.inc();
-          indent.writeln('return wrappedNumber.number.int64Value');
-          indent.dec();
+          indent.writeScoped('default:', null, () {
+            indent.writeln('return wrappedNumber.number.int64Value');
+          });
         });
       },
     );
@@ -3466,6 +3878,90 @@ enum ${_classNamePrefix}PigeonInternalNumberType: Int {
 
     _writePigeonInternal(generatorOptions, root, indent);
     _writeNilOrValue(indent);
+    if (_needsEngineKeys(generatorOptions, root)) {
+      _writePigeonEngineKeys(indent);
+    }
+  }
+
+  /// Whether the file needs the engine-key helper and the Flutter import used
+  /// by the registrar-based Native Interop registration APIs.
+  bool _needsEngineKeys(InternalSwiftOptions generatorOptions, Root root) {
+    return generatorOptions.useFfi &&
+        root.apis.any((Api api) => api is AstHostApi || api is AstFlutterApi);
+  }
+
+  /// Writes the file-private helper that maps a Flutter engine to the key
+  /// used to route Native Interop registrations.
+  ///
+  /// Keys match Dart's `PlatformDispatcher.instance.engineId` when the
+  /// embedder exposes `engineIdentifier`, and are otherwise synthetic negative
+  /// values unique to each engine messenger.
+  void _writePigeonEngineKeys(Indent indent) {
+    // TODO(tarrinneal): Read FlutterPluginRegistrar.engineIdentifier directly
+    // instead of through `responds(to:)`/KVC, and drop the messenger-based
+    // fallback, once it is available on stable Flutter.
+    // https://github.com/flutter/flutter/issues/195877
+    indent.newln();
+    indent.format('''
+/// Computes the keys that associate Native Interop registrations with a Flutter engine.
+///
+/// `Int64.min` means "no key". Exact keys match Dart's `PlatformDispatcher.instance.engineId`.
+/// When an exact key is unavailable, each engine messenger is assigned a negative synthetic key.
+fileprivate enum PigeonEngineKeys {
+  /// The sentinel for an unknown engine.
+  static let noKey: Int64 = Int64.min
+  /// Guards the key caches. Recursive because `key(for:)` calls `key(messenger:)`.
+  private static let lock = NSRecursiveLock()
+  private static let syntheticKeys = NSMapTable<AnyObject, NSNumber>.weakToStrongObjects()
+  private static var nextSyntheticKey: Int64 = -1
+
+  /// Returns the key previously assigned to `messenger`, or assigns and returns a new synthetic
+  /// key for `messenger`.
+  static func key(messenger: AnyObject) -> Int64 {
+    lock.lock()
+    defer { lock.unlock() }
+    if let existing = syntheticKeys.object(forKey: messenger) {
+      return existing.int64Value
+    }
+    let key = nextSyntheticKey
+    nextSyntheticKey -= 1
+    syntheticKeys.setObject(NSNumber(value: key), forKey: messenger)
+    return key
+  }
+
+  #if canImport(Flutter) || canImport(FlutterMacOS)
+    /// Keys already computed for each registrar, so `unregister` during engine teardown reuses the
+    /// key from registration even after the registrar's engine and messenger are gone.
+    private static let registrarKeys = NSMapTable<AnyObject, NSNumber>.weakToStrongObjects()
+
+    /// Returns the key for the engine that owns `registrar`, or `noKey` if it can't be determined.
+    static func key(for registrar: FlutterPluginRegistrar) -> Int64 {
+      let registrarObject = registrar as AnyObject
+      lock.lock()
+      defer { lock.unlock() }
+      if let cached = registrarKeys.object(forKey: registrarObject) {
+        return cached.int64Value
+      }
+      var resolved = noKey
+      if registrarObject.responds(to: NSSelectorFromString("engineIdentifier")),
+        let identifier = registrarObject.value(forKey: "engineIdentifier") as? NSNumber,
+        identifier.int64Value != 0
+      {
+        // Real engine identifiers are never 0. 0 comes from a registrar whose engine is already
+        // deallocating, or from a test double, and must not be shared between engines.
+        resolved = identifier.int64Value
+      } else if let messenger = registrarObject.value(forKey: "messenger") as AnyObject? {
+        // Read through KVC because the messenger can be nil while the engine is deallocating,
+        // even though it is declared non-null.
+        resolved = key(messenger: messenger)
+      }
+      if resolved != noKey {
+        registrarKeys.setObject(NSNumber(value: resolved), forKey: registrarObject)
+      }
+      return resolved
+    }
+  #endif
+}''');
   }
 
   @override
@@ -3544,18 +4040,44 @@ enum ${_classNamePrefix}PigeonInternalNumberType: Int {
     }
     addDocumentationComments(indent, api.documentationComments, _docCommentSpec);
     for (final Method func in api.methods) {
+      final channelClassName = '${toUpperCamelCase(func.name)}EventChannel';
+      final streamHandlerClassName = '${toUpperCamelCase(func.name)}StreamHandler';
       indent.format('''
-        class ${toUpperCamelCase(func.name)}StreamHandler: PigeonEventChannelWrapper<${_swiftTypeForDartType(func.returnType)}> {
-          static func register(with messenger: FlutterBinaryMessenger,
-                              instanceName: String = "",
-                              streamHandler: ${toUpperCamelCase(func.name)}StreamHandler) {
+        /// A typed channel for communicating with the Flutter application using asynchronous event streams.
+        class $channelClassName {
+          private let channel: FlutterEventChannel
+
+          init(messenger: FlutterBinaryMessenger, instanceName: String = "") {
             var channelName = "${makeChannelName(api, func, dartPackageName)}"
             if !instanceName.isEmpty {
               channelName += ".\\(instanceName)"
             }
-            let internalStreamHandler = PigeonStreamHandler<${_swiftTypeForDartType(func.returnType)}>(wrapper: streamHandler)
-            let channel = FlutterEventChannel(name: channelName, binaryMessenger: messenger, codec: ${_getMethodCodecVarName(generatorOptions)})
-            channel.setStreamHandler(internalStreamHandler)
+            channel = FlutterEventChannel(name: channelName, binaryMessenger: messenger, codec: ${_getMethodCodecVarName(generatorOptions)})
+          }
+
+          /// Sets the stream handler for this channel, replacing any previous handler.
+          /// 
+          /// Pass `nil` to remove the event channel registration.
+          func setStreamHandler(_ streamHandler: $streamHandlerClassName?) {
+            let internalHandler = streamHandler.map({ PigeonStreamHandler<${_swiftTypeForDartType(func.returnType)}>(wrapper: \$0) })
+            channel.setStreamHandler(internalHandler)
+          }
+        }
+
+        class $streamHandlerClassName: PigeonEventChannelWrapper<${_swiftTypeForDartType(func.returnType)}> {
+          /// Creates and returns a new event channel that calls the provided stream handler.
+          /// 
+          /// The returned channel can be stored to allow changing or removing the stream handler.
+          /// If the handler will not be changed for the lifetime of the engine associated with the messenger,
+          /// the return value can be ignored.
+          @discardableResult static func register(
+            with messenger: FlutterBinaryMessenger,
+            instanceName: String = "",
+            streamHandler: $streamHandlerClassName
+          ) -> $channelClassName {
+            let channel = $channelClassName(messenger: messenger, instanceName: instanceName)
+            channel.setStreamHandler(streamHandler)
+            return channel
           }
         }
       ''');
@@ -5370,26 +5892,26 @@ bool _hasAmbiguousSwiftListType(TypeDeclaration type) {
 }
 
 /// The statement that writes [value] of the declared [type] with the hybrid
-/// transport's writer.
+/// transport's writer, using the type tags defined by [codec].
 ///
 /// Lists, maps and typed data are written by their declared types, because
 /// Swift represents `Int64List` and a `List<int>` with the same type.
-String _swiftInteropWrite(String value, TypeDeclaration type, {String writer = ''}) {
+String _swiftInteropWrite(String value, TypeDeclaration type, String codec, {String writer = ''}) {
   final prefix = writer.isEmpty ? '' : '$writer.';
   if (_isSwiftTypedData(type)) {
-    final (int tag, int alignment) = switch (type.baseName) {
-      'Uint8List' => (8, 1),
-      'Int32List' => (9, 4),
-      'Int64List' => (10, 8),
-      'Float64List' => (11, 8),
-      'Float32List' => (14, 4),
+    final (String tag, int alignment) = switch (type.baseName) {
+      'Uint8List' => ('typeUint8List', 1),
+      'Int32List' => ('typeInt32List', 4),
+      'Int64List' => ('typeInt64List', 8),
+      'Float64List' => ('typeFloat64List', 8),
+      'Float32List' => ('typeFloat32List', 4),
       _ => throw ArgumentError.value(type.baseName),
     };
-    return '${prefix}writeTypedData($tag, $value, alignment: $alignment)';
+    return '${prefix}writeTypedData($codec.$tag, $value, alignment: $alignment)';
   }
   if (type.baseName == 'List') {
     if (type.typeArguments.length == 1 && _hasAmbiguousSwiftListType(type.typeArguments.first)) {
-      return '${prefix}writeList($value) { ${_swiftInteropWrite(r'$1', type.typeArguments.first, writer: r'$0')} }';
+      return '${prefix}writeList($value) { ${_swiftInteropWrite(r'$1', type.typeArguments.first, codec, writer: r'$0')} }';
     }
     return '${prefix}writeList($value)';
   }
@@ -5398,8 +5920,8 @@ String _swiftInteropWrite(String value, TypeDeclaration type, {String writer = '
         (_hasAmbiguousSwiftListType(type.typeArguments[0]) ||
             _hasAmbiguousSwiftListType(type.typeArguments[1]))) {
       return '${prefix}writeMap($value) { '
-          '${_swiftInteropWrite(r'$1', type.typeArguments[0], writer: r'$0')}; '
-          '${_swiftInteropWrite(r'$2', type.typeArguments[1], writer: r'$0')} }';
+          '${_swiftInteropWrite(r'$1', type.typeArguments[0], codec, writer: r'$0')}; '
+          '${_swiftInteropWrite(r'$2', type.typeArguments[1], codec, writer: r'$0')} }';
     }
     return '${prefix}writeMap($value)';
   }
@@ -5422,7 +5944,7 @@ String _swiftInteropEncode(String value, TypeDeclaration type, String codec) {
   if (type.baseName != 'List' && type.baseName != 'Map') {
     return '$codec.encodeOrNil($value)';
   }
-  final encode = '$codec.encode { ${_swiftInteropWrite(value, type, writer: r'$0')} }';
+  final encode = '$codec.encode { ${_swiftInteropWrite(value, type, codec, writer: r'$0')} }';
   return type.isNullable ? '$value == nil ? nil : $encode' : encode;
 }
 

@@ -7,6 +7,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:mirrors';
 
+import 'package:meta/meta.dart';
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart' as yaml;
 
@@ -16,7 +17,7 @@ import 'generator.dart';
 /// The current version of pigeon.
 ///
 /// This must match the version in pubspec.yaml.
-const String pigeonVersion = '29.1.0';
+const String pigeonVersion = '30.0.2';
 
 /// Default plugin package name.
 const String defaultPluginPackageName = 'dev.flutter.pigeon';
@@ -30,6 +31,7 @@ const String defaultNativeInteropInstanceName =
 ///
 /// This option is temporary. It exists so that the [hybrid] transport can be
 /// adopted and benchmarked before it becomes the only transport.
+@internal
 enum NativeInteropTransport {
   /// Converts every value to a graph of native objects.
   ///
@@ -119,6 +121,14 @@ String makeRelative(String targetPath, String fromPath) {
       ? posixPath(path.normalize(fromPath))
       : posixPath(path.normalize(path.absolute(fromPath)));
   return path.posix.relative(absTarget, from: absFrom);
+}
+
+/// Returns true if [child] is the same path as or inside [parent].
+bool isWithinOrEquals(String parent, String child) {
+  final String normalizedParent = posixPath(parent);
+  final String normalizedChild = posixPath(child);
+  return path.posix.equals(normalizedParent, normalizedChild) ||
+      path.posix.isWithin(normalizedParent, normalizedChild);
 }
 
 /// Read all the content from [stdin] to a String.
