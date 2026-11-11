@@ -146,7 +146,7 @@ Future<int> _compileNativeInteropExampleApp() async {
 
   return runProcess(
     gradlewFile.absolute.path,
-    <String>[':app:compileReleaseKotlin'],
+    <String>[':app:compileReleaseKotlin', '-x', 'compileFlutterBuildRelease'],
     workingDirectory: androidDir,
     environment: environment,
     runInShell: Platform.isWindows,

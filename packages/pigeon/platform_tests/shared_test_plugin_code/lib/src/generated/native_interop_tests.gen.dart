@@ -18,9 +18,9 @@ import './native_interop_tests.gen.dart'
     as pigeon_native;
 
 Object? _extractReplyValueOrThrow(
-  List<Object?>? replyList,
-  String channelName, {
-  required bool isNullValid,
+    List<Object?>? replyList,
+    String channelName, {
+    required bool isNullValid,
 }) {
   if (replyList == null) {
     throw PlatformException(
@@ -42,6 +42,7 @@ Object? _extractReplyValueOrThrow(
   return replyList.firstOrNull;
 }
 
+
 List<Object?> wrapResponse({Object? result, PlatformException? error, bool empty = false}) {
   if (empty) {
     return <Object?>[];
@@ -51,7 +52,6 @@ List<Object?> wrapResponse({Object? result, PlatformException? error, bool empty
   }
   return <Object?>[error.code, error.message, error.details];
 }
-
 bool _deepEquals(Object? a, Object? b) {
   if (identical(a, b)) {
     return true;
@@ -64,7 +64,8 @@ bool _deepEquals(Object? a, Object? b) {
   }
   if (a is List && b is List) {
     return a.length == b.length &&
-        a.indexed.every(((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]));
+        a.indexed
+            .every(((int, dynamic) item) => _deepEquals(item.$2, b[item.$1]));
   }
   if (a is Map && b is Map) {
     if (a.length != b.length) {
@@ -113,26 +114,40 @@ int _deepHash(Object? value) {
   return value.hashCode;
 }
 
-enum NativeInteropAnEnum { one, two, three, fortyTwo, fourHundredTwentyTwo }
 
-enum NativeInteropAnotherEnum { justInCase }
+enum NativeInteropAnEnum {
+  one,
+  two,
+  three,
+  fortyTwo,
+  fourHundredTwentyTwo;
+}
+
+enum NativeInteropAnotherEnum {
+  justInCase;
+}
 
 class NativeInteropUnusedClass {
-  NativeInteropUnusedClass({this.aField});
+  NativeInteropUnusedClass({
+    this.aField,
+  });
 
   Object? aField;
 
   List<Object?> _toList() {
-    return <Object?>[aField];
+    return <Object?>[
+      aField,
+    ];
   }
 
   Object encode() {
-    return _toList();
-  }
+    return _toList();  }
 
   static NativeInteropUnusedClass decode(Object result) {
     result as List<Object?>;
-    return NativeInteropUnusedClass(aField: result[0]);
+    return NativeInteropUnusedClass(
+      aField: result[0],
+    );
   }
 
   @override
@@ -280,8 +295,7 @@ class NativeInteropAllTypes {
   }
 
   Object encode() {
-    return _toList();
-  }
+    return _toList();  }
 
   static NativeInteropAllTypes decode(Object result) {
     result as List<Object?>;
@@ -310,8 +324,7 @@ class NativeInteropAllTypes {
       map: result[21]! as Map<Object?, Object?>,
       stringMap: (result[22]! as Map<Object?, Object?>).cast<String, String>(),
       intMap: (result[23]! as Map<Object?, Object?>).cast<int, int>(),
-      enumMap: (result[24]! as Map<Object?, Object?>)
-          .cast<NativeInteropAnEnum, NativeInteropAnEnum>(),
+      enumMap: (result[24]! as Map<Object?, Object?>).cast<NativeInteropAnEnum, NativeInteropAnEnum>(),
       objectMap: (result[25]! as Map<Object?, Object?>).cast<Object, Object>(),
       listMap: (result[26]! as Map<Object?, Object?>).cast<int, List<Object?>>(),
       mapMap: (result[27]! as Map<Object?, Object?>).cast<int, Map<Object?, Object?>>(),
@@ -327,34 +340,7 @@ class NativeInteropAllTypes {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(aBool, other.aBool) &&
-        _deepEquals(anInt, other.anInt) &&
-        _deepEquals(anInt64, other.anInt64) &&
-        _deepEquals(aDouble, other.aDouble) &&
-        _deepEquals(aByteArray, other.aByteArray) &&
-        _deepEquals(a4ByteArray, other.a4ByteArray) &&
-        _deepEquals(a8ByteArray, other.a8ByteArray) &&
-        _deepEquals(aFloatArray, other.aFloatArray) &&
-        _deepEquals(anEnum, other.anEnum) &&
-        _deepEquals(anotherEnum, other.anotherEnum) &&
-        _deepEquals(aString, other.aString) &&
-        _deepEquals(anObject, other.anObject) &&
-        _deepEquals(list, other.list) &&
-        _deepEquals(stringList, other.stringList) &&
-        _deepEquals(intList, other.intList) &&
-        _deepEquals(doubleList, other.doubleList) &&
-        _deepEquals(boolList, other.boolList) &&
-        _deepEquals(enumList, other.enumList) &&
-        _deepEquals(objectList, other.objectList) &&
-        _deepEquals(listList, other.listList) &&
-        _deepEquals(mapList, other.mapList) &&
-        _deepEquals(map, other.map) &&
-        _deepEquals(stringMap, other.stringMap) &&
-        _deepEquals(intMap, other.intMap) &&
-        _deepEquals(enumMap, other.enumMap) &&
-        _deepEquals(objectMap, other.objectMap) &&
-        _deepEquals(listMap, other.listMap) &&
-        _deepEquals(mapMap, other.mapMap);
+    return _deepEquals(aBool, other.aBool) && _deepEquals(anInt, other.anInt) && _deepEquals(anInt64, other.anInt64) && _deepEquals(aDouble, other.aDouble) && _deepEquals(aByteArray, other.aByteArray) && _deepEquals(a4ByteArray, other.a4ByteArray) && _deepEquals(a8ByteArray, other.a8ByteArray) && _deepEquals(aFloatArray, other.aFloatArray) && _deepEquals(anEnum, other.anEnum) && _deepEquals(anotherEnum, other.anotherEnum) && _deepEquals(aString, other.aString) && _deepEquals(anObject, other.anObject) && _deepEquals(list, other.list) && _deepEquals(stringList, other.stringList) && _deepEquals(intList, other.intList) && _deepEquals(doubleList, other.doubleList) && _deepEquals(boolList, other.boolList) && _deepEquals(enumList, other.enumList) && _deepEquals(objectList, other.objectList) && _deepEquals(listList, other.listList) && _deepEquals(mapList, other.mapList) && _deepEquals(map, other.map) && _deepEquals(stringMap, other.stringMap) && _deepEquals(intMap, other.intMap) && _deepEquals(enumMap, other.enumMap) && _deepEquals(objectMap, other.objectMap) && _deepEquals(listMap, other.listMap) && _deepEquals(mapMap, other.mapMap);
   }
 
   @override
@@ -502,8 +488,7 @@ class NativeInteropAllNullableTypes {
   }
 
   Object encode() {
-    return _toList();
-  }
+    return _toList();  }
 
   static NativeInteropAllNullableTypes decode(Object result) {
     result as List<Object?>;
@@ -534,13 +519,11 @@ class NativeInteropAllNullableTypes {
       map: result[23] as Map<Object?, Object?>?,
       stringMap: (result[24] as Map<Object?, Object?>?)?.cast<String?, String?>(),
       intMap: (result[25] as Map<Object?, Object?>?)?.cast<int?, int?>(),
-      enumMap: (result[26] as Map<Object?, Object?>?)
-          ?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>(),
+      enumMap: (result[26] as Map<Object?, Object?>?)?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>(),
       objectMap: result[27] as Map<Object?, Object?>?,
       listMap: (result[28] as Map<Object?, Object?>?)?.cast<int?, List<Object?>?>(),
       mapMap: (result[29] as Map<Object?, Object?>?)?.cast<int?, Map<Object?, Object?>?>(),
-      recursiveClassMap: (result[30] as Map<Object?, Object?>?)
-          ?.cast<int?, NativeInteropAllNullableTypes?>(),
+      recursiveClassMap: (result[30] as Map<Object?, Object?>?)?.cast<int?, NativeInteropAllNullableTypes?>(),
     );
   }
 
@@ -553,37 +536,7 @@ class NativeInteropAllNullableTypes {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(aNullableBool, other.aNullableBool) &&
-        _deepEquals(aNullableInt, other.aNullableInt) &&
-        _deepEquals(aNullableInt64, other.aNullableInt64) &&
-        _deepEquals(aNullableDouble, other.aNullableDouble) &&
-        _deepEquals(aNullableByteArray, other.aNullableByteArray) &&
-        _deepEquals(aNullable4ByteArray, other.aNullable4ByteArray) &&
-        _deepEquals(aNullable8ByteArray, other.aNullable8ByteArray) &&
-        _deepEquals(aNullableFloatArray, other.aNullableFloatArray) &&
-        _deepEquals(aNullableEnum, other.aNullableEnum) &&
-        _deepEquals(anotherNullableEnum, other.anotherNullableEnum) &&
-        _deepEquals(aNullableString, other.aNullableString) &&
-        _deepEquals(aNullableObject, other.aNullableObject) &&
-        _deepEquals(allNullableTypes, other.allNullableTypes) &&
-        _deepEquals(list, other.list) &&
-        _deepEquals(stringList, other.stringList) &&
-        _deepEquals(intList, other.intList) &&
-        _deepEquals(doubleList, other.doubleList) &&
-        _deepEquals(boolList, other.boolList) &&
-        _deepEquals(enumList, other.enumList) &&
-        _deepEquals(objectList, other.objectList) &&
-        _deepEquals(listList, other.listList) &&
-        _deepEquals(mapList, other.mapList) &&
-        _deepEquals(recursiveClassList, other.recursiveClassList) &&
-        _deepEquals(map, other.map) &&
-        _deepEquals(stringMap, other.stringMap) &&
-        _deepEquals(intMap, other.intMap) &&
-        _deepEquals(enumMap, other.enumMap) &&
-        _deepEquals(objectMap, other.objectMap) &&
-        _deepEquals(listMap, other.listMap) &&
-        _deepEquals(mapMap, other.mapMap) &&
-        _deepEquals(recursiveClassMap, other.recursiveClassMap);
+    return _deepEquals(aNullableBool, other.aNullableBool) && _deepEquals(aNullableInt, other.aNullableInt) && _deepEquals(aNullableInt64, other.aNullableInt64) && _deepEquals(aNullableDouble, other.aNullableDouble) && _deepEquals(aNullableByteArray, other.aNullableByteArray) && _deepEquals(aNullable4ByteArray, other.aNullable4ByteArray) && _deepEquals(aNullable8ByteArray, other.aNullable8ByteArray) && _deepEquals(aNullableFloatArray, other.aNullableFloatArray) && _deepEquals(aNullableEnum, other.aNullableEnum) && _deepEquals(anotherNullableEnum, other.anotherNullableEnum) && _deepEquals(aNullableString, other.aNullableString) && _deepEquals(aNullableObject, other.aNullableObject) && _deepEquals(allNullableTypes, other.allNullableTypes) && _deepEquals(list, other.list) && _deepEquals(stringList, other.stringList) && _deepEquals(intList, other.intList) && _deepEquals(doubleList, other.doubleList) && _deepEquals(boolList, other.boolList) && _deepEquals(enumList, other.enumList) && _deepEquals(objectList, other.objectList) && _deepEquals(listList, other.listList) && _deepEquals(mapList, other.mapList) && _deepEquals(recursiveClassList, other.recursiveClassList) && _deepEquals(map, other.map) && _deepEquals(stringMap, other.stringMap) && _deepEquals(intMap, other.intMap) && _deepEquals(enumMap, other.enumMap) && _deepEquals(objectMap, other.objectMap) && _deepEquals(listMap, other.listMap) && _deepEquals(mapMap, other.mapMap) && _deepEquals(recursiveClassMap, other.recursiveClassMap);
   }
 
   @override
@@ -725,8 +678,7 @@ class NativeInteropAllNullableTypesWithoutRecursion {
   }
 
   Object encode() {
-    return _toList();
-  }
+    return _toList();  }
 
   static NativeInteropAllNullableTypesWithoutRecursion decode(Object result) {
     result as List<Object?>;
@@ -756,8 +708,7 @@ class NativeInteropAllNullableTypesWithoutRecursion {
       map: result[22] as Map<Object?, Object?>?,
       stringMap: (result[23] as Map<Object?, Object?>?)?.cast<String?, String?>(),
       intMap: (result[24] as Map<Object?, Object?>?)?.cast<int?, int?>(),
-      enumMap: (result[25] as Map<Object?, Object?>?)
-          ?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>(),
+      enumMap: (result[25] as Map<Object?, Object?>?)?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>(),
       objectMap: result[26] as Map<Object?, Object?>?,
       listMap: (result[27] as Map<Object?, Object?>?)?.cast<int?, List<Object?>?>(),
       mapMap: (result[28] as Map<Object?, Object?>?)?.cast<int?, Map<Object?, Object?>?>(),
@@ -767,42 +718,13 @@ class NativeInteropAllNullableTypesWithoutRecursion {
   @override
   // ignore: avoid_equals_and_hash_code_on_mutable_classes
   bool operator ==(Object other) {
-    if (other is! NativeInteropAllNullableTypesWithoutRecursion ||
-        other.runtimeType != runtimeType) {
+    if (other is! NativeInteropAllNullableTypesWithoutRecursion || other.runtimeType != runtimeType) {
       return false;
     }
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(aNullableBool, other.aNullableBool) &&
-        _deepEquals(aNullableInt, other.aNullableInt) &&
-        _deepEquals(aNullableInt64, other.aNullableInt64) &&
-        _deepEquals(aNullableDouble, other.aNullableDouble) &&
-        _deepEquals(aNullableByteArray, other.aNullableByteArray) &&
-        _deepEquals(aNullable4ByteArray, other.aNullable4ByteArray) &&
-        _deepEquals(aNullable8ByteArray, other.aNullable8ByteArray) &&
-        _deepEquals(aNullableFloatArray, other.aNullableFloatArray) &&
-        _deepEquals(aNullableEnum, other.aNullableEnum) &&
-        _deepEquals(anotherNullableEnum, other.anotherNullableEnum) &&
-        _deepEquals(aNullableString, other.aNullableString) &&
-        _deepEquals(aNullableObject, other.aNullableObject) &&
-        _deepEquals(type, other.type) &&
-        _deepEquals(list, other.list) &&
-        _deepEquals(stringList, other.stringList) &&
-        _deepEquals(intList, other.intList) &&
-        _deepEquals(doubleList, other.doubleList) &&
-        _deepEquals(boolList, other.boolList) &&
-        _deepEquals(enumList, other.enumList) &&
-        _deepEquals(objectList, other.objectList) &&
-        _deepEquals(listList, other.listList) &&
-        _deepEquals(mapList, other.mapList) &&
-        _deepEquals(map, other.map) &&
-        _deepEquals(stringMap, other.stringMap) &&
-        _deepEquals(intMap, other.intMap) &&
-        _deepEquals(enumMap, other.enumMap) &&
-        _deepEquals(objectMap, other.objectMap) &&
-        _deepEquals(listMap, other.listMap) &&
-        _deepEquals(mapMap, other.mapMap);
+    return _deepEquals(aNullableBool, other.aNullableBool) && _deepEquals(aNullableInt, other.aNullableInt) && _deepEquals(aNullableInt64, other.aNullableInt64) && _deepEquals(aNullableDouble, other.aNullableDouble) && _deepEquals(aNullableByteArray, other.aNullableByteArray) && _deepEquals(aNullable4ByteArray, other.aNullable4ByteArray) && _deepEquals(aNullable8ByteArray, other.aNullable8ByteArray) && _deepEquals(aNullableFloatArray, other.aNullableFloatArray) && _deepEquals(aNullableEnum, other.aNullableEnum) && _deepEquals(anotherNullableEnum, other.anotherNullableEnum) && _deepEquals(aNullableString, other.aNullableString) && _deepEquals(aNullableObject, other.aNullableObject) && _deepEquals(type, other.type) && _deepEquals(list, other.list) && _deepEquals(stringList, other.stringList) && _deepEquals(intList, other.intList) && _deepEquals(doubleList, other.doubleList) && _deepEquals(boolList, other.boolList) && _deepEquals(enumList, other.enumList) && _deepEquals(objectList, other.objectList) && _deepEquals(listList, other.listList) && _deepEquals(mapList, other.mapList) && _deepEquals(map, other.map) && _deepEquals(stringMap, other.stringMap) && _deepEquals(intMap, other.intMap) && _deepEquals(enumMap, other.enumMap) && _deepEquals(objectMap, other.objectMap) && _deepEquals(listMap, other.listMap) && _deepEquals(mapMap, other.mapMap);
   }
 
   @override
@@ -858,8 +780,7 @@ class NativeInteropAllClassesWrapper {
   }
 
   Object encode() {
-    return _toList();
-  }
+    return _toList();  }
 
   static NativeInteropAllClassesWrapper decode(Object result) {
     result as List<Object?>;
@@ -868,11 +789,9 @@ class NativeInteropAllClassesWrapper {
       allNullableTypesWithoutRecursion: result[1] as NativeInteropAllNullableTypesWithoutRecursion?,
       allTypes: result[2] as NativeInteropAllTypes?,
       classList: (result[3]! as List<Object?>).cast<NativeInteropAllTypes?>(),
-      nullableClassList: (result[4] as List<Object?>?)
-          ?.cast<NativeInteropAllNullableTypesWithoutRecursion?>(),
+      nullableClassList: (result[4] as List<Object?>?)?.cast<NativeInteropAllNullableTypesWithoutRecursion?>(),
       classMap: (result[5]! as Map<Object?, Object?>).cast<int?, NativeInteropAllTypes?>(),
-      nullableClassMap: (result[6] as Map<Object?, Object?>?)
-          ?.cast<int?, NativeInteropAllNullableTypesWithoutRecursion?>(),
+      nullableClassMap: (result[6] as Map<Object?, Object?>?)?.cast<int?, NativeInteropAllNullableTypesWithoutRecursion?>(),
     );
   }
 
@@ -885,13 +804,7 @@ class NativeInteropAllClassesWrapper {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(allNullableTypes, other.allNullableTypes) &&
-        _deepEquals(allNullableTypesWithoutRecursion, other.allNullableTypesWithoutRecursion) &&
-        _deepEquals(allTypes, other.allTypes) &&
-        _deepEquals(classList, other.classList) &&
-        _deepEquals(nullableClassList, other.nullableClassList) &&
-        _deepEquals(classMap, other.classMap) &&
-        _deepEquals(nullableClassMap, other.nullableClassMap);
+    return _deepEquals(allNullableTypes, other.allNullableTypes) && _deepEquals(allNullableTypesWithoutRecursion, other.allNullableTypesWithoutRecursion) && _deepEquals(allTypes, other.allTypes) && _deepEquals(classList, other.classList) && _deepEquals(nullableClassList, other.nullableClassList) && _deepEquals(classMap, other.classMap) && _deepEquals(nullableClassMap, other.nullableClassMap);
   }
 
   @override
@@ -905,7 +818,8 @@ class NativeInteropAllClassesWrapper {
 }
 
 /// A sealed class, to test sealed class handling.
-sealed class NativeInteropSealedClass {}
+sealed class NativeInteropSealedClass {
+}
 
 /// A subclass of `NativeInteropSealedClass` with fields.
 class NativeInteropSealedClassWithFields extends NativeInteropSealedClass {
@@ -925,12 +839,16 @@ class NativeInteropSealedClassWithFields extends NativeInteropSealedClass {
   NativeInteropAllNullableTypesWithoutRecursion? aClass;
 
   List<Object?> _toList() {
-    return <Object?>[aString, aNullableInt, anEnum, aClass];
+    return <Object?>[
+      aString,
+      aNullableInt,
+      anEnum,
+      aClass,
+    ];
   }
 
   Object encode() {
-    return _toList();
-  }
+    return _toList();  }
 
   static NativeInteropSealedClassWithFields decode(Object result) {
     result as List<Object?>;
@@ -951,10 +869,7 @@ class NativeInteropSealedClassWithFields extends NativeInteropSealedClass {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(aString, other.aString) &&
-        _deepEquals(aNullableInt, other.aNullableInt) &&
-        _deepEquals(anEnum, other.anEnum) &&
-        _deepEquals(aClass, other.aClass);
+    return _deepEquals(aString, other.aString) && _deepEquals(aNullableInt, other.aNullableInt) && _deepEquals(anEnum, other.anEnum) && _deepEquals(aClass, other.aClass);
   }
 
   @override
@@ -972,16 +887,17 @@ class NativeInteropEmptySealedClass extends NativeInteropSealedClass {
   NativeInteropEmptySealedClass();
 
   List<Object?> _toList() {
-    return <Object?>[];
+    return <Object?>[
+    ];
   }
 
   Object encode() {
-    return _toList();
-  }
+    return _toList();  }
 
   static NativeInteropEmptySealedClass decode(Object result) {
     result as List<Object?>;
-    return NativeInteropEmptySealedClass();
+    return NativeInteropEmptySealedClass(
+    );
   }
 
   @override
@@ -1019,12 +935,15 @@ class NativeInteropSealedClassWrapper {
   List<NativeInteropSealedClass> sealedClassList;
 
   List<Object?> _toList() {
-    return <Object?>[sealedClass, nullableSealedClass, sealedClassList];
+    return <Object?>[
+      sealedClass,
+      nullableSealedClass,
+      sealedClassList,
+    ];
   }
 
   Object encode() {
-    return _toList();
-  }
+    return _toList();  }
 
   static NativeInteropSealedClassWrapper decode(Object result) {
     result as List<Object?>;
@@ -1044,9 +963,7 @@ class NativeInteropSealedClassWrapper {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(sealedClass, other.sealedClass) &&
-        _deepEquals(nullableSealedClass, other.nullableSealedClass) &&
-        _deepEquals(sealedClassList, other.sealedClassList);
+    return _deepEquals(sealedClass, other.sealedClass) && _deepEquals(nullableSealedClass, other.nullableSealedClass) && _deepEquals(sealedClassList, other.sealedClassList);
   }
 
   @override
@@ -1130,8 +1047,7 @@ class NativeInteropReservedNames {
   }
 
   Object encode() {
-    return _toList();
-  }
+    return _toList();  }
 
   static NativeInteropReservedNames decode(Object result) {
     result as List<Object?>;
@@ -1162,20 +1078,7 @@ class NativeInteropReservedNames {
     if (identical(this, other)) {
       return true;
     }
-    return _deepEquals(type, other.type) &&
-        _deepEquals(use, other.use) &&
-        _deepEquals(reference, other.reference) &&
-        _deepEquals(releasedBy, other.releasedBy) &&
-        _deepEquals(fromReference, other.fromReference) &&
-        _deepEquals(jClass, other.jClass) &&
-        _deepEquals(isInstanceOf, other.isInstanceOf) &&
-        _deepEquals(isNull, other.isNull) &&
-        _deepEquals(isReleased, other.isReleased) &&
-        _deepEquals(equals, other.equals) &&
-        _deepEquals(isEnabled, other.isEnabled) &&
-        _deepEquals(isMaybe, other.isMaybe) &&
-        _deepEquals(isCount, other.isCount) &&
-        _deepEquals(getValue, other.getValue);
+    return _deepEquals(type, other.type) && _deepEquals(use, other.use) && _deepEquals(reference, other.reference) && _deepEquals(releasedBy, other.releasedBy) && _deepEquals(fromReference, other.fromReference) && _deepEquals(jClass, other.jClass) && _deepEquals(isInstanceOf, other.isInstanceOf) && _deepEquals(isNull, other.isNull) && _deepEquals(isReleased, other.isReleased) && _deepEquals(equals, other.equals) && _deepEquals(isEnabled, other.isEnabled) && _deepEquals(isMaybe, other.isMaybe) && _deepEquals(isCount, other.isCount) && _deepEquals(getValue, other.getValue);
   }
 
   @override
@@ -1188,6 +1091,106 @@ class NativeInteropReservedNames {
   }
 }
 
+/// A sealed class passed in the call's buffer with the hybrid transport.
+sealed class NativeInteropShape {
+}
+
+class NativeInteropCircle extends NativeInteropShape {
+  NativeInteropCircle({
+    required this.radius,
+  });
+
+  double radius;
+
+  List<Object?> _toList() {
+    return <Object?>[
+      radius,
+    ];
+  }
+
+  Object encode() {
+    return _toList();  }
+
+  static NativeInteropCircle decode(Object result) {
+    result as List<Object?>;
+    return NativeInteropCircle(
+      radius: result[0]! as double,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! NativeInteropCircle || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(radius, other.radius);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'NativeInteropCircle(radius: $radius)';
+  }
+}
+
+class NativeInteropSquare extends NativeInteropShape {
+  NativeInteropSquare({
+    required this.side,
+    this.label,
+  });
+
+  double side;
+
+  String? label;
+
+  List<Object?> _toList() {
+    return <Object?>[
+      side,
+      label,
+    ];
+  }
+
+  Object encode() {
+    return _toList();  }
+
+  static NativeInteropSquare decode(Object result) {
+    result as List<Object?>;
+    return NativeInteropSquare(
+      side: result[0]! as double,
+      label: result[1] as String?,
+    );
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  bool operator ==(Object other) {
+    if (other is! NativeInteropSquare || other.runtimeType != runtimeType) {
+      return false;
+    }
+    if (identical(this, other)) {
+      return true;
+    }
+    return _deepEquals(side, other.side) && _deepEquals(label, other.label);
+  }
+
+  @override
+  // ignore: avoid_equals_and_hash_code_on_mutable_classes
+  int get hashCode => _deepHash(<Object?>[runtimeType, ..._toList()]);
+
+  @override
+  String toString() {
+    return 'NativeInteropSquare(side: $side, label: $label)';
+  }
+}
+
+
 class _PigeonCodec extends StandardMessageCodec {
   const _PigeonCodec();
   @override
@@ -1195,38 +1198,44 @@ class _PigeonCodec extends StandardMessageCodec {
     if (value is int) {
       buffer.putUint8(4);
       buffer.putInt64(value);
-    } else if (value is NativeInteropAnEnum) {
+    }    else if (value is NativeInteropAnEnum) {
       buffer.putUint8(129);
       writeValue(buffer, value.index);
-    } else if (value is NativeInteropAnotherEnum) {
+    }    else if (value is NativeInteropAnotherEnum) {
       buffer.putUint8(130);
       writeValue(buffer, value.index);
-    } else if (value is NativeInteropUnusedClass) {
+    }    else if (value is NativeInteropUnusedClass) {
       buffer.putUint8(131);
       writeValue(buffer, value.encode());
-    } else if (value is NativeInteropAllTypes) {
+    }    else if (value is NativeInteropAllTypes) {
       buffer.putUint8(132);
       writeValue(buffer, value.encode());
-    } else if (value is NativeInteropAllNullableTypes) {
+    }    else if (value is NativeInteropAllNullableTypes) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
-    } else if (value is NativeInteropAllNullableTypesWithoutRecursion) {
+    }    else if (value is NativeInteropAllNullableTypesWithoutRecursion) {
       buffer.putUint8(134);
       writeValue(buffer, value.encode());
-    } else if (value is NativeInteropAllClassesWrapper) {
+    }    else if (value is NativeInteropAllClassesWrapper) {
       buffer.putUint8(135);
       writeValue(buffer, value.encode());
-    } else if (value is NativeInteropSealedClassWithFields) {
+    }    else if (value is NativeInteropSealedClassWithFields) {
       buffer.putUint8(136);
       writeValue(buffer, value.encode());
-    } else if (value is NativeInteropEmptySealedClass) {
+    }    else if (value is NativeInteropEmptySealedClass) {
       buffer.putUint8(137);
       writeValue(buffer, value.encode());
-    } else if (value is NativeInteropSealedClassWrapper) {
+    }    else if (value is NativeInteropSealedClassWrapper) {
       buffer.putUint8(138);
       writeValue(buffer, value.encode());
-    } else if (value is NativeInteropReservedNames) {
+    }    else if (value is NativeInteropReservedNames) {
       buffer.putUint8(139);
+      writeValue(buffer, value.encode());
+    }    else if (value is NativeInteropCircle) {
+      buffer.putUint8(140);
+      writeValue(buffer, value.encode());
+    }    else if (value is NativeInteropSquare) {
+      buffer.putUint8(141);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -1260,6 +1269,10 @@ class _PigeonCodec extends StandardMessageCodec {
         return NativeInteropSealedClassWrapper.decode(readValue(buffer)!);
       case 139:
         return NativeInteropReservedNames.decode(readValue(buffer)!);
+      case 140:
+        return NativeInteropCircle.decode(readValue(buffer)!);
+      case 141:
+        return NativeInteropSquare.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
@@ -1267,12 +1280,17 @@ class _PigeonCodec extends StandardMessageCodec {
 }
 
 @internal
-NativeInteropHostIntegrationCoreApiForNativeInterop?
-pigeon_getInstance_NativeInteropHostIntegrationCoreApi({String? name}) {
+const StandardMessageCodec pigeon_NativeInteropTestsmessageCodec = _PigeonCodec();
+
+@internal
+NativeInteropHostIntegrationCoreApiForNativeInterop? pigeon_getInstance_NativeInteropHostIntegrationCoreApi({
+  String? name,
+}) {
   throw UnsupportedError(
     'Native Interop is not supported on this platform. Use NativeInteropHostIntegrationCoreApi instead.',
   );
 }
+
 
 abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
   /// Returns the instance of [NativeInteropHostIntegrationCoreApiForNativeInterop] registered with [name] (or the default instance when [name] is null), or null if none is registered.
@@ -1319,15 +1337,11 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   List<NativeInteropAnEnum?> echoEnumList(List<NativeInteropAnEnum?> enumList);
 
-  List<NativeInteropAllNullableTypes?> echoClassList(
-    List<NativeInteropAllNullableTypes?> classList,
-  );
+  List<NativeInteropAllNullableTypes?> echoClassList(List<NativeInteropAllNullableTypes?> classList);
 
   List<NativeInteropAnEnum> echoNonNullEnumList(List<NativeInteropAnEnum> enumList);
 
-  List<NativeInteropAllNullableTypes> echoNonNullClassList(
-    List<NativeInteropAllNullableTypes> classList,
-  );
+  List<NativeInteropAllNullableTypes> echoNonNullClassList(List<NativeInteropAllNullableTypes> classList);
 
   Map<Object?, Object?> echoMap(Map<Object?, Object?> map);
 
@@ -1335,25 +1349,17 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   Map<int?, int?> echoIntMap(Map<int?, int?> intMap);
 
-  Map<NativeInteropAnEnum?, NativeInteropAnEnum?> echoEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap,
-  );
+  Map<NativeInteropAnEnum?, NativeInteropAnEnum?> echoEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap);
 
-  Map<int?, NativeInteropAllNullableTypes?> echoClassMap(
-    Map<int?, NativeInteropAllNullableTypes?> classMap,
-  );
+  Map<int?, NativeInteropAllNullableTypes?> echoClassMap(Map<int?, NativeInteropAllNullableTypes?> classMap);
 
   Map<String, String> echoNonNullStringMap(Map<String, String> stringMap);
 
   Map<int, int> echoNonNullIntMap(Map<int, int> intMap);
 
-  Map<NativeInteropAnEnum, NativeInteropAnEnum> echoNonNullEnumMap(
-    Map<NativeInteropAnEnum, NativeInteropAnEnum> enumMap,
-  );
+  Map<NativeInteropAnEnum, NativeInteropAnEnum> echoNonNullEnumMap(Map<NativeInteropAnEnum, NativeInteropAnEnum> enumMap);
 
-  Map<int, NativeInteropAllNullableTypes> echoNonNullClassMap(
-    Map<int, NativeInteropAllNullableTypes> classMap,
-  );
+  Map<int, NativeInteropAllNullableTypes> echoNonNullClassMap(Map<int, NativeInteropAllNullableTypes> classMap);
 
   NativeInteropAllClassesWrapper echoClassWrapper(NativeInteropAllClassesWrapper wrapper);
 
@@ -1361,9 +1367,7 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   NativeInteropSealedClass? echoNullableSealedClass(NativeInteropSealedClass? sealedClass);
 
-  List<NativeInteropSealedClass> echoSealedClassList(
-    List<NativeInteropSealedClass> sealedClassList,
-  );
+  List<NativeInteropSealedClass> echoSealedClassList(List<NativeInteropSealedClass> sealedClassList);
 
   NativeInteropSealedClassWrapper echoSealedClassWrapper(NativeInteropSealedClassWrapper wrapper);
 
@@ -1379,25 +1383,15 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   NativeInteropAllNullableTypes? echoAllNullableTypes(NativeInteropAllNullableTypes? everything);
 
-  NativeInteropAllNullableTypesWithoutRecursion? echoAllNullableTypesWithoutRecursion(
-    NativeInteropAllNullableTypesWithoutRecursion? everything,
-  );
+  NativeInteropAllNullableTypesWithoutRecursion? echoAllNullableTypesWithoutRecursion(NativeInteropAllNullableTypesWithoutRecursion? everything);
 
   String? extractNestedNullableString(NativeInteropAllClassesWrapper wrapper);
 
   NativeInteropAllClassesWrapper createNestedNullableString(String? nullableString);
 
-  NativeInteropAllNullableTypes sendMultipleNullableTypes(
-    bool? aNullableBool,
-    int? aNullableInt,
-    String? aNullableString,
-  );
+  NativeInteropAllNullableTypes sendMultipleNullableTypes(bool? aNullableBool, int? aNullableInt, String? aNullableString);
 
-  NativeInteropAllNullableTypesWithoutRecursion sendMultipleNullableTypesWithoutRecursion(
-    bool? aNullableBool,
-    int? aNullableInt,
-    String? aNullableString,
-  );
+  NativeInteropAllNullableTypesWithoutRecursion sendMultipleNullableTypesWithoutRecursion(bool? aNullableBool, int? aNullableInt, String? aNullableString);
 
   int? echoNullableInt(int? aNullableInt);
 
@@ -1421,15 +1415,11 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   List<NativeInteropAnEnum?>? echoNullableEnumList(List<NativeInteropAnEnum?>? enumList);
 
-  List<NativeInteropAllNullableTypes?>? echoNullableClassList(
-    List<NativeInteropAllNullableTypes?>? classList,
-  );
+  List<NativeInteropAllNullableTypes?>? echoNullableClassList(List<NativeInteropAllNullableTypes?>? classList);
 
   List<NativeInteropAnEnum>? echoNullableNonNullEnumList(List<NativeInteropAnEnum>? enumList);
 
-  List<NativeInteropAllNullableTypes>? echoNullableNonNullClassList(
-    List<NativeInteropAllNullableTypes>? classList,
-  );
+  List<NativeInteropAllNullableTypes>? echoNullableNonNullClassList(List<NativeInteropAllNullableTypes>? classList);
 
   Map<Object?, Object?>? echoNullableMap(Map<Object?, Object?>? map);
 
@@ -1437,25 +1427,17 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   Map<int?, int?>? echoNullableIntMap(Map<int?, int?>? intMap);
 
-  Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? echoNullableEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap,
-  );
+  Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? echoNullableEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap);
 
-  Map<int?, NativeInteropAllNullableTypes?>? echoNullableClassMap(
-    Map<int?, NativeInteropAllNullableTypes?>? classMap,
-  );
+  Map<int?, NativeInteropAllNullableTypes?>? echoNullableClassMap(Map<int?, NativeInteropAllNullableTypes?>? classMap);
 
   Map<String, String>? echoNullableNonNullStringMap(Map<String, String>? stringMap);
 
   Map<int, int>? echoNullableNonNullIntMap(Map<int, int>? intMap);
 
-  Map<NativeInteropAnEnum, NativeInteropAnEnum>? echoNullableNonNullEnumMap(
-    Map<NativeInteropAnEnum, NativeInteropAnEnum>? enumMap,
-  );
+  Map<NativeInteropAnEnum, NativeInteropAnEnum>? echoNullableNonNullEnumMap(Map<NativeInteropAnEnum, NativeInteropAnEnum>? enumMap);
 
-  Map<int, NativeInteropAllNullableTypes>? echoNullableNonNullClassMap(
-    Map<int, NativeInteropAllNullableTypes>? classMap,
-  );
+  Map<int, NativeInteropAllNullableTypes>? echoNullableNonNullClassMap(Map<int, NativeInteropAllNullableTypes>? classMap);
 
   NativeInteropAnEnum? echoNullableEnum(NativeInteropAnEnum? anEnum);
 
@@ -1489,9 +1471,7 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   Future<List<NativeInteropAnEnum?>> echoAsyncEnumList(List<NativeInteropAnEnum?> enumList);
 
-  Future<List<NativeInteropAllNullableTypes?>> echoAsyncClassList(
-    List<NativeInteropAllNullableTypes?> classList,
-  );
+  Future<List<NativeInteropAllNullableTypes?>> echoAsyncClassList(List<NativeInteropAllNullableTypes?> classList);
 
   Future<Map<Object?, Object?>> echoAsyncMap(Map<Object?, Object?> map);
 
@@ -1499,13 +1479,9 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   Future<Map<int?, int?>> echoAsyncIntMap(Map<int?, int?> intMap);
 
-  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>> echoAsyncEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap,
-  );
+  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>> echoAsyncEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap);
 
-  Future<Map<int?, NativeInteropAllNullableTypes?>> echoAsyncClassMap(
-    Map<int?, NativeInteropAllNullableTypes?> classMap,
-  );
+  Future<Map<int?, NativeInteropAllNullableTypes?>> echoAsyncClassMap(Map<int?, NativeInteropAllNullableTypes?> classMap);
 
   Future<NativeInteropAnEnum> echoAsyncEnum(NativeInteropAnEnum anEnum);
 
@@ -1521,14 +1497,9 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   Future<NativeInteropSealedClass> echoAsyncSealedClass(NativeInteropSealedClass sealedClass);
 
-  Future<NativeInteropAllNullableTypes?> echoAsyncNullableNativeInteropAllNullableTypes(
-    NativeInteropAllNullableTypes? everything,
-  );
+  Future<NativeInteropAllNullableTypes?> echoAsyncNullableNativeInteropAllNullableTypes(NativeInteropAllNullableTypes? everything);
 
-  Future<NativeInteropAllNullableTypesWithoutRecursion?>
-  echoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(
-    NativeInteropAllNullableTypesWithoutRecursion? everything,
-  );
+  Future<NativeInteropAllNullableTypesWithoutRecursion?> echoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(NativeInteropAllNullableTypesWithoutRecursion? everything);
 
   Future<int?> echoAsyncNullableInt(int? anInt);
 
@@ -1550,13 +1521,9 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   Future<List<Object?>?> echoAsyncNullableList(List<Object?>? list);
 
-  Future<List<NativeInteropAnEnum?>?> echoAsyncNullableEnumList(
-    List<NativeInteropAnEnum?>? enumList,
-  );
+  Future<List<NativeInteropAnEnum?>?> echoAsyncNullableEnumList(List<NativeInteropAnEnum?>? enumList);
 
-  Future<List<NativeInteropAllNullableTypes?>?> echoAsyncNullableClassList(
-    List<NativeInteropAllNullableTypes?>? classList,
-  );
+  Future<List<NativeInteropAllNullableTypes?>?> echoAsyncNullableClassList(List<NativeInteropAllNullableTypes?>? classList);
 
   Future<Map<Object?, Object?>?> echoAsyncNullableMap(Map<Object?, Object?>? map);
 
@@ -1564,19 +1531,13 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   Future<Map<int?, int?>?> echoAsyncNullableIntMap(Map<int?, int?>? intMap);
 
-  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?> echoAsyncNullableEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap,
-  );
+  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?> echoAsyncNullableEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap);
 
-  Future<Map<int?, NativeInteropAllNullableTypes?>?> echoAsyncNullableClassMap(
-    Map<int?, NativeInteropAllNullableTypes?>? classMap,
-  );
+  Future<Map<int?, NativeInteropAllNullableTypes?>?> echoAsyncNullableClassMap(Map<int?, NativeInteropAllNullableTypes?>? classMap);
 
   Future<NativeInteropAnEnum?> echoAsyncNullableEnum(NativeInteropAnEnum? anEnum);
 
-  Future<NativeInteropAnotherEnum?> echoAnotherAsyncNullableEnum(
-    NativeInteropAnotherEnum? anotherEnum,
-  );
+  Future<NativeInteropAnotherEnum?> echoAnotherAsyncNullableEnum(NativeInteropAnotherEnum? anotherEnum);
 
   void callFlutterNoop();
 
@@ -1586,29 +1547,15 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   NativeInteropAllTypes callFlutterEchoNativeInteropAllTypes(NativeInteropAllTypes everything);
 
-  NativeInteropAllNullableTypes? callFlutterEchoNativeInteropAllNullableTypes(
-    NativeInteropAllNullableTypes? everything,
-  );
+  NativeInteropAllNullableTypes? callFlutterEchoNativeInteropAllNullableTypes(NativeInteropAllNullableTypes? everything);
 
   NativeInteropSealedClass callFlutterEchoSealedClass(NativeInteropSealedClass sealedClass);
 
-  NativeInteropAllNullableTypes callFlutterSendMultipleNullableTypes(
-    bool? aNullableBool,
-    int? aNullableInt,
-    String? aNullableString,
-  );
+  NativeInteropAllNullableTypes callFlutterSendMultipleNullableTypes(bool? aNullableBool, int? aNullableInt, String? aNullableString);
 
-  NativeInteropAllNullableTypesWithoutRecursion?
-  callFlutterEchoNativeInteropAllNullableTypesWithoutRecursion(
-    NativeInteropAllNullableTypesWithoutRecursion? everything,
-  );
+  NativeInteropAllNullableTypesWithoutRecursion? callFlutterEchoNativeInteropAllNullableTypesWithoutRecursion(NativeInteropAllNullableTypesWithoutRecursion? everything);
 
-  NativeInteropAllNullableTypesWithoutRecursion
-  callFlutterSendMultipleNullableTypesWithoutRecursion(
-    bool? aNullableBool,
-    int? aNullableInt,
-    String? aNullableString,
-  );
+  NativeInteropAllNullableTypesWithoutRecursion callFlutterSendMultipleNullableTypesWithoutRecursion(bool? aNullableBool, int? aNullableInt, String? aNullableString);
 
   bool callFlutterEchoBool(bool aBool);
 
@@ -1630,15 +1577,11 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   List<NativeInteropAnEnum?> callFlutterEchoEnumList(List<NativeInteropAnEnum?> enumList);
 
-  List<NativeInteropAllNullableTypes?> callFlutterEchoClassList(
-    List<NativeInteropAllNullableTypes?> classList,
-  );
+  List<NativeInteropAllNullableTypes?> callFlutterEchoClassList(List<NativeInteropAllNullableTypes?> classList);
 
   List<NativeInteropAnEnum> callFlutterEchoNonNullEnumList(List<NativeInteropAnEnum> enumList);
 
-  List<NativeInteropAllNullableTypes> callFlutterEchoNonNullClassList(
-    List<NativeInteropAllNullableTypes> classList,
-  );
+  List<NativeInteropAllNullableTypes> callFlutterEchoNonNullClassList(List<NativeInteropAllNullableTypes> classList);
 
   Map<Object?, Object?> callFlutterEchoMap(Map<Object?, Object?> map);
 
@@ -1646,31 +1589,21 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   Map<int?, int?> callFlutterEchoIntMap(Map<int?, int?> intMap);
 
-  Map<NativeInteropAnEnum?, NativeInteropAnEnum?> callFlutterEchoEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap,
-  );
+  Map<NativeInteropAnEnum?, NativeInteropAnEnum?> callFlutterEchoEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap);
 
-  Map<int?, NativeInteropAllNullableTypes?> callFlutterEchoClassMap(
-    Map<int?, NativeInteropAllNullableTypes?> classMap,
-  );
+  Map<int?, NativeInteropAllNullableTypes?> callFlutterEchoClassMap(Map<int?, NativeInteropAllNullableTypes?> classMap);
 
   Map<String, String> callFlutterEchoNonNullStringMap(Map<String, String> stringMap);
 
   Map<int, int> callFlutterEchoNonNullIntMap(Map<int, int> intMap);
 
-  Map<NativeInteropAnEnum, NativeInteropAnEnum> callFlutterEchoNonNullEnumMap(
-    Map<NativeInteropAnEnum, NativeInteropAnEnum> enumMap,
-  );
+  Map<NativeInteropAnEnum, NativeInteropAnEnum> callFlutterEchoNonNullEnumMap(Map<NativeInteropAnEnum, NativeInteropAnEnum> enumMap);
 
-  Map<int, NativeInteropAllNullableTypes> callFlutterEchoNonNullClassMap(
-    Map<int, NativeInteropAllNullableTypes> classMap,
-  );
+  Map<int, NativeInteropAllNullableTypes> callFlutterEchoNonNullClassMap(Map<int, NativeInteropAllNullableTypes> classMap);
 
   NativeInteropAnEnum callFlutterEchoEnum(NativeInteropAnEnum anEnum);
 
-  NativeInteropAnotherEnum callFlutterEchoNativeInteropAnotherEnum(
-    NativeInteropAnotherEnum anotherEnum,
-  );
+  NativeInteropAnotherEnum callFlutterEchoNativeInteropAnotherEnum(NativeInteropAnotherEnum anotherEnum);
 
   bool? callFlutterEchoNullableBool(bool? aBool);
 
@@ -1692,17 +1625,11 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   List<NativeInteropAnEnum?>? callFlutterEchoNullableEnumList(List<NativeInteropAnEnum?>? enumList);
 
-  List<NativeInteropAllNullableTypes?>? callFlutterEchoNullableClassList(
-    List<NativeInteropAllNullableTypes?>? classList,
-  );
+  List<NativeInteropAllNullableTypes?>? callFlutterEchoNullableClassList(List<NativeInteropAllNullableTypes?>? classList);
 
-  List<NativeInteropAnEnum>? callFlutterEchoNullableNonNullEnumList(
-    List<NativeInteropAnEnum>? enumList,
-  );
+  List<NativeInteropAnEnum>? callFlutterEchoNullableNonNullEnumList(List<NativeInteropAnEnum>? enumList);
 
-  List<NativeInteropAllNullableTypes>? callFlutterEchoNullableNonNullClassList(
-    List<NativeInteropAllNullableTypes>? classList,
-  );
+  List<NativeInteropAllNullableTypes>? callFlutterEchoNullableNonNullClassList(List<NativeInteropAllNullableTypes>? classList);
 
   Map<Object?, Object?>? callFlutterEchoNullableMap(Map<Object?, Object?>? map);
 
@@ -1710,46 +1637,29 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   Map<int?, int?>? callFlutterEchoNullableIntMap(Map<int?, int?>? intMap);
 
-  Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? callFlutterEchoNullableEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap,
-  );
+  Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? callFlutterEchoNullableEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap);
 
-  Map<int?, NativeInteropAllNullableTypes?>? callFlutterEchoNullableClassMap(
-    Map<int?, NativeInteropAllNullableTypes?>? classMap,
-  );
+  Map<int?, NativeInteropAllNullableTypes?>? callFlutterEchoNullableClassMap(Map<int?, NativeInteropAllNullableTypes?>? classMap);
 
   Map<String, String>? callFlutterEchoNullableNonNullStringMap(Map<String, String>? stringMap);
 
   Map<int, int>? callFlutterEchoNullableNonNullIntMap(Map<int, int>? intMap);
 
-  Map<NativeInteropAnEnum, NativeInteropAnEnum>? callFlutterEchoNullableNonNullEnumMap(
-    Map<NativeInteropAnEnum, NativeInteropAnEnum>? enumMap,
-  );
+  Map<NativeInteropAnEnum, NativeInteropAnEnum>? callFlutterEchoNullableNonNullEnumMap(Map<NativeInteropAnEnum, NativeInteropAnEnum>? enumMap);
 
-  Map<int, NativeInteropAllNullableTypes>? callFlutterEchoNullableNonNullClassMap(
-    Map<int, NativeInteropAllNullableTypes>? classMap,
-  );
+  Map<int, NativeInteropAllNullableTypes>? callFlutterEchoNullableNonNullClassMap(Map<int, NativeInteropAllNullableTypes>? classMap);
 
   NativeInteropAnEnum? callFlutterEchoNullableEnum(NativeInteropAnEnum? anEnum);
 
-  NativeInteropAnotherEnum? callFlutterEchoAnotherNullableEnum(
-    NativeInteropAnotherEnum? anotherEnum,
-  );
+  NativeInteropAnotherEnum? callFlutterEchoAnotherNullableEnum(NativeInteropAnotherEnum? anotherEnum);
 
   Future<void> callFlutterNoopAsync();
 
-  Future<NativeInteropAllTypes> callFlutterEchoAsyncNativeInteropAllTypes(
-    NativeInteropAllTypes everything,
-  );
+  Future<NativeInteropAllTypes> callFlutterEchoAsyncNativeInteropAllTypes(NativeInteropAllTypes everything);
 
-  Future<NativeInteropAllNullableTypes?> callFlutterEchoAsyncNullableNativeInteropAllNullableTypes(
-    NativeInteropAllNullableTypes? everything,
-  );
+  Future<NativeInteropAllNullableTypes?> callFlutterEchoAsyncNullableNativeInteropAllNullableTypes(NativeInteropAllNullableTypes? everything);
 
-  Future<NativeInteropAllNullableTypesWithoutRecursion?>
-  callFlutterEchoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(
-    NativeInteropAllNullableTypesWithoutRecursion? everything,
-  );
+  Future<NativeInteropAllNullableTypesWithoutRecursion?> callFlutterEchoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(NativeInteropAllNullableTypesWithoutRecursion? everything);
 
   Future<bool> callFlutterEchoAsyncBool(bool aBool);
 
@@ -1771,21 +1681,13 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   Future<List<Object?>> callFlutterEchoAsyncList(List<Object?> list);
 
-  Future<List<NativeInteropAnEnum?>> callFlutterEchoAsyncEnumList(
-    List<NativeInteropAnEnum?> enumList,
-  );
+  Future<List<NativeInteropAnEnum?>> callFlutterEchoAsyncEnumList(List<NativeInteropAnEnum?> enumList);
 
-  Future<List<NativeInteropAllNullableTypes?>> callFlutterEchoAsyncClassList(
-    List<NativeInteropAllNullableTypes?> classList,
-  );
+  Future<List<NativeInteropAllNullableTypes?>> callFlutterEchoAsyncClassList(List<NativeInteropAllNullableTypes?> classList);
 
-  Future<List<NativeInteropAnEnum>> callFlutterEchoAsyncNonNullEnumList(
-    List<NativeInteropAnEnum> enumList,
-  );
+  Future<List<NativeInteropAnEnum>> callFlutterEchoAsyncNonNullEnumList(List<NativeInteropAnEnum> enumList);
 
-  Future<List<NativeInteropAllNullableTypes>> callFlutterEchoAsyncNonNullClassList(
-    List<NativeInteropAllNullableTypes> classList,
-  );
+  Future<List<NativeInteropAllNullableTypes>> callFlutterEchoAsyncNonNullClassList(List<NativeInteropAllNullableTypes> classList);
 
   Future<Map<Object?, Object?>> callFlutterEchoAsyncMap(Map<Object?, Object?> map);
 
@@ -1793,19 +1695,13 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   Future<Map<int?, int?>> callFlutterEchoAsyncIntMap(Map<int?, int?> intMap);
 
-  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>> callFlutterEchoAsyncEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap,
-  );
+  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>> callFlutterEchoAsyncEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap);
 
-  Future<Map<int?, NativeInteropAllNullableTypes?>> callFlutterEchoAsyncClassMap(
-    Map<int?, NativeInteropAllNullableTypes?> classMap,
-  );
+  Future<Map<int?, NativeInteropAllNullableTypes?>> callFlutterEchoAsyncClassMap(Map<int?, NativeInteropAllNullableTypes?> classMap);
 
   Future<NativeInteropAnEnum> callFlutterEchoAsyncEnum(NativeInteropAnEnum anEnum);
 
-  Future<NativeInteropAnotherEnum> callFlutterEchoAnotherAsyncEnum(
-    NativeInteropAnotherEnum anotherEnum,
-  );
+  Future<NativeInteropAnotherEnum> callFlutterEchoAnotherAsyncEnum(NativeInteropAnotherEnum anotherEnum);
 
   Future<bool?> callFlutterEchoAsyncNullableBool(bool? aBool);
 
@@ -1829,43 +1725,27 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   Future<List<Object?>?> callFlutterEchoAsyncNullableList(List<Object?>? list);
 
-  Future<List<NativeInteropAnEnum?>?> callFlutterEchoAsyncNullableEnumList(
-    List<NativeInteropAnEnum?>? enumList,
-  );
+  Future<List<NativeInteropAnEnum?>?> callFlutterEchoAsyncNullableEnumList(List<NativeInteropAnEnum?>? enumList);
 
-  Future<List<NativeInteropAllNullableTypes?>?> callFlutterEchoAsyncNullableClassList(
-    List<NativeInteropAllNullableTypes?>? classList,
-  );
+  Future<List<NativeInteropAllNullableTypes?>?> callFlutterEchoAsyncNullableClassList(List<NativeInteropAllNullableTypes?>? classList);
 
-  Future<List<NativeInteropAnEnum>?> callFlutterEchoAsyncNullableNonNullEnumList(
-    List<NativeInteropAnEnum>? enumList,
-  );
+  Future<List<NativeInteropAnEnum>?> callFlutterEchoAsyncNullableNonNullEnumList(List<NativeInteropAnEnum>? enumList);
 
-  Future<List<NativeInteropAllNullableTypes>?> callFlutterEchoAsyncNullableNonNullClassList(
-    List<NativeInteropAllNullableTypes>? classList,
-  );
+  Future<List<NativeInteropAllNullableTypes>?> callFlutterEchoAsyncNullableNonNullClassList(List<NativeInteropAllNullableTypes>? classList);
 
   Future<Map<Object?, Object?>?> callFlutterEchoAsyncNullableMap(Map<Object?, Object?>? map);
 
-  Future<Map<String?, String?>?> callFlutterEchoAsyncNullableStringMap(
-    Map<String?, String?>? stringMap,
-  );
+  Future<Map<String?, String?>?> callFlutterEchoAsyncNullableStringMap(Map<String?, String?>? stringMap);
 
   Future<Map<int?, int?>?> callFlutterEchoAsyncNullableIntMap(Map<int?, int?>? intMap);
 
-  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?> callFlutterEchoAsyncNullableEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap,
-  );
+  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?> callFlutterEchoAsyncNullableEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap);
 
-  Future<Map<int?, NativeInteropAllNullableTypes?>?> callFlutterEchoAsyncNullableClassMap(
-    Map<int?, NativeInteropAllNullableTypes?>? classMap,
-  );
+  Future<Map<int?, NativeInteropAllNullableTypes?>?> callFlutterEchoAsyncNullableClassMap(Map<int?, NativeInteropAllNullableTypes?>? classMap);
 
   Future<NativeInteropAnEnum?> callFlutterEchoAsyncNullableEnum(NativeInteropAnEnum? anEnum);
 
-  Future<NativeInteropAnotherEnum?> callFlutterEchoAnotherAsyncNullableEnum(
-    NativeInteropAnotherEnum? anotherEnum,
-  );
+  Future<NativeInteropAnotherEnum?> callFlutterEchoAnotherAsyncNullableEnum(NativeInteropAnotherEnum? anotherEnum);
 
   bool isMainThread();
 
@@ -1885,7 +1765,25 @@ abstract class NativeInteropHostIntegrationCoreApiForNativeInterop {
 
   void registerAndImmediatelyDeregisterHostApi(String name);
 
+  void registerNamedHostApi(String name);
+
+  void deregisterNamedHostApi(String name);
+
   bool testCallDeregisteredFlutterApi(String name);
+
+  Future<bool> testSecondaryEngineDartExecution();
+
+  bool isSecondaryEngineRegistrationReady();
+
+  void reportSecondaryEngineCheck(bool success);
+
+  void notifyConcurrentIsolateResolved();
+
+  int registeredEngineKey();
+
+  String engineLabel();
+
+  bool pluginEngineIdentifierIsAvailable();
 }
 
 /// The core interface that each host language plugin must implement in
@@ -1895,14 +1793,14 @@ class NativeInteropHostIntegrationCoreApi {
   /// available for dependency injection. If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
   NativeInteropHostIntegrationCoreApi({
-    BinaryMessenger? binaryMessenger,
-    String messageChannelSuffix = '',
-    NativeInteropHostIntegrationCoreApiForNativeInterop? nativeInteropApi,
-  }) : pigeonVar_binaryMessenger = binaryMessenger,
-       pigeonVar_messageChannelSuffix = messageChannelSuffix.isNotEmpty
-           ? '.$messageChannelSuffix'
-           : '',
-       _nativeInteropApi = nativeInteropApi;
+      BinaryMessenger? binaryMessenger, 
+      String messageChannelSuffix = '', 
+      NativeInteropHostIntegrationCoreApiForNativeInterop? nativeInteropApi,
+  })
+      : pigeonVar_binaryMessenger = binaryMessenger,
+        pigeonVar_messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '',
+  _nativeInteropApi = nativeInteropApi;
+
 
   /// Creates an instance of [NativeInteropHostIntegrationCoreApi] that requests an instance of
   /// [NativeInteropHostIntegrationCoreApiForNativeInterop] from the host platform with a matching instance name
@@ -1920,8 +1818,8 @@ class NativeInteropHostIntegrationCoreApi {
     }
     final NativeInteropHostIntegrationCoreApiForNativeInterop? nativeInteropApi =
         NativeInteropHostIntegrationCoreApiForNativeInterop.getInstance(
-          name: messageChannelSuffix.isEmpty ? null : messageChannelSuffix,
-        );
+      name: messageChannelSuffix.isEmpty ? null : messageChannelSuffix,
+    );
     if (nativeInteropApi == null) {
       throw ArgumentError(
         'No NativeInteropHostIntegrationCoreApi instance with ${messageChannelSuffix.isEmpty ? 'no ' : ''}instance name ${messageChannelSuffix.isNotEmpty ? '"$messageChannelSuffix" ' : ''}found.',
@@ -1947,8 +1845,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.noop();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.noop$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.noop$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -1956,8 +1853,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
-    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+    _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
   }
 
   /// Returns the passed object, to test serialization and deserialization.
@@ -1965,8 +1866,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAllTypes(everything);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAllTypes$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAllTypes$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -1974,12 +1874,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[everything]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAllTypes;
   }
 
@@ -1988,8 +1888,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.throwError();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.throwError$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.throwError$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -1997,12 +1896,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue;
   }
 
@@ -2011,8 +1910,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.throwErrorFromVoid();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.throwErrorFromVoid$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.throwErrorFromVoid$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2020,8 +1918,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
-    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+    _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
   }
 
   /// Returns a Flutter error, to test error handling.
@@ -2029,8 +1931,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.throwFlutterError();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.throwFlutterError$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.throwFlutterError$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2038,12 +1939,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue;
   }
 
@@ -2052,8 +1953,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoInt(anInt);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoInt$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoInt$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2061,12 +1961,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anInt]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as int;
   }
 
@@ -2075,8 +1975,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoDouble(aDouble);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoDouble$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoDouble$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2084,12 +1983,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aDouble]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as double;
   }
 
@@ -2098,8 +1997,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoBool(aBool);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoBool$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoBool$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2107,12 +2005,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aBool]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as bool;
   }
 
@@ -2121,8 +2019,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoString(aString);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoString$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoString$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2130,12 +2027,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aString]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as String;
   }
 
@@ -2144,8 +2041,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoUint8List(aUint8List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoUint8List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoUint8List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2153,12 +2049,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aUint8List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Uint8List;
   }
 
@@ -2167,8 +2063,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoInt32List(aInt32List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoInt32List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoInt32List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2176,12 +2071,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aInt32List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Int32List;
   }
 
@@ -2190,8 +2085,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoInt64List(aInt64List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoInt64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoInt64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2199,12 +2093,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aInt64List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Int64List;
   }
 
@@ -2213,8 +2107,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoFloat64List(aFloat64List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoFloat64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoFloat64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2222,12 +2115,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aFloat64List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Float64List;
   }
 
@@ -2236,8 +2129,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoObject(anObject);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoObject$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoObject$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2245,12 +2137,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anObject]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue!;
   }
 
@@ -2259,8 +2151,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoList(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2268,12 +2159,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as List<Object?>;
   }
 
@@ -2282,8 +2173,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoStringList(stringList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoStringList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoStringList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2291,12 +2181,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[stringList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<String?>();
   }
 
@@ -2305,8 +2195,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoIntList(intList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoIntList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoIntList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2314,12 +2203,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[intList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<int?>();
   }
 
@@ -2328,8 +2217,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoDoubleList(doubleList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoDoubleList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoDoubleList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2337,12 +2225,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[doubleList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<double?>();
   }
 
@@ -2351,8 +2239,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoBoolList(boolList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoBoolList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoBoolList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2360,12 +2247,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[boolList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<bool?>();
   }
 
@@ -2374,8 +2261,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoEnumList(enumList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoEnumList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoEnumList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2383,24 +2269,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropAnEnum?>();
   }
 
   /// Returns the passed list, to test serialization and deserialization.
-  Future<List<NativeInteropAllNullableTypes?>> echoClassList(
-    List<NativeInteropAllNullableTypes?> classList,
-  ) async {
+  Future<List<NativeInteropAllNullableTypes?>> echoClassList(List<NativeInteropAllNullableTypes?> classList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoClassList(classList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoClassList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoClassList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2408,12 +2291,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropAllNullableTypes?>();
   }
 
@@ -2422,8 +2305,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNonNullEnumList(enumList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNonNullEnumList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNonNullEnumList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2431,24 +2313,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropAnEnum>();
   }
 
   /// Returns the passed list, to test serialization and deserialization.
-  Future<List<NativeInteropAllNullableTypes>> echoNonNullClassList(
-    List<NativeInteropAllNullableTypes> classList,
-  ) async {
+  Future<List<NativeInteropAllNullableTypes>> echoNonNullClassList(List<NativeInteropAllNullableTypes> classList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNonNullClassList(classList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNonNullClassList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNonNullClassList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2456,12 +2335,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropAllNullableTypes>();
   }
 
@@ -2470,8 +2349,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoMap(map);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2479,12 +2357,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[map]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Map<Object?, Object?>;
   }
 
@@ -2493,8 +2371,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoStringMap(stringMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoStringMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoStringMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2502,12 +2379,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[stringMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<String?, String?>();
   }
 
@@ -2516,8 +2393,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoIntMap(intMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoIntMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoIntMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2525,24 +2401,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[intMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<int?, int?>();
   }
 
   /// Returns the passed map, to test serialization and deserialization.
-  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>> echoEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap,
-  ) async {
+  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>> echoEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoEnumMap(enumMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoEnumMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoEnumMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2550,25 +2423,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
-    return (pigeonVar_replyValue! as Map<Object?, Object?>)
-        .cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
   }
 
   /// Returns the passed map, to test serialization and deserialization.
-  Future<Map<int?, NativeInteropAllNullableTypes?>> echoClassMap(
-    Map<int?, NativeInteropAllNullableTypes?> classMap,
-  ) async {
+  Future<Map<int?, NativeInteropAllNullableTypes?>> echoClassMap(Map<int?, NativeInteropAllNullableTypes?> classMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoClassMap(classMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoClassMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoClassMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2576,14 +2445,13 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
-    return (pigeonVar_replyValue! as Map<Object?, Object?>)
-        .cast<int?, NativeInteropAllNullableTypes?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<int?, NativeInteropAllNullableTypes?>();
   }
 
   /// Returns the passed map, to test serialization and deserialization.
@@ -2591,8 +2459,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNonNullStringMap(stringMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNonNullStringMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNonNullStringMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2600,12 +2467,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[stringMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<String, String>();
   }
 
@@ -2614,8 +2481,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNonNullIntMap(intMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNonNullIntMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNonNullIntMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2623,24 +2489,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[intMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<int, int>();
   }
 
   /// Returns the passed map, to test serialization and deserialization.
-  Future<Map<NativeInteropAnEnum, NativeInteropAnEnum>> echoNonNullEnumMap(
-    Map<NativeInteropAnEnum, NativeInteropAnEnum> enumMap,
-  ) async {
+  Future<Map<NativeInteropAnEnum, NativeInteropAnEnum>> echoNonNullEnumMap(Map<NativeInteropAnEnum, NativeInteropAnEnum> enumMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNonNullEnumMap(enumMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNonNullEnumMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNonNullEnumMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2648,25 +2511,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
-    return (pigeonVar_replyValue! as Map<Object?, Object?>)
-        .cast<NativeInteropAnEnum, NativeInteropAnEnum>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<NativeInteropAnEnum, NativeInteropAnEnum>();
   }
 
   /// Returns the passed map, to test serialization and deserialization.
-  Future<Map<int, NativeInteropAllNullableTypes>> echoNonNullClassMap(
-    Map<int, NativeInteropAllNullableTypes> classMap,
-  ) async {
+  Future<Map<int, NativeInteropAllNullableTypes>> echoNonNullClassMap(Map<int, NativeInteropAllNullableTypes> classMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNonNullClassMap(classMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNonNullClassMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNonNullClassMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2674,25 +2533,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
-    return (pigeonVar_replyValue! as Map<Object?, Object?>)
-        .cast<int, NativeInteropAllNullableTypes>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<int, NativeInteropAllNullableTypes>();
   }
 
   /// Returns the passed class to test nested class serialization and deserialization.
-  Future<NativeInteropAllClassesWrapper> echoClassWrapper(
-    NativeInteropAllClassesWrapper wrapper,
-  ) async {
+  Future<NativeInteropAllClassesWrapper> echoClassWrapper(NativeInteropAllClassesWrapper wrapper) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoClassWrapper(wrapper);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoClassWrapper$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoClassWrapper$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2700,12 +2555,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[wrapper]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAllClassesWrapper;
   }
 
@@ -2714,8 +2569,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoSealedClass(sealedClass);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoSealedClass$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoSealedClass$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2723,24 +2577,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[sealedClass]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropSealedClass;
   }
 
   /// Returns the passed sealed class, to test nullable sealed class handling.
-  Future<NativeInteropSealedClass?> echoNullableSealedClass(
-    NativeInteropSealedClass? sealedClass,
-  ) async {
+  Future<NativeInteropSealedClass?> echoNullableSealedClass(NativeInteropSealedClass? sealedClass) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableSealedClass(sealedClass);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableSealedClass$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableSealedClass$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2748,24 +2599,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[sealedClass]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropSealedClass?;
   }
 
   /// Returns the passed list, to test sealed classes in lists.
-  Future<List<NativeInteropSealedClass>> echoSealedClassList(
-    List<NativeInteropSealedClass> sealedClassList,
-  ) async {
+  Future<List<NativeInteropSealedClass>> echoSealedClassList(List<NativeInteropSealedClass> sealedClassList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoSealedClassList(sealedClassList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoSealedClassList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoSealedClassList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2773,24 +2621,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[sealedClassList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropSealedClass>();
   }
 
   /// Returns the passed wrapper, to test sealed classes in class fields.
-  Future<NativeInteropSealedClassWrapper> echoSealedClassWrapper(
-    NativeInteropSealedClassWrapper wrapper,
-  ) async {
+  Future<NativeInteropSealedClassWrapper> echoSealedClassWrapper(NativeInteropSealedClassWrapper wrapper) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoSealedClassWrapper(wrapper);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoSealedClassWrapper$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoSealedClassWrapper$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2798,12 +2643,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[wrapper]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropSealedClassWrapper;
   }
 
@@ -2812,8 +2657,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoEnum(anEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2821,12 +2665,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAnEnum;
   }
 
@@ -2835,8 +2679,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAnotherEnum(anotherEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAnotherEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAnotherEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2844,12 +2687,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anotherEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAnotherEnum;
   }
 
@@ -2858,8 +2701,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNamedDefaultString(aString: aString);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNamedDefaultString$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNamedDefaultString$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2867,12 +2709,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aString]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as String;
   }
 
@@ -2881,8 +2723,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoOptionalDefaultDouble(aDouble);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoOptionalDefaultDouble$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoOptionalDefaultDouble$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2890,12 +2731,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aDouble]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as double;
   }
 
@@ -2904,8 +2745,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoRequiredInt(anInt: anInt);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoRequiredInt$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoRequiredInt$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2913,24 +2753,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anInt]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as int;
   }
 
   /// Returns the passed object, to test serialization and deserialization.
-  Future<NativeInteropAllNullableTypes?> echoAllNullableTypes(
-    NativeInteropAllNullableTypes? everything,
-  ) async {
+  Future<NativeInteropAllNullableTypes?> echoAllNullableTypes(NativeInteropAllNullableTypes? everything) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAllNullableTypes(everything);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAllNullableTypes$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAllNullableTypes$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2938,24 +2775,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[everything]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAllNullableTypes?;
   }
 
   /// Returns the passed object, to test serialization and deserialization.
-  Future<NativeInteropAllNullableTypesWithoutRecursion?> echoAllNullableTypesWithoutRecursion(
-    NativeInteropAllNullableTypesWithoutRecursion? everything,
-  ) async {
+  Future<NativeInteropAllNullableTypesWithoutRecursion?> echoAllNullableTypesWithoutRecursion(NativeInteropAllNullableTypesWithoutRecursion? everything) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAllNullableTypesWithoutRecursion(everything);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAllNullableTypesWithoutRecursion$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAllNullableTypesWithoutRecursion$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2963,12 +2797,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[everything]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAllNullableTypesWithoutRecursion?;
   }
 
@@ -2978,8 +2812,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.extractNestedNullableString(wrapper);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.extractNestedNullableString$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.extractNestedNullableString$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -2987,12 +2820,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[wrapper]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as String?;
   }
 
@@ -3002,8 +2835,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.createNestedNullableString(nullableString);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.createNestedNullableString$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.createNestedNullableString$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3011,81 +2843,55 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[nullableString]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAllClassesWrapper;
   }
 
-  Future<NativeInteropAllNullableTypes> sendMultipleNullableTypes(
-    bool? aNullableBool,
-    int? aNullableInt,
-    String? aNullableString,
-  ) async {
+  Future<NativeInteropAllNullableTypes> sendMultipleNullableTypes(bool? aNullableBool, int? aNullableInt, String? aNullableString) async {
     if (_nativeInteropApi != null) {
-      return _nativeInteropApi.sendMultipleNullableTypes(
-        aNullableBool,
-        aNullableInt,
-        aNullableString,
-      );
+      return _nativeInteropApi.sendMultipleNullableTypes(aNullableBool, aNullableInt, aNullableString);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.sendMultipleNullableTypes$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.sendMultipleNullableTypes$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[
-      aNullableBool,
-      aNullableInt,
-      aNullableString,
-    ]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableBool, aNullableInt, aNullableString]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAllNullableTypes;
   }
 
   /// Returns passed in arguments of multiple types.
-  Future<NativeInteropAllNullableTypesWithoutRecursion> sendMultipleNullableTypesWithoutRecursion(
-    bool? aNullableBool,
-    int? aNullableInt,
-    String? aNullableString,
-  ) async {
+  Future<NativeInteropAllNullableTypesWithoutRecursion> sendMultipleNullableTypesWithoutRecursion(bool? aNullableBool, int? aNullableInt, String? aNullableString) async {
     if (_nativeInteropApi != null) {
-      return _nativeInteropApi.sendMultipleNullableTypesWithoutRecursion(
-        aNullableBool,
-        aNullableInt,
-        aNullableString,
-      );
+      return _nativeInteropApi.sendMultipleNullableTypesWithoutRecursion(aNullableBool, aNullableInt, aNullableString);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.sendMultipleNullableTypesWithoutRecursion$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.sendMultipleNullableTypesWithoutRecursion$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[
-      aNullableBool,
-      aNullableInt,
-      aNullableString,
-    ]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableBool, aNullableInt, aNullableString]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAllNullableTypesWithoutRecursion;
   }
 
@@ -3094,8 +2900,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableInt(aNullableInt);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableInt$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableInt$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3103,12 +2908,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableInt]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as int?;
   }
 
@@ -3117,8 +2922,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableDouble(aNullableDouble);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableDouble$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableDouble$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3126,12 +2930,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableDouble]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as double?;
   }
 
@@ -3140,8 +2944,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableBool(aNullableBool);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableBool$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableBool$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3149,12 +2952,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableBool]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as bool?;
   }
 
@@ -3163,8 +2966,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableString(aNullableString);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableString$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableString$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3172,12 +2974,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableString]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as String?;
   }
 
@@ -3186,23 +2988,20 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableUint8List(aNullableUint8List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableUint8List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableUint8List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[
-      aNullableUint8List,
-    ]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableUint8List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Uint8List?;
   }
 
@@ -3211,23 +3010,20 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableInt32List(aNullableInt32List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableInt32List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableInt32List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[
-      aNullableInt32List,
-    ]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableInt32List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Int32List?;
   }
 
@@ -3236,23 +3032,20 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableInt64List(aNullableInt64List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableInt64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableInt64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[
-      aNullableInt64List,
-    ]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableInt64List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Int64List?;
   }
 
@@ -3261,23 +3054,20 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableFloat64List(aNullableFloat64List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableFloat64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableFloat64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[
-      aNullableFloat64List,
-    ]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableFloat64List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Float64List?;
   }
 
@@ -3286,8 +3076,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableObject(aNullableObject);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableObject$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableObject$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3295,12 +3084,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableObject]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue;
   }
 
@@ -3309,8 +3098,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableList(aNullableList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3318,24 +3106,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as List<Object?>?;
   }
 
   /// Returns the passed list, to test serialization and deserialization.
-  Future<List<NativeInteropAnEnum?>?> echoNullableEnumList(
-    List<NativeInteropAnEnum?>? enumList,
-  ) async {
+  Future<List<NativeInteropAnEnum?>?> echoNullableEnumList(List<NativeInteropAnEnum?>? enumList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableEnumList(enumList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableEnumList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableEnumList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3343,24 +3128,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as List<Object?>?)?.cast<NativeInteropAnEnum?>();
   }
 
   /// Returns the passed list, to test serialization and deserialization.
-  Future<List<NativeInteropAllNullableTypes?>?> echoNullableClassList(
-    List<NativeInteropAllNullableTypes?>? classList,
-  ) async {
+  Future<List<NativeInteropAllNullableTypes?>?> echoNullableClassList(List<NativeInteropAllNullableTypes?>? classList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableClassList(classList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableClassList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableClassList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3368,24 +3150,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as List<Object?>?)?.cast<NativeInteropAllNullableTypes?>();
   }
 
   /// Returns the passed list, to test serialization and deserialization.
-  Future<List<NativeInteropAnEnum>?> echoNullableNonNullEnumList(
-    List<NativeInteropAnEnum>? enumList,
-  ) async {
+  Future<List<NativeInteropAnEnum>?> echoNullableNonNullEnumList(List<NativeInteropAnEnum>? enumList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableNonNullEnumList(enumList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableNonNullEnumList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableNonNullEnumList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3393,24 +3172,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as List<Object?>?)?.cast<NativeInteropAnEnum>();
   }
 
   /// Returns the passed list, to test serialization and deserialization.
-  Future<List<NativeInteropAllNullableTypes>?> echoNullableNonNullClassList(
-    List<NativeInteropAllNullableTypes>? classList,
-  ) async {
+  Future<List<NativeInteropAllNullableTypes>?> echoNullableNonNullClassList(List<NativeInteropAllNullableTypes>? classList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableNonNullClassList(classList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableNonNullClassList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableNonNullClassList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3418,12 +3194,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as List<Object?>?)?.cast<NativeInteropAllNullableTypes>();
   }
 
@@ -3432,8 +3208,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableMap(map);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3441,12 +3216,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[map]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Map<Object?, Object?>?;
   }
 
@@ -3455,8 +3230,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableStringMap(stringMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableStringMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableStringMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3464,12 +3238,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[stringMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<String?, String?>();
   }
 
@@ -3478,8 +3252,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableIntMap(intMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableIntMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableIntMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3487,24 +3260,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[intMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<int?, int?>();
   }
 
   /// Returns the passed map, to test serialization and deserialization.
-  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?> echoNullableEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap,
-  ) async {
+  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?> echoNullableEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableEnumMap(enumMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableEnumMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableEnumMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3512,25 +3282,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
-    return (pigeonVar_replyValue as Map<Object?, Object?>?)
-        ?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+    return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
   }
 
   /// Returns the passed map, to test serialization and deserialization.
-  Future<Map<int?, NativeInteropAllNullableTypes?>?> echoNullableClassMap(
-    Map<int?, NativeInteropAllNullableTypes?>? classMap,
-  ) async {
+  Future<Map<int?, NativeInteropAllNullableTypes?>?> echoNullableClassMap(Map<int?, NativeInteropAllNullableTypes?>? classMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableClassMap(classMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableClassMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableClassMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3538,14 +3304,13 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
-    return (pigeonVar_replyValue as Map<Object?, Object?>?)
-        ?.cast<int?, NativeInteropAllNullableTypes?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+    return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<int?, NativeInteropAllNullableTypes?>();
   }
 
   /// Returns the passed map, to test serialization and deserialization.
@@ -3553,8 +3318,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableNonNullStringMap(stringMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableNonNullStringMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableNonNullStringMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3562,12 +3326,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[stringMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<String, String>();
   }
 
@@ -3576,8 +3340,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableNonNullIntMap(intMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableNonNullIntMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableNonNullIntMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3585,24 +3348,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[intMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<int, int>();
   }
 
   /// Returns the passed map, to test serialization and deserialization.
-  Future<Map<NativeInteropAnEnum, NativeInteropAnEnum>?> echoNullableNonNullEnumMap(
-    Map<NativeInteropAnEnum, NativeInteropAnEnum>? enumMap,
-  ) async {
+  Future<Map<NativeInteropAnEnum, NativeInteropAnEnum>?> echoNullableNonNullEnumMap(Map<NativeInteropAnEnum, NativeInteropAnEnum>? enumMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableNonNullEnumMap(enumMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableNonNullEnumMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableNonNullEnumMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3610,25 +3370,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
-    return (pigeonVar_replyValue as Map<Object?, Object?>?)
-        ?.cast<NativeInteropAnEnum, NativeInteropAnEnum>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+    return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<NativeInteropAnEnum, NativeInteropAnEnum>();
   }
 
   /// Returns the passed map, to test serialization and deserialization.
-  Future<Map<int, NativeInteropAllNullableTypes>?> echoNullableNonNullClassMap(
-    Map<int, NativeInteropAllNullableTypes>? classMap,
-  ) async {
+  Future<Map<int, NativeInteropAllNullableTypes>?> echoNullableNonNullClassMap(Map<int, NativeInteropAllNullableTypes>? classMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableNonNullClassMap(classMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableNonNullClassMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableNonNullClassMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3636,22 +3392,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
-    return (pigeonVar_replyValue as Map<Object?, Object?>?)
-        ?.cast<int, NativeInteropAllNullableTypes>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+    return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<int, NativeInteropAllNullableTypes>();
   }
 
   Future<NativeInteropAnEnum?> echoNullableEnum(NativeInteropAnEnum? anEnum) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNullableEnum(anEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNullableEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3659,23 +3413,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAnEnum?;
   }
 
-  Future<NativeInteropAnotherEnum?> echoAnotherNullableEnum(
-    NativeInteropAnotherEnum? anotherEnum,
-  ) async {
+  Future<NativeInteropAnotherEnum?> echoAnotherNullableEnum(NativeInteropAnotherEnum? anotherEnum) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAnotherNullableEnum(anotherEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAnotherNullableEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAnotherNullableEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3683,12 +3434,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anotherEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAnotherEnum?;
   }
 
@@ -3697,8 +3448,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoOptionalNullableInt(aNullableInt);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoOptionalNullableInt$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoOptionalNullableInt$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3706,12 +3456,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableInt]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as int?;
   }
 
@@ -3720,8 +3470,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoNamedNullableString(aNullableString: aNullableString);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNamedNullableString$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoNamedNullableString$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3729,12 +3478,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableString]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as String?;
   }
 
@@ -3744,8 +3493,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.noopAsync();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.noopAsync$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.noopAsync$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3753,8 +3501,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
-    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+    _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
   }
 
   /// Returns passed in int asynchronously.
@@ -3762,8 +3514,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncInt(anInt);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncInt$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncInt$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3771,12 +3522,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anInt]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as int;
   }
 
@@ -3785,8 +3536,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncDouble(aDouble);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncDouble$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncDouble$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3794,12 +3544,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aDouble]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as double;
   }
 
@@ -3808,8 +3558,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncBool(aBool);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncBool$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncBool$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3817,12 +3566,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aBool]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as bool;
   }
 
@@ -3831,8 +3580,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncString(aString);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncString$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncString$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3840,12 +3588,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aString]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as String;
   }
 
@@ -3854,8 +3602,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncUint8List(aUint8List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncUint8List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncUint8List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3863,12 +3610,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aUint8List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Uint8List;
   }
 
@@ -3877,8 +3624,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncInt32List(aInt32List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncInt32List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncInt32List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3886,12 +3632,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aInt32List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Int32List;
   }
 
@@ -3900,8 +3646,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncInt64List(aInt64List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncInt64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncInt64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3909,12 +3654,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aInt64List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Int64List;
   }
 
@@ -3923,8 +3668,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncFloat64List(aFloat64List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncFloat64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncFloat64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3932,12 +3676,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aFloat64List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Float64List;
   }
 
@@ -3946,8 +3690,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncObject(anObject);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncObject$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncObject$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3955,12 +3698,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anObject]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue!;
   }
 
@@ -3969,8 +3712,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncList(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -3978,12 +3720,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as List<Object?>;
   }
 
@@ -3992,8 +3734,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncEnumList(enumList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncEnumList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncEnumList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4001,24 +3742,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropAnEnum?>();
   }
 
   /// Returns the passed list, to test asynchronous serialization and deserialization.
-  Future<List<NativeInteropAllNullableTypes?>> echoAsyncClassList(
-    List<NativeInteropAllNullableTypes?> classList,
-  ) async {
+  Future<List<NativeInteropAllNullableTypes?>> echoAsyncClassList(List<NativeInteropAllNullableTypes?> classList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncClassList(classList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncClassList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncClassList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4026,12 +3764,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropAllNullableTypes?>();
   }
 
@@ -4040,8 +3778,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncMap(map);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4049,12 +3786,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[map]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Map<Object?, Object?>;
   }
 
@@ -4063,8 +3800,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncStringMap(stringMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncStringMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncStringMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4072,12 +3808,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[stringMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<String?, String?>();
   }
 
@@ -4086,8 +3822,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncIntMap(intMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncIntMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncIntMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4095,24 +3830,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[intMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<int?, int?>();
   }
 
   /// Returns the passed map, to test asynchronous serialization and deserialization.
-  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>> echoAsyncEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap,
-  ) async {
+  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>> echoAsyncEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncEnumMap(enumMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncEnumMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncEnumMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4120,25 +3852,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
-    return (pigeonVar_replyValue! as Map<Object?, Object?>)
-        .cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
   }
 
   /// Returns the passed map, to test asynchronous serialization and deserialization.
-  Future<Map<int?, NativeInteropAllNullableTypes?>> echoAsyncClassMap(
-    Map<int?, NativeInteropAllNullableTypes?> classMap,
-  ) async {
+  Future<Map<int?, NativeInteropAllNullableTypes?>> echoAsyncClassMap(Map<int?, NativeInteropAllNullableTypes?> classMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncClassMap(classMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncClassMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncClassMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4146,14 +3874,13 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
-    return (pigeonVar_replyValue! as Map<Object?, Object?>)
-        .cast<int?, NativeInteropAllNullableTypes?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<int?, NativeInteropAllNullableTypes?>();
   }
 
   /// Returns the passed enum, to test asynchronous serialization and deserialization.
@@ -4161,8 +3888,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncEnum(anEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4170,24 +3896,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAnEnum;
   }
 
   /// Returns the passed enum, to test asynchronous serialization and deserialization.
-  Future<NativeInteropAnotherEnum> echoAnotherAsyncEnum(
-    NativeInteropAnotherEnum anotherEnum,
-  ) async {
+  Future<NativeInteropAnotherEnum> echoAnotherAsyncEnum(NativeInteropAnotherEnum anotherEnum) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAnotherAsyncEnum(anotherEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAnotherAsyncEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAnotherAsyncEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4195,12 +3918,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anotherEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAnotherEnum;
   }
 
@@ -4209,8 +3932,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.throwAsyncError();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.throwAsyncError$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.throwAsyncError$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4218,12 +3940,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue;
   }
 
@@ -4232,8 +3954,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.throwAsyncErrorFromVoid();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.throwAsyncErrorFromVoid$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.throwAsyncErrorFromVoid$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4241,8 +3962,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
-    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+    _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
   }
 
   /// Responds with a Flutter error from an async function returning a value.
@@ -4250,8 +3975,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.throwAsyncFlutterError();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.throwAsyncFlutterError$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.throwAsyncFlutterError$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4259,24 +3983,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue;
   }
 
   /// Returns the passed object, to test async serialization and deserialization.
-  Future<NativeInteropAllTypes> echoAsyncNativeInteropAllTypes(
-    NativeInteropAllTypes everything,
-  ) async {
+  Future<NativeInteropAllTypes> echoAsyncNativeInteropAllTypes(NativeInteropAllTypes everything) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNativeInteropAllTypes(everything);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNativeInteropAllTypes$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNativeInteropAllTypes$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4284,24 +4005,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[everything]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAllTypes;
   }
 
   /// Returns the passed sealed class asynchronously.
-  Future<NativeInteropSealedClass> echoAsyncSealedClass(
-    NativeInteropSealedClass sealedClass,
-  ) async {
+  Future<NativeInteropSealedClass> echoAsyncSealedClass(NativeInteropSealedClass sealedClass) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncSealedClass(sealedClass);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncSealedClass$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncSealedClass$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4309,24 +4027,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[sealedClass]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropSealedClass;
   }
 
   /// Returns the passed object, to test serialization and deserialization.
-  Future<NativeInteropAllNullableTypes?> echoAsyncNullableNativeInteropAllNullableTypes(
-    NativeInteropAllNullableTypes? everything,
-  ) async {
+  Future<NativeInteropAllNullableTypes?> echoAsyncNullableNativeInteropAllNullableTypes(NativeInteropAllNullableTypes? everything) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableNativeInteropAllNullableTypes(everything);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableNativeInteropAllNullableTypes$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableNativeInteropAllNullableTypes$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4334,27 +4049,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[everything]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAllNullableTypes?;
   }
 
   /// Returns the passed object, to test serialization and deserialization.
-  Future<NativeInteropAllNullableTypesWithoutRecursion?>
-  echoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(
-    NativeInteropAllNullableTypesWithoutRecursion? everything,
-  ) async {
+  Future<NativeInteropAllNullableTypesWithoutRecursion?> echoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(NativeInteropAllNullableTypesWithoutRecursion? everything) async {
     if (_nativeInteropApi != null) {
-      return _nativeInteropApi.echoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(
-        everything,
-      );
+      return _nativeInteropApi.echoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(everything);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4362,12 +4071,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[everything]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAllNullableTypesWithoutRecursion?;
   }
 
@@ -4376,8 +4085,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableInt(anInt);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableInt$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableInt$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4385,12 +4093,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anInt]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as int?;
   }
 
@@ -4399,8 +4107,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableDouble(aDouble);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableDouble$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableDouble$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4408,12 +4115,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aDouble]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as double?;
   }
 
@@ -4422,8 +4129,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableBool(aBool);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableBool$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableBool$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4431,12 +4137,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aBool]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as bool?;
   }
 
@@ -4445,8 +4151,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableString(aString);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableString$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableString$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4454,12 +4159,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aString]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as String?;
   }
 
@@ -4468,8 +4173,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableUint8List(aUint8List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableUint8List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableUint8List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4477,12 +4181,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aUint8List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Uint8List?;
   }
 
@@ -4491,8 +4195,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableInt32List(aInt32List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableInt32List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableInt32List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4500,12 +4203,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aInt32List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Int32List?;
   }
 
@@ -4514,8 +4217,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableInt64List(aInt64List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableInt64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableInt64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4523,12 +4225,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aInt64List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Int64List?;
   }
 
@@ -4537,8 +4239,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableFloat64List(aFloat64List);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableFloat64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableFloat64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4546,12 +4247,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aFloat64List]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Float64List?;
   }
 
@@ -4560,8 +4261,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableObject(anObject);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableObject$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableObject$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4569,12 +4269,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anObject]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue;
   }
 
@@ -4583,8 +4283,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableList(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4592,24 +4291,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as List<Object?>?;
   }
 
   /// Returns the passed list, to test asynchronous serialization and deserialization.
-  Future<List<NativeInteropAnEnum?>?> echoAsyncNullableEnumList(
-    List<NativeInteropAnEnum?>? enumList,
-  ) async {
+  Future<List<NativeInteropAnEnum?>?> echoAsyncNullableEnumList(List<NativeInteropAnEnum?>? enumList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableEnumList(enumList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableEnumList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableEnumList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4617,24 +4313,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as List<Object?>?)?.cast<NativeInteropAnEnum?>();
   }
 
   /// Returns the passed list, to test asynchronous serialization and deserialization.
-  Future<List<NativeInteropAllNullableTypes?>?> echoAsyncNullableClassList(
-    List<NativeInteropAllNullableTypes?>? classList,
-  ) async {
+  Future<List<NativeInteropAllNullableTypes?>?> echoAsyncNullableClassList(List<NativeInteropAllNullableTypes?>? classList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableClassList(classList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableClassList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableClassList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4642,12 +4335,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as List<Object?>?)?.cast<NativeInteropAllNullableTypes?>();
   }
 
@@ -4656,8 +4349,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableMap(map);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4665,24 +4357,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[map]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Map<Object?, Object?>?;
   }
 
   /// Returns the passed map, to test asynchronous serialization and deserialization.
-  Future<Map<String?, String?>?> echoAsyncNullableStringMap(
-    Map<String?, String?>? stringMap,
-  ) async {
+  Future<Map<String?, String?>?> echoAsyncNullableStringMap(Map<String?, String?>? stringMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableStringMap(stringMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableStringMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableStringMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4690,12 +4379,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[stringMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<String?, String?>();
   }
 
@@ -4704,8 +4393,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableIntMap(intMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableIntMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableIntMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4713,24 +4401,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[intMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<int?, int?>();
   }
 
   /// Returns the passed map, to test asynchronous serialization and deserialization.
-  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?> echoAsyncNullableEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap,
-  ) async {
+  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?> echoAsyncNullableEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableEnumMap(enumMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableEnumMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableEnumMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4738,25 +4423,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
-    return (pigeonVar_replyValue as Map<Object?, Object?>?)
-        ?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+    return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
   }
 
   /// Returns the passed map, to test asynchronous serialization and deserialization.
-  Future<Map<int?, NativeInteropAllNullableTypes?>?> echoAsyncNullableClassMap(
-    Map<int?, NativeInteropAllNullableTypes?>? classMap,
-  ) async {
+  Future<Map<int?, NativeInteropAllNullableTypes?>?> echoAsyncNullableClassMap(Map<int?, NativeInteropAllNullableTypes?>? classMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableClassMap(classMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableClassMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableClassMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4764,14 +4445,13 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
-    return (pigeonVar_replyValue as Map<Object?, Object?>?)
-        ?.cast<int?, NativeInteropAllNullableTypes?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+    return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<int?, NativeInteropAllNullableTypes?>();
   }
 
   /// Returns the passed enum, to test asynchronous serialization and deserialization.
@@ -4779,8 +4459,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAsyncNullableEnum(anEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAsyncNullableEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4788,24 +4467,21 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAnEnum?;
   }
 
   /// Returns the passed enum, to test asynchronous serialization and deserialization.
-  Future<NativeInteropAnotherEnum?> echoAnotherAsyncNullableEnum(
-    NativeInteropAnotherEnum? anotherEnum,
-  ) async {
+  Future<NativeInteropAnotherEnum?> echoAnotherAsyncNullableEnum(NativeInteropAnotherEnum? anotherEnum) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoAnotherAsyncNullableEnum(anotherEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAnotherAsyncNullableEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.echoAnotherAsyncNullableEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4813,12 +4489,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anotherEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAnotherEnum?;
   }
 
@@ -4826,8 +4502,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterNoop();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterNoop$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterNoop$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4835,16 +4510,19 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
-    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+    _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
   }
 
   Future<Object?> callFlutterThrowError() async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterThrowError();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterThrowError$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterThrowError$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4852,12 +4530,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue;
   }
 
@@ -4865,8 +4543,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterThrowErrorFromVoid();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterThrowErrorFromVoid$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterThrowErrorFromVoid$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4874,18 +4551,19 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
-    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+    _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
   }
 
-  Future<NativeInteropAllTypes> callFlutterEchoNativeInteropAllTypes(
-    NativeInteropAllTypes everything,
-  ) async {
+  Future<NativeInteropAllTypes> callFlutterEchoNativeInteropAllTypes(NativeInteropAllTypes everything) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNativeInteropAllTypes(everything);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNativeInteropAllTypes$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNativeInteropAllTypes$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4893,23 +4571,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[everything]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAllTypes;
   }
 
-  Future<NativeInteropAllNullableTypes?> callFlutterEchoNativeInteropAllNullableTypes(
-    NativeInteropAllNullableTypes? everything,
-  ) async {
+  Future<NativeInteropAllNullableTypes?> callFlutterEchoNativeInteropAllNullableTypes(NativeInteropAllNullableTypes? everything) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNativeInteropAllNullableTypes(everything);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNativeInteropAllNullableTypes$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNativeInteropAllNullableTypes$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4917,23 +4592,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[everything]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAllNullableTypes?;
   }
 
-  Future<NativeInteropSealedClass> callFlutterEchoSealedClass(
-    NativeInteropSealedClass sealedClass,
-  ) async {
+  Future<NativeInteropSealedClass> callFlutterEchoSealedClass(NativeInteropSealedClass sealedClass) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoSealedClass(sealedClass);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoSealedClass$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoSealedClass$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -4941,60 +4613,41 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[sealedClass]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropSealedClass;
   }
 
-  Future<NativeInteropAllNullableTypes> callFlutterSendMultipleNullableTypes(
-    bool? aNullableBool,
-    int? aNullableInt,
-    String? aNullableString,
-  ) async {
+  Future<NativeInteropAllNullableTypes> callFlutterSendMultipleNullableTypes(bool? aNullableBool, int? aNullableInt, String? aNullableString) async {
     if (_nativeInteropApi != null) {
-      return _nativeInteropApi.callFlutterSendMultipleNullableTypes(
-        aNullableBool,
-        aNullableInt,
-        aNullableString,
-      );
+      return _nativeInteropApi.callFlutterSendMultipleNullableTypes(aNullableBool, aNullableInt, aNullableString);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterSendMultipleNullableTypes$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterSendMultipleNullableTypes$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[
-      aNullableBool,
-      aNullableInt,
-      aNullableString,
-    ]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableBool, aNullableInt, aNullableString]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAllNullableTypes;
   }
 
-  Future<NativeInteropAllNullableTypesWithoutRecursion?>
-  callFlutterEchoNativeInteropAllNullableTypesWithoutRecursion(
-    NativeInteropAllNullableTypesWithoutRecursion? everything,
-  ) async {
+  Future<NativeInteropAllNullableTypesWithoutRecursion?> callFlutterEchoNativeInteropAllNullableTypesWithoutRecursion(NativeInteropAllNullableTypesWithoutRecursion? everything) async {
     if (_nativeInteropApi != null) {
-      return _nativeInteropApi.callFlutterEchoNativeInteropAllNullableTypesWithoutRecursion(
-        everything,
-      );
+      return _nativeInteropApi.callFlutterEchoNativeInteropAllNullableTypesWithoutRecursion(everything);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNativeInteropAllNullableTypesWithoutRecursion$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNativeInteropAllNullableTypesWithoutRecursion$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5002,47 +4655,33 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[everything]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAllNullableTypesWithoutRecursion?;
   }
 
-  Future<NativeInteropAllNullableTypesWithoutRecursion>
-  callFlutterSendMultipleNullableTypesWithoutRecursion(
-    bool? aNullableBool,
-    int? aNullableInt,
-    String? aNullableString,
-  ) async {
+  Future<NativeInteropAllNullableTypesWithoutRecursion> callFlutterSendMultipleNullableTypesWithoutRecursion(bool? aNullableBool, int? aNullableInt, String? aNullableString) async {
     if (_nativeInteropApi != null) {
-      return _nativeInteropApi.callFlutterSendMultipleNullableTypesWithoutRecursion(
-        aNullableBool,
-        aNullableInt,
-        aNullableString,
-      );
+      return _nativeInteropApi.callFlutterSendMultipleNullableTypesWithoutRecursion(aNullableBool, aNullableInt, aNullableString);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterSendMultipleNullableTypesWithoutRecursion$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterSendMultipleNullableTypesWithoutRecursion$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[
-      aNullableBool,
-      aNullableInt,
-      aNullableString,
-    ]);
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aNullableBool, aNullableInt, aNullableString]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAllNullableTypesWithoutRecursion;
   }
 
@@ -5050,8 +4689,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoBool(aBool);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoBool$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoBool$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5059,12 +4697,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aBool]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as bool;
   }
 
@@ -5072,8 +4710,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoInt(anInt);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoInt$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoInt$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5081,12 +4718,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anInt]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as int;
   }
 
@@ -5094,8 +4731,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoDouble(aDouble);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoDouble$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoDouble$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5103,12 +4739,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aDouble]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as double;
   }
 
@@ -5116,8 +4752,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoString(aString);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoString$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoString$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5125,12 +4760,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aString]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as String;
   }
 
@@ -5138,8 +4773,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoUint8List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoUint8List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoUint8List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5147,12 +4781,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Uint8List;
   }
 
@@ -5160,8 +4794,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoInt32List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoInt32List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoInt32List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5169,12 +4802,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Int32List;
   }
 
@@ -5182,8 +4815,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoInt64List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoInt64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoInt64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5191,12 +4823,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Int64List;
   }
 
@@ -5204,8 +4836,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoFloat64List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoFloat64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoFloat64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5213,12 +4844,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Float64List;
   }
 
@@ -5226,8 +4857,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoList(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5235,23 +4865,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as List<Object?>;
   }
 
-  Future<List<NativeInteropAnEnum?>> callFlutterEchoEnumList(
-    List<NativeInteropAnEnum?> enumList,
-  ) async {
+  Future<List<NativeInteropAnEnum?>> callFlutterEchoEnumList(List<NativeInteropAnEnum?> enumList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoEnumList(enumList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoEnumList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoEnumList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5259,23 +4886,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropAnEnum?>();
   }
 
-  Future<List<NativeInteropAllNullableTypes?>> callFlutterEchoClassList(
-    List<NativeInteropAllNullableTypes?> classList,
-  ) async {
+  Future<List<NativeInteropAllNullableTypes?>> callFlutterEchoClassList(List<NativeInteropAllNullableTypes?> classList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoClassList(classList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoClassList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoClassList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5283,23 +4907,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropAllNullableTypes?>();
   }
 
-  Future<List<NativeInteropAnEnum>> callFlutterEchoNonNullEnumList(
-    List<NativeInteropAnEnum> enumList,
-  ) async {
+  Future<List<NativeInteropAnEnum>> callFlutterEchoNonNullEnumList(List<NativeInteropAnEnum> enumList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNonNullEnumList(enumList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNonNullEnumList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNonNullEnumList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5307,23 +4928,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropAnEnum>();
   }
 
-  Future<List<NativeInteropAllNullableTypes>> callFlutterEchoNonNullClassList(
-    List<NativeInteropAllNullableTypes> classList,
-  ) async {
+  Future<List<NativeInteropAllNullableTypes>> callFlutterEchoNonNullClassList(List<NativeInteropAllNullableTypes> classList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNonNullClassList(classList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNonNullClassList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNonNullClassList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5331,12 +4949,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropAllNullableTypes>();
   }
 
@@ -5344,8 +4962,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoMap(map);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5353,12 +4970,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[map]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Map<Object?, Object?>;
   }
 
@@ -5366,8 +4983,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoStringMap(stringMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoStringMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoStringMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5375,12 +4991,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[stringMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<String?, String?>();
   }
 
@@ -5388,8 +5004,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoIntMap(intMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoIntMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoIntMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5397,23 +5012,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[intMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<int?, int?>();
   }
 
-  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>> callFlutterEchoEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap,
-  ) async {
+  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>> callFlutterEchoEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoEnumMap(enumMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoEnumMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoEnumMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5421,24 +5033,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
-    return (pigeonVar_replyValue! as Map<Object?, Object?>)
-        .cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
   }
 
-  Future<Map<int?, NativeInteropAllNullableTypes?>> callFlutterEchoClassMap(
-    Map<int?, NativeInteropAllNullableTypes?> classMap,
-  ) async {
+  Future<Map<int?, NativeInteropAllNullableTypes?>> callFlutterEchoClassMap(Map<int?, NativeInteropAllNullableTypes?> classMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoClassMap(classMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoClassMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoClassMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5446,22 +5054,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
-    return (pigeonVar_replyValue! as Map<Object?, Object?>)
-        .cast<int?, NativeInteropAllNullableTypes?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<int?, NativeInteropAllNullableTypes?>();
   }
 
   Future<Map<String, String>> callFlutterEchoNonNullStringMap(Map<String, String> stringMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNonNullStringMap(stringMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNonNullStringMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNonNullStringMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5469,12 +5075,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[stringMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<String, String>();
   }
 
@@ -5482,8 +5088,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNonNullIntMap(intMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNonNullIntMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNonNullIntMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5491,23 +5096,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[intMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<int, int>();
   }
 
-  Future<Map<NativeInteropAnEnum, NativeInteropAnEnum>> callFlutterEchoNonNullEnumMap(
-    Map<NativeInteropAnEnum, NativeInteropAnEnum> enumMap,
-  ) async {
+  Future<Map<NativeInteropAnEnum, NativeInteropAnEnum>> callFlutterEchoNonNullEnumMap(Map<NativeInteropAnEnum, NativeInteropAnEnum> enumMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNonNullEnumMap(enumMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNonNullEnumMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNonNullEnumMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5515,24 +5117,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
-    return (pigeonVar_replyValue! as Map<Object?, Object?>)
-        .cast<NativeInteropAnEnum, NativeInteropAnEnum>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<NativeInteropAnEnum, NativeInteropAnEnum>();
   }
 
-  Future<Map<int, NativeInteropAllNullableTypes>> callFlutterEchoNonNullClassMap(
-    Map<int, NativeInteropAllNullableTypes> classMap,
-  ) async {
+  Future<Map<int, NativeInteropAllNullableTypes>> callFlutterEchoNonNullClassMap(Map<int, NativeInteropAllNullableTypes> classMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNonNullClassMap(classMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNonNullClassMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNonNullClassMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5540,22 +5138,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
-    return (pigeonVar_replyValue! as Map<Object?, Object?>)
-        .cast<int, NativeInteropAllNullableTypes>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<int, NativeInteropAllNullableTypes>();
   }
 
   Future<NativeInteropAnEnum> callFlutterEchoEnum(NativeInteropAnEnum anEnum) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoEnum(anEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5563,23 +5159,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAnEnum;
   }
 
-  Future<NativeInteropAnotherEnum> callFlutterEchoNativeInteropAnotherEnum(
-    NativeInteropAnotherEnum anotherEnum,
-  ) async {
+  Future<NativeInteropAnotherEnum> callFlutterEchoNativeInteropAnotherEnum(NativeInteropAnotherEnum anotherEnum) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNativeInteropAnotherEnum(anotherEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNativeInteropAnotherEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNativeInteropAnotherEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5587,12 +5180,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anotherEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAnotherEnum;
   }
 
@@ -5600,8 +5193,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableBool(aBool);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableBool$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableBool$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5609,12 +5201,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aBool]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as bool?;
   }
 
@@ -5622,8 +5214,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableInt(anInt);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableInt$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableInt$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5631,12 +5222,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anInt]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as int?;
   }
 
@@ -5644,8 +5235,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableDouble(aDouble);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableDouble$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableDouble$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5653,12 +5243,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aDouble]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as double?;
   }
 
@@ -5666,8 +5256,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableString(aString);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableString$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableString$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5675,12 +5264,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aString]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as String?;
   }
 
@@ -5688,8 +5277,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableUint8List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableUint8List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableUint8List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5697,12 +5285,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Uint8List?;
   }
 
@@ -5710,8 +5298,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableInt32List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableInt32List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableInt32List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5719,12 +5306,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Int32List?;
   }
 
@@ -5732,8 +5319,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableInt64List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableInt64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableInt64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5741,12 +5327,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Int64List?;
   }
 
@@ -5754,8 +5340,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableFloat64List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableFloat64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableFloat64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5763,12 +5348,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Float64List?;
   }
 
@@ -5776,8 +5361,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableList(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5785,23 +5369,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as List<Object?>?;
   }
 
-  Future<List<NativeInteropAnEnum?>?> callFlutterEchoNullableEnumList(
-    List<NativeInteropAnEnum?>? enumList,
-  ) async {
+  Future<List<NativeInteropAnEnum?>?> callFlutterEchoNullableEnumList(List<NativeInteropAnEnum?>? enumList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableEnumList(enumList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableEnumList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableEnumList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5809,23 +5390,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as List<Object?>?)?.cast<NativeInteropAnEnum?>();
   }
 
-  Future<List<NativeInteropAllNullableTypes?>?> callFlutterEchoNullableClassList(
-    List<NativeInteropAllNullableTypes?>? classList,
-  ) async {
+  Future<List<NativeInteropAllNullableTypes?>?> callFlutterEchoNullableClassList(List<NativeInteropAllNullableTypes?>? classList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableClassList(classList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableClassList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableClassList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5833,23 +5411,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as List<Object?>?)?.cast<NativeInteropAllNullableTypes?>();
   }
 
-  Future<List<NativeInteropAnEnum>?> callFlutterEchoNullableNonNullEnumList(
-    List<NativeInteropAnEnum>? enumList,
-  ) async {
+  Future<List<NativeInteropAnEnum>?> callFlutterEchoNullableNonNullEnumList(List<NativeInteropAnEnum>? enumList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableNonNullEnumList(enumList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableNonNullEnumList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableNonNullEnumList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5857,23 +5432,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as List<Object?>?)?.cast<NativeInteropAnEnum>();
   }
 
-  Future<List<NativeInteropAllNullableTypes>?> callFlutterEchoNullableNonNullClassList(
-    List<NativeInteropAllNullableTypes>? classList,
-  ) async {
+  Future<List<NativeInteropAllNullableTypes>?> callFlutterEchoNullableNonNullClassList(List<NativeInteropAllNullableTypes>? classList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableNonNullClassList(classList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableNonNullClassList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableNonNullClassList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5881,12 +5453,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as List<Object?>?)?.cast<NativeInteropAllNullableTypes>();
   }
 
@@ -5894,8 +5466,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableMap(map);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5903,23 +5474,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[map]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Map<Object?, Object?>?;
   }
 
-  Future<Map<String?, String?>?> callFlutterEchoNullableStringMap(
-    Map<String?, String?>? stringMap,
-  ) async {
+  Future<Map<String?, String?>?> callFlutterEchoNullableStringMap(Map<String?, String?>? stringMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableStringMap(stringMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableStringMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableStringMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5927,12 +5495,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[stringMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<String?, String?>();
   }
 
@@ -5940,8 +5508,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableIntMap(intMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableIntMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableIntMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5949,23 +5516,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[intMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<int?, int?>();
   }
 
-  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?> callFlutterEchoNullableEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap,
-  ) async {
+  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?> callFlutterEchoNullableEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableEnumMap(enumMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableEnumMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableEnumMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5973,24 +5537,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
-    return (pigeonVar_replyValue as Map<Object?, Object?>?)
-        ?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+    return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
   }
 
-  Future<Map<int?, NativeInteropAllNullableTypes?>?> callFlutterEchoNullableClassMap(
-    Map<int?, NativeInteropAllNullableTypes?>? classMap,
-  ) async {
+  Future<Map<int?, NativeInteropAllNullableTypes?>?> callFlutterEchoNullableClassMap(Map<int?, NativeInteropAllNullableTypes?>? classMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableClassMap(classMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableClassMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableClassMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -5998,24 +5558,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
-    return (pigeonVar_replyValue as Map<Object?, Object?>?)
-        ?.cast<int?, NativeInteropAllNullableTypes?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+    return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<int?, NativeInteropAllNullableTypes?>();
   }
 
-  Future<Map<String, String>?> callFlutterEchoNullableNonNullStringMap(
-    Map<String, String>? stringMap,
-  ) async {
+  Future<Map<String, String>?> callFlutterEchoNullableNonNullStringMap(Map<String, String>? stringMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableNonNullStringMap(stringMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableNonNullStringMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableNonNullStringMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6023,12 +5579,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[stringMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<String, String>();
   }
 
@@ -6036,8 +5592,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableNonNullIntMap(intMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableNonNullIntMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableNonNullIntMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6045,23 +5600,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[intMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<int, int>();
   }
 
-  Future<Map<NativeInteropAnEnum, NativeInteropAnEnum>?> callFlutterEchoNullableNonNullEnumMap(
-    Map<NativeInteropAnEnum, NativeInteropAnEnum>? enumMap,
-  ) async {
+  Future<Map<NativeInteropAnEnum, NativeInteropAnEnum>?> callFlutterEchoNullableNonNullEnumMap(Map<NativeInteropAnEnum, NativeInteropAnEnum>? enumMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableNonNullEnumMap(enumMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableNonNullEnumMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableNonNullEnumMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6069,24 +5621,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
-    return (pigeonVar_replyValue as Map<Object?, Object?>?)
-        ?.cast<NativeInteropAnEnum, NativeInteropAnEnum>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+    return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<NativeInteropAnEnum, NativeInteropAnEnum>();
   }
 
-  Future<Map<int, NativeInteropAllNullableTypes>?> callFlutterEchoNullableNonNullClassMap(
-    Map<int, NativeInteropAllNullableTypes>? classMap,
-  ) async {
+  Future<Map<int, NativeInteropAllNullableTypes>?> callFlutterEchoNullableNonNullClassMap(Map<int, NativeInteropAllNullableTypes>? classMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableNonNullClassMap(classMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableNonNullClassMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableNonNullClassMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6094,22 +5642,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
-    return (pigeonVar_replyValue as Map<Object?, Object?>?)
-        ?.cast<int, NativeInteropAllNullableTypes>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+    return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<int, NativeInteropAllNullableTypes>();
   }
 
   Future<NativeInteropAnEnum?> callFlutterEchoNullableEnum(NativeInteropAnEnum? anEnum) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoNullableEnum(anEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoNullableEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6117,23 +5663,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAnEnum?;
   }
 
-  Future<NativeInteropAnotherEnum?> callFlutterEchoAnotherNullableEnum(
-    NativeInteropAnotherEnum? anotherEnum,
-  ) async {
+  Future<NativeInteropAnotherEnum?> callFlutterEchoAnotherNullableEnum(NativeInteropAnotherEnum? anotherEnum) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAnotherNullableEnum(anotherEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAnotherNullableEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAnotherNullableEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6141,12 +5684,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anotherEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAnotherEnum?;
   }
 
@@ -6154,8 +5697,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterNoopAsync();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterNoopAsync$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterNoopAsync$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6163,18 +5705,19 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
-    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+    _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
   }
 
-  Future<NativeInteropAllTypes> callFlutterEchoAsyncNativeInteropAllTypes(
-    NativeInteropAllTypes everything,
-  ) async {
+  Future<NativeInteropAllTypes> callFlutterEchoAsyncNativeInteropAllTypes(NativeInteropAllTypes everything) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNativeInteropAllTypes(everything);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNativeInteropAllTypes$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNativeInteropAllTypes$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6182,25 +5725,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[everything]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAllTypes;
   }
 
-  Future<NativeInteropAllNullableTypes?> callFlutterEchoAsyncNullableNativeInteropAllNullableTypes(
-    NativeInteropAllNullableTypes? everything,
-  ) async {
+  Future<NativeInteropAllNullableTypes?> callFlutterEchoAsyncNullableNativeInteropAllNullableTypes(NativeInteropAllNullableTypes? everything) async {
     if (_nativeInteropApi != null) {
-      return _nativeInteropApi.callFlutterEchoAsyncNullableNativeInteropAllNullableTypes(
-        everything,
-      );
+      return _nativeInteropApi.callFlutterEchoAsyncNullableNativeInteropAllNullableTypes(everything);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableNativeInteropAllNullableTypes$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableNativeInteropAllNullableTypes$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6208,25 +5746,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[everything]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAllNullableTypes?;
   }
 
-  Future<NativeInteropAllNullableTypesWithoutRecursion?>
-  callFlutterEchoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(
-    NativeInteropAllNullableTypesWithoutRecursion? everything,
-  ) async {
+  Future<NativeInteropAllNullableTypesWithoutRecursion?> callFlutterEchoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(NativeInteropAllNullableTypesWithoutRecursion? everything) async {
     if (_nativeInteropApi != null) {
-      return _nativeInteropApi
-          .callFlutterEchoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(everything);
+      return _nativeInteropApi.callFlutterEchoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(everything);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6234,12 +5767,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[everything]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAllNullableTypesWithoutRecursion?;
   }
 
@@ -6247,8 +5780,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncBool(aBool);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncBool$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncBool$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6256,12 +5788,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aBool]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as bool;
   }
 
@@ -6269,8 +5801,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncInt(anInt);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncInt$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncInt$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6278,12 +5809,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anInt]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as int;
   }
 
@@ -6291,8 +5822,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncDouble(aDouble);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncDouble$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncDouble$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6300,12 +5830,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aDouble]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as double;
   }
 
@@ -6313,8 +5843,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncString(aString);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncString$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncString$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6322,12 +5851,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aString]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as String;
   }
 
@@ -6335,8 +5864,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncUint8List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncUint8List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncUint8List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6344,12 +5872,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Uint8List;
   }
 
@@ -6357,8 +5885,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncInt32List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncInt32List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncInt32List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6366,12 +5893,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Int32List;
   }
 
@@ -6379,8 +5906,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncInt64List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncInt64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncInt64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6388,12 +5914,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Int64List;
   }
 
@@ -6401,8 +5927,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncFloat64List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncFloat64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncFloat64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6410,12 +5935,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Float64List;
   }
 
@@ -6423,8 +5948,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncObject(anObject);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncObject$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncObject$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6432,12 +5956,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anObject]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue!;
   }
 
@@ -6445,8 +5969,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncList(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6454,23 +5977,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as List<Object?>;
   }
 
-  Future<List<NativeInteropAnEnum?>> callFlutterEchoAsyncEnumList(
-    List<NativeInteropAnEnum?> enumList,
-  ) async {
+  Future<List<NativeInteropAnEnum?>> callFlutterEchoAsyncEnumList(List<NativeInteropAnEnum?> enumList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncEnumList(enumList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncEnumList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncEnumList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6478,23 +5998,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropAnEnum?>();
   }
 
-  Future<List<NativeInteropAllNullableTypes?>> callFlutterEchoAsyncClassList(
-    List<NativeInteropAllNullableTypes?> classList,
-  ) async {
+  Future<List<NativeInteropAllNullableTypes?>> callFlutterEchoAsyncClassList(List<NativeInteropAllNullableTypes?> classList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncClassList(classList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncClassList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncClassList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6502,23 +6019,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropAllNullableTypes?>();
   }
 
-  Future<List<NativeInteropAnEnum>> callFlutterEchoAsyncNonNullEnumList(
-    List<NativeInteropAnEnum> enumList,
-  ) async {
+  Future<List<NativeInteropAnEnum>> callFlutterEchoAsyncNonNullEnumList(List<NativeInteropAnEnum> enumList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNonNullEnumList(enumList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNonNullEnumList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNonNullEnumList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6526,23 +6040,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropAnEnum>();
   }
 
-  Future<List<NativeInteropAllNullableTypes>> callFlutterEchoAsyncNonNullClassList(
-    List<NativeInteropAllNullableTypes> classList,
-  ) async {
+  Future<List<NativeInteropAllNullableTypes>> callFlutterEchoAsyncNonNullClassList(List<NativeInteropAllNullableTypes> classList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNonNullClassList(classList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNonNullClassList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNonNullClassList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6550,12 +6061,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropAllNullableTypes>();
   }
 
@@ -6563,8 +6074,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncMap(map);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6572,23 +6082,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[map]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as Map<Object?, Object?>;
   }
 
-  Future<Map<String?, String?>> callFlutterEchoAsyncStringMap(
-    Map<String?, String?> stringMap,
-  ) async {
+  Future<Map<String?, String?>> callFlutterEchoAsyncStringMap(Map<String?, String?> stringMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncStringMap(stringMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncStringMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncStringMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6596,12 +6103,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[stringMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<String?, String?>();
   }
 
@@ -6609,8 +6116,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncIntMap(intMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncIntMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncIntMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6618,23 +6124,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[intMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<int?, int?>();
   }
 
-  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>> callFlutterEchoAsyncEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap,
-  ) async {
+  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>> callFlutterEchoAsyncEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncEnumMap(enumMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncEnumMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncEnumMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6642,24 +6145,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
-    return (pigeonVar_replyValue! as Map<Object?, Object?>)
-        .cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
   }
 
-  Future<Map<int?, NativeInteropAllNullableTypes?>> callFlutterEchoAsyncClassMap(
-    Map<int?, NativeInteropAllNullableTypes?> classMap,
-  ) async {
+  Future<Map<int?, NativeInteropAllNullableTypes?>> callFlutterEchoAsyncClassMap(Map<int?, NativeInteropAllNullableTypes?> classMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncClassMap(classMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncClassMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncClassMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6667,22 +6166,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
-    return (pigeonVar_replyValue! as Map<Object?, Object?>)
-        .cast<int?, NativeInteropAllNullableTypes?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<int?, NativeInteropAllNullableTypes?>();
   }
 
   Future<NativeInteropAnEnum> callFlutterEchoAsyncEnum(NativeInteropAnEnum anEnum) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncEnum(anEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6690,23 +6187,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAnEnum;
   }
 
-  Future<NativeInteropAnotherEnum> callFlutterEchoAnotherAsyncEnum(
-    NativeInteropAnotherEnum anotherEnum,
-  ) async {
+  Future<NativeInteropAnotherEnum> callFlutterEchoAnotherAsyncEnum(NativeInteropAnotherEnum anotherEnum) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAnotherAsyncEnum(anotherEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAnotherAsyncEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAnotherAsyncEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6714,12 +6208,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anotherEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropAnotherEnum;
   }
 
@@ -6727,8 +6221,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableBool(aBool);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableBool$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableBool$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6736,12 +6229,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aBool]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as bool?;
   }
 
@@ -6749,8 +6242,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableInt(anInt);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableInt$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableInt$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6758,12 +6250,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anInt]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as int?;
   }
 
@@ -6771,8 +6263,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableDouble(aDouble);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableDouble$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableDouble$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6780,12 +6271,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aDouble]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as double?;
   }
 
@@ -6793,8 +6284,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableString(aString);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableString$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableString$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6802,12 +6292,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[aString]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as String?;
   }
 
@@ -6815,8 +6305,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableUint8List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableUint8List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableUint8List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6824,12 +6313,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Uint8List?;
   }
 
@@ -6837,8 +6326,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableInt32List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableInt32List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableInt32List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6846,12 +6334,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Int32List?;
   }
 
@@ -6859,8 +6347,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableInt64List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableInt64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableInt64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6868,12 +6355,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Int64List?;
   }
 
@@ -6881,8 +6368,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableFloat64List(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableFloat64List$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableFloat64List$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6890,12 +6376,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Float64List?;
   }
 
@@ -6903,8 +6389,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterThrowFlutterErrorAsync();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterThrowFlutterErrorAsync$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterThrowFlutterErrorAsync$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6912,12 +6397,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue;
   }
 
@@ -6925,8 +6410,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableObject(anObject);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableObject$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableObject$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6934,12 +6418,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anObject]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue;
   }
 
@@ -6947,8 +6431,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableList(list);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6956,23 +6439,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[list]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as List<Object?>?;
   }
 
-  Future<List<NativeInteropAnEnum?>?> callFlutterEchoAsyncNullableEnumList(
-    List<NativeInteropAnEnum?>? enumList,
-  ) async {
+  Future<List<NativeInteropAnEnum?>?> callFlutterEchoAsyncNullableEnumList(List<NativeInteropAnEnum?>? enumList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableEnumList(enumList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableEnumList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableEnumList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -6980,23 +6460,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as List<Object?>?)?.cast<NativeInteropAnEnum?>();
   }
 
-  Future<List<NativeInteropAllNullableTypes?>?> callFlutterEchoAsyncNullableClassList(
-    List<NativeInteropAllNullableTypes?>? classList,
-  ) async {
+  Future<List<NativeInteropAllNullableTypes?>?> callFlutterEchoAsyncNullableClassList(List<NativeInteropAllNullableTypes?>? classList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableClassList(classList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableClassList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableClassList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7004,23 +6481,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as List<Object?>?)?.cast<NativeInteropAllNullableTypes?>();
   }
 
-  Future<List<NativeInteropAnEnum>?> callFlutterEchoAsyncNullableNonNullEnumList(
-    List<NativeInteropAnEnum>? enumList,
-  ) async {
+  Future<List<NativeInteropAnEnum>?> callFlutterEchoAsyncNullableNonNullEnumList(List<NativeInteropAnEnum>? enumList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableNonNullEnumList(enumList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableNonNullEnumList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableNonNullEnumList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7028,23 +6502,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as List<Object?>?)?.cast<NativeInteropAnEnum>();
   }
 
-  Future<List<NativeInteropAllNullableTypes>?> callFlutterEchoAsyncNullableNonNullClassList(
-    List<NativeInteropAllNullableTypes>? classList,
-  ) async {
+  Future<List<NativeInteropAllNullableTypes>?> callFlutterEchoAsyncNullableNonNullClassList(List<NativeInteropAllNullableTypes>? classList) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableNonNullClassList(classList);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableNonNullClassList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableNonNullClassList$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7052,12 +6523,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classList]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as List<Object?>?)?.cast<NativeInteropAllNullableTypes>();
   }
 
@@ -7065,8 +6536,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableMap(map);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7074,23 +6544,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[map]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as Map<Object?, Object?>?;
   }
 
-  Future<Map<String?, String?>?> callFlutterEchoAsyncNullableStringMap(
-    Map<String?, String?>? stringMap,
-  ) async {
+  Future<Map<String?, String?>?> callFlutterEchoAsyncNullableStringMap(Map<String?, String?>? stringMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableStringMap(stringMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableStringMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableStringMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7098,12 +6565,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[stringMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<String?, String?>();
   }
 
@@ -7111,8 +6578,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableIntMap(intMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableIntMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableIntMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7120,23 +6586,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[intMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<int?, int?>();
   }
 
-  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?> callFlutterEchoAsyncNullableEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap,
-  ) async {
+  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?> callFlutterEchoAsyncNullableEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableEnumMap(enumMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableEnumMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableEnumMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7144,24 +6607,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[enumMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
-    return (pigeonVar_replyValue as Map<Object?, Object?>?)
-        ?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+    return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
   }
 
-  Future<Map<int?, NativeInteropAllNullableTypes?>?> callFlutterEchoAsyncNullableClassMap(
-    Map<int?, NativeInteropAllNullableTypes?>? classMap,
-  ) async {
+  Future<Map<int?, NativeInteropAllNullableTypes?>?> callFlutterEchoAsyncNullableClassMap(Map<int?, NativeInteropAllNullableTypes?>? classMap) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableClassMap(classMap);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableClassMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableClassMap$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7169,22 +6628,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[classMap]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
-    return (pigeonVar_replyValue as Map<Object?, Object?>?)
-        ?.cast<int?, NativeInteropAllNullableTypes?>();
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+    return (pigeonVar_replyValue as Map<Object?, Object?>?)?.cast<int?, NativeInteropAllNullableTypes?>();
   }
 
   Future<NativeInteropAnEnum?> callFlutterEchoAsyncNullableEnum(NativeInteropAnEnum? anEnum) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAsyncNullableEnum(anEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAsyncNullableEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7192,23 +6649,20 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAnEnum?;
   }
 
-  Future<NativeInteropAnotherEnum?> callFlutterEchoAnotherAsyncNullableEnum(
-    NativeInteropAnotherEnum? anotherEnum,
-  ) async {
+  Future<NativeInteropAnotherEnum?> callFlutterEchoAnotherAsyncNullableEnum(NativeInteropAnotherEnum? anotherEnum) async {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterEchoAnotherAsyncNullableEnum(anotherEnum);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAnotherAsyncNullableEnum$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterEchoAnotherAsyncNullableEnum$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7216,12 +6670,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[anotherEnum]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as NativeInteropAnotherEnum?;
   }
 
@@ -7230,8 +6684,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.isMainThread();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.isMainThread$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.isMainThread$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7239,12 +6692,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as bool;
   }
 
@@ -7253,8 +6706,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.asyncIsBackgroundThread();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.asyncIsBackgroundThread$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.asyncIsBackgroundThread$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7262,12 +6714,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as bool;
   }
 
@@ -7277,8 +6729,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.isGetter();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.isGetter$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.isGetter$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7286,12 +6737,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as bool;
   }
 
@@ -7301,8 +6752,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.getGetter();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.getGetter$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.getGetter$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7310,12 +6760,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as int;
   }
 
@@ -7325,8 +6775,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.setSetter(value);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.setSetter$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.setSetter$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7334,8 +6783,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[value]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
-    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+    _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
   }
 
   /// Spawns a background thread and calls `noop` on the [NativeInteropFlutterIntegrationCoreApi].
@@ -7345,8 +6798,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterNoopOnBackgroundThread();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterNoopOnBackgroundThread$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.callFlutterNoopOnBackgroundThread$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7354,12 +6806,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as bool;
   }
 
@@ -7368,8 +6820,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.testDeregisterHostApi();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.testDeregisterHostApi$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.testDeregisterHostApi$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7377,12 +6828,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as bool;
   }
 
@@ -7391,8 +6842,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.testDeregisterFlutterApi();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.testDeregisterFlutterApi$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.testDeregisterFlutterApi$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7400,12 +6850,12 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as bool;
   }
 
@@ -7414,8 +6864,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.registerAndImmediatelyDeregisterHostApi(name);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.registerAndImmediatelyDeregisterHostApi$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.registerAndImmediatelyDeregisterHostApi$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7423,8 +6872,54 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[name]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+  }
 
-    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+  /// Registers a separate Host API instance under [name] for detached-handle testing.
+  Future<void> registerNamedHostApi(String name) async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.registerNamedHostApi(name);
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.registerNamedHostApi$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[name]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+  }
+
+  /// Deregisters the Host API instance previously registered by [registerNamedHostApi] under [name].
+  Future<void> deregisterNamedHostApi(String name) async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.deregisterNamedHostApi(name);
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.deregisterNamedHostApi$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[name]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
   }
 
   /// Tests that calling a deregistered Flutter API under [name] fails / returns null.
@@ -7432,8 +6927,7 @@ class NativeInteropHostIntegrationCoreApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.testCallDeregisteredFlutterApi(name);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.testCallDeregisteredFlutterApi$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.testCallDeregisteredFlutterApi$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -7441,12 +6935,172 @@ class NativeInteropHostIntegrationCoreApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[name]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return pigeonVar_replyValue! as bool;
+  }
+
+  /// Spawns secondary engines, destroys one out-of-order, executes a live Dart
+  /// entrypoint on another (where supported by the embedder), and tears it down
+  /// while keeping the primary engine registration intact.
+  Future<bool> testSecondaryEngineDartExecution() async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.testSecondaryEngineDartExecution();
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.testSecondaryEngineDartExecution$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
-      isNullValid: false,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
     );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return pigeonVar_replyValue! as bool;
+  }
+
+  /// Returns whether the secondary engine's Host API registration is ready for
+  /// the secondary Dart isolate to invoke.
+  Future<bool> isSecondaryEngineRegistrationReady() async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.isSecondaryEngineRegistrationReady();
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.isSecondaryEngineRegistrationReady$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return pigeonVar_replyValue! as bool;
+  }
+
+  /// Reports whether Native Interop Host API calls from a secondary engine's
+  /// Dart isolate succeeded.
+  Future<void> reportSecondaryEngineCheck(bool success) async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.reportSecondaryEngineCheck(success);
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.reportSecondaryEngineCheck$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[success]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+  }
+
+  /// Signals that the concurrent background isolate resolved a fresh handle
+  /// while the secondary engine was registered.
+  Future<void> notifyConcurrentIsolateResolved() async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.notifyConcurrentIsolateResolved();
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.notifyConcurrentIsolateResolved$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+  }
+
+  /// Returns the engine key that native code stored for this plugin's
+  /// default Host API registration.
+  Future<int> registeredEngineKey() async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.registeredEngineKey();
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.registeredEngineKey$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return pigeonVar_replyValue! as int;
+  }
+
+  /// Returns a label unique to the Host API instance that handled the call, so
+  /// tests can check which engine's registration a handle resolved to.
+  Future<String> engineLabel() async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.engineLabel();
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.engineLabel$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return pigeonVar_replyValue! as String;
+  }
+
+  /// Returns whether this platform's plugin binding / registrar exposes an
+  /// engine identifier, so registrations should use exact engine keys.
+  Future<bool> pluginEngineIdentifierIsAvailable() async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.pluginEngineIdentifierIsAvailable();
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropHostIntegrationCoreApi.pluginEngineIdentifierIsAvailable$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as bool;
   }
 }
@@ -7461,17 +7115,57 @@ NativeInteropFlutterIntegrationCoreApi pigeon_register_NativeInteropFlutterInteg
   );
 }
 
-/// Registers [NativeInteropFlutterIntegrationCoreApi] implementations with the host platform via Native Interop.
+@internal
+void pigeon_unregister_NativeInteropFlutterIntegrationCoreApi(
+  NativeInteropFlutterIntegrationCoreApi api, {
+  String? name,
+}) {
+  throw UnsupportedError(
+    'Native Interop is not supported on this platform. Use NativeInteropFlutterIntegrationCoreApi.setUp instead.',
+  );
+}
+
+@internal
+void pigeon_set_up_NativeInteropFlutterIntegrationCoreApi(
+  NativeInteropFlutterIntegrationCoreApi? api, {
+  String? name,
+}) {
+  throw UnsupportedError(
+    'Native Interop is not supported on this platform. Use NativeInteropFlutterIntegrationCoreApi.setUp instead.',
+  );
+}
+
+/// Registers [NativeInteropFlutterIntegrationCoreApi] implementations for Native Interop callers.
 final class NativeInteropFlutterIntegrationCoreApiRegistrar {
   const NativeInteropFlutterIntegrationCoreApiRegistrar._();
 
-  /// Registers [api] with the host platform under [name], or as the default
-  /// instance when [name] is null.
+  /// Registers [api] under [name] (or the default instance when [name] is
+  /// null) and returns [api].
+  ///
+  /// The registration is tied to this isolate's engine, so native code looking
+  /// up the instance for that engine receives [api]. Unlike [NativeInteropFlutterIntegrationCoreApi.setUp],
+  /// this does not replace earlier registrations from this isolate.
   static NativeInteropFlutterIntegrationCoreApi register(
     NativeInteropFlutterIntegrationCoreApi api, {
     String? name,
-  }) => pigeon_native.pigeon_register_NativeInteropFlutterIntegrationCoreApi(api, name: name);
+  }) => pigeon_native.pigeon_register_NativeInteropFlutterIntegrationCoreApi(
+    api,
+    name: name,
+  );
+
+  /// Removes [api], registered from this isolate under [name] (or the default
+  /// instance when [name] is null), leaving other registrations in place.
+  ///
+  /// Instances are matched by identity. Does nothing if [api] is not registered.
+  static void unregister(
+    NativeInteropFlutterIntegrationCoreApi api, {
+    String? name,
+  }) => pigeon_native.pigeon_unregister_NativeInteropFlutterIntegrationCoreApi(
+    api,
+    name: name,
+  );
 }
+
 
 /// The core interface that the Dart platform_test code implements for host
 /// integration tests to call into.
@@ -7495,9 +7189,7 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
   NativeInteropAllTypes echoNativeInteropAllTypes(NativeInteropAllTypes everything);
 
   /// Returns the passed object, to test serialization and deserialization.
-  NativeInteropAllNullableTypes? echoNativeInteropAllNullableTypes(
-    NativeInteropAllNullableTypes? everything,
-  );
+  NativeInteropAllNullableTypes? echoNativeInteropAllNullableTypes(NativeInteropAllNullableTypes? everything);
 
   /// Returns the passed sealed class, to test sealed class handling.
   NativeInteropSealedClass echoNativeInteropSealedClass(NativeInteropSealedClass sealedClass);
@@ -7505,25 +7197,15 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
   /// Returns passed in arguments of multiple types.
   ///
   /// Tests multiple-arity FlutterApi handling.
-  NativeInteropAllNullableTypes sendMultipleNullableTypes(
-    bool? aNullableBool,
-    int? aNullableInt,
-    String? aNullableString,
-  );
+  NativeInteropAllNullableTypes sendMultipleNullableTypes(bool? aNullableBool, int? aNullableInt, String? aNullableString);
 
   /// Returns the passed object, to test serialization and deserialization.
-  NativeInteropAllNullableTypesWithoutRecursion? echoNativeInteropAllNullableTypesWithoutRecursion(
-    NativeInteropAllNullableTypesWithoutRecursion? everything,
-  );
+  NativeInteropAllNullableTypesWithoutRecursion? echoNativeInteropAllNullableTypesWithoutRecursion(NativeInteropAllNullableTypesWithoutRecursion? everything);
 
   /// Returns passed in arguments of multiple types.
   ///
   /// Tests multiple-arity FlutterApi handling.
-  NativeInteropAllNullableTypesWithoutRecursion sendMultipleNullableTypesWithoutRecursion(
-    bool? aNullableBool,
-    int? aNullableInt,
-    String? aNullableString,
-  );
+  NativeInteropAllNullableTypesWithoutRecursion sendMultipleNullableTypesWithoutRecursion(bool? aNullableBool, int? aNullableInt, String? aNullableString);
 
   /// Returns the passed boolean, to test serialization and deserialization.
   bool echoBool(bool aBool);
@@ -7556,17 +7238,13 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
   List<NativeInteropAnEnum?> echoEnumList(List<NativeInteropAnEnum?> enumList);
 
   /// Returns the passed list, to test serialization and deserialization.
-  List<NativeInteropAllNullableTypes?> echoClassList(
-    List<NativeInteropAllNullableTypes?> classList,
-  );
+  List<NativeInteropAllNullableTypes?> echoClassList(List<NativeInteropAllNullableTypes?> classList);
 
   /// Returns the passed list, to test serialization and deserialization.
   List<NativeInteropAnEnum> echoNonNullEnumList(List<NativeInteropAnEnum> enumList);
 
   /// Returns the passed list, to test serialization and deserialization.
-  List<NativeInteropAllNullableTypes> echoNonNullClassList(
-    List<NativeInteropAllNullableTypes> classList,
-  );
+  List<NativeInteropAllNullableTypes> echoNonNullClassList(List<NativeInteropAllNullableTypes> classList);
 
   /// Returns the passed map, to test serialization and deserialization.
   Map<Object?, Object?> echoMap(Map<Object?, Object?> map);
@@ -7578,14 +7256,10 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
   Map<int?, int?> echoIntMap(Map<int?, int?> intMap);
 
   /// Returns the passed map, to test serialization and deserialization.
-  Map<NativeInteropAnEnum?, NativeInteropAnEnum?> echoEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap,
-  );
+  Map<NativeInteropAnEnum?, NativeInteropAnEnum?> echoEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap);
 
   /// Returns the passed map, to test serialization and deserialization.
-  Map<int?, NativeInteropAllNullableTypes?> echoClassMap(
-    Map<int?, NativeInteropAllNullableTypes?> classMap,
-  );
+  Map<int?, NativeInteropAllNullableTypes?> echoClassMap(Map<int?, NativeInteropAllNullableTypes?> classMap);
 
   /// Returns the passed map, to test serialization and deserialization.
   Map<String, String> echoNonNullStringMap(Map<String, String> stringMap);
@@ -7594,14 +7268,10 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
   Map<int, int> echoNonNullIntMap(Map<int, int> intMap);
 
   /// Returns the passed map, to test serialization and deserialization.
-  Map<NativeInteropAnEnum, NativeInteropAnEnum> echoNonNullEnumMap(
-    Map<NativeInteropAnEnum, NativeInteropAnEnum> enumMap,
-  );
+  Map<NativeInteropAnEnum, NativeInteropAnEnum> echoNonNullEnumMap(Map<NativeInteropAnEnum, NativeInteropAnEnum> enumMap);
 
   /// Returns the passed map, to test serialization and deserialization.
-  Map<int, NativeInteropAllNullableTypes> echoNonNullClassMap(
-    Map<int, NativeInteropAllNullableTypes> classMap,
-  );
+  Map<int, NativeInteropAllNullableTypes> echoNonNullClassMap(Map<int, NativeInteropAllNullableTypes> classMap);
 
   /// Returns the passed enum to test serialization and deserialization.
   NativeInteropAnEnum echoEnum(NativeInteropAnEnum anEnum);
@@ -7640,17 +7310,13 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
   List<NativeInteropAnEnum?>? echoNullableEnumList(List<NativeInteropAnEnum?>? enumList);
 
   /// Returns the passed list, to test serialization and deserialization.
-  List<NativeInteropAllNullableTypes?>? echoNullableClassList(
-    List<NativeInteropAllNullableTypes?>? classList,
-  );
+  List<NativeInteropAllNullableTypes?>? echoNullableClassList(List<NativeInteropAllNullableTypes?>? classList);
 
   /// Returns the passed list, to test serialization and deserialization.
   List<NativeInteropAnEnum>? echoNullableNonNullEnumList(List<NativeInteropAnEnum>? enumList);
 
   /// Returns the passed list, to test serialization and deserialization.
-  List<NativeInteropAllNullableTypes>? echoNullableNonNullClassList(
-    List<NativeInteropAllNullableTypes>? classList,
-  );
+  List<NativeInteropAllNullableTypes>? echoNullableNonNullClassList(List<NativeInteropAllNullableTypes>? classList);
 
   /// Returns the passed map, to test serialization and deserialization.
   Map<Object?, Object?>? echoNullableMap(Map<Object?, Object?>? map);
@@ -7662,14 +7328,10 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
   Map<int?, int?>? echoNullableIntMap(Map<int?, int?>? intMap);
 
   /// Returns the passed map, to test serialization and deserialization.
-  Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? echoNullableEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap,
-  );
+  Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? echoNullableEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap);
 
   /// Returns the passed map, to test serialization and deserialization.
-  Map<int?, NativeInteropAllNullableTypes?>? echoNullableClassMap(
-    Map<int?, NativeInteropAllNullableTypes?>? classMap,
-  );
+  Map<int?, NativeInteropAllNullableTypes?>? echoNullableClassMap(Map<int?, NativeInteropAllNullableTypes?>? classMap);
 
   /// Returns the passed map, to test serialization and deserialization.
   Map<String, String>? echoNullableNonNullStringMap(Map<String, String>? stringMap);
@@ -7678,14 +7340,10 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
   Map<int, int>? echoNullableNonNullIntMap(Map<int, int>? intMap);
 
   /// Returns the passed map, to test serialization and deserialization.
-  Map<NativeInteropAnEnum, NativeInteropAnEnum>? echoNullableNonNullEnumMap(
-    Map<NativeInteropAnEnum, NativeInteropAnEnum>? enumMap,
-  );
+  Map<NativeInteropAnEnum, NativeInteropAnEnum>? echoNullableNonNullEnumMap(Map<NativeInteropAnEnum, NativeInteropAnEnum>? enumMap);
 
   /// Returns the passed map, to test serialization and deserialization.
-  Map<int, NativeInteropAllNullableTypes>? echoNullableNonNullClassMap(
-    Map<int, NativeInteropAllNullableTypes>? classMap,
-  );
+  Map<int, NativeInteropAllNullableTypes>? echoNullableNonNullClassMap(Map<int, NativeInteropAllNullableTypes>? classMap);
 
   /// Returns the passed enum to test serialization and deserialization.
   NativeInteropAnEnum? echoNullableEnum(NativeInteropAnEnum? anEnum);
@@ -7701,14 +7359,9 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
 
   Future<NativeInteropAllTypes> echoAsyncNativeInteropAllTypes(NativeInteropAllTypes everything);
 
-  Future<NativeInteropAllNullableTypes?> echoAsyncNullableNativeInteropAllNullableTypes(
-    NativeInteropAllNullableTypes? everything,
-  );
+  Future<NativeInteropAllNullableTypes?> echoAsyncNullableNativeInteropAllNullableTypes(NativeInteropAllNullableTypes? everything);
 
-  Future<NativeInteropAllNullableTypesWithoutRecursion?>
-  echoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(
-    NativeInteropAllNullableTypesWithoutRecursion? everything,
-  );
+  Future<NativeInteropAllNullableTypesWithoutRecursion?> echoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(NativeInteropAllNullableTypesWithoutRecursion? everything);
 
   Future<bool> echoAsyncBool(bool aBool);
 
@@ -7732,15 +7385,11 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
 
   Future<List<NativeInteropAnEnum?>> echoAsyncEnumList(List<NativeInteropAnEnum?> enumList);
 
-  Future<List<NativeInteropAllNullableTypes?>> echoAsyncClassList(
-    List<NativeInteropAllNullableTypes?> classList,
-  );
+  Future<List<NativeInteropAllNullableTypes?>> echoAsyncClassList(List<NativeInteropAllNullableTypes?> classList);
 
   Future<List<NativeInteropAnEnum>> echoAsyncNonNullEnumList(List<NativeInteropAnEnum> enumList);
 
-  Future<List<NativeInteropAllNullableTypes>> echoAsyncNonNullClassList(
-    List<NativeInteropAllNullableTypes> classList,
-  );
+  Future<List<NativeInteropAllNullableTypes>> echoAsyncNonNullClassList(List<NativeInteropAllNullableTypes> classList);
 
   Future<Map<Object?, Object?>> echoAsyncMap(Map<Object?, Object?> map);
 
@@ -7748,13 +7397,9 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
 
   Future<Map<int?, int?>> echoAsyncIntMap(Map<int?, int?> intMap);
 
-  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>> echoAsyncEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap,
-  );
+  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>> echoAsyncEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?> enumMap);
 
-  Future<Map<int?, NativeInteropAllNullableTypes?>> echoAsyncClassMap(
-    Map<int?, NativeInteropAllNullableTypes?> classMap,
-  );
+  Future<Map<int?, NativeInteropAllNullableTypes?>> echoAsyncClassMap(Map<int?, NativeInteropAllNullableTypes?> classMap);
 
   Future<NativeInteropAnEnum> echoAsyncEnum(NativeInteropAnEnum anEnum);
 
@@ -7780,21 +7425,13 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
 
   Future<List<Object?>?> echoAsyncNullableList(List<Object?>? list);
 
-  Future<List<NativeInteropAnEnum?>?> echoAsyncNullableEnumList(
-    List<NativeInteropAnEnum?>? enumList,
-  );
+  Future<List<NativeInteropAnEnum?>?> echoAsyncNullableEnumList(List<NativeInteropAnEnum?>? enumList);
 
-  Future<List<NativeInteropAllNullableTypes?>?> echoAsyncNullableClassList(
-    List<NativeInteropAllNullableTypes?>? classList,
-  );
+  Future<List<NativeInteropAllNullableTypes?>?> echoAsyncNullableClassList(List<NativeInteropAllNullableTypes?>? classList);
 
-  Future<List<NativeInteropAnEnum>?> echoAsyncNullableNonNullEnumList(
-    List<NativeInteropAnEnum>? enumList,
-  );
+  Future<List<NativeInteropAnEnum>?> echoAsyncNullableNonNullEnumList(List<NativeInteropAnEnum>? enumList);
 
-  Future<List<NativeInteropAllNullableTypes>?> echoAsyncNullableNonNullClassList(
-    List<NativeInteropAllNullableTypes>? classList,
-  );
+  Future<List<NativeInteropAllNullableTypes>?> echoAsyncNullableNonNullClassList(List<NativeInteropAllNullableTypes>? classList);
 
   Future<Map<Object?, Object?>?> echoAsyncNullableMap(Map<Object?, Object?>? map);
 
@@ -7802,39 +7439,30 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
 
   Future<Map<int?, int?>?> echoAsyncNullableIntMap(Map<int?, int?>? intMap);
 
-  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?> echoAsyncNullableEnumMap(
-    Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap,
-  );
+  Future<Map<NativeInteropAnEnum?, NativeInteropAnEnum?>?> echoAsyncNullableEnumMap(Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? enumMap);
 
-  Future<Map<int?, NativeInteropAllNullableTypes?>?> echoAsyncNullableClassMap(
-    Map<int?, NativeInteropAllNullableTypes?>? classMap,
-  );
+  Future<Map<int?, NativeInteropAllNullableTypes?>?> echoAsyncNullableClassMap(Map<int?, NativeInteropAllNullableTypes?>? classMap);
 
   Future<NativeInteropAnEnum?> echoAsyncNullableEnum(NativeInteropAnEnum? anEnum);
 
-  Future<NativeInteropAnotherEnum?> echoAnotherAsyncNullableEnum(
-    NativeInteropAnotherEnum? anotherEnum,
-  );
+  Future<NativeInteropAnotherEnum?> echoAnotherAsyncNullableEnum(NativeInteropAnotherEnum? anotherEnum);
 
-  static void setUp(
-    NativeInteropFlutterIntegrationCoreApi? api, {
+  static void setUp(NativeInteropFlutterIntegrationCoreApi? api, {
     BinaryMessenger? binaryMessenger,
     String messageChannelSuffix = '',
-  }) {
-    if (!kIsWeb && api != null) {
-      NativeInteropFlutterIntegrationCoreApiRegistrar.register(
+  }) 
+{
+    if (!kIsWeb) {
+      pigeon_native.pigeon_set_up_NativeInteropFlutterIntegrationCoreApi(
         api,
         name: messageChannelSuffix.isEmpty ? null : messageChannelSuffix,
       );
     }
-
     messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.noop$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.noop$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -7844,20 +7472,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.throwFlutterError$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.throwFlutterError$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -7867,20 +7491,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.throwError$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.throwError$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -7890,20 +7510,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.throwErrorFromVoid$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.throwErrorFromVoid$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -7913,20 +7529,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNativeInteropAllTypes$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNativeInteropAllTypes$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -7938,48 +7550,37 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNativeInteropAllNullableTypes$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNativeInteropAllNullableTypes$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final NativeInteropAllNullableTypes? arg_everything =
-              args[0] as NativeInteropAllNullableTypes?;
+          final NativeInteropAllNullableTypes? arg_everything = args[0] as NativeInteropAllNullableTypes?;
           try {
-            final NativeInteropAllNullableTypes? output = api.echoNativeInteropAllNullableTypes(
-              arg_everything,
-            );
+            final NativeInteropAllNullableTypes? output = api.echoNativeInteropAllNullableTypes(arg_everything);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNativeInteropSealedClass$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNativeInteropSealedClass$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -7987,26 +7588,20 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
           final List<Object?> args = message! as List<Object?>;
           final NativeInteropSealedClass arg_sealedClass = args[0]! as NativeInteropSealedClass;
           try {
-            final NativeInteropSealedClass output = api.echoNativeInteropSealedClass(
-              arg_sealedClass,
-            );
+            final NativeInteropSealedClass output = api.echoNativeInteropSealedClass(arg_sealedClass);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.sendMultipleNullableTypes$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.sendMultipleNullableTypes$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8016,55 +7611,41 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
           final int? arg_aNullableInt = args[1] as int?;
           final String? arg_aNullableString = args[2] as String?;
           try {
-            final NativeInteropAllNullableTypes output = api.sendMultipleNullableTypes(
-              arg_aNullableBool,
-              arg_aNullableInt,
-              arg_aNullableString,
-            );
+            final NativeInteropAllNullableTypes output = api.sendMultipleNullableTypes(arg_aNullableBool, arg_aNullableInt, arg_aNullableString);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNativeInteropAllNullableTypesWithoutRecursion$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNativeInteropAllNullableTypesWithoutRecursion$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final NativeInteropAllNullableTypesWithoutRecursion? arg_everything =
-              args[0] as NativeInteropAllNullableTypesWithoutRecursion?;
+          final NativeInteropAllNullableTypesWithoutRecursion? arg_everything = args[0] as NativeInteropAllNullableTypesWithoutRecursion?;
           try {
-            final NativeInteropAllNullableTypesWithoutRecursion? output = api
-                .echoNativeInteropAllNullableTypesWithoutRecursion(arg_everything);
+            final NativeInteropAllNullableTypesWithoutRecursion? output = api.echoNativeInteropAllNullableTypesWithoutRecursion(arg_everything);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.sendMultipleNullableTypesWithoutRecursion$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.sendMultipleNullableTypesWithoutRecursion$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8074,29 +7655,20 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
           final int? arg_aNullableInt = args[1] as int?;
           final String? arg_aNullableString = args[2] as String?;
           try {
-            final NativeInteropAllNullableTypesWithoutRecursion output = api
-                .sendMultipleNullableTypesWithoutRecursion(
-                  arg_aNullableBool,
-                  arg_aNullableInt,
-                  arg_aNullableString,
-                );
+            final NativeInteropAllNullableTypesWithoutRecursion output = api.sendMultipleNullableTypesWithoutRecursion(arg_aNullableBool, arg_aNullableInt, arg_aNullableString);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoBool$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoBool$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8108,20 +7680,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoInt$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoInt$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8133,20 +7701,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoDouble$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoDouble$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8158,20 +7722,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoString$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoString$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8183,20 +7743,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoUint8List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoUint8List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8208,20 +7764,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoInt32List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoInt32List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8233,20 +7785,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoInt64List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoInt64List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8258,20 +7806,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoFloat64List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoFloat64List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8283,20 +7827,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8308,126 +7848,100 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoEnumList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoEnumList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAnEnum?> arg_enumList = (args[0]! as List<Object?>)
-              .cast<NativeInteropAnEnum?>();
+          final List<NativeInteropAnEnum?> arg_enumList = (args[0]! as List<Object?>).cast<NativeInteropAnEnum?>();
           try {
             final List<NativeInteropAnEnum?> output = api.echoEnumList(arg_enumList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoClassList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoClassList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAllNullableTypes?> arg_classList = (args[0]! as List<Object?>)
-              .cast<NativeInteropAllNullableTypes?>();
+          final List<NativeInteropAllNullableTypes?> arg_classList = (args[0]! as List<Object?>).cast<NativeInteropAllNullableTypes?>();
           try {
             final List<NativeInteropAllNullableTypes?> output = api.echoClassList(arg_classList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNonNullEnumList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNonNullEnumList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAnEnum> arg_enumList = (args[0]! as List<Object?>)
-              .cast<NativeInteropAnEnum>();
+          final List<NativeInteropAnEnum> arg_enumList = (args[0]! as List<Object?>).cast<NativeInteropAnEnum>();
           try {
             final List<NativeInteropAnEnum> output = api.echoNonNullEnumList(arg_enumList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNonNullClassList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNonNullClassList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAllNullableTypes> arg_classList = (args[0]! as List<Object?>)
-              .cast<NativeInteropAllNullableTypes>();
+          final List<NativeInteropAllNullableTypes> arg_classList = (args[0]! as List<Object?>).cast<NativeInteropAllNullableTypes>();
           try {
-            final List<NativeInteropAllNullableTypes> output = api.echoNonNullClassList(
-              arg_classList,
-            );
+            final List<NativeInteropAllNullableTypes> output = api.echoNonNullClassList(arg_classList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8439,46 +7953,37 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoStringMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoStringMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<String?, String?> arg_stringMap = (args[0]! as Map<Object?, Object?>)
-              .cast<String?, String?>();
+          final Map<String?, String?> arg_stringMap = (args[0]! as Map<Object?, Object?>).cast<String?, String?>();
           try {
             final Map<String?, String?> output = api.echoStringMap(arg_stringMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoIntMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoIntMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8490,101 +7995,79 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoEnumMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoEnumMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<NativeInteropAnEnum?, NativeInteropAnEnum?> arg_enumMap =
-              (args[0]! as Map<Object?, Object?>)
-                  .cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
+          final Map<NativeInteropAnEnum?, NativeInteropAnEnum?> arg_enumMap = (args[0]! as Map<Object?, Object?>).cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
           try {
-            final Map<NativeInteropAnEnum?, NativeInteropAnEnum?> output = api.echoEnumMap(
-              arg_enumMap,
-            );
+            final Map<NativeInteropAnEnum?, NativeInteropAnEnum?> output = api.echoEnumMap(arg_enumMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoClassMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoClassMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<int?, NativeInteropAllNullableTypes?> arg_classMap =
-              (args[0]! as Map<Object?, Object?>).cast<int?, NativeInteropAllNullableTypes?>();
+          final Map<int?, NativeInteropAllNullableTypes?> arg_classMap = (args[0]! as Map<Object?, Object?>).cast<int?, NativeInteropAllNullableTypes?>();
           try {
             final Map<int?, NativeInteropAllNullableTypes?> output = api.echoClassMap(arg_classMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNonNullStringMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNonNullStringMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<String, String> arg_stringMap = (args[0]! as Map<Object?, Object?>)
-              .cast<String, String>();
+          final Map<String, String> arg_stringMap = (args[0]! as Map<Object?, Object?>).cast<String, String>();
           try {
             final Map<String, String> output = api.echoNonNullStringMap(arg_stringMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNonNullIntMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNonNullIntMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8596,76 +8079,58 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNonNullEnumMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNonNullEnumMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<NativeInteropAnEnum, NativeInteropAnEnum> arg_enumMap =
-              (args[0]! as Map<Object?, Object?>).cast<NativeInteropAnEnum, NativeInteropAnEnum>();
+          final Map<NativeInteropAnEnum, NativeInteropAnEnum> arg_enumMap = (args[0]! as Map<Object?, Object?>).cast<NativeInteropAnEnum, NativeInteropAnEnum>();
           try {
-            final Map<NativeInteropAnEnum, NativeInteropAnEnum> output = api.echoNonNullEnumMap(
-              arg_enumMap,
-            );
+            final Map<NativeInteropAnEnum, NativeInteropAnEnum> output = api.echoNonNullEnumMap(arg_enumMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNonNullClassMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNonNullClassMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<int, NativeInteropAllNullableTypes> arg_classMap =
-              (args[0]! as Map<Object?, Object?>).cast<int, NativeInteropAllNullableTypes>();
+          final Map<int, NativeInteropAllNullableTypes> arg_classMap = (args[0]! as Map<Object?, Object?>).cast<int, NativeInteropAllNullableTypes>();
           try {
-            final Map<int, NativeInteropAllNullableTypes> output = api.echoNonNullClassMap(
-              arg_classMap,
-            );
+            final Map<int, NativeInteropAllNullableTypes> output = api.echoNonNullClassMap(arg_classMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoEnum$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoEnum$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8677,20 +8142,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNativeInteropAnotherEnum$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNativeInteropAnotherEnum$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8698,26 +8159,20 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
           final List<Object?> args = message! as List<Object?>;
           final NativeInteropAnotherEnum arg_anotherEnum = args[0]! as NativeInteropAnotherEnum;
           try {
-            final NativeInteropAnotherEnum output = api.echoNativeInteropAnotherEnum(
-              arg_anotherEnum,
-            );
+            final NativeInteropAnotherEnum output = api.echoNativeInteropAnotherEnum(arg_anotherEnum);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableBool$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableBool$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8729,20 +8184,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableInt$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableInt$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8754,20 +8205,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableDouble$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableDouble$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8779,20 +8226,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableString$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableString$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8804,20 +8247,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableUint8List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableUint8List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8829,20 +8268,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableInt32List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableInt32List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8854,20 +8289,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableInt64List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableInt64List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8879,20 +8310,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableFloat64List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableFloat64List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8904,20 +8331,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -8929,128 +8352,100 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableEnumList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableEnumList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAnEnum?>? arg_enumList = (args[0] as List<Object?>?)
-              ?.cast<NativeInteropAnEnum?>();
+          final List<NativeInteropAnEnum?>? arg_enumList = (args[0] as List<Object?>?)?.cast<NativeInteropAnEnum?>();
           try {
             final List<NativeInteropAnEnum?>? output = api.echoNullableEnumList(arg_enumList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableClassList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableClassList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAllNullableTypes?>? arg_classList = (args[0] as List<Object?>?)
-              ?.cast<NativeInteropAllNullableTypes?>();
+          final List<NativeInteropAllNullableTypes?>? arg_classList = (args[0] as List<Object?>?)?.cast<NativeInteropAllNullableTypes?>();
           try {
-            final List<NativeInteropAllNullableTypes?>? output = api.echoNullableClassList(
-              arg_classList,
-            );
+            final List<NativeInteropAllNullableTypes?>? output = api.echoNullableClassList(arg_classList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableNonNullEnumList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableNonNullEnumList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAnEnum>? arg_enumList = (args[0] as List<Object?>?)
-              ?.cast<NativeInteropAnEnum>();
+          final List<NativeInteropAnEnum>? arg_enumList = (args[0] as List<Object?>?)?.cast<NativeInteropAnEnum>();
           try {
             final List<NativeInteropAnEnum>? output = api.echoNullableNonNullEnumList(arg_enumList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableNonNullClassList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableNonNullClassList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAllNullableTypes>? arg_classList = (args[0] as List<Object?>?)
-              ?.cast<NativeInteropAllNullableTypes>();
+          final List<NativeInteropAllNullableTypes>? arg_classList = (args[0] as List<Object?>?)?.cast<NativeInteropAllNullableTypes>();
           try {
-            final List<NativeInteropAllNullableTypes>? output = api.echoNullableNonNullClassList(
-              arg_classList,
-            );
+            final List<NativeInteropAllNullableTypes>? output = api.echoNullableNonNullClassList(arg_classList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9062,155 +8457,121 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableStringMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableStringMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<String?, String?>? arg_stringMap = (args[0] as Map<Object?, Object?>?)
-              ?.cast<String?, String?>();
+          final Map<String?, String?>? arg_stringMap = (args[0] as Map<Object?, Object?>?)?.cast<String?, String?>();
           try {
             final Map<String?, String?>? output = api.echoNullableStringMap(arg_stringMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableIntMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableIntMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<int?, int?>? arg_intMap = (args[0] as Map<Object?, Object?>?)
-              ?.cast<int?, int?>();
+          final Map<int?, int?>? arg_intMap = (args[0] as Map<Object?, Object?>?)?.cast<int?, int?>();
           try {
             final Map<int?, int?>? output = api.echoNullableIntMap(arg_intMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableEnumMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableEnumMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? arg_enumMap =
-              (args[0] as Map<Object?, Object?>?)
-                  ?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
+          final Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? arg_enumMap = (args[0] as Map<Object?, Object?>?)?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
           try {
-            final Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? output = api.echoNullableEnumMap(
-              arg_enumMap,
-            );
+            final Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? output = api.echoNullableEnumMap(arg_enumMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableClassMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableClassMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<int?, NativeInteropAllNullableTypes?>? arg_classMap =
-              (args[0] as Map<Object?, Object?>?)?.cast<int?, NativeInteropAllNullableTypes?>();
+          final Map<int?, NativeInteropAllNullableTypes?>? arg_classMap = (args[0] as Map<Object?, Object?>?)?.cast<int?, NativeInteropAllNullableTypes?>();
           try {
-            final Map<int?, NativeInteropAllNullableTypes?>? output = api.echoNullableClassMap(
-              arg_classMap,
-            );
+            final Map<int?, NativeInteropAllNullableTypes?>? output = api.echoNullableClassMap(arg_classMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableNonNullStringMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableNonNullStringMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<String, String>? arg_stringMap = (args[0] as Map<Object?, Object?>?)
-              ?.cast<String, String>();
+          final Map<String, String>? arg_stringMap = (args[0] as Map<Object?, Object?>?)?.cast<String, String>();
           try {
             final Map<String, String>? output = api.echoNullableNonNullStringMap(arg_stringMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableNonNullIntMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableNonNullIntMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9222,75 +8583,58 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableNonNullEnumMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableNonNullEnumMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<NativeInteropAnEnum, NativeInteropAnEnum>? arg_enumMap =
-              (args[0] as Map<Object?, Object?>?)?.cast<NativeInteropAnEnum, NativeInteropAnEnum>();
+          final Map<NativeInteropAnEnum, NativeInteropAnEnum>? arg_enumMap = (args[0] as Map<Object?, Object?>?)?.cast<NativeInteropAnEnum, NativeInteropAnEnum>();
           try {
-            final Map<NativeInteropAnEnum, NativeInteropAnEnum>? output = api
-                .echoNullableNonNullEnumMap(arg_enumMap);
+            final Map<NativeInteropAnEnum, NativeInteropAnEnum>? output = api.echoNullableNonNullEnumMap(arg_enumMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableNonNullClassMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableNonNullClassMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<int, NativeInteropAllNullableTypes>? arg_classMap =
-              (args[0] as Map<Object?, Object?>?)?.cast<int, NativeInteropAllNullableTypes>();
+          final Map<int, NativeInteropAllNullableTypes>? arg_classMap = (args[0] as Map<Object?, Object?>?)?.cast<int, NativeInteropAllNullableTypes>();
           try {
-            final Map<int, NativeInteropAllNullableTypes>? output = api.echoNullableNonNullClassMap(
-              arg_classMap,
-            );
+            final Map<int, NativeInteropAllNullableTypes>? output = api.echoNullableNonNullClassMap(arg_classMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableEnum$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoNullableEnum$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9302,20 +8646,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAnotherNullableEnum$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAnotherNullableEnum$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9327,20 +8667,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.noopAsync$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.noopAsync$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9350,20 +8686,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(empty: true);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.throwFlutterErrorAsync$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.throwFlutterErrorAsync$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9373,20 +8705,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNativeInteropAllTypes$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNativeInteropAllTypes$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9394,80 +8722,62 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
           final List<Object?> args = message! as List<Object?>;
           final NativeInteropAllTypes arg_everything = args[0]! as NativeInteropAllTypes;
           try {
-            final NativeInteropAllTypes output = await api.echoAsyncNativeInteropAllTypes(
-              arg_everything,
-            );
+            final NativeInteropAllTypes output = await api.echoAsyncNativeInteropAllTypes(arg_everything);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableNativeInteropAllNullableTypes$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableNativeInteropAllNullableTypes$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final NativeInteropAllNullableTypes? arg_everything =
-              args[0] as NativeInteropAllNullableTypes?;
+          final NativeInteropAllNullableTypes? arg_everything = args[0] as NativeInteropAllNullableTypes?;
           try {
-            final NativeInteropAllNullableTypes? output = await api
-                .echoAsyncNullableNativeInteropAllNullableTypes(arg_everything);
+            final NativeInteropAllNullableTypes? output = await api.echoAsyncNullableNativeInteropAllNullableTypes(arg_everything);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final NativeInteropAllNullableTypesWithoutRecursion? arg_everything =
-              args[0] as NativeInteropAllNullableTypesWithoutRecursion?;
+          final NativeInteropAllNullableTypesWithoutRecursion? arg_everything = args[0] as NativeInteropAllNullableTypesWithoutRecursion?;
           try {
-            final NativeInteropAllNullableTypesWithoutRecursion? output = await api
-                .echoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(arg_everything);
+            final NativeInteropAllNullableTypesWithoutRecursion? output = await api.echoAsyncNullableNativeInteropAllNullableTypesWithoutRecursion(arg_everything);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncBool$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncBool$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9479,20 +8789,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncInt$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncInt$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9504,20 +8810,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncDouble$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncDouble$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9529,20 +8831,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncString$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncString$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9554,20 +8852,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncUint8List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncUint8List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9579,20 +8873,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncInt32List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncInt32List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9604,20 +8894,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncInt64List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncInt64List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9629,20 +8915,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncFloat64List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncFloat64List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9654,20 +8936,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncObject$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncObject$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9679,20 +8957,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9704,130 +8978,100 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncEnumList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncEnumList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAnEnum?> arg_enumList = (args[0]! as List<Object?>)
-              .cast<NativeInteropAnEnum?>();
+          final List<NativeInteropAnEnum?> arg_enumList = (args[0]! as List<Object?>).cast<NativeInteropAnEnum?>();
           try {
             final List<NativeInteropAnEnum?> output = await api.echoAsyncEnumList(arg_enumList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncClassList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncClassList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAllNullableTypes?> arg_classList = (args[0]! as List<Object?>)
-              .cast<NativeInteropAllNullableTypes?>();
+          final List<NativeInteropAllNullableTypes?> arg_classList = (args[0]! as List<Object?>).cast<NativeInteropAllNullableTypes?>();
           try {
-            final List<NativeInteropAllNullableTypes?> output = await api.echoAsyncClassList(
-              arg_classList,
-            );
+            final List<NativeInteropAllNullableTypes?> output = await api.echoAsyncClassList(arg_classList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNonNullEnumList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNonNullEnumList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAnEnum> arg_enumList = (args[0]! as List<Object?>)
-              .cast<NativeInteropAnEnum>();
+          final List<NativeInteropAnEnum> arg_enumList = (args[0]! as List<Object?>).cast<NativeInteropAnEnum>();
           try {
-            final List<NativeInteropAnEnum> output = await api.echoAsyncNonNullEnumList(
-              arg_enumList,
-            );
+            final List<NativeInteropAnEnum> output = await api.echoAsyncNonNullEnumList(arg_enumList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNonNullClassList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNonNullClassList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAllNullableTypes> arg_classList = (args[0]! as List<Object?>)
-              .cast<NativeInteropAllNullableTypes>();
+          final List<NativeInteropAllNullableTypes> arg_classList = (args[0]! as List<Object?>).cast<NativeInteropAllNullableTypes>();
           try {
-            final List<NativeInteropAllNullableTypes> output = await api.echoAsyncNonNullClassList(
-              arg_classList,
-            );
+            final List<NativeInteropAllNullableTypes> output = await api.echoAsyncNonNullClassList(arg_classList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9839,46 +9083,37 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncStringMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncStringMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<String?, String?> arg_stringMap = (args[0]! as Map<Object?, Object?>)
-              .cast<String?, String?>();
+          final Map<String?, String?> arg_stringMap = (args[0]! as Map<Object?, Object?>).cast<String?, String?>();
           try {
             final Map<String?, String?> output = await api.echoAsyncStringMap(arg_stringMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncIntMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncIntMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9890,76 +9125,58 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncEnumMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncEnumMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<NativeInteropAnEnum?, NativeInteropAnEnum?> arg_enumMap =
-              (args[0]! as Map<Object?, Object?>)
-                  .cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
+          final Map<NativeInteropAnEnum?, NativeInteropAnEnum?> arg_enumMap = (args[0]! as Map<Object?, Object?>).cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
           try {
-            final Map<NativeInteropAnEnum?, NativeInteropAnEnum?> output = await api
-                .echoAsyncEnumMap(arg_enumMap);
+            final Map<NativeInteropAnEnum?, NativeInteropAnEnum?> output = await api.echoAsyncEnumMap(arg_enumMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncClassMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncClassMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<int?, NativeInteropAllNullableTypes?> arg_classMap =
-              (args[0]! as Map<Object?, Object?>).cast<int?, NativeInteropAllNullableTypes?>();
+          final Map<int?, NativeInteropAllNullableTypes?> arg_classMap = (args[0]! as Map<Object?, Object?>).cast<int?, NativeInteropAllNullableTypes?>();
           try {
-            final Map<int?, NativeInteropAllNullableTypes?> output = await api.echoAsyncClassMap(
-              arg_classMap,
-            );
+            final Map<int?, NativeInteropAllNullableTypes?> output = await api.echoAsyncClassMap(arg_classMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncEnum$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncEnum$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9971,20 +9188,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAnotherAsyncEnum$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAnotherAsyncEnum$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -9996,20 +9209,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableBool$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableBool$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -10021,20 +9230,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableInt$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableInt$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -10046,20 +9251,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableDouble$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableDouble$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -10071,20 +9272,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableString$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableString$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -10096,20 +9293,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableUint8List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableUint8List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -10121,20 +9314,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableInt32List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableInt32List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -10146,20 +9335,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableInt64List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableInt64List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -10171,20 +9356,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableFloat64List$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableFloat64List$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -10196,20 +9377,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableObject$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableObject$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -10221,20 +9398,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -10246,130 +9419,100 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableEnumList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableEnumList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAnEnum?>? arg_enumList = (args[0] as List<Object?>?)
-              ?.cast<NativeInteropAnEnum?>();
+          final List<NativeInteropAnEnum?>? arg_enumList = (args[0] as List<Object?>?)?.cast<NativeInteropAnEnum?>();
           try {
-            final List<NativeInteropAnEnum?>? output = await api.echoAsyncNullableEnumList(
-              arg_enumList,
-            );
+            final List<NativeInteropAnEnum?>? output = await api.echoAsyncNullableEnumList(arg_enumList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableClassList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableClassList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAllNullableTypes?>? arg_classList = (args[0] as List<Object?>?)
-              ?.cast<NativeInteropAllNullableTypes?>();
+          final List<NativeInteropAllNullableTypes?>? arg_classList = (args[0] as List<Object?>?)?.cast<NativeInteropAllNullableTypes?>();
           try {
-            final List<NativeInteropAllNullableTypes?>? output = await api
-                .echoAsyncNullableClassList(arg_classList);
+            final List<NativeInteropAllNullableTypes?>? output = await api.echoAsyncNullableClassList(arg_classList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableNonNullEnumList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableNonNullEnumList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAnEnum>? arg_enumList = (args[0] as List<Object?>?)
-              ?.cast<NativeInteropAnEnum>();
+          final List<NativeInteropAnEnum>? arg_enumList = (args[0] as List<Object?>?)?.cast<NativeInteropAnEnum>();
           try {
-            final List<NativeInteropAnEnum>? output = await api.echoAsyncNullableNonNullEnumList(
-              arg_enumList,
-            );
+            final List<NativeInteropAnEnum>? output = await api.echoAsyncNullableNonNullEnumList(arg_enumList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableNonNullClassList$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableNonNullClassList$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final List<NativeInteropAllNullableTypes>? arg_classList = (args[0] as List<Object?>?)
-              ?.cast<NativeInteropAllNullableTypes>();
+          final List<NativeInteropAllNullableTypes>? arg_classList = (args[0] as List<Object?>?)?.cast<NativeInteropAllNullableTypes>();
           try {
-            final List<NativeInteropAllNullableTypes>? output = await api
-                .echoAsyncNullableNonNullClassList(arg_classList);
+            final List<NativeInteropAllNullableTypes>? output = await api.echoAsyncNullableNonNullClassList(arg_classList);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -10381,129 +9524,100 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableStringMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableStringMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<String?, String?>? arg_stringMap = (args[0] as Map<Object?, Object?>?)
-              ?.cast<String?, String?>();
+          final Map<String?, String?>? arg_stringMap = (args[0] as Map<Object?, Object?>?)?.cast<String?, String?>();
           try {
-            final Map<String?, String?>? output = await api.echoAsyncNullableStringMap(
-              arg_stringMap,
-            );
+            final Map<String?, String?>? output = await api.echoAsyncNullableStringMap(arg_stringMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableIntMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableIntMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<int?, int?>? arg_intMap = (args[0] as Map<Object?, Object?>?)
-              ?.cast<int?, int?>();
+          final Map<int?, int?>? arg_intMap = (args[0] as Map<Object?, Object?>?)?.cast<int?, int?>();
           try {
             final Map<int?, int?>? output = await api.echoAsyncNullableIntMap(arg_intMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableEnumMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableEnumMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? arg_enumMap =
-              (args[0] as Map<Object?, Object?>?)
-                  ?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
+          final Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? arg_enumMap = (args[0] as Map<Object?, Object?>?)?.cast<NativeInteropAnEnum?, NativeInteropAnEnum?>();
           try {
-            final Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? output = await api
-                .echoAsyncNullableEnumMap(arg_enumMap);
+            final Map<NativeInteropAnEnum?, NativeInteropAnEnum?>? output = await api.echoAsyncNullableEnumMap(arg_enumMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableClassMap$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableClassMap$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
         pigeonVar_channel.setMessageHandler((Object? message) async {
           final List<Object?> args = message! as List<Object?>;
-          final Map<int?, NativeInteropAllNullableTypes?>? arg_classMap =
-              (args[0] as Map<Object?, Object?>?)?.cast<int?, NativeInteropAllNullableTypes?>();
+          final Map<int?, NativeInteropAllNullableTypes?>? arg_classMap = (args[0] as Map<Object?, Object?>?)?.cast<int?, NativeInteropAllNullableTypes?>();
           try {
-            final Map<int?, NativeInteropAllNullableTypes?>? output = await api
-                .echoAsyncNullableClassMap(arg_classMap);
+            final Map<int?, NativeInteropAllNullableTypes?>? output = await api.echoAsyncNullableClassMap(arg_classMap);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableEnum$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAsyncNullableEnum$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -10515,20 +9629,16 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAnotherAsyncNullableEnum$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropFlutterIntegrationCoreApi.echoAnotherAsyncNullableEnum$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -10536,16 +9646,12 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
           final List<Object?> args = message! as List<Object?>;
           final NativeInteropAnotherEnum? arg_anotherEnum = args[0] as NativeInteropAnotherEnum?;
           try {
-            final NativeInteropAnotherEnum? output = await api.echoAnotherAsyncNullableEnum(
-              arg_anotherEnum,
-            );
+            final NativeInteropAnotherEnum? output = await api.echoAnotherAsyncNullableEnum(arg_anotherEnum);
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
@@ -10554,12 +9660,14 @@ abstract class NativeInteropFlutterIntegrationCoreApi {
 }
 
 @internal
-NativeInteropReservedNamesHostApiForNativeInterop?
-pigeon_getInstance_NativeInteropReservedNamesHostApi({String? name}) {
+NativeInteropReservedNamesHostApiForNativeInterop? pigeon_getInstance_NativeInteropReservedNamesHostApi({
+  String? name,
+}) {
   throw UnsupportedError(
     'Native Interop is not supported on this platform. Use NativeInteropReservedNamesHostApi instead.',
   );
 }
+
 
 abstract class NativeInteropReservedNamesHostApiForNativeInterop {
   /// Returns the instance of [NativeInteropReservedNamesHostApiForNativeInterop] registered with [name] (or the default instance when [name] is null), or null if none is registered.
@@ -10586,6 +9694,12 @@ abstract class NativeInteropReservedNamesHostApiForNativeInterop {
 
   Future<String> getValueAsync();
 
+  String register(String value);
+
+  String unregister(String value);
+
+  String getGetInstance();
+
   NativeInteropReservedNames echoReservedNames(NativeInteropReservedNames names);
 
   String callFlutterRelease(String value);
@@ -10597,6 +9711,10 @@ abstract class NativeInteropReservedNamesHostApiForNativeInterop {
   bool callFlutterIsNull();
 
   String callFlutterGetReference();
+
+  String callFlutterRegister(String value);
+
+  String callFlutterDartApi();
 }
 
 /// Methods whose names collide with members of the bindings that JNIgen
@@ -10606,14 +9724,14 @@ class NativeInteropReservedNamesHostApi {
   /// available for dependency injection. If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
   NativeInteropReservedNamesHostApi({
-    BinaryMessenger? binaryMessenger,
-    String messageChannelSuffix = '',
-    NativeInteropReservedNamesHostApiForNativeInterop? nativeInteropApi,
-  }) : pigeonVar_binaryMessenger = binaryMessenger,
-       pigeonVar_messageChannelSuffix = messageChannelSuffix.isNotEmpty
-           ? '.$messageChannelSuffix'
-           : '',
-       _nativeInteropApi = nativeInteropApi;
+      BinaryMessenger? binaryMessenger, 
+      String messageChannelSuffix = '', 
+      NativeInteropReservedNamesHostApiForNativeInterop? nativeInteropApi,
+  })
+      : pigeonVar_binaryMessenger = binaryMessenger,
+        pigeonVar_messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '',
+  _nativeInteropApi = nativeInteropApi;
+
 
   /// Creates an instance of [NativeInteropReservedNamesHostApi] that requests an instance of
   /// [NativeInteropReservedNamesHostApiForNativeInterop] from the host platform with a matching instance name
@@ -10631,8 +9749,8 @@ class NativeInteropReservedNamesHostApi {
     }
     final NativeInteropReservedNamesHostApiForNativeInterop? nativeInteropApi =
         NativeInteropReservedNamesHostApiForNativeInterop.getInstance(
-          name: messageChannelSuffix.isEmpty ? null : messageChannelSuffix,
-        );
+      name: messageChannelSuffix.isEmpty ? null : messageChannelSuffix,
+    );
     if (nativeInteropApi == null) {
       throw ArgumentError(
         'No NativeInteropReservedNamesHostApi instance with ${messageChannelSuffix.isEmpty ? 'no ' : ''}instance name ${messageChannelSuffix.isNotEmpty ? '"$messageChannelSuffix" ' : ''}found.',
@@ -10657,8 +9775,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.release(value);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.release$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.release$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -10666,12 +9783,12 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[value]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as String;
   }
 
@@ -10680,8 +9797,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.use(value);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.use$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.use$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -10689,12 +9805,12 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[value]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as int;
   }
 
@@ -10703,8 +9819,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.type();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.type$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.type$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -10712,12 +9827,12 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as String;
   }
 
@@ -10726,8 +9841,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.isNull();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.isNull$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.isNull$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -10735,12 +9849,12 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as bool;
   }
 
@@ -10749,8 +9863,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.isNullable();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.isNullable$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.isNullable$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -10758,12 +9871,12 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: true,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
     return pigeonVar_replyValue as bool?;
   }
 
@@ -10772,8 +9885,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.isOpen();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.isOpen$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.isOpen$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -10781,12 +9893,12 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as bool;
   }
 
@@ -10796,8 +9908,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.getReference();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.getReference$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.getReference$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -10805,12 +9916,12 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as String;
   }
 
@@ -10819,8 +9930,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.setReference(value);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.setReference$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.setReference$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -10828,8 +9938,12 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[value]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
-    _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
+    _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
   }
 
   /// JNIgen makes this a getter named after a Dart keyword, `default`.
@@ -10837,8 +9951,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.getDefault();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.getDefault$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.getDefault$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -10846,12 +9959,12 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as String;
   }
 
@@ -10860,8 +9973,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.getValueAsync();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.getValueAsync$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.getValueAsync$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -10869,12 +9981,79 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return pigeonVar_replyValue! as String;
+  }
+
+  /// Collides with `<Api>Registrar.register` in Kotlin bytecode.
+  Future<String> register(String value) async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.register(value);
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.register$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
-      isNullValid: false,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
     );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[value]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return pigeonVar_replyValue! as String;
+  }
+
+  /// Collides with `<Api>Registrar.unregister` in Kotlin bytecode.
+  Future<String> unregister(String value) async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.unregister(value);
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.unregister$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[value]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return pigeonVar_replyValue! as String;
+  }
+
+  /// JNIgen turns this into an instance getter `getInstance`, colliding with
+  /// `<Api>Registrar.getInstance`.
+  Future<String> getGetInstance() async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.getGetInstance();
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.getGetInstance$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as String;
   }
 
@@ -10883,8 +10062,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.echoReservedNames(names);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.echoReservedNames$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.echoReservedNames$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -10892,12 +10070,12 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[names]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as NativeInteropReservedNames;
   }
 
@@ -10906,8 +10084,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterRelease(value);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.callFlutterRelease$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.callFlutterRelease$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -10915,12 +10092,12 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[value]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as String;
   }
 
@@ -10929,8 +10106,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterType();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.callFlutterType$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.callFlutterType$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -10938,12 +10114,12 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as String;
   }
 
@@ -10952,8 +10128,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterImplementIn(value);
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.callFlutterImplementIn$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.callFlutterImplementIn$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -10961,12 +10136,12 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[value]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as String;
   }
 
@@ -10975,8 +10150,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterIsNull();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.callFlutterIsNull$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.callFlutterIsNull$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -10984,12 +10158,12 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
-      pigeonVar_channelName,
-      isNullValid: false,
-    );
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as bool;
   }
 
@@ -10998,8 +10172,7 @@ class NativeInteropReservedNamesHostApi {
     if (_nativeInteropApi != null) {
       return _nativeInteropApi.callFlutterGetReference();
     }
-    final pigeonVar_channelName =
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.callFlutterGetReference$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.callFlutterGetReference$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
       pigeonChannelCodec,
@@ -11007,12 +10180,56 @@ class NativeInteropReservedNamesHostApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
-      pigeonVar_replyList,
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return pigeonVar_replyValue! as String;
+  }
+
+  /// Returns the result of calling [NativeInteropReservedNamesFlutterApi.register].
+  Future<String> callFlutterRegister(String value) async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.callFlutterRegister(value);
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.callFlutterRegister$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
       pigeonVar_channelName,
-      isNullValid: false,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
     );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[value]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return pigeonVar_replyValue! as String;
+  }
+
+  /// Returns the result of calling [NativeInteropReservedNamesFlutterApi.dartApi].
+  Future<String> callFlutterDartApi() async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.callFlutterDartApi();
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesHostApi.callFlutterDartApi$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
     return pigeonVar_replyValue! as String;
   }
 }
@@ -11027,17 +10244,57 @@ NativeInteropReservedNamesFlutterApi pigeon_register_NativeInteropReservedNamesF
   );
 }
 
-/// Registers [NativeInteropReservedNamesFlutterApi] implementations with the host platform via Native Interop.
+@internal
+void pigeon_unregister_NativeInteropReservedNamesFlutterApi(
+  NativeInteropReservedNamesFlutterApi api, {
+  String? name,
+}) {
+  throw UnsupportedError(
+    'Native Interop is not supported on this platform. Use NativeInteropReservedNamesFlutterApi.setUp instead.',
+  );
+}
+
+@internal
+void pigeon_set_up_NativeInteropReservedNamesFlutterApi(
+  NativeInteropReservedNamesFlutterApi? api, {
+  String? name,
+}) {
+  throw UnsupportedError(
+    'Native Interop is not supported on this platform. Use NativeInteropReservedNamesFlutterApi.setUp instead.',
+  );
+}
+
+/// Registers [NativeInteropReservedNamesFlutterApi] implementations for Native Interop callers.
 final class NativeInteropReservedNamesFlutterApiRegistrar {
   const NativeInteropReservedNamesFlutterApiRegistrar._();
 
-  /// Registers [api] with the host platform under [name], or as the default
-  /// instance when [name] is null.
+  /// Registers [api] under [name] (or the default instance when [name] is
+  /// null) and returns [api].
+  ///
+  /// The registration is tied to this isolate's engine, so native code looking
+  /// up the instance for that engine receives [api]. Unlike [NativeInteropReservedNamesFlutterApi.setUp],
+  /// this does not replace earlier registrations from this isolate.
   static NativeInteropReservedNamesFlutterApi register(
     NativeInteropReservedNamesFlutterApi api, {
     String? name,
-  }) => pigeon_native.pigeon_register_NativeInteropReservedNamesFlutterApi(api, name: name);
+  }) => pigeon_native.pigeon_register_NativeInteropReservedNamesFlutterApi(
+    api,
+    name: name,
+  );
+
+  /// Removes [api], registered from this isolate under [name] (or the default
+  /// instance when [name] is null), leaving other registrations in place.
+  ///
+  /// Instances are matched by identity. Does nothing if [api] is not registered.
+  static void unregister(
+    NativeInteropReservedNamesFlutterApi api, {
+    String? name,
+  }) => pigeon_native.pigeon_unregister_NativeInteropReservedNamesFlutterApi(
+    api,
+    name: name,
+  );
 }
+
 
 /// The Flutter API counterpart of [NativeInteropReservedNamesHostApi].
 ///
@@ -11061,25 +10318,28 @@ abstract class NativeInteropReservedNamesFlutterApi {
   /// JNIgen doesn't turn interface methods into properties.
   String getReference();
 
-  static void setUp(
-    NativeInteropReservedNamesFlutterApi? api, {
+  /// Previously collided with internal Dart JNI registrar `register` member.
+  String register(String value);
+
+  /// Previously collided with internal Dart JNI registrar `dartApi` field.
+  String dartApi();
+
+  static void setUp(NativeInteropReservedNamesFlutterApi? api, {
     BinaryMessenger? binaryMessenger,
     String messageChannelSuffix = '',
-  }) {
-    if (!kIsWeb && api != null) {
-      NativeInteropReservedNamesFlutterApiRegistrar.register(
+  }) 
+{
+    if (!kIsWeb) {
+      pigeon_native.pigeon_set_up_NativeInteropReservedNamesFlutterApi(
         api,
         name: messageChannelSuffix.isEmpty ? null : messageChannelSuffix,
       );
     }
-
     messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesFlutterApi.release$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesFlutterApi.release$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -11091,20 +10351,16 @@ abstract class NativeInteropReservedNamesFlutterApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesFlutterApi.type$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesFlutterApi.type$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -11114,20 +10370,16 @@ abstract class NativeInteropReservedNamesFlutterApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesFlutterApi.implementIn$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesFlutterApi.implementIn$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -11139,20 +10391,16 @@ abstract class NativeInteropReservedNamesFlutterApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesFlutterApi.isNull$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesFlutterApi.isNull$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -11162,20 +10410,16 @@ abstract class NativeInteropReservedNamesFlutterApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }
     }
     {
       final pigeonVar_channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesFlutterApi.getReference$messageChannelSuffix',
-        pigeonChannelCodec,
-        binaryMessenger: binaryMessenger,
-      );
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesFlutterApi.getReference$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
       if (api == null) {
         pigeonVar_channel.setMessageHandler(null);
       } else {
@@ -11185,10 +10429,359 @@ abstract class NativeInteropReservedNamesFlutterApi {
             return wrapResponse(result: output);
           } on PlatformException catch (e) {
             return wrapResponse(error: e);
-          } catch (e) {
-            return wrapResponse(
-              error: PlatformException(code: 'error', message: e.toString()),
-            );
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          }
+        });
+      }
+    }
+    {
+      final pigeonVar_channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesFlutterApi.register$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          final List<Object?> args = message! as List<Object?>;
+          final String arg_value = args[0]! as String;
+          try {
+            final String output = api.register(arg_value);
+            return wrapResponse(result: output);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          }
+        });
+      }
+    }
+    {
+      final pigeonVar_channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropReservedNamesFlutterApi.dartApi$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          try {
+            final String output = api.dartApi();
+            return wrapResponse(result: output);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
+          }
+        });
+      }
+    }
+  }
+}
+
+@internal
+NativeInteropSealedClassHostApiForNativeInterop? pigeon_getInstance_NativeInteropSealedClassHostApi({
+  String? name,
+}) {
+  throw UnsupportedError(
+    'Native Interop is not supported on this platform. Use NativeInteropSealedClassHostApi instead.',
+  );
+}
+
+
+abstract class NativeInteropSealedClassHostApiForNativeInterop {
+  /// Returns the instance of [NativeInteropSealedClassHostApiForNativeInterop] registered with [name] (or the default instance when [name] is null), or null if none is registered.
+  static NativeInteropSealedClassHostApiForNativeInterop? getInstance({String? name}) =>
+      pigeon_native.pigeon_getInstance_NativeInteropSealedClassHostApi(name: name);
+
+  NativeInteropShape echoShape(NativeInteropShape shape);
+
+  NativeInteropShape? echoNullableShape(NativeInteropShape? shape);
+
+  List<NativeInteropShape> echoShapeList(List<NativeInteropShape> shapes);
+
+  Map<String, NativeInteropShape> echoShapeMap(Map<String, NativeInteropShape> shapes);
+
+  Future<NativeInteropShape> echoAsyncShape(NativeInteropShape shape);
+
+  NativeInteropShape callFlutterEchoShape(NativeInteropShape shape);
+}
+
+/// Echoes [NativeInteropShape] sealed class hierarchies.
+class NativeInteropSealedClassHostApi {
+  /// Constructor for [NativeInteropSealedClassHostApi]. The [binaryMessenger] named argument is
+  /// available for dependency injection. If it is left null, the default
+  /// BinaryMessenger will be used which routes to the host platform.
+  NativeInteropSealedClassHostApi({
+      BinaryMessenger? binaryMessenger, 
+      String messageChannelSuffix = '', 
+      NativeInteropSealedClassHostApiForNativeInterop? nativeInteropApi,
+  })
+      : pigeonVar_binaryMessenger = binaryMessenger,
+        pigeonVar_messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '',
+  _nativeInteropApi = nativeInteropApi;
+
+
+  /// Creates an instance of [NativeInteropSealedClassHostApi] that requests an instance of
+  /// [NativeInteropSealedClassHostApiForNativeInterop] from the host platform with a matching instance name
+  /// to [messageChannelSuffix] or the default instance.
+  ///
+  /// Throws [ArgumentError] if no matching instance can be found.
+  factory NativeInteropSealedClassHostApi.createWithNativeInteropApi({
+    BinaryMessenger? binaryMessenger,
+    String messageChannelSuffix = '',
+  }) {
+    if (kIsWeb) {
+      throw UnsupportedError(
+        'Native Interop is not supported on this platform. Use the default constructor of NativeInteropSealedClassHostApi instead.',
+      );
+    }
+    final NativeInteropSealedClassHostApiForNativeInterop? nativeInteropApi =
+        NativeInteropSealedClassHostApiForNativeInterop.getInstance(
+      name: messageChannelSuffix.isEmpty ? null : messageChannelSuffix,
+    );
+    if (nativeInteropApi == null) {
+      throw ArgumentError(
+        'No NativeInteropSealedClassHostApi instance with ${messageChannelSuffix.isEmpty ? 'no ' : ''}instance name ${messageChannelSuffix.isNotEmpty ? '"$messageChannelSuffix" ' : ''}found.',
+      );
+    }
+    return NativeInteropSealedClassHostApi(
+      binaryMessenger: binaryMessenger,
+      messageChannelSuffix: messageChannelSuffix,
+      nativeInteropApi: nativeInteropApi,
+    );
+  }
+
+  final BinaryMessenger? pigeonVar_binaryMessenger;
+  static const MessageCodec<Object?> pigeonChannelCodec = _PigeonCodec();
+
+  final String pigeonVar_messageChannelSuffix;
+
+  final NativeInteropSealedClassHostApiForNativeInterop? _nativeInteropApi;
+
+  Future<NativeInteropShape> echoShape(NativeInteropShape shape) async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.echoShape(shape);
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropSealedClassHostApi.echoShape$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[shape]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return pigeonVar_replyValue! as NativeInteropShape;
+  }
+
+  Future<NativeInteropShape?> echoNullableShape(NativeInteropShape? shape) async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.echoNullableShape(shape);
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropSealedClassHostApi.echoNullableShape$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[shape]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: true,
+    )
+    ;
+    return pigeonVar_replyValue as NativeInteropShape?;
+  }
+
+  Future<List<NativeInteropShape>> echoShapeList(List<NativeInteropShape> shapes) async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.echoShapeList(shapes);
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropSealedClassHostApi.echoShapeList$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[shapes]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return (pigeonVar_replyValue! as List<Object?>).cast<NativeInteropShape>();
+  }
+
+  Future<Map<String, NativeInteropShape>> echoShapeMap(Map<String, NativeInteropShape> shapes) async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.echoShapeMap(shapes);
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropSealedClassHostApi.echoShapeMap$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[shapes]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return (pigeonVar_replyValue! as Map<Object?, Object?>).cast<String, NativeInteropShape>();
+  }
+
+  Future<NativeInteropShape> echoAsyncShape(NativeInteropShape shape) async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.echoAsyncShape(shape);
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropSealedClassHostApi.echoAsyncShape$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[shape]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return pigeonVar_replyValue! as NativeInteropShape;
+  }
+
+  Future<NativeInteropShape> callFlutterEchoShape(NativeInteropShape shape) async {
+    if (_nativeInteropApi != null) {
+      return _nativeInteropApi.callFlutterEchoShape(shape);
+    }
+    final pigeonVar_channelName = 'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropSealedClassHostApi.callFlutterEchoShape$pigeonVar_messageChannelSuffix';
+    final pigeonVar_channel = BasicMessageChannel<Object?>(
+      pigeonVar_channelName,
+      pigeonChannelCodec,
+      binaryMessenger: pigeonVar_binaryMessenger,
+    );
+    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(<Object?>[shape]);
+    final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
+    final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
+        pigeonVar_replyList,
+        pigeonVar_channelName,
+        isNullValid: false,
+    )
+    ;
+    return pigeonVar_replyValue! as NativeInteropShape;
+  }
+}
+
+@internal
+NativeInteropSealedClassFlutterApi pigeon_register_NativeInteropSealedClassFlutterApi(
+  NativeInteropSealedClassFlutterApi api, {
+  String? name,
+}) {
+  throw UnsupportedError(
+    'Native Interop is not supported on this platform. Use NativeInteropSealedClassFlutterApi.setUp instead.',
+  );
+}
+
+@internal
+void pigeon_unregister_NativeInteropSealedClassFlutterApi(
+  NativeInteropSealedClassFlutterApi api, {
+  String? name,
+}) {
+  throw UnsupportedError(
+    'Native Interop is not supported on this platform. Use NativeInteropSealedClassFlutterApi.setUp instead.',
+  );
+}
+
+@internal
+void pigeon_set_up_NativeInteropSealedClassFlutterApi(
+  NativeInteropSealedClassFlutterApi? api, {
+  String? name,
+}) {
+  throw UnsupportedError(
+    'Native Interop is not supported on this platform. Use NativeInteropSealedClassFlutterApi.setUp instead.',
+  );
+}
+
+/// Registers [NativeInteropSealedClassFlutterApi] implementations for Native Interop callers.
+final class NativeInteropSealedClassFlutterApiRegistrar {
+  const NativeInteropSealedClassFlutterApiRegistrar._();
+
+  /// Registers [api] under [name] (or the default instance when [name] is
+  /// null) and returns [api].
+  ///
+  /// The registration is tied to this isolate's engine, so native code looking
+  /// up the instance for that engine receives [api]. Unlike [NativeInteropSealedClassFlutterApi.setUp],
+  /// this does not replace earlier registrations from this isolate.
+  static NativeInteropSealedClassFlutterApi register(
+    NativeInteropSealedClassFlutterApi api, {
+    String? name,
+  }) => pigeon_native.pigeon_register_NativeInteropSealedClassFlutterApi(
+    api,
+    name: name,
+  );
+
+  /// Removes [api], registered from this isolate under [name] (or the default
+  /// instance when [name] is null), leaving other registrations in place.
+  ///
+  /// Instances are matched by identity. Does nothing if [api] is not registered.
+  static void unregister(
+    NativeInteropSealedClassFlutterApi api, {
+    String? name,
+  }) => pigeon_native.pigeon_unregister_NativeInteropSealedClassFlutterApi(
+    api,
+    name: name,
+  );
+}
+
+
+/// The Flutter API counterpart of [NativeInteropSealedClassHostApi].
+abstract class NativeInteropSealedClassFlutterApi {
+  static const MessageCodec<Object?> pigeonChannelCodec = _PigeonCodec();
+
+  NativeInteropShape echoShape(NativeInteropShape shape);
+
+  static void setUp(NativeInteropSealedClassFlutterApi? api, {
+    BinaryMessenger? binaryMessenger,
+    String messageChannelSuffix = '',
+  }) 
+{
+    if (!kIsWeb) {
+      pigeon_native.pigeon_set_up_NativeInteropSealedClassFlutterApi(
+        api,
+        name: messageChannelSuffix.isEmpty ? null : messageChannelSuffix,
+      );
+    }
+    messageChannelSuffix = messageChannelSuffix.isNotEmpty ? '.$messageChannelSuffix' : '';
+    {
+      final pigeonVar_channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.pigeon_integration_tests.NativeInteropSealedClassFlutterApi.echoShape$messageChannelSuffix', pigeonChannelCodec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        pigeonVar_channel.setMessageHandler(null);
+      } else {
+        pigeonVar_channel.setMessageHandler((Object? message) async {
+          final List<Object?> args = message! as List<Object?>;
+          final NativeInteropShape arg_shape = args[0]! as NativeInteropShape;
+          try {
+            final NativeInteropShape output = api.echoShape(arg_shape);
+            return wrapResponse(result: output);
+          } on PlatformException catch (e) {
+            return wrapResponse(error: e);
+          }          catch (e) {
+            return wrapResponse(error: PlatformException(code: 'error', message: e.toString()));
           }
         });
       }

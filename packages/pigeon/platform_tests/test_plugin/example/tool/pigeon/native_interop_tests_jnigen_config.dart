@@ -23,11 +23,14 @@ void main() async {
       classes: [
         'com.example.test_plugin.NativeInteropTestsError',
         'com.example.test_plugin.NativeInteropHostIntegrationCoreApiRegistrar',
-        'com.example.test_plugin.NativeInteropFlutterIntegrationCoreApi',
+        'com.example.test_plugin.NativeInteropFlutterIntegrationCoreApiBridge',
         'com.example.test_plugin.NativeInteropFlutterIntegrationCoreApiRegistrar',
         'com.example.test_plugin.NativeInteropReservedNamesHostApiRegistrar',
-        'com.example.test_plugin.NativeInteropReservedNamesFlutterApi',
+        'com.example.test_plugin.NativeInteropReservedNamesFlutterApiBridge',
         'com.example.test_plugin.NativeInteropReservedNamesFlutterApiRegistrar',
+        'com.example.test_plugin.NativeInteropSealedClassHostApiRegistrar',
+        'com.example.test_plugin.NativeInteropSealedClassFlutterApiBridge',
+        'com.example.test_plugin.NativeInteropSealedClassFlutterApiRegistrar',
         'com.example.test_plugin.NativeInteropUnusedClass',
         'com.example.test_plugin.NativeInteropAllTypes',
         'com.example.test_plugin.NativeInteropAllNullableTypes',
@@ -38,33 +41,38 @@ void main() async {
         'com.example.test_plugin.NativeInteropEmptySealedClass',
         'com.example.test_plugin.NativeInteropSealedClassWrapper',
         'com.example.test_plugin.NativeInteropReservedNames',
+        'com.example.test_plugin.NativeInteropShape',
+        'com.example.test_plugin.NativeInteropCircle',
+        'com.example.test_plugin.NativeInteropSquare',
         'com.example.test_plugin.NativeInteropAnEnum',
         'com.example.test_plugin.NativeInteropAnotherEnum',
       ],
-      androidSdk: AndroidSdk(addGradleDeps: true, androidExample: Uri.directory('.')),
+      androidSdk: AndroidSdk(
+        addGradleDeps: true,
+        androidExample: Uri.directory('.'),
+      ),
       backend: SummarizerBackend.asm,
       classPath: [Uri.directory('build/app/tmp/kotlin-classes/release')],
+
     ),
     output: Output(
-      preamble: '''
+                  preamble: '''
       // Copyright 2013 The Flutter Authors\n// Use of this source code is governed by a BSD-style license that can be\n// found in the LICENSE file.\n// 
       ''',
-      dart: DartOutput(
-        path: Uri.file(
-          '../../shared_test_plugin_code/lib/src/generated/native_interop_tests.gen.jni.dart',
-        ),
-        structure: OutputStructure.singleFile,
-      ),
+                  dart: DartOutput(
+                    path: Uri.file('../../shared_test_plugin_code/lib/src/generated/native_interop_tests.gen.jni.dart'),
+                    structure: OutputStructure.singleFile,
+                  ),
+
     ),
   );
   await generator.generate(logger: Logger.root..level = Level.ALL);
-}
 
+}
 Future<bool> _hasJava() async {
   final String? javaHome = Platform.environment['JAVA_HOME'];
-  final String javaExecutable = javaHome != null && javaHome.isNotEmpty
-      ? path.join(javaHome, 'bin', 'java')
-      : 'java';
+  final String javaExecutable =
+      javaHome != null && javaHome.isNotEmpty ? path.join(javaHome, 'bin', 'java') : 'java';
   try {
     final ProcessResult result = await Process.run(javaExecutable, <String>['-version']);
     return result.exitCode == 0;
@@ -72,3 +80,4 @@ Future<bool> _hasJava() async {
     return false;
   }
 }
+

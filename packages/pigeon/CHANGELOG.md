@@ -1,9 +1,8 @@
-## 30.0.0
+## 31.0.0
 
 * **BREAKING CHANGE**: [dart,kotlin,swift] Simplifies the Native Interop registration APIs.
-  * Makes Dart, Kotlin, and Swift registrars static (`MyApiRegistrar.register(api)`
-    instead of `MyApiRegistrar().register(api)`), and renames the native
-    `@FlutterApi` registrar method `registerInstance` to `register`.
+  * Makes Dart and Kotlin registrars static (`MyApiRegistrar.register(api, binding)`
+    instead of `MyApiRegistrar().register(api, binding)`).
   * Removes `<FlutterApi>.implement` in Dart. Use `<FlutterApi>.setUp` or
     `<FlutterApi>Registrar.register` instead.
   * Makes Native Interop `name` parameters nullable, using the default instance
@@ -15,6 +14,30 @@
     `<HostApi>.createWithNativeInteropApi` still throws an `ArgumentError` when no
     instance is registered for its `messageChannelSuffix`.
 * Expands Native Interop migration guidance.
+
+## 30.0.1
+
+* [swift] Adds support for Native Interop FFI codec serialization of `Data`, `NSData`, `NSArray`, and `NSDictionary` values.
+
+## 30.0.0
+
+* **BREAKING CHANGE**: [kotlin,swift] Native Interop registration now supports multiple engines:
+  * `register` and `unregister` take the engine the instance belongs to (a plugin binding or `FlutterEngine` in Kotlin, a registrar in Swift). Use `unregister` instead of `register(null)`.
+  * Native `@FlutterApi` lookups take the engine (`getInstance(binding)` / `getInstance(registrar:)`) instead of a name, and the native `@HostApi` `getInstance(name)` is removed.
+  * Swift FFI `@HostApi` implementations must be classes.
+  * See the [Native Interop migration guide](./native_interop_migration_guide.md) for details.
+* [dart,kotlin,swift] Fixes detaching one engine clearing Native Interop APIs for all other engines.
+* [dart,kotlin,swift] Native Interop calls now go to the calling engine's instance where possible.
+* [kotlin,swift] Calling a Native Interop API whose instance was unregistered now throws a `PlatformException` instead of crashing.
+
+## 29.2.0
+
+* [dart] [kotlin] [swift] Passes data class, `List`, `Map` and `Object` values
+  of Kotlin JNI and Swift FFI calls in one buffer per call instead of making a
+  call across the language boundary for every field and collection element,
+  making calls with large data classes and collections many times faster while
+  keeping scalars, strings, enums and typed data direct.
+* [kotlin] Makes enum `ofRaw` constant time.
 
 ## 29.1.2
 

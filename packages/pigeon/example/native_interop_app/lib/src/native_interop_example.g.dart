@@ -63,6 +63,9 @@ class _PigeonCodec extends StandardMessageCodec {
 }
 
 @internal
+const StandardMessageCodec pigeon_NativeInteropExamplemessageCodec = _PigeonCodec();
+
+@internal
 NativeInteropExampleApiForNativeInterop? pigeon_getInstance_NativeInteropExampleApi({
   String? name,
 }) {
@@ -143,7 +146,6 @@ class NativeInteropExampleApi {
     );
     final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
-
     _extractReplyValueOrThrow(pigeonVar_replyList, pigeonVar_channelName, isNullValid: true);
   }
 }
